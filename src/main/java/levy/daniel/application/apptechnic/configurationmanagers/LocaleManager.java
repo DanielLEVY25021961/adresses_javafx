@@ -17,7 +17,8 @@ import org.apache.commons.logging.LogFactory;
  * de l'utilisateur une liste des Locales disponibles.<br/>
  * Lorsque l'utilisateur a choisi une Locale dans la liste, 
  * toute l'application doit s'afficher dans la langue voule.</li>
- * <li>LocaleManager met à disposition de toute l'application la Locale <b>localeApplication</b> choisie par l'utilisateur.</li>
+ * <li>LocaleManager met à disposition de toute l'application 
+ * la Locale <b>localeApplication</b> choisie par l'utilisateur.</li>
  * </ul>
  * <br/>
  *

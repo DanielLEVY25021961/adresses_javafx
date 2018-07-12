@@ -11,8 +11,13 @@ import org.apache.commons.logging.LogFactory;
 /**
  * class LocaleManager :<br/>
  * <ul>
- * <li>Classe de CONFIGURATION (finale avec des méthodes statiques)
- * chargée de fournir une Locale unique à toute l'application.</li>
+ * <li>Classe utilitaire de CONFIGURATION (finale avec des méthodes statiques)
+ * chargée de <b>fournir une Locale unique à toute l'application</b>.</li>
+ * <li>En principe, une application internationalisée met à disposition 
+ * de l'utilisateur une liste des Locales disponibles.<br/>
+ * Lorsque l'utilisateur a choisi une Locale dans la liste, 
+ * toute l'application doit s'afficher dans la langue voule.</li>
+ * <li>LocaleManager met à disposition de toute l'application la Locale <b>localeApplication</b> choisie par l'utilisateur.</li>
  * </ul>
  * <br/>
  *
@@ -21,7 +26,7 @@ import org.apache.commons.logging.LogFactory;
  * 
  * - Mots-clé :<br/>
  * Locale, Locale("fr", "FR") en France, <br/>
- * instancier une Locale, SINGLETON, <br/>
+ * instancier une Locale, SINGLETON, singleton,<br/>
  * <br/>
  *
  * - Dépendances :<br/>

@@ -1,7 +1,10 @@
 package levy.daniel.application.apptechnic.configurationmanagers;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Locale;
 import java.util.Map;
+import java.util.Set;
 import java.util.concurrent.ConcurrentHashMap;
 
 import org.apache.commons.lang3.StringUtils;
@@ -9,7 +12,7 @@ import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
 /**
- * class LocaleManager :<br/>
+ * CLASSE <b>LocaleManager</b> :<br/>
  * <ul>
  * <li>Classe utilitaire de CONFIGURATION (finale avec des méthodes statiques)
  * chargée de <b>fournir une Locale unique à toute l'application</b>.</li>
@@ -19,15 +22,32 @@ import org.apache.commons.logging.LogFactory;
  * toute l'application doit s'afficher dans la langue voule.</li>
  * <li>LocaleManager met à disposition de toute l'application 
  * la Locale <b>localeApplication</b> choisie par l'utilisateur.</li>
+ * <li>Il suffit de faire <code>LocaleManager.getLocaleApplication()</code> 
+ * depuis n'importe où dans l'application pour obtenir le SINGLETON 
+ * de Locale choisi par l'utilisateur. </li>
  * </ul>
  * <br/>
  *
- * - Exemple d'utilisation :<br/>
+ * - Exemples d'utilisation :<br/>
+ * <code><i>// Récupération de la Locale américaine depuis l'IHM.</i></code><br/>
+ * <code>final Locale localeEu = 
+ * LocaleManager.recupererLocaleIHM("anglais (Etats-Unis)");</code><br/>
+ * <br/>
+ * <code><i>// SELECTION de la Locale américaine depuis l'IHM.</i></code><br/>
+ * <code>LocaleManager.selectionnerLocaleApplication("anglais (Etats-Unis)");
+ * </code><br/>
+ * <code><i>// Récupération du SINGLETON de Locale en cours 
+ * depuis n'importe où dans l'application.</i></code><br/>
+ * <code>final Locale localeApplication 
+ * = <b>LocaleManager.getLocaleApplication()</b>;</code><br/>
  *<br/>
  * 
  * - Mots-clé :<br/>
  * Locale, Locale("fr", "FR") en France, <br/>
  * instancier une Locale, SINGLETON, singleton,<br/>
+ * sélectionner une Locale, selectionner une locale,<br/>
+ * afficherListString, afficherList<String>, afficher Liste String, <br/>
+ * afficherListeString, <br/>
  * <br/>
  *
  * - Dépendances :<br/>
@@ -44,18 +64,30 @@ public final class LocaleManager {
 	// ************************ATTRIBUTS************************************/
 
 	/**
-	 * CLASSE_LOCALEMANAGER : String :<br/>
 	 * "Classe LocaleManager".<br/>
 	 */
 	public static final String CLASSE_LOCALEMANAGER 
 		= "Classe LocaleManager";
 
+
+	/**
+	 * '\n'.<br/>
+	 */
+	public static final char SAUT_LIGNE_JAVA = '\n';
+	
 		
 	/**
-	 * localeApplication : Locale :<br/>
+	 * <b>Locale à utiliser dans toute l'application</b>.<br/>
 	 * <ul>
 	 * <li><b>SINGLETON</b> localeApplication à utiliser 
 	 * dans toute l'application.</li>
+	 * <li><b>modélise la Locale sélectionnée par l'utilisateur</b> 
+	 * dans une liste de choix pour la langue à utiliser 
+	 * dans l'application.</li>
+	 * <li>pré-requis : la langue sélectionnée doit 
+	 * avoir été préalablement implémentée par les développeurs 
+	 * dans l'application (messages_fr_FR.properties, 
+	 * messages_en_US.properties, ...)</li>
 	 * <li>L'application doit être internationalisable.</li>
 	 * </ul>
 	 */
@@ -63,7 +95,9 @@ public final class LocaleManager {
 	
 	
 	/**
-	 * localesDisponibles : Map&lt;String,Locale&gt; :<br/>
+	 * <b>Collection (Map) des descriptions des 
+	 * langues implémentées dans l'application</b> 
+	 * et de leurs Locales.<br/>
 	 * <ul>
 	 * Map contenant les Locales disponibles dans l'application avec :
 	 * <li>String : nom de la Locale affiché dans l'IHM comme 
@@ -71,6 +105,11 @@ public final class LocaleManager {
 	 * <li>Locale : la Locale correspondante comme 
 	 * Locale("fr", "FR") ou Locale("en", "US").</li>
 	 * </ul>
+	 * DOIT ETRE ALIMENTEE PAR LE DEVELOPPEUR dans le bloc static 
+	 * A CHAQUE FOIS 
+	 * QU'UNE NOUVELLE LANGUE EST IMPLEMENTEE DANS L'APPLICATION 
+	 * et les properties correspondant à la nouvelle langue fournis 
+	 * (messages_fr_FR.properties, messages_en_US.properties, ...).
 	 */
 	private static Map<String, Locale> localesDisponibles 
 		= new ConcurrentHashMap<String, Locale>();
@@ -78,13 +117,13 @@ public final class LocaleManager {
 
 static {
 	
+	localesDisponibles.put("default", Locale.getDefault());
 	localesDisponibles.put("français (France)", new Locale("fr", "FR"));
 	localesDisponibles.put("anglais (Etats-Unis)", new Locale("en", "US"));
 }
 
 
 	/**
-	 * LOG : Log : 
 	 * Logger pour Log4j (utilisant commons-logging).
 	 */
 	private static final Log LOG = LogFactory.getLog(LocaleManager.class);
@@ -94,8 +133,8 @@ static {
 
 	
 	 /**
-	 * method CONSTRUCTEUR LocaleManager() :<br/>
 	 * CONSTRUCTEUR D'ARITE NULLE.<br/>
+	 * private pour bloquer l'instanciation de cette classe utilitaire.<br/>
 	 * <br/>
 	 */
 	private LocaleManager() {
@@ -105,23 +144,31 @@ static {
 
 	
 	/**
-	 * method recupererLocaleIHM(
-	 * String pLocaleString) :<br/>
+	 * <b>Fournit une Locale 
+	 * à partir d'une String</b> appartenant aux clés de la 
+	 * Map <b>localesDisponibles</b> contenant les langages 
+	 * implémentés dans l'application (internationalisation).
 	 * <ul>
 	 * <li>Récupère dans l'IHM une String comme "français (France)" 
 	 * et retourne la Locale correspondante.</li>
-	 * <li>pLocaleString doit appartenir aux clés de la 
-	 * Map 'localesDisponibles'.</li>
+	 * <li><b>pLocaleString doit appartenir aux clés de la 
+	 * Map 'localesDisponibles'</b> qui contient les langues 
+	 * implémentées dans l'application. 
+	 * Sinon, la méthode retourne systématiquement la Locale 
+	 * par défaut de la plateforme.</li>
 	 * <li>retourne la Locale de la plateforme par défaut 
 	 * si pLocaleString est blank.</li>
 	 * <li>retourne la Locale de la plateforme par défaut 
-	 * si pLocaleString  n'appartient pas aux locales disponibles.</li>
+	 * si pLocaleString  n'appartient pas aux locales disponibles 
+	 * dans la Map localesDisponibles.</li>
 	 * </ul>
 	 *
 	 * @param pLocaleString : String : 
-	 * String appartenant aux clés de la Map 'localesDisponibles'.<br/>
+	 * String décrivant la Locale sélectionnée dans l'IHM.<br/>
 	 * 
-	 * @return : Locale.<br/>
+	 * @return : Locale : 
+	 * Locale correspondant à la description pLocaleString 
+	 * ("français (France)" ou "anglais (Etats-Unis)", ...).<br/>
 	 */
 	public static Locale recupererLocaleIHM(
 			final String pLocaleString) {
@@ -151,9 +198,7 @@ static {
 
 	
 	/**
-	 * method recupererLocaleBase(
-	 * String pLangue
-	 * , String pPays) :<br/>
+	 * <b>Fournit une Locale à partir d'une langue et d'un Pays</b>.<br/>
 	 * <ul>
 	 * <li>Prend en paramètre (récupère dans la base par exemple) 
 	 * un couple de  Strings [langue, pays] 
@@ -161,7 +206,7 @@ static {
 	 * et instancie la Locale correspondante.</li>
 	 * <li>Retourne la Locale instanciée si elle appartient 
 	 * aux Locales disponibles dans l'application 
-	 * (localesDisponibles).</li>
+	 * (map <b>localesDisponibles</b>).</li>
 	 * <li>La locale instanciée doit appartenir aux valeurs de la 
 	 * Map 'localesDisponibles'.</li>
 	 * <li>retourne la Locale de la plateforme par défaut 
@@ -222,10 +267,102 @@ static {
 		
 	} // Fin de recupererLocaleBase(...).__________________________________
 	
+
+	
+	/**
+	 * <b>Selectionne une Locale</b> décrite par la String pLocaleString 
+	 * ("anglais (Etats-Unis)" par exemple) parmi les locales 
+	 * disponibles dans l'application.<br/>
+	 * <b>Affecte la locale sélectionnée au SINGLETON localeApplication</b> 
+	 * disponible pour toute l'application.<br/>
+	 * <ul>
+	 * <li>récupère la Locale sélectionnée dans l'IHM.</li>
+	 * <ul>
+	 * <li>Récupère dans l'IHM une String comme "français (France)" 
+	 * et retourne la Locale correspondante.</li>
+	 * <li><b>pLocaleString doit appartenir aux clés de la 
+	 * Map 'localesDisponibles'</b> qui contient les langues 
+	 * implémentées dans l'application.</li>
+	 * <li>retourne la Locale de la plateforme par défaut 
+	 * si pLocaleString est blank.</li>
+	 * <li>retourne la Locale de la plateforme par défaut 
+	 * si pLocaleString  n'appartient pas aux locales disponibles.</li>
+	 * </ul>
+	 * <li>passe la Locale sélectionnée dans l'IHM à 
+	 * l'attribut <b>localeApplication</b> (SINGLETON).</li>
+	 * <li>retourne la Locale <b>localeApplication</b> sélectionnée 
+	 * pour toute l'application (SINGLETON).</li>
+	 * </ul>
+	 *
+	 * @param pLocaleString : String : 
+	 * String décrivant la Locale sélectionnée dans l'IHM et 
+	 * appartenant aux clés de la Map 'localesDisponibles'.<br/>
+	 * 
+	 * @return : Locale : localeApplication.<br/>
+	 */
+	public static Locale selectionnerLocaleApplication(
+			final String pLocaleString) {
+		
+		/* Bloc synchronized. */
+		synchronized (LocaleManager.class) {
+			
+			Locale localeSelectionnee = null;
+			
+			/* récupère la Locale sélectionnée dans l'IHM. */
+			localeSelectionnee = recupererLocaleIHM(pLocaleString);
+			
+			/* passe la Locale sélectionnée dans l'IHM 
+			 * à l'attribut localeApplication.*/
+			setLocaleApplication(localeSelectionnee);
+			
+			return localeApplication;
+			
+		} // Fin de synchronized._____________________________
+		
+	} // Fin de selectionnerLocaleApplication(...).________________________
+	
+
+	
+	/**
+	 * <b>Retourne la liste des clés (String)</b> des Locales disponibles 
+	 * dans l'application et insérées 
+	 * dans la Map <b>localesDisponibles</b>.<br/>
+	 * Utile pour l'affichage des langues implémentées 
+	 * dans une liste de choix pour l'utilisateur.<br/>
+	 * <ul>
+	 * <li>retourne null si localesDisponibles == null.</li>
+	 * <lil>retourne "français (France)", "anglais (Etats-Unis)"
+	 * , .... en fonction des langages internationalisés 
+	 * dans l'application.</li>
+	 * </ul>
+	 *
+	 * @return : List&lt;String&gt; : 
+	 * liste des langues à afficher à l'utilisateur 
+	 * comme "français (France)", "anglais (Etats-Unis)", ....<br/>
+	 */
+	public static List<String> listerLocalesDisponibles() {
+		
+		/* Bloc synchronized. */
+		synchronized (LocaleManager.class) {
+			
+			/* retourne null si localesDisponibles == null. */
+			if (localesDisponibles == null) {
+				return null;
+			}
+			
+			final Set<String> clesSet = localesDisponibles.keySet();
+			
+			return new ArrayList<String>(clesSet);
+			
+		} // Fin de synchronized._____________________________
+		
+	}
+	
 	
 	
 	/**
-	 * method getLangageLocaleApplication() :<br/>
+	 * <b>retourne le langage actuellement sélectionné 
+	 * dans l'application</b>.<br/>
 	 * <ul>
 	 * <li>Retourne le langage (fr, en, ...) de localeApplication.</li>
 	 * </ul>
@@ -245,7 +382,8 @@ static {
 
 	
 	/**
-	 * method getCountryLocaleApplication() :<br/>
+	 * <b>retourne le pays actuellement sélectionné 
+	 * dans l'application</b>.<br/>
 	 * <ul>
 	 * <li>Retourne le country (FR, US, ...) de localeApplication.</li>
 	 * </ul>
@@ -265,7 +403,8 @@ static {
 
 	
 	/**
-	 * method getLocaleParDefaut() :<br/>
+	 * <b>retourne la Locale par défaut de la 
+	 * plateforme courante</b>.<br/>
 	 * <ul>
 	 * <li>Retourne la Locale retournée par la JVM en fonction 
 	 * de la position de la machine dans le monde.</li>
@@ -284,9 +423,64 @@ static {
 	} // Fin de getLocaleParDefaut().______________________________________
 
 
+	
+	/**
+	 * <b>Affiche la liste des langages disponibles 
+	 * implémentés dans l'application</b>.<br/>
+	 *
+	 * @return : String.<br/>
+	 */
+	public static String afficherLangagesDisponibles() {
+		
+		/* Bloc synchronized. */
+		synchronized (LocaleManager.class) {
+			return afficherListeString(listerLocalesDisponibles());
+		} // Fin de synchronized._____________________________
+		
+	} // Fin de afficherLangagesDisponibles()._____________________________
+	
+	
+	
+	/**
+	 * Fournit une String pour l'affichage 
+	 * d'une List&lt;String&gt;.<br/>
+	 * <br/>
+	 * - retourne null si pList == null.<br/>
+	 * <br/>
+	 *
+	 * @param pList : List&lt;String&gt;
+	 * 
+	 * @return : String.<br/>
+	 */
+	public static String afficherListeString(
+			final List<String> pList) {
+		
+		/* Bloc synchronized. */
+		synchronized (LocaleManager.class) {
+			
+			/* retourne null si pList == null. */
+			if (pList == null) {
+				return null;
+			}
+			
+			final StringBuffer stb = new StringBuffer();
+			
+			for (final String ligne : pList) {
+				stb.append(ligne);
+				stb.append(SAUT_LIGNE_JAVA);
+			}
+			
+			return stb.toString();
+			
+		} // Fin de synchronized._____________________________
+				
+	} // Fin de afficherListeString(...).__________________________________
+
+	
 		
 	/**
-	 * method getLocalesDisponibles() :<br/>
+	 * <b>retourne la Collection (Map) des langages implémentés 
+	 * dans l'application "localesDisponibles"</b>.<br/>
 	 *<ul>
 	 * Getter de la Map contenant les Locales disponibles 
 	 * dans l'application avec :
@@ -307,10 +501,18 @@ static {
 
 
 	/**
-	 * method getLocaleApplication() :<br/>
+	 * <b>retourne le SINGLETON de langage (Locale) couramment 
+	 * sélectionné dans l'application</b>.<br/>
 	 * <ul>
 	 * <li>Getter du <b>SINGLETON</b> localeApplication à utiliser 
 	 * dans toute l'application.</li>
+	 * <li><b>modélise la Locale sélectionnée par l'utilisateur</b> 
+	 * dans une liste de choix pour la langue à utiliser 
+	 * dans l'application.</li>
+	 * <li>pré-requis : la langue sélectionnée doit 
+	 * avoir été préalablement implémentée par les développeurs 
+	 * dans l'application (messages_fr_FR.properties, 
+	 * messages_en_US.properties, ...)</li>
 	 * <li>L'application doit être internationalisable.</li>
 	 * </ul>
 	 *
@@ -336,11 +538,18 @@ static {
 
 	
 	/**
-	* method setLocaleApplication(
-	* Locale pLocaleApplication) :<br/>
-	* <ul>
-	 * <li>Setter du <b>SINGLETON</b> localeApplication à utiliser 
+	 * <b>affecte le SINGLETON de langage (Locale) couramment 
+	 * sélectionné dans l'application</b>.<br/>
+	 * <ul>
+	 * <li>Setter du <b>SINGLETON localeApplication</b> à utiliser 
 	 * dans toute l'application.</li>
+	 * <li><b>modélise la Locale sélectionnée par l'utilisateur</b> 
+	 * dans une liste de choix pour la langue à utiliser 
+	 * dans l'application.</li>
+	 * <li>pré-requis : la langue sélectionnée doit 
+	 * avoir été préalablement implémentée par les développeurs 
+	 * dans l'application (messages_fr_FR.properties, 
+	 * messages_en_US.properties, ...)</li>
 	 * <li>L'application doit être internationalisable.</li>
 	 * </ul>
 	*
@@ -359,6 +568,5 @@ static {
 	// Locale pLocaleApplication)._________________________________________
 	
 	
-	
-	
+		
 } // FIN DE LA CLASSE LocaleManager.-----------------------------------------

@@ -22,6 +22,11 @@ import org.apache.commons.logging.LogFactory;
  * toute l'application doit s'afficher dans la langue voule.</li>
  * <li>LocaleManager met à disposition de toute l'application 
  * la Locale <b>localeApplication</b> choisie par l'utilisateur.</li>
+ * <li>ATTENTION : cette classe ne convient que si un administrateur 
+ * modifie la langue de toute l'application pour tous les utilisateurs. 
+ * Tous les utiisateurs utilisent la même langue. 
+ * Il faudrait une classe avec des méthodes non statiques (objet) 
+ * pour gérer l'internationalisation individualisée par utilisateur.</li>
  * <li>Il suffit de faire <code>LocaleManager.getLocaleApplication()</code> 
  * depuis n'importe où dans l'application pour obtenir le SINGLETON 
  * de Locale choisi par l'utilisateur. </li>

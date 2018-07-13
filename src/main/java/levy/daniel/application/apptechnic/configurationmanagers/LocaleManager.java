@@ -27,6 +27,14 @@ import org.apache.commons.logging.LogFactory;
  * de Locale choisi par l'utilisateur. </li>
  * </ul>
  * <br/>
+ * <img src="../../../../../../../../javadoc/images/LocaleManager.png" 
+ * alt="LocaleManager" border="1" align="center" />
+ * <br/
+ * <br/><br/>
+ * <img src="../../../../../../../../javadoc/images/LocaleManager_Utilisation.png" 
+ * alt="Utilisation du LocaleManager" border="1" align="center" />
+ * <br/><br/>
+ * <br/>
  *
  * - Exemples d'utilisation :<br/>
  * <code><i>// Récupération de la Locale américaine depuis l'IHM.</i></code><br/>

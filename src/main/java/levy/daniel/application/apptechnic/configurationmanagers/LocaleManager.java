@@ -517,12 +517,17 @@ static {
 	 * <li><b>modélise la Locale sélectionnée par l'utilisateur</b> 
 	 * dans une liste de choix pour la langue à utiliser 
 	 * dans l'application.</li>
+	 * <li><b>retourne la Locale par défaut de la plateforme</b> 
+	 * si l'utilisateur ne sélectionne pas explicitement une Locale.</li>
 	 * <li>pré-requis : la langue sélectionnée doit 
 	 * avoir été préalablement implémentée par les développeurs 
 	 * dans l'application (messages_fr_FR.properties, 
 	 * messages_en_US.properties, ...)</li>
 	 * <li>L'application doit être internationalisable.</li>
 	 * </ul>
+	 * N'instancie localeApplication avec la Locale par 
+	 * défaut de la plateforme que si elle est null (SINGLETON).<br/>
+	 * <br/>
 	 *
 	 * @return localeApplication : Locale.<br/>
 	 */

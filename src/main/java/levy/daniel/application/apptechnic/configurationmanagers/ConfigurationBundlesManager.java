@@ -63,9 +63,10 @@ import levy.daniel.application.apptechnic.exceptions.technical.impl.FichierInexi
  * </ul>
  *
  * - Exemple d'utilisation :<br/>
+ * <code><i>// récupère un singleton de ResourceBundle application.properties</i></code><br/>
  *<code>final ResourceBundle bundleApplication 
  * = ConfigurationBundlesManager.getBundleApplication();<br/>
- * // RAPPORT AU FORMAT CSV si problème (le rapport est alors non null).<br/>
+ * <i>// RAPPORT AU FORMAT CSV si problème (le rapport est alors non null).</i><br/>
  * ConfigurationBundlesManager.getRapportConfigurationCsv().</code><br/> 
  *<br/>
  * 

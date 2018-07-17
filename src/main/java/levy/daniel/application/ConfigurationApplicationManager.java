@@ -277,6 +277,7 @@ public final class ConfigurationApplicationManager {
 	 * , et donc présent dans les jar/war.</li>
 	 * <li>NON PARAMETRABLE PAR LA MOA.</li> 
 	 * <li>Uniquement accessible pour le centre serveur.</li>
+	 * <li>délègue au <b>ConfigurationBundlesManager</b>.</li>
 	 * <br/>
 	 * - Jette une BundleManquantRunTimeException, LOG.FATAL et rapporte 
 	 * si le properties est introuvable.<br/>
@@ -330,12 +331,15 @@ public final class ConfigurationApplicationManager {
 	 * method getPathRessourcesExternes() :<br/>
 	 * <ul>
 	 * <li>Fournit le path des ressources <b>EXTERNES</b> 
-	 * (hors classpath) paramétrables par la MOA.</li>
+	 * (hors classpath) paramétrables par la MOA 
+	 * <i>sous forme de String</i>.</li>
 	 * <li>Le path des ressources externes n'est accessible 
 	 * qu'au centre-serveur et doit être écrit en dur dans 
-	 * le properties 'configuration_ressources_externes.properties'. 
+	 * le properties <b>'configuration_ressources_externes.properties'</b> 
+	 * <i>situé sous le classpath</i>. 
 	 * <br/>Par exemple : 'D:/Donnees/eclipse/eclipseworkspace_neon
 	 * /tuto_maven_sonatype/ressources_externes'</li>
+	 * <li>délègue au <b>ConfigurationBundlesManager</b>.</li>
 	 * <li>clé = "ressourcesexternes".</li>
 	 * </ul>
 	 *

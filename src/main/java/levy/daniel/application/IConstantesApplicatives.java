@@ -8,7 +8,7 @@ import java.util.Locale;
  * class IConstantesApplicatives :<br/>
  * <ul>
  * <li>INTERFACE contenant les constantes mises à disposition 
- * de l'ensemble de l'levy.daniel.application.</li>
+ * de l'ensemble de levy.daniel.application.</li>
  * <p>
  * <br/>
  * <img src="../../../../../../javadoc/images/IConstantesApplicatives.png" 
@@ -18,8 +18,8 @@ import java.util.Locale;
  * </ul>
  *
  * - Exemple d'utilisation :<br/>
- * <code>// Appel depuis n'importe quelle classe de l'levy.daniel.application 
- * pour concaténer le point-virgule au StringBuilder stb : </code><br/>
+ * <code><i>// Appel depuis n'importe quelle classe de levy.daniel.application 
+ * pour concaténer le point-virgule au StringBuilder stb : </i></code><br/>
  * <code>stb.append(IConstantesApplicatives.POINT_VIRGULE);</code><br/>
  *<br/>
  * 

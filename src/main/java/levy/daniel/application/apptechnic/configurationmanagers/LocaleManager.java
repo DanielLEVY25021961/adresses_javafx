@@ -289,7 +289,10 @@ static {
 	 * <b>Affecte la locale sélectionnée au SINGLETON localeApplication</b> 
 	 * disponible pour toute l'application.<br/>
 	 * <ul>
-	 * <li>récupère la Locale sélectionnée dans l'IHM.</li>
+	 * <li>récupère la Locale sélectionnée dans l'IHM par un 
+	 * <b>Administrateur</b> (Locale applicable pour toute 
+	 * l'application à la différence d'une Locale sélectionnable 
+	 * pour chaque utilisateur).</li>
 	 * <ul>
 	 * <li>Récupère dans l'IHM une String comme "français (France)" 
 	 * et retourne la Locale correspondante.</li>
@@ -519,11 +522,11 @@ static {
 	 * <ul>
 	 * <li>Getter du <b>SINGLETON</b> localeApplication à utiliser 
 	 * dans toute l'application.</li>
-	 * <li><b>modélise la Locale sélectionnée par l'utilisateur</b> 
+	 * <li><b>modélise la Locale sélectionnée par l'Administrateur</b> 
 	 * dans une liste de choix pour la langue à utiliser 
 	 * dans l'application.</li>
 	 * <li><b>retourne la Locale par défaut de la plateforme</b> 
-	 * si l'utilisateur ne sélectionne pas explicitement une Locale.</li>
+	 * si l'Administrateur ne sélectionne pas explicitement une Locale.</li>
 	 * <li>pré-requis : la langue sélectionnée doit 
 	 * avoir été préalablement implémentée par les développeurs 
 	 * dans l'application (messages_fr_FR.properties, 

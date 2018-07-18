@@ -28,7 +28,7 @@ import levy.daniel.application.apptechnic.configurationmanagers.LocaleManager;
  *<br/>
  * 
  * - Mots-clé :<br/>
- * Preferences, preferencces, properties, Properties,<br/>
+ * Preferences, preferences, properties, Properties,<br/>
  * sauver Properties, br/>
  * fichier properties, fichier Properties, <br/>
  * créer fichier sur disque dur, HDD, créer arborescence sur disque dur,<br/>
@@ -575,10 +575,18 @@ public class GestionnaireProperties {
 	} // Fin de creerFichierSurDisque(...).________________________________
 	
 
+	private void ajouterPropertiesInitialesEnDur() {
+		this.properties.setProperty("! commentaire1", "");
+		this.properties.setProperty("cle1", "value1");
+		this.properties.setProperty("! commentaire2", "");
+		this.properties.setProperty("cle2", "value2");
+	}
+	
 	
 	/**
 	 * <b>remplit le fichier this.fichierProperties avec les clés-values 
 	 * présentes dans this.properties</b>.<br/>
+	 * écrit le commentaire pCommentaire en haut du fichier properties.<br/>
 	 * <ul>
 	 * <li>écrit dans le fichier properties en UTF8.</li>
 	 * <li>utilise un try-with-resource qui se charge 
@@ -591,7 +599,8 @@ public class GestionnaireProperties {
 	 *
 	 * @throws IOException
 	 */
-	public void remplirEnDurFichierProperties(String pCommentaire) throws IOException {
+	public void remplirEnDurFichierProperties(
+			final String pCommentaire) throws IOException {
 		
 		/* ne fait rien si 
 		 * this.pathAbsoluFichierProperties == null. */
@@ -602,6 +611,8 @@ public class GestionnaireProperties {
 		/* try-with-resource qui se charge du close(). */
 		try (Writer writer = Files.newBufferedWriter(
 				this.pathAbsoluFichierProperties, CHARSET_UTF8)) {
+			
+			this.ajouterPropertiesInitialesEnDur();
 			
 			/* enregistre le Properties this.properties sur disque dur 
 			 * dans le fichier .properties this.fichierProperties. */

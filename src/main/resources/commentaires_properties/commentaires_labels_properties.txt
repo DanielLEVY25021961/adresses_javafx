@@ -6,5 +6,5 @@
 #
 # ######################################################################
 # Contient les labels PARAMETRABLES des champs des IHM de l'application 
-# exprimés en français (France) 
+# exprimés en {$langue} 
 # ######################################################################

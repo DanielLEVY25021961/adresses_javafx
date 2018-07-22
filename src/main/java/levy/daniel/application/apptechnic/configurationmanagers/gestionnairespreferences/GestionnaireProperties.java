@@ -9,6 +9,7 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.Locale;
+import java.util.Map;
 import java.util.Properties;
 
 import org.apache.commons.lang3.StringUtils;
@@ -123,7 +124,7 @@ public class GestionnaireProperties {
 
 	/**
 	 * Properties Java encapsulant le fichier .properties 
-	 * externe <b>fichierProperties</b>.<br/>
+	 * externe <b>this.fichierProperties</b>.<br/>
 	 */
 	private Properties properties = new Properties();
 	
@@ -145,6 +146,20 @@ public class GestionnaireProperties {
 	 * externe paramétrable.<br/>
 	 */
 	private Locale locale;
+	
+	
+	/**
+	 * commentaire à ajouter en haut du fichier properties.<br/>
+	 */
+	private String commentaire;
+
+	
+	/**
+	 * Map contenant les [key; value] en dur pour initialiser 
+	 * le fichier properties.<br/>
+	 */
+	private Map<String, String> mapPropertiesInitiales;
+	
 	
 	/**
 	 * Path correspondant au fichier .properties externe 
@@ -183,7 +198,7 @@ public class GestionnaireProperties {
 	 * @throws Exception
 	 */
 	public GestionnaireProperties() throws Exception {
-		this(null, null);
+		this(null, null, null, null);
 	} // Fin de CONSTRUCTEUR D'ARITE NULLE.________________________________
 	
 	
@@ -193,7 +208,7 @@ public class GestionnaireProperties {
 	 * <ul>
 	 * <li>passe les paramètres aux attributs 
 	 * <code>this.nomBaseFichierProperties</code> 
-	 * et <code>this.locale</code>.</li>
+	 * , <code>this.locale</code>, .</li>
 	 * <li>alimente l'attribut 
 	 * <code>this.pathAbsoluFichierProperties</code> 
 	 * en fonction de <code>this.nomBaseFichierProperties</code> 
@@ -206,18 +221,27 @@ public class GestionnaireProperties {
 	 * <b>nom de base du fichier .properties externe</b> paramétrable.<br/>
 	 * @param pLocale : Locale : Locale correspondant au fichier .properties 
 	 * externe paramétrable.<br/>
+	 * @param pCommentaire : String : 
+	 * commentaire à disposer en haut du fichier properties.<br/>
+	 * @param pMapPropertiesInitiales : Map&lt;String, String&gt; : 
+	 * Map contenant les [key; value] en dur pour initialiser 
+	 * le fichier properties.<br/>
 	 * 
 	 * @throws Exception 
 	 */
 	public GestionnaireProperties(
 			final String pNomBaseFichierProperties
-				, final Locale pLocale) 
-						throws Exception {
+				, final Locale pLocale
+					, final String pCommentaire
+						, final Map<String, String> pMapPropertiesInitiales) 
+									throws Exception {
 		
 		super();
 		
 		this.nomBaseFichierProperties = pNomBaseFichierProperties;
 		this.locale = pLocale;
+		this.commentaire = pCommentaire;
+		this.mapPropertiesInitiales = pMapPropertiesInitiales;
 		
 		/* alimente l'attribut this.pathAbsoluFichierProperties 
 		 * en fonction de this.nomBaseFichierProperties et this.locale. */
@@ -305,10 +329,12 @@ public class GestionnaireProperties {
 	 * externe paramétrable en fonction de this.nomBaseFichierProperties 
 	 * et this.locale.<br/>
 	 * Par exemple : <br/>
-	 * <code>chemin des ressources externes/labels_fr_FR.properties</code><br/>
+	 * <code>chemin des ressources externes/labels_fr_FR.properties</code> 
+	 * pour un nom de base "label" et une Locale française.<br/>
 	 * <br/>
 	 * utilise la Locale couramment sélectionnée 
-	 * dans <code>LocaleManager</code> si this.locale == null.<br/>
+	 * dans <code>LocaleManager</code> si this.locale == null, 
+	 * this.locale sinon.<br/>
 	 * <ul>
 	 * <li>recupère le path des ressources externes auprès 
 	 * du ConfigurationApplicationManager.</li>
@@ -344,7 +370,8 @@ public class GestionnaireProperties {
 	 * externe paramétrable en fonction de this.nomBaseFichierProperties 
 	 * et pLocale.<br/>
 	 * Par exemple : <br/>
-	 * <code>chemin des ressources externes/labels_en_US.properties</code><br/>
+	 * <code>chemin des ressources externes/labels_en_US.properties</code> 
+	 * pour un nom de base "labels" et une Locale US.<br/>
 	 * <ul>
 	 * <li>recupère le path des ressources externes auprès 
 	 * du ConfigurationApplicationManager.</li>
@@ -457,7 +484,8 @@ public class GestionnaireProperties {
 	 * <ul>
 	 * <li>Reconstitue le nom complet d'un properties à partir 
 	 * de son nom de base et d'une Locale.</li>
-	 * <li>Par exemple, 'application_fr_FR.properties' à partir 
+	 * <li>Par exemple, 
+	 * <code>'application_fr_FR.properties'</code> à partir 
 	 * de pNomBaseProperties = 'application' et 
 	 * pLocale = Locale("fr", "FR").</li>
 	 * <li>Retourne le nom du properties reconstitué 
@@ -502,7 +530,7 @@ public class GestionnaireProperties {
 
 	/**
 	 * <b>Crée sur disque dur l'arborescence</b> des répertoires 
-	 * parents de pFile si elle n'existe pas déjà.<br/>
+	 * <i>parents de pFile</i> si elle n'existe pas déjà.<br/>
 	 * <ul>
 	 * <li><code>Files.createDirectories(pathParent);</code></li>
 	 * </ul>
@@ -535,60 +563,138 @@ public class GestionnaireProperties {
 				
 	} // Fin de creerArborescenceParente(...)._____________________________
 	
+
+	
+	/**
+	 * <b>Crée sur disque et initialise avec les valeurs en dur 
+	 * contenues dans  'this.mapPropertiesInitiales' 
+	 * le fichier 'this.fichierProperties'</b>.<br/>
+	 * retourne this.fichierProperties.<br/>
+	 * <ul>
+	 * <li>ne crée this.fichierProperties vide sur disque 
+	 * que si il n'existe pas déjà.</li>
+	 * <li>ne remplit this.properties avec les valeurs en dur 
+	 * contenues dans this.mapPropertiesInitiales et le commentaire 
+	 * this.commentaire que si this.properties est vide</li>
+	 * </ul>
+	 * - return null si this.fichierProperties == null.<br/>
+	 * <br/>
+	 * 
+	 * @return File : this.fichierProperties 
+	 * créé sur disque et initialisé.<br/>
+	 * 
+	 * @throws IOException 
+	 */
+	public File creerFichierSurDisqueEtRemplir() throws IOException {
+		
+		/* return null si this.fichierProperties == null. */
+		if (this.fichierProperties == null) {
+			return null;
+		}
+		
+		/* ne crée this.fichierProperties vide sur disque 
+		 * que si il n'existe pas déjà. */
+		if (!this.fichierProperties.exists()) {
+			this.creerFichierSurDisque(this.fichierProperties);
+		}
+		
+		/* ne remplit this.properties avec les valeurs en dur contenues 
+		 * dans this.mapPropertiesInitiales et le commentaire 
+		 * this.commentaire que si this.properties est vide. */
+		if (this.fichierProperties.length() == 0) {
+			this.remplirEnDurFichierProperties(this.commentaire);
+		}
+		
+		return this.fichierProperties;
+		
+	} // Fin de creerFichierSurDisqueEtRemplir().__________________________
+	
 	
 	
 	/**
-	 * <b>Crée sur disque un fichier vide pFile</b>.
+	 * <b>Crée sur disque un fichier vide pFile et le retourne</b>.
 	 * <ul>
-	 * <li>Ne crée sur disque pFile que si il n'existe pas déjà.</li>
+	 * <li>Ne crée sur disque pFile que <i>si il n'existe pas déjà</i>.</li>
 	 * <li>crée sur disque l'arborescence parente de pFile 
-	 * si elle n'existe pas déjà.</li>
+	 * <i>si elle n'existe pas déjà</i>.</li>
+	 * <li>retourne pFile si il est déjà existant.</li>
+	 * <li><b>n'écrase jamais un fichier déjà existant</b>.</li>
+	 * <li>utilise <code>Files.createFile(pFile.toPath());</code></li>.
 	 * </ul>
-	 * - ne fait rien si pFile == null.<br/>
+	 * - retourne null si pFile == null.<br/>
 	 * <br/>
 	 *
 	 * @param pFile : File : Fichier à créer sur disque dur.<br/>
 	 * 
+	 * @return File : le fichier vide existant sur disque 
+	 * ou le fichier déjà existant.<br/>
+	 * 
 	 * @throws IOException
 	 */
-	public void creerFichierSurDisque(
+	private File creerFichierSurDisque(
 			final File pFile) 
 					throws IOException {
 		
-		/* ne fait rien si pFile == null. */
+		/* retourne null si pFile == null. */
 		if (pFile == null) {
-			return;
+			return null;
 		}
 		
 		/* crée sur disque l'arborescence parente de pFile 
 		 * si elle n'existe pas déjà. */
 		this.creerArborescenceParente(pFile);
 		
+		Path pathFile = null;
+		
 		try {
-			Files.createFile(pFile.toPath());
+			
+			pathFile = Files.createFile(pFile.toPath());
 			
 		/* Ne crée sur disque pFile que si il n'existe pas déjà.*/	
 		} catch (FileAlreadyExistsException e) {
-			return;
+			return pFile;
 		}
+		
+		return pathFile.toFile();
 		
 	} // Fin de creerFichierSurDisque(...).________________________________
 	
-
-	private void ajouterPropertiesInitialesEnDur() {
-		this.properties.setProperty("! commentaire1", "");
-		this.properties.setProperty("cle1", "value1");
-		this.properties.setProperty("! commentaire2", "");
-		this.properties.setProperty("cle2", "value2");
-	}
 	
+
+	/**
+	 * <b>Remplit this.properties avec des valeurs en dur 
+	 * contenues dans pMap</b>.<br/>
+	 * <br/>
+	 * - ne fait rien si pMap == null.<br/>
+	 * <br/>
+	 *
+	 * @param pMap : Map&lt;String, String&gt; : 
+	 * Map contenant des valeurs "en dur" à injecter dans 
+	 * this.properties.<br/>
+	 */
+	private void ajouterPropertiesInitialesEnDur(
+			final Map<String, String> pMap) {
+		
+		/* ne fait rien si pMap == null. */
+		if (pMap == null) {
+			return;
+		}
+		
+		/* remplit this.properties (fonction lambda). */
+		pMap.forEach((key, value) -> this.properties.put(key, value));
+		
+	} // Fin de ajouterPropertiesInitialesEnDur(...).______________________
+	
+
 	
 	/**
-	 * <b>remplit le fichier this.fichierProperties avec les clés-values 
-	 * présentes dans this.properties</b>.<br/>
+	 * <b>remplit le fichier 'this.fichierProperties' avec les clés-values 
+	 * présentes dans 'this.properties' alimenté 
+	 * par 'this.mapPropertiesInitiales'</b>.<br/>
 	 * écrit le commentaire pCommentaire en haut du fichier properties.<br/>
 	 * <ul>
 	 * <li>écrit dans le fichier properties en UTF8.</li>
+	 * <li>utilise <code>this.properties.store(writer, pCommentaire);</code>.</li>
 	 * <li>utilise un try-with-resource qui se charge 
 	 * du close() du Writer.</li>
 	 * </ul>
@@ -599,7 +705,7 @@ public class GestionnaireProperties {
 	 *
 	 * @throws IOException
 	 */
-	public void remplirEnDurFichierProperties(
+	private void remplirEnDurFichierProperties(
 			final String pCommentaire) throws IOException {
 		
 		/* ne fait rien si 
@@ -612,7 +718,9 @@ public class GestionnaireProperties {
 		try (Writer writer = Files.newBufferedWriter(
 				this.pathAbsoluFichierProperties, CHARSET_UTF8)) {
 			
-			this.ajouterPropertiesInitialesEnDur();
+			/* ajoute les properties initiales codées en dur. */
+			this.ajouterPropertiesInitialesEnDur(
+					this.mapPropertiesInitiales);
 			
 			/* enregistre le Properties this.properties sur disque dur 
 			 * dans le fichier .properties this.fichierProperties. */
@@ -621,23 +729,24 @@ public class GestionnaireProperties {
 		
 	} // Fin de remplirEnDurFichierProperties().___________________________
 	
-	
-	
+
+		
 	/**
-	 * Getter .<br/>
+	 * Getter du Properties Java encapsulant le fichier .properties 
+	 * externe <b>this.fichierProperties</b>.<br/>
 	 * <br/>
 	 *
-	 * @return properties : Properties.<br/>
+	 * @return this.properties : Properties.<br/>
 	 */
 	public Properties getProperties() {
 		return this.properties;
-	}
-
+	} // Fin de getProperties().___________________________________________
 
 
 	
 	/**
-	* .<br/>
+	* Setter du Properties Java encapsulant le fichier .properties 
+	* externe <b>this.fichierProperties</b>.<br/>
 	* <br/>
 	*
 	* @param pProperties : Properties : 
@@ -646,7 +755,7 @@ public class GestionnaireProperties {
 	public void setProperties(
 			final Properties pProperties) {
 		this.properties = pProperties;
-	}
+	} // Fin de setProperties(...).________________________________________
 
 
 	
@@ -760,7 +869,61 @@ public class GestionnaireProperties {
 	} // Fin de setLocale(...).____________________________________________
 
 
+		
+	/**
+	 * Getter du commentaire à ajouter en haut du fichier properties.<br/>
+	 * <br/>
+	 *
+	 * @return commentaire : String.<br/>
+	 */
+	public String getCommentaire() {
+		return this.commentaire;
+	} // Fin de getCommentaire().__________________________________________
+
+
 	
+	/**
+	* Setter du commentaire à ajouter en haut du fichier properties.<br/>
+	* <br/>
+	*
+	* @param pCommentaire : String : 
+	* valeur à passer à commentaire.<br/>
+	*/
+	public void setCommentaire(
+			final String pCommentaire) {
+		this.commentaire = pCommentaire;
+	} // Fin de setCommentaire(...)._______________________________________
+
+
+	
+	/**
+	 * Getter de la Map contenant les [key; value] en dur pour initialiser 
+	 * le fichier properties.<br/>
+	 * <br/>
+	 *
+	 * @return mapPropertiesInitiales : Map&lt;String,String&gt;.<br/>
+	 */
+	public Map<String, String> getMapPropertiesInitiales() {
+		return this.mapPropertiesInitiales;
+	} // Fin de getMapPropertiesInitiales()._______________________________
+
+
+	
+	/**
+	* Setter de la Map contenant les [key; value] en dur pour initialiser 
+	* le fichier properties.<br/>
+	* <br/>
+	*
+	* @param pMapPropertiesInitiales : Map<String,String> : 
+	* valeur à passer à mapPropertiesInitiales.<br/>
+	*/
+	public void setMapPropertiesInitiales(
+			final Map<String, String> pMapPropertiesInitiales) {
+		this.mapPropertiesInitiales = pMapPropertiesInitiales;
+	} // Fin de setMapPropertiesInitiales(...).____________________________
+
+
+
 	/**
 	 * Getter du Path correspondant au fichier .properties externe 
 	 * paramétrable.<br/>

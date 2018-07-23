@@ -415,8 +415,37 @@ static {
 		} // Fin de synchronized._____________________________
 		
 	} // Fin de getCountryLocaleApplication()._____________________________
+
 	
 
+	/**
+	 * <b>Retourne le langage et le pays d'une Locale 
+	 * exprimés en français</b>.<br/>
+	 * <ul>
+	 * Par exemple :
+	 * <li><code>français (France)</code> pour une Locale.FRANCE.</li>
+	 * <li><code>anglais (Etats-Unis)</code> pour une Locale.US.</li>
+	 * </ul>
+	 *
+	 * @param pLocale : Locale.<br/>
+	 * 
+	 * @return : String  : langage et pays d'une Locale.<br/>
+	 */
+	public static String fournirLangueEtPaysEnFrancais(
+			final Locale pLocale) {
+		
+		/* Bloc synchronized. */
+		synchronized (LocaleManager.class) {
+			return 
+					pLocale.getDisplayLanguage(Locale.FRANCE) 
+					+ " (" + pLocale.getDisplayCountry(Locale.FRANCE) + ")";
+			
+		} // Fin de synchronized._____________________________
+		
+	} // Fin de fournirLangueEtPaysEnFrancais(...).________________________
+	
+	
+	
 	
 	/**
 	 * <b>retourne la Locale par défaut de la 

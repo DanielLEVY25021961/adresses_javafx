@@ -19,17 +19,50 @@ import levy.daniel.application.apptechnic.configurationmanagers.gestionnairestem
 
 
 /**
- * CLASSE GestionnaireTemplates :<br/>
- * .<br/>
+ * CLASSE <b>GestionnaireTemplates</b> :<br/>
+ * GestionnaireTemplates concret.<br/>
+ * Implémente IGestionnaireTemplates.<br/>
+ * <p><span style="text-decoration: underline;"><b>ROLE des GestionnaireTemplates</b></span></p>
+ * Un gestionnaireTemplate est responsable de :
+ * <ul>
+ * <li><b>lire un template de code</b> stocké sous forme de fichier .txt sous le classpath.</li>
+ * <li><b>substituer d'éventuelles variables</b> par des valeurs dans le template lu.</li>
+ * <li><b>retourner le résultat du template lu et substitué</b> sous forme de <b>List&lt;String&gt;</b> ou de <b>String</b> unique.</li>
+ * </ul>
+ * Le développeur peut alors injecter le code résultant de la lecture et de la substitution du template où il le souhaite dans son code.<br/>
+ * <br/><br/>
+ * <img src="../../../../../../../../../../javadoc/images/gestionnaire_templates_role.png" 
+ * alt="Roles des Gestionnaire de templates" border="1" align="center" />
+ * <br/><br/>
+ * <p><span style="text-decoration: underline;"><b>DIAGRAMME DES CLASSES : </b></span></p>
  * <br/>
+ * <img src="../../../../../../../../../../javadoc/images/gestionnaire_templates.png" 
+ * alt="Diagramme de classes des Gestionnaires de templates" border="1" align="center" />
+ * <br/><br/>
  *
  * - Exemple d'utilisation :<br/>
+ * <code><i>// Instanciation d'un GestionnaireTemplates</i></code>.<br/>
+ * <code>final <b>IGestionnaireTemplates gestionnaireTemplates = new GestionnaireTemplates();</b></code>.<br/>
+ * <code><i>// récupération du template grâce à son chemin relatif par rapport aux resources internes</i></code>.<br/>
+ * <code>final String <b>cheminRelatifTemplate = "commentaires_properties/commentaires_labels_properties.txt";</b></code>.<br/>
+ * <code><i>// variables incorporées dans le template à lire</i></code>.<br/>
+ * <code>final String[] <b>variables = {"{$Locale}", "{$langue}"};</b></code><br/>
+ * <code><i>// valeurs à substituer aux variables dépendant d'une Locale paramétrée pLocale</i></code>.<br/>
+ * <code>final String[] <b>substituants = {pLocale.toString(), LocaleManager.fournirLangueEtPaysEnFrancais(pLocale)};</b></code>.<br/>
+ * <code><i>// Récupération du template lu/substitué sous forme de String</i></code>.<br/>
+ * <code>final String <b>commentaire = gestionnaireTemplate.fournirTemplateSubstitueSousFormeString(cheminRelatifTemplate, variables, substituants);</b></code>.<br/>
+ * <code>// commentaire peut alors être injecté où le veut le développeur.</code><br/>
  *<br/>
+
  * 
  * - Mots-clé :<br/>
  * template, Template, <br/>
  * lire fichier, lireFichier, fichier en liste, <br/>
  * transformer liste en String, Liste en String, <br/>
+ * template, Template, liste de lignes à partir d'un fichier txt, <br/>
+ * lire un fichier .txt, lire un fichier txt,<br/>
+ * liste lignes à partir d'un fichier .txt, ListeLignes txt, <br/>
+ * lire un template txt, lire un template .txt, obtenir liste lignes,<br/>
  * <br/>
  *
  * - Dépendances :<br/>
@@ -138,6 +171,8 @@ public class GestionnaireTemplates implements IGestionnaireTemplates {
 	 * <ul>
 	 * <li>initialise le Chemin absolu des ressources internes 
 	 * de l'application cheminAbsoluMainResources.</li>
+	 * <li>utilise <code>BundleConfigurationProjetManager
+	 * .getRacineMainResources();</code></li>
 	 * </ul>
 	 *
 	 * @throws Exception
@@ -181,9 +216,53 @@ public class GestionnaireTemplates implements IGestionnaireTemplates {
 		}
 		
 		return resultat;
-	}
+		
+	} // Fin de fournirTemplateSubstitueSousFormeString(...).______________
 	
 
+		
+	/**
+	 * {@inheritDoc}
+	 */
+	@Override
+	public final String fournirTemplateSubstitueSousFormeString(
+			final String pCheminRelatifTemplate
+				, final String[] pVariables
+					, final String[] pSubstituants) throws Exception {
+		
+		/* retourne null si pCheminRelatifTemplate est blank. */
+		if (StringUtils.isBlank(pCheminRelatifTemplate)) {
+			return null;
+		}
+		
+		/* retourne null si l'un des tableaux est null. */
+		if (pVariables == null || pSubstituants == null) {
+			return null;
+		}
+		
+		/* retourne null si les 2 tableaux n'ont pas la même taille. */
+		if (pVariables.length != pSubstituants.length) {
+			return null;
+		}
+
+		List<String> resultatSubstitue = null;
+		
+		resultatSubstitue 
+			= this.fournirTemplateSubstitueSousFormeListe(
+					pCheminRelatifTemplate, pVariables, pSubstituants);
+		
+		String resultat = null;
+		
+		if (resultatSubstitue != null) {
+			resultat 
+				= this.creerStringAPartirDeListe(resultatSubstitue);
+		}
+		
+		return resultat;
+		
+	} // Fin de fournirTemplateSubstitueSousFormeString(...).______________
+	
+	
 	
 	/**
 	 * {@inheritDoc}
@@ -204,41 +283,94 @@ public class GestionnaireTemplates implements IGestionnaireTemplates {
 		
 		List<String> resultatSubstitue = null;
 		
-		if (templateListe != null) {
-			resultatSubstitue 
-				= this.substituerVariablesDansLigne(
-						templateListe, pVariable, pSubstituant);
+		/* ne substitue que si pVariable != null. */
+		if (pVariable != null) {
+						
+			if (templateListe != null) {
+				resultatSubstitue 
+					= this.substituerVariablesDansLigne(
+							templateListe, pVariable, pSubstituant);
+			}
+		
+		/* retourne le template lu sans substitution si pVariable == null. */
+		} else {
+			resultatSubstitue = templateListe;
 		}
 		
+		
 		return resultatSubstitue;
+		
+	} // Fin de fournirTemplateSubstitueSousFormeListe(...)._______________
+	
+
+	
+	/**
+	 * {@inheritDoc}
+	 */
+	@Override
+	public final List<String> fournirTemplateSubstitueSousFormeListe(
+			final String pCheminRelatifTemplate
+				, final String[] pVariables
+					, final String[] pSubstituants) throws Exception {
+		
+		/* retourne null si pCheminRelatifTemplate est blank. */
+		if (StringUtils.isBlank(pCheminRelatifTemplate)) {
+			return null;
+		}
+		
+		/* retourne null si pSubstituants est null et pVariables != null. */
+		if (pSubstituants == null) {
+			if (pVariables != null) {
+				return null;
+			}			
+		}
+		
+		final List<String> templateListe 
+			= this.lireTemplate(pCheminRelatifTemplate);
+		
+		/* retourne le template lu sans substitution 
+		 * si pVariable == null. */
+		if (pVariables == null) {
+			return templateListe;
+		}
+		
+		List<String> listeASubstituer = null;
+		
+		/* retourne null si les 2 tableaux n'ont pas la même taille. */
+		if (pSubstituants != null) {
+			
+			if (pVariables.length != pSubstituants.length) {
+				return null;
+			}
+						
+			listeASubstituer = templateListe;
+			
+			for (int i = 0; i < pVariables.length; i++) {
+				
+				List<String> resultatSubstitue = null;
+				
+				if (listeASubstituer != null) {
+					resultatSubstitue 
+						= this.substituerVariablesDansLigne(
+								listeASubstituer, pVariables[i], pSubstituants[i]);
+				}
+				
+				listeASubstituer = resultatSubstitue;
+				
+			}
+		}
+									
+		return listeASubstituer;
 		
 	} // Fin de fournirTemplateSubstitueSousFormeListe(...)._______________
 	
 	
 	
 	/**
-	 * <b>Lit un template situé à 
-	 * <code>cheminAbsoluMainResources/pCheminRelatifTemplate</code> 
-	 * et retourne une liste de lignes</b>.
-	 * <ul>
-	 * <li>lit le fichier template avec le Charset UTF8.</li>
-	 * <li>utilise la méthode lireStringsDansFile(
-	 * templateFile, CHARSET_UTF8).</li>
-	 * </ul>
-	 * - retourne null si pCheminRelatifTemplate est blank.<br/>
-	 * - retourne null si le fichier template n'existe pas.<br/>
-	 * <br/>
-	 *
-	 * @param pCheminRelatifTemplate : String : 
-	 * chemin relatif du template à lire par rapport à 
-	 * cheminAbsoluMainResources (src/main/resources).<br/>
-	 * 
-	 * @return List&lt;String&gt; : 
-	 * template sous forme de liste de lignes.<br/>
-	 * 
-	 * @throws Exception 
+	 * {@inheritDoc}
 	 */
-	private List<String> lireTemplate(
+	@Override
+	public final List<String> lireTemplate(
 			final String pCheminRelatifTemplate) 
 									throws Exception {
 		

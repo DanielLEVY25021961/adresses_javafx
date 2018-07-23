@@ -1,12 +1,13 @@
 /**
  * CLASSE package-info :<br/>
- * Les templates sont des bouts de code "tout faits" 
- * comportant des variables.<br/>
+ * Les <b>templates</b> sont des <b>bouts de code "tout faits"</b> 
+ * comportant éventuellement des <b>variables</b>.<br/>
  * L'objectif est d'injecter ces bouts de code "tout faits" 
- * avec leurs variables substituées dans le code que l'on développe.<br/>
+ * avec leurs éventuelles variables <i>substituées</i> 
+ * dans le code que l'on développe.<br/>
  * <br/>
- * Les templates sont stockés sous forme de fichiers .txt 
- * dans les ressources internes (sous le classpath) de l'application.<br/>
+ * Les templates sont stockés sous forme de <b>fichiers .txt</b> 
+ * dans les <i>ressources internes (sous le classpath)</i> de l'application.<br/>
  * <br/><br/>
  * <img src="../../../../../../../../../javadoc/images/gestion_templates.png" 
  * alt="Gestion des templates" border="1" align="center" />

@@ -1,11 +1,15 @@
 package levy.daniel.application.apptechnic.configurationmanagers.gestionnairespreferences;
 
 import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertEquals;
 
 import java.io.File;
 import java.nio.file.Path;
+import java.util.LinkedHashMap;
 import java.util.Locale;
+import java.util.Map;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
@@ -72,6 +76,16 @@ public class GestionnairePropertiesTest {
 	public static final String LOCALE_FR_STRING = "français (France)";
 	
 	/**
+	 * "test1".<br/>
+	 */
+	public static final String TEST1 = "test1";
+	
+	/**
+	 * "test2".<br/>
+	 */
+	public static final String TEST2 = "test2";
+	
+	/**
 	 * IGestionnaireTemplates.<br/>
 	 */
 	private static transient IGestionnaireTemplates gestionnaireTemplate;
@@ -132,17 +146,33 @@ public class GestionnairePropertiesTest {
 			System.out.println("********** CLASSE GestionnairePropertiesTest - méthode testConstructeurs() ********** ");
 		}
 
+		final String commententaireUS = "COMMENTAIRE US";
+		final Map<String, String> mapPropertiesUS 
+			= new LinkedHashMap<String, String>();
+		mapPropertiesUS.put(TEST1, "value1");
+		mapPropertiesUS.put(TEST2, "value2");
+		
+		final String commententaireFR = "COMMENTAIRE FR";
+		final Map<String, String> mapPropertiesFR 
+			= new LinkedHashMap<String, String>();
+		mapPropertiesFR.put(TEST1, "valeur1");
+		mapPropertiesFR.put(TEST2, "valeur2");
 		
 		// CONSTRUCTION AVEC LE CONSTRUCTEUR COMPLET
 		// ET LE LANGAGE ANGLAIS US. ****************************************
 		final String nomBaseFichierProperties = NOM_BASE_LABEL;
 		LocaleManager.selectionnerLocaleApplication(LOCALE_US_STRING);
+		
 		// Récupération de la Locale courante auprès du LocaleManager.
 		final Locale localeCouranteUS = LocaleManager.getLocaleApplication();
 		
 		/* Instanciation du Gestionnaire avec le constructeur complet. */
 		final GestionnaireProperties gestionnairePropertiesCompletUS 
-			= new GestionnaireProperties(nomBaseFichierProperties, localeCouranteUS);
+			= new GestionnaireProperties(
+					nomBaseFichierProperties
+						, localeCouranteUS
+							, commententaireUS
+								, mapPropertiesUS);
 		
 		/* récupération du path du properties auprès du gestionnaire. */
 		final Path pathPropCompletUS 
@@ -187,6 +217,8 @@ public class GestionnairePropertiesTest {
 		gestionnairePropertiesAriteNulle
 			.setNomBaseFichierProperties(nomBaseFichierProperties);
 		gestionnairePropertiesAriteNulle.setLocale(localeCouranteUS);
+		gestionnairePropertiesAriteNulle.setCommentaire(commententaireUS);
+		gestionnairePropertiesAriteNulle.setMapPropertiesInitiales(mapPropertiesUS);
 		
 		/* récupération du path du properties auprès du gestionnaire. */
 		final Path pathPropUsAriteNulle 
@@ -232,6 +264,8 @@ public class GestionnairePropertiesTest {
 		
 		/* utilisation des setters. */
 		gestionnairePropertiesAriteNulle.setLocale(localeCouranteFR);
+		gestionnairePropertiesAriteNulle.setCommentaire(commententaireFR);
+		gestionnairePropertiesAriteNulle.setMapPropertiesInitiales(mapPropertiesFR);
 		
 		/* récupération du path du properties auprès du gestionnaire. */
 		final Path pathPropFRAriteNulle 
@@ -285,7 +319,7 @@ public class GestionnairePropertiesTest {
 				
 		// **********************************
 		// AFFICHAGE DANS LE TEST ou NON
-		final boolean affichage = false;
+		final boolean affichage = true;
 		// **********************************
 		
 		/* AFFICHAGE A LA CONSOLE. */
@@ -293,7 +327,18 @@ public class GestionnairePropertiesTest {
 			System.out.println("********** CLASSE GestionnairePropertiesTest - méthode testEgaliteConstructeurs() ********** ");
 		}
 
+		final String commententaireUS = "COMMENTAIRE US";
+		final Map<String, String> mapPropertiesUS 
+			= new LinkedHashMap<String, String>();
+		mapPropertiesUS.put(TEST1, "value1");
+		mapPropertiesUS.put(TEST2, "value2");
 		
+		final String commententaireFR = "COMMENTAIRE FR";
+		final Map<String, String> mapPropertiesFR 
+			= new LinkedHashMap<String, String>();
+		mapPropertiesFR.put(TEST1, "valeur1");
+		mapPropertiesFR.put(TEST2, "valeur2");
+
 		final String nomBaseFichierProperties = NOM_BASE_MESSAGE;
 		LocaleManager.selectionnerLocaleApplication(LOCALE_FR_STRING);
 		// Récupération de la Locale courante auprès du LocaleManager.
@@ -304,7 +349,10 @@ public class GestionnairePropertiesTest {
 		/* Instanciation du Gestionnaire avec le constructeur complet. */
 		final GestionnaireProperties gestionnairePropertiesCompletFR 
 			= new GestionnaireProperties(
-					nomBaseFichierProperties, localeCouranteFR);
+					nomBaseFichierProperties
+						, localeCouranteFR
+							, commententaireFR
+								, mapPropertiesFR);
 		
 		/* récupération du path. */
 		final Path pathCompletFR 
@@ -336,6 +384,8 @@ public class GestionnairePropertiesTest {
 		gestionnairePropertiesAriteNulleFR
 			.setNomBaseFichierProperties(nomBaseFichierProperties);
 		gestionnairePropertiesAriteNulleFR.setLocale(localeCouranteFR);
+		gestionnairePropertiesAriteNulleFR.setCommentaire(commententaireFR);
+		gestionnairePropertiesAriteNulleFR.setMapPropertiesInitiales(mapPropertiesFR);
 		
 		/* récupération du path. */
 		final Path pathAriteNulleFR 
@@ -379,29 +429,53 @@ public class GestionnairePropertiesTest {
 
 	} // Fin de testEgaliteConstructeurs().________________________________
 	
+
 	
 	/**
-	 * .<br/>
+	 * teste la méthode creerFichierSurDisqueEtRemplir().<br/>
 	 * <ul>
-	 * <li>.</li>
+	 * <li>garantit que creerFichierSurDisqueEtRemplir() 
+	 * crée le properties sur disque.</li>
+	 * <li>garantit que creerFichierSurDisqueEtRemplir() 
+	 * alimente le properties sur disque avec des valeurs en dur.</li>
 	 * </ul>
 	 *
-	 * @throws Exception :  :  .<br/>
+	 * @throws Exception
 	 */
 	@SuppressWarnings("unused")
 	@Test
-	public void testCrea() throws Exception {
+	public void testCreerFichierSurDisqueEtRemplir() throws Exception {
 				
 		// **********************************
 		// AFFICHAGE DANS LE TEST ou NON
-		final boolean affichage = false;
+		final boolean affichage = true;
 		// **********************************
 		
 		/* AFFICHAGE A LA CONSOLE. */
 		if (AFFICHAGE_GENERAL && affichage) {
-			System.out.println("********** CLASSE GestionnairePropertiesTest - méthode testEgaliteConstructeurs() ********** ");
+			System.out.println("********** CLASSE GestionnairePropertiesTest - méthode testCreerFichierSurDisqueEtRemplir() ********** ");
 		}
+
+		/* chemin relatif du template de commentaire 
+		 * par rapport aux ressources internes src/main/resources. */
+		final String cheminRelatifTemplate 
+			= "commentaires_properties/commentaires_labels_properties.txt";
+
+		final String commententaireUS 
+			= creerCommentaire(cheminRelatifTemplate, Locale.US);
 		
+		final Map<String, String> mapPropertiesUS 
+			= new LinkedHashMap<String, String>();
+		mapPropertiesUS.put(TEST1, "value1");
+		mapPropertiesUS.put(TEST2, "value2");
+		
+		final String commententaireFR 
+			= creerCommentaire(cheminRelatifTemplate, Locale.FRANCE);
+		final Map<String, String> mapPropertiesFR 
+			= new LinkedHashMap<String, String>();
+		mapPropertiesFR.put(TEST1, "valeur1");
+		mapPropertiesFR.put(TEST2, "valeur2");
+
 		final String nomBaseFichierProperties = "properties_test";
 		LocaleManager.selectionnerLocaleApplication(LOCALE_FR_STRING);
 		// Récupération de la Locale courante auprès du LocaleManager.
@@ -412,7 +486,10 @@ public class GestionnairePropertiesTest {
 		/* Instanciation du Gestionnaire avec le constructeur complet. */
 		final GestionnaireProperties gestionnairePropertiesCompletFR 
 			= new GestionnaireProperties(
-					nomBaseFichierProperties, localeCouranteFR);
+					nomBaseFichierProperties
+						, localeCouranteFR
+							, commententaireFR
+								, mapPropertiesFR);
 		
 		/* récupération du path. */
 		final Path pathCompletFR 
@@ -432,34 +509,114 @@ public class GestionnairePropertiesTest {
 							+ pathCompletFR.toString());
 		}
 		
-		gestionnairePropertiesCompletFR.creerFichierSurDisque(filePropertiesCompletFR);
+		// CREATION DU FICHIER SUR DISQUE.
+		final File fichierPropertiesFR 
+			= gestionnairePropertiesCompletFR.creerFichierSurDisqueEtRemplir();
 		
-		/* chemin relatif du template par rapport aux ressources internes src/main/resources. */
-		final String cheminRelatifTemplate = "commentaires_properties/commentaires_labels_properties.txt";
-		/* variable à substituer dans le template. */
-		final String variable = "{$Locale}";
-		/* valeur de substitution. */
-		final String substituant = localeCouranteFR.toString();
+		/* garantit que creerFichierSurDisqueEtRemplir() crée le 
+		 * properties sur disque. */
+		assertTrue(
+				"fichierProperties créé sur disque : "
+					, fichierPropertiesFR.exists());
 		
-		/* Obtention du template substitué sous forme de String dans le code java. */
-		final String commentaire 
-			= gestionnaireTemplate.fournirTemplateSubstitueSousFormeString(
-					cheminRelatifTemplate, variable, substituant);
+		/* garantit que creerFichierSurDisqueEtRemplir() alimente le 
+		 * properties sur disque avec des valeurs en dur. */
+		assertFalse(
+				"fichierProperties créé sur disque non vide : "
+					, fichierPropertiesFR.length() == 0);
 		
-		/* injection du template substitué dans le code java. */
-		gestionnairePropertiesCompletFR.remplirEnDurFichierProperties(commentaire);
+		// CONSTRUCTION AVEC LE CONSTRUCTEUR COMPLET
+		// ET LE LANGAGE ANGLAIS US. ****************************************
+		/* Instanciation du Gestionnaire avec le constructeur complet. */
+		final GestionnaireProperties gestionnairePropertiesCompletUS 
+			= new GestionnaireProperties(
+					nomBaseFichierProperties
+						, Locale.US
+							, commententaireUS
+								, mapPropertiesUS);
+		
+		/* récupération du path. */
+		final Path pathCompletUS 
+			= gestionnairePropertiesCompletUS
+				.getPathAbsoluFichierProperties();
+		
+		/* récupération du File. */
+		final File filePropertiesCompletUS 
+			= gestionnairePropertiesCompletUS
+				.getFichierProperties();
+		
+		/* AFFICHAGE A LA CONSOLE. */
+		if (AFFICHAGE_GENERAL && affichage) {
+			System.out.println(
+					"CONSTRUCTEUR COMPLET - path absolu du properties avec la Locale "  
+						+ Locale.US.toString() 
+							+ DEUX_POINTS
+							+ pathCompletUS.toString());
+		}
+		
+		// CREATION DU FICHIER SUR DISQUE.
+		final File fichierPropertiesUS 
+			= gestionnairePropertiesCompletUS
+				.creerFichierSurDisqueEtRemplir();
+		
+		/* garantit que creerFichierSurDisqueEtRemplir() crée le 
+		 * properties sur disque. */
+		assertTrue(
+				"fichierProperties créé sur disque : "
+					, fichierPropertiesUS.exists());
+		
+		/* garantit que creerFichierSurDisqueEtRemplir() alimente le 
+		 * properties sur disque avec des valeurs en dur. */
+		assertFalse(
+				"fichierProperties créé sur disque non vide : "
+					, fichierPropertiesUS.length() == 0);
 
-	}
+	} // Fin de testCreerFichierSurDisqueEtRemplir().______________________
 	
 
 	
 	/**
-	 * Avant tout test.<br/>
+	 * .<br/>
+	 * <ul>
+	 * <li>.</li>
+	 * </ul>
+	 *
+	 * @param pCheminRelatifCommentaire : String : 
+	 * chemin relatif du template par rapport aux 
+	 * ressources internes src/main/resources.<br/>
+	 * @param pLocale : Locale.<br/>
+	 * 
+	 * @return
+	 * @throws Exception :  :  .<br/>
+	 */
+	private static String creerCommentaire(
+			final String pCheminRelatifCommentaire
+				, final Locale pLocale) throws Exception {
+		
+		/* variable à substituer dans le template. */
+		final String[] variables = {"{$Locale}", "{$langue}"};
+		/* valeur de substitution. */
+		final String[] substituants = {pLocale.toString(), LocaleManager.fournirLangueEtPaysEnFrancais(pLocale)};
+				
+		final String commentaire 
+			= gestionnaireTemplate.fournirTemplateSubstitueSousFormeString(
+					pCheminRelatifCommentaire, variables, substituants);
+		
+		return commentaire;
+		
+	} // Fin de creerCommentaire(...)._____________________________________
+
+	
+	
+	/**
+	 * Avant tout test de la présente classe.<br/>
 	 * @throws Exception 
 	 */
 	@BeforeClass
-	public static final void setup() throws Exception {
+	public static final void setUpBeforeClass() throws Exception {
 		gestionnaireTemplate = new GestionnaireTemplates();
-	}
+	} // Fin de setUpBeforeClass().________________________________________
+	
+	
 	
 } // FIN DE LA CLASSE GestionnairePropertiesTest.----------------------------

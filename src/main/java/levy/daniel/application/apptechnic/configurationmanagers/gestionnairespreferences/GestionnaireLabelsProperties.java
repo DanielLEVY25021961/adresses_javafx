@@ -160,10 +160,6 @@ public final class GestionnaireLabelsProperties {
 							, commentaire
 								, mapPropertiesInitiales);
 		
-<<<<<<< HEAD
-		/**/
-=======
->>>>>>> branch 'master' of https://github.com/DanielLEVY25021961/adresses_javafx.git
 		gestionnaireProperties.creerFichierSurDisqueEtRemplir();
 		
 		alimenterAttributs();
@@ -179,63 +175,10 @@ public final class GestionnaireLabelsProperties {
 	 * :  :  .<br/>
 	 */
 	private static void alimenterAttributs() {
-<<<<<<< HEAD
-		alimenterAttributs();
-=======
 		
 		/* alimente 'properties' avec la valeur fournie par le gestionnaireProperties. */
 		properties = gestionnaireProperties.getProperties();
 		
-		/* alimente 'pathAbsoluFichierProperties' avec la valeur fournie par le gestionnaireProperties. */
-		pathAbsoluFichierProperties = gestionnaireProperties.getPathAbsoluFichierProperties();
->>>>>>> branch 'master' of https://github.com/DanielLEVY25021961/adresses_javafx.git
-	}
-	
-	/**
-	 * remplit mapPropertiesInitiales en fonction de la Locale.<br/>
-	 * <ul>
-	 * <li>Initialise le properties en dur.</li>
-	 * </ul>
-	 *
-	 * @param pLocale : Locale.<br/>
-	 */
-	private static void ajouterPropertiesInitialesEnDur(
-			final Locale pLocale) {
-		
-		if (pLocale.equals(Locale.FRANCE)) {
-			
-			mapPropertiesInitiales.put(KEY_LABEL_PRENOM, "Prénom");
-			mapPropertiesInitiales.put(KEY_LABEL_NOM, "Nom");
-			
-		} else if (pLocale.equals(Locale.US)){
-			
-			mapPropertiesInitiales.put(KEY_LABEL_PRENOM, "FirstName");
-			mapPropertiesInitiales.put(KEY_LABEL_NOM, "LastName");
-		} else {
-			
-			mapPropertiesInitiales.put(KEY_LABEL_PRENOM, "Prénom");
-			mapPropertiesInitiales.put(KEY_LABEL_NOM, "Nom");
-		}
-		
-	} // Fin de ajouterPropertiesInitialesEnDur(...).______________________
-	
-
-	
-	/**
-<<<<<<< HEAD
-	 * .<br/>
-	 * <ul>
-	 * <li>.</li>
-	 * </ul>
-	 * :  :  .<br/>
-	 */
-	private static void alimenterAttributs() {
-		
-		/* alimente 'properties' avec la valeur fournie par le gestionnaireProperties. */
-		properties = gestionnaireProperties.getProperties();
-		
-		/* alimente 'properties' avec la valeur fournie par le gestionnaireProperties. */
-		properties = gestionnaireProperties.getProperties();
 		/* alimente 'pathAbsoluFichierProperties' avec la valeur fournie par le gestionnaireProperties. */
 		pathAbsoluFichierProperties = gestionnaireProperties.getPathAbsoluFichierProperties();
 	}
@@ -271,8 +214,6 @@ public final class GestionnaireLabelsProperties {
 
 	
 	/**
-=======
->>>>>>> branch 'master' of https://github.com/DanielLEVY25021961/adresses_javafx.git
 	 * <b>Crée l'attribut 'commentaire' à mettre au début du properties 
 	 * en utilisant un template</b>.<br/>
 	 *

@@ -78,7 +78,7 @@ public class GestionnaireLabelsProperties {
 	 */
 	public static void creerFichierProperties(Locale pLocale) {
 		
-		
+		/**/
 		
 	}
 	

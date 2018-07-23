@@ -17,7 +17,7 @@ import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
 import levy.daniel.application.ConfigurationApplicationManager;
-import levy.daniel.application.apptechnic.configurationmanagers.LocaleManager;
+import levy.daniel.application.apptechnic.configurationmanagers.gestionnaireslocale.LocaleManager;
 
 
 /**

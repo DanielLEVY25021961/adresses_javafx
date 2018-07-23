@@ -24,7 +24,7 @@ import levy.daniel.application.apptechnic.configurationmanagers.gestionnairestem
  *<br/>
  * 
  * - Mots-clé :<br/>
- * Preferences, preferencces, properties, Properties,<br/>
+ * Preferences, preferences, properties, Properties,<br/>
  * sauver Properties, br/>
  * fichier properties, fichier Properties, <br/>
  * créer fichier sur disque dur, HDD, créer arborescence sur disque dur,<br/>
@@ -181,7 +181,10 @@ public final class GestionnaireLabelsProperties {
 		
 		/* alimente 'pathAbsoluFichierProperties' avec la valeur fournie par le gestionnaireProperties. */
 		pathAbsoluFichierProperties = gestionnaireProperties.getPathAbsoluFichierProperties();
-	}
+		
+	} // Fin de alimenterAttributs().__________________________________
+	
+	
 	
 	/**
 	 * remplit mapPropertiesInitiales en fonction de la Locale.<br/>

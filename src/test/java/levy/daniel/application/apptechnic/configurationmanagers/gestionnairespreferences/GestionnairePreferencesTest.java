@@ -176,7 +176,7 @@ public class GestionnairePreferencesTest {
 		
 		// **********************************
 		// AFFICHAGE DANS LE TEST ou NON
-		final boolean affichage = true;
+		final boolean affichage = false;
 		// **********************************
 		
 		/* AFFICHAGE A LA CONSOLE. */
@@ -186,43 +186,56 @@ public class GestionnairePreferencesTest {
 		
 		/* UTILISATION DU SETTER (paramétrage). */
 		GestionnairePreferences.setCharsetApplication(CHARSET_ANSI);
+		GestionnairePreferences.setLocaleDefautApplication(Locale.US);
 		
 		final Charset charsetAppliqueANSI 
 			= GestionnairePreferences.getCharsetApplication();
+		final Locale localeAppliqueeUS 
+			= GestionnairePreferences.getLocaleDefautApplication();
 		
 		/* AFFICHAGE A LA CONSOLE. */
 		if (AFFICHAGE_GENERAL && affichage) {
 			System.out.println("Charset courant : " + charsetAppliqueANSI.displayName());
+			System.out.println("Locale courante : " + localeAppliqueeUS.getDisplayName(Locale.FRANCE));
 		}
 		
 		assertEquals(
 				"Le Charset paramétré doit être CHARSET_ANSI : "
 					, CHARSET_ANSI, charsetAppliqueANSI);
 		
+		assertEquals(
+				"Le Locale paramétré doit être Locale.US : "
+					, Locale.US, localeAppliqueeUS);
+		
 		/* UTILISATION DU SETTER (paramétrage). */
 		GestionnairePreferences.setCharsetApplication(CHARSET_UTF8);
+		GestionnairePreferences.setLocaleDefautApplication(Locale.FRANCE);
 		
 		final Charset charsetAppliqueUTF8 
 			= GestionnairePreferences.getCharsetApplication();
+		final Locale localeAppliqueeFR 
+			= GestionnairePreferences.getLocaleDefautApplication();
 		
 		/* AFFICHAGE A LA CONSOLE. */
 		if (AFFICHAGE_GENERAL && affichage) {
 			System.out.println("Charset courant : " + charsetAppliqueUTF8.displayName());
+			System.out.println("Locale courante : " + localeAppliqueeFR.getDisplayName(Locale.FRANCE));
 		}
 		
 		assertEquals(
 				"Le Charset paramétré doit être CHARSET_UTF8 : "
 					, CHARSET_UTF8, charsetAppliqueUTF8);
 		
+		assertEquals(
+				"Le Locale paramétré doit être Locale.FRANCE : "
+					, Locale.FRANCE, localeAppliqueeFR);
+		
 	} // Fin de testParametrage()._________________________________________
 	
 
 	
 	/**
-	 * .<br/>
-	 * <ul>
-	 * <li>.</li>
-	 * </ul>
+	 * Vérifie le motif Regex "(\\S+) \\((\\S+)\\)".<br/>
 	 *
 	 * @throws Exception
 	 */
@@ -232,7 +245,7 @@ public class GestionnairePreferencesTest {
 		
 		// **********************************
 		// AFFICHAGE DANS LE TEST ou NON
-		final boolean affichage = true;
+		final boolean affichage = false;
 		// **********************************
 		
 		/* AFFICHAGE A LA CONSOLE. */
@@ -249,7 +262,8 @@ public class GestionnairePreferencesTest {
 			System.out.println("Langue et Pays de la Locale : " + languePays);
 		}
 		
-		/* Décompose une String comme anglais (Etats-Unis) en Language = "anglais" et coutry = "Etats-Unis". */
+		/* Décompose une String comme anglais (Etats-Unis) 
+		 * en Language = "anglais" et coutry = "Etats-Unis". */
 		final String motif = "(\\S+) \\((\\S+)\\)";
 		final Pattern pattern = Pattern.compile(motif);
 		
@@ -268,15 +282,18 @@ public class GestionnairePreferencesTest {
 			System.out.println("Langue de la Locale : " + langue);
 			System.out.println("Pays de la Locale : " + pays);
 		}
-		
-		final Locale localeInstanciee = new Locale(langue, pays);
-		
+				
 		/* AFFICHAGE A LA CONSOLE. */
 		if (AFFICHAGE_GENERAL && affichage) {
-			System.out.println(localeInstanciee.getDisplayName(Locale.FRANCE));
+			final Locale localeInstanciee = new Locale(langue, pays);
+			if (localeInstanciee != null) {
+				System.out.println(localeInstanciee.getDisplayName(Locale.FRANCE));
+			}			
 		}
 		
-	}
+		assertTrue("BIDON : ", 1 == 1);
+		
+	} // Fin de testRegex()._______________________________________________
 
 	
 	

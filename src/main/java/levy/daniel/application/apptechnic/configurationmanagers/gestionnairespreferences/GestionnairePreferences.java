@@ -1385,8 +1385,8 @@ public final class GestionnairePreferences {
 		
 		synchronized (GestionnairePreferences.class) {
 			
-			/* ne fait rien si pCharsetApplication == null. */
-			if (localeDefautApplication != null) {
+			/* ne fait rien si pLocaleDefautApplication == null. */
+			if (pLocaleDefautApplication != null) {
 				
 				localeDefautApplication = pLocaleDefautApplication;
 				

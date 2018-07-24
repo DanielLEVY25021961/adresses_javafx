@@ -229,6 +229,42 @@ public interface IGestionnaireTemplates {
 			String pCheminRelatifTemplate
 				, String[] pVariables
 					, String[] pSubstituants) throws Exception;
+
+	
+	
+	/**
+	 * <b>Lit un template situé à 
+	 * <code>cheminAbsoluMainResources/pCheminRelatifTemplate</code> 
+	 * et retourne une String unique 
+	 * incorporant les sauts de lignes</b>.
+	 * <ul>
+	 * <li>lit le fichier template avec le Charset UTF8.</li>
+	 * <li>utilise la méthode lireStringsDansFile(
+	 * templateFile, CHARSET_UTF8).</li>
+	 * <li><b>Ne fait aucune substitution de variables</b>. 
+	 * Lit le template et le retourne sous forme 
+	 * de String.</li>
+	 * <li>incorpore dans la String résultat les 
+	 * sauts de ligne de la plateforme.</li>
+	 * </ul>
+	 * - retourne null si pCheminRelatifTemplate est blank.<br/>
+	 * - retourne null si le fichier template n'existe pas.<br/>
+	 * <br/>
+	 *
+	 * @param pCheminRelatifTemplate : String : 
+	 * chemin relatif du template à lire par rapport à 
+	 * cheminAbsoluMainResources (src/main/resources).<br/>
+	 * 
+	 * @return String : 
+	 * template sous forme de String unique 
+	 * incorporant les sauts de lignes.<br/>
+	 * 
+	 * @throws Exception 
+	 */
+	String lireTemplateString(
+			String pCheminRelatifTemplate) 
+									throws Exception;
+	
 	
 	
 	/**

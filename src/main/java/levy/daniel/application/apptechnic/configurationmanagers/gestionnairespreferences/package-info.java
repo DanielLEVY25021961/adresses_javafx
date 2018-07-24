@@ -1,6 +1,9 @@
 /**
  * CLASSE package-info :<br/>
- * .<br/>
+ * Ce package contient toutes les classes nécessaires 
+ * à la <b>gestion des préférences de l'application</b> et des 
+ * <b>fichiers properties externes paramétrables par la MOA</b> 
+ * comme des préférences.<br/>
  * <br/>
  *
  * - Exemple d'utilisation :<br/>

@@ -1,5 +1,7 @@
 package levy.daniel.application.apptechnic.configurationmanagers.gestionnairespreferences;
 
+import static org.junit.Assert.assertTrue;
+
 import java.util.Locale;
 
 import org.apache.commons.logging.Log;
@@ -112,6 +114,8 @@ public class GestionnaireLabelsPropertiesTest {
 				
 		GestionnaireLabelsProperties.creerFichierProperties(localeCouranteUS);
 		GestionnaireLabelsProperties.creerFichierProperties(Locale.FRANCE);
+		
+		assertTrue("BIDON : ", 1 == 1);
 		
 	} // Fin de testcreerFichierProperties().______________________________
 

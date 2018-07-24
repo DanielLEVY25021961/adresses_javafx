@@ -86,6 +86,13 @@ public class GestionnairePropertiesTest {
 	public static final String TEST2 = "test2";
 	
 	/**
+	 * "CONSTRUCTEUR COMPLET - path absolu du properties avec la Locale ".<br/>
+	 */
+	public static final String CONSTRUCTEUR_COMPLET 
+		= "CONSTRUCTEUR COMPLET - path absolu du properties avec la Locale ";
+	
+	
+	/**
 	 * IGestionnaireTemplates.<br/>
 	 */
 	private static transient IGestionnaireTemplates gestionnaireTemplate;
@@ -184,7 +191,7 @@ public class GestionnairePropertiesTest {
 		/* AFFICHAGE A LA CONSOLE. */
 		if (AFFICHAGE_GENERAL && affichage) {
 			System.out.println(
-					"CONSTRUCTEUR COMPLET - path absolu du properties avec la Locale "  
+					CONSTRUCTEUR_COMPLET  
 						+ localeCouranteUS.toString() 
 							+ DEUX_POINTS
 							+ pathPropCompletUS.toString());
@@ -366,7 +373,7 @@ public class GestionnairePropertiesTest {
 		/* AFFICHAGE A LA CONSOLE. */
 		if (AFFICHAGE_GENERAL && affichage) {
 			System.out.println(
-					"CONSTRUCTEUR COMPLET - path absolu du properties avec la Locale "  
+					CONSTRUCTEUR_COMPLET  
 						+ localeCouranteFR.toString() 
 							+ DEUX_POINTS
 							+ pathCompletFR.toString());
@@ -503,7 +510,7 @@ public class GestionnairePropertiesTest {
 		/* AFFICHAGE A LA CONSOLE. */
 		if (AFFICHAGE_GENERAL && affichage) {
 			System.out.println(
-					"CONSTRUCTEUR COMPLET - path absolu du properties avec la Locale "  
+					CONSTRUCTEUR_COMPLET  
 						+ localeCouranteFR.toString() 
 							+ DEUX_POINTS
 							+ pathCompletFR.toString());
@@ -548,7 +555,7 @@ public class GestionnairePropertiesTest {
 		/* AFFICHAGE A LA CONSOLE. */
 		if (AFFICHAGE_GENERAL && affichage) {
 			System.out.println(
-					"CONSTRUCTEUR COMPLET - path absolu du properties avec la Locale "  
+					CONSTRUCTEUR_COMPLET  
 						+ Locale.US.toString() 
 							+ DEUX_POINTS
 							+ pathCompletUS.toString());

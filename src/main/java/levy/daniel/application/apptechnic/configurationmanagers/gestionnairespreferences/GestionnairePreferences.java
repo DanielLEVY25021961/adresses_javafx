@@ -5,16 +5,21 @@ import java.io.IOException;
 import java.io.Reader;
 import java.io.Writer;
 import java.nio.charset.Charset;
+import java.nio.charset.MalformedInputException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.util.List;
+import java.util.Locale;
 import java.util.Properties;
 import java.util.Set;
 
+import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
 import levy.daniel.application.ConfigurationApplicationManager;
+import levy.daniel.application.apptechnic.configurationmanagers.BundleConfigurationProjetManager;
 
 
 /**
@@ -51,23 +56,69 @@ public final class GestionnairePreferences {
 	// ************************ATTRIBUTS************************************/
 	
 	/**
-	 * EGAL : char :<br/>
-	 * '='.<br/>
+	 * "Classe GestionnairePreferences".<br/>
 	 */
-	public static final char EGAL = '=';
-	
-	/**
-	 * SAUT_LIGNE_JAVA : char :<br/>
-	 * '\n'.<br/>
-	 */
-	public static final char SAUT_LIGNE_JAVA = '\n';
+	public static final String CLASSE_GESTIONNAIRE_PREFERENCES 
+		= "Classe GestionnairePreferences";
 
+	//*****************************************************************/
+	//**************************** SEPARATEURS ************************/
+	//*****************************************************************/
+
+	/**
+	 * '/'.<br/>
+	 */
+	public static final char SEPARATEUR_FICHIER = '/';
+		
+	/**
+	 * SEPARATEUR_MOINS_AERE : String :<br/>
+	 * " - ".<br/>
+	 */
+	public static final String SEPARATEUR_MOINS_AERE = " - ";
+
+	
+	//*****************************************************************/
+	//**************************** CHARSETS ***************************/
+	//*****************************************************************/
 	/**
 	 * Charset.forName("UTF-8").<br/>
 	 * Eight-bit Unicode (or UCS) Transformation Format.<br/> 
 	 */
 	public static final Charset CHARSET_UTF8 
 		= Charset.forName("UTF-8");
+	
+	//*****************************************************************/
+	//**************************** SAUTS ******************************/
+	//*****************************************************************/	
+	/**
+	 * NEWLINE : String :<br/>
+	 * Saut de ligne spécifique de la plateforme.<br/>
+	 * System.getProperty("line.separator").<br/>
+	 */
+	public static final String NEWLINE = System.getProperty("line.separator");
+
+	/**
+	 * SAUT_LIGNE_JAVA : char :<br/>
+	 * '\n'.<br/>
+	 */
+	public static final char SAUT_LIGNE_JAVA = '\n';
+
+
+	/**
+	 * METHODE_LIRE_STRINGS_DANS_FILE : String :<br/>
+	 * "méthode lireStringsDansFile(File pFile, Charset pCharset)".<br/>
+	 */
+	public static final String METHODE_LIRE_STRINGS_DANS_FILE 
+		= "méthode lireStringsDansFile(File pFile, Charset pCharset)";
+	
+	
+	/**
+	 * EGAL : char :<br/>
+	 * '='.<br/>
+	 */
+	public static final char EGAL = '=';
+	
+
 	
 	/**
 	 * clé du charset de l'application dans le properties
@@ -98,6 +149,20 @@ public final class GestionnairePreferences {
 	 * Path absolu vers preferences.properties.<br/>
 	 */
 	private static Path pathAbsoluPreferencesProperties;
+	
+	/**
+	 * commentaire à ajouter en haut du fichier properties.<br/>
+	 */
+	private static String commentaire;
+	
+	/**
+	 * Chemin relatif (par rapport à src/main/resources) 
+	 * du template contenant le commentataire à ajouter 
+	 * au dessus de preferences.properties.<br/>
+	 * "commentaires_properties/commentaires_preferences_properties.txt"
+	 */
+	private static String cheminRelatifTemplateCommentaire 
+		= "commentaires_properties/commentaires_preferences_properties.txt";
 	
 	/**
 	 * filePreferencesProperties : File :<br/>
@@ -138,6 +203,8 @@ public final class GestionnairePreferences {
 	 * <ul>
 	 * <li>remplit le fichier preferences.properties 
 	 * avec des Properties stockées en dur dans la classe.</li>
+	 * <li>remplit le Properties Java properties 
+	 * avec des Properties stockées en dur dans la classe.</li>
 	 * </ul>
 	 * 
 	 * @throws Exception 
@@ -160,7 +227,7 @@ public final class GestionnairePreferences {
 				
 				/* enregistre le Properties preferences sur disque dur 
 				 * dans le fichier .properties correspondant. */
-				preferences.store(writer, null);
+				preferences.store(writer, commentaire);
 				
 			}
 			
@@ -191,7 +258,8 @@ public final class GestionnairePreferences {
 	/**
 	 * <b>Instancie tous les attributs</b> relatifs 
 	 * au fichier de preferences <b>si ils sont null</b>.<br/>
-	 * <b>Crée le fichier properties vide</b> (et son arborescence) 
+	 * <b>Crée le fichier preferences.properties vide</b> 
+	 * (et son arborescence) 
 	 * sur HDD <b>si il n'existe pas déjà</b>.<br/>
 	 * <b>obtient le path du preferences.properties</b> 
 	 * dans les ressources externes auprès du 
@@ -201,6 +269,7 @@ public final class GestionnairePreferences {
 	 * <li>instancie filePreferencesProperties.</li>
 	 * <li>Crée sur le disque dur l'arborescence et le fichier 
 	 * filePreferencesProperties si nécessaire.</li>
+	 * <li>ajoute le commentaire au début du preferences.properties.</li>
 	 * </ul>
 	 *
 	 * @throws Exception
@@ -233,6 +302,11 @@ public final class GestionnairePreferences {
 				}				
 			}
 			
+			if (commentaire == null) {
+				commentaire 
+					= lireTemplateString(cheminRelatifTemplateCommentaire);
+			}
+						
 		} // Fin du bloc synchronized.__________________
 		
 	} // Fin de instancierAttributsFichierProperties().____________________
@@ -326,6 +400,7 @@ public final class GestionnairePreferences {
 	 * <li>enregistre le <i>Properties</i> <b>preferences</b> 
 	 * sur disque dur dans le <i>fichier</i> 
 	 * .properties correspondant.</li>
+	 * <li>ajoute le commentaire au début de preferences.properties.</li>
 	 * <li>Prise en compte (stockage) 
 	 * d'une modification d'une Property.</li>
 	 * <li><code>preferences.store(writer, null);</code></li>
@@ -354,7 +429,7 @@ public final class GestionnairePreferences {
 				
 				/* enregistre le Properties preferences sur disque dur 
 				 * dans le fichier .properties correspondant. */
-				preferences.store(writer, null);
+				preferences.store(writer, commentaire);
 				
 			}
 
@@ -363,6 +438,423 @@ public final class GestionnairePreferences {
 	} // Fin de enregistrerFichierPreferences().___________________________
 	
 
+	
+	/**
+	 * <b>Lit un template situé à 
+	 * <code>cheminAbsoluMainResources/pCheminRelatifTemplate</code> 
+	 * et retourne une String unique 
+	 * incorporant les sauts de lignes</b>.
+	 * <ul>
+	 * <li>lit le fichier template avec le Charset UTF8.</li>
+	 * <li>utilise la méthode lireStringsDansFile(
+	 * templateFile, CHARSET_UTF8).</li>
+	 * <li><b>Ne fait aucune substitution de variables</b>. 
+	 * Lit le template et le retourne sous forme 
+	 * de String.</li>
+	 * <li>incorpore dans la String résultat les 
+	 * sauts de ligne de la plateforme.</li>
+	 * </ul>
+	 * - retourne null si pCheminRelatifTemplate est blank.<br/>
+	 * - retourne null si le fichier template n'existe pas.<br/>
+	 * <br/>
+	 *
+	 * @param pCheminRelatifTemplate : String : 
+	 * chemin relatif du template à lire par rapport à 
+	 * cheminAbsoluMainResources (src/main/resources).<br/>
+	 * 
+	 * @return String : 
+	 * template sous forme de String unique 
+	 * incorporant les sauts de lignes.<br/>
+	 * 
+	 * @throws Exception 
+	 */
+	private static String lireTemplateString(
+			final String pCheminRelatifTemplate) 
+									throws Exception {
+		
+		synchronized (GestionnairePreferences.class) {
+			
+			/* retourne null si pCheminRelatifTemplate est blank. */
+			if (StringUtils.isBlank(pCheminRelatifTemplate)) {
+				return null;
+			}
+			
+			final List<String> templateListe 
+				= lireTemplate(pCheminRelatifTemplate);
+			
+			final String resultat 
+				= creerStringAPartirDeListe(templateListe);
+			
+			return resultat;
+			
+		} // Fin du bloc synchronized.__________________
+		
+	} // Fin de lireTemplateString(...).___________________________________
+
+	
+	
+	/**
+	 * <b>Lit un template situé à 
+	 * <code>cheminAbsoluMainResources/pCheminRelatifTemplate</code> 
+	 * et retourne une liste de lignes</b>.
+	 * <ul>
+	 * <li>lit le fichier template avec le Charset UTF8.</li>
+	 * <li>utilise la méthode lireStringsDansFile(
+	 * templateFile, CHARSET_UTF8).</li>
+	 * <li><b>Ne fait aucune substitution de variables</b>. 
+	 * Lit le template et le retourne sous forme 
+	 * de List&lt;String&gt;.</li>
+	 * </ul>
+	 * - retourne null si pCheminRelatifTemplate est blank.<br/>
+	 * - retourne null si le fichier template n'existe pas.<br/>
+	 * <br/>
+	 *
+	 * @param pCheminRelatifTemplate : String : 
+	 * chemin relatif du template à lire par rapport à 
+	 * cheminAbsoluMainResources (src/main/resources).<br/>
+	 * 
+	 * @return List&lt;String&gt; : 
+	 * template sous forme de liste de lignes.<br/>
+	 * 
+	 * @throws Exception 
+	 */
+	private static List<String> lireTemplate(
+			final String pCheminRelatifTemplate) 
+									throws Exception {
+		
+		synchronized (GestionnairePreferences.class) {
+			
+			/* retourne null si pCheminRelatifTemplate est blank. */
+			if (StringUtils.isBlank(pCheminRelatifTemplate)) {
+				return null;
+			}
+			
+			final String cheminAbsoluTemplate 
+				= BundleConfigurationProjetManager.getRacineMainResources() 
+					+ SEPARATEUR_FICHIER 
+						+ pCheminRelatifTemplate;
+			
+			final File templateFile = new File(cheminAbsoluTemplate);
+			
+			/* retourne null si le fichier template n'existe pas. */
+			if (!templateFile.exists()) {
+				return null;
+			}
+			
+			/* utilise la méthode 
+			 * lireStringsDansFile(templateFile, CHARSET_UTF8). */
+			final List<String> templateListe 
+				= lireStringsDansFile(templateFile, CHARSET_UTF8);
+			
+			return templateListe;
+
+		} // Fin du bloc synchronized.__________________
+		
+	} // Fin de lireTemplate(...)._________________________________________
+	
+	
+	
+	/**
+	 * <b>Lit le contenu d'un fichier texte avec pCharset 
+	 * et retourne une Liste de lignes</b>. 
+	 * <ul>
+	 * <li><b>Lit le contenu</b> d'un fichier texte 
+	 * (fichier simple contenant du texte) pFile.</li>
+	 * <li>Décode le contenu d'un fichier texte 
+	 * (fichier simple contenant du texte) pFile 
+	 * avec le Charset pCharset</li>
+	 * <li><b>Retourne la liste des lignes</b> 
+	 * du fichier simple texte pFile 
+	 * lues avec le Charset pCharset.</li>
+	 * <ul>
+	 * <li>Utilise automatiquement le CHARSET_UTF8 
+	 * si pCharset est null.</li>
+	 * </ul>
+	 * </ul>
+	 * - Retourne null si pFile est null.<br/>
+	 * - Retourne null si pFile n'existe pas.<br/>
+	 * - Retourne null si pFile est un répertoire.<br/>
+	 * - Retourne null en cas d'Exception loggée 
+	 * (MalformedInputException, ...).<br/>
+	 * <br/>
+	 *
+	 * @param pFile : File : fichier simple textuel à lire.<br/>
+	 * @param pCharset : Charset : le Charset à utiliser pour 
+	 * lire le fichier pFile.<br/>
+	 * 
+	 * @return : List&lt;String&gt; : Liste des lignes lues.<br/>
+	 * 
+	 * @throws Exception en cas d'Exception loggée 
+	 * (IOException, MalformedInputException, ...).<br/>
+	 */
+	private static List<String> lireStringsDansFile(
+			final File pFile
+				, final Charset pCharset) throws Exception {
+		
+		synchronized (GestionnairePreferences.class) {
+			
+			/* Retourne null si pFile est null. */
+			if (pFile == null) {
+				return null;
+			}
+			
+			/* Retourne null si pFile n'existe pas. */
+			if (!pFile.exists()) {
+				return null;
+			}
+			
+			/* Retourne null si pFile est un répertoire. */
+			if (pFile.isDirectory()) {
+				return null;
+			}
+			
+			/* Utilise automatiquement le CHARSET_UTF8 si pCharset est null. */
+			Charset charset = null;
+			
+			if (pCharset == null) {
+				charset = CHARSET_UTF8;
+			}
+			else {
+				charset = pCharset;
+			}
+			
+			/* Récupère le Path de pFile. */
+			final Path pathFichier = pFile.toPath();
+			
+			try {
+				
+				// *****************************************************
+				/* Retourne la liste des lignes lues avec le charset. */
+				return Files.readAllLines(pathFichier, charset);
+				
+			} 
+			
+			catch (MalformedInputException malformedInputException) {
+				
+				final String message 
+				=  "Impossible de lire le contenu du fichier '" 
+				+ pFile.getName() 
+				+ "' avec le Charset " 
+				+ charset.displayName(Locale.getDefault()) 
+				+ " à cause d'un caractère qui ne peut être "
+				+ "écrit dans ce Charset (MalformedInputException)";
+				
+				/* LOG de niveau Error. */
+				loggerError(CLASSE_GESTIONNAIRE_PREFERENCES
+						, METHODE_LIRE_STRINGS_DANS_FILE 
+						+ SEPARATEUR_MOINS_AERE 
+						+ message
+						, malformedInputException);
+				
+				/* retourne null en cas d'Exception loggée 
+				 * (IOException, MalformedInputException, ...). */
+				return null;
+		
+			}
+			
+			catch (IOException ioe) {
+				
+				/* LOG de niveau Error. */
+				loggerError(CLASSE_GESTIONNAIRE_PREFERENCES
+						, METHODE_LIRE_STRINGS_DANS_FILE
+						, ioe);
+				
+				final String message 
+				= CLASSE_GESTIONNAIRE_PREFERENCES 
+				+ SEPARATEUR_MOINS_AERE 
+				+ METHODE_LIRE_STRINGS_DANS_FILE 
+				+ SEPARATEUR_MOINS_AERE 
+				+ "Impossible de lire le contenu du fichier '" 
+				+ pFile.getName() 
+				+ "' avec le Charset " 
+				+ charset.displayName(Locale.getDefault());
+				
+				/* jette une Exception en cas d'Exception loggée 
+				 * (IOException, MalformedInputException, ...). */
+				throw new Exception(message, ioe);
+			
+			}
+			
+		} // Fin du bloc synchronized.__________________
+			
+	} // Fin de lireStringsDansFile(...).__________________________________
+	
+
+	
+	/**
+	 * <b>Crée une String à partir d'une liste de Strings</b>.
+	 * <ul>
+	 * <li>ajoute un saut de ligne de la plateforme 
+	 * NEWLINE à chaque ligne.</li>
+	 * </ul>
+	 * - retourne null si pList == null.<br/>
+	 * <br/>
+	 *
+	 * @param pList : List&lt;String&gt;.<br/>
+	 * 
+	 * @return : String.<br/>
+	 */
+	private static String creerStringAPartirDeListe(
+			final List<String> pList) {
+		
+		synchronized (GestionnairePreferences.class) {
+			
+			/* retourne null si pList == null. */
+			if (pList == null) {
+				return null;
+			}
+			
+			final StringBuilder stb = new StringBuilder();
+			
+			for (final String ligne : pList) {
+				
+				stb.append(ligne);
+				
+				/* ajoute un saut de ligne de la plateforme 
+				 * NEWLINE à chaque ligne. */
+				stb.append(NEWLINE);
+			}
+			
+			return stb.toString();
+
+		} // Fin du bloc synchronized.__________________
+		
+	} // Fin de creerStringAPartirDeListe(...).____________________________
+	
+	
+	
+	/**
+	 * method loggerInfo(
+	 * String pClasse
+	 * , String pMethode
+	 * , String pMessage) :<br/>
+	 * <ul>
+	 * <li>Crée un message de niveau INFO dans le LOG.</li>
+	 * </ul>
+	 * - Ne fait rien si un des paramètres est null.<br/>
+	 * <br/>
+	 *
+	 * @param pClasse : String : Classe appelante.<br/>
+	 * @param pMethode : String : Méthode appelante.<br/>
+	 * @param pMessage : String : Message particulier de la méthode.<br/>
+	 */
+	private static void loggerInfo(
+			final String pClasse
+				, final String pMethode
+					, final String pMessage) {
+		
+		/* Ne fait rien si un des paramètres est null. */
+		if (pClasse == null || pMethode == null || pMessage == null) {
+			return;
+		}
+		
+		/* LOG de niveau INFO. */			
+		if (LOG.isInfoEnabled()) {
+			
+			final String message 
+			= pClasse 
+			+ SEPARATEUR_MOINS_AERE
+			+ pMethode
+			+ SEPARATEUR_MOINS_AERE
+			+ pMessage;
+			
+			LOG.info(message);
+		}
+		
+	} // Fin de la classe loggerInfo(...)._________________________________
+	
+	
+	
+	/**
+	 * method loggerInfo(
+	 * String pClasse
+	 * , String pMethode
+	 * , String pMessage
+	 * , String pComplement) :<br/>
+	 * <ul>
+	 * <li>Créée un message de niveau INFO dans le LOG.</li>
+	 * </ul>
+	 * - Ne fait rien si un des paramètres est null.<br/>
+	 * <br/>
+	 *
+	 * @param pClasse : String : Classe appelante.<br/>
+	 * @param pMethode : String : Méthode appelante.<br/>
+	 * @param pMessage : String : Message particulier de la méthode.<br/>
+	 * @param pComplement : String : Complément au message de la méthode.<br/>
+	 */
+	private static void loggerInfo(
+			final String pClasse
+				, final String pMethode
+					, final String pMessage
+						, final String pComplement) {
+		
+		/* Ne fait rien si un des paramètres est null. */
+		if (pClasse == null || pMethode == null 
+				|| pMessage == null || pComplement == null) {
+			return;
+		}
+		
+		/* LOG de niveau INFO. */			
+		if (LOG.isInfoEnabled()) {
+			
+			final String message 
+			= pClasse 
+			+ SEPARATEUR_MOINS_AERE
+			+ pMethode
+			+ SEPARATEUR_MOINS_AERE
+			+ pMessage
+			+ pComplement;
+			
+			LOG.info(message);
+		}
+		
+	} // Fin de loggerInfo(...).___________________________________________
+	
+	
+	
+	/**
+	 * method loggerError(
+	 * String pClasse
+	 * , String pMethode
+	 * , Exception pException) :<br/>
+	 * <ul>
+	 * <li>Crée un message de niveau ERROR dans le LOG.</li>
+	 * </ul>
+	 * - Ne fait rien si un des paramètres est null.<br/>
+	 * <br/>
+	 *
+	 * @param pClasse : String : Classe appelante.<br/>
+	 * @param pMethode : String : Méthode appelante.<br/>
+	 * @param pException : Exception : Exception transmise 
+	 * par la méthode appelante.<br/>
+	 */
+	private static void loggerError(
+			final String pClasse
+				, final String pMethode
+					, final Exception pException) {
+		
+		/* Ne fait rien si un des paramètres est null. */
+		if (pClasse == null || pMethode == null || pException == null) {
+			return;
+		}
+		
+		/* LOG de niveau ERROR. */			
+		if (LOG.isErrorEnabled()) {
+			
+			final String message 
+			= pClasse 
+			+ SEPARATEUR_MOINS_AERE
+			+ pMethode
+			+ SEPARATEUR_MOINS_AERE 
+			+ pException.getMessage();
+			
+			LOG.error(message, pException);
+			
+		}
+		
+	} // Fin de loggerError(...).__________________________________________
+
+	
 	
 	/**
 	 * <b>Crée ou met à jour une Property</b> dans 
@@ -536,7 +1028,10 @@ public final class GestionnairePreferences {
 		
 		synchronized (GestionnairePreferences.class) {
 			
-			if (preferences.isEmpty()) {
+			/* crée le Properties preferences et 
+			 * le remplit avec des valeurs en dur si nécessaire. */
+			if (filePreferencesProperties == null 
+					|| !filePreferencesProperties.exists()) {
 				creerFichierPropertiesInitial();
 			}
 			
@@ -569,6 +1064,32 @@ public final class GestionnairePreferences {
 		} // Fin du bloc synchronized.__________________
 		
 	} // Fin de fournirCharsetSortieParDefaut().___________________________
+	
+
+		
+	/**
+	 * Getter du commentaire à ajouter en haut du fichier properties.<br/>
+	 * <br/>
+	 *
+	 * @return commentaire : String.<br/>
+	 */
+	public static String getCommentaire() {
+		return commentaire;
+	} // Fin de getCommentaire().__________________________________________
+	
+	
+	
+	/**
+	* Setter du commentaire à ajouter en haut du fichier properties.<br/>
+	* <br/>
+	*
+	* @param pCommentaire : String : 
+	* valeur à passer à commentaire.<br/>
+	*/
+	public static void setCommentaire(
+			final String pCommentaire) {
+		commentaire = pCommentaire;
+	} // Fin de setCommentaire(...)._______________________________________
 	
 
 	
@@ -626,7 +1147,10 @@ public final class GestionnairePreferences {
 				final String nomCharset 
 					= pCharsetApplication.displayName();
 				
-				if (preferences.isEmpty()) {
+				/* crée le Properties preferences et 
+				 * le remplit avec des valeurs en dur si nécessaire. */
+				if (filePreferencesProperties == null 
+						|| !filePreferencesProperties.exists()) {
 					creerFichierPropertiesInitial();
 				}
 				

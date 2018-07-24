@@ -370,6 +370,31 @@ public class GestionnaireTemplates implements IGestionnaireTemplates {
 	 * {@inheritDoc}
 	 */
 	@Override
+	public final String lireTemplateString(
+			final String pCheminRelatifTemplate) 
+									throws Exception {
+		
+		/* retourne null si pCheminRelatifTemplate est blank. */
+		if (StringUtils.isBlank(pCheminRelatifTemplate)) {
+			return null;
+		}
+		
+		final List<String> templateListe 
+			= this.lireTemplate(pCheminRelatifTemplate);
+		
+		final String resultat 
+			= this.creerStringAPartirDeListe(templateListe);
+		
+		return resultat;
+		
+	} // Fin de lireTemplateString(...).___________________________________
+
+	
+	
+	/**
+	 * {@inheritDoc}
+	 */
+	@Override
 	public final List<String> lireTemplate(
 			final String pCheminRelatifTemplate) 
 									throws Exception {

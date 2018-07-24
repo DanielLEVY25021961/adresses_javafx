@@ -10,6 +10,8 @@ import java.nio.charset.Charset;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.Locale;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
@@ -170,7 +172,7 @@ public class GestionnairePreferencesTest {
 	 */
 	@SuppressWarnings("unused")
 	@Test
-	public void testParamétrage() throws Exception {
+	public void testParametrage() throws Exception {
 		
 		// **********************************
 		// AFFICHAGE DANS LE TEST ou NON
@@ -212,8 +214,70 @@ public class GestionnairePreferencesTest {
 				"Le Charset paramétré doit être CHARSET_UTF8 : "
 					, CHARSET_UTF8, charsetAppliqueUTF8);
 		
-	} // Fin de testParamétrage()._________________________________________
+	} // Fin de testParametrage()._________________________________________
 	
+
+	
+	/**
+	 * .<br/>
+	 * <ul>
+	 * <li>.</li>
+	 * </ul>
+	 *
+	 * @throws Exception
+	 */
+	@SuppressWarnings("unused")
+	@Test
+	public void testRegex() throws Exception {
+		
+		// **********************************
+		// AFFICHAGE DANS LE TEST ou NON
+		final boolean affichage = true;
+		// **********************************
+		
+		/* AFFICHAGE A LA CONSOLE. */
+		if (AFFICHAGE_GENERAL && affichage) {
+			System.out.println("********** CLASSE GestionnairePreferencesTest - méthode testParamétrage() ********** ");
+		}
+		
+		final Locale locale = Locale.US;
+		
+		final String languePays = this.fournirLangueEtPaysEnFrancais(locale);
+		
+		/* AFFICHAGE A LA CONSOLE. */
+		if (AFFICHAGE_GENERAL && affichage) {
+			System.out.println("Langue et Pays de la Locale : " + languePays);
+		}
+		
+		/* Décompose une String comme anglais (Etats-Unis) en Language = "anglais" et coutry = "Etats-Unis". */
+		final String motif = "(\\S+) \\((\\S+)\\)";
+		final Pattern pattern = Pattern.compile(motif);
+		
+		final Matcher matcher = pattern.matcher(languePays);
+		
+		String langue = null;
+		String pays = null;
+		
+		if (matcher.matches()) {
+			langue = matcher.group(1);
+			pays = matcher.group(2);
+		}
+		
+		/* AFFICHAGE A LA CONSOLE. */
+		if (AFFICHAGE_GENERAL && affichage) {
+			System.out.println("Langue de la Locale : " + langue);
+			System.out.println("Pays de la Locale : " + pays);
+		}
+		
+		final Locale localeInstanciee = new Locale(langue, pays);
+		
+		/* AFFICHAGE A LA CONSOLE. */
+		if (AFFICHAGE_GENERAL && affichage) {
+			System.out.println(localeInstanciee.getDisplayName(Locale.FRANCE));
+		}
+		
+	}
+
 	
 	
 	/**
@@ -243,6 +307,31 @@ public class GestionnairePreferencesTest {
 		return filePreferencesPropertiesLocal;
 		
 	} // Fin de fournirFilePreferencesProperties().________________________
+
+	
+	
+	/**
+	 * <b>Retourne le langage et le pays d'une Locale 
+	 * exprimés en français</b> sous forme de String.<br/>
+	 * <ul>
+	 * Par exemple :
+	 * <li><code>français (France)</code> pour une Locale.FRANCE.</li>
+	 * <li><code>anglais (Etats-Unis)</code> pour une Locale.US.</li>
+	 * </ul>
+	 *
+	 * @param pLocale : Locale.<br/>
+	 * 
+	 * @return : String  : langage et pays d'une Locale.<br/>
+	 */
+	private String fournirLangueEtPaysEnFrancais(
+			final Locale pLocale) {
 		
+		return 
+				pLocale.getDisplayLanguage(Locale.FRANCE) 
+				+ " (" + pLocale.getDisplayCountry(Locale.FRANCE) + ")";
+			
+	} // Fin de fournirLangueEtPaysEnFrancais(...).________________________
+
+
 		
 } // FIN DE LA CLASSE GestionnairePreferencesTest.---------------------------

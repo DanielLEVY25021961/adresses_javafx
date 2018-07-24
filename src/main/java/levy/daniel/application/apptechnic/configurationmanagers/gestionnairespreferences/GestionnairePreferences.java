@@ -13,6 +13,8 @@ import java.util.List;
 import java.util.Locale;
 import java.util.Properties;
 import java.util.Set;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.logging.Log;
@@ -20,6 +22,7 @@ import org.apache.commons.logging.LogFactory;
 
 import levy.daniel.application.ConfigurationApplicationManager;
 import levy.daniel.application.apptechnic.configurationmanagers.BundleConfigurationProjetManager;
+import levy.daniel.application.apptechnic.configurationmanagers.gestionnaireslocale.LocaleManager;
 
 
 /**
@@ -121,14 +124,20 @@ public final class GestionnairePreferences {
 
 	
 	/**
-	 * clé du charset de l'application dans le properties
+	 * clé du charset de l'application dans preferences.properties
 	 * "application.charset".<br/>
 	 */
 	public static final String KEY_CHARSET_APPLICATION 
 		= "application.charset";
 	
 	/**
-	 * CHARSET_STRING_PAR_DEFAUT_EN_DUR : String :<br/>
+	 * clé de la locale de l'application dans preferences.properties
+	 * "application.locale".<br/>
+	 */
+	public static final String KEY_LOCALE_APPLICATION 
+		= "application.locale";
+	
+	/**
 	 * Charset par défaut de l'application en dur.<br/>
 	 * N'est utilisé que si l'application ne peut lire le Charset 
 	 * indiqué dans preferences.properties.<br/>
@@ -137,7 +146,15 @@ public final class GestionnairePreferences {
 	public static final String CHARSET_STRING_PAR_DEFAUT_EN_DUR 
 		= CHARSET_UTF8.name();
 	
-
+	/**
+	 * Locale par défaut de l'application en dur.<br/>
+	 * N'est utilisé que si l'application ne peut lire la Locale 
+	 * indiquée dans preferences.properties.<br/>
+	 */
+	public static final String LOCALE_STRING_PAR_DEFAUT_EN_DUR 
+		= fournirLangueEtPaysEnFrancais(Locale.FRANCE);
+	
+	
 	/**
 	 * preferences : Properties :<br/>
 	 * Properties encapsulant les préférences.<br/>
@@ -171,12 +188,17 @@ public final class GestionnairePreferences {
 	private static File filePreferencesProperties;
 		
 	/**
-	 * <b>SINGLETON de Charset couramment sélectionné 
+	 * <b>SINGLETON de Charset par défaut 
 	 * dans l'application</b>.<br/>
 	 */
 	private static Charset charsetApplication;
 
-
+	/**
+	 * <b>SINGLETON de la Locale par défaut 
+	 * dans l'application</b>.<br/>
+	 */
+	private static Locale localeDefautApplication;
+	
 	/**
 	 * LOG : Log : 
 	 * Logger pour Log4j (utilisant commons-logging).
@@ -248,6 +270,10 @@ public final class GestionnairePreferences {
 			preferences.setProperty(
 					KEY_CHARSET_APPLICATION
 						, CHARSET_STRING_PAR_DEFAUT_EN_DUR);
+			
+			preferences.setProperty(
+					KEY_LOCALE_APPLICATION
+						, LOCALE_STRING_PAR_DEFAUT_EN_DUR);
 			
 		} // Fin du bloc synchronized.__________________
 		
@@ -1016,14 +1042,14 @@ public final class GestionnairePreferences {
 	 * <ul>
 	 * <li>lit le charset stocké dans preferences.properties 
 	 * si il n'est pas null.</li>
-	 * <li>UTF-8 sinon (Charset stocké en dur dans a classe).</li>
+	 * <li>UTF-8 sinon (Charset stocké en dur dans la classe).</li>
 	 * </ul>
 	 *
 	 * @return : Charset.<br/>
 	 * 
 	 * @throws Exception 
 	 */
-	private static Charset fournirCharsetSortieParDefaut() 
+	private static Charset fournirCharsetPrefere() 
 			throws Exception {
 		
 		synchronized (GestionnairePreferences.class) {
@@ -1094,8 +1120,8 @@ public final class GestionnairePreferences {
 
 	
 	/**
-	 * Getter de la clé du charset de l'application 
-	 * dans le properties.<br/>
+	 * Getter de la clé du charset par défaut de l'application 
+	 * dans preferences.properties.<br/>
 	 * "application.charset".<br/>
 	 *
 	 * @return KEY_CHARSET_APPLICATION : String.<br/>
@@ -1107,7 +1133,7 @@ public final class GestionnairePreferences {
 
 
 	/**
-	 * Getter du <b>SINGLETON de Charset couramment sélectionné 
+	 * Getter du <b>SINGLETON de Charset par défaut 
 	 * dans l'application</b>.
 	 * <br/>
 	 *
@@ -1116,13 +1142,13 @@ public final class GestionnairePreferences {
 	 * @throws Exception 
 	 */
 	public static Charset getCharsetApplication() throws Exception {
-		return fournirCharsetSortieParDefaut();
+		return fournirCharsetPrefere();
 	} // Fin de getCharsetApplication().___________________________________
 	
 
 	
 	/**
-	* Setter du <b>SINGLETON de Charset couramment sélectionné 
+	* Setter du <b>SINGLETON de Charset par défaut 
 	* dans l'application</b>.<br/>
 	* <b>Enregistre la valeur sur disque</b>.<br/>
 	* <br/>
@@ -1163,8 +1189,227 @@ public final class GestionnairePreferences {
 
 		} // Fin du bloc synchronized.__________________
 						
-
 	} // Fin de setCharsetApplication(...).________________________________
+	
+
+	
+	/**
+	 * <b>Retourne le langage et le pays d'une Locale 
+	 * exprimés en français</b> sous forme de String.<br/>
+	 * <ul>
+	 * Par exemple :
+	 * <li><code>français (France)</code> pour une Locale.FRANCE.</li>
+	 * <li><code>anglais (Etats-Unis)</code> pour une Locale.US.</li>
+	 * </ul>
+	 *
+	 * @param pLocale : Locale.<br/>
+	 * 
+	 * @return : String  : langage et pays d'une Locale.<br/>
+	 */
+	private static String fournirLangueEtPaysEnFrancais(
+			final Locale pLocale) {
+		
+		/* Bloc synchronized. */
+		synchronized (GestionnairePreferences.class) {
+			return 
+					pLocale.getDisplayLanguage(Locale.FRANCE) 
+					+ " (" + pLocale.getDisplayCountry(Locale.FRANCE) + ")";
+			
+		} // Fin de synchronized._____________________________
+		
+	} // Fin de fournirLangueEtPaysEnFrancais(...).________________________
+
+
+	
+	/**
+	 * <b>Fournit une Locale 
+	 * à partir d'une String</b> comme 
+	 * "français (France)" ou "anglais (Etats-Unis)" 
+	 * conforme à un retour de la méthode 
+	 * <code>fournirLangueEtPaysEnFrancais(Locale)</code>.
+	 * <ul>
+	 * <li>La String doit être conforme à un retour de la méthode 
+	 * <code>fournirLangueEtPaysEnFrancais(Locale)</code>.</li>
+	 * <li>retourne la Locale de la plateforme par défaut 
+	 * si pLocaleString est blank.</li>
+	 * <li>Utilise une Regex avec un motif 
+	 * <code>"(\\S+) \\((\\S+)\\)"</code> qui décompose une 
+	 * String comme "anglais (Etats-Unis)" en 
+	 * language = "anglais" et coutry = "Etats-Unis".</li>
+	 * </ul>
+	 * - retourne la Locale par défaut de la plateforme 
+	 * si pLocaleString n'est pas conforme à l'expression 
+	 * régulière (Regex).<br/>
+	 * <br/>
+	 *
+	 * @param pLocaleString : String : 
+	 * String décrivant le langage et le pays d'une Locale 
+	 * conforme à un retour de la méthode 
+	 * <code>fournirLangueEtPaysEnFrancais(Locale)</code>.<br/>
+	 * 
+	 * @return : Locale : 
+	 * Locale correspondant à la description pLocaleString 
+	 * ("français (France)" ou "anglais (Etats-Unis)", ...).<br/>
+	 */
+	private static Locale fournirLocaleParLangue(
+			final String pLocaleString) {
+		
+		/* Bloc synchronized. */
+		synchronized (LocaleManager.class) {
+			
+			/* retourne la Locale de la plateforme par défaut 
+			 * si pLocaleString est blank. */
+			if (StringUtils.isBlank(pLocaleString)) {
+				return Locale.getDefault();
+			}
+			
+			/* Décompose une String comme "anglais (Etats-Unis)" en 
+			 * Language = "anglais" et coutry = "Etats-Unis". */
+			final String motif = "(\\S+) \\((\\S+)\\)";
+			final Pattern pattern = Pattern.compile(motif);
+			
+			final Matcher matcher = pattern.matcher(pLocaleString);
+			
+			String langue = null;
+			String pays = null;
+			Locale resultat = null;
+			
+			if (matcher.matches()) {
+				
+				langue = matcher.group(1);
+				pays = matcher.group(2);
+				
+				resultat = new Locale(langue, pays);
+				
+				return resultat;
+			} 
+			
+			/* retourne la Locale de la plateforme par défaut 
+			 * si pLocaleString  n'appartient pas aux 
+			 * locales disponibles. */
+			return Locale.getDefault();
+			
+		} // Fin de synchronized._____________________________
+		
+	} // Fin de recupererLocaleIHM(...).___________________________________
+	
+
+	
+	/**
+	 * retourne la Locale par défaut de l'application.<br/>
+	 * <ul>
+	 * <li>lit la Locale stockée dans preferences.properties 
+	 * si il n'est pas null.</li>
+	 * <li>Locale par défaut en dur sinon (Locale.FRANCE).</li>
+	 * </ul>
+	 *
+	 * @return : Locale : Locale dans les préférences.<br/>
+	 * 
+	 * @throws Exception 
+	 */
+	private static Locale fournirLocalePreferee() throws Exception {
+		
+		synchronized (GestionnairePreferences.class) {
+			
+			/* crée le Properties preferences et 
+			 * le remplit avec des valeurs en dur si nécessaire. */
+			if (filePreferencesProperties == null 
+					|| !filePreferencesProperties.exists()) {
+				creerFichierPropertiesInitial();
+			}
+			
+			if (localeDefautApplication == null) {
+				
+				/* lecture dans le properties. */
+				final String localeApplicationString 
+					= preferences
+						.getProperty(
+								fournirKeyLocaleApplication());
+				
+				if (localeApplicationString != null) {
+					
+					localeDefautApplication 
+					= fournirLocaleParLangue(localeApplicationString);
+									
+				}
+				else {
+					localeDefautApplication = Locale.FRANCE;
+				}
+			}
+			
+			return localeDefautApplication;
+			
+		} // Fin du bloc synchronized.__________________
+				
+	} // Fin de fournirLocalePreferee().___________________________________
+	
+	
+	
+	/**
+	 * getter de la clé de la Locale par défaut de l'application 
+	 * dans preferences.properties.<br/>
+	 * "application.locale".<br/>
+	 *
+	 * @return KEY_LOCALE_APPLICATION : String.<br/>
+	 */
+	public static String fournirKeyLocaleApplication() {
+		return KEY_LOCALE_APPLICATION;
+	} // Fin de fournirKeyLocaleApplication()._____________________________
+
+
+	
+	/**
+	 * Getter du <b>SINGLETON de la Locale par défaut 
+	 * dans l'application</b>.<br/>
+	 *
+	 * @return localeDefautApplication : Locale.<br/>
+	 * 
+	 * @throws Exception 
+	 */
+	public static Locale getLocaleDefautApplication() throws Exception {
+		return fournirLocalePreferee();
+	} // Fin de getLocaleDefautApplication().______________________________
+
+
+	
+	/**
+	* Setter du <b>SINGLETON de la Locale par défaut 
+	* dans l'application</b>.<br/>
+	*
+	* @param pLocaleDefautApplication : Locale : 
+	* valeur à passer à localeDefautApplication.<br/>
+	 * @throws Exception 
+	*/
+	public static void setLocaleDefautApplication(
+			final Locale pLocaleDefautApplication) throws Exception {
+		
+		synchronized (GestionnairePreferences.class) {
+			
+			/* ne fait rien si pCharsetApplication == null. */
+			if (localeDefautApplication != null) {
+				
+				localeDefautApplication = pLocaleDefautApplication;
+				
+				final String nomLocale 
+					= fournirLangueEtPaysEnFrancais(localeDefautApplication);
+				
+				/* crée le Properties preferences et 
+				 * le remplit avec des valeurs en dur si nécessaire. */
+				if (filePreferencesProperties == null 
+						|| !filePreferencesProperties.exists()) {
+					creerFichierPropertiesInitial();
+				}
+				
+				creerOuModifierProperty(
+						fournirKeyLocaleApplication(), nomLocale);
+				
+				enregistrerFichierPreferencesProperties();
+
+			}
+
+		} // Fin du bloc synchronized.__________________
+		
+	} // Fin de setLocaleDefautApplication(...).___________________________
 	
 		
 	

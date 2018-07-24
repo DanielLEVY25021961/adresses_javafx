@@ -504,7 +504,7 @@ static {
 
 	/**
 	 * <b>Retourne le langage et le pays d'une Locale 
-	 * exprimés en français</b>.<br/>
+	 * exprimés en français</b> sous forme de String.<br/>
 	 * <ul>
 	 * Par exemple :
 	 * <li><code>français (France)</code> pour une Locale.FRANCE.</li>

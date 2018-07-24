@@ -176,7 +176,9 @@ static {
 	 * implémentés dans l'application (internationalisation).
 	 * <ul>
 	 * <li>Récupère dans l'IHM une String comme "français (France)" 
-	 * et retourne la Locale correspondante.</li>
+	 * et retourne la Locale correspondante.<br/>
+	 * La String doit être conforme à un retour de la méthode 
+	 * <code>fournirLangueEtPaysEnFrancais(Locale)</code>.</li>
 	 * <li><b>pLocaleString doit appartenir aux clés de la 
 	 * Map 'localesDisponibles'</b> qui contient les langues 
 	 * implémentées dans l'application. 
@@ -308,7 +310,9 @@ static {
 	 * pour chaque utilisateur).</li>
 	 * <ul>
 	 * <li>Récupère dans l'IHM une String comme "français (France)" 
-	 * et retourne la Locale correspondante.</li>
+	 * et retourne la Locale correspondante.<br/>
+	 * La String doit être conforme à un retour de la méthode 
+	 * <code>fournirLangueEtPaysEnFrancais(Locale)</code>.</li>
 	 * <li><b>pLocaleString doit appartenir aux clés de la 
 	 * Map 'localesDisponibles'</b> qui contient les langues 
 	 * implémentées dans l'application.</li>
@@ -359,6 +363,13 @@ static {
 	 * Utile pour l'affichage des langues implémentées 
 	 * dans une liste de choix pour l'utilisateur.<br/>
 	 * <ul>
+	 * <li>
+	 * Les langues disponibles sont affichées 
+	 * sous la forme du retour de la méthode 
+	 * <code>fournirLangueEtPaysEnFrancais(Locale)</code>.</li>
+	 * Par exemple :
+	 * <li><code>français (France)</code> pour une Locale.FRANCE.</li>
+	 * <li><code>anglais (Etats-Unis)</code> pour une Locale.US.</li>
 	 * <li>retourne null si localesDisponibles == null.</li>
 	 * <lil>retourne "français (France)", "anglais (Etats-Unis)"
 	 * , .... en fonction des langages internationalisés 
@@ -543,8 +554,19 @@ static {
 
 	
 	/**
-	 * <b>Affiche la liste des langages disponibles 
+	 * <b>Affiche sous forme de String la liste des langages disponibles 
 	 * implémentés dans l'application</b>.<br/>
+	 * <ul>
+	 * <li>La String fournie incorpore les 
+	 * sauts de lignes de la plateforme (SAUT_LIGNE_JAVA).</li>
+	 * <li>
+	 * Les langues disponibles sont affichées 
+	 * sous la forme du retour de la méthode 
+	 * <code>fournirLangueEtPaysEnFrancais(Locale)</code>.</li>
+	 * Par exemple :
+	 * <li><code>français (France)</code> pour une Locale.FRANCE.</li>
+	 * <li><code>anglais (Etats-Unis)</code> pour une Locale.US.</li>
+	 * </ul>
 	 *
 	 * @return : String.<br/>
 	 */

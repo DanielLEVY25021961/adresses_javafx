@@ -37,6 +37,11 @@ import levy.daniel.application.apptechnic.configurationmanagers.gestionnairesloc
  * <li>L'encodage par défaut de l'application (Charset par défaut)</li>
  * <li>...</li>
  * </ul>
+ * <p>Plus généralement, les préférences de l'application sont tous 
+ * les paramètres que l'administrateur doit ne 
+ * <b>saisir qu'une seule fois</b> 
+ * et qui doivent rester <b>mémorisés dans l'application</b> tant que 
+ * l'Administrateur n'a pas décidé d'en changer.</p>
  * <br/>
  *
  * - Exemple d'utilisation :<br/>
@@ -183,7 +188,7 @@ public final class GestionnairePreferences {
 	
 	/**
 	 * filePreferencesProperties : File :<br/>
-	 * fichier preferences.properties.<br/>
+	 * Modélisation Java du fichier preferences.properties.<br/>
 	 */
 	private static File filePreferencesProperties;
 		
@@ -221,12 +226,22 @@ public final class GestionnairePreferences {
 	
 	/**
 	 * <b>sauvegarde sur disque un fichier 
-	 * preferences.properties initial</b> alimenté par des propriétés.<br/>
+	 * preferences.properties initial</b> alimenté par des 
+	 * propriétés [clé-valeur] écrites en dur 
+	 * dans la présente classe.<br/>
 	 * <ul>
-	 * <li>remplit le fichier preferences.properties 
-	 * avec des Properties stockées en dur dans la classe.</li>
-	 * <li>remplit le Properties Java properties 
-	 * avec des Properties stockées en dur dans la classe.</li>
+	 * <li>remplit le Properties Java <code>preferences</code> 
+	 * avec des [clé-valeur] stockées en dur dans la classe.</li>
+	 * <li>remplit le fichier <code>filePreferencesProperties</code> 
+	 * (preferences.properties) avec le contenu de <code>preferences</code> 
+	 * ([clé-valeur] stockées en dur dans la classe).</li>
+	 * <li>Ecrit en UTF8 le Properties <code>preferences</code> dans 
+	 * le File <code>filePreferencesProperties</code> 
+	 * modélisant le fichier preferences.properties en positionnant 
+	 * le <code>commentaire</code> au dessus.</li>
+	 * <li>Utilise <code>preferences.store(writer, commentaire);</code> 
+	 * avec un try-with-resource.</li>
+	 * <li>ré-écrit (écrase) tout le fichier à chaque appel.</li>
 	 * </ul>
 	 * 
 	 * @throws Exception 
@@ -248,7 +263,7 @@ public final class GestionnairePreferences {
 					pathAbsoluPreferencesProperties, CHARSET_UTF8)) {
 				
 				/* enregistre le Properties preferences sur disque dur 
-				 * dans le fichier .properties correspondant. */
+				 * dans le fichier preferences.properties correspondant. */
 				preferences.store(writer, commentaire);
 				
 			}
@@ -262,15 +277,21 @@ public final class GestionnairePreferences {
 	/**
 	 * <b>Ajoute des propriétés initiales stockées en dur</b> 
 	 * dans la classe au Properties <b>preferences</b>.<br/>
+	 * <ul>
+	 * <li>ajoute le charset par défaut stocké en dur CHARSET_UTF8.</li>
+	 * <li>ajoute la Locale par défaut stockée en dur Locale.FRANCE.</li>
+	 * </ul>
 	 */
 	private static void ajouterPropertiesEnDur() {
 		
 		synchronized (GestionnairePreferences.class) {
 			
+			/* ajoute le charset par défaut stocké en dur CHARSET_UTF8. */
 			preferences.setProperty(
 					KEY_CHARSET_APPLICATION
 						, CHARSET_STRING_PAR_DEFAUT_EN_DUR);
 			
+			/* ajoute la Locale par défaut stockée en dur Locale.FRANCE.*/
 			preferences.setProperty(
 					KEY_LOCALE_APPLICATION
 						, LOCALE_STRING_PAR_DEFAUT_EN_DUR);
@@ -1036,6 +1057,33 @@ public final class GestionnairePreferences {
 	} // Fin de viderPreferences().________________________________________
 	
 	
+
+		
+	/**
+	 * Getter du commentaire à ajouter en haut du fichier properties.<br/>
+	 * <br/>
+	 *
+	 * @return commentaire : String.<br/>
+	 */
+	public static String getCommentaire() {
+		return commentaire;
+	} // Fin de getCommentaire().__________________________________________
+	
+	
+	
+	/**
+	* Setter du commentaire à ajouter en haut du fichier properties.<br/>
+	* <br/>
+	*
+	* @param pCommentaire : String : 
+	* valeur à passer à commentaire.<br/>
+	*/
+	public static void setCommentaire(
+			final String pCommentaire) {
+		commentaire = pCommentaire;
+	} // Fin de setCommentaire(...)._______________________________________
+	
+
 	
 	/**
 	 * retourne le Charset par défaut de l'application.<br/>
@@ -1090,32 +1138,6 @@ public final class GestionnairePreferences {
 		} // Fin du bloc synchronized.__________________
 		
 	} // Fin de fournirCharsetSortieParDefaut().___________________________
-	
-
-		
-	/**
-	 * Getter du commentaire à ajouter en haut du fichier properties.<br/>
-	 * <br/>
-	 *
-	 * @return commentaire : String.<br/>
-	 */
-	public static String getCommentaire() {
-		return commentaire;
-	} // Fin de getCommentaire().__________________________________________
-	
-	
-	
-	/**
-	* Setter du commentaire à ajouter en haut du fichier properties.<br/>
-	* <br/>
-	*
-	* @param pCommentaire : String : 
-	* valeur à passer à commentaire.<br/>
-	*/
-	public static void setCommentaire(
-			final String pCommentaire) {
-		commentaire = pCommentaire;
-	} // Fin de setCommentaire(...)._______________________________________
 	
 
 	
@@ -1223,23 +1245,24 @@ public final class GestionnairePreferences {
 	
 	/**
 	 * <b>Fournit une Locale 
-	 * à partir d'une String</b> comme 
-	 * "français (France)" ou "anglais (Etats-Unis)" 
+	 * à partir d'une String UNIQUE comportant la langue et le pays
+	 * </b> comme "français (France)" ou "anglais (Etats-Unis)" 
 	 * conforme à un retour de la méthode 
 	 * <code>fournirLangueEtPaysEnFrancais(Locale)</code>.
 	 * <ul>
 	 * <li>La String doit être conforme à un retour de la méthode 
-	 * <code>fournirLangueEtPaysEnFrancais(Locale)</code>.</li>
-	 * <li>retourne la Locale de la plateforme par défaut 
-	 * si pLocaleString est blank.</li>
+	 * <code>fournirLangueEtPaysEnFrancais(Locale)</code> 
+	 * et donc à la Regex "(\\S+) \\((\\S+)\\)".</li>
 	 * <li>Utilise une Regex avec un motif 
-	 * <code>"(\\S+) \\((\\S+)\\)"</code> qui décompose une 
-	 * String comme "anglais (Etats-Unis)" en 
-	 * language = "anglais" et coutry = "Etats-Unis".</li>
+	 * <code>"(\\S+) \\((\\S+)\\)"</code> et des groupes qui décompose 
+	 * une String comme "anglais (Etats-Unis)" en 
+	 * language = "anglais" et country = "Etats-Unis".</li>
 	 * </ul>
-	 * - retourne la Locale par défaut de la plateforme 
-	 * si pLocaleString n'est pas conforme à l'expression 
-	 * régulière (Regex).<br/>
+	 * - retourne la Locale de l'application par défaut en dur 
+	 * (Locale.FRANCE) si pLocaleString est blank.<br/>
+	 * - retourne la Locale de l'application par défaut en dur 
+	 * (Locale.FRANCE) si pLocaleString n'est pas conforme 
+	 * à l'expression régulière (Regex) "(\\S+) \\((\\S+)\\)".<br/>
 	 * <br/>
 	 *
 	 * @param pLocaleString : String : 
@@ -1251,16 +1274,16 @@ public final class GestionnairePreferences {
 	 * Locale correspondant à la description pLocaleString 
 	 * ("français (France)" ou "anglais (Etats-Unis)", ...).<br/>
 	 */
-	private static Locale fournirLocaleParLangue(
+	private static Locale fournirLocaleParLangueEtPays(
 			final String pLocaleString) {
 		
 		/* Bloc synchronized. */
 		synchronized (LocaleManager.class) {
 			
 			/* retourne la Locale de la plateforme par défaut 
-			 * si pLocaleString est blank. */
+			 * en dur si pLocaleString est blank. */
 			if (StringUtils.isBlank(pLocaleString)) {
-				return Locale.getDefault();
+				return Locale.FRANCE;
 			}
 			
 			/* Décompose une String comme "anglais (Etats-Unis)" en 
@@ -1279,15 +1302,17 @@ public final class GestionnairePreferences {
 				langue = matcher.group(1);
 				pays = matcher.group(2);
 				
+				/* Instancie une Locale. */
 				resultat = new Locale(langue, pays);
 				
 				return resultat;
 			} 
 			
-			/* retourne la Locale de la plateforme par défaut 
-			 * si pLocaleString  n'appartient pas aux 
-			 * locales disponibles. */
-			return Locale.getDefault();
+			/* retourne la Locale de l'application en dur
+			 * (Locale.FRANCE) 
+			 * si pLocaleString n'est pas conforme 
+			 * à l'expression régulière (Regex) "(\\S+) \\((\\S+)\\)". */
+			return Locale.FRANCE;
 			
 		} // Fin de synchronized._____________________________
 		
@@ -1329,7 +1354,7 @@ public final class GestionnairePreferences {
 				if (localeApplicationString != null) {
 					
 					localeDefautApplication 
-					= fournirLocaleParLangue(localeApplicationString);
+					= fournirLocaleParLangueEtPays(localeApplicationString);
 									
 				}
 				else {

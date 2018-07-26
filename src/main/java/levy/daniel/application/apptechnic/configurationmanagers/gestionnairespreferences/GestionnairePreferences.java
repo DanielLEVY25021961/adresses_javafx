@@ -43,6 +43,63 @@ import levy.daniel.application.apptechnic.configurationmanagers.gestionnairesloc
  * et qui doivent rester <b>mémorisés dans l'application</b> tant que 
  * l'Administrateur n'a pas décidé d'en changer.</p>
  * <br/>
+ * <div>
+ * <p><span style="text-decoration: underline;"><b>Exigences du gestionnaire des préférences</b></span></p>
+ * 
+ * <table border=4 cellspacing=4 cellpadding=4
+ * style="border-width:1px;border-style:solid;border-color:black;border-collapse:collapse;" 
+ * summary="colonne 1 : les identifiants des exigences, colonne 2 : les exigences"> 
+ * 
+ * <caption>Tableau des exigences</caption>
+ * 
+ * <colgroup>
+ * 	<col style="border: 1px solid black; border-collapse: collapse;" />
+ * 	<col style="border: 1px solid black; border-collapse: collapse;" />
+ * </colgroup>
+ * 
+ * <thead>
+ * 	<tr>
+ * 		<th>Identifiant</th> <th>exigence</th>
+ * 	</tr>
+ * </thead>
+ * 
+ * <tbody>
+ * <tr> 
+ * 	<td >EX_FONCT_PARAMETRAGE_01</td> <td>l'application doit pouvoir présenter à l'Administrateur les préférences stockées</td>
+ * </tr>
+ * 	
+ * <tr>
+ *  <td>EX_TEC_PARAMETRAGE_02</td> <td>l'application doit pouvoir lire les préférences dans le stockage et les présenter</td>
+ * </tr>
+ * 
+ * <tr> 
+ * 	<td>EX_FONCT_PARAMETRAGE_03</td> <td>l'application doit permettre à l'Administrateur de paramétrer les préférences</td>
+ * </tr>
+ * 
+ * <tr> 
+ * 	<td>EX_TEC_PARAMETRAGE_04</td> <td>l'application doit savoir modifier les préférences dans le stockage</td>
+ * </tr>
+ * 
+ * <tr> 
+ * 	<td>EX_FONCT_MEMORISATION_05</td> <td>l'application doit mémoriser les préférences choisies par l'Administrateur dans le stockage</td>
+ * </tr>
+ * 
+ * <tr> 
+ * 	<td>EX_TEC_MEMORISATION_06</td> <td>l'application doit savoir écrire les préférences choisies par l'Administrateur dans le stockage</td>
+ * </tr>
+ * 
+ * <tr> 
+ * 	<td>EX_TEC_INITIALISATION_07</td> <td>L'application doit fabriquer un stockage de préférences à partir de valeurs en dur (valeurs d'usine) au cas où un stockage ne serait pas fourni</td>
+ * </tr>
+ * 
+ * <tr>
+ * 	<td>EX_TEC_INITIALISATION_08</td> <td>l'application doit pouvoir fournir chaque préférence "en dur" au cas où elle ne parviendrait pas à fabriquer un stockage</td> 
+ * </tr>
+ * </tbody>
+ * 
+ * </table>
+ * </div>
+ * <br/>
  *
  * - Exemple d'utilisation :<br/>
  *<br/>
@@ -161,13 +218,11 @@ public final class GestionnairePreferences {
 	
 	
 	/**
-	 * preferences : Properties :<br/>
 	 * Properties encapsulant les préférences.<br/>
 	 */
 	private static Properties preferences = new Properties();
 	
 	/**
-	 * pathAbsoluPreferencesProperties : Path :<br/>
 	 * Path absolu vers preferences.properties.<br/>
 	 */
 	private static Path pathAbsoluPreferencesProperties;
@@ -242,6 +297,7 @@ public final class GestionnairePreferences {
 	 * <li>Utilise <code>preferences.store(writer, commentaire);</code> 
 	 * avec un try-with-resource.</li>
 	 * <li>ré-écrit (écrase) tout le fichier à chaque appel.</li>
+	 * <li>trace EX_TEC_INITIALISATION_07.</li>
 	 * </ul>
 	 * 
 	 * @throws Exception 
@@ -410,6 +466,7 @@ public final class GestionnairePreferences {
 	 * <li>décode le fichier .properties en UTF8 et le charge 
 	 * dans le Properties preferences.</li>
 	 * <li><code>preferences.load(inputStream);</code></li>
+	 * <li>trace EX_TEC_PARAMETRAGE_02.</li>
 	 * </ul>
 	 * @throws Exception 
 	 */
@@ -451,6 +508,8 @@ public final class GestionnairePreferences {
 	 * <li>Prise en compte (stockage) 
 	 * d'une modification d'une Property.</li>
 	 * <li><code>preferences.store(writer, null);</code></li>
+	 * <li>trace EX_FONCT_MEMORISATION_05.</li>
+	 * <li>trace EX_TEC_MEMORISATION_06.</li>
 	 * </ul>
 	 * 
 	 * @throws Exception 
@@ -901,7 +960,47 @@ public final class GestionnairePreferences {
 		
 	} // Fin de loggerError(...).__________________________________________
 
+
 	
+	/**
+	 * fournit une String pour l'affichage de preferences.properties.<br/>
+	 * <ul>
+	 * <li>crée le fichier preferences.properties et alimente 
+	 * le Properties preferences avec des valeurs en dur 
+	 * si preferences est vide.</li>
+	 * <li>trace EX_FONCT_PARAMETRAGE_01</li>
+	 * </ul>
+	 *
+	 * @return : String.<br/>
+	 * @throws Exception 
+	 */
+	public static String afficherPreferences() throws Exception {
+
+		synchronized (GestionnairePreferences.class) {
+			
+			/* crée le fichier preferences.properties et alimente 
+			 * le Properties preferences avec des valeurs en dur 
+			 * si preferences est vide. */
+			if (preferences.isEmpty()) {
+				creerFichierPropertiesInitial();
+			}
+						
+			final StringBuffer stb = new StringBuffer();
+			
+			for (final String key : preferences.stringPropertyNames()) {
+				stb.append(key);
+				stb.append(EGAL);
+				stb.append(preferences.getProperty(key));
+				stb.append(SAUT_LIGNE_JAVA);
+			}
+			
+			return stb.toString();
+
+		} // Fin du bloc synchronized.__________________
+		
+	} // Fin de afficherPreferences()._____________________________________
+	
+
 	
 	/**
 	 * <b>Crée ou met à jour une Property</b> dans 
@@ -911,7 +1010,8 @@ public final class GestionnairePreferences {
 	 * et remplit le <i>fichier</i> .properties si nécessaire.</li>
 	 * <li>Crée ou maj dans l'objet Properties <b>preferences</b> 
 	 * <i>sans enregistrer la modification sur le disque dur</i>.</li>
-	 * <li>preferences.setProperty(pKey, pValue);</li>
+	 * <li><code>preferences.setProperty(pKey, pValue);</code></li>
+	 * <li>trace EX_FONCT_PARAMETRAGE_03.</li>
 	 * </ul>
 	 * - retourne false si pKey == null.<br/>
 	 * - retourne false si pValue == null.<br/>
@@ -1084,7 +1184,105 @@ public final class GestionnairePreferences {
 	} // Fin de setCommentaire(...)._______________________________________
 	
 
-	
+			
+	/**
+	 * Getter du Chemin relatif (par rapport à src/main/resources) 
+	 * du template contenant le commentataire à ajouter 
+	 * au dessus de preferences.properties.<br/>
+	 * "commentaires_properties/commentaires_preferences_properties.txt"
+	 * <br/>
+	 *
+	 * @return cheminRelatifTemplateCommentaire : String.<br/>
+	 */
+	public static String getCheminRelatifTemplateCommentaire() {
+		return cheminRelatifTemplateCommentaire;
+	} // Fin de getCheminRelatifTemplateCommentaire()._____________________
+
+
+
+	/**
+	 * Getter du Properties encapsulant les préférences.<br/>
+	 * SINGLETON.<br/>
+	 * <ul>
+	 * <li>crée le fichier preferences.properties et alimente 
+	 * le Properties preferences avec des valeurs en dur 
+	 * si preferences est vide.</li>
+	 * <li>trace EX_FONCT_PARAMETRAGE_01</li>
+	 * </ul>
+	 *
+	 * @return preferences : Properties.<br/>
+	 * 
+	 * @throws Exception 
+	 */
+	public static Properties getPreferences() throws Exception {
+		
+		synchronized (GestionnairePreferences.class) {
+			
+			/* crée le fichier preferences.properties et alimente 
+			 * le Properties preferences avec des valeurs en dur 
+			 * si preferences est vide. */
+			if (preferences.isEmpty()) {
+				creerFichierPropertiesInitial();
+			}
+			
+			return preferences;
+			
+		} // Fin du bloc synchronized.__________________
+		
+	} // Fin de getPreferences().__________________________________________
+
+
+		
+	/**
+	 * Getter du Path absolu vers preferences.properties.<br/>
+	 * SINGLETON.<br/>
+	 *
+	 * @return pathAbsoluPreferencesProperties : Path.<br/>
+	 * 
+	 * @throws Exception 
+	 */
+	public static Path getPathAbsoluPreferencesProperties() 
+											throws Exception {
+		
+		synchronized (GestionnairePreferences.class) {
+			
+			if (pathAbsoluPreferencesProperties == null) {
+				instancierAttributsFichierProperties();
+			}
+			
+			return pathAbsoluPreferencesProperties;
+			
+		} // Fin du bloc synchronized.__________________
+		
+	} // Fin de getPathAbsoluPreferencesProperties().______________________
+
+
+		
+	/**
+	 * Getter de la  Modélisation Java du fichier 
+	 * preferences.properties.<br/>
+	 * SINGLETON.<br/>
+	 *
+	 * @return filePreferencesProperties : File.<br/>
+	 * 
+	 * @throws Exception 
+	 */
+	public static File getFilePreferencesProperties() throws Exception {
+		
+		synchronized (GestionnairePreferences.class) {
+			
+			if (filePreferencesProperties == null) {
+				creerFichierPropertiesInitial();
+			}
+			
+			return filePreferencesProperties;
+			
+		} // Fin du bloc synchronized.__________________
+		
+	} // Fin de getFilePreferencesProperties().____________________________
+
+
+
 	/**
 	 * retourne le Charset par défaut de l'application.<br/>
 	 * <ul>
@@ -1092,8 +1290,12 @@ public final class GestionnairePreferences {
 	 * si il n'est pas null.</li>
 	 * <li>UTF-8 sinon (Charset stocké en dur dans la classe).</li>
 	 * </ul>
+	 * - retourne le Charset stocké en dur dans la classe (UTF8) 
+	 * si le properties ne peut être lu 
+	 * (trace EX_TEC_INITIALISATION_08).<br/>
+	 * <br/>
 	 *
-	 * @return : Charset.<br/>
+	 * @return : Charset : Charset dans les préférences.<br/>
 	 * 
 	 * @throws Exception 
 	 */
@@ -1157,6 +1359,14 @@ public final class GestionnairePreferences {
 	/**
 	 * Getter du <b>SINGLETON de Charset par défaut 
 	 * dans l'application</b>.
+	 * <ul>
+	 * <li>lit le charset stocké dans preferences.properties 
+	 * si il n'est pas null.</li>
+	 * <li>UTF-8 sinon (Charset stocké en dur dans la classe).</li>
+	 * </ul>
+	 * - retourne le Charset stocké en dur dans la classe (UTF8) 
+	 * si le properties ne peut être lu 
+	 * (trace EX_TEC_INITIALISATION_08).<br/>
 	 * <br/>
 	 *
 	 * @return charsetApplication : Charset.<br/>
@@ -1173,8 +1383,18 @@ public final class GestionnairePreferences {
 	* Setter du <b>SINGLETON de Charset par défaut 
 	* dans l'application</b>.<br/>
 	* <b>Enregistre la valeur sur disque</b>.<br/>
-	* <br/>
-	* - ne fait rien si pCharsetApplication == null.<br/>
+	* <ul>
+	* <li>crée le Properties preferences et le fichier 
+	* properties.preferences et les remplit avec des valeurs 
+	* en dur si nécessaire.</li>
+	* <li>modifie preferences avec la nouvelle valeur 
+	* passée dans le setter.</li>
+	* <li>ré-écrit entièrement le fichier preferences.properties 
+	* mis à jour.</li>
+	* <li>trace EX_TEC_PARAMETRAGE_04.</li>
+	* </ul>
+	* - ne fait rien si pCharsetApplication == null 
+	* ou pCharsetApplication == charsetApplication.<br/>
 	* <br/>
 	*
 	* @param pCharsetApplication : Charset : 
@@ -1187,24 +1407,30 @@ public final class GestionnairePreferences {
 		
 		synchronized (GestionnairePreferences.class) {
 			
-			/* ne fait rien si pCharsetApplication == null. */
-			if (pCharsetApplication != null) {
+			/* ne fait rien si pCharsetApplication == null 
+			 * ou pCharsetApplication == charsetApplication. */
+			if (pCharsetApplication != null 
+					&& !pCharsetApplication.equals(charsetApplication)) {
 				
 				charsetApplication = pCharsetApplication;
 				
 				final String nomCharset 
 					= pCharsetApplication.displayName();
 				
-				/* crée le Properties preferences et 
-				 * le remplit avec des valeurs en dur si nécessaire. */
+				/* crée le Properties preferences et le fichier 
+				 * properties.preferences
+				 * et les remplit avec des valeurs en dur si nécessaire. */
 				if (filePreferencesProperties == null 
 						|| !filePreferencesProperties.exists()) {
 					creerFichierPropertiesInitial();
 				}
 				
+				/* modifie preferences avec la nouvelle valeur 
+				 * passée dans le setter. */
 				creerOuModifierProperty(
 						fournirKeyCharsetApplication(), nomCharset);
 				
+				/* ré-écrit entièrement le fichier preferences.properties mis à jour. */
 				enregistrerFichierPreferencesProperties();
 
 			}
@@ -1327,6 +1553,10 @@ public final class GestionnairePreferences {
 	 * si il n'est pas null.</li>
 	 * <li>Locale par défaut en dur sinon (Locale.FRANCE).</li>
 	 * </ul>
+	 * - retourne la Locale stockée en dur dans la classe (Locale.FRANCE) 
+	 * si le properties ne peut être lu 
+	 * (trace EX_TEC_INITIALISATION_08).<br/>
+	 * <br/>
 	 *
 	 * @return : Locale : Locale dans les préférences.<br/>
 	 * 
@@ -1385,7 +1615,16 @@ public final class GestionnairePreferences {
 	
 	/**
 	 * Getter du <b>SINGLETON de la Locale par défaut 
-	 * dans l'application</b>.<br/>
+	 * dans l'application</b>.
+	 * <ul>
+	 * <li>lit la Locale stockée dans preferences.properties 
+	 * si il n'est pas null.</li>
+	 * <li>Locale par défaut en dur sinon (Locale.FRANCE).</li>
+	 * </ul>
+	 * - retourne la Locale stockée en dur dans la classe (Locale.FRANCE) 
+	 * si le properties ne peut être lu 
+	 * (trace EX_TEC_INITIALISATION_08).<br/>
+	 * <br/>
 	 *
 	 * @return localeDefautApplication : Locale.<br/>
 	 * 
@@ -1400,6 +1639,20 @@ public final class GestionnairePreferences {
 	/**
 	* Setter du <b>SINGLETON de la Locale par défaut 
 	* dans l'application</b>.<br/>
+	* <b>Enregistre la valeur sur disque</b>.<br/>
+	* <ul>
+	* <li>crée le Properties preferences et le fichier 
+	* properties.preferences et les remplit avec des valeurs 
+	* en dur si nécessaire.</li>
+	* <li>modifie preferences avec la nouvelle valeur 
+	* passée dans le setter.</li>
+	* <li>ré-écrit entièrement le fichier preferences.properties 
+	* mis à jour.</li>
+	* <li>trace EX_TEC_PARAMETRAGE_04.</li>
+	* </ul>
+	* - ne fait rien si pLocaleDefautApplication == null 
+	* ou si pLocaleDefautApplication == localeDefautApplication.<br/>
+	* <br/>
 	*
 	* @param pLocaleDefautApplication : Locale : 
 	* valeur à passer à localeDefautApplication.<br/>
@@ -1410,8 +1663,8 @@ public final class GestionnairePreferences {
 		
 		synchronized (GestionnairePreferences.class) {
 			
-			/* ne fait rien si pLocaleDefautApplication == null. */
-			if (pLocaleDefautApplication != null) {
+			/* ne fait rien si pLocaleDefautApplication == null ou si pLocaleDefautApplication == localeDefautApplication. */
+			if (pLocaleDefautApplication != null && !pLocaleDefautApplication.equals(localeDefautApplication)) {
 				
 				localeDefautApplication = pLocaleDefautApplication;
 				

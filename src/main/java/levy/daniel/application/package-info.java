@@ -1,6 +1,6 @@
 /**
  * class package-info :<br/>
- * .<br/>
+ * Ce package contient toutes les classes source de l'application.<br/>
  * <br/>
  *
  * - Exemple d'utilisation :<br/>

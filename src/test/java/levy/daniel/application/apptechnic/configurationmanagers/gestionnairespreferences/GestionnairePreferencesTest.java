@@ -22,7 +22,7 @@ import levy.daniel.application.ConfigurationApplicationManager;
 
 /**
  * CLASSE GestionnairePreferencesTest :<br/>
- * .<br/>
+ * Test JUnit de la classe GestionnairePreferences.<br/>
  * <br/>
  *
  * - Exemple d'utilisation :<br/>
@@ -50,6 +50,11 @@ public class GestionnairePreferencesTest {
 	public static final Boolean AFFICHAGE_GENERAL = true;
 
 	/**
+	 * "unused".<br/>
+	 */
+	public static final String UNUSED = "unused";
+	
+	/**
 	 * Charset.forName("UTF-8").<br/>
 	 * Eight-bit Unicode (or UCS) Transformation Format.<br/> 
 	 */
@@ -66,7 +71,7 @@ public class GestionnairePreferencesTest {
 	/**
 	 * fichier preferences.properties.<br/>
 	 */
-	public File filePreferencesProperties;
+	public transient File filePreferencesProperties;
 	
 	/**
 	 * LOG : Log : 
@@ -79,7 +84,6 @@ public class GestionnairePreferencesTest {
 	
 	 /**
 	 * CONSTRUCTEUR D'ARITE NULLE.<br/>
-	 * <br/>
 	 */
 	public GestionnairePreferencesTest() {
 		super();
@@ -88,9 +92,9 @@ public class GestionnairePreferencesTest {
 
 	
 	/**
-	 * test bidon.<br/>
+	 * test bidon pour vérifier l'affichage des Charsets.<br/>
 	 */
-	@SuppressWarnings("unused")
+	@SuppressWarnings(UNUSED)
 	@Test
 	public void testCharsetName() {
 				
@@ -126,7 +130,7 @@ public class GestionnairePreferencesTest {
 	 * 
 	 * @throws Exception 
 	 */
-	@SuppressWarnings("unused")
+	@SuppressWarnings(UNUSED)
 	@Test
 	public void testInitialisation() throws Exception {
 		
@@ -161,6 +165,10 @@ public class GestionnairePreferencesTest {
 		assertTrue("this.filePreferencesProperties.exists() : "
 				, this.filePreferencesProperties.exists());
 		
+		assertNotNull(
+				"Le Charset de l'application ne doit pas être null : "
+					, charsetApplication);
+		
 	} // Fin de testInitialisation().______________________________________
 	
 
@@ -170,7 +178,7 @@ public class GestionnairePreferencesTest {
 	 *
 	 * @throws Exception
 	 */
-	@SuppressWarnings("unused")
+	@SuppressWarnings(UNUSED)
 	@Test
 	public void testParametrage() throws Exception {
 		
@@ -239,7 +247,7 @@ public class GestionnairePreferencesTest {
 	 *
 	 * @throws Exception
 	 */
-	@SuppressWarnings("unused")
+	@SuppressWarnings(UNUSED)
 	@Test
 	public void testRegex() throws Exception {
 		

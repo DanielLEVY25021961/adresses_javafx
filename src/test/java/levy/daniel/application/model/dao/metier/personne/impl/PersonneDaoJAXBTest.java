@@ -237,9 +237,9 @@ public class PersonneDaoJAXBTest {
 		final int tailleFinale = contactsFinaux.size();
 		
 		/* garantit que create rajoute la Personne à la liste des MODEL. */
-		assertEquals("Taille finale vaut taille initiale +1 : "
+		assertEquals("Taille finale vaut taille initiale + 1 : "
 				, tailleFinale
-					, tailleInitiale +1);
+					, tailleInitiale + 1);
 		
 		/* AFFICHAGE A LA CONSOLE. */
 		if (AFFICHAGE_GENERAL && affichage) {

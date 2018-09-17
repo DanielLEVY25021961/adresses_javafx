@@ -36,7 +36,7 @@ import org.apache.commons.logging.LogFactory;
  * @since 14 juil. 2018
  *
  */
-public class GestionnaireMessagesControleProperties {
+public final class GestionnaireMessagesControleProperties {
 	
 	// ************************ATTRIBUTS************************************/
 
@@ -94,6 +94,9 @@ public class GestionnaireMessagesControleProperties {
 	public static final String NEWLINE = System.getProperty("line.separator");
 
 
+	/**
+	 * .<br/>
+	 */
 	private static Properties properties;
 	
 	/**
@@ -106,8 +109,14 @@ public class GestionnaireMessagesControleProperties {
 	 */
 	private static String nomBaseFichierProperties = "messagescontrole";
 	
+	/**
+	 * .<br/>
+	 */
 	private static Path pathAbsoluFichierProperties;
 	
+	/**
+	 * .<br/>
+	 */
 	private static File fichierProperties;
 	
 	/**
@@ -118,4 +127,15 @@ public class GestionnaireMessagesControleProperties {
 		= LogFactory.getLog(GestionnaireMessagesControleProperties.class);
 	
 	// *************************METHODES************************************/
+	
+	
+	 /**
+	 * .<br/>
+	 */
+	private GestionnaireMessagesControleProperties() {
+		super();
+	}
+	
+	
+	
 }

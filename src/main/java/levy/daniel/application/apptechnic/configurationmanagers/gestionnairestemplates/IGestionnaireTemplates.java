@@ -15,12 +15,12 @@ import java.util.List;
  * </ul>
  * Le développeur peut alors injecter le code résultant de la lecture et de la substitution du template où il le souhaite dans son code.<br/>
  * <br/><br/>
- * <img src="../../../../../../../../../javadoc/images/gestionnaire_templates_role.png" 
+ * <img src="../../../../../../../../../javadoc/images/gestionnairestemplates/gestionnaire_templates_role.png" 
  * alt="Roles des Gestionnaire de templates" border="1" align="center" />
  * <br/><br/>
  * <p><span style="text-decoration: underline;"><b>DIAGRAMME DES CLASSES : </b></span></p>
  * <br/>
- * <img src="../../../../../../../../../javadoc/images/gestionnaire_templates.png" 
+ * <img src="../../../../../../../../../javadoc/images/gestionnairestemplates/gestionnaire_templates.png" 
  * alt="Diagramme de classes des Gestionnaires de templates" border="1" align="center" />
  * <br/><br/>
  *
@@ -56,6 +56,8 @@ import java.util.List;
  */
 public interface IGestionnaireTemplates {
 
+	
+	
 	/**
 	 * <b>Lit un template situé à 
 	 * <code>cheminAbsoluMainResources/pCheminRelatifTemplate</code> 
@@ -142,7 +144,7 @@ public interface IGestionnaireTemplates {
 	String fournirTemplateSubstitueSousFormeString(
 			String pCheminRelatifTemplate
 				, String[] pVariables
-					, String[] pSubstituants) throws Exception;
+					, String... pSubstituants) throws Exception;
 	
 	
 
@@ -228,7 +230,7 @@ public interface IGestionnaireTemplates {
 	List<String> fournirTemplateSubstitueSousFormeListe(
 			String pCheminRelatifTemplate
 				, String[] pVariables
-					, String[] pSubstituants) throws Exception;
+					, String... pSubstituants) throws Exception;
 
 	
 	

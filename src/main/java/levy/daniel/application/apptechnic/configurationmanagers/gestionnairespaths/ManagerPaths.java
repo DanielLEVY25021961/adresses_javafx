@@ -1,4 +1,4 @@
-package levy.daniel.application.apptechnic.configurationmanagers;
+package levy.daniel.application.apptechnic.configurationmanagers.gestionnairespaths;
 
 import java.io.File;
 import java.io.IOException;
@@ -37,7 +37,6 @@ import org.apache.commons.logging.LogFactory;
  * séparateur de fichiers, separateur, antislash, <br/>
  * Singleton, singleton, <br/>
  * transformer String en Path, Paths.get(String), <br/>
- * chemin universel, chemin Linux, chemin linux, <br/>
  * <br/>
  *
  * - Dépendances :<br/>
@@ -166,7 +165,19 @@ public final class ManagerPaths {
 	 * </ul>
 	 */
 	private static String nomPresentProjet;
+
 	
+	/**
+	 * <b>path absolu de src/main/resources 
+	 * dans le présent projet</b>.<br/>
+	 * <ul>
+	 * <li>Par exemple : <br/>
+	 * <code>D:/Donnees/eclipse/eclipseworkspace_neon/
+	 * generation_code/src/main/resources</code>
+	 * </li>
+	 * </ul>
+	 */
+	private static Path pathAbsoluSrcMainResourcesPresentProjet;
 	
 	/**
 	 * LOG : Log : 
@@ -466,6 +477,42 @@ public final class ManagerPaths {
 	} // Fin de getNomPresentProjet()._____________________________________
 
 
+	
+	/**
+	 * Getter du <b>path absolu de src/main/resources</b> 
+	 * dans le présent projet.<br/>
+	 * <ul>
+	 * <li>Par exemple : <br/>
+	 * <code>D:/Donnees/eclipse/eclipseworkspace_neon/
+	 * generation_code/src/main/resources</code>
+	 * </li>
+	 * </ul>
+	 *
+	 * @return pathAbsoluSrcMainResourcesPresentProjet : Path : 
+	 * this.pathAbsoluSrcMainResourcesPresentProjet.<br/>
+	 */
+	public static Path getPathAbsoluSrcMainResourcesPresentProjet() {
+		
+		synchronized (ManagerPaths.class) {
+			
+			if (pathAbsoluSrcMainResourcesPresentProjet == null) {
+				
+				final Path pathAbsoluPresentProjet 
+					= Paths.get(".").toAbsolutePath().normalize();
+				
+				pathAbsoluSrcMainResourcesPresentProjet 
+					= pathAbsoluPresentProjet.resolve(
+							"src/main/resources");
+			}
+			
+			return pathAbsoluSrcMainResourcesPresentProjet
+								.toAbsolutePath().normalize();
+			
+		} //Fin de synchronized. ________________________________
+		
+	} // Fin de getPathAbsoluSrcMainResourcesPresentProjet().______________
+
+
 
 	/**
 	 * method retournerPathGenerique(
@@ -475,8 +522,8 @@ public final class ManagerPaths {
 	 * dans pPath par des <b>séparateurs génériques slash '/'</b>.</li>
 	 * <li>Par exemple : <br/>
 	 * <code>retournerPathGenerique("D:\Donnees
-	 * \eclipse\eclipseworkspace_neon\generation_code")</code><br/> 
-	 * retourne <br/>
+	 * \eclipse\eclipseworkspace_neon\generation_code")</code> 
+	 * retourne 
 	 * <code>
 	 * "D:/Donnees/eclipse/eclipseworkspace_neon/generation_code"
 	 * </code>

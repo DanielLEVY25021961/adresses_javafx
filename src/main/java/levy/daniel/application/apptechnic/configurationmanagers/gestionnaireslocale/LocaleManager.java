@@ -32,23 +32,23 @@ import org.apache.commons.logging.LogFactory;
  * de Locale choisi par l'utilisateur. </li>
  * </ul>
  * <br/>
- * <img src="../../../../../../../../../javadoc/images/LocaleManager.png" 
+ * <img src="../../../../../../../../../javadoc/images/apptechnic/LocaleManager.png" 
  * alt="LocaleManager" border="1" align="center" />
  * <br/
  * <br/><br/>
- * <img src="../../../../../../../../../javadoc/images/LocaleManager_Utilisation.png" 
+ * <img src="../../../../../../../../../javadoc/images/apptechnic/LocaleManager_Utilisation.png" 
  * alt="Utilisation du LocaleManager" border="1" align="center" />
  * <br/><br/>
  * <br/>
  *
  * - Exemples d'utilisation :<br/>
  * <code><i>// Récupération de la Locale américaine depuis l'IHM.</i></code><br/>
- * <code>final Locale localeEu = 
- * LocaleManager.recupererLocaleIHM("anglais (Etats-Unis)");</code><br/>
+ * <b><code>final Locale localeEu = 
+ * LocaleManager.recupererLocaleIHM("anglais (Etats-Unis)");</code></b><br/>
  * <br/>
  * <code><i>// SELECTION de la Locale américaine depuis l'IHM.</i></code><br/>
- * <code>LocaleManager.selectionnerLocaleApplication("anglais (Etats-Unis)");
- * </code><br/>
+ * <b><code>LocaleManager.selectionnerLocaleApplication("anglais (Etats-Unis)");
+ * </code></b><br/>
  * <code><i>// Récupération du SINGLETON de Locale en cours 
  * depuis n'importe où dans l'application.</i></code><br/>
  * <code>final Locale localeApplication 

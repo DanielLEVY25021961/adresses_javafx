@@ -1,4 +1,4 @@
-package levy.daniel.application.apptechnic.configurationmanagers;
+package levy.daniel.application.apptechnic.configurationmanagers.gestionnairesbundles;
 
 import java.io.File;
 import java.net.URL;
@@ -64,10 +64,9 @@ import levy.daniel.application.apptechnic.exceptions.technical.impl.FichierInexi
  * </ul>
  *
  * - Exemple d'utilisation :<br/>
- * <code><i>// récupère un singleton de ResourceBundle application.properties</i></code><br/>
  *<code>final ResourceBundle bundleApplication 
  * = ConfigurationBundlesManager.getBundleApplication();<br/>
- * <i>// RAPPORT AU FORMAT CSV si problème (le rapport est alors non null).</i><br/>
+ * // RAPPORT AU FORMAT CSV si problème (le rapport est alors non null).<br/>
  * ConfigurationBundlesManager.getRapportConfigurationCsv().</code><br/> 
  *<br/>
  * 

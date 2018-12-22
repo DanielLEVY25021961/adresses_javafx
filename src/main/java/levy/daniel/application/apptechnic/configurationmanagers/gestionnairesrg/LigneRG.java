@@ -724,10 +724,12 @@ static {
 		
 	} // Fin de toString().________________________________________________
 
+	
 
 	/**
-	 * method getEnTeteCsv() :<br/>
-	 * Retourne l'en-tête pour les fichiers csv avec séparateur ';'.<br/>
+	 * {@inheritDoc}
+	 * <b>Retourne l'en-tête CSV d'une LigneRG pour les fichiers 
+	 * csv avec séparateur ';'</b> <i>sous forme de String</i>.<br/>
 	 * "id;Actif;activité des contrôles sur l'attribut;activité de la RG;
 	 * RG implémentée;clé du type de contrôle;type de contrôle;Message d'erreur;
 	 * Objet Métier concerné;Attribut concerné;Classe implémentant la RG;
@@ -736,9 +738,8 @@ static {
 	 *
 	 * @return : String : en-tête pour les fichiers csv.<br/>
 	 */
-//	@Transient
 	@Override
-	public String getEnTeteCsv() {
+	public String fournirEnTeteCsv() {
 		
 		return "id;Actif;activité des contrôles sur l'attribut;"
 				+ "activité de la RG;RG implémentée;clé du type de contrôle;"
@@ -752,8 +753,9 @@ static {
 	
 	
 	/**
-	 * method toStringCsv() :<br/>
-	 * LigneRG sous forme de Csv avec séparateur ';'.<br/>
+	 * {@inheritDoc}
+	 * <b>retourne une LigneRG sous forme de String Csv 
+	 * pour les fichiers csv avec séparateur ';'</b>.<br/>
 	 * "id;Actif;activité des contrôles sur l'attribut;activité de la RG;
 	 * RG implémentée;clé du type de contrôle;type de contrôle
 	 * ;Message d'erreur;Objet Métier concerné;Attribut concerné
@@ -765,7 +767,7 @@ static {
 	 * avec séparateur ';'.<br/>
 	 */
 	@Override
-	public String toStringCsv() {
+	public String fournirStringCsv() {
 		
 		final StringBuilder builder = new StringBuilder();
 		
@@ -806,16 +808,15 @@ static {
 
 	/**
 	 * {@inheritDoc}
-	 * <br/>
 	 * "id;Actif;activité des contrôles sur l'attribut;activité de la RG;
 	 * RG implémentée;clé du type de contrôle;type de contrôle
 	 * ;Message d'erreur;Objet Métier concerné;Attribut concerné
 	 * ;Classe implémentant la RG;Méthode implémentant la RG;
 	 * properties;clé;".<br/>
+	 * <br/>
 	 */
-//	@Transient
 	@Override
-	public String getEnTeteColonne(
+	public String fournirEnTeteColonne(
 			final int pI) {
 		
 		String entete = null;
@@ -892,16 +893,15 @@ static {
 
 	/**
 	 * {@inheritDoc}
-	 * <br/>
 	 * "id;Actif;activité des contrôles sur l'attribut;activité de la RG;
 	 * RG implémentée;clé du type de contrôle;type de contrôle
 	 * ;Message d'erreur;Objet Métier concerné;Attribut concerné
 	 * ;Classe implémentant la RG;Méthode implémentant la RG;
 	 * properties;clé;".<br/>
+	 * <br/>
 	 */
-//	@Transient
 	@Override
-	public Object getValeurColonne(
+	public Object fournirValeurColonne(
 			final int pI) {
 			
 		Object valeur = null;

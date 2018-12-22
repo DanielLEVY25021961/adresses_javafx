@@ -131,11 +131,12 @@ public final class GestionnaireMessagesControleProperties {
 	
 	 /**
 	 * .<br/>
+	 * <br/>
+	 *
 	 */
 	private GestionnaireMessagesControleProperties() {
 		super();
 	}
-	
 	
 	
 }

@@ -17,7 +17,14 @@ import levy.daniel.application.apptechnic.configurationmanagers.gestionnairestem
 
 /**
  * CLASSE GestionnaireLabelsProperties :<br/>
- * 
+ * Classe chargée de <b>gérer les labels des IHM</b> 
+ * à l'aide de <b>préférences</b>.<br/>
+ * Les labels doivent être contenus dans un fichier labels.properties 
+ * (nom de base "labels").<br/>
+ * labels.properties doit être situé dans le répertoire <i>hors classpath</i> 
+ * des ressources externes ("ressources_externes" par exemple) 
+ * dont la localisation est indiquée par le centre-serveur dans 
+ * "configuration_ressources_externes.properties".<br/>
  * <br/>
  *
  * - Exemple d'utilisation :<br/>
@@ -133,13 +140,14 @@ public final class GestionnaireLabelsProperties {
 	
 	
 	/**
-	 * .<br/>
+	 * <b>Crée sur disque dur</b> le fichier labels_locale.properties.<br/>
 	 * <ul>
 	 * <li>crée le commentaire du properties à partir de son template 
 	 * et en fonction de la Locale.</li>
 	 * </ul>
 	 *
-	 * @param pLocale :  :  .<br/>
+	 * @param pLocale : Locale.<br/>
+	 * 
 	 * @throws Exception 
 	 */
 	public static void creerFichierProperties(
@@ -163,16 +171,14 @@ public final class GestionnaireLabelsProperties {
 		gestionnaireProperties.creerFichierSurDisqueEtRemplir();
 		
 		alimenterAttributs();
-	}
+		
+	} // Fin de creerFichierProperties(...)._______________________________
 	
 
 	
 	/**
-	 * .<br/>
-	 * <ul>
-	 * <li>.</li>
-	 * </ul>
-	 * :  :  .<br/>
+	 * alimente le fichier labels_locale.properties avec 
+	 * des properties en dur.<br/>
 	 */
 	private static void alimenterAttributs() {
 		

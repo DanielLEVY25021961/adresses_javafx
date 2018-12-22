@@ -9,6 +9,14 @@
  * toute l'application doit s'afficher dans la langue voule.</li>
  * </ul>
  * <br/>
+ * <img src="../../../../../../../../../javadoc/images/apptechnic/LocaleManager.png" 
+ * alt="LocaleManager" border="1" align="center" />
+ * <br/
+ * <br/><br/>
+ * <img src="../../../../../../../../../javadoc/images/apptechnic/LocaleManager_Utilisation.png" 
+ * alt="Utilisation du LocaleManager" border="1" align="center" />
+ * <br/><br/>
+ * <br/>
  *
  * - Exemple d'utilisation :<br/>
  *<br/>

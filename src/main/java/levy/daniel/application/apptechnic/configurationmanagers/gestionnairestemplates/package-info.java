@@ -9,33 +9,33 @@
  * Les templates sont stockés sous forme de <b>fichiers .txt</b> 
  * dans les <i>ressources internes (sous le classpath)</i> de l'application.<br/>
  * <br/><br/>
- * <img src="../../../../../../../../../javadoc/images/gestion_templates.png" 
+ * <img src="../../../../../../../../../javadoc/images/gestionnairestemplates/gestion_templates.png" 
  * alt="Gestion des templates" border="1" align="center" />
  * <br/><br/>
- * <br/>
+ * 
  *
  * - Exemple d'utilisation :<br/>
  * <code><i>// chemin relatif du template par rapport aux ressources 
  * internes src/main/resources.</i></code><br/>
- * <code>final String cheminRelatifTemplate 
+ * <b><code>final String cheminRelatifTemplate 
  * = "commentaires_properties/commentaires_labels_properties.txt"
- * ;</code><br/>
+ * ;</code></b><br/>
  * <code><i>// variable à substituer dans le template.</i></code><br/>
- * <code>final String variable = "{$Locale}";</code><br/>
+ * <b><code>final String variable = "{$Locale}";</code></b><br/>
  * <code><i>// valeur de substitution.</i></code><br/>
- * <code>final String substituant = localeCouranteFR.toString();
- * </code><br/>
+ * <b><code>final String substituant = localeCouranteFR.toString();
+ * </code></b><br/>
  * <br/>	
  * <code><i>// Obtention du template substitué sous forme de String 
  * dans le code java auprès du Gestionaire de Templates.</i></code><br/>
- * <code>final String commentaire = 
+ * <b><code>final String commentaire = 
  * gestionnaireTemplate.fournirTemplateSubstitueSousFormeString(
- * cheminRelatifTemplate, variable, substituant);</code><br/>
+ * cheminRelatifTemplate, variable, substituant);</code></b><br/>
  * <br/>		
  * <code><i>// injection du template substitué dans le 
  * code java.</i></code><br/>
- * <code>gestionnairePropertiesCompletFR.
- * remplirEnDurFichierProperties(commentaire);</code><br/>
+ * <b><code>gestionnairePropertiesCompletFR.
+ * remplirEnDurFichierProperties(commentaire);</code></b><br/>
  *<br/>
  * 
  * - Mots-clé :<br/>

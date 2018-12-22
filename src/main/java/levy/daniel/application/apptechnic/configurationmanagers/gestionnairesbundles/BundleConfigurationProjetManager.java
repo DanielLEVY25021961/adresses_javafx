@@ -1,4 +1,4 @@
-package levy.daniel.application.apptechnic.configurationmanagers;
+package levy.daniel.application.apptechnic.configurationmanagers.gestionnairesbundles;
 
 import java.nio.file.Files;
 import java.nio.file.LinkOption;

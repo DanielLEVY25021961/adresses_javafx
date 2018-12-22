@@ -21,7 +21,7 @@ import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
 import levy.daniel.application.ConfigurationApplicationManager;
-import levy.daniel.application.apptechnic.configurationmanagers.BundleConfigurationProjetManager;
+import levy.daniel.application.apptechnic.configurationmanagers.gestionnairesbundles.BundleConfigurationProjetManager;
 import levy.daniel.application.apptechnic.configurationmanagers.gestionnaireslocale.LocaleManager;
 
 
@@ -105,6 +105,13 @@ import levy.daniel.application.apptechnic.configurationmanagers.gestionnairesloc
  *<br/>
  * 
  * - Mots-clé :<br/>
+ * répertoire du projet, System.getProperty("user.dir"),<br/>
+ * Properties, préférences, Preferences, <br/>
+ * Template, template, lire dans fichier,<br/>
+ * enregistrer des préférences dans un Properties, fichier properties, <br/>
+ * commentaire dans un fichier properties, écrire commentaire, <br/>
+ * lire dans un fichier properties, écrire dans un fichier properties, <br/>
+ * créer une String à partir d'une liste de lignes, <br/>
  * <br/>
  *
  * - Dépendances :<br/>
@@ -186,18 +193,26 @@ public final class GestionnairePreferences {
 
 	
 	/**
-	 * clé du charset de l'application dans preferences.properties
-	 * "application.charset".<br/>
+	 * clé du charset de l'application dans preferences.properties<br/>
+	 * "application.charset"<br/>
 	 */
 	public static final String KEY_CHARSET_APPLICATION 
 		= "application.charset";
 	
 	/**
-	 * clé de la locale de l'application dans preferences.properties
-	 * "application.locale".<br/>
+	 * clé de la locale de l'application dans preferences.properties<br/>
+	 * "application.locale"<br/>
 	 */
 	public static final String KEY_LOCALE_APPLICATION 
 		= "application.locale";
+	
+	/**
+	 * clé du répertoire sur lequel s'ouvre le FileChooser 
+	 * dans preferences.properties<br/>
+	 * "repertoire.filechooser"<br/>
+	 */
+	public static final String KEY_REPERTOIRE_FILECHOOSER 
+		= "repertoire.filechooser";
 	
 	/**
 	 * Charset par défaut de l'application en dur.<br/>
@@ -215,6 +230,15 @@ public final class GestionnairePreferences {
 	 */
 	public static final String LOCALE_STRING_PAR_DEFAUT_EN_DUR 
 		= fournirLangueEtPaysEnFrancais(Locale.FRANCE);
+	
+	/**
+	 * Répertoire par défaut pour le FileChooser en dur.<br/>
+	 * N'est utilisé que si l'application ne peut lire le répertoire 
+	 * indique dans preferences.properties.<br/>
+	 * Répertoire du projet : "user.dir"<br/>
+	 */
+	public static final String REPERTOIRE_FILECHOOSER_STRING_PAR_DEFAUT_EN_DUR 
+		= System.getProperty("user.dir");
 	
 	
 	/**
@@ -258,6 +282,12 @@ public final class GestionnairePreferences {
 	 * dans l'application</b>.<br/>
 	 */
 	private static Locale localeDefautApplication;
+	
+	/**
+	 * <b>SINGLETON du répertoire sur lequel va pointer 
+	 * le FileChooser à son ouverture.</b>.<br/>
+	 */
+	private static File repertoirePrefereFileChooser;
 	
 	/**
 	 * LOG : Log : 
@@ -336,6 +366,7 @@ public final class GestionnairePreferences {
 	 * <ul>
 	 * <li>ajoute le charset par défaut stocké en dur CHARSET_UTF8.</li>
 	 * <li>ajoute la Locale par défaut stockée en dur Locale.FRANCE.</li>
+	 * <li>ajoute le répertoire par défaut stockée en dur user.dir.</li>
 	 * </ul>
 	 */
 	private static void ajouterPropertiesEnDur() {
@@ -351,6 +382,11 @@ public final class GestionnairePreferences {
 			preferences.setProperty(
 					KEY_LOCALE_APPLICATION
 						, LOCALE_STRING_PAR_DEFAUT_EN_DUR);
+			
+			/* ajoute le répertoire par défaut stockée en dur user.dir.*/
+			preferences.setProperty(
+					KEY_REPERTOIRE_FILECHOOSER
+						, REPERTOIRE_FILECHOOSER_STRING_PAR_DEFAUT_EN_DUR);
 			
 		} // Fin du bloc synchronized.__________________
 		
@@ -1304,6 +1340,11 @@ public final class GestionnairePreferences {
 		
 		synchronized (GestionnairePreferences.class) {
 			
+			/* instancie les attributs de fichier si nécessaire. */
+			/* alimente Properties avec le contenu 
+			 * du fichier properties. */
+			lireFichierPreferencesProperties();
+			
 			/* crée le Properties preferences et 
 			 * le remplit avec des valeurs en dur si nécessaire. */
 			if (filePreferencesProperties == null 
@@ -1385,7 +1426,7 @@ public final class GestionnairePreferences {
 	* <b>Enregistre la valeur sur disque</b>.<br/>
 	* <ul>
 	* <li>crée le Properties preferences et le fichier 
-	* properties.preferences et les remplit avec des valeurs 
+	* preferences.properties et les remplit avec des valeurs 
 	* en dur si nécessaire.</li>
 	* <li>modifie preferences avec la nouvelle valeur 
 	* passée dans le setter.</li>
@@ -1566,6 +1607,11 @@ public final class GestionnairePreferences {
 		
 		synchronized (GestionnairePreferences.class) {
 			
+			/* instancie les attributs de fichier si nécessaire. */
+			/* alimente Properties avec le contenu 
+			 * du fichier properties. */
+			lireFichierPreferencesProperties();
+			
 			/* crée le Properties preferences et 
 			 * le remplit avec des valeurs en dur si nécessaire. */
 			if (filePreferencesProperties == null 
@@ -1642,7 +1688,7 @@ public final class GestionnairePreferences {
 	* <b>Enregistre la valeur sur disque</b>.<br/>
 	* <ul>
 	* <li>crée le Properties preferences et le fichier 
-	* properties.preferences et les remplit avec des valeurs 
+	* preferences.properties et les remplit avec des valeurs 
 	* en dur si nécessaire.</li>
 	* <li>modifie preferences avec la nouvelle valeur 
 	* passée dans le setter.</li>
@@ -1656,15 +1702,19 @@ public final class GestionnairePreferences {
 	*
 	* @param pLocaleDefautApplication : Locale : 
 	* valeur à passer à localeDefautApplication.<br/>
-	 * @throws Exception 
+	* 
+	* @throws Exception 
 	*/
 	public static void setLocaleDefautApplication(
 			final Locale pLocaleDefautApplication) throws Exception {
 		
 		synchronized (GestionnairePreferences.class) {
 			
-			/* ne fait rien si pLocaleDefautApplication == null ou si pLocaleDefautApplication == localeDefautApplication. */
-			if (pLocaleDefautApplication != null && !pLocaleDefautApplication.equals(localeDefautApplication)) {
+			/* ne fait rien si pLocaleDefautApplication == null 
+			 * ou si pLocaleDefautApplication == localeDefautApplication. */
+			if (pLocaleDefautApplication != null 
+					&& !pLocaleDefautApplication.equals(
+							localeDefautApplication)) {
 				
 				localeDefautApplication = pLocaleDefautApplication;
 				
@@ -1688,6 +1738,178 @@ public final class GestionnairePreferences {
 		} // Fin du bloc synchronized.__________________
 		
 	} // Fin de setLocaleDefautApplication(...).___________________________
+	
+
+	
+	/**
+	 * retourne le répertoire par défaut du FileChooser.<br/>
+	 * <ul>
+	 * <li>lit le répertoire stocké dans preferences.properties 
+	 * si il n'est pas null.</li>
+	 * <li>répertoire par défaut en dur sinon (user.dir).</li>
+	 * </ul>
+	 * - retourne le répertoire stockée en dur dans la classe (user.dir) 
+	 * si le properties ne peut être lu 
+	 * (trace EX_TEC_INITIALISATION_08).<br/>
+	 * <br/>
+	 *
+	 * @return : File : répertoire dans les préférences.<br/>
+	 * 
+	 * @throws Exception 
+	 */
+	private static File fournirRepertoirePrefere() throws Exception {
+		
+		synchronized (GestionnairePreferences.class) {
+			
+			/* instancie les attributs de fichier si nécessaire. */
+			/* alimente Properties avec le contenu 
+			 * du fichier properties. */
+			lireFichierPreferencesProperties();
+			
+			/* crée le Properties preferences et 
+			 * le remplit avec des valeurs en dur si nécessaire. */
+			if (filePreferencesProperties == null 
+					|| !filePreferencesProperties.exists()) {
+				creerFichierPropertiesInitial();
+			}
+			
+			if (repertoirePrefereFileChooser == null) {
+				
+				/* lecture dans le properties. */
+				final String repertoirePrefereFileChooserString 
+					= preferences
+						.getProperty(
+								fournirKeyRepertoireFileChooser());
+				
+				if (repertoirePrefereFileChooserString != null) {
+					
+					repertoirePrefereFileChooser 
+					= new File(repertoirePrefereFileChooserString);
+									
+				}
+				else {
+					repertoirePrefereFileChooser 
+					= new File(
+							REPERTOIRE_FILECHOOSER_STRING_PAR_DEFAUT_EN_DUR);
+				}
+			}
+			
+			return repertoirePrefereFileChooser;
+			
+		} // Fin du bloc synchronized.__________________
+				
+	} // Fin de fournirRepertoirePrefere().________________________________
+	
+	
+	
+	/**
+	 * Getter de la clé du répertoire sur lequel s'ouvre le FileChooser 
+	 * dans preferences.properties<br/>
+	 * "repertoire.filechooser"<br/>
+	 *
+	 * @return : String : "repertoire.filechooser".<br/>
+	 */
+	public static String fournirKeyRepertoireFileChooser() {
+		return KEY_REPERTOIRE_FILECHOOSER;
+	} // Fin de fournirKeyRepertoireFileChooser()._________________________
+
+
+
+	/**
+	 * Getter du <b>SINGLETON de repértoire par défaut 
+	 * du FileChooser</b>.
+	 * <ul>
+	 * <li>lit le répertoire stocké dans preferences.properties 
+	 * si il n'est pas null.</li>
+	 * <li>répertoire par défaut en dur sinon (user.dir).</li>
+	 * </ul>
+	 * - retourne le répertoire stockée en dur dans la classe (user.dir) 
+	 * si le properties ne peut être lu 
+	 * (trace EX_TEC_INITIALISATION_08).<br/>
+	 * <br/>
+	 *
+	 * @return repertoirePrefereFileChooser : File.<br/>
+	 * 
+	 * @throws Exception 
+	 */
+	public static File getRepertoirePrefereFileChooser() 
+											throws Exception {
+		return fournirRepertoirePrefere();
+	} // Fin de getRepertoirePrefereFileChooser()._________________________
+
+
+
+	/**
+	* Setter du <b>SINGLETON de repértoire par défaut 
+	 * du FileChooser</b>.<br/>
+	* <b>Enregistre la valeur sur disque</b>.<br/>
+	* <ul>
+	* <li>crée le Properties preferences et le fichier 
+	* preferences.properties et les remplit avec des valeurs 
+	* en dur si nécessaire.</li>
+	* <li>modifie preferences avec la nouvelle valeur 
+	* passée dans le setter.</li>
+	* <li>ré-écrit entièrement le fichier preferences.properties 
+	* mis à jour.</li>
+	* <li>trace EX_TEC_PARAMETRAGE_04.</li>
+	* </ul>
+	* - ne fait rien si pRepertoirePrefereFileChooser == null 
+	* ou si pRepertoirePrefereFileChooser == repertoirePrefereFileChooser.<br/>
+	* - ne fait rien si pRepertoirePrefereFileChooser 
+	* n'est pas un répertoire.<br/>
+	* - ne fait rien si pRepertoirePrefereFileChooser n'existe pas.<br/>
+	* <br/>
+	*
+	* @param pRepertoirePrefereFileChooser : File : 
+	* valeur à passer à repertoirePrefereFileChooser.<br/>
+	* 
+	* @throws Exception 
+	*/
+	public static void setRepertoirePrefereFileChooser(
+			final File pRepertoirePrefereFileChooser) 
+											throws Exception {
+		
+		synchronized (GestionnairePreferences.class) {
+			
+			/* ne fait rien si pRepertoirePrefereFileChooser == null 
+			 * ou si pRepertoirePrefereFileChooser == repertoirePrefereFileChooser. */
+			if (pRepertoirePrefereFileChooser != null 
+					&& !pRepertoirePrefereFileChooser.equals(
+							repertoirePrefereFileChooser)) {
+				
+				/* ne fait rien si pRepertoirePrefereFileChooser 
+				 * n'est pas un répertoire. */
+				if (!pRepertoirePrefereFileChooser.isDirectory()) {
+					return;
+				}
+				
+				/* ne fait rien si pRepertoirePrefereFileChooser n'existe pas. */
+				if (!pRepertoirePrefereFileChooser.exists()) {
+					return;
+				}
+				
+				repertoirePrefereFileChooser = pRepertoirePrefereFileChooser;
+				
+				final String nomRepertoire 
+					= repertoirePrefereFileChooser.getAbsolutePath();
+				
+				/* crée le Properties preferences et 
+				 * le remplit avec des valeurs en dur si nécessaire. */
+				if (filePreferencesProperties == null 
+						|| !filePreferencesProperties.exists()) {
+					creerFichierPropertiesInitial();
+				}
+				
+				creerOuModifierProperty(
+						fournirKeyRepertoireFileChooser(), nomRepertoire);
+				
+				enregistrerFichierPreferencesProperties();
+
+			}
+
+		} // Fin du bloc synchronized.__________________
+		
+	} // Fin de setRepertoirePrefereFileChooser(...).______________________
 	
 		
 	

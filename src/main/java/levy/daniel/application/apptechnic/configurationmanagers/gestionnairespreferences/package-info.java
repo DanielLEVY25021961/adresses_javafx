@@ -23,16 +23,16 @@
  * 
  * <p><span style="text-decoration: underline;"><b>Rôle du Gestionnaire des préférences</b></span></p>
  * <div>
- * <img src="../../../../../../../../../javadoc/images/gestionnaire_preferences_uc.png" 
+ * <img src="../../../../../../../../../javadoc/images/gestionnairespreferences/gestionnaire_preferences_uc.png" 
  * style= "float : left; width : 45%; margin-right : 2%; margin-top : 1%; margin-bottom : 1%;" 
  * alt="CU des préférences" border="1" align="center" />
- * <img src="../../../../../../../../../javadoc/images/gestionnaire_preferences_exigences.png"
+ * <img src="../../../../../../../../../javadoc/images/gestionnairespreferences/gestionnaire_preferences_exigences.png"
  * style= "float : left; width : 50%; margin-right : 1%; margin-top : 1%; margin-bottom : 1%;" 
  * alt="exigences des préférences" border="1" align="center" />
  * </div>
  * <div>
  * <p style="clear : both";></p>
- * <img src="../../../../../../../../../javadoc/images/gestionnaire_preferences_role.png" 
+ * <img src="../../../../../../../../../javadoc/images/gestionnairespreferences/gestionnaire_preferences_role.png" 
  * alt="rôle des préférences" border="1" align="center" />
  * </div>
  * <br/><br/>
@@ -55,7 +55,7 @@
  * </p>
  * <br/>
  * <div>
- * <img src="../../../../../../../../../javadoc/images/gestionnaire_preferences_activites.png" 
+ * <img src="../../../../../../../../../javadoc/images/gestionnairespreferences/gestionnaire_preferences_activites.png" 
  * alt="cinématique de l'initialisation des préférences" border="1" align="center" />
  * </div>
  * </div>

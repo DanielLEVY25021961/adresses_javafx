@@ -548,7 +548,7 @@ public abstract class AbstractProfil implements IProfil {
 	 */
 	@Override
 	@Transient
-	public String getEnTeteCsv() {
+	public String fournirEnTeteCsv() {
 		return "id;profilString;porteeProfil;restrictionProfil;";
 	} // Fin de getEnTeteCsv().____________________________________________
 
@@ -558,7 +558,7 @@ public abstract class AbstractProfil implements IProfil {
 	 * {@inheritDoc}
 	 */
 	@Override
-	public String toStringCsv() {
+	public String fournirStringCsv() {
 
 		final StringBuilder stb = new StringBuilder();
 
@@ -589,7 +589,7 @@ public abstract class AbstractProfil implements IProfil {
 	 */
 	@Override
 	@Transient
-	public String getEnTeteColonne(
+	public String fournirEnTeteColonne(
 			final int pI) {
 
 		String entete = null;
@@ -629,7 +629,7 @@ public abstract class AbstractProfil implements IProfil {
 	 */
 	@Override
 	@Transient
-	public Object getValeurColonne(
+	public Object fournirValeurColonne(
 			final int pI) {
 
 		Object valeur = null;

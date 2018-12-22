@@ -184,7 +184,7 @@ public interface IProfil extends IExportateurCsv, IExportateurJTable, Comparable
 	 * <br/>
 	 */
 	@Override
-	String getEnTeteCsv();
+	String fournirEnTeteCsv();
 
 
 
@@ -196,7 +196,7 @@ public interface IProfil extends IExportateurCsv, IExportateurJTable, Comparable
 	 * <br/>
 	 */
 	@Override
-	String toStringCsv();
+	String fournirStringCsv();
 
 
 
@@ -208,7 +208,7 @@ public interface IProfil extends IExportateurCsv, IExportateurJTable, Comparable
 	 * <br/>
 	 */
 	@Override
-	String getEnTeteColonne(int pI);
+	String fournirEnTeteColonne(int pI);
 
 
 
@@ -220,7 +220,7 @@ public interface IProfil extends IExportateurCsv, IExportateurJTable, Comparable
 	 * <br/>
 	 */
 	@Override
-	Object getValeurColonne(int pI);
+	Object fournirValeurColonne(int pI);
 
 
 

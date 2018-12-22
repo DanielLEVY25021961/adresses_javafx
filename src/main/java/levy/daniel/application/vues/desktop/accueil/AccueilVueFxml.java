@@ -13,7 +13,7 @@ import levy.daniel.application.controllers.desktop.accueil.IAccueilVueController
 
 /**
  * CLASSE AccueilVueFxml :<br/>
- * prépare la VUE BorderPane <b>this.root</b> 
+ * prépare et retourne la VUE BorderPane <b>this.root</b> 
  * modélisant le panneau de fond de la Scene de l'application.<br/>
  * <ul>
  * <li>charge dans sa méthode dessiner() le FXML.</li>
@@ -75,9 +75,7 @@ public class AccueilVueFxml {
 	
 	
 	 /**
-	 * method CONSTRUCTEUR AccueilVueFxml() :<br/>
 	 * CONSTRUCTEUR D'ARITE NULLE.<br/>
-	 * <br/>
 	 */
 	public AccueilVueFxml() {
 		

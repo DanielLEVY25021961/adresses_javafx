@@ -21,7 +21,7 @@ import org.junit.AfterClass;
 import org.junit.BeforeClass;
 import org.junit.Test;
 
-import levy.daniel.application.apptechnic.configurationmanagers.ManagerPaths;
+import levy.daniel.application.apptechnic.configurationmanagers.gestionnairespaths.ManagerPaths;
 import levy.daniel.application.model.dao.metier.personne.impl.PersonneEntityJPA;
 
 

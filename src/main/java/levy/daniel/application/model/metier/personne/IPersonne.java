@@ -85,7 +85,7 @@ public interface IPersonne extends Comparable<IPersonne>
 	 * "id;nom;prenom;rue;codePostal;ville;dateNaissance;".<br/>
 	 */
 	@Override
-	String getEnTeteCsv();
+	String fournirEnTeteCsv();
 
 
 
@@ -95,7 +95,7 @@ public interface IPersonne extends Comparable<IPersonne>
 	 * "id;nom;prenom;rue;codePostal;ville;dateNaissance;".<br/>
 	 */
 	@Override
-	String toStringCsv();
+	String fournirStringCsv();
 
 
 
@@ -104,7 +104,7 @@ public interface IPersonne extends Comparable<IPersonne>
 	 * "id;nom;prenom;rue;codePostal;ville;dateNaissance;".<br/>
 	 */
 	@Override
-	String getEnTeteColonne(int pI);
+	String fournirEnTeteColonne(int pI);
 
 
 
@@ -113,7 +113,7 @@ public interface IPersonne extends Comparable<IPersonne>
 	 * "id;nom;prenom;rue;codePostal;ville;dateNaissance;".<br/>
 	 */
 	@Override
-	Object getValeurColonne(int pI);
+	Object fournirValeurColonne(int pI);
 
 
 

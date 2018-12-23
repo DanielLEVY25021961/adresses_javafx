@@ -11,9 +11,10 @@ import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.junit.Test;
 
-import levy.daniel.application.model.dao.daoexceptions.AbstractDaoException;
-import levy.daniel.application.model.dao.metier.personne.InitialiseurDeData;
 import levy.daniel.application.model.metier.personne.IPersonne;
+import levy.daniel.application.model.persistence.daoexceptions.AbstractDaoException;
+import levy.daniel.application.model.persistence.metier.personne.InitialiseurDeData;
+import levy.daniel.application.model.persistence.metier.personne.dao.jpa.PersonneDaoJPA;
 
 
 /**

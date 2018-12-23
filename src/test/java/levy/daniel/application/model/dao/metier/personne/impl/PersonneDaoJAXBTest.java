@@ -17,9 +17,12 @@ import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.junit.Test;
 
-import levy.daniel.application.model.dao.metier.personne.InitialiseurDeData;
 import levy.daniel.application.model.metier.personne.IPersonne;
 import levy.daniel.application.model.metier.personne.impl.Personne;
+import levy.daniel.application.model.persistence.metier.personne.InitialiseurDeData;
+import levy.daniel.application.model.persistence.metier.personne.dao.jaxb.PersonneDaoJAXB;
+import levy.daniel.application.model.persistence.metier.personne.entities.jaxb.ContactsEntityJAXB;
+import levy.daniel.application.model.persistence.metier.personne.entities.jaxb.PersonneEntityJAXB;
 
 
 /**

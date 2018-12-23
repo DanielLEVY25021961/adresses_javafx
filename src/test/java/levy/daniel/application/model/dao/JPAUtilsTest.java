@@ -22,7 +22,9 @@ import org.junit.BeforeClass;
 import org.junit.Test;
 
 import levy.daniel.application.apptechnic.configurationmanagers.gestionnairespaths.ManagerPaths;
-import levy.daniel.application.model.dao.metier.personne.impl.PersonneEntityJPA;
+import levy.daniel.application.model.persistence.metier.JPAUtils;
+import levy.daniel.application.model.persistence.metier.personne.entities.jpa.PersonneEntityJPA;
+
 
 
 /**

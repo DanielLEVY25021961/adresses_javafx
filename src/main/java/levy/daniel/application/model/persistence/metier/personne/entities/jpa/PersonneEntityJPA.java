@@ -1,7 +1,17 @@
-package levy.daniel.application.model.metier.personne.impl;
+package levy.daniel.application.model.persistence.metier.personne.entities.jpa;
 
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
+
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.Index;
+import javax.persistence.Table;
+import javax.persistence.Transient;
+import javax.persistence.UniqueConstraint;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
@@ -10,8 +20,8 @@ import levy.daniel.application.model.metier.personne.IPersonne;
 
 
 /**
- * CLASSE Personne :<br/>
- * Modelisation metier d'une Personne (MODEL/METIER).<br/>
+ * CLASSE PersonneEntityJPA :<br/>
+ * Modelisation metier d'une PersonneEntityJPA.<br/>
  * <br/>
  *
  * - Exemple d'utilisation :<br/>
@@ -29,7 +39,12 @@ import levy.daniel.application.model.metier.personne.IPersonne;
  * @since 9 mai 2018
  *
  */
-public class Personne implements IPersonne {
+@Entity(name="PersonneEntityJPA")
+@Table(name="PERSONNES", schema="PUBLIC"
+, uniqueConstraints=@UniqueConstraint(name="UNICITE_PRENOM_NOM_DATENAISSANCE"
+, columnNames={"PRENOM", "NOM", "DATENAISSANCE"})
+, indexes={@Index(name="INDEX_NOM_PRENOM", columnList="NOM, PRENOM")})
+public class PersonneEntityJPA implements IPersonne {
 
 	// ************************ATTRIBUTS************************************/
 	
@@ -100,25 +115,25 @@ public class Personne implements IPersonne {
 	 * LOG : Log : 
 	 * Logger pour Log4j (utilisant commons-logging).
 	 */
-	private static final Log LOG = LogFactory.getLog(Personne.class);
+	private static final Log LOG = LogFactory.getLog(PersonneEntityJPA.class);
 
 
 	// *************************METHODES************************************/
 	
 	
 	 /**
-	 * method CONSTRUCTEUR Personne() :<br/>
+	 * method CONSTRUCTEUR PersonneEntityJPA() :<br/>
 	 * CONSTRUCTEUR D'ARITE NULLE.<br/>
 	 * <br/>
 	 */
-	public Personne() {
+	public PersonneEntityJPA() {
 		this(null, null, null, null, null, null, null);
-	} // Fin de Personne().________________________________________________
+	} // Fin de PersonneEntityJPA().________________________________________________
 	
 	
 	
 	 /**
-	 * method CONSTRUCTEUR Personne(...) :<br/>
+	 * method CONSTRUCTEUR PersonneEntityJPA(...) :<br/>
 	 * CONSTRUCTEUR COMPLET.<br/>
 	 * <br/>
 	 *
@@ -129,7 +144,7 @@ public class Personne implements IPersonne {
 	 * @param pVille : String : ville.<br/>
 	 * @param pDateNaissance : LocalDate : date de naissance.<br/>
 	 */
-	public Personne(
+	public PersonneEntityJPA(
 			final String pPrenom
 				, final String pNom
 			, final String pRue
@@ -145,7 +160,7 @@ public class Personne implements IPersonne {
 	
 	
 	 /**
-	 * method CONSTRUCTEUR Personne(...) :<br/>
+	 * method CONSTRUCTEUR PersonneEntityJPA(...) :<br/>
 	 * CONSTRUCTEUR COMPLET BASE.<br/>
 	 * <br/>
 	 *
@@ -157,7 +172,7 @@ public class Personne implements IPersonne {
 	 * @param pVille : String : ville.<br/>
 	 * @param pDateNaissance : LocalDate : date de naissance.<br/>
 	 */
-	public Personne(
+	public PersonneEntityJPA(
 			final Long pId
 				, final String pPrenom
 					, final String pNom
@@ -179,7 +194,32 @@ public class Personne implements IPersonne {
 	} // Fin de CONSTRUCTEUR COMPLET BASE._________________________________
 
 
-
+	
+	 /**
+	 * method CONSTRUCTEUR PersonneEntityJPA(
+	 * IPersonne pPersonne) :<br/>
+	 * CONSTRUCTEUR TRANSFORMATEUR.<br/>
+	 * <br/>
+	 *
+	 * @param pPersonne : IPersonne.<br/>
+	 */
+	public PersonneEntityJPA(
+			final IPersonne pPersonne) {
+		
+		super();
+		
+		this.id = pPersonne.getId();
+		this.prenom = pPersonne.getPrenom();
+		this.nom = pPersonne.getNom();
+		this.rue = pPersonne.getRue();
+		this.codePostal = pPersonne.getCodePostal();
+		this.ville = pPersonne.getVille();
+		this.dateNaissance = pPersonne.getDateNaissance();
+		
+	} // Fin de CONSTRUCTEUR TRANSFORMATEUR._______________________________
+	
+	
+	
 	/**
 	 * {@inheritDoc}
 	 */
@@ -218,13 +258,12 @@ public class Personne implements IPersonne {
 		if (pObjet == null) {
 			return false;
 		}
-		if (!(pObjet instanceof Personne)) {
+		if (!(pObjet instanceof PersonneEntityJPA)) {
 			return false;
 		}
 		
-		final Personne other = (Personne) pObjet;
+		final PersonneEntityJPA other = (PersonneEntityJPA) pObjet;
 
-		/* nom. */
 		if (this.nom == null) {
 			if (other.nom != null) {
 				return false;
@@ -234,7 +273,6 @@ public class Personne implements IPersonne {
 			return false;
 		}
 		
-		/* prenom. */
 		if (this.prenom == null) {
 			if (other.prenom != null) {
 				return false;
@@ -244,7 +282,6 @@ public class Personne implements IPersonne {
 			return false;
 		}
 		
-		/* date de naissance. */
 		if (this.dateNaissance == null) {
 			if (other.dateNaissance != null) {
 				return false;
@@ -340,7 +377,7 @@ public class Personne implements IPersonne {
 	 * {@inheritDoc}
 	 */
 	@Override
-	public final Personne clone() throws CloneNotSupportedException {
+	public final PersonneEntityJPA clone() throws CloneNotSupportedException {
 		
 		final IPersonne personneClone = (IPersonne) super.clone();
 		
@@ -356,7 +393,7 @@ public class Personne implements IPersonne {
 		personneClone.setVille(this.getVille());
 		personneClone.setDateNaissance(dateNaissanceClone);
 		
-		return (Personne) personneClone;
+		return (PersonneEntityJPA) personneClone;
 		
 	} // Fin de clone().___________________________________________________
 
@@ -373,7 +410,7 @@ public class Personne implements IPersonne {
 		final DateTimeFormatter formatter 
 			= DateTimeFormatter.ofPattern("dd MMMM yyyy");
 		
-		builder.append("Personne [");
+		builder.append("PersonneEntityJPA [");
 		if (this.id != null) {
 			builder.append("id=");
 			builder.append(this.id);
@@ -420,6 +457,7 @@ public class Personne implements IPersonne {
 	 * {@inheritDoc}
 	 */
 	@Override
+	@Transient
 	public final String fournirEnTeteCsv() {
 		return "id;nom;prénom;rue;code postal;ville;date de naissance;";
 	} // Fin de getEnTeteCsv().____________________________________________
@@ -461,6 +499,7 @@ public class Personne implements IPersonne {
 	/**
 	 * {@inheritDoc}
 	 */
+	@Transient
 	@Override
 	public final String fournirEnTeteColonne(
 			final int pI) {
@@ -566,6 +605,9 @@ public class Personne implements IPersonne {
 	/**
 	 * {@inheritDoc}
 	 */
+	@Id
+	@GeneratedValue(strategy=GenerationType.IDENTITY)
+	@Column(name="ID")
 	@Override
 	public Long getId() {	
 		return this.id;
@@ -587,6 +629,9 @@ public class Personne implements IPersonne {
 	/**
 	 * {@inheritDoc}
 	 */
+	@Column(name="PRENOM"
+			, unique = false, updatable = true
+			, insertable = true, nullable = false)
 	@Override
 	public String getPrenom() {	
 		return this.prenom;
@@ -608,6 +653,9 @@ public class Personne implements IPersonne {
 	/**
 	 * {@inheritDoc}
 	 */
+	@Column(name="NOM"
+			, unique = false, updatable = true
+			, insertable = true, nullable = false)
 	@Override
 	public String getNom() {	
 		return this.nom;
@@ -629,6 +677,9 @@ public class Personne implements IPersonne {
 	/**
 	 * {@inheritDoc}
 	 */
+	@Column(name="RUE"
+			, unique = false, updatable = true
+			, insertable = true, nullable = true)
 	@Override
 	public String getRue() {	
 		return this.rue;
@@ -650,6 +701,9 @@ public class Personne implements IPersonne {
 	/**
 	 * {@inheritDoc}
 	 */
+	@Column(name="CODEPOSTAL"
+			, unique = false, updatable = true
+			, insertable = true, nullable = true)
 	@Override
 	public String getCodePostal() {	
 		return this.codePostal;
@@ -671,6 +725,9 @@ public class Personne implements IPersonne {
 	/**
 	 * {@inheritDoc}
 	 */
+	@Column(name="VILLE"
+			, unique = false, updatable = true
+			, insertable = true, nullable = true)
 	@Override
 	public String getVille() {	
 		return this.ville;
@@ -692,6 +749,9 @@ public class Personne implements IPersonne {
 	/**
 	 * {@inheritDoc}
 	 */
+	@Column(name="DATENAISSANCE"
+			, unique = false, updatable = true
+			, insertable = true, nullable = false)
 	@Override
 	public LocalDate getDateNaissance() {	
 		return this.dateNaissance;
@@ -710,4 +770,4 @@ public class Personne implements IPersonne {
 	
 
 	
-} // FIN DE LA CLASSE Personne.----------------------------------------------
+} // FIN DE LA CLASSE PersonneEntityJPA.----------------------------------------------

@@ -1,7 +1,12 @@
-package levy.daniel.application.model.metier.personne.impl;
+package levy.daniel.application.model.persistence.metier.personne.entities.jaxb;
 
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
+
+import javax.xml.bind.annotation.XmlElement;
+import javax.xml.bind.annotation.XmlRootElement;
+import javax.xml.bind.annotation.XmlType;
+import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
@@ -10,8 +15,8 @@ import levy.daniel.application.model.metier.personne.IPersonne;
 
 
 /**
- * CLASSE Personne :<br/>
- * Modelisation metier d'une Personne (MODEL/METIER).<br/>
+ * CLASSE PersonneEntityJAXB :<br/>
+ * Entity JAXB modélisant une Personne.<br/>
  * <br/>
  *
  * - Exemple d'utilisation :<br/>
@@ -26,10 +31,12 @@ import levy.daniel.application.model.metier.personne.IPersonne;
  *
  * @author dan Lévy
  * @version 1.0
- * @since 9 mai 2018
+ * @since 24 mai 2018
  *
  */
-public class Personne implements IPersonne {
+@XmlRootElement(name = "personne")
+@XmlType(propOrder = {"id", "prenom", "nom", "rue", "codePostal", "ville", "dateNaissance"})
+public class PersonneEntityJAXB implements IPersonne {
 
 	// ************************ATTRIBUTS************************************/
 	
@@ -100,18 +107,18 @@ public class Personne implements IPersonne {
 	 * LOG : Log : 
 	 * Logger pour Log4j (utilisant commons-logging).
 	 */
-	private static final Log LOG = LogFactory.getLog(Personne.class);
+	private static final Log LOG = LogFactory.getLog(PersonneEntityJAXB.class);
 
-
+	
 	// *************************METHODES************************************/
-	
-	
+
+		
 	 /**
-	 * method CONSTRUCTEUR Personne() :<br/>
+	 * method CONSTRUCTEUR PersonneEntityJAXB() :<br/>
 	 * CONSTRUCTEUR D'ARITE NULLE.<br/>
 	 * <br/>
 	 */
-	public Personne() {
+	public PersonneEntityJAXB() {
 		this(null, null, null, null, null, null, null);
 	} // Fin de Personne().________________________________________________
 	
@@ -129,7 +136,7 @@ public class Personne implements IPersonne {
 	 * @param pVille : String : ville.<br/>
 	 * @param pDateNaissance : LocalDate : date de naissance.<br/>
 	 */
-	public Personne(
+	public PersonneEntityJAXB(
 			final String pPrenom
 				, final String pNom
 			, final String pRue
@@ -157,7 +164,7 @@ public class Personne implements IPersonne {
 	 * @param pVille : String : ville.<br/>
 	 * @param pDateNaissance : LocalDate : date de naissance.<br/>
 	 */
-	public Personne(
+	public PersonneEntityJAXB(
 			final Long pId
 				, final String pPrenom
 					, final String pNom
@@ -179,6 +186,31 @@ public class Personne implements IPersonne {
 	} // Fin de CONSTRUCTEUR COMPLET BASE._________________________________
 
 
+	
+	 /**
+	 * method CONSTRUCTEUR PersonneEntityJAXB(
+	 * IPersonne pPersonne) :<br/>
+	 * CONSTRUCTEUR TRANSFORMATEUR.<br/>
+	 * <br/>
+	 *
+	 * @param pPersonne : IPersonne.<br/>
+	 */
+	public PersonneEntityJAXB(
+			final IPersonne pPersonne) {
+		
+		super();
+		
+		this.id = pPersonne.getId();
+		this.prenom = pPersonne.getPrenom();
+		this.nom = pPersonne.getNom();
+		this.rue = pPersonne.getRue();
+		this.codePostal = pPersonne.getCodePostal();
+		this.ville = pPersonne.getVille();
+		this.dateNaissance = pPersonne.getDateNaissance();
+		
+	} // Fin de CONSTRUCTEUR TRANSFORMATEUR._______________________________
+	
+	
 
 	/**
 	 * {@inheritDoc}
@@ -218,13 +250,12 @@ public class Personne implements IPersonne {
 		if (pObjet == null) {
 			return false;
 		}
-		if (!(pObjet instanceof Personne)) {
+		if (!(pObjet instanceof PersonneEntityJAXB)) {
 			return false;
 		}
 		
-		final Personne other = (Personne) pObjet;
+		final PersonneEntityJAXB other = (PersonneEntityJAXB) pObjet;
 
-		/* nom. */
 		if (this.nom == null) {
 			if (other.nom != null) {
 				return false;
@@ -234,7 +265,6 @@ public class Personne implements IPersonne {
 			return false;
 		}
 		
-		/* prenom. */
 		if (this.prenom == null) {
 			if (other.prenom != null) {
 				return false;
@@ -244,7 +274,6 @@ public class Personne implements IPersonne {
 			return false;
 		}
 		
-		/* date de naissance. */
 		if (this.dateNaissance == null) {
 			if (other.dateNaissance != null) {
 				return false;
@@ -340,7 +369,7 @@ public class Personne implements IPersonne {
 	 * {@inheritDoc}
 	 */
 	@Override
-	public final Personne clone() throws CloneNotSupportedException {
+	public final PersonneEntityJAXB clone() throws CloneNotSupportedException {
 		
 		final IPersonne personneClone = (IPersonne) super.clone();
 		
@@ -356,7 +385,7 @@ public class Personne implements IPersonne {
 		personneClone.setVille(this.getVille());
 		personneClone.setDateNaissance(dateNaissanceClone);
 		
-		return (Personne) personneClone;
+		return (PersonneEntityJAXB) personneClone;
 		
 	} // Fin de clone().___________________________________________________
 
@@ -567,6 +596,7 @@ public class Personne implements IPersonne {
 	 * {@inheritDoc}
 	 */
 	@Override
+	@XmlElement(name = "id")
 	public Long getId() {	
 		return this.id;
 	} // Fin de getId().___________________________________________________
@@ -588,6 +618,7 @@ public class Personne implements IPersonne {
 	 * {@inheritDoc}
 	 */
 	@Override
+	@XmlElement(name = "prenom")
 	public String getPrenom() {	
 		return this.prenom;
 	} // Fin de getPrenom()._______________________________________________
@@ -609,6 +640,7 @@ public class Personne implements IPersonne {
 	 * {@inheritDoc}
 	 */
 	@Override
+	@XmlElement(name = "nom")
 	public String getNom() {	
 		return this.nom;
 	} // Fin de getNom().__________________________________________________
@@ -630,6 +662,7 @@ public class Personne implements IPersonne {
 	 * {@inheritDoc}
 	 */
 	@Override
+	@XmlElement(name = "rue")
 	public String getRue() {	
 		return this.rue;
 	} // Fin de getRue().__________________________________________________
@@ -651,6 +684,7 @@ public class Personne implements IPersonne {
 	 * {@inheritDoc}
 	 */
 	@Override
+	@XmlElement(name = "codePostal")
 	public String getCodePostal() {	
 		return this.codePostal;
 	} // Fin de getCodePostal().___________________________________________
@@ -672,6 +706,7 @@ public class Personne implements IPersonne {
 	 * {@inheritDoc}
 	 */
 	@Override
+	@XmlElement(name = "ville")
 	public String getVille() {	
 		return this.ville;
 	} // Fin de getVille().________________________________________________
@@ -693,6 +728,8 @@ public class Personne implements IPersonne {
 	 * {@inheritDoc}
 	 */
 	@Override
+	@XmlElement(name = "dateNaissance")
+	@XmlJavaTypeAdapter(LocalDateAdapter.class)
 	public LocalDate getDateNaissance() {	
 		return this.dateNaissance;
 	} // Fin de getDateNaissance().________________________________________
@@ -710,4 +747,4 @@ public class Personne implements IPersonne {
 	
 
 	
-} // FIN DE LA CLASSE Personne.----------------------------------------------
+} // FIN DE LA CLASSE PersonneEntityJAXB.------------------------------------

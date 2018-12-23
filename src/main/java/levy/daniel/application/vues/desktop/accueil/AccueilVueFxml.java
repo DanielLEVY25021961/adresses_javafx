@@ -8,7 +8,6 @@ import org.apache.commons.logging.LogFactory;
 
 import javafx.fxml.FXMLLoader;
 import javafx.scene.layout.BorderPane;
-import levy.daniel.application.controllers.desktop.accueil.IAccueilVueController;
 
 
 /**

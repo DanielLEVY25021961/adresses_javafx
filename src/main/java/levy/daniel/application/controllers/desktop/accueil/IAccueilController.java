@@ -8,6 +8,7 @@ import levy.daniel.application.controllers.desktop.metier.personne.ICreationPers
 import levy.daniel.application.controllers.desktop.metier.personne.IPersonneController;
 import levy.daniel.application.controllers.desktop.metier.personne.IPersonneVueController;
 import levy.daniel.application.model.services.metier.personne.IPersonneService;
+import levy.daniel.application.vues.desktop.accueil.IAccueilVueController;
 
 
 

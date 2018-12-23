@@ -1,9 +1,13 @@
-package levy.daniel.application.controllers.desktop.accueil;
+package levy.daniel.application.vues.desktop.accueil;
 
+import javafx.scene.control.Button;
+import javafx.scene.control.Label;
 import javafx.scene.control.Menu;
 import javafx.scene.control.MenuBar;
 import javafx.scene.control.MenuItem;
+import javafx.scene.control.TextField;
 import javafx.scene.layout.BorderPane;
+import javafx.scene.layout.GridPane;
 
 
 /**
@@ -218,5 +222,82 @@ public interface IAccueilVueController {
 	void setMenuItemAbout(MenuItem pMenuItemAbout);
 
 	
+			
+	/**
+	* Getter du panneau du bas pour la recherche.
+	*
+	* @return this.rootGridPaneRecherche : GridPane.<br/>
+	*/
+	GridPane getRootGridPaneRecherche();
+	
+	
+		
+	/**
+	* Setter du panneau du bas pour la recherche.
+	*
+	* @param pRootGridPaneRecherche : GridPane : 
+	* valeur à passer à this.rootGridPaneRecherche.<br/>
+	*/
+	void setRootGridPaneRecherche(GridPane pRootGridPaneRecherche);
+	
+
+	
+	/**
+	 * Getter du label pour la zone de recherche.
+	 *
+	 * @return this.labelRootRecherche : Label.<br/>
+	 */
+	Label getLabelRootRecherche();
+
+
+	
+	/**
+	* Setter du label pour la zone de recherche.
+	*
+	* @param pLabelRootRecherche : Label : 
+	* valeur à passer à this.labelRootRecherche.<br/>
+	*/
+	void setLabelRootRecherche(Label pLabelRootRecherche);
+
+	
+	
+	/**
+	 * Getter de la zone de recherche.
+	 *
+	 * @return this.textFieldRootRecherche : 
+	 * TextField.<br/>
+	 */
+	TextField getTextFieldRootRecherche();
+
+	
+
+	 /**
+	 * Setter de la zone de recherche.
+	 *
+	 * @param pTextFieldRootRecherche : TextField : 
+	 * valeur à passer à this.textFieldRootRecherche.<br/>
+	 */
+	void setTextFieldRootRecherche(TextField pTextFieldRootRecherche);
+
+	
+	
+	/**
+	 * Getter du bouton d'effacement de la zone de recherche.
+	 *
+	 * @return this.buttonRootClearRecherche : Button.<br/>
+	 */
+	Button getButtonRootClearRecherche();
+
+
+	
+	/**
+	* Setter du bouton d'effacement de la zone de recherche.
+	*
+	* @param pButtonRootClearRecherche : Button : 
+	* valeur à passer à this.buttonRootClearRecherche.<br/>
+	*/
+	void setButtonRootClearRecherche(Button pButtonRootClearRecherche);
+	
+		
 	
 } // FIN DE L'INTERFACE IAccueilVueController.-------------------------------

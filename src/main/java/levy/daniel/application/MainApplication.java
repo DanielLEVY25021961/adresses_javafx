@@ -7,9 +7,9 @@ import javafx.application.Application;
 import javafx.scene.Scene;
 import javafx.scene.layout.BorderPane;
 import javafx.stage.Stage;
-import levy.daniel.application.controllers.desktop.accueil.IAccueilVueController;
 import levy.daniel.application.controllers.desktop.accueil.impl.AccueilController;
 import levy.daniel.application.vues.desktop.accueil.AccueilVueFxml;
+import levy.daniel.application.vues.desktop.accueil.IAccueilVueController;
 
 /**
  * CLASSE MainApplication :<br/>

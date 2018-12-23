@@ -1,14 +1,19 @@
-package levy.daniel.application.controllers.desktop.accueil.impl;
+package levy.daniel.application.vues.desktop.accueil;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
+import javafx.beans.value.ChangeListener;
+import javafx.beans.value.ObservableValue;
 import javafx.fxml.FXML;
+import javafx.scene.control.Button;
+import javafx.scene.control.Label;
 import javafx.scene.control.Menu;
 import javafx.scene.control.MenuBar;
 import javafx.scene.control.MenuItem;
+import javafx.scene.control.TextField;
 import javafx.scene.layout.BorderPane;
-import levy.daniel.application.controllers.desktop.accueil.IAccueilVueController;
+import javafx.scene.layout.GridPane;
 
 
 /**
@@ -52,66 +57,83 @@ public class AccueilVueController implements IAccueilVueController {
 	// ************************ATTRIBUTS************************************/
 	
 	/**
-	 * root : BorderPane :<br/>
 	 * panneau de fond de la scene.<br/>
 	 */
 	@FXML
 	private BorderPane root;
 	
 	/**
-	 * rootMenuBar : MenuBar :<br/>
 	 * barre de menus de this.root.<br/>
 	 */
 	@FXML
 	private MenuBar rootMenuBar;
 	
 	/**
-	 * menuFile : Menu :<br/>
 	 * menu File.<br/>
 	 */
 	@FXML
 	private Menu menuFile;
 	
 	/**
-	 * menuItemClose : MenuItem :<br/>
 	 * MenuItem Close du Menu File.<br/>
 	 */
 	@FXML
 	private MenuItem menuItemClose;
 	
 	/**
-	 * menuEdit : Menu :<br/>
 	 * menu Edit.<br/>
 	 */
 	@FXML
 	private Menu menuEdit;
 
 	/**
-	 * menuItemDelete : MenuItem :<br/>
 	 * MenuItem Delete du Menu Edit.<br/>
 	 */
 	@FXML
 	private MenuItem menuItemDelete;
 	
 	/**
-	 * menuHelp : Menu :<br/>
 	 * menu Help.<br/>
 	 */
 	@FXML
 	private Menu menuHelp;
 	
 	/**
-	 * menuItemAbout : MenuItem :<br/>
 	 * MenuItem About du Menu Help.<br/>
 	 */
 	@FXML
 	private MenuItem menuItemAbout;
 
 	/**
+	 * panneau du bas pour la recherche.
+	 */
+	@FXML
+	private GridPane rootGridPaneRecherche;
+	
+	/**
+	 * label pour la zone de recherche.
+	 */
+	@FXML
+	private Label labelRootRecherche;
+	
+	/**
+	 * zone de recherche.
+	 */
+	@FXML
+	private TextField textFieldRootRecherche;
+	
+	/**
+	 * bouton d'effacement de la zone de recherche.
+	 */
+	@FXML
+	private Button buttonRootClearRecherche;
+	
+	/**
 	 * LOG : Log : 
 	 * Logger pour Log4j (utilisant commons-logging).
 	 */
-	private static final Log LOG = LogFactory.getLog(AccueilVueController.class);
+	private static final Log LOG 
+		= LogFactory.getLog(AccueilVueController.class);
 
 	// *************************METHODES************************************/
 	
@@ -135,6 +157,8 @@ public class AccueilVueController implements IAccueilVueController {
 	 * <li>Initialise le présent CONTROLLER DE VUE.</li>
 	 * <li>Méthode automatiquement appelée après que 
 	 * le FXML ait été chargé.</li>
+	 * <li>prépare les menus.</li>
+	 * <li>prépare les listeners.</li>
 	 * </ul>
 	 */
 	@FXML
@@ -142,7 +166,49 @@ public class AccueilVueController implements IAccueilVueController {
 		
 		/* Préparer les menus ici. */
 		
+		/* prépare les listeners. */
+		this.ajouterPropertyChangeListenerATextFieldRootRecherche();
+		
 	} // Fin de initialize().______________________________________________
+	
+
+	
+	/**
+	 * .<br/>
+	 */
+	private void ajouterPropertyChangeListenerATextFieldRootRecherche() {
+		
+		/* ajoute un ChangeListener à la textProperty de this.textField. */
+		this.getTextFieldRootRecherche().textProperty().addListener(
+				new ChangeListener<String>() {
+
+			/**
+			 * {@inheritDoc}
+			 */
+			@Override
+			public void changed(
+					final ObservableValue<? extends String> pObservable
+						, final String pOldValue
+							, final String pNewValue) {
+				
+				System.out.println(AccueilVueController
+						.this.getTextFieldRootRecherche().getText());
+				
+			} // Fin de changed(...)._____________________________
+			
+		}); // Fin de new ChangeListener<String>()._________________
+			
+	}
+	
+
+	
+	/**
+	 * .<br/>
+	 */
+	@FXML
+    public void effacerRecherche() {
+		this.getTextFieldRootRecherche().setText("");
+	}
 	
 	
 	
@@ -311,6 +377,90 @@ public class AccueilVueController implements IAccueilVueController {
 			final MenuItem pMenuItemAbout) {	
 		this.menuItemAbout = pMenuItemAbout;
 	} // Fin de setMenuItemAbout(...)._____________________________________
+
+
+				
+	/**
+	 * {@inheritDoc}
+	 */
+	@Override
+	public final GridPane getRootGridPaneRecherche() {
+		return this.rootGridPaneRecherche;
+	} // Fin de getRootGridPaneRecherche().________________________________
+
+
+	
+	/**
+	 * {@inheritDoc}
+	 */
+	@Override
+	public final void setRootGridPaneRecherche(
+			final GridPane pRootGridPaneRecherche) {
+		this.rootGridPaneRecherche = pRootGridPaneRecherche;
+	} // Fin de setRootGridPaneRecherche(...)._____________________________
+
+
+
+	/**
+	 * {@inheritDoc}
+	 */
+	@Override
+	public final Label getLabelRootRecherche() {
+		return this.labelRootRecherche;
+	} // Fin de getLabelRootRecherche().___________________________________
+
+
+	
+	/**
+	 * {@inheritDoc}
+	 */
+	@Override
+	public final void setLabelRootRecherche(
+			final Label pLabelRootRecherche) {
+		this.labelRootRecherche = pLabelRootRecherche;
+	} // Fin de setLabelRootRecherche(...).________________________________
+
+
+
+	/**
+	 * {@inheritDoc}
+	 */
+	@Override
+	public final TextField getTextFieldRootRecherche() {
+		return this.textFieldRootRecherche;
+	} // Fin de getTextFieldRootRecherche()._______________________________
+
+
+
+	/**
+	 * {@inheritDoc}
+	 */
+	@Override
+	public final void setTextFieldRootRecherche(
+			final TextField pTextFieldRootRecherche) {
+		this.textFieldRootRecherche = pTextFieldRootRecherche;
+	} // Fin de setTextFieldRootRecherche(...).____________________________
+
+
+	
+	/**
+	 * {@inheritDoc}
+	 */
+	@Override
+	public final Button getButtonRootClearRecherche() {
+		return this.buttonRootClearRecherche;
+	} // Fin de getButtonRootClearRecherche()._____________________________
+
+
+
+	/**
+	 * {@inheritDoc}
+	 */
+	@Override
+	public final void setButtonRootClearRecherche(
+			final Button pButtonRootClearRecherche) {
+		this.buttonRootClearRecherche = pButtonRootClearRecherche;
+	} // Fin de setButtonRootClearRecherche(...).__________________________
 		
 	
 

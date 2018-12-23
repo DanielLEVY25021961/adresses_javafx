@@ -1,6 +1,8 @@
 /**
  * class package-info :<br/>
- * .<br/>
+ * ce package contient toutes les classes nécessaires 
+ * pour créer la VUE qui s'affiche lorsque l'on lance 
+ * l'application.<br/>
  * <br/>
  *
  * - Exemple d'utilisation :<br/>

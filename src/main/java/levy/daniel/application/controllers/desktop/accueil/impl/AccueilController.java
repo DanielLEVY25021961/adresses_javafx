@@ -11,7 +11,6 @@ import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.BorderPane;
 import levy.daniel.application.MainApplication;
 import levy.daniel.application.controllers.desktop.accueil.IAccueilController;
-import levy.daniel.application.controllers.desktop.accueil.IAccueilVueController;
 import levy.daniel.application.controllers.desktop.metier.personne.ICreationPersonneVueController;
 import levy.daniel.application.controllers.desktop.metier.personne.IListePersonnesController;
 import levy.daniel.application.controllers.desktop.metier.personne.IPersonneController;
@@ -21,6 +20,7 @@ import levy.daniel.application.controllers.desktop.metier.personne.impl.Personne
 import levy.daniel.application.model.metier.personne.IPersonne;
 import levy.daniel.application.model.services.metier.personne.IPersonneService;
 import levy.daniel.application.model.services.metier.personne.impl.PersonneService;
+import levy.daniel.application.vues.desktop.accueil.IAccueilVueController;
 import levy.daniel.application.vues.desktop.metier.personne.PersonneVueFxml;
 
 

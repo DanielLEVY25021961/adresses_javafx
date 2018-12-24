@@ -1,4 +1,4 @@
-package levy.daniel.application.controllers.desktop.metier.contactsimple;
+package levy.daniel.application.vues.desktop.metier.contactsimple.modelobs;
 
 import java.io.Serializable;
 import java.time.LocalDate;
@@ -8,9 +8,9 @@ import javafx.beans.property.StringProperty;
 
 
 /**
- * INTERFACE IContactSimpleController :<br/>
+ * INTERFACE IContactSimpleModelObs :<br/>
  * Interface factorisant les comportements 
- * des CONTROLLERS ContactSimpleController.<br/>
+ * des CONTROLLERS ContactSimpleModelObs.<br/>
  * <br/>
  *
  * - Exemple d'utilisation :<br/>
@@ -28,8 +28,8 @@ import javafx.beans.property.StringProperty;
  * @since 9 mai 2018
  *
  */
-public interface IContactSimpleController 
-	extends Serializable, Comparable<IContactSimpleController>, Cloneable {
+public interface IContactSimpleModelObs 
+	extends Serializable, Comparable<IContactSimpleModelObs>, Cloneable {
 
 	
 	/**
@@ -274,4 +274,4 @@ public interface IContactSimpleController
 
 	
 	
-} // FIN DE L'INTERFACE IContactSimpleController.---------------------------------
+} // FIN DE L'INTERFACE IContactSimpleModelObs.---------------------------------

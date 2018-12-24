@@ -1,4 +1,4 @@
-package levy.daniel.application.vues.desktop.metier.contactsimple;
+package levy.daniel.application.vues.desktop.metier.contactsimple.controllervue.impl;
 
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
@@ -14,8 +14,9 @@ import javafx.scene.control.TextField;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.GridPane;
 import javafx.stage.Stage;
-import levy.daniel.application.controllers.desktop.metier.contactsimple.IContactSimpleController;
-import levy.daniel.application.controllers.desktop.metier.contactsimple.impl.ContactSimpleController;
+import levy.daniel.application.vues.desktop.metier.contactsimple.controllervue.ICreationContactSimpleVueController;
+import levy.daniel.application.vues.desktop.metier.contactsimple.modelobs.IContactSimpleModelObs;
+import levy.daniel.application.vues.desktop.metier.contactsimple.modelobs.impl.ContactSimpleModelObs;
 
 
 /**
@@ -247,7 +248,7 @@ public class CreationContactSimpleVueController implements ICreationContactSimpl
    	 * {@inheritDoc}
    	 */
     @Override
-    public final IContactSimpleController lire() {
+    public final IContactSimpleModelObs lire() {
     	
     	/* retourne null si la VUE est vide. */
     	if (affichageNull()) {
@@ -275,8 +276,8 @@ public class CreationContactSimpleVueController implements ICreationContactSimpl
 				= formatter.parse(dateNaissanceString, LocalDate::from);
 			}
 			
-			final IContactSimpleController personne 
-				= new ContactSimpleController(
+			final IContactSimpleModelObs personne 
+				= new ContactSimpleModelObs(
 						prenomString
 						, nomString
 						, rueString
@@ -303,26 +304,26 @@ public class CreationContactSimpleVueController implements ICreationContactSimpl
 	 */
     @Override
 	public final void afficher(
-    		final IContactSimpleController pContactSimpleController) {
+    		final IContactSimpleModelObs pContactSimpleModelObs) {
     	
-		if (pContactSimpleController != null) {
+		if (pContactSimpleModelObs != null) {
 			
 			final DateTimeFormatter formatter 
 			= DateTimeFormatter.ofPattern("dd MMMM yyyy");
 			
 			this.prenomTextField.setText(
-					pContactSimpleController.getPrenom());
+					pContactSimpleModelObs.getPrenom());
 			this.nomTextField.setText(
-					pContactSimpleController.getNom());
+					pContactSimpleModelObs.getNom());
 			this.rueTextField.setText(
-					pContactSimpleController.getRue());
+					pContactSimpleModelObs.getRue());
 			this.villeTextField.setText(
-					pContactSimpleController.getVille());
+					pContactSimpleModelObs.getVille());
 			this.codePostalTextField.setText(
-					pContactSimpleController.getCodePostal());
+					pContactSimpleModelObs.getCodePostal());
 			this.dateNaissanceTextField.setText(
 					formatter.format(
-							pContactSimpleController.getDateNaissance()));
+							pContactSimpleModelObs.getDateNaissance()));
 			
 		} else {
 			

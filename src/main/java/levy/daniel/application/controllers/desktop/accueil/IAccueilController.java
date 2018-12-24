@@ -4,11 +4,11 @@ import javafx.collections.ObservableList;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.BorderPane;
 import levy.daniel.application.MainApplication;
-import levy.daniel.application.controllers.desktop.metier.contactsimple.IContactSimpleController;
 import levy.daniel.application.model.services.metier.contactsimple.IContactSimpleService;
 import levy.daniel.application.vues.desktop.accueil.IAccueilVueController;
-import levy.daniel.application.vues.desktop.metier.contactsimple.IContactSimpleVueController;
-import levy.daniel.application.vues.desktop.metier.contactsimple.ICreationContactSimpleVueController;
+import levy.daniel.application.vues.desktop.metier.contactsimple.controllervue.IContactSimpleVueController;
+import levy.daniel.application.vues.desktop.metier.contactsimple.controllervue.ICreationContactSimpleVueController;
+import levy.daniel.application.vues.desktop.metier.contactsimple.modelobs.IContactSimpleModelObs;
 
 
 
@@ -160,34 +160,34 @@ public interface IAccueilController {
 	* @param pContactSimpleVueController : ContactSimpleVueController : 
 	* valeur à passer à personneVueController.<br/>
 	*/
-	void setPersonneVueController(
+	void setContactSimpleVueController(
 			IContactSimpleVueController pContactSimpleVueController);
 	
 	
 	
 	/**
 	 * method getListePersonnes() :<br/>
-	 * Getter de la liste des ContactSimpleController.
+	 * Getter de la liste des ContactSimpleModelObs.
 	 * <br/>
 	 *
 	 * @return listePersonnes : 
-	 * ObservableList<IContactSimpleController>.<br/>
+	 * ObservableList<IContactSimpleModelObs>.<br/>
 	 */
-	ObservableList<IContactSimpleController> getListePersonnes();
+	ObservableList<IContactSimpleModelObs> getListeContactSimples();
 
 
 	
 	/**
 	* method setListePersonnes(
-	* ObservableList<IContactSimpleController> pListePersonnes) :<br/>
-	* Setter de la liste des ContactSimpleController.
+	* ObservableList<IContactSimpleModelObs> pListePersonnes) :<br/>
+	* Setter de la liste des ContactSimpleModelObs.
 	* <br/>
 	*
-	* @param pListePersonnes : ObservableList<IContactSimpleController> : 
+	* @param pListePersonnes : ObservableList<IContactSimpleModelObs> : 
 	* valeur à passer à listePersonnes.<br/>
 	*/
-	void setListePersonnes(
-			ObservableList<IContactSimpleController> pListePersonnes);
+	void setListeContactSimples(
+			ObservableList<IContactSimpleModelObs> pListePersonnes);
 	
 
 	
@@ -199,7 +199,7 @@ public interface IAccueilController {
 	 *
 	 * @return personneService : IContactSimpleService.<br/>
 	 */
-	IContactSimpleService getPersonneService();
+	IContactSimpleService getContactSimpleService();
 
 
 	
@@ -213,7 +213,7 @@ public interface IAccueilController {
 	* @param pContactSimpleService : IContactSimpleService : 
 	* valeur à passer à personneService.<br/>
 	*/
-	void setPersonneService(IContactSimpleService pContactSimpleService);
+	void setContactSimpleService(IContactSimpleService pContactSimpleService);
 	
 
 	

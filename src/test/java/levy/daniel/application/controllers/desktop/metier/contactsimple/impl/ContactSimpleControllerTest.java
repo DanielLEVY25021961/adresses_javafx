@@ -16,13 +16,14 @@ import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.junit.Test;
 
-import levy.daniel.application.controllers.desktop.metier.contactsimple.IContactSimpleController;
 import levy.daniel.application.model.metier.contactsimple.IContactSimple;
 import levy.daniel.application.model.metier.contactsimple.impl.ContactSimple;
+import levy.daniel.application.vues.desktop.metier.contactsimple.modelobs.IContactSimpleModelObs;
+import levy.daniel.application.vues.desktop.metier.contactsimple.modelobs.impl.ContactSimpleModelObs;
 
 /**
  * CLASSE ContactSimpleControllerTest :<br/>
- * Test JUnit de la classe <b>ContactSimpleController</b>.<br/>
+ * Test JUnit de la classe <b>ContactSimpleModelObs</b>.<br/>
  * <br/>
  *
  * - Exemple d'utilisation :<br/>
@@ -154,10 +155,10 @@ public class ContactSimpleControllerTest {
 			System.out.println("********** CLASSE ContactSimpleControllerTest - méthode testConstructeurNull() ********** ");
 		}
 		
-		final IContactSimpleController personneNull1 
-			= new ContactSimpleController(null);
-		final IContactSimpleController personneNull2 
-			= new ContactSimpleController();
+		final IContactSimpleModelObs personneNull1 
+			= new ContactSimpleModelObs(null);
+		final IContactSimpleModelObs personneNull2 
+			= new ContactSimpleModelObs();
 		
 		assertEquals("personneNull1.equals(personneNull2)"
 				, personneNull1
@@ -213,14 +214,14 @@ public class ContactSimpleControllerTest {
 		}
 		
 
-		final IContactSimpleController objet1 
-		= new ContactSimpleController(this.personne1);
+		final IContactSimpleModelObs objet1 
+		= new ContactSimpleModelObs(this.personne1);
 		
-		final IContactSimpleController objet2 
-		= new ContactSimpleController(this.personne1Equals);
+		final IContactSimpleModelObs objet2 
+		= new ContactSimpleModelObs(this.personne1Equals);
 		
-		final IContactSimpleController objet3 
-		= new ContactSimpleController(this.personne1);
+		final IContactSimpleModelObs objet3 
+		= new ContactSimpleModelObs(this.personne1);
 
 		
 		/* garantit le contrat Java reflexif x.equals(x). */
@@ -248,10 +249,10 @@ public class ContactSimpleControllerTest {
 
 				
 		/* garantit que les null sont bien gérés dans equals(...). */
-		final IContactSimpleController objetNull1 
-			= new ContactSimpleController();
-		final IContactSimpleController objetNull2 
-			= new ContactSimpleController();
+		final IContactSimpleModelObs objetNull1 
+			= new ContactSimpleModelObs();
+		final IContactSimpleModelObs objetNull2 
+			= new ContactSimpleModelObs();
 
 		assertEquals("objetNull1.equals(objetNull2) : "
 				, objetNull1
@@ -268,11 +269,11 @@ public class ContactSimpleControllerTest {
 					+ objetNull2.toString());
 		}
 		
-		final IContactSimpleController objet1AvecNull 
-			= new ContactSimpleController(null);
+		final IContactSimpleModelObs objet1AvecNull 
+			= new ContactSimpleModelObs(null);
 		
-		final IContactSimpleController objet2AvecNull 
-			= new ContactSimpleController(null);
+		final IContactSimpleModelObs objet2AvecNull 
+			= new ContactSimpleModelObs(null);
 
 		assertEquals("objet1AvecNull.equals(objet2AvecNull) : "
 				, objet1AvecNull
@@ -312,11 +313,11 @@ public class ContactSimpleControllerTest {
 		
 		/* garantit le bon fonctionnement de equals() 
 		 * en cas d'inégalité métier. */
-		final IContactSimpleController objetDiff1 
-			= new ContactSimpleController(this.personne2);
+		final IContactSimpleModelObs objetDiff1 
+			= new ContactSimpleModelObs(this.personne2);
 		
-		final IContactSimpleController objetDiff2 
-			= new ContactSimpleController(this.personne3);
+		final IContactSimpleModelObs objetDiff2 
+			= new ContactSimpleModelObs(this.personne3);
 		
 		assertFalse("objetDiff1 PAS equals(objetDiff2) : "
 				, objetDiff1.equals(objetDiff2));
@@ -364,28 +365,28 @@ public class ContactSimpleControllerTest {
 			System.out.println("********** CLASSE ContactSimpleControllerTest - méthode testCompareTo() ********** ");
 		}
 
-		final IContactSimpleController objet1 
-			= new ContactSimpleController(this.personne1);
+		final IContactSimpleModelObs objet1 
+			= new ContactSimpleModelObs(this.personne1);
 		
-		final IContactSimpleController objet1MemeInstance = objet1;
+		final IContactSimpleModelObs objet1MemeInstance = objet1;
 		
-		final IContactSimpleController objetEquals1 
-			= new ContactSimpleController(this.personne1Equals);
+		final IContactSimpleModelObs objetEquals1 
+			= new ContactSimpleModelObs(this.personne1Equals);
 		
-		final IContactSimpleController objetEquals2 
-			= new ContactSimpleController(this.personne1);
+		final IContactSimpleModelObs objetEquals2 
+			= new ContactSimpleModelObs(this.personne1);
 
-		final IContactSimpleController objetNull1 
-		= new ContactSimpleController();
+		final IContactSimpleModelObs objetNull1 
+		= new ContactSimpleModelObs();
 	
-		final IContactSimpleController objetNull2 
-			= new ContactSimpleController(null);
+		final IContactSimpleModelObs objetNull2 
+			= new ContactSimpleModelObs(null);
 				
-		final IContactSimpleController objetCompAvant1 
-			= new ContactSimpleController(this.personne3);
+		final IContactSimpleModelObs objetCompAvant1 
+			= new ContactSimpleModelObs(this.personne3);
 
-		final IContactSimpleController objetCompApres2 
-			= new ContactSimpleController(this.personne2);
+		final IContactSimpleModelObs objetCompApres2 
+			= new ContactSimpleModelObs(this.personne2);
 
 	
 		/* garantit que compareTo(memeInstance) retourne 0. */		

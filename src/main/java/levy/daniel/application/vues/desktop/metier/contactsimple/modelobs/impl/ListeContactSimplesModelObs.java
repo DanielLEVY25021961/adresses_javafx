@@ -1,4 +1,4 @@
-package levy.daniel.application.controllers.desktop.metier.contactsimple.impl;
+package levy.daniel.application.vues.desktop.metier.contactsimple.modelobs.impl;
 
 import java.util.List;
 
@@ -8,13 +8,13 @@ import org.apache.commons.logging.LogFactory;
 import javafx.collections.ObservableList;
 import javafx.scene.layout.AnchorPane;
 import levy.daniel.application.controllers.desktop.accueil.IAccueilController;
-import levy.daniel.application.controllers.desktop.metier.contactsimple.IContactSimpleController;
-import levy.daniel.application.controllers.desktop.metier.contactsimple.IListeContactSimplesController;
 import levy.daniel.application.model.metier.contactsimple.IContactSimple;
+import levy.daniel.application.vues.desktop.metier.contactsimple.modelobs.IContactSimpleModelObs;
+import levy.daniel.application.vues.desktop.metier.contactsimple.modelobs.IListeContactSimplesModelObs;
 
 
 /**
- * CLASSE ListeContactSimplesController :<br/>
+ * CLASSE ListeContactSimplesModelObs :<br/>
  * CONTROLLER chargé de la gestion des listes de ContactSimple.<br/>
  * <ul>
  * <li></li>
@@ -39,7 +39,7 @@ import levy.daniel.application.model.metier.contactsimple.IContactSimple;
  * @since 9 mai 2018
  *
  */
-public class ListeContactSimplesController implements IListeContactSimplesController {
+public class ListeContactSimplesModelObs implements IListeContactSimplesModelObs {
 
 	// ************************ATTRIBUTS************************************/
 
@@ -58,10 +58,10 @@ public class ListeContactSimplesController implements IListeContactSimplesContro
 	private AnchorPane personneAnchorPane;
 		
 	/**
-	 * listePersonnes : ObservableList<IContactSimpleController> :<br/>
-	 * liste des ContactSimpleController.<br/>
+	 * listePersonnes : ObservableList<IContactSimpleModelObs> :<br/>
+	 * liste des ContactSimpleModelObs.<br/>
 	 */
-	private ObservableList<IContactSimpleController> listePersonnes;
+	private ObservableList<IContactSimpleModelObs> listePersonnes;
 	
 
 	/**
@@ -75,37 +75,37 @@ public class ListeContactSimplesController implements IListeContactSimplesContro
 	 * LOG : Log : 
 	 * Logger pour Log4j (utilisant commons-logging).
 	 */
-	private static final Log LOG = LogFactory.getLog(ListeContactSimplesController.class);
+	private static final Log LOG = LogFactory.getLog(ListeContactSimplesModelObs.class);
 
 	// *************************METHODES************************************/
 	
 	 /**
-	 * method CONSTRUCTEUR ListeContactSimplesController() :<br/>
+	 * method CONSTRUCTEUR ListeContactSimplesModelObs() :<br/>
 	 * CONSTRUCTEUR D'ARITE NULLE.<br/>
 	 * <br/>
 	 */
-	public ListeContactSimplesController() {
+	public ListeContactSimplesModelObs() {
 		this(null, null, null);
 	} // Fin de CONSTRUCTEUR D'ARITE NULLE.________________________________
 	
 	
 	
 	 /**
-	 * method CONSTRUCTEUR ListeContactSimplesController(
+	 * method CONSTRUCTEUR ListeContactSimplesModelObs(
 	 * AnchorPane pAnchorPane
 	 * , IAccueilController pAccueilController
-	 * , ObservableList&lt;IContactSimpleController&gt; pList) :<br/>
+	 * , ObservableList&lt;IContactSimpleModelObs&gt; pList) :<br/>
 	 * CONSTRUCTEUR COMPLET.<br/>
 	 * <br/>
 	 *
 	 * @param pAnchorPane : AnchorPane.<br/>
 	 * @param pAccueilController : IAccueilController.<br/>
-	 * @param pList : ObservableList&lt;IContactSimpleController&gt;.<br/>
+	 * @param pList : ObservableList&lt;IContactSimpleModelObs&gt;.<br/>
 	 */
-	public ListeContactSimplesController(
+	public ListeContactSimplesModelObs(
 			final AnchorPane pAnchorPane
 				, final IAccueilController pAccueilController
-					, final ObservableList<IContactSimpleController> pList) {
+					, final ObservableList<IContactSimpleModelObs> pList) {
 		
 		super();
 		
@@ -136,7 +136,7 @@ public class ListeContactSimplesController implements IListeContactSimplesContro
 	@Override
 	public final boolean ajouterPersonneAList(
 			final IContactSimple pContactSimple
-				, final ObservableList<IContactSimpleController> pList) {
+				, final ObservableList<IContactSimpleModelObs> pList) {
 		
 		/* retourne false si pList == null. */
 		if (pList == null) {
@@ -145,11 +145,11 @@ public class ListeContactSimplesController implements IListeContactSimplesContro
 		
 		if (pContactSimple != null) {
 			
-			/* instancie le IContactSimpleController associé au IContactSimple. */
-			final IContactSimpleController contactSimpleController 
-				= new ContactSimpleController(pContactSimple);
+			/* instancie le IContactSimpleModelObs associé au IContactSimple. */
+			final IContactSimpleModelObs contactSimpleModelObs 
+				= new ContactSimpleModelObs(pContactSimple);
 			
-			return pList.add(contactSimpleController);
+			return pList.add(contactSimpleModelObs);
 		}
 		
 		/* retourne false si pPersonne == null.*/
@@ -164,7 +164,7 @@ public class ListeContactSimplesController implements IListeContactSimplesContro
 	 */
 	@Override
 	public final boolean ajouterPersonneControllerAList(
-			final IContactSimpleController pPersonne) {
+			final IContactSimpleModelObs pPersonne) {
 		
 		return this.ajouterPersonneControllerAList(
 				pPersonne, this.listePersonnes);
@@ -178,8 +178,8 @@ public class ListeContactSimplesController implements IListeContactSimplesContro
 	 */
 	@Override
 	public final boolean ajouterPersonneControllerAList(
-			final IContactSimpleController pPersonne
-				, final ObservableList<IContactSimpleController> pList) {
+			final IContactSimpleModelObs pPersonne
+				, final ObservableList<IContactSimpleModelObs> pList) {
 		
 		/* retourne false si pList == null. */
 		if (pList == null) {
@@ -217,7 +217,7 @@ public class ListeContactSimplesController implements IListeContactSimplesContro
 	@Override
 	public final boolean ajouterListePersonnesAList(
 			final List<IContactSimple> pListAAjouter
-				, final ObservableList<IContactSimpleController> pList) {
+				, final ObservableList<IContactSimpleModelObs> pList) {
 		
 		/* retourne false si pList == null. */
 		if (pList == null) {
@@ -235,10 +235,10 @@ public class ListeContactSimplesController implements IListeContactSimplesContro
 			
 			if (contactSimple != null) {
 				
-				final IContactSimpleController contactSimpleController 
-				= new ContactSimpleController(contactSimple);
+				final IContactSimpleModelObs contactSimpleModelObs 
+				= new ContactSimpleModelObs(contactSimple);
 				
-				resultat = pList.add(contactSimpleController);
+				resultat = pList.add(contactSimpleModelObs);
 				
 				if (!resultat) {
 					return false;
@@ -258,7 +258,7 @@ public class ListeContactSimplesController implements IListeContactSimplesContro
 	 */
 	@Override
 	public final boolean ajouterListePersonneControllersAList(
-			final List<IContactSimpleController> pListAAjouter) {
+			final List<IContactSimpleModelObs> pListAAjouter) {
 		
 		return this.ajouterListePersonneControllersAList(
 				pListAAjouter, this.listePersonnes);
@@ -272,8 +272,8 @@ public class ListeContactSimplesController implements IListeContactSimplesContro
 	 */
 	@Override
 	public final boolean ajouterListePersonneControllersAList(
-			final List<IContactSimpleController> pListAAjouter
-				, final ObservableList<IContactSimpleController> pList) {
+			final List<IContactSimpleModelObs> pListAAjouter
+				, final ObservableList<IContactSimpleModelObs> pList) {
 				
 		/* retourne false si pList == null. */
 		if (pList == null) {
@@ -310,7 +310,7 @@ public class ListeContactSimplesController implements IListeContactSimplesContro
 	@Override
 	public final boolean retirerPersonneAList(
 			final IContactSimple pContactSimple
-				, final ObservableList<IContactSimpleController> pList) {
+				, final ObservableList<IContactSimpleModelObs> pList) {
 		
 		/* retourne false si pList == null. */
 		if (pList == null) {
@@ -319,11 +319,11 @@ public class ListeContactSimplesController implements IListeContactSimplesContro
 		
 		if (pContactSimple != null) {
 			
-			/* instancie le IContactSimpleController associé au IContactSimple. */
-			final IContactSimpleController contactSimpleController 
-				= new ContactSimpleController(pContactSimple);
+			/* instancie le IContactSimpleModelObs associé au IContactSimple. */
+			final IContactSimpleModelObs contactSimpleModelObs 
+				= new ContactSimpleModelObs(pContactSimple);
 			
-			return pList.remove(contactSimpleController);
+			return pList.remove(contactSimpleModelObs);
 		}
 		
 		/* retourne false si pPersonne == null.*/
@@ -338,7 +338,7 @@ public class ListeContactSimplesController implements IListeContactSimplesContro
 	 */
 	@Override
 	public final boolean retirerPersonneControllerAList(
-			final IContactSimpleController pPersonne) {
+			final IContactSimpleModelObs pPersonne) {
 		
 		return this.retirerPersonneControllerAList(
 				pPersonne, this.listePersonnes);
@@ -352,8 +352,8 @@ public class ListeContactSimplesController implements IListeContactSimplesContro
 	 */
 	@Override
 	public final boolean retirerPersonneControllerAList(
-			final IContactSimpleController pPersonne
-				, final ObservableList<IContactSimpleController> pList) {
+			final IContactSimpleModelObs pPersonne
+				, final ObservableList<IContactSimpleModelObs> pList) {
 		
 		/* retourne false si pList == null. */
 		if (pList == null) {
@@ -391,7 +391,7 @@ public class ListeContactSimplesController implements IListeContactSimplesContro
 	@Override
 	public final boolean retirerListePersonnesAList(
 			final List<IContactSimple> pListAretirer
-				, final ObservableList<IContactSimpleController> pList) {
+				, final ObservableList<IContactSimpleModelObs> pList) {
 		
 		/* retourne false si pList == null. */
 		if (pList == null) {
@@ -409,10 +409,10 @@ public class ListeContactSimplesController implements IListeContactSimplesContro
 			
 			if (contactSimple != null) {
 				
-				final IContactSimpleController contactSimpleController 
-				= new ContactSimpleController(contactSimple);
+				final IContactSimpleModelObs contactSimpleModelObs 
+				= new ContactSimpleModelObs(contactSimple);
 				
-				resultat = pList.remove(contactSimpleController);
+				resultat = pList.remove(contactSimpleModelObs);
 				
 				if (!resultat) {
 					return false;
@@ -432,7 +432,7 @@ public class ListeContactSimplesController implements IListeContactSimplesContro
 	 */
 	@Override
 	public final boolean retirerListePersonneControllersAList(
-			final List<IContactSimpleController> pListAretirer) {
+			final List<IContactSimpleModelObs> pListAretirer) {
 		
 		return this.retirerListePersonneControllersAList(
 				pListAretirer, this.listePersonnes);
@@ -446,8 +446,8 @@ public class ListeContactSimplesController implements IListeContactSimplesContro
 	 */
 	@Override
 	public final boolean retirerListePersonneControllersAList(
-			final List<IContactSimpleController> pListAretirer
-				, final ObservableList<IContactSimpleController> pList) {
+			final List<IContactSimpleModelObs> pListAretirer
+				, final ObservableList<IContactSimpleModelObs> pList) {
 				
 		/* retourne false si pList == null. */
 		if (pList == null) {
@@ -480,7 +480,7 @@ public class ListeContactSimplesController implements IListeContactSimplesContro
 	 */
 	@Override
 	public final int count(
-			final ObservableList<IContactSimpleController> pList) {
+			final ObservableList<IContactSimpleModelObs> pList) {
 		
 		if (pList != null) {
 			return pList.size();
@@ -507,7 +507,7 @@ public class ListeContactSimplesController implements IListeContactSimplesContro
 	 */
 	@Override
 	public final String afficherListe(
-			final ObservableList<IContactSimpleController> pList) {
+			final ObservableList<IContactSimpleModelObs> pList) {
 		
 		/* retourne null si pList == null. */
 		if (pList == null) {
@@ -520,7 +520,7 @@ public class ListeContactSimplesController implements IListeContactSimplesContro
 		
 		final StringBuffer stb = new StringBuffer();
 		
-		for (final IContactSimpleController personne : pList) {
+		for (final IContactSimpleModelObs personne : pList) {
 			
 			compteur++;
 			
@@ -585,7 +585,7 @@ public class ListeContactSimplesController implements IListeContactSimplesContro
 	 * {@inheritDoc}
 	 */
 	@Override
-	public final ObservableList<IContactSimpleController> getListePersonnes() {	
+	public final ObservableList<IContactSimpleModelObs> getListePersonnes() {	
 		return this.listePersonnes;
 	} // Fin de getListePersonnes()._______________________________________
 
@@ -596,10 +596,10 @@ public class ListeContactSimplesController implements IListeContactSimplesContro
 	 */
 	@Override
 	public final void setListePersonnes(
-			final ObservableList<IContactSimpleController> pListePersonnes) {	
+			final ObservableList<IContactSimpleModelObs> pListePersonnes) {	
 		this.listePersonnes = pListePersonnes;
 	} // Fin de setListePersonnes(...).____________________________________
 	
 	
 
-} // FIN DE LA CLASSE ListeContactSimplesController.------------------------------
+} // FIN DE LA CLASSE ListeContactSimplesModelObs.------------------------------

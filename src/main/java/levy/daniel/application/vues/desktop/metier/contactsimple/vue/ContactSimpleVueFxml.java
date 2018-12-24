@@ -1,7 +1,4 @@
-/**
- * 
- */
-package levy.daniel.application.vues.desktop.metier.contactsimple;
+package levy.daniel.application.vues.desktop.metier.contactsimple.vue;
 
 import java.io.IOException;
 import java.net.URL;
@@ -9,15 +6,19 @@ import java.net.URL;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
+import javafx.collections.ObservableList;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.BorderPane;
 import levy.daniel.application.controllers.desktop.accueil.IAccueilController;
+import levy.daniel.application.vues.desktop.metier.contactsimple.controllervue.IContactSimpleVueController;
+import levy.daniel.application.vues.desktop.metier.contactsimple.modelobs.IContactSimpleModelObs;
+
 
 /**
- * CLASSE CreationContactSimpleVueFxml :<br/>
- * prépare la VUE AnchorPane <b>this.creationPersonneVueAnchorPane</b> 
- * modélisant la boîte de dialogue de création d'une ContactSimple.<br/>
+ * CLASSE ContactSimpleVueFxml :<br/>
+ * prépare la VUE AnchorPane <b>this.personneAnchorPane</b> 
+ * modélisant une ContactSimple.<br/>
  * <ul>
  * <li>charge dans sa méthode dessiner() le FXML.</li>
  * <li></li>
@@ -36,12 +37,12 @@ import levy.daniel.application.controllers.desktop.accueil.IAccueilController;
  * <br/>
  *
  *
- * @author daniel.levy Lévy
+ * @author dan Lévy
  * @version 1.0
- * @since 22 mai 2018
+ * @since 9 mai 2018
  *
  */
-public class CreationContactSimpleVueFxml {
+public class ContactSimpleVueFxml {
 
 	// ************************ATTRIBUTS************************************/
 	
@@ -77,53 +78,43 @@ public class CreationContactSimpleVueFxml {
 	 */
 	private IContactSimpleVueController contactSimpleVueController;
 	
-
-	/**
-	 * creationPersonneVueAnchorPane : AnchorPane :<br/>
-	 * VUE créée par la présente Classe.<br/>
-	 * AnchorPane pour la création d'une ContactSimple.
-	 */
-	private AnchorPane creationPersonneVueAnchorPane;
-
-	
-	/**
-	 * creationContactSimpleVueController : ICreationContactSimpleVueController :<br/>
-	 * CONTROLLER DE VUE de la VUE AnchorPane 
-	 * pour la création d'une personne.<br/>
-	 */
-	private ICreationContactSimpleVueController creationContactSimpleVueController;
-	
 	
 	/**
 	 * LOG : Log : 
 	 * Logger pour Log4j (utilisant commons-logging).
 	 */
-	private static final Log LOG 
-		= LogFactory.getLog(CreationContactSimpleVueFxml.class);
+	private static final Log LOG = LogFactory.getLog(ContactSimpleVueFxml.class);
 
 	// *************************METHODES************************************/
+
 	
 	 /**
-	 * method CONSTRUCTEUR CreationContactSimpleVueFxml() :<br/>
+	 * method CONSTRUCTEUR ContactSimpleVueFxml(
+	 * IAccueilController pAccueilController) :<br/>
 	 * CONSTRUCTEUR COMPLET.<br/>
+	 * <ul>
+	 * <li>instancie la VUE this.personneAnchorPane 
+	 * via un FXMLLoader. </li>
+	 * <li>Le chargement via le FXMLLoader provoque automatiquement 
+	 * l'instanciation du CONTROLLER DE VUE ContactSimpleVueController 
+	 * et l'exécution de sa méthode initialize().</li>
+	 * </ul>
 	 * <br/>
 	 *
-	 * @param pAccueilController : IAccueilController.<br/>
+	 * @param pAccueilController : IAccueilController.<br/>  
 	 */
-	public CreationContactSimpleVueFxml(final IAccueilController pAccueilController) {
+	public ContactSimpleVueFxml(
+			final IAccueilController pAccueilController) {
 		
 		super();
-		
+				
 		this.accueilController = pAccueilController;
-		this.root = this.accueilController.getRoot();		
-		this.personneAnchorPane 
-			= this.accueilController.getContactSimpleAnchorPane();
-		this.contactSimpleVueController 
-			= this.accueilController.getContactSimpleVueController();
+		this.root = this.accueilController.getRoot();
 		
+		/* INSTANCIE LA VUE EN CHARGEANT UN FICHIER fxml. */
 		this.dessiner();
 		
-	} // Fin du CONSTRUCTEUR COMPLET.______________________________________
+	} // Fin de CONSTRUCTEUR COMPLET.______________________________________
 	
 
 	
@@ -134,49 +125,110 @@ public class CreationContactSimpleVueFxml {
 	 * <li>instancie un FXMLLoader.</li>
 	 * <li>positionne le FXMLLoader sur le bon fichier fxml.</li>
 	 * <li>charge le fichier fxml et instancie le panneau 
-	 * AnchorPane (VUE) modélisant la boite de saisie d'une ContactSimple.</li>
+	 * AnchorPane (VUE) modélisant une ContactSimple.</li>
+	 * <li>Récupère les données (MODEL) à afficher dans le TableView 
+	 * auprès du CONTROLLER this.accueilController.</li>
+	 * <li>Passe le MODEL initial (base de données, fichier...) 
+	 * à afficher dans le TableView au CONTROLLER DE VUE 
+	 * this.personneVueController.</li>
+	 * <li>Initialise la sélection dans le TableView.</li>
+	 * <li>Positionne la VUE dans le panneau de fond de la scene.</li>
 	 * </ul>
 	 */
 	private void dessiner() {
-		
+
 		try {
-        	
-        	/* *********************************************** */
-        	/* FABRIQUE LE PANNEAU this.
-        	 * creationPersonneVueAnchorPane (AnchorPane). */
-            final FXMLLoader loader = new FXMLLoader();
-            
-            final URL url = CreationContactSimpleVueFxml.class
-            		.getResource("CreationPersonneVue.fxml");
-            
-            /* positionne le FXMLLoader sur le bon fichier fxml. */
-            loader.setLocation(url);
-            
-            /* charge le fichier fxml et instancie le 
-             * panneau de fond de la scene. */
-            /* instancie et alimente automatiquement le CONTROLLER DE VUE 
-             * AccueilVueController. */
-            this.creationPersonneVueAnchorPane 
-            	= (AnchorPane) loader.load();
+
+			/* instancie un FXMLLoader. */
+			final FXMLLoader loader = new FXMLLoader();
+			
+			final URL url = ContactSimpleVueFxml.class
+					.getResource("PersonneVue.fxml");
+			
+			/* positionne le FXMLLoader sur le bon fichier fxml. */
+			loader.setLocation(url);
+
+			/* charge le fichier fxml et instancie le panneau 
+			 * AnchorPane (VUE) modélisant une ContactSimple.*/
+			this.personneAnchorPane = (AnchorPane) loader.load();
+			
+			/* LOAD PROVOQUE UN APPEL AUTOMATIQUE DU CONSTRUCTEUR
+			 * , PUIS DE LA METHODE initialize() 
+			 * du this.personneVueController. */
 			
 			/* récupère le CONTROLLER de VUE auprès du FXMLLoader. */
-            this.creationContactSimpleVueController 
-        	= (ICreationContactSimpleVueController) loader.getController();
+            this.recupererPersonneVueController(loader);
+            
+            /* CALLBACK. */
+            /* Récupère les données (MODEL) à afficher dans le TableView 
+             * auprès du CONTROLLER this.accueilController. */
+            final ObservableList<IContactSimpleModelObs> modelTableView 
+            	= this.accueilController.getListeContactSimples();
+            
+            /* Passe le MODEL initial (base de données, fichier...) 
+             * à afficher dans le TableView au CONTROLLER DE VUE 
+             * this.personneVueController. */
+            this.contactSimpleVueController
+            	.setModelTableViewPersonnes(modelTableView);
+            
+            /* Initialise la sélection dans le TableView. */
+            this.selectionnerValeurInitiale(0);
+                        
+            this.contactSimpleVueController
+            	.setAccueilController(this.accueilController);
 
+			/* Positionne la VUE dans le panneau de fond de la scene. */
+			this.root.setCenter(this.personneAnchorPane);
+						
 		}
 		catch (IOException e) {
 			
 			final String message 
-    		= "Impossible de créer la boîte de dialogue "
-    				+ "de création d'une ContactSimple "
-    				+ "à partir des fichiers XML";
-    	
-	    	if (LOG.isFatalEnabled()) {
-	    		LOG.fatal(message, e);
-	    	}
+				= "Impossible de créer le personneAnchorPane " 
+						+ "à partir des fichiers XML";
+
+			if (LOG.isFatalEnabled()) {
+				LOG.fatal(message, e);
+			}
+
 		}
-		
+
 	} // Fin de dessiner().________________________________________________
+	
+
+	
+	/**
+	 * method recupererPersonneVueController(
+	 * FXMLLoader pLoader) :<br/>
+	 * récupère le CONTROLLER DE VUE auprès du FXMLLoader.<br/>
+	 * <br/>
+	 *
+	 * @param pLoader : FXMLLoader.<br/>
+	 */
+	private void recupererPersonneVueController(
+			final FXMLLoader pLoader) {
+		
+		this.contactSimpleVueController 
+    		= (IContactSimpleVueController) pLoader.getController();
+		
+	} // Fin de recupererPersonneVueController(...)._______________________
+	
+
+	
+	/**
+	 * method selectionnerValeurInitiale(
+	 * int pIndex) :<br/>
+	 * Sélectionne un rang dans le TableView en 
+	 * fonction de son index 0-based.<br/>
+	 * <br/>
+	 *
+	 * @param pIndex : int : 
+	 * index 0-based de la donnée dans le MODEL.<br/>
+	 */
+	private void selectionnerValeurInitiale(
+			final int pIndex) {
+		this.contactSimpleVueController.getModelSelection().select(pIndex);
+	} // Fin de selectionnerValeurInitiale(...).___________________________
 	
 	
 	
@@ -298,65 +350,7 @@ public class CreationContactSimpleVueFxml {
 			final IContactSimpleVueController pContactSimpleVueController) {
 		this.contactSimpleVueController = pContactSimpleVueController;
 	} // Fin de setPersonneVueController(...)._____________________________
-
-
-
-	/**
-	 * Getter de la VUE créée par la présente Classe.<br/>
-	 * AnchorPane pour la création d'une ContactSimple.<br/>
-	 * <br/>
-	 *
-	 * @return creationPersonneVueAnchorPane : AnchorPane : 
-	 * this.creationPersonneVueAnchorPane.<br/>
-	 */
-	public AnchorPane getCreationPersonneVueAnchorPane() {
-		return this.creationPersonneVueAnchorPane;
-	} // Fin de getCreationPersonneVueAnchorPane().________________________
-
-
-
-	/**
-	* Setter de la VUE créée par la présente Classe.<br/>
-	* AnchorPane pour la création d'une ContactSimple.<br/>
-	* <br/>
-	*
-	* @param pCreationPersonneVueAnchorPane : AnchorPane : 
-	* valeur à passer à this.creationPersonneVueAnchorPane.<br/>
-	*/
-	public void setCreationPersonneVueAnchorPane(
-			final AnchorPane pCreationPersonneVueAnchorPane) {
-		this.creationPersonneVueAnchorPane = pCreationPersonneVueAnchorPane;
-	} // Fin de setCreationPersonneVueAnchorPane(...)._____________________
-
-
-
-	/**
-	 * Getter du CONTROLLER DE VUE de la VUE AnchorPane 
-	 * pour la création d'une personne.<br/>
-	 * <br/>
-	 *
-	 * @return this.creationPersonneVueController : 
-	 * ICreationContactSimpleVueController.<br/>
-	 */
-	public ICreationContactSimpleVueController getCreationPersonneVueController() {
-		return this.creationContactSimpleVueController;
-	} // Fin de getCreationPersonneVueController().________________________
-
-
-
-	/**
-	* Setter du CONTROLLER DE VUE de la VUE AnchorPane 
-	* pour la création d'une personne.<br/>
-	* <br/>
-	*
-	* @param pCreationContactSimpleVueController : ICreationContactSimpleVueController : 
-	* valeur à passer à this.creationPersonneVueController.<br/>
-	*/
-	public void setCreationPersonneVueController(
-			final ICreationContactSimpleVueController pCreationContactSimpleVueController) {
-		this.creationContactSimpleVueController = pCreationContactSimpleVueController;
-	} // Fin de setCreationPersonneVueController(...)._____________________
 	
-
 	
-} // FIN DE LA CLASSE CreationContactSimpleVueFxml.-------------------------------
+	
+} // FIN DE LA CLASSE ContactSimpleVueFxml.---------------------------------------

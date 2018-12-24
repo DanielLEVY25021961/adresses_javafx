@@ -9,10 +9,10 @@ import org.apache.commons.logging.LogFactory;
 
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
-import levy.daniel.application.controllers.desktop.metier.contactsimple.IContactSimpleController;
-import levy.daniel.application.controllers.desktop.metier.contactsimple.impl.ContactSimpleController;
 import levy.daniel.application.model.metier.contactsimple.IContactSimple;
 import levy.daniel.application.model.metier.contactsimple.impl.ContactSimple;
+import levy.daniel.application.vues.desktop.metier.contactsimple.modelobs.IContactSimpleModelObs;
+import levy.daniel.application.vues.desktop.metier.contactsimple.modelobs.impl.ContactSimpleModelObs;
 
 
 /**
@@ -46,10 +46,10 @@ public final class InitialiseurDeData {
 	private static List<IContactSimple> listePersonnes = new ArrayList<IContactSimple>();
 	
 	/**
-	 * listePersonnesControllers : ObservableList<IContactSimpleController> :<br/>
-	 * Liste de IContactSimpleController correspondant à la listePersonnes.<br/>
+	 * listePersonnesControllers : ObservableList<IContactSimpleModelObs> :<br/>
+	 * Liste de IContactSimpleModelObs correspondant à la listePersonnes.<br/>
 	 */
-	private static ObservableList<IContactSimpleController> listePersonnesControllers 
+	private static ObservableList<IContactSimpleModelObs> listePersonnesControllers 
 		= FXCollections.observableArrayList();
 
 	/**
@@ -121,13 +121,13 @@ public final class InitialiseurDeData {
 				, LocalDate.of(2018, 5, 4));
 
 		listePersonnes.add(personne1);
-		listePersonnesControllers.add(new ContactSimpleController(personne1));
+		listePersonnesControllers.add(new ContactSimpleModelObs(personne1));
 		listePersonnes.add(personne2);
-		listePersonnesControllers.add(new ContactSimpleController(personne2));
+		listePersonnesControllers.add(new ContactSimpleModelObs(personne2));
 		listePersonnes.add(personne3);
-		listePersonnesControllers.add(new ContactSimpleController(personne3));
+		listePersonnesControllers.add(new ContactSimpleModelObs(personne3));
 		listePersonnes.add(personne4);
-		listePersonnesControllers.add(new ContactSimpleController(personne4));
+		listePersonnesControllers.add(new ContactSimpleModelObs(personne4));
 		
 	} // Fin de instancierPersonnes()._____________________________________
 
@@ -137,7 +137,7 @@ public final class InitialiseurDeData {
 	 * method ajouterPersonne(
 	 * IContactSimple pPersonne) :<br/>
 	 * Ajoute une IContactSimple à listePersonnes.<br/>
-	 * Ajoute un ContactSimpleController correspondant 
+	 * Ajoute un ContactSimpleModelObs correspondant 
 	 * à listePersonnesControllers.<br/>
 	 * <br/>
 	 *
@@ -147,7 +147,7 @@ public final class InitialiseurDeData {
 			final IContactSimple pContactSimple) {
 		
 		listePersonnes.add(pContactSimple);
-		listePersonnesControllers.add(new ContactSimpleController(pContactSimple));
+		listePersonnesControllers.add(new ContactSimpleModelObs(pContactSimple));
 		
 	} // Fin de ajouterPersonne(...).______________________________________
 	
@@ -177,9 +177,9 @@ public final class InitialiseurDeData {
 	 * Getter de la liste de PersonneControllers.<br/>
 	 * <br/>
 	 *
-	 * @return : ObservableList&lt;IContactSimpleController&gt; :  .<br/>
+	 * @return : ObservableList&lt;IContactSimpleModelObs&gt; :  .<br/>
 	 */
-	public static ObservableList<IContactSimpleController> getListePersonnesControllers() {
+	public static ObservableList<IContactSimpleModelObs> getListePersonnesControllers() {
 		
 		if (listePersonnesControllers.isEmpty()) {
 			instancierPersonnes();

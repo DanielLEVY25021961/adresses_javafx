@@ -50,7 +50,7 @@ public interface IContactSimpleService {
 	 * 
 	 * @return List&lt;IContactSimple&gt;
 	 */
-	List<IContactSimple> initialiserListePersonnes();
+	List<IContactSimple> initialiserListeContactSimples();
 	
 	
 	

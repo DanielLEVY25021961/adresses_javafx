@@ -14,14 +14,15 @@ import org.junit.Test;
 
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
-import levy.daniel.application.controllers.desktop.metier.contactsimple.IContactSimpleController;
-import levy.daniel.application.controllers.desktop.metier.contactsimple.IListeContactSimplesController;
 import levy.daniel.application.model.metier.contactsimple.IContactSimple;
 import levy.daniel.application.model.metier.contactsimple.impl.ContactSimple;
+import levy.daniel.application.vues.desktop.metier.contactsimple.modelobs.IContactSimpleModelObs;
+import levy.daniel.application.vues.desktop.metier.contactsimple.modelobs.IListeContactSimplesModelObs;
+import levy.daniel.application.vues.desktop.metier.contactsimple.modelobs.impl.ListeContactSimplesModelObs;
 
 /**
  * CLASSE ListeContactSimplesControllerTest :<br/>
- * Test JUnit de la Classe ListeContactSimplesController.<br/>
+ * Test JUnit de la Classe ListeContactSimplesModelObs.<br/>
  * <br/>
  *
  * - Exemple d'utilisation :<br/>
@@ -47,19 +48,19 @@ public class ListeContactSimplesControllerTest {
 	
 	
 	/**
-	 * listePersonnes : ObservableList<IContactSimpleController> :<br/>
-	 * liste des ContactSimpleController.<br/>
+	 * listePersonnes : ObservableList<IContactSimpleModelObs> :<br/>
+	 * liste des ContactSimpleModelObs.<br/>
 	 */
-	public transient ObservableList<IContactSimpleController> listePersonnes 
+	public transient ObservableList<IContactSimpleModelObs> listePersonnes 
 		= FXCollections.observableArrayList();	
 	
 
 	/**
-	 * listePersonneController : IListeContactSimplesController :<br/>
+	 * listePersonneController : IListeContactSimplesModelObs :<br/>
 	 * .<br/>
 	 */
-	public transient IListeContactSimplesController listePersonneController 
-		= new ListeContactSimplesController(null, null, this.listePersonnes);
+	public transient IListeContactSimplesModelObs listePersonneController 
+		= new ListeContactSimplesModelObs(null, null, this.listePersonnes);
 	
 	
 	/**

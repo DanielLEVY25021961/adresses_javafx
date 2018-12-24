@@ -1,4 +1,4 @@
-package levy.daniel.application.controllers.desktop.metier.contactsimple.impl;
+package levy.daniel.application.vues.desktop.metier.contactsimple.modelobs.impl;
 
 import java.time.LocalDate;
 
@@ -9,12 +9,12 @@ import javafx.beans.property.ObjectProperty;
 import javafx.beans.property.SimpleObjectProperty;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.property.StringProperty;
-import levy.daniel.application.controllers.desktop.metier.contactsimple.IContactSimpleController;
 import levy.daniel.application.model.metier.contactsimple.IContactSimple;
+import levy.daniel.application.vues.desktop.metier.contactsimple.modelobs.IContactSimpleModelObs;
 
 
 /**
- * CLASSE ContactSimpleController :<br/>
+ * CLASSE ContactSimpleModelObs :<br/>
  * CONTROLLER réagissant aux évènements de la VUE PersonneVue.<br/>
  * <ul>
  * <li>utilise des <b>Property JavaFx</b> pour tracker 
@@ -40,7 +40,7 @@ import levy.daniel.application.model.metier.contactsimple.IContactSimple;
  * @since 9 mai 2018
  *
  */
-public class ContactSimpleController implements IContactSimpleController {
+public class ContactSimpleModelObs implements IContactSimpleModelObs {
 
 	// ************************ATTRIBUTS************************************/
 	
@@ -98,17 +98,17 @@ public class ContactSimpleController implements IContactSimpleController {
 	 * LOG : Log : 
 	 * Logger pour Log4j (utilisant commons-logging).
 	 */
-	private static final Log LOG = LogFactory.getLog(ContactSimpleController.class);
+	private static final Log LOG = LogFactory.getLog(ContactSimpleModelObs.class);
 
 	// *************************METHODES************************************/
 
 	
 	 /**
-	 * method CONSTRUCTEUR ContactSimpleController() :<br/>
+	 * method CONSTRUCTEUR ContactSimpleModelObs() :<br/>
 	 * CONSTRUCTEUR D'ARITE NULLE.<br/>
 	 * <br/>
 	 */
-	public ContactSimpleController() {
+	public ContactSimpleModelObs() {
 		
 		this((StringProperty) null, null, null, null, null, null, null);
 		
@@ -117,7 +117,7 @@ public class ContactSimpleController implements IContactSimpleController {
 	
 	
 	 /**
-	 * method CONSTRUCTEUR ContactSimpleController(...) :<br/>
+	 * method CONSTRUCTEUR ContactSimpleModelObs(...) :<br/>
 	 * CONSTRUCTEUR COMPLET.<br/>
 	 * <br/>
 	 *
@@ -128,7 +128,7 @@ public class ContactSimpleController implements IContactSimpleController {
 	 * @param pVille : StringProperty
 	 * @param pDateNaissance : ObjectProperty
 	 */
-	public ContactSimpleController(
+	public ContactSimpleModelObs(
 			final StringProperty pPrenom
 				, final StringProperty pNom
 			, final StringProperty pRue
@@ -146,10 +146,10 @@ public class ContactSimpleController implements IContactSimpleController {
 	
 	
 	 /**
-	 * method CONSTRUCTEUR ContactSimpleController() :<br/>
+	 * method CONSTRUCTEUR ContactSimpleModelObs() :<br/>
 	 * CONSTRUCTEUR COMPLET MODEL.<br/>
 	 * Fait le lien entre un <b>model.metier.personne.impl.Personne</b> 
-	 * et le présent ContactSimpleController.<br/>
+	 * et le présent ContactSimpleModelObs.<br/>
 	 * <br/>
 	 *
 	 * @param pPrenom
@@ -159,7 +159,7 @@ public class ContactSimpleController implements IContactSimpleController {
 	 * @param pVille
 	 * @param pDateNaissance
 	 */
-	public ContactSimpleController(
+	public ContactSimpleModelObs(
 			final String pPrenom
 				, final String pNom
 			, final String pRue
@@ -177,7 +177,7 @@ public class ContactSimpleController implements IContactSimpleController {
 	
 	
 	 /**
-	 * method CONSTRUCTEUR ContactSimpleController(...) :<br/>
+	 * method CONSTRUCTEUR ContactSimpleModelObs(...) :<br/>
 	 * CONSTRUCTEUR COMPLET BASE.<br/>
 	 * <br/>
 	 *
@@ -189,7 +189,7 @@ public class ContactSimpleController implements IContactSimpleController {
 	 * @param pVille : StringProperty
 	 * @param pDateNaissance : ObjectProperty
 	 */
-	public ContactSimpleController(
+	public ContactSimpleModelObs(
 			final StringProperty pId
 				, final StringProperty pPrenom
 					, final StringProperty pNom
@@ -213,11 +213,11 @@ public class ContactSimpleController implements IContactSimpleController {
 
 	
 	 /**
-	 * method CONSTRUCTEUR ContactSimpleController() :<br/>
+	 * method CONSTRUCTEUR ContactSimpleModelObs() :<br/>
 	 * CONSTRUCTEUR COMPLET BASE MODEL.<br/>
 	 * Fait le lien entre les attributs d'un 
 	 * <b>model.metier.personne.impl.Personne</b> 
-	 * et le présent ContactSimpleController.<br/>
+	 * et le présent ContactSimpleModelObs.<br/>
 	 * <br/>
 	 *
 	 * @param pId : Long : ID en base.<br/>
@@ -228,7 +228,7 @@ public class ContactSimpleController implements IContactSimpleController {
 	 * @param pVille : String : ville.<br/>
 	 * @param pDateNaissance : LocalDate : date de naissance.<br/>
 	 */
-	public ContactSimpleController(
+	public ContactSimpleModelObs(
 			final Long pId
 				, final String pPrenom
 					, final String pNom
@@ -252,17 +252,17 @@ public class ContactSimpleController implements IContactSimpleController {
 	
 	
 	 /**
-	 * method CONSTRUCTEUR ContactSimpleController(
+	 * method CONSTRUCTEUR ContactSimpleModelObs(
 	 * IContactSimple pPersonne) :<br/>
 	 * CONSTRUCTEUR LIEN.<br/>
 	 * Fait le lien entre un 
 	 * <b>model.metier.personne.impl.Personne</b> 
-	 * et le présent ContactSimpleController.<br/>
+	 * et le présent ContactSimpleModelObs.<br/>
 	 * <br/>
 	 *
 	 * @param pContactSimple : model.metier.personne.IPersonne.<br/>
 	 */
-	public ContactSimpleController(
+	public ContactSimpleModelObs(
 			final IContactSimple pContactSimple) {
 		
 		super();
@@ -342,12 +342,12 @@ public class ContactSimpleController implements IContactSimpleController {
 			return false;
 		}
 		
-		if (!(pObjet instanceof ContactSimpleController)) {
+		if (!(pObjet instanceof ContactSimpleModelObs)) {
 			return false;
 		}
 		
-		final ContactSimpleController other 
-			= (ContactSimpleController) pObjet;
+		final ContactSimpleModelObs other 
+			= (ContactSimpleModelObs) pObjet;
 		
 		if (this.nom == null) {
 			if (other.nom != null) {
@@ -384,7 +384,7 @@ public class ContactSimpleController implements IContactSimpleController {
 	 */
 	@Override
 	public final int compareTo(
-			final IContactSimpleController pObject) {
+			final IContactSimpleModelObs pObject) {
 		
 		if (this == pObject) {
 			return 0;
@@ -493,9 +493,9 @@ public class ContactSimpleController implements IContactSimpleController {
 	 * {@inheritDoc}
 	 */
 	@Override
-	public final ContactSimpleController clone() throws CloneNotSupportedException {
+	public final ContactSimpleModelObs clone() throws CloneNotSupportedException {
 
-		final ContactSimpleController clone = (ContactSimpleController) super.clone();
+		final ContactSimpleModelObs clone = (ContactSimpleModelObs) super.clone();
 		
 		clone.id.set(this.id.get());
 		clone.prenom.set(this.prenom.get());
@@ -519,7 +519,7 @@ public class ContactSimpleController implements IContactSimpleController {
 		
 		final StringBuilder builder = new StringBuilder();
 		
-		builder.append("ContactSimpleController [");
+		builder.append("ContactSimpleModelObs [");
 		
 		if (this.id != null) {
 			builder.append("id=");
@@ -816,4 +816,4 @@ public class ContactSimpleController implements IContactSimpleController {
 
 
 	
-} // FIN DE LA CLASSE ContactSimpleController.------------------------------------
+} // FIN DE LA CLASSE ContactSimpleModelObs.------------------------------------

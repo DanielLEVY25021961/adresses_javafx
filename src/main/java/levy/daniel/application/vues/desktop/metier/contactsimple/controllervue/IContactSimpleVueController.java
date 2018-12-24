@@ -1,7 +1,7 @@
 /**
  * 
  */
-package levy.daniel.application.vues.desktop.metier.contactsimple;
+package levy.daniel.application.vues.desktop.metier.contactsimple.controllervue;
 
 import javafx.collections.ObservableList;
 import javafx.scene.control.Button;
@@ -15,8 +15,8 @@ import javafx.scene.control.TextField;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.GridPane;
 import levy.daniel.application.controllers.desktop.accueil.IAccueilController;
-import levy.daniel.application.controllers.desktop.metier.contactsimple.IContactSimpleController;
-import levy.daniel.application.controllers.desktop.metier.contactsimple.impl.ContactSimpleController;
+import levy.daniel.application.vues.desktop.metier.contactsimple.modelobs.IContactSimpleModelObs;
+import levy.daniel.application.vues.desktop.metier.contactsimple.modelobs.impl.ContactSimpleModelObs;
 
 /**
  * INTERFACE IContactSimpleVueController :<br/>
@@ -44,14 +44,14 @@ public interface IContactSimpleVueController {
 	
 	/**
 	 * method afficherRenseignementsPersonne(
-	 * IContactSimpleController pPersonneController) :<br/>
+	 * IContactSimpleModelObs pPersonneController) :<br/>
 	 * Affiche les renseignements d'une ContactSimple donnée 
 	 * dans le GridPane de droite.<br/>
 	 * <br/>
 	 *
-	 * @param pContactSimpleController : IContactSimpleController.<br/>
+	 * @param pContactSimpleModelObs : IContactSimpleModelObs.<br/>
 	 */
-	void afficherRenseignementsPersonne(IContactSimpleController pContactSimpleController);
+	void afficherRenseignementsPersonne(IContactSimpleModelObs pContactSimpleModelObs);
 
 	
 
@@ -187,28 +187,28 @@ public interface IContactSimpleVueController {
 
 	/**
 	 * method getPersonnesTableView() :<br/>
-	 * Getter du TableView&lt;IContactSimpleController&gt; affichant 
+	 * Getter du TableView&lt;IContactSimpleModelObs&gt; affichant 
 	 * la liste des ContactSimple.<br/>
 	 * <br/>
 	 *
 	 * @return personnesTableView : 
-	 * TableView&lt;IContactSimpleController&gt;.<br/>
+	 * TableView&lt;IContactSimpleModelObs&gt;.<br/>
 	 */
-	TableView<IContactSimpleController> getPersonnesTableView();
+	TableView<IContactSimpleModelObs> getPersonnesTableView();
 	
 	
 
 	/**
 	* method setPersonnesTableView(
-	* TableView&lt;IContactSimpleController&gt; pPersonnesTableView) :<br/>
-	* Setter du TableView&lt;IContactSimpleController&gt; affichant 
+	* TableView&lt;IContactSimpleModelObs&gt; pPersonnesTableView) :<br/>
+	* Setter du TableView&lt;IContactSimpleModelObs&gt; affichant 
 	* la liste des ContactSimple.<br/>
 	* <br/>
 	*
-	* @param pPersonnesTableView : TableView&lt;IContactSimpleController&gt; : 
+	* @param pPersonnesTableView : TableView&lt;IContactSimpleModelObs&gt; : 
 	* valeur à passer à personnesTableView.<br/>
 	*/
-	void setPersonnesTableView(TableView<IContactSimpleController> pPersonnesTableView);
+	void setPersonnesTableView(TableView<IContactSimpleModelObs> pPersonnesTableView);
 	
 	
 
@@ -219,23 +219,23 @@ public interface IContactSimpleVueController {
 	 * <br/>
 	 *
 	 * @return modelSelection : 
-	 * TableViewSelectionModel&lt;IContactSimpleController&gt;.<br/>
+	 * TableViewSelectionModel&lt;IContactSimpleModelObs&gt;.<br/>
 	 */
-	TableViewSelectionModel<IContactSimpleController> getModelSelection();
+	TableViewSelectionModel<IContactSimpleModelObs> getModelSelection();
 	
 	
 
 	/**
 	* method setModelSelection(
-	* TableViewSelectionModel&lt;IContactSimpleController&gt; pModelSelection) :<br/>
+	* TableViewSelectionModel&lt;IContactSimpleModelObs&gt; pModelSelection) :<br/>
 	* Setter du MODEL pour la sélection dans 
 	* le TableView this.personnesTableView.<br/>
 	* <br/>
 	*
-	* @param pModelSelection : TableViewSelectionModel&lt;IContactSimpleController&gt; : 
+	* @param pModelSelection : TableViewSelectionModel&lt;IContactSimpleModelObs&gt; : 
 	* valeur à passer à modelSelection.<br/>
 	*/
-	void setModelSelection(TableViewSelectionModel<IContactSimpleController> pModelSelection);
+	void setModelSelection(TableViewSelectionModel<IContactSimpleModelObs> pModelSelection);
 	
 	
 
@@ -245,23 +245,23 @@ public interface IContactSimpleVueController {
 	 * <br/>
 	 *
 	 * @return prenomTableColumn : 
-	 * TableColumn&lt;ContactSimpleController,String&gt;.<br/>
+	 * TableColumn&lt;ContactSimpleModelObs,String&gt;.<br/>
 	 */
-	TableColumn<ContactSimpleController, String> getPrenomTableColumn();
+	TableColumn<ContactSimpleModelObs, String> getPrenomTableColumn();
 	
 	
 
 	/**
 	* method setPrenomTableColumn(
-	* TableColumn&lt;ContactSimpleController,String&gt; pPrenomTableColumn) :<br/>
+	* TableColumn&lt;ContactSimpleModelObs,String&gt; pPrenomTableColumn) :<br/>
 	* Setter de la colonne des prénoms.<br/>
 	* <br/>
 	*
 	* @param pPrenomTableColumn : 
-	* TableColumn&lt;ContactSimpleController,String&gt; :
+	* TableColumn&lt;ContactSimpleModelObs,String&gt; :
 	*  valeur à passer à prenomTableColumn.<br/>
 	*/
-	void setPrenomTableColumn(TableColumn<ContactSimpleController, String> pPrenomTableColumn);
+	void setPrenomTableColumn(TableColumn<ContactSimpleModelObs, String> pPrenomTableColumn);
 	
 	
 
@@ -270,23 +270,23 @@ public interface IContactSimpleVueController {
 	 * Getter de la colonne des noms.<br/>
 	 * <br/>
 	 *
-	 * @return nomTableColumn : TableColumn&lt;ContactSimpleController,String&gt;.<br/>
+	 * @return nomTableColumn : TableColumn&lt;ContactSimpleModelObs,String&gt;.<br/>
 	 */
-	TableColumn<ContactSimpleController, String> getNomTableColumn();
+	TableColumn<ContactSimpleModelObs, String> getNomTableColumn();
 	
 	
 
 	/**
 	* method setNomTableColumn(
-	* TableColumn&lt;ContactSimpleController,String&gt; pNomTableColumn) :<br/>
+	* TableColumn&lt;ContactSimpleModelObs,String&gt; pNomTableColumn) :<br/>
 	* Setter de la colonne des noms.<br/>
 	* <br/>
 	*
 	* @param pNomTableColumn : 
-	* TableColumn&lt;ContactSimpleController,String&gt; : 
+	* TableColumn&lt;ContactSimpleModelObs,String&gt; : 
 	* valeur à passer à nomTableColumn.<br/>
 	*/
-	void setNomTableColumn(TableColumn<ContactSimpleController, String> pNomTableColumn);
+	void setNomTableColumn(TableColumn<ContactSimpleModelObs, String> pNomTableColumn);
 	
 	
 
@@ -799,14 +799,14 @@ public interface IContactSimpleVueController {
 
 	/**
 	 * method setModelTableViewPersonnes(
-	 * ObservableList&lt;IContactSimpleController&gt; pListePersonnes) :<br/>
+	 * ObservableList&lt;IContactSimpleModelObs&gt; pListePersonnes) :<br/>
 	 * Passe les données à afficher (MODEL) au TableView.<br/>
 	 * <br/>
 	 *
-	 * @param pListePersonnes : ObservableList&lt;IContactSimpleController&gt; : 
+	 * @param pListePersonnes : ObservableList&lt;IContactSimpleModelObs&gt; : 
 	 * données (MODEL) à passer à this.personnesTableView.<br/>
 	 */
-	void setModelTableViewPersonnes(ObservableList<IContactSimpleController> pListePersonnes);
+	void setModelTableViewPersonnes(ObservableList<IContactSimpleModelObs> pListePersonnes);
 
 	
 	

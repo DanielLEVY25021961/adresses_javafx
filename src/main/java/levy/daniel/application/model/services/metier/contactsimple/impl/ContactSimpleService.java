@@ -73,7 +73,7 @@ public class ContactSimpleService implements IContactSimpleService {
 	 * {@inheritDoc}
 	 */
 	@Override
-	public List<IContactSimple> initialiserListePersonnes() {
+	public List<IContactSimple> initialiserListeContactSimples() {
 		return InitialiseurDeData.getListePersonnes();
 	} // Fin de initialiserListePersonnes()._______________________________
 

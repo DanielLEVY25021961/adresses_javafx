@@ -1,4 +1,4 @@
-package levy.daniel.application.vues.desktop.metier.contactsimple;
+package levy.daniel.application.vues.desktop.metier.contactsimple.controllervue.impl;
 
 import java.time.format.DateTimeFormatter;
 
@@ -27,8 +27,11 @@ import javafx.scene.layout.GridPane;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 import levy.daniel.application.controllers.desktop.accueil.IAccueilController;
-import levy.daniel.application.controllers.desktop.metier.contactsimple.IContactSimpleController;
-import levy.daniel.application.controllers.desktop.metier.contactsimple.impl.ContactSimpleController;
+import levy.daniel.application.vues.desktop.metier.contactsimple.controllervue.IContactSimpleVueController;
+import levy.daniel.application.vues.desktop.metier.contactsimple.controllervue.ICreationContactSimpleVueController;
+import levy.daniel.application.vues.desktop.metier.contactsimple.modelobs.IContactSimpleModelObs;
+import levy.daniel.application.vues.desktop.metier.contactsimple.modelobs.impl.ContactSimpleModelObs;
+import levy.daniel.application.vues.desktop.metier.contactsimple.vue.CreationContactSimpleVueFxml;
 
 
 /**
@@ -105,34 +108,34 @@ public class ContactSimpleVueController implements IContactSimpleVueController {
 	
 	
 	/**
-	 * personnesTableView : TableView&lt;IContactSimpleController&gt; :<br/>
-	 * TableView&lt;IContactSimpleController&gt; affichant 
+	 * personnesTableView : TableView&lt;IContactSimpleModelObs&gt; :<br/>
+	 * TableView&lt;IContactSimpleModelObs&gt; affichant 
 	 * la liste des ContactSimple.<br/>
 	 */
 	@FXML
-	private TableView<IContactSimpleController> personnesTableView;
+	private TableView<IContactSimpleModelObs> personnesTableView;
 	
 	/**
 	 * prenomTableColumn : 
-	 * TableColumn&lt;ContactSimpleController,String&gt; :<br/>
+	 * TableColumn&lt;ContactSimpleModelObs,String&gt; :<br/>
 	 * colonne des prénoms.<br/>
 	 */
 	@FXML
-	private TableColumn<ContactSimpleController, String> prenomTableColumn;
+	private TableColumn<ContactSimpleModelObs, String> prenomTableColumn;
 	
 	/**
-	 * modelSelection : TableViewSelectionModel&lt;IContactSimpleController&gt; :<br/>
+	 * modelSelection : TableViewSelectionModel&lt;IContactSimpleModelObs&gt; :<br/>
 	 * MODEL pour la sélection dans le TableView this.personnesTableView.<br/>
 	 */
-	private TableViewSelectionModel<IContactSimpleController> modelSelection;
+	private TableViewSelectionModel<IContactSimpleModelObs> modelSelection;
 	
 	/**
 	 * nomTableColumn : 
-	 * TableColumn<ContactSimpleController,String> :<br/>
+	 * TableColumn<ContactSimpleModelObs,String> :<br/>
 	 * colonne des noms.<br/>
 	 */
 	@FXML
-	private TableColumn<ContactSimpleController, String> nomTableColumn;
+	private TableColumn<ContactSimpleModelObs, String> nomTableColumn;
 		
 	/**
 	 * renseignementsAnchorPane : AnchorPane :<br/>
@@ -330,7 +333,7 @@ public class ContactSimpleVueController implements IContactSimpleVueController {
 	 * method initialiserDonneesTbViewPersonnes() :<br/>
 	 * <ul>
 	 * <li>initialise les TableColumns du TableView en les 
-	 * associant avec des attributs du ContactSimpleController.</li>
+	 * associant avec des attributs du ContactSimpleModelObs.</li>
 	 * <li>rend le TableView éditable.</li>
 	 * <li>instancie le modelSelection du TableView 
 	 * this.modelSelection.</li>
@@ -340,14 +343,14 @@ public class ContactSimpleVueController implements IContactSimpleVueController {
 	private void initialiserDonneesTbViewPersonnes() {
 		
 		/* initialise les TableColumns du TableView en les 
-		 * associant avec des attributs du ContactSimpleController. */
+		 * associant avec des attributs du ContactSimpleModelObs. */
 		this.prenomTableColumn
 			.setCellValueFactory(
-					new PropertyValueFactory<ContactSimpleController, String>("prenom"));
+					new PropertyValueFactory<ContactSimpleModelObs, String>("prenom"));
 		
 		this.nomTableColumn
 			.setCellValueFactory(
-					new PropertyValueFactory<ContactSimpleController, String>("nom"));
+					new PropertyValueFactory<ContactSimpleModelObs, String>("nom"));
 		
 		/* rend le TableView éditable. */
 		this.personnesTableView.setEditable(true);
@@ -383,14 +386,14 @@ public class ContactSimpleVueController implements IContactSimpleVueController {
 	private void creerListenerSurTableView() {
 				
 		this.modelSelection.selectedItemProperty().addListener(
-				new ChangeListener<IContactSimpleController>() {
+				new ChangeListener<IContactSimpleModelObs>() {
 
 					/**
 					 * {@inheritDoc}
 					 */
 					@Override
-					public void changed(final ObservableValue<? extends IContactSimpleController> pObservable,
-							final IContactSimpleController pOldValue, final IContactSimpleController pNewValue) {
+					public void changed(final ObservableValue<? extends IContactSimpleModelObs> pObservable,
+							final IContactSimpleModelObs pOldValue, final IContactSimpleModelObs pNewValue) {
 
 						ContactSimpleVueController.this.afficherRenseignementsPersonne(pNewValue);
 						
@@ -406,26 +409,26 @@ public class ContactSimpleVueController implements IContactSimpleVueController {
 	 */
 	@Override
 	public final void afficherRenseignementsPersonne(
-			final IContactSimpleController pContactSimpleController) {
+			final IContactSimpleModelObs pContactSimpleModelObs) {
 		
-		if (pContactSimpleController != null) {
+		if (pContactSimpleModelObs != null) {
 			
 			final DateTimeFormatter formatter 
 			= DateTimeFormatter.ofPattern("dd MMMM yyyy");
 			
 			this.prenomTextField.setText(
-					pContactSimpleController.getPrenom());
+					pContactSimpleModelObs.getPrenom());
 			this.nomTextField.setText(
-					pContactSimpleController.getNom());
+					pContactSimpleModelObs.getNom());
 			this.rueTextField.setText(
-					pContactSimpleController.getRue());
+					pContactSimpleModelObs.getRue());
 			this.villeTextField.setText(
-					pContactSimpleController.getVille());
+					pContactSimpleModelObs.getVille());
 			this.codePostalTextField.setText(
-					pContactSimpleController.getCodePostal());
+					pContactSimpleModelObs.getCodePostal());
 			this.dateNaissanceTextField.setText(
 					formatter.format(
-							pContactSimpleController.getDateNaissance()));
+							pContactSimpleModelObs.getDateNaissance()));
 			
 		} else {
 			
@@ -620,7 +623,7 @@ public class ContactSimpleVueController implements IContactSimpleVueController {
 	 * {@inheritDoc}
 	 */
 	@Override
-	public final TableView<IContactSimpleController> getPersonnesTableView() {
+	public final TableView<IContactSimpleModelObs> getPersonnesTableView() {
 		return this.personnesTableView;
 	} // Fin de getPersonnesTableView().___________________________________
 
@@ -631,7 +634,7 @@ public class ContactSimpleVueController implements IContactSimpleVueController {
 	 */
 	@Override
 	public final void setPersonnesTableView(
-			final TableView<IContactSimpleController> pPersonnesTableView) {
+			final TableView<IContactSimpleModelObs> pPersonnesTableView) {
 		this.personnesTableView = pPersonnesTableView;
 	} // Fin de setPersonnesTableView(...).________________________________
 
@@ -641,7 +644,7 @@ public class ContactSimpleVueController implements IContactSimpleVueController {
 	 * {@inheritDoc}
 	 */
 	@Override
-	public final TableViewSelectionModel<IContactSimpleController> getModelSelection() {
+	public final TableViewSelectionModel<IContactSimpleModelObs> getModelSelection() {
 		return this.modelSelection;
 	} // Fin de getModelSelection()._______________________________________
 
@@ -652,7 +655,7 @@ public class ContactSimpleVueController implements IContactSimpleVueController {
 	 */
 	@Override
 	public final void setModelSelection(
-			final TableViewSelectionModel<IContactSimpleController> pModelSelection) {
+			final TableViewSelectionModel<IContactSimpleModelObs> pModelSelection) {
 		this.modelSelection = pModelSelection;
 	} // Fin de setModelSelection(...).____________________________________
 
@@ -662,7 +665,7 @@ public class ContactSimpleVueController implements IContactSimpleVueController {
 	 * {@inheritDoc}
 	 */
 	@Override
-	public final TableColumn<ContactSimpleController, String> getPrenomTableColumn() {
+	public final TableColumn<ContactSimpleModelObs, String> getPrenomTableColumn() {
 		return this.prenomTableColumn;
 	} // Fin de getPrenomTableColumn().____________________________________
 
@@ -673,7 +676,7 @@ public class ContactSimpleVueController implements IContactSimpleVueController {
 	 */
 	@Override
 	public final void setPrenomTableColumn(
-			final TableColumn<ContactSimpleController, String> pPrenomTableColumn) {
+			final TableColumn<ContactSimpleModelObs, String> pPrenomTableColumn) {
 		this.prenomTableColumn = pPrenomTableColumn;
 	} // Fin de setPrenomTableColumn(...)._________________________________
 
@@ -683,7 +686,7 @@ public class ContactSimpleVueController implements IContactSimpleVueController {
 	 * {@inheritDoc}
 	 */
 	@Override
-	public final TableColumn<ContactSimpleController, String> getNomTableColumn() {
+	public final TableColumn<ContactSimpleModelObs, String> getNomTableColumn() {
 		return this.nomTableColumn;
 	} // Fin de getNomTableColumn()._______________________________________
 
@@ -694,7 +697,7 @@ public class ContactSimpleVueController implements IContactSimpleVueController {
 	 */
 	@Override
 	public final void setNomTableColumn(
-			final TableColumn<ContactSimpleController, String> pNomTableColumn) {
+			final TableColumn<ContactSimpleModelObs, String> pNomTableColumn) {
 		this.nomTableColumn = pNomTableColumn;
 	} // Fin de setNomTableColumn(...).____________________________________
 	
@@ -1146,7 +1149,7 @@ public class ContactSimpleVueController implements IContactSimpleVueController {
 	 */
 	@Override
 	public final void setModelTableViewPersonnes(
-			final ObservableList<IContactSimpleController> pListePersonnes) {
+			final ObservableList<IContactSimpleModelObs> pListePersonnes) {
 		this.personnesTableView.setItems(pListePersonnes);
 	} // Fin de setModelTableViewPersonnes(...).___________________________
 	

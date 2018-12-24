@@ -1,7 +1,7 @@
 /**
  * 
  */
-package levy.daniel.application.vues.desktop.metier.contactsimple;
+package levy.daniel.application.vues.desktop.metier.contactsimple.controllervue;
 
 import javafx.scene.control.Button;
 import javafx.scene.control.ButtonBar;
@@ -10,7 +10,7 @@ import javafx.scene.control.TextField;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.GridPane;
 import javafx.stage.Stage;
-import levy.daniel.application.controllers.desktop.metier.contactsimple.IContactSimpleController;
+import levy.daniel.application.vues.desktop.metier.contactsimple.modelobs.IContactSimpleModelObs;
 
 /**
  * INTERFACE ICreationContactSimpleVueController :<br/>
@@ -58,26 +58,26 @@ public interface ICreationContactSimpleVueController {
 
 	
 	/**
-     * Lit la VUE et retourne un IContactSimpleController avec ses valeurs.<br/>
+     * Lit la VUE et retourne un IContactSimpleModelObs avec ses valeurs.<br/>
      * <ul>
      * <li>retourne null si la VUE est vide.</li>
      * </ul>
      *
-     * @return : IContactSimpleController.<br/>
+     * @return : IContactSimpleModelObs.<br/>
      */
-    IContactSimpleController lire();
+    IContactSimpleModelObs lire();
     
     
     
 	/**
-	 * Affiche un ContactSimpleController dans la VUE.<br/>
+	 * Affiche un ContactSimpleModelObs dans la VUE.<br/>
 	 * <ul>
 	 * <li></li>
 	 * </ul>
 	 *
-	 * @param pContactSimpleController : IContactSimpleController.<br/>
+	 * @param pContactSimpleModelObs : IContactSimpleModelObs.<br/>
 	 */
-	void afficher(IContactSimpleController pContactSimpleController);
+	void afficher(IContactSimpleModelObs pContactSimpleModelObs);
 	
 	
 

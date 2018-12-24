@@ -45,7 +45,7 @@ public interface IContactSimpleService {
 
 	
 	/**
-	 * Fournit la liste des Personnes déjà stockées 
+	 * Fournit la liste des ContactSimples déjà stockées 
 	 * pour initialiser l'interface IHM d'accueil.<br/>
 	 * 
 	 * @return List&lt;IContactSimple&gt;

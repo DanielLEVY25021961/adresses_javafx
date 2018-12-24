@@ -15,11 +15,11 @@ import levy.daniel.application.vues.desktop.metier.contactsimple.modelobs.IConta
 
 /**
  * CLASSE ContactSimpleModelObs :<br/>
- * CONTROLLER réagissant aux évènements de la VUE PersonneVue.<br/>
+ * CONTROLLER réagissant aux évènements de la VUE ContactSimpleVue.<br/>
  * <ul>
  * <li>utilise des <b>Property JavaFx</b> pour tracker 
  * les modifications des valeurs dans la VUE.</li>
- * <li>lien entre un <b>model.metier.personne.impl.Personne</b> 
+ * <li>lien entre un <b>model.metier.contactSimple.impl.ContactSimple</b> 
  * et le présent CONTROLLER.</li>
  * </ul>
  * <br/>
@@ -148,7 +148,7 @@ public class ContactSimpleModelObs implements IContactSimpleModelObs {
 	 /**
 	 * method CONSTRUCTEUR ContactSimpleModelObs() :<br/>
 	 * CONSTRUCTEUR COMPLET MODEL.<br/>
-	 * Fait le lien entre un <b>model.metier.personne.impl.Personne</b> 
+	 * Fait le lien entre un <b>model.metier.contactSimple.impl.ContactSimple</b> 
 	 * et le présent ContactSimpleModelObs.<br/>
 	 * <br/>
 	 *
@@ -216,7 +216,7 @@ public class ContactSimpleModelObs implements IContactSimpleModelObs {
 	 * method CONSTRUCTEUR ContactSimpleModelObs() :<br/>
 	 * CONSTRUCTEUR COMPLET BASE MODEL.<br/>
 	 * Fait le lien entre les attributs d'un 
-	 * <b>model.metier.personne.impl.Personne</b> 
+	 * <b>model.metier.contactSimple.impl.ContactSimple</b> 
 	 * et le présent ContactSimpleModelObs.<br/>
 	 * <br/>
 	 *
@@ -253,14 +253,14 @@ public class ContactSimpleModelObs implements IContactSimpleModelObs {
 	
 	 /**
 	 * method CONSTRUCTEUR ContactSimpleModelObs(
-	 * IContactSimple pPersonne) :<br/>
+	 * IContactSimple pContactSimple) :<br/>
 	 * CONSTRUCTEUR LIEN.<br/>
 	 * Fait le lien entre un 
-	 * <b>model.metier.personne.impl.Personne</b> 
+	 * <b>model.metier.contactSimple.impl.ContactSimple</b> 
 	 * et le présent ContactSimpleModelObs.<br/>
 	 * <br/>
 	 *
-	 * @param pContactSimple : model.metier.personne.IPersonne.<br/>
+	 * @param pContactSimple : model.metier.contactSimple.IContactSimple.<br/>
 	 */
 	public ContactSimpleModelObs(
 			final IContactSimple pContactSimple) {

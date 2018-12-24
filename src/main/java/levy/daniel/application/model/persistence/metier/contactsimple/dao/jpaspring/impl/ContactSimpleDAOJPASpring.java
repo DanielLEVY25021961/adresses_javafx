@@ -54,7 +54,7 @@ import levy.daniel.application.model.persistence.metier.contactsimple.entities.j
  * </p>
  * <ul>
  * <li>
- * <img src="../../../../../../../../../../../../../../../javadoc/images/implementation_Personne_DAO_JpaSpring.png" 
+ * <img src="../../../../../../../../../../../../../../../javadoc/images/implementation_ContactSimple_DAO_JpaSpring.png" 
  * alt="implémentation des DAOs ContactSimple JPA SPRING" border="1" align="center" />
  * </li>
  * </ul>
@@ -64,7 +64,7 @@ import levy.daniel.application.model.persistence.metier.contactsimple.entities.j
  * </p>
  * <ul>
  * <li>
- * <img src="../../../../../../../../../../../../javadoc/images/utilisation_Personne_DAO_JpaSpring.png" 
+ * <img src="../../../../../../../../../../../../javadoc/images/utilisation_ContactSimple_DAO_JpaSpring.png" 
  * alt="utilisation des DAOs DAO JPA SPRING" border="1" align="center" />
  * </li>
  * </ul>
@@ -105,12 +105,12 @@ public class ContactSimpleDAOJPASpring implements IContactSimpleDAO {
 
 	/**
 	 * SELECT_OBJET : String :<br/>
-	 * "select personne from 
-	 * ContactSimpleEntityJPA as personne ".<br/>
+	 * "select contactSimple from 
+	 * ContactSimpleEntityJPA as contactSimple ".<br/>
 	 */
 	public static final String SELECT_OBJET 
-		= "select personne from "
-				+ "ContactSimpleEntityJPA as personne ";
+		= "select contactSimple from "
+				+ "ContactSimpleEntityJPA as contactSimple ";
 	
 	/**
 	 * JPA EntityManager <b>injecté par SPRING</b>.<br/>
@@ -453,8 +453,8 @@ public class ContactSimpleDAOJPASpring implements IContactSimpleDAO {
 		/* REQUETE HQL PARAMETREE. */
 		final String requeteString 
 			= SELECT_OBJET
-				+ "where personne.nom = :pNom" 
-					+ "and personne.prenom = :pPrenom";
+				+ "where contactSimple.nom = :pNom" 
+					+ "and contactSimple.prenom = :pPrenom";
 
 		/* Construction de la requête HQL. */
 		final Query requete 
@@ -968,7 +968,7 @@ public class ContactSimpleDAOJPASpring implements IContactSimpleDAO {
 		/* REQUETE HQL PARAMETREE. */
 		final String requeteString 
 		= SELECT_OBJET 
-		+ "where personne.id = :pId";
+		+ "where contactSimple.id = :pId";
 
 		/* Construction de la requête HQL. */
 		final Query requete 
@@ -1052,7 +1052,7 @@ public class ContactSimpleDAOJPASpring implements IContactSimpleDAO {
 		/* REQUETE HQL PARAMETREE. */
 		final String requeteString 
 		= SELECT_OBJET 
-			+ "where personne.id = :pId";
+			+ "where contactSimple.id = :pId";
 
 		/* Construction de la requête HQL. */
 		final Query requete 
@@ -1418,8 +1418,8 @@ public class ContactSimpleDAOJPASpring implements IContactSimpleDAO {
 		/* REQUETE HQL PARAMETREE. */
 		final String requeteString 
 			= SELECT_OBJET
-				+ "where personne.nom = :pNom "
-				+ "and personne.prenom = :pPrenom";
+				+ "where contactSimple.nom = :pNom "
+				+ "and contactSimple.prenom = :pPrenom";
 
 		/* Construction de la requête HQL. */
 		final Query requete 

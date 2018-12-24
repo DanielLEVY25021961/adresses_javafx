@@ -37,30 +37,30 @@ public interface IListeContactSimplesModelObs {
 
 	/**
 	 * <ul>
-	 * Rajoute un ContactSimpleModelObs associé à la ContactSimple pPersonne 
+	 * Rajoute un ContactSimpleModelObs associé à la ContactSimple pContactSimple 
 	 * à la liste ObservableList&lt;IContactSimpleModelObs&gt;
-	 * <b>this.listePersonnes</b>.<br/>
+	 * <b>this.listeContactSimples</b>.<br/>
 	 * <li>instancie le IContactSimpleModelObs associé au IContactSimple.</li>
-	 * <li>retourne false si this.listePersonnes == null.</li>
-	 * <li>retourne false si pPersonne == null.</li>
+	 * <li>retourne false si this.listeContactSimples == null.</li>
+	 * <li>retourne false si pContactSimple == null.</li>
 	 * </ul>
 	 * 
 	 * @param pContactSimple : IContactSimple.<br/>
 	 * 
 	 * @return boolean : true si l'ajout est effectué.<br/>
 	 */
-	boolean ajouterPersonneAList(IContactSimple pContactSimple);
+	boolean ajouterContactSimpleAList(IContactSimple pContactSimple);
 
 	
 	
 	/**
 	 * <ul>
-	 * Rajoute un ContactSimpleModelObs associé à la ContactSimple pPersonne 
+	 * Rajoute un ContactSimpleModelObs associé à la ContactSimple pContactSimple 
 	 * à la liste ObservableList&lt;IContactSimpleModelObs&gt; 
 	 * <b>pList</b>.<br/>
 	 * <li>instancie le IContactSimpleModelObs associé au IContactSimple.</li>
 	 * <li>retourne false si pList == null.</li>
-	 * <li>retourne false si pPersonne == null.</li>
+	 * <li>retourne false si pContactSimple == null.</li>
 	 * </ul>
 	 * 
 	 * @param pContactSimple : IContactSimple.<br/>
@@ -68,44 +68,44 @@ public interface IListeContactSimplesModelObs {
 	 * 
 	 * @return boolean : true si l'ajout est effectué.<br/>
 	 */
-	boolean ajouterPersonneAList(
+	boolean ajouterContactSimpleAList(
 			IContactSimple pContactSimple, ObservableList<IContactSimpleModelObs> pList);
 
 	
 	
 	/**
 	 * <ul>
-	 * Rajoute un ContactSimpleModelObs pPersonne 
+	 * Rajoute un ContactSimpleModelObs pContactSimple 
 	 * à la liste ObservableList&lt;IContactSimpleModelObs&gt; 
-	 * <b>this.listePersonnes</b>.<br/>
+	 * <b>this.listeContactSimples</b>.<br/>
 	 * <li>retourne false si pList == null.</li>
-	 * <li>retourne false si pPersonne == null.</li>
+	 * <li>retourne false si pContactSimple == null.</li>
 	 * </ul>
 	 * 
-	 * @param pPersonne : IContactSimpleModelObs.<br/>
+	 * @param pContactSimple : IContactSimpleModelObs.<br/>
 	 * 
 	 * @return boolean : true si l'ajout est effectué.<br/>
 	 */
-	boolean ajouterPersonneControllerAList(IContactSimpleModelObs pPersonne);
+	boolean ajouterContactSimpleControllerAList(IContactSimpleModelObs pContactSimple);
 	
 	
 	
 	/**
 	 * <ul>
-	 * Rajoute un ContactSimpleModelObs pPersonne 
+	 * Rajoute un ContactSimpleModelObs pContactSimple 
 	 * à la liste ObservableList&lt;IContactSimpleModelObs&gt; 
 	 * <b>pList</b>.<br/>
 	 * <li>retourne false si pList == null.</li>
-	 * <li>retourne false si pPersonne == null.</li>
+	 * <li>retourne false si pContactSimple == null.</li>
 	 * </ul>
 	 * 
-	 * @param pPersonne : IContactSimpleModelObs.<br/>
+	 * @param pContactSimple : IContactSimpleModelObs.<br/>
 	 * @param pList : ObservableList&lt;IContactSimpleModelObs&gt;.<br/>
 	 * 
 	 * @return : true si l'ajout est effectué.<br/>
 	 */
-	boolean ajouterPersonneControllerAList(
-			IContactSimpleModelObs pPersonne
+	boolean ajouterContactSimpleControllerAList(
+			IContactSimpleModelObs pContactSimple
 				, ObservableList<IContactSimpleModelObs> pList);
 
 	
@@ -113,12 +113,12 @@ public interface IListeContactSimplesModelObs {
 	/**
 	 * <ul>
 	 * Rajoute une Liste pListAAjouter de ContactSimpleModelObs 
-	 * associés à des IContactSimple pPersonne 
+	 * associés à des IContactSimple pContactSimple 
 	 * à la liste ObservableList&lt;IContactSimpleModelObs&gt; 
-	 * <b>this.listPersonnes</b>.<br/>
+	 * <b>this.listContactSimples</b>.<br/>
 	 * <li>instancie le IContactSimpleModelObs 
 	 * associé à chaque IContactSimple.</li>
-	 * <li>retourne false si this.listPersonnes == null.</li>
+	 * <li>retourne false si this.listContactSimples == null.</li>
 	 * <li>retourne false si pListAAjouter == null.</li>
 	 * </ul>
 	 * 
@@ -126,14 +126,14 @@ public interface IListeContactSimplesModelObs {
 	 * 
 	 * @return : true si l'ajout est effectué.<br/>
 	 */
-	boolean ajouterListePersonnesAList(List<IContactSimple> pListAAjouter);
+	boolean ajouterListeContactSimplesAList(List<IContactSimple> pListAAjouter);
 	
 	
 	
 	/**
 	 * <ul>
 	 * Rajoute une Liste pListAAjouter de ContactSimpleModelObs 
-	 * associés à des IContactSimple pPersonne 
+	 * associés à des IContactSimple pContactSimple 
 	 * à la liste ObservableList&lt;IContactSimpleModelObs&gt; 
 	 * <b>pList</b>.<br/>
 	 * <li>instancie le IContactSimpleModelObs associé 
@@ -148,7 +148,7 @@ public interface IListeContactSimplesModelObs {
 	 * 
 	 * @return : true si l'ajout est effectué.<br/>
 	 */
-	boolean ajouterListePersonnesAList(
+	boolean ajouterListeContactSimplesAList(
 			List<IContactSimple> pListAAjouter
 				, ObservableList<IContactSimpleModelObs> pList);
 	
@@ -158,8 +158,8 @@ public interface IListeContactSimplesModelObs {
 	 * <ul>
 	 * Rajoute une Liste pListAAjouter de IContactSimpleModelObs  
 	 * à la liste ObservableList&lt;IContactSimpleModelObs&gt; 
-	 * <b>this.listePersonnes</b>.<br/>
-	 * <li>retourne false si this.listePersonnes == null.</li>
+	 * <b>this.listeContactSimples</b>.<br/>
+	 * <li>retourne false si this.listeContactSimples == null.</li>
 	 * <li>retourne false si pListAAjouter == null.</li>
 	 * </ul>
 	 * 
@@ -167,7 +167,7 @@ public interface IListeContactSimplesModelObs {
 	 * 
 	 * @return : true si l'ajout est effectué.<br/>
 	 */
-	boolean ajouterListePersonneControllersAList(
+	boolean ajouterListeContactSimpleControllersAList(
 			List<IContactSimpleModelObs> pListAAjouter);
 	
 	
@@ -186,7 +186,7 @@ public interface IListeContactSimplesModelObs {
 	 * 
 	 * @return : true si l'ajout est effectué.<br/>
 	 */
-	boolean ajouterListePersonneControllersAList(
+	boolean ajouterListeContactSimpleControllersAList(
 			List<IContactSimpleModelObs> pListAAjouter
 				, ObservableList<IContactSimpleModelObs> pList);
 	
@@ -194,30 +194,30 @@ public interface IListeContactSimplesModelObs {
 
 	/**
 	 * <ul>
-	 * Retire un ContactSimpleModelObs associé à la ContactSimple pPersonne 
+	 * Retire un ContactSimpleModelObs associé à la ContactSimple pContactSimple 
 	 * à la liste ObservableList&lt;IContactSimpleModelObs&gt;
-	 * <b>this.listePersonnes</b>.<br/>
+	 * <b>this.listeContactSimples</b>.<br/>
 	 * <li>instancie le IContactSimpleModelObs associé au IContactSimple.</li>
-	 * <li>retourne false si this.listePersonnes == null.</li>
-	 * <li>retourne false si pPersonne == null.</li>
+	 * <li>retourne false si this.listeContactSimples == null.</li>
+	 * <li>retourne false si pContactSimple == null.</li>
 	 * </ul>
 	 * 
 	 * @param pContactSimple : IContactSimple.<br/>
 	 * 
 	 * @return boolean : true si l'ajout est effectué.<br/>
 	 */
-	boolean retirerPersonneAList(IContactSimple pContactSimple);
+	boolean retirerContactSimpleAList(IContactSimple pContactSimple);
 	
 	
 
 	/**
 	 * <ul>
-	 * Retire un ContactSimpleModelObs associé à la ContactSimple pPersonne 
+	 * Retire un ContactSimpleModelObs associé à la ContactSimple pContactSimple 
 	 * à la liste ObservableList&lt;IContactSimpleModelObs&gt; 
 	 * <b>pList</b>.<br/>
 	 * <li>instancie le IContactSimpleModelObs associé au IContactSimple.</li>
 	 * <li>retourne false si pList == null.</li>
-	 * <li>retourne false si pPersonne == null.</li>
+	 * <li>retourne false si pContactSimple == null.</li>
 	 * </ul>
 	 * 
 	 * @param pContactSimple : IContactSimple.<br/>
@@ -225,7 +225,7 @@ public interface IListeContactSimplesModelObs {
 	 * 
 	 * @return boolean : true si l'ajout est effectué.<br/>
 	 */
-	boolean retirerPersonneAList(
+	boolean retirerContactSimpleAList(
 			IContactSimple pContactSimple
 				, ObservableList<IContactSimpleModelObs> pList);
 	
@@ -233,38 +233,38 @@ public interface IListeContactSimplesModelObs {
 
 	/**
 	 * <ul>
-	 * Retire un ContactSimpleModelObs pPersonne 
+	 * Retire un ContactSimpleModelObs pContactSimple 
 	 * à la liste ObservableList&lt;IContactSimpleModelObs&gt; 
-	 * <b>this.listePersonnes</b>.<br/>
+	 * <b>this.listeContactSimples</b>.<br/>
 	 * <li>retourne false si pList == null.</li>
-	 * <li>retourne false si pPersonne == null.</li>
+	 * <li>retourne false si pContactSimple == null.</li>
 	 * </ul>
 	 * 
-	 * @param pPersonne : IContactSimpleModelObs.<br/>
+	 * @param pContactSimple : IContactSimpleModelObs.<br/>
 	 * 
 	 * @return boolean : true si l'ajout est effectué.<br/>
 	 */
-	boolean retirerPersonneControllerAList(
-			IContactSimpleModelObs pPersonne);
+	boolean retirerContactSimpleControllerAList(
+			IContactSimpleModelObs pContactSimple);
 	
 	
 
 	/**
 	 * <ul>
-	 * Retire un ContactSimpleModelObs pPersonne 
+	 * Retire un ContactSimpleModelObs pContactSimple 
 	 * à la liste ObservableList&lt;IContactSimpleModelObs&gt; 
 	 * <b>pList</b>.<br/>
 	 * <li>retourne false si pList == null.</li>
-	 * <li>retourne false si pPersonne == null.</li>
+	 * <li>retourne false si pContactSimple == null.</li>
 	 * </ul>
 	 * 
-	 * @param pPersonne : IContactSimpleModelObs.<br/>
+	 * @param pContactSimple : IContactSimpleModelObs.<br/>
 	 * @param pList : ObservableList&lt;IContactSimpleModelObs&gt;.<br/>
 	 * 
 	 * @return : true si l'ajout est effectué.<br/>
 	 */
-	boolean retirerPersonneControllerAList(
-			IContactSimpleModelObs pPersonne
+	boolean retirerContactSimpleControllerAList(
+			IContactSimpleModelObs pContactSimple
 				, ObservableList<IContactSimpleModelObs> pList);
 	
 	
@@ -272,12 +272,12 @@ public interface IListeContactSimplesModelObs {
 	/**
 	 * <ul>
 	 * Retire une Liste pListAretirer de ContactSimpleModelObs 
-	 * associés à des IContactSimple pPersonne 
+	 * associés à des IContactSimple pContactSimple 
 	 * à la liste ObservableList&lt;IContactSimpleModelObs&gt; 
-	 * <b>this.listPersonnes</b>.<br/>
+	 * <b>this.listContactSimples</b>.<br/>
 	 * <li>instancie le IContactSimpleModelObs 
 	 * associé à chaque IContactSimple.</li>
-	 * <li>retourne false si this.listPersonnes == null.</li>
+	 * <li>retourne false si this.listContactSimples == null.</li>
 	 * <li>retourne false si pListAretirer == null.</li>
 	 * </ul>
 	 * 
@@ -285,7 +285,7 @@ public interface IListeContactSimplesModelObs {
 	 * 
 	 * @return : true si l'ajout est effectué.<br/>
 	 */
-	boolean retirerListePersonnesAList(
+	boolean retirerListeContactSimplesAList(
 			List<IContactSimple> pListAretirer);
 	
 	
@@ -293,7 +293,7 @@ public interface IListeContactSimplesModelObs {
 	/**
 	 * <ul>
 	 * Retire une Liste pListAretirer de ContactSimpleModelObs 
-	 * associés à des IContactSimple pPersonne 
+	 * associés à des IContactSimple pContactSimple 
 	 * à la liste ObservableList&lt;IContactSimpleModelObs&gt; 
 	 * <b>pList</b>.<br/>
 	 * <li>instancie le IContactSimpleModelObs associé 
@@ -308,7 +308,7 @@ public interface IListeContactSimplesModelObs {
 	 * 
 	 * @return : true si l'ajout est effectué.<br/>
 	 */
-	boolean retirerListePersonnesAList(
+	boolean retirerListeContactSimplesAList(
 			List<IContactSimple> pListAretirer
 				, ObservableList<IContactSimpleModelObs> pList);
 	
@@ -318,8 +318,8 @@ public interface IListeContactSimplesModelObs {
 	 * <ul>
 	 * Retire une Liste pListAretirer de IContactSimpleModelObs  
 	 * à la liste ObservableList&lt;IContactSimpleModelObs&gt; 
-	 * <b>this.listePersonnes</b>.<br/>
-	 * <li>retourne false si this.listePersonnes == null.</li>
+	 * <b>this.listeContactSimples</b>.<br/>
+	 * <li>retourne false si this.listeContactSimples == null.</li>
 	 * <li>retourne false si pListAretirer == null.</li>
 	 * </ul>
 	 * 
@@ -327,7 +327,7 @@ public interface IListeContactSimplesModelObs {
 	 * 
 	 * @return : true si l'ajout est effectué.<br/>
 	 */
-	boolean retirerListePersonneControllersAList(
+	boolean retirerListeContactSimpleControllersAList(
 			List<IContactSimpleModelObs> pListAretirer);
 	
 	
@@ -346,7 +346,7 @@ public interface IListeContactSimplesModelObs {
 	 * 
 	 * @return : true si l'ajout est effectué.<br/>
 	 */
-	boolean retirerListePersonneControllersAList(
+	boolean retirerListeContactSimpleControllersAList(
 			List<IContactSimpleModelObs> pListAretirer
 				, ObservableList<IContactSimpleModelObs> pList);
 	
@@ -355,9 +355,9 @@ public interface IListeContactSimplesModelObs {
 	/**
 	 * Retourne le nombre d'éléments dans la liste 
 	 * ObservableList&lt;IContactSimpleModelObs&gt; 
-	 * <b>this.listePersonnes</b>.<br/>
+	 * <b>this.listeContactSimples</b>.<br/>
 	 * <ul>
-	 * <li>retourne 0 si this.listePersonnes == null.</li>
+	 * <li>retourne 0 si this.listeContactSimples == null.</li>
 	 * </ul>
 	 *
 	 * @param pList : ObservableList&lt;IContactSimpleModelObs&gt;.<br/>
@@ -385,9 +385,9 @@ public interface IListeContactSimplesModelObs {
 
 	/**
 	 * Fournit une String pour l'affichage de la liste 
-	 * ObservableList&lt;IContactSimpleModelObs&gt; this.listePersonnes.<br/>
+	 * ObservableList&lt;IContactSimpleModelObs&gt; this.listeContactSimples.<br/>
 	 * <ul>
-	 * <li>retourne null si this.listePersonnes == null.</li>
+	 * <li>retourne null si this.listeContactSimples == null.</li>
 	 * </ul>
 	 *
 	 * @return : String : pour affichage.<br/>
@@ -438,50 +438,50 @@ public interface IListeContactSimplesModelObs {
 	
 
 	/**
-	 * method getPersonneAnchorPane() :<br/>
-	 * Getter du panneau AnchorPane (VUE) modélisant une personne.<br/>
+	 * method getContactSimpleAnchorPane() :<br/>
+	 * Getter du panneau AnchorPane (VUE) modélisant une contactSimple.<br/>
 	 * <br/>
 	 *
-	 * @return : this.personneAnchorPane : AnchorPane.<br/>
+	 * @return : this.contactSimpleAnchorPane : AnchorPane.<br/>
 	 */
-	AnchorPane getPersonneAnchorPane();
+	AnchorPane getContactSimpleAnchorPane();
 	
 	
 
 	/**
-	 * method setPersonneAnchorPane() :<br/>
-	 * Setter du panneau AnchorPane (VUE) modélisant une personne.<br/>
+	 * method setContactSimpleAnchorPane() :<br/>
+	 * Setter du panneau AnchorPane (VUE) modélisant une contactSimple.<br/>
 	 * <br/>
 	 *
-	 * @param pPersonneAnchorPane :  :  .<br/>
+	 * @param pContactSimpleAnchorPane :  :  .<br/>
 	 */
-	void setPersonneAnchorPane(AnchorPane pPersonneAnchorPane);
+	void setContactSimpleAnchorPane(AnchorPane pContactSimpleAnchorPane);
 	
 	
 
 	/**
-	 * method getListePersonnes() :<br/>
+	 * method getListeContactSimples() :<br/>
 	 * Getter de la liste des ContactSimpleModelObs.
 	 * <br/>
 	 *
-	 * @return listePersonnes : 
+	 * @return listeContactSimples : 
 	 * ObservableList<IContactSimpleModelObs>.<br/>
 	 */
-	ObservableList<IContactSimpleModelObs> getListePersonnes();
+	ObservableList<IContactSimpleModelObs> getListeContactSimples();
 
 	
 
 	/**
-	* method setListePersonnes(
-	* ObservableList<IContactSimpleModelObs> pListePersonnes) :<br/>
+	* method setListeContactSimples(
+	* ObservableList<IContactSimpleModelObs> pListeContactSimples) :<br/>
 	* Setter de la liste des ContactSimpleModelObs.
 	* <br/>
 	*
-	* @param pListePersonnes : ObservableList<IContactSimpleModelObs> : 
-	* valeur à passer à listePersonnes.<br/>
+	* @param pListeContactSimples : ObservableList<IContactSimpleModelObs> : 
+	* valeur à passer à listeContactSimples.<br/>
 	*/
-	void setListePersonnes(
-			ObservableList<IContactSimpleModelObs> pListePersonnes);
+	void setListeContactSimples(
+			ObservableList<IContactSimpleModelObs> pListeContactSimples);
 	
 	
 

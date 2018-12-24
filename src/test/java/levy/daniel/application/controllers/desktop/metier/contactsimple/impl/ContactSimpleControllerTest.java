@@ -53,60 +53,60 @@ public class ContactSimpleControllerTest {
 
 	
 	/**
-	 * personne1 : IContactSimple :<br/>
+	 * contactSimple1 : IContactSimple :<br/>
 	 * .<br/>
 	 */
-	public transient IContactSimple personne1 
+	public transient IContactSimple contactSimple1 
 		= new ContactSimple(
 				"Zorro", "Halliday"
 				, "2, rue de la Pompe", "73 850", "Chambéry"
 				, LocalDate.of(1900, 2, 25));
 
 	/**
-	 * personne1 : IContactSimple :<br/>
+	 * contactSimple1 : IContactSimple :<br/>
 	 * .<br/>
 	 */
-	public transient IContactSimple personne1Equals 
+	public transient IContactSimple contactSimple1Equals 
 		= new ContactSimple(
 				"Zorro", "Halliday"
 				, "17, rue de la Mélodie", "77 850", "Provins"
 				, LocalDate.of(1900, 2, 25));
 	
 	/**
-	 * personne2 : IContactSimple :<br/>
+	 * contactSimple2 : IContactSimple :<br/>
 	 * .<br/>
 	 */
-	public transient IContactSimple personne2 
+	public transient IContactSimple contactSimple2 
 		= new ContactSimple(
 			"Papy", "Gonzales"
 			, "7, avenue du Sentier", "75 008", "Paris"
 			, LocalDate.of(1961, 2, 25));
 	
 	/**
-	 * personne3 : IContactSimple :<br/>
+	 * contactSimple3 : IContactSimple :<br/>
 	 * .<br/>
 	 */
-	public transient IContactSimple personne3 
+	public transient IContactSimple contactSimple3 
 		= new ContactSimple(
 			"Benito", "De la Roza"
 			, "3, rue de la Pompe", "74 850", "Annecy"
 			, LocalDate.of(2000, 2, 25));
 
 	/**
-	 * personne4 : IContactSimple :<br/>
+	 * contactSimple4 : IContactSimple :<br/>
 	 * .<br/>
 	 */
-	public transient IContactSimple personne4 
+	public transient IContactSimple contactSimple4 
 		= new ContactSimple(
 			"Maléna", "Rozita"
 			, "2, rue de la Pompe", "74 950", "Annecy-le-Vieux"
 			, LocalDate.of(2000, 2, 25));
 	
 	/**
-	 * personne5 : IContactSimple :<br/>
+	 * contactSimple5 : IContactSimple :<br/>
 	 * .<br/>
 	 */
-	public transient IContactSimple personne5 
+	public transient IContactSimple contactSimple5 
 		= new ContactSimple(
 			"Concerto", "D'Aranjuez"
 			, "2, rue de la Pompe", "73 850", "Chambéry"
@@ -155,22 +155,22 @@ public class ContactSimpleControllerTest {
 			System.out.println("********** CLASSE ContactSimpleControllerTest - méthode testConstructeurNull() ********** ");
 		}
 		
-		final IContactSimpleModelObs personneNull1 
+		final IContactSimpleModelObs contactSimpleNull1 
 			= new ContactSimpleModelObs(null);
-		final IContactSimpleModelObs personneNull2 
+		final IContactSimpleModelObs contactSimpleNull2 
 			= new ContactSimpleModelObs();
 		
-		assertEquals("personneNull1.equals(personneNull2)"
-				, personneNull1
-					, personneNull2);
+		assertEquals("contactSimpleNull1.equals(contactSimpleNull2)"
+				, contactSimpleNull1
+					, contactSimpleNull2);
 		
-		assertTrue("personneNull1.hashCode() == personneNull2.hashCode()"
-				, personneNull1.hashCode() == personneNull2.hashCode());
+		assertTrue("contactSimpleNull1.hashCode() == contactSimpleNull2.hashCode()"
+				, contactSimpleNull1.hashCode() == contactSimpleNull2.hashCode());
 		
 		/* AFFICHAGE A LA CONSOLE. */
 		if (AFFICHAGE_GENERAL && affichage) {
-			System.out.println(personneNull1.toString());
-			System.out.println(personneNull2.toString());
+			System.out.println(contactSimpleNull1.toString());
+			System.out.println(contactSimpleNull2.toString());
 		}
 
 	} // Fin de testConstructeurNull().____________________________________
@@ -215,13 +215,13 @@ public class ContactSimpleControllerTest {
 		
 
 		final IContactSimpleModelObs objet1 
-		= new ContactSimpleModelObs(this.personne1);
+		= new ContactSimpleModelObs(this.contactSimple1);
 		
 		final IContactSimpleModelObs objet2 
-		= new ContactSimpleModelObs(this.personne1Equals);
+		= new ContactSimpleModelObs(this.contactSimple1Equals);
 		
 		final IContactSimpleModelObs objet3 
-		= new ContactSimpleModelObs(this.personne1);
+		= new ContactSimpleModelObs(this.contactSimple1);
 
 		
 		/* garantit le contrat Java reflexif x.equals(x). */
@@ -314,10 +314,10 @@ public class ContactSimpleControllerTest {
 		/* garantit le bon fonctionnement de equals() 
 		 * en cas d'inégalité métier. */
 		final IContactSimpleModelObs objetDiff1 
-			= new ContactSimpleModelObs(this.personne2);
+			= new ContactSimpleModelObs(this.contactSimple2);
 		
 		final IContactSimpleModelObs objetDiff2 
-			= new ContactSimpleModelObs(this.personne3);
+			= new ContactSimpleModelObs(this.contactSimple3);
 		
 		assertFalse("objetDiff1 PAS equals(objetDiff2) : "
 				, objetDiff1.equals(objetDiff2));
@@ -366,15 +366,15 @@ public class ContactSimpleControllerTest {
 		}
 
 		final IContactSimpleModelObs objet1 
-			= new ContactSimpleModelObs(this.personne1);
+			= new ContactSimpleModelObs(this.contactSimple1);
 		
 		final IContactSimpleModelObs objet1MemeInstance = objet1;
 		
 		final IContactSimpleModelObs objetEquals1 
-			= new ContactSimpleModelObs(this.personne1Equals);
+			= new ContactSimpleModelObs(this.contactSimple1Equals);
 		
 		final IContactSimpleModelObs objetEquals2 
-			= new ContactSimpleModelObs(this.personne1);
+			= new ContactSimpleModelObs(this.contactSimple1);
 
 		final IContactSimpleModelObs objetNull1 
 		= new ContactSimpleModelObs();
@@ -383,10 +383,10 @@ public class ContactSimpleControllerTest {
 			= new ContactSimpleModelObs(null);
 				
 		final IContactSimpleModelObs objetCompAvant1 
-			= new ContactSimpleModelObs(this.personne3);
+			= new ContactSimpleModelObs(this.contactSimple3);
 
 		final IContactSimpleModelObs objetCompApres2 
-			= new ContactSimpleModelObs(this.personne2);
+			= new ContactSimpleModelObs(this.contactSimple2);
 
 	
 		/* garantit que compareTo(memeInstance) retourne 0. */		

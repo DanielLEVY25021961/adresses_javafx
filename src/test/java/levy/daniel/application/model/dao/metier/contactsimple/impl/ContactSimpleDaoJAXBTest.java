@@ -117,10 +117,10 @@ public class ContactSimpleDaoJAXBTest {
 		
 		this.dao = new ContactSimpleDaoJAXB();
 		
-		final List<IContactSimple> contactsPersonne 
-			= InitialiseurDeData.getListePersonnes();
+		final List<IContactSimple> contactsContactSimple 
+			= InitialiseurDeData.getListeContactSimples();
 		
-		this.dao.enregistrer(contactsPersonne, FILE);
+		this.dao.enregistrer(contactsContactSimple, FILE);
 		
 		/* garantit que le fichier XML existe. */
 		assertTrue("le fichier doit exister : ", FILE.exists());
@@ -162,11 +162,11 @@ public class ContactSimpleDaoJAXBTest {
 		
 		this.dao = new ContactSimpleDaoJAXB();
 		
-		final List<IContactSimple> contactsPersonne 
-		= InitialiseurDeData.getListePersonnes();
+		final List<IContactSimple> contactsContactSimple 
+		= InitialiseurDeData.getListeContactSimples();
 	
 		/* enregistrement. */
-		this.dao.enregistrer(contactsPersonne, FILE);
+		this.dao.enregistrer(contactsContactSimple, FILE);
 		
 		/* récupération. */
 		final List<IContactSimple> contacts = this.dao.recupererListeModeles(FILE);
@@ -181,7 +181,7 @@ public class ContactSimpleDaoJAXBTest {
 		
 		/* AFFICHAGE A LA CONSOLE. */
 		if (AFFICHAGE_GENERAL && affichage) {
-			System.out.println(this.dao.afficherListePersonne(contacts));
+			System.out.println(this.dao.afficherListeContactSimple(contacts));
 		}
 				
 	} // Fin de testRecupererListeModeles()._______________________________
@@ -213,11 +213,11 @@ public class ContactSimpleDaoJAXBTest {
 		
 		this.dao = new ContactSimpleDaoJAXB();
 		
-		final List<IContactSimple> contactsPersonne 
-		= InitialiseurDeData.getListePersonnes();
+		final List<IContactSimple> contactsContactSimple 
+		= InitialiseurDeData.getListeContactSimples();
 	
 		/* enregistrement. */
-		this.dao.enregistrer(contactsPersonne, FILE);
+		this.dao.enregistrer(contactsContactSimple, FILE);
 		
 		/* récupération. */
 		final List<IContactSimple> contacts = this.dao.recupererListeModeles(FILE);
@@ -225,14 +225,14 @@ public class ContactSimpleDaoJAXBTest {
 		final int tailleInitiale = contacts.size();
 
 		/* ajout d'une IContactSimple. */
-		final IContactSimple personneEnPlus 
+		final IContactSimple contactSimpleEnPlus 
 			= new ContactSimple(2L
 					, "Michael", "Caine"
 					, "75, 5th Avenue", "NY", "New York"
 					, LocalDate.of(1950, 2, 20));
 		
-		final IContactSimple personneCreee 
-			= this.dao.create(personneEnPlus, FILE);
+		final IContactSimple contactSimpleCreee 
+			= this.dao.create(contactSimpleEnPlus, FILE);
 		
 		/* récupération. */
 		final List<IContactSimple> contactsFinaux = this.dao.recupererListeModeles(FILE);
@@ -246,7 +246,7 @@ public class ContactSimpleDaoJAXBTest {
 		
 		/* AFFICHAGE A LA CONSOLE. */
 		if (AFFICHAGE_GENERAL && affichage) {
-			System.out.println(personneCreee.toString());
+			System.out.println(contactSimpleCreee.toString());
 		}
 		
 	} // Fin de testCreer()._______________________________________________
@@ -278,10 +278,10 @@ public class ContactSimpleDaoJAXBTest {
 			
 			if (contactSimple != null) {
 				
-				final ContactSimpleEntityJAXB personneJAXB 
+				final ContactSimpleEntityJAXB contactSimpleJAXB 
 					= new ContactSimpleEntityJAXB(contactSimple);
 				
-				resultat.add(personneJAXB);
+				resultat.add(contactSimpleJAXB);
 				
 			}
 		}

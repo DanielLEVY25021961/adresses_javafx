@@ -29,14 +29,14 @@ import levy.daniel.application.vues.desktop.accueil.IAccueilVueController;
  * <img src="../../../../../../javadoc/images/BorderPane_root-AccueilVue.fxml.png" 
  * alt="BorderPane root et sa MenuBar rootMenuBar" border="1" align="center" />
  * <br/><br/>
- * <li>le contenu de root : l'AnchorPane <b>personneAnchorPane</b> qui affiche 
- * les renseignements sur les Personnes du carnet d'adresses 
- * lié au fichier FXML <b>PersonneVue.fxml</b>.<br/>
- * La fabrication de personneAnchorPane et son incorporation dans root 
+ * <li>le contenu de root : l'AnchorPane <b>contactSimpleAnchorPane</b> qui affiche 
+ * les renseignements sur les ContactSimples du carnet d'adresses 
+ * lié au fichier FXML <b>ContactSimpleVue.fxml</b>.<br/>
+ * La fabrication de contactSimpleAnchorPane et son incorporation dans root 
  * est déleguée au CONTROLLER <b>AccueilController</b>.</li>
  * <br/>
- * <img src="../../../../../../javadoc/images/AnchorPane_personneAnchorPane-PersonneVue.fxml.png" 
- * alt="AnchorPane personneAnchorPane lié à PersonneVue.fxml" border="1" align="center" />
+ * <img src="../../../../../../javadoc/images/AnchorPane_contactSimpleAnchorPane-ContactSimpleVue.fxml.png" 
+ * alt="AnchorPane contactSimpleAnchorPane lié à ContactSimpleVue.fxml" border="1" align="center" />
  * <br/><br/>
  * <li>la <b>Scene</b> en lui passant root.</li>
  * <li>Puis, affiche le théâtre <b>this.primaryStage</b> après lui avoir passé la Scene.</li>
@@ -166,7 +166,7 @@ public class MainApplication extends Application {
 	 * FABRIQUE LE PANNEAU DE FOND DE LA SCENE 
 	 * <b>this.root</b> (BorderPane).<br/>
 	 * DELEGUE A UN AccueilController LA FABRICATION DE L'AnchorPane 
-	 * <b>personneAnchorPane</b> ET SON INCORPORATION DANS LE ROOT.<br/> 
+	 * <b>contactSimpleAnchorPane</b> ET SON INCORPORATION DANS LE ROOT.<br/> 
 	 * FABRIQUE LA SCENE <b>Scene</b> EN LUI PASSANT 
 	 * LE PANNEAU DE FOND this.root.<br/>
 	 * AFFICHE LE THEATRE <b>this.primaryStage</b>.<br/>
@@ -181,7 +181,7 @@ public class MainApplication extends Application {
 	 * de la VUE BorderPane <b>this.root</b> 
 	 * (barre de menus, menus, items, ...).</li>
 	 * <li>décore <b>this.root</b> en lui incorporant un AnchorPane 
-	 * <b>personneAnchorPane</b>. 
+	 * <b>contactSimpleAnchorPane</b>. 
 	 * Cette partie est déleguée à un CONTROLLER AccueilController.</li>
 	 * <li>instancie la scene et passe le panneau de fond à la scene.</li>
 	 * <li>passe la scene au theatre this.primaryStage.</li>
@@ -210,7 +210,7 @@ public class MainApplication extends Application {
             
             /* *********************************************** */
         /* DELEGUE A UN AccueilController LA FABRICATION DE 
-         * L'AnchorPane <b>personneAnchorPane</b> 
+         * L'AnchorPane <b>contactSimpleAnchorPane</b> 
          * ET SON INCORPORATION DANS lE ROOT. */
         /* Instancie le controller d'accueil 
 		 * qui affiche la VUE d'accueil. */

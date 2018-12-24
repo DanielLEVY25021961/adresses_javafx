@@ -48,76 +48,76 @@ public class ListeContactSimplesControllerTest {
 	
 	
 	/**
-	 * listePersonnes : ObservableList<IContactSimpleModelObs> :<br/>
+	 * listeContactSimples : ObservableList<IContactSimpleModelObs> :<br/>
 	 * liste des ContactSimpleModelObs.<br/>
 	 */
-	public transient ObservableList<IContactSimpleModelObs> listePersonnes 
+	public transient ObservableList<IContactSimpleModelObs> listeContactSimples 
 		= FXCollections.observableArrayList();	
 	
 
 	/**
-	 * listePersonneController : IListeContactSimplesModelObs :<br/>
+	 * listeContactSimpleController : IListeContactSimplesModelObs :<br/>
 	 * .<br/>
 	 */
-	public transient IListeContactSimplesModelObs listePersonneController 
-		= new ListeContactSimplesModelObs(null, null, this.listePersonnes);
+	public transient IListeContactSimplesModelObs listeContactSimpleController 
+		= new ListeContactSimplesModelObs(null, null, this.listeContactSimples);
 	
 	
 	/**
-	 * personne1 : IContactSimple :<br/>
+	 * contactSimple1 : IContactSimple :<br/>
 	 * .<br/>
 	 */
-	public transient IContactSimple personne1 
+	public transient IContactSimple contactSimple1 
 		= new ContactSimple(
 				"Zorro", "Halliday"
 				, "2, rue de la Pompe", "74 850", "Annecy"
 				, LocalDate.of(1900, 2, 25));
 	
 	/**
-	 * personne2 : IContactSimple :<br/>
+	 * contactSimple2 : IContactSimple :<br/>
 	 * .<br/>
 	 */
-	public transient IContactSimple personne2 
+	public transient IContactSimple contactSimple2 
 		= new ContactSimple(
 			"Papy", "Gonzales"
 			, "7, avenue du Sentier", "75 008", "Paris"
 			, LocalDate.of(1961, 2, 25));
 	
 	/**
-	 * personne3 : IContactSimple :<br/>
+	 * contactSimple3 : IContactSimple :<br/>
 	 * .<br/>
 	 */
-	public transient IContactSimple personne3 
+	public transient IContactSimple contactSimple3 
 		= new ContactSimple(
 			"Benito", "De la Roza"
 			, "3, rue de la Pompe", "73 850", "Chambéry"
 			, LocalDate.of(2000, 2, 25));
 
 	/**
-	 * personne4 : IContactSimple :<br/>
+	 * contactSimple4 : IContactSimple :<br/>
 	 * .<br/>
 	 */
-	public transient IContactSimple personne4 
+	public transient IContactSimple contactSimple4 
 		= new ContactSimple(
 			"Maléna", "Rozita"
 			, "4, rue de la Pompe", "73 950", "Chambéry"
 			, LocalDate.of(2000, 2, 25));
 	
 	/**
-	 * personne5 : IContactSimple :<br/>
+	 * contactSimple5 : IContactSimple :<br/>
 	 * .<br/>
 	 */
-	public transient IContactSimple personne5 
+	public transient IContactSimple contactSimple5 
 		= new ContactSimple(
 			"Concerto", "D'Aranjuez"
 			, "2, rue de la Pompe", "73 850", "Chambéry"
 			, LocalDate.of(2000, 2, 25));
 
 	/**
-	 * listePersonnesAAjouter : List<IContactSimple> :<br/>
+	 * listeContactSimplesAAjouter : List<IContactSimple> :<br/>
 	 * .<br/>
 	 */
-	public transient List<IContactSimple> listePersonnesAAjouter;
+	public transient List<IContactSimple> listeContactSimplesAAjouter;
 	
 	/**
 	 * AFFICHAGE_GENERAL : Boolean :<br/>
@@ -135,10 +135,10 @@ public class ListeContactSimplesControllerTest {
 	
 	/**
 	 * INSTANCE_LISTE : String :<br/>
-	 * "l'instance de liste dans le Controller doit être this.listePersonnes : ".<br/>
+	 * "l'instance de liste dans le Controller doit être this.listeContactSimples : ".<br/>
 	 */
 	public static final String INSTANCE_LISTE 
-		= "l'instance de liste dans le Controller doit être this.listePersonnes : ";
+		= "l'instance de liste dans le Controller doit être this.listeContactSimples : ";
 	
 	/**
 	 * NOMBRE_INITIAL : String :<br/>
@@ -188,10 +188,10 @@ public class ListeContactSimplesControllerTest {
 	
 
 	/**
-	 * Teste la méthode ajouterPersonneAList(IContactSimple pPersonne).<br/>
+	 * Teste la méthode ajouterContactSimpleAList(IContactSimple pContactSimple).<br/>
 	 * garantit que :<br/>
 	 * <ul>
-	 * <li>l'instance de liste dans le Controller doit être this.listePersonnes.</li>
+	 * <li>l'instance de liste dans le Controller doit être this.listeContactSimples.</li>
 	 * <li>le nombre initial d'objets dans la liste vaut 0.</li>
 	 * <li>le nombre final d'objets dans la liste vaut nombreInitial + 3.</li>
 	 * <li>L'ajout dans la liste du CONTROLLER se passe bien.</li>
@@ -199,7 +199,7 @@ public class ListeContactSimplesControllerTest {
 	 */
 	@SuppressWarnings("unused") // NOPMD by dan on 16/05/18 20:11
 	@Test
-	public void testAjouterPersonneAList() {
+	public void testAjouterContactSimpleAList() {
 		
 		// **********************************
 		// AFFICHAGE DANS LE TEST ou NON
@@ -208,20 +208,20 @@ public class ListeContactSimplesControllerTest {
 		
 		/* AFFICHAGE A LA CONSOLE. */
 		if (AFFICHAGE_GENERAL && affichage) {
-			System.out.println("********** méthode testAjouterPersonneAList() ********** ");
+			System.out.println("********** méthode testAjouterContactSimpleAList() ********** ");
 		}
 		
 		
-		/* l'instance de liste dans le Controller doit être this.listePersonnes. */
+		/* l'instance de liste dans le Controller doit être this.listeContactSimples. */
 		assertSame(INSTANCE_LISTE
-				, this.listePersonnes, this.listePersonneController.getListePersonnes());
+				, this.listeContactSimples, this.listeContactSimpleController.getListeContactSimples());
 		
 		assertEquals(
 				INSTANCE_LISTE
-				, this.listePersonnes
-				, this.listePersonneController.getListePersonnes());
+				, this.listeContactSimples
+				, this.listeContactSimpleController.getListeContactSimples());
 		
-		final int nombreInitial = this.listePersonneController.getListePersonnes().size();
+		final int nombreInitial = this.listeContactSimpleController.getListeContactSimples().size();
 		
 		/* le nombre initial d'objets dans la liste vaut 0. */
 		assertEquals(
@@ -235,9 +235,9 @@ public class ListeContactSimplesControllerTest {
 		}
 		
 		/* AJOUT D'OBJETS. */
-		this.ajouterPersonnes();
+		this.ajouterContactSimples();
 		
-		final int nombreFinal = this.listePersonneController.count();
+		final int nombreFinal = this.listeContactSimpleController.count();
 
 		/* le nombre final d'objets dans la liste vaut nombreInitial + 3. */
 		assertEquals(
@@ -251,15 +251,15 @@ public class ListeContactSimplesControllerTest {
 			
 			System.out.println();
 			System.out.println(CONTENU_LISTE);
-			System.out.println(this.listePersonneController.afficherListe());
+			System.out.println(this.listeContactSimpleController.afficherListe());
 		}
 		
-	} // Fin de testAjouterPersonneAList().________________________________
+	} // Fin de testAjouterContactSimpleAList().________________________________
 	
 
 	
 	/**
-	 * Teste la méthode retirerPersonneAList(IContactSimple pPersonne).<br/>
+	 * Teste la méthode retirerContactSimpleAList(IContactSimple pContactSimple).<br/>
 	 * garantit que :<br/>
 	 * <ul>
 	 * <li>le nombre final d'objets dans la liste vaut nombreInitial - 1.</li>
@@ -268,7 +268,7 @@ public class ListeContactSimplesControllerTest {
 	 */
 	@SuppressWarnings("unused")
 	@Test
-	public void testRetirerPersonneAList() {
+	public void testRetirerContactSimpleAList() {
 		
 		// **********************************
 		// AFFICHAGE DANS LE TEST ou NON
@@ -277,14 +277,14 @@ public class ListeContactSimplesControllerTest {
 		
 		/* AFFICHAGE A LA CONSOLE. */
 		if (AFFICHAGE_GENERAL && affichage) {
-			System.out.println("********** méthode testRetirerPersonneAList() ********** ");
+			System.out.println("********** méthode testRetirerContactSimpleAList() ********** ");
 		}
 		
 		/* AJOUT D'OBJETS. */
-		this.ajouterPersonnes();
+		this.ajouterContactSimples();
 
 		final int nombreInitial 
-			= this.listePersonneController.getListePersonnes().size();
+			= this.listeContactSimpleController.getListeContactSimples().size();
 		
 		/* le nombre initial d'objets dans la liste vaut 3. */
 		assertEquals(
@@ -298,17 +298,17 @@ public class ListeContactSimplesControllerTest {
 			
 			System.out.println();
 			System.out.println(CONTENU_LISTE);
-			System.out.println(this.listePersonneController.afficherListe());
+			System.out.println(this.listeContactSimpleController.afficherListe());
 		}
 		
 		/* RETRAIT D'OBJET. */
 		final boolean retrait 
-			= this.listePersonneController.retirerPersonneAList(this.personne3);
+			= this.listeContactSimpleController.retirerContactSimpleAList(this.contactSimple3);
 		
 		assertTrue("le retrait dans la liste du CONTROLLER se passe bien : "
 					, retrait);
 		
-		final int nombreFinal = this.listePersonneController.count();
+		final int nombreFinal = this.listeContactSimpleController.count();
 
 		/* AFFICHAGE A LA CONSOLE. */
 		if (AFFICHAGE_GENERAL && affichage) {
@@ -316,7 +316,7 @@ public class ListeContactSimplesControllerTest {
 			
 			System.out.println();
 			System.out.println(CONTENU_LISTE);
-			System.out.println(this.listePersonneController.afficherListe());
+			System.out.println(this.listeContactSimpleController.afficherListe());
 		}
 		
 		/* le nombre final d'objets dans la liste vaut nombreInitial - 1. */
@@ -325,12 +325,12 @@ public class ListeContactSimplesControllerTest {
 					, nombreInitial - 1
 						, nombreFinal);
 		
-	} // Fin de testRetirerPersonneAList().________________________________
+	} // Fin de testRetirerContactSimpleAList().________________________________
 
 
 	
 	/**
-	 * Teste la méthode ajouterListePersonnesAList(...).<br/>
+	 * Teste la méthode ajouterListeContactSimplesAList(...).<br/>
 	 *  garantit que :<br/>
 	 * <ul>
 	 * <li>le nombre final d'objets dans la liste vaut nombreInitial + 2.</li>
@@ -339,7 +339,7 @@ public class ListeContactSimplesControllerTest {
 	 */
 	@SuppressWarnings("unused")
 	@Test
-	public void testAjouterListePersonnesAList() {
+	public void testAjouterListeContactSimplesAList() {
 		
 		// **********************************
 		// AFFICHAGE DANS LE TEST ou NON
@@ -348,11 +348,11 @@ public class ListeContactSimplesControllerTest {
 		
 		/* AFFICHAGE A LA CONSOLE. */
 		if (AFFICHAGE_GENERAL && affichage) {
-			System.out.println("********** méthode testAjouterListePersonnesAList() ********** ");
+			System.out.println("********** méthode testAjouterListeContactSimplesAList() ********** ");
 		}
 		
 		final int nombreInitial 
-			= this.listePersonneController.getListePersonnes().size();
+			= this.listeContactSimpleController.getListeContactSimples().size();
 		
 		/* le nombre initial d'objets dans la liste vaut 0. */
 		assertEquals(
@@ -366,10 +366,10 @@ public class ListeContactSimplesControllerTest {
 		}
 		
 		/* AJOUT D'UNE LISTE D'OBJETS. */
-		this.constituerLIstePersonnesAAjouter();
-		this.listePersonneController.ajouterListePersonnesAList(this.listePersonnesAAjouter);
+		this.constituerLIsteContactSimplesAAjouter();
+		this.listeContactSimpleController.ajouterListeContactSimplesAList(this.listeContactSimplesAAjouter);
 		
-		final int nombreFinal = this.listePersonneController.count();
+		final int nombreFinal = this.listeContactSimpleController.count();
 
 		/* le nombre final d'objets dans la liste vaut nombreInitial + 2. */
 		assertEquals(
@@ -383,15 +383,15 @@ public class ListeContactSimplesControllerTest {
 			
 			System.out.println();
 			System.out.println(CONTENU_LISTE);
-			System.out.println(this.listePersonneController.afficherListe());
+			System.out.println(this.listeContactSimpleController.afficherListe());
 		}
 
-	} // Fin de testAjouterListePersonnesAList().__________________________
+	} // Fin de testAjouterListeContactSimplesAList().__________________________
 
 
 	
 	/**
-	 * Teste la méthode retirerListePersonnesAList().<br/>
+	 * Teste la méthode retirerListeContactSimplesAList().<br/>
 	 * garantit que :<br/>
 	 * <ul>
 	 * <li>le nombre final d'objets dans la liste vaut nombreInitial - 2.</li>
@@ -400,7 +400,7 @@ public class ListeContactSimplesControllerTest {
 	 */
 	@SuppressWarnings("unused")
 	@Test
-	public void testRetirerListePersonnesAList() {
+	public void testRetirerListeContactSimplesAList() {
 		
 		// **********************************
 		// AFFICHAGE DANS LE TEST ou NON
@@ -409,14 +409,14 @@ public class ListeContactSimplesControllerTest {
 		
 		/* AFFICHAGE A LA CONSOLE. */
 		if (AFFICHAGE_GENERAL && affichage) {
-			System.out.println("********** méthode testRetirerListePersonnesAList() ********** ");
+			System.out.println("********** méthode testRetirerListeContactSimplesAList() ********** ");
 		}
 		
 		/* AJOUT D'OBJETS. */
-		this.ajouterPersonnes();
+		this.ajouterContactSimples();
 
 		final int nombreInitial 
-			= this.listePersonneController.getListePersonnes().size();
+			= this.listeContactSimpleController.getListeContactSimples().size();
 		
 		/* le nombre initial d'objets dans la liste vaut 3. */
 		assertEquals(
@@ -430,21 +430,21 @@ public class ListeContactSimplesControllerTest {
 			
 			System.out.println();
 			System.out.println(CONTENU_LISTE);
-			System.out.println(this.listePersonneController.afficherListe());
+			System.out.println(this.listeContactSimpleController.afficherListe());
 		}
 		
 		/* RETRAIT D'OBJET. */
 		final List<IContactSimple> listeRetrait = new ArrayList<IContactSimple>();
-		listeRetrait.add(this.personne2);
-		listeRetrait.add(this.personne3);
+		listeRetrait.add(this.contactSimple2);
+		listeRetrait.add(this.contactSimple3);
 		
 		final boolean retrait 
-			= this.listePersonneController.retirerListePersonnesAList(listeRetrait);
+			= this.listeContactSimpleController.retirerListeContactSimplesAList(listeRetrait);
 		
 		assertTrue("le retrait dans la liste du CONTROLLER se passe bien : "
 					, retrait);
 		
-		final int nombreFinal = this.listePersonneController.count();
+		final int nombreFinal = this.listeContactSimpleController.count();
 
 		/* AFFICHAGE A LA CONSOLE. */
 		if (AFFICHAGE_GENERAL && affichage) {
@@ -452,7 +452,7 @@ public class ListeContactSimplesControllerTest {
 			
 			System.out.println();
 			System.out.println(CONTENU_LISTE);
-			System.out.println(this.listePersonneController.afficherListe());
+			System.out.println(this.listeContactSimpleController.afficherListe());
 		}
 		
 		/* le nombre final d'objets dans la liste vaut nombreInitial - 2. */
@@ -467,30 +467,30 @@ public class ListeContactSimplesControllerTest {
 	
 	/**
 	 * Ajoute des ContactSimple à la liste de 
-	 * this.listePersonneController.<br/>
+	 * this.listeContactSimpleController.<br/>
 	 */
-	private void ajouterPersonnes() {
+	private void ajouterContactSimples() {
 		
-		this.listePersonneController.ajouterPersonneAList(this.personne1);
-		this.listePersonneController.ajouterPersonneAList(this.personne2);
-		this.listePersonneController.ajouterPersonneAList(this.personne3);
+		this.listeContactSimpleController.ajouterContactSimpleAList(this.contactSimple1);
+		this.listeContactSimpleController.ajouterContactSimpleAList(this.contactSimple2);
+		this.listeContactSimpleController.ajouterContactSimpleAList(this.contactSimple3);
 		
-	} // Fin de ajouterPersonnes().________________________________________
+	} // Fin de ajouterContactSimples().________________________________________
 	
 
 	
 	/**
-	 * Instancie this.listePersonnesAAjouter.<br/>
-	 * Ajoute this.personne4 et this.personne5 
-	 * à this.listePersonnesAAjouter.<br/>
+	 * Instancie this.listeContactSimplesAAjouter.<br/>
+	 * Ajoute this.contactSimple4 et this.contactSimple5 
+	 * à this.listeContactSimplesAAjouter.<br/>
 	 */
-	private void constituerLIstePersonnesAAjouter() {
+	private void constituerLIsteContactSimplesAAjouter() {
 		
-		this.listePersonnesAAjouter = new ArrayList<IContactSimple>();
-		this.listePersonnesAAjouter.add(this.personne4);
-		this.listePersonnesAAjouter.add(this.personne5);
+		this.listeContactSimplesAAjouter = new ArrayList<IContactSimple>();
+		this.listeContactSimplesAAjouter.add(this.contactSimple4);
+		this.listeContactSimplesAAjouter.add(this.contactSimple5);
 		
-	} // Fin de constituerLIstePersonnesAAjouter().________________________
+	} // Fin de constituerLIsteContactSimplesAAjouter().________________________
 	
 	
 	

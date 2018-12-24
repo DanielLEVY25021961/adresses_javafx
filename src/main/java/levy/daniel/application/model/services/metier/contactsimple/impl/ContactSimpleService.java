@@ -74,8 +74,8 @@ public class ContactSimpleService implements IContactSimpleService {
 	 */
 	@Override
 	public List<IContactSimple> initialiserListeContactSimples() {
-		return InitialiseurDeData.getListePersonnes();
-	} // Fin de initialiserListePersonnes()._______________________________
+		return InitialiseurDeData.getListeContactSimples();
+	} // Fin de initialiserListeContactSimples()._______________________________
 
 
 

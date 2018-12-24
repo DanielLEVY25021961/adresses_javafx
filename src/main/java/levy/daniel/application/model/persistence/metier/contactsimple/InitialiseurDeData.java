@@ -40,16 +40,16 @@ public final class InitialiseurDeData {
 	// ************************ATTRIBUTS************************************/
 
 	/**
-	 * listePersonnes : List&lt;IContactSimple&gt; :<br/>
+	 * listeContactSimples : List&lt;IContactSimple&gt; :<br/>
 	 * Liste de IContactSimple.<br/>
 	 */
-	private static List<IContactSimple> listePersonnes = new ArrayList<IContactSimple>();
+	private static List<IContactSimple> listeContactSimples = new ArrayList<IContactSimple>();
 	
 	/**
-	 * listePersonnesControllers : ObservableList<IContactSimpleModelObs> :<br/>
-	 * Liste de IContactSimpleModelObs correspondant à la listePersonnes.<br/>
+	 * listeContactSimplesControllers : ObservableList<IContactSimpleModelObs> :<br/>
+	 * Liste de IContactSimpleModelObs correspondant à la listeContactSimples.<br/>
 	 */
-	private static ObservableList<IContactSimpleModelObs> listePersonnesControllers 
+	private static ObservableList<IContactSimpleModelObs> listeContactSimplesControllers 
 		= FXCollections.observableArrayList();
 
 	/**
@@ -83,111 +83,111 @@ public final class InitialiseurDeData {
 	public static void main(
 			final String[] pArgs) {
 		
-		instancierPersonnes();
+		instancierContactSimples();
 
 	} // Fin de main(...)._________________________________________________
 
 
 	
 	/**
-	 * method instancierPersonnes() :<br/>
-	 * Instancie des ContactSimple et les intègre à listePersonnes.<br/>
+	 * method instancierContactSimples() :<br/>
+	 * Instancie des ContactSimple et les intègre à listeContactSimples.<br/>
 	 * <br/>
 	 */
-	private static void instancierPersonnes() {
+	private static void instancierContactSimples() {
 		
-		final IContactSimple personne1 
+		final IContactSimple contactSimple1 
 			= new ContactSimple(
 					"Horace", "Silver"
 					, "17, rue de la Plomberie", "73 698", "Chambéry"
 					, LocalDate.of(1950, 1, 17));
 		
-		final IContactSimple personne2 
+		final IContactSimple contactSimple2 
 		= new ContactSimple(
 				"Johnny", "Halliday"
 				, "7, avenue des Zozos", "75 001", "Paris"
 				, LocalDate.of(1952, 7, 22));
 
-		final IContactSimple personne3 
+		final IContactSimple contactSimple3 
 		= new ContactSimple(
 				"Papy", "Gonzales"
 				, "rue3", "cp3", "ville3"
 				, LocalDate.of(2018, 5, 3));
 
-		final IContactSimple personne4 
+		final IContactSimple contactSimple4 
 		= new ContactSimple(
 				"Zorro", "Démoniaque"
 				, "rue4", "cp4", "ville4"
 				, LocalDate.of(2018, 5, 4));
 
-		listePersonnes.add(personne1);
-		listePersonnesControllers.add(new ContactSimpleModelObs(personne1));
-		listePersonnes.add(personne2);
-		listePersonnesControllers.add(new ContactSimpleModelObs(personne2));
-		listePersonnes.add(personne3);
-		listePersonnesControllers.add(new ContactSimpleModelObs(personne3));
-		listePersonnes.add(personne4);
-		listePersonnesControllers.add(new ContactSimpleModelObs(personne4));
+		listeContactSimples.add(contactSimple1);
+		listeContactSimplesControllers.add(new ContactSimpleModelObs(contactSimple1));
+		listeContactSimples.add(contactSimple2);
+		listeContactSimplesControllers.add(new ContactSimpleModelObs(contactSimple2));
+		listeContactSimples.add(contactSimple3);
+		listeContactSimplesControllers.add(new ContactSimpleModelObs(contactSimple3));
+		listeContactSimples.add(contactSimple4);
+		listeContactSimplesControllers.add(new ContactSimpleModelObs(contactSimple4));
 		
-	} // Fin de instancierPersonnes()._____________________________________
+	} // Fin de instancierContactSimples()._____________________________________
 
 
 	
 	/**
-	 * method ajouterPersonne(
-	 * IContactSimple pPersonne) :<br/>
-	 * Ajoute une IContactSimple à listePersonnes.<br/>
+	 * method ajouterContactSimple(
+	 * IContactSimple pContactSimple) :<br/>
+	 * Ajoute une IContactSimple à listeContactSimples.<br/>
 	 * Ajoute un ContactSimpleModelObs correspondant 
-	 * à listePersonnesControllers.<br/>
+	 * à listeContactSimplesControllers.<br/>
 	 * <br/>
 	 *
 	 * @param pContactSimple : IContactSimple :  .<br/>
 	 */
-	public void ajouterPersonne(
+	public void ajouterContactSimple(
 			final IContactSimple pContactSimple) {
 		
-		listePersonnes.add(pContactSimple);
-		listePersonnesControllers.add(new ContactSimpleModelObs(pContactSimple));
+		listeContactSimples.add(pContactSimple);
+		listeContactSimplesControllers.add(new ContactSimpleModelObs(pContactSimple));
 		
-	} // Fin de ajouterPersonne(...).______________________________________
+	} // Fin de ajouterContactSimple(...).______________________________________
 	
 	
 	
 	/**
-	 * method getListePersonnes() :<br/>
+	 * method getListeContactSimples() :<br/>
 	 * Getter de la liste de ContactSimple.<br/>
 	 * <br/>
 	 *
-	 * @return listePersonnes : List&lt;IContactSimple&gt;.<br/>
+	 * @return listeContactSimples : List&lt;IContactSimple&gt;.<br/>
 	 */
-	public static List<IContactSimple> getListePersonnes() {
+	public static List<IContactSimple> getListeContactSimples() {
 		
-		if (listePersonnes.isEmpty()) {
-			instancierPersonnes();
+		if (listeContactSimples.isEmpty()) {
+			instancierContactSimples();
 		}
 		
-		return listePersonnes;
+		return listeContactSimples;
 		
-	} // Fin de getListePersonnes()._______________________________________
+	} // Fin de getListeContactSimples()._______________________________________
 
 
 	
 	/**
-	 * method getListePersonnesControllers() :<br/>
-	 * Getter de la liste de PersonneControllers.<br/>
+	 * method getListeContactSimplesControllers() :<br/>
+	 * Getter de la liste de ContactSimpleControllers.<br/>
 	 * <br/>
 	 *
 	 * @return : ObservableList&lt;IContactSimpleModelObs&gt; :  .<br/>
 	 */
-	public static ObservableList<IContactSimpleModelObs> getListePersonnesControllers() {
+	public static ObservableList<IContactSimpleModelObs> getListeContactSimplesControllers() {
 		
-		if (listePersonnesControllers.isEmpty()) {
-			instancierPersonnes();
+		if (listeContactSimplesControllers.isEmpty()) {
+			instancierContactSimples();
 		}
 		
-		return listePersonnesControllers;
+		return listeContactSimplesControllers;
 		
-	} // Fin de getListePersonnesControllers().____________________________
+	} // Fin de getListeContactSimplesControllers().____________________________
 	
 	
 	

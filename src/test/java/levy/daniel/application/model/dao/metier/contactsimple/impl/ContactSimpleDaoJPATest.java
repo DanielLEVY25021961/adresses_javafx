@@ -104,18 +104,18 @@ public class ContactSimpleDaoJPATest {
 		}
 		
 
-		final List<IContactSimple> contactsPersonne 
-			= InitialiseurDeData.getListePersonnes();
+		final List<IContactSimple> contactsContactSimple 
+			= InitialiseurDeData.getListeContactSimples();
 		
 		/* Enregistrement de la liste en base. */
-		final List<IContactSimple> listepersonnes 
-			= (List<IContactSimple>) this.dao.save(contactsPersonne);
+		final List<IContactSimple> listecontactSimples 
+			= (List<IContactSimple>) this.dao.save(contactsContactSimple);
 		
 		/* garantit que la liste en base existe. */
-		assertNotNull("la liste en base doit exister : ", listepersonnes);
+		assertNotNull("la liste en base doit exister : ", listecontactSimples);
 		
 		/* garantit que la liste en base n'est pas vide. */
-		assertFalse("la liste en base ne doit pas être vide : ", listepersonnes.isEmpty());
+		assertFalse("la liste en base ne doit pas être vide : ", listecontactSimples.isEmpty());
 		
 	} // Fin de testEnregistrer()._________________________________________
 

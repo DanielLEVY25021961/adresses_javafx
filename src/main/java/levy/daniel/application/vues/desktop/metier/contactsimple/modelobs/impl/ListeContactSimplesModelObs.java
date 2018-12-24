@@ -52,16 +52,16 @@ public class ListeContactSimplesModelObs implements IListeContactSimplesModelObs
 	private IAccueilController accueilController;
 	
 	/**
-	 * personneAnchorPane : AnchorPane :<br/>
-	 * panneau AnchorPane (VUE) modélisant une personne.<br/>
+	 * contactSimpleAnchorPane : AnchorPane :<br/>
+	 * panneau AnchorPane (VUE) modélisant une contactSimple.<br/>
 	 */
-	private AnchorPane personneAnchorPane;
+	private AnchorPane contactSimpleAnchorPane;
 		
 	/**
-	 * listePersonnes : ObservableList<IContactSimpleModelObs> :<br/>
+	 * listeContactSimples : ObservableList<IContactSimpleModelObs> :<br/>
 	 * liste des ContactSimpleModelObs.<br/>
 	 */
-	private ObservableList<IContactSimpleModelObs> listePersonnes;
+	private ObservableList<IContactSimpleModelObs> listeContactSimples;
 	
 
 	/**
@@ -109,9 +109,9 @@ public class ListeContactSimplesModelObs implements IListeContactSimplesModelObs
 		
 		super();
 		
-		this.personneAnchorPane = pAnchorPane;
+		this.contactSimpleAnchorPane = pAnchorPane;
 		this.accueilController = pAccueilController;
-		this.listePersonnes = pList;
+		this.listeContactSimples = pList;
 		
 	} // Fin de CONSTRUCTEUR COMPLET.______________________________________
 	
@@ -121,12 +121,12 @@ public class ListeContactSimplesModelObs implements IListeContactSimplesModelObs
 	 * {@inheritDoc}
 	 */
 	@Override
-	public final boolean ajouterPersonneAList(
+	public final boolean ajouterContactSimpleAList(
 			final IContactSimple pContactSimple) {
 		
-		return this.ajouterPersonneAList(pContactSimple, this.listePersonnes);
+		return this.ajouterContactSimpleAList(pContactSimple, this.listeContactSimples);
 		
-	} // Fin de ajouterPersonneAList(...)._________________________________
+	} // Fin de ajouterContactSimpleAList(...)._________________________________
 
 
 	
@@ -134,7 +134,7 @@ public class ListeContactSimplesModelObs implements IListeContactSimplesModelObs
 	 * {@inheritDoc}
 	 */
 	@Override
-	public final boolean ajouterPersonneAList(
+	public final boolean ajouterContactSimpleAList(
 			final IContactSimple pContactSimple
 				, final ObservableList<IContactSimpleModelObs> pList) {
 		
@@ -152,10 +152,10 @@ public class ListeContactSimplesModelObs implements IListeContactSimplesModelObs
 			return pList.add(contactSimpleModelObs);
 		}
 		
-		/* retourne false si pPersonne == null.*/
+		/* retourne false si pContactSimple == null.*/
 		return false;
 		
-	} // Fin de ajouterPersonneAList(...)._________________________________
+	} // Fin de ajouterContactSimpleAList(...)._________________________________
 	
 	
 	
@@ -163,13 +163,13 @@ public class ListeContactSimplesModelObs implements IListeContactSimplesModelObs
 	 * {@inheritDoc}
 	 */
 	@Override
-	public final boolean ajouterPersonneControllerAList(
-			final IContactSimpleModelObs pPersonne) {
+	public final boolean ajouterContactSimpleControllerAList(
+			final IContactSimpleModelObs pContactSimple) {
 		
-		return this.ajouterPersonneControllerAList(
-				pPersonne, this.listePersonnes);
+		return this.ajouterContactSimpleControllerAList(
+				pContactSimple, this.listeContactSimples);
 		
-	} // Fin de ajouterPersonneControllerAList(...)._______________________
+	} // Fin de ajouterContactSimpleControllerAList(...)._______________________
 	
 
 	
@@ -177,8 +177,8 @@ public class ListeContactSimplesModelObs implements IListeContactSimplesModelObs
 	 * {@inheritDoc}
 	 */
 	@Override
-	public final boolean ajouterPersonneControllerAList(
-			final IContactSimpleModelObs pPersonne
+	public final boolean ajouterContactSimpleControllerAList(
+			final IContactSimpleModelObs pContactSimple
 				, final ObservableList<IContactSimpleModelObs> pList) {
 		
 		/* retourne false si pList == null. */
@@ -186,14 +186,14 @@ public class ListeContactSimplesModelObs implements IListeContactSimplesModelObs
 			return false;
 		}
 				
-		if (pPersonne != null) {			
-			return pList.add(pPersonne);
+		if (pContactSimple != null) {			
+			return pList.add(pContactSimple);
 		}
 		
-		/* retourne false si pPersonne == null.*/
+		/* retourne false si pContactSimple == null.*/
 		return false;
 		
-	} // Fin de ajouterPersonneControllerAList(...)._______________________
+	} // Fin de ajouterContactSimpleControllerAList(...)._______________________
 	
 
 	
@@ -201,13 +201,13 @@ public class ListeContactSimplesModelObs implements IListeContactSimplesModelObs
 	 * {@inheritDoc}
 	 */
 	@Override
-	public final boolean ajouterListePersonnesAList(
+	public final boolean ajouterListeContactSimplesAList(
 			final List<IContactSimple> pListAAjouter) {
 		
-		return this.ajouterListePersonnesAList(
-				pListAAjouter, this.listePersonnes);
+		return this.ajouterListeContactSimplesAList(
+				pListAAjouter, this.listeContactSimples);
 		
-	} // Fin de ajouterListePersonnesAList(...).__________________________
+	} // Fin de ajouterListeContactSimplesAList(...).__________________________
 	
 	
 	
@@ -215,7 +215,7 @@ public class ListeContactSimplesModelObs implements IListeContactSimplesModelObs
 	 * {@inheritDoc}
 	 */
 	@Override
-	public final boolean ajouterListePersonnesAList(
+	public final boolean ajouterListeContactSimplesAList(
 			final List<IContactSimple> pListAAjouter
 				, final ObservableList<IContactSimpleModelObs> pList) {
 		
@@ -249,7 +249,7 @@ public class ListeContactSimplesModelObs implements IListeContactSimplesModelObs
 		
 		return resultat;
 		
-	} // Fin de ajouterListePersonnesAList(...).___________________________
+	} // Fin de ajouterListeContactSimplesAList(...).___________________________
 	
 
 	
@@ -257,13 +257,13 @@ public class ListeContactSimplesModelObs implements IListeContactSimplesModelObs
 	 * {@inheritDoc}
 	 */
 	@Override
-	public final boolean ajouterListePersonneControllersAList(
+	public final boolean ajouterListeContactSimpleControllersAList(
 			final List<IContactSimpleModelObs> pListAAjouter) {
 		
-		return this.ajouterListePersonneControllersAList(
-				pListAAjouter, this.listePersonnes);
+		return this.ajouterListeContactSimpleControllersAList(
+				pListAAjouter, this.listeContactSimples);
 		
-	} // Fin de ajouterListePersonneControllersAList(...)._________________
+	} // Fin de ajouterListeContactSimpleControllersAList(...)._________________
 	
 	
 	
@@ -271,7 +271,7 @@ public class ListeContactSimplesModelObs implements IListeContactSimplesModelObs
 	 * {@inheritDoc}
 	 */
 	@Override
-	public final boolean ajouterListePersonneControllersAList(
+	public final boolean ajouterListeContactSimpleControllersAList(
 			final List<IContactSimpleModelObs> pListAAjouter
 				, final ObservableList<IContactSimpleModelObs> pList) {
 				
@@ -287,7 +287,7 @@ public class ListeContactSimplesModelObs implements IListeContactSimplesModelObs
 
 		return pList.addAll(pListAAjouter);
 		
-	} // Fin de ajouterListePersonneControllersAList(...)._________________
+	} // Fin de ajouterListeContactSimpleControllersAList(...)._________________
 	
 
 		
@@ -295,12 +295,12 @@ public class ListeContactSimplesModelObs implements IListeContactSimplesModelObs
 	 * {@inheritDoc}
 	 */
 	@Override
-	public final boolean retirerPersonneAList(
+	public final boolean retirerContactSimpleAList(
 			final IContactSimple pContactSimple) {
 		
-		return this.retirerPersonneAList(pContactSimple, this.listePersonnes);
+		return this.retirerContactSimpleAList(pContactSimple, this.listeContactSimples);
 		
-	} // Fin de retirerPersonneAList(...)._________________________________
+	} // Fin de retirerContactSimpleAList(...)._________________________________
 
 
 	
@@ -308,7 +308,7 @@ public class ListeContactSimplesModelObs implements IListeContactSimplesModelObs
 	 * {@inheritDoc}
 	 */
 	@Override
-	public final boolean retirerPersonneAList(
+	public final boolean retirerContactSimpleAList(
 			final IContactSimple pContactSimple
 				, final ObservableList<IContactSimpleModelObs> pList) {
 		
@@ -326,10 +326,10 @@ public class ListeContactSimplesModelObs implements IListeContactSimplesModelObs
 			return pList.remove(contactSimpleModelObs);
 		}
 		
-		/* retourne false si pPersonne == null.*/
+		/* retourne false si pContactSimple == null.*/
 		return false;
 		
-	} // Fin de retirerPersonneAList(...)._________________________________
+	} // Fin de retirerContactSimpleAList(...)._________________________________
 	
 	
 	
@@ -337,13 +337,13 @@ public class ListeContactSimplesModelObs implements IListeContactSimplesModelObs
 	 * {@inheritDoc}
 	 */
 	@Override
-	public final boolean retirerPersonneControllerAList(
-			final IContactSimpleModelObs pPersonne) {
+	public final boolean retirerContactSimpleControllerAList(
+			final IContactSimpleModelObs pContactSimple) {
 		
-		return this.retirerPersonneControllerAList(
-				pPersonne, this.listePersonnes);
+		return this.retirerContactSimpleControllerAList(
+				pContactSimple, this.listeContactSimples);
 		
-	} // Fin de retirerPersonneControllerAList(...)._______________________
+	} // Fin de retirerContactSimpleControllerAList(...)._______________________
 	
 
 	
@@ -351,8 +351,8 @@ public class ListeContactSimplesModelObs implements IListeContactSimplesModelObs
 	 * {@inheritDoc}
 	 */
 	@Override
-	public final boolean retirerPersonneControllerAList(
-			final IContactSimpleModelObs pPersonne
+	public final boolean retirerContactSimpleControllerAList(
+			final IContactSimpleModelObs pContactSimple
 				, final ObservableList<IContactSimpleModelObs> pList) {
 		
 		/* retourne false si pList == null. */
@@ -360,14 +360,14 @@ public class ListeContactSimplesModelObs implements IListeContactSimplesModelObs
 			return false;
 		}
 				
-		if (pPersonne != null) {			
-			return pList.remove(pPersonne);
+		if (pContactSimple != null) {			
+			return pList.remove(pContactSimple);
 		}
 		
-		/* retourne false si pPersonne == null.*/
+		/* retourne false si pContactSimple == null.*/
 		return false;
 		
-	} // Fin de retirerPersonneControllerAList(...)._______________________
+	} // Fin de retirerContactSimpleControllerAList(...)._______________________
 	
 
 	
@@ -375,13 +375,13 @@ public class ListeContactSimplesModelObs implements IListeContactSimplesModelObs
 	 * {@inheritDoc}
 	 */
 	@Override
-	public final boolean retirerListePersonnesAList(
+	public final boolean retirerListeContactSimplesAList(
 			final List<IContactSimple> pListAretirer) {
 		
-		return this.retirerListePersonnesAList(
-				pListAretirer, this.listePersonnes);
+		return this.retirerListeContactSimplesAList(
+				pListAretirer, this.listeContactSimples);
 		
-	} // Fin de retirerListePersonnesAList(...).__________________________
+	} // Fin de retirerListeContactSimplesAList(...).__________________________
 	
 	
 	
@@ -389,7 +389,7 @@ public class ListeContactSimplesModelObs implements IListeContactSimplesModelObs
 	 * {@inheritDoc}
 	 */
 	@Override
-	public final boolean retirerListePersonnesAList(
+	public final boolean retirerListeContactSimplesAList(
 			final List<IContactSimple> pListAretirer
 				, final ObservableList<IContactSimpleModelObs> pList) {
 		
@@ -423,7 +423,7 @@ public class ListeContactSimplesModelObs implements IListeContactSimplesModelObs
 		
 		return resultat;
 		
-	} // Fin de retirerListePersonnesAList(...).___________________________
+	} // Fin de retirerListeContactSimplesAList(...).___________________________
 	
 
 	
@@ -431,13 +431,13 @@ public class ListeContactSimplesModelObs implements IListeContactSimplesModelObs
 	 * {@inheritDoc}
 	 */
 	@Override
-	public final boolean retirerListePersonneControllersAList(
+	public final boolean retirerListeContactSimpleControllersAList(
 			final List<IContactSimpleModelObs> pListAretirer) {
 		
-		return this.retirerListePersonneControllersAList(
-				pListAretirer, this.listePersonnes);
+		return this.retirerListeContactSimpleControllersAList(
+				pListAretirer, this.listeContactSimples);
 		
-	} // Fin de retirerListePersonneControllersAList(...)._________________
+	} // Fin de retirerListeContactSimpleControllersAList(...)._________________
 	
 	
 	
@@ -445,7 +445,7 @@ public class ListeContactSimplesModelObs implements IListeContactSimplesModelObs
 	 * {@inheritDoc}
 	 */
 	@Override
-	public final boolean retirerListePersonneControllersAList(
+	public final boolean retirerListeContactSimpleControllersAList(
 			final List<IContactSimpleModelObs> pListAretirer
 				, final ObservableList<IContactSimpleModelObs> pList) {
 				
@@ -461,7 +461,7 @@ public class ListeContactSimplesModelObs implements IListeContactSimplesModelObs
 
 		return pList.removeAll(pListAretirer);
 		
-	} // Fin de retirerListePersonneControllersAList(...)._________________
+	} // Fin de retirerListeContactSimpleControllersAList(...)._________________
 	
 
 
@@ -470,7 +470,7 @@ public class ListeContactSimplesModelObs implements IListeContactSimplesModelObs
 	 */
 	@Override
 	public final int count() {
-		return this.count(this.listePersonnes);
+		return this.count(this.listeContactSimples);
 	} // Fin de count().___________________________________________________
 	
 	
@@ -497,7 +497,7 @@ public class ListeContactSimplesModelObs implements IListeContactSimplesModelObs
 	 */
 	@Override
 	public final String afficherListe() {
-		return this.afficherListe(this.listePersonnes);
+		return this.afficherListe(this.listeContactSimples);
 	} // Fin de afficherListe().___________________________________________
 	
 	
@@ -520,12 +520,12 @@ public class ListeContactSimplesModelObs implements IListeContactSimplesModelObs
 		
 		final StringBuffer stb = new StringBuffer();
 		
-		for (final IContactSimpleModelObs personne : pList) {
+		for (final IContactSimpleModelObs contactSimple : pList) {
 			
 			compteur++;
 			
-			if (personne != null) {
-				stb.append(personne.toString());
+			if (contactSimple != null) {
+				stb.append(contactSimple.toString());
 			}
 			
 			if (compteur < taille) {
@@ -564,9 +564,9 @@ public class ListeContactSimplesModelObs implements IListeContactSimplesModelObs
 	 * {@inheritDoc}
 	 */
 	@Override
-	public final AnchorPane getPersonneAnchorPane() {	
-		return this.personneAnchorPane;
-	} // Fin de getPersonneAnchorPane().___________________________________
+	public final AnchorPane getContactSimpleAnchorPane() {	
+		return this.contactSimpleAnchorPane;
+	} // Fin de getContactSimpleAnchorPane().___________________________________
 
 
 	
@@ -574,10 +574,10 @@ public class ListeContactSimplesModelObs implements IListeContactSimplesModelObs
 	 * {@inheritDoc}
 	 */
 	@Override
-	public final void setPersonneAnchorPane(
-			final AnchorPane pPersonneAnchorPane) {	
-		this.personneAnchorPane = pPersonneAnchorPane;
-	} // Fin de setPersonneAnchorPane(...).________________________________
+	public final void setContactSimpleAnchorPane(
+			final AnchorPane pContactSimpleAnchorPane) {	
+		this.contactSimpleAnchorPane = pContactSimpleAnchorPane;
+	} // Fin de setContactSimpleAnchorPane(...).________________________________
 
 
 	
@@ -585,9 +585,9 @@ public class ListeContactSimplesModelObs implements IListeContactSimplesModelObs
 	 * {@inheritDoc}
 	 */
 	@Override
-	public final ObservableList<IContactSimpleModelObs> getListePersonnes() {	
-		return this.listePersonnes;
-	} // Fin de getListePersonnes()._______________________________________
+	public final ObservableList<IContactSimpleModelObs> getListeContactSimples() {	
+		return this.listeContactSimples;
+	} // Fin de getListeContactSimples()._______________________________________
 
 
 	
@@ -595,10 +595,10 @@ public class ListeContactSimplesModelObs implements IListeContactSimplesModelObs
 	 * {@inheritDoc}
 	 */
 	@Override
-	public final void setListePersonnes(
-			final ObservableList<IContactSimpleModelObs> pListePersonnes) {	
-		this.listePersonnes = pListePersonnes;
-	} // Fin de setListePersonnes(...).____________________________________
+	public final void setListeContactSimples(
+			final ObservableList<IContactSimpleModelObs> pListeContactSimples) {	
+		this.listeContactSimples = pListeContactSimples;
+	} // Fin de setListeContactSimples(...).____________________________________
 	
 	
 

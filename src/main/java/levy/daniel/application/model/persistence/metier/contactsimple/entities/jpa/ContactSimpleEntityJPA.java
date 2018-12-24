@@ -197,7 +197,7 @@ public class ContactSimpleEntityJPA implements IContactSimple {
 	
 	 /**
 	 * method CONSTRUCTEUR ContactSimpleEntityJPA(
-	 * IContactSimple pPersonne) :<br/>
+	 * IContactSimple pContactSimple) :<br/>
 	 * CONSTRUCTEUR TRANSFORMATEUR.<br/>
 	 * <br/>
 	 *
@@ -379,21 +379,21 @@ public class ContactSimpleEntityJPA implements IContactSimple {
 	@Override
 	public final ContactSimpleEntityJPA clone() throws CloneNotSupportedException {
 		
-		final IContactSimple personneClone = (IContactSimple) super.clone();
+		final IContactSimple contactSimpleClone = (IContactSimple) super.clone();
 		
 		/* Clonage profond de la date. */
 		final LocalDate dateNaissanceClone 
 			= LocalDate.from(this.dateNaissance);
 		
-		personneClone.setId(this.getId());
-		personneClone.setNom(this.getNom());
-		personneClone.setPrenom(this.getPrenom());
-		personneClone.setRue(this.getRue());
-		personneClone.setCodePostal(this.getCodePostal());
-		personneClone.setVille(this.getVille());
-		personneClone.setDateNaissance(dateNaissanceClone);
+		contactSimpleClone.setId(this.getId());
+		contactSimpleClone.setNom(this.getNom());
+		contactSimpleClone.setPrenom(this.getPrenom());
+		contactSimpleClone.setRue(this.getRue());
+		contactSimpleClone.setCodePostal(this.getCodePostal());
+		contactSimpleClone.setVille(this.getVille());
+		contactSimpleClone.setDateNaissance(dateNaissanceClone);
 		
-		return (ContactSimpleEntityJPA) personneClone;
+		return (ContactSimpleEntityJPA) contactSimpleClone;
 		
 	} // Fin de clone().___________________________________________________
 

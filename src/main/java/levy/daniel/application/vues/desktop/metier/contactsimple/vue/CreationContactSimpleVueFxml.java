@@ -18,7 +18,7 @@ import levy.daniel.application.vues.desktop.metier.contactsimple.controllervue.I
 
 /**
  * CLASSE CreationContactSimpleVueFxml :<br/>
- * prépare la VUE AnchorPane <b>this.creationPersonneVueAnchorPane</b> 
+ * prépare la VUE AnchorPane <b>this.creationContactSimpleVueAnchorPane</b> 
  * modélisant la boîte de dialogue de création d'une ContactSimple.<br/>
  * <ul>
  * <li>charge dans sa méthode dessiner() le FXML.</li>
@@ -232,13 +232,13 @@ public class CreationContactSimpleVueFxml {
 	/**
 	* Setter du panneau AnchorPane (VUE) modélisant un contact simple.<br/>
 	*
-	* @param pPersonneAnchorPane : AnchorPane : 
+	* @param pContactSimpleAnchorPane : AnchorPane : 
 	* valeur à passer à this.contactSimpleAnchorPane.<br/>
 	*/
 	public void setContactSimpleAnchorPane(
-			final AnchorPane pPersonneAnchorPane) {	
-		this.contactSimpleAnchorPane = pPersonneAnchorPane;
-	} // Fin de setPersonneAnchorPane(...).________________________________
+			final AnchorPane pContactSimpleAnchorPane) {	
+		this.contactSimpleAnchorPane = pContactSimpleAnchorPane;
+	} // Fin de setContactSimpleAnchorPane(...).________________________________
 
 
 	

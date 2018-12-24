@@ -135,7 +135,7 @@ public class ContactSimpleVueFxmlMain extends Application {
 	 * de la VUE BorderPane <b>this.root</b> 
 	 * (barre de menus, menus, items, ...).</li>
 	 * <li>décore <b>this.root</b> en lui incorporant un AnchorPane 
-	 * <b>personneAnchorPane</b>. 
+	 * <b>contactSimpleAnchorPane</b>. 
 	 * Cette partie est déleguée à un CONTROLLER AccueilController.</li>
 	 * <li>instancie la scene et passe le panneau de fond à la scene.</li>
 	 * <li>passe la scene au theatre this.primaryStage.</li>

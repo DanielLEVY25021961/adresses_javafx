@@ -34,7 +34,7 @@ import levy.daniel.application.model.metier.contactsimple.IContactSimple;
  * @since 24 mai 2018
  *
  */
-@XmlRootElement(name = "personne")
+@XmlRootElement(name = "contactSimple")
 @XmlType(propOrder = {"id", "prenom", "nom", "rue", "codePostal", "ville", "dateNaissance"})
 public class ContactSimpleEntityJAXB implements IContactSimple {
 
@@ -189,7 +189,7 @@ public class ContactSimpleEntityJAXB implements IContactSimple {
 	
 	 /**
 	 * method CONSTRUCTEUR ContactSimpleEntityJAXB(
-	 * IContactSimple pPersonne) :<br/>
+	 * IContactSimple pContactSimple) :<br/>
 	 * CONSTRUCTEUR TRANSFORMATEUR.<br/>
 	 * <br/>
 	 *
@@ -371,21 +371,21 @@ public class ContactSimpleEntityJAXB implements IContactSimple {
 	@Override
 	public final ContactSimpleEntityJAXB clone() throws CloneNotSupportedException {
 		
-		final IContactSimple personneClone = (IContactSimple) super.clone();
+		final IContactSimple contactSimpleClone = (IContactSimple) super.clone();
 		
 		/* Clonage profond de la date. */
 		final LocalDate dateNaissanceClone 
 			= LocalDate.from(this.dateNaissance);
 		
-		personneClone.setId(this.getId());
-		personneClone.setNom(this.getNom());
-		personneClone.setPrenom(this.getPrenom());
-		personneClone.setRue(this.getRue());
-		personneClone.setCodePostal(this.getCodePostal());
-		personneClone.setVille(this.getVille());
-		personneClone.setDateNaissance(dateNaissanceClone);
+		contactSimpleClone.setId(this.getId());
+		contactSimpleClone.setNom(this.getNom());
+		contactSimpleClone.setPrenom(this.getPrenom());
+		contactSimpleClone.setRue(this.getRue());
+		contactSimpleClone.setCodePostal(this.getCodePostal());
+		contactSimpleClone.setVille(this.getVille());
+		contactSimpleClone.setDateNaissance(dateNaissanceClone);
 		
-		return (ContactSimpleEntityJAXB) personneClone;
+		return (ContactSimpleEntityJAXB) contactSimpleClone;
 		
 	} // Fin de clone().___________________________________________________
 

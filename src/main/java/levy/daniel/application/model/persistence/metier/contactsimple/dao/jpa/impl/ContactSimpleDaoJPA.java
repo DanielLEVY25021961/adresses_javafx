@@ -82,12 +82,12 @@ public class ContactSimpleDaoJPA {
 
 	/**
 	 * SELECT_OBJET : String :<br/>
-	 * "select personne from 
-	 * ContactSimpleEntityJPA as personne ".<br/>
+	 * "select contactSimple from 
+	 * ContactSimpleEntityJPA as contactSimple ".<br/>
 	 */
 	public static final String SELECT_OBJET 
-		= "select personne from "
-				+ "ContactSimpleEntityJPA as personne ";
+		= "select contactSimple from "
+				+ "ContactSimpleEntityJPA as contactSimple ";
 	
 	/**
 	 * entityManagerFactory : EntityManagerFactory :<br/>
@@ -188,37 +188,37 @@ public class ContactSimpleDaoJPA {
 	
 	
 	/**
-	 * method creerPersonne(
-	 * ContactSimpleEntityJPA pPersonne) :<br/>
+	 * method creerContactSimple(
+	 * ContactSimpleEntityJPA pContactSimple) :<br/>
 	 * Crée une ContactSimple à partir d'une ContactSimpleEntityJPA.<br/>
 	 * <br/>
-	 * retourne null si pPersonne == null.<br/>
+	 * retourne null si pContactSimple == null.<br/>
 	 * <br/>
 	 *
-	 * @param pPersonne : ContactSimpleEntityJPA.<br/>
+	 * @param pContactSimple : ContactSimpleEntityJPA.<br/>
 	 * 
 	 * @return : IContactSimple.<br/>
 	 */
-	private IContactSimple creerPersonne(
-			final ContactSimpleEntityJPA pPersonne) {
+	private IContactSimple creerContactSimple(
+			final ContactSimpleEntityJPA pContactSimple) {
 		
-		/* retourne null si pPersonne == null. */
-		if (pPersonne == null) {
+		/* retourne null si pContactSimple == null. */
+		if (pContactSimple == null) {
 			return null;
 		}
 		
 		final IContactSimple contactSimple 
-			= new ContactSimple(pPersonne.getId()
-					, pPersonne.getPrenom()
-					, pPersonne.getNom()
-					, pPersonne.getRue()
-					, pPersonne.getCodePostal()
-					, pPersonne.getVille()
-					, pPersonne.getDateNaissance());
+			= new ContactSimple(pContactSimple.getId()
+					, pContactSimple.getPrenom()
+					, pContactSimple.getNom()
+					, pContactSimple.getRue()
+					, pContactSimple.getCodePostal()
+					, pContactSimple.getVille()
+					, pContactSimple.getDateNaissance());
 		
 		return contactSimple;
 		
-	} // Fin de creerPersonne(...).________________________________________
+	} // Fin de creerContactSimple(...).________________________________________
 	
 	
 	
@@ -250,10 +250,10 @@ public class ContactSimpleDaoJPA {
 			
 			if (contactSimple != null) {
 				
-				final ContactSimpleEntityJPA personneJAXB 
+				final ContactSimpleEntityJPA contactSimpleJAXB 
 					= new ContactSimpleEntityJPA(contactSimple);
 				
-				resultat.add(personneJAXB);
+				resultat.add(contactSimpleJAXB);
 				
 			}
 		}
@@ -286,14 +286,14 @@ public class ContactSimpleDaoJPA {
 		final List<IContactSimple> resultat 
 			= new ArrayList<IContactSimple>();
 		
-		for (final ContactSimpleEntityJPA personne : pList) {
+		for (final ContactSimpleEntityJPA contactSimple : pList) {
 			
-			if (personne != null) {
+			if (contactSimple != null) {
 				
-				final IContactSimple personneModel 
-					= this.creerPersonne(personne);
+				final IContactSimple contactSimpleModel 
+					= this.creerContactSimple(contactSimple);
 				
-				resultat.add(personneModel);
+				resultat.add(contactSimpleModel);
 				
 			}
 		}
@@ -614,9 +614,9 @@ public class ContactSimpleDaoJPA {
 		/* REQUETE HQL PARMETREE. */
 		final String requeteString 
 			= SELECT_OBJET
-				+ "where personne.prenom = :pPrenom "
-				+ "and personne.nom = :pNom "
-				+ "and personne.dateNaissance = :pDateNaissance";
+				+ "where contactSimple.prenom = :pPrenom "
+				+ "and contactSimple.nom = :pNom "
+				+ "and contactSimple.dateNaissance = :pDateNaissance";
 		
 		/* Construction de la requête HQL. */
 		final Query requete 
@@ -985,7 +985,7 @@ public class ContactSimpleDaoJPA {
 		/* REQUETE HQL PARAMETREE. */
 		final String requeteString 
 		= SELECT_OBJET 
-		+ "where personne.id = :pId";
+		+ "where contactSimple.id = :pId";
 
 		/* Construction de la requête HQL. */
 		final Query requete 
@@ -1069,7 +1069,7 @@ public class ContactSimpleDaoJPA {
 		/* REQUETE HQL PARAMETREE. */
 		final String requeteString 
 		= SELECT_OBJET 
-		+ "where personne.id = :pId";
+		+ "where contactSimple.id = :pId";
 
 		/* Construction de la requête HQL. */
 		final Query requete 
@@ -1349,9 +1349,9 @@ public class ContactSimpleDaoJPA {
 		/* REQUETE HQL PARMETREE. */
 		final String requeteString 
 			= SELECT_OBJET
-				+ "where personne.prenom = :pPrenom "
-				+ "and personne.nom = :pNom "
-				+ "and personne.dateNaissance = :pDateNaissance";
+				+ "where contactSimple.prenom = :pPrenom "
+				+ "and contactSimple.nom = :pNom "
+				+ "and contactSimple.dateNaissance = :pDateNaissance";
 		
 		/* Construction de la requête HQL. */
 		final Query requete 

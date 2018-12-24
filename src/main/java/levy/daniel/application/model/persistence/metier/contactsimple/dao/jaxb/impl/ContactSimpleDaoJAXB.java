@@ -155,37 +155,37 @@ public class ContactSimpleDaoJAXB {
 	
 	
 	/**
-	 * method creerPersonne(
-	 * ContactSimpleEntityJAXB pPersonne) :<br/>
+	 * method creerContactSimple(
+	 * ContactSimpleEntityJAXB pContactSimple) :<br/>
 	 * Crée une ContactSimple à partir d'une ContactSimpleEntityJAXB.<br/>
 	 * <br/>
-	 * retourne null si pPersonne == null.<br/>
+	 * retourne null si pContactSimple == null.<br/>
 	 * <br/>
 	 *
-	 * @param pPersonne : ContactSimpleEntityJAXB.<br/>
+	 * @param pContactSimple : ContactSimpleEntityJAXB.<br/>
 	 * 
 	 * @return : IContactSimple.<br/>
 	 */
-	private IContactSimple creerPersonne(
-			final ContactSimpleEntityJAXB pPersonne) {
+	private IContactSimple creerContactSimple(
+			final ContactSimpleEntityJAXB pContactSimple) {
 		
-		/* retourne null si pPersonne == null. */
-		if (pPersonne == null) {
+		/* retourne null si pContactSimple == null. */
+		if (pContactSimple == null) {
 			return null;
 		}
 		
 		final IContactSimple contactSimple 
-			= new ContactSimple(pPersonne.getId()
-					, pPersonne.getPrenom()
-					, pPersonne.getNom()
-					, pPersonne.getRue()
-					, pPersonne.getCodePostal()
-					, pPersonne.getVille()
-					, pPersonne.getDateNaissance());
+			= new ContactSimple(pContactSimple.getId()
+					, pContactSimple.getPrenom()
+					, pContactSimple.getNom()
+					, pContactSimple.getRue()
+					, pContactSimple.getCodePostal()
+					, pContactSimple.getVille()
+					, pContactSimple.getDateNaissance());
 		
 		return contactSimple;
 		
-	} // Fin de creerPersonne(...).________________________________________
+	} // Fin de creerContactSimple(...).________________________________________
 	
 	
 	
@@ -217,10 +217,10 @@ public class ContactSimpleDaoJAXB {
 			
 			if (contactSimple != null) {
 				
-				final ContactSimpleEntityJAXB personneJAXB 
+				final ContactSimpleEntityJAXB contactSimpleJAXB 
 					= new ContactSimpleEntityJAXB(contactSimple);
 				
-				resultat.add(personneJAXB);
+				resultat.add(contactSimpleJAXB);
 				
 			}
 		}
@@ -253,14 +253,14 @@ public class ContactSimpleDaoJAXB {
 		final List<IContactSimple> resultat 
 			= new ArrayList<IContactSimple>();
 		
-		for (final ContactSimpleEntityJAXB personne : pList) {
+		for (final ContactSimpleEntityJAXB contactSimple : pList) {
 			
-			if (personne != null) {
+			if (contactSimple != null) {
 				
-				final IContactSimple personneModel 
-					= this.creerPersonne(personne);
+				final IContactSimple contactSimpleModel 
+					= this.creerContactSimple(contactSimple);
 				
-				resultat.add(personneModel);
+				resultat.add(contactSimpleModel);
 				
 			}
 		}
@@ -345,7 +345,7 @@ public class ContactSimpleDaoJAXB {
 		  		
 		if (contacts != null) {
 			
-			/* ajout de la personne à la liste. */
+			/* ajout de la contactSimple à la liste. */
 			contacts.add(pObject);
 			
 			/* enregistrement de la nouvelle liste. */
@@ -452,11 +452,11 @@ public class ContactSimpleDaoJAXB {
 			return;
 		}
 		
-		final List<ContactSimpleEntityJAXB> contactsPersonneJAXB 
+		final List<ContactSimpleEntityJAXB> contactsContactSimpleJAXB 
 			= this.convertirListModelEnEntities(pList);
 		
 		final ListeContactSimplesEntityJAXB contactsJAXB 
-			= new ListeContactSimplesEntityJAXB(contactsPersonneJAXB);
+			= new ListeContactSimplesEntityJAXB(contactsContactSimpleJAXB);
 		
 		this.ecrireContactsConsole(contactsJAXB);
 		
@@ -599,7 +599,7 @@ public class ContactSimpleDaoJAXB {
 	 * 
 	 * @return : String.<br/>
 	 */
-	public String afficherListePersonneDansContacts(
+	public String afficherListeContactSimpleDansContacts(
 			final ListeContactSimplesEntityJAXB pContacts) {
 		
 		/* retourne null si pContacts == null. */
@@ -610,14 +610,14 @@ public class ContactSimpleDaoJAXB {
 		final List<ContactSimpleEntityJAXB> listeEntities 
 			= pContacts.getListeContactSimples();
 		
-		return this.afficherListePersonneJAXB(listeEntities);
+		return this.afficherListeContactSimpleJAXB(listeEntities);
 		
-	} // Fin de afficherListePersonneDansContacts(...).____________________
+	} // Fin de afficherListeContactSimpleDansContacts(...).____________________
 	
 	
 	
 	/**
-	 * method afficherListePersonne(
+	 * method afficherListeContactSimple(
 	 * List&lt;IContactSimple&gt; pList) :<br/>
 	 * fournit une String pour l'affichage à la console 
 	 * d'une Liste de IContactSimple.<br/>
@@ -629,7 +629,7 @@ public class ContactSimpleDaoJAXB {
 	 * 
 	 * @return : String.<br/>
 	 */
-	public String afficherListePersonne(
+	public String afficherListeContactSimple(
 			final List<IContactSimple> pList) {
 		
 		/* retourne null si pList == null. */
@@ -648,12 +648,12 @@ public class ContactSimpleDaoJAXB {
 		
 		return stb.toString();
 		
-	} // Fin de afficherListePersonne(...).________________________________
+	} // Fin de afficherListeContactSimple(...).________________________________
 	
 	
 	
 	/**
-	 * method afficherListePersonneJAXB(
+	 * method afficherListeContactSimpleJAXB(
 	 * List&lt;ContactSimpleEntityJAXB&gt; pList) :<br/>
 	 * fournit une String pour l'affichage à la console 
 	 * d'une Liste de ContactSimpleEntityJAXB.<br/>
@@ -665,7 +665,7 @@ public class ContactSimpleDaoJAXB {
 	 * 
 	 * @return : String.<br/>
 	 */
-	public String afficherListePersonneJAXB(
+	public String afficherListeContactSimpleJAXB(
 			final List<ContactSimpleEntityJAXB> pList) {
 		
 		/* retourne null si pList == null. */
@@ -675,16 +675,16 @@ public class ContactSimpleDaoJAXB {
 		
 		final StringBuffer stb = new StringBuffer();
 		
-		for (final ContactSimpleEntityJAXB personne : pList) {
+		for (final ContactSimpleEntityJAXB contactSimple : pList) {
 			
-			stb.append(personne.toString());
+			stb.append(contactSimple.toString());
 			stb.append(SAUT_LIGNE_JAVA);
 			
 		}
 		
 		return stb.toString();		
 
-	} // Fin de afficherListePersonneJAXB(...).____________________________
+	} // Fin de afficherListeContactSimpleJAXB(...).____________________________
 
 
 

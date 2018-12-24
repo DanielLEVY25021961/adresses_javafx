@@ -19,7 +19,7 @@
         <items>
           <AnchorPane fx:id="contactSimplesTableViewAnchorPane" minHeight="0.0" minWidth="0.0" prefHeight="160.0" prefWidth="100.0">
                <children>
-                  <TableView fx:id="personnesTableView" layoutX="-25.0" layoutY="32.0" prefHeight="200.0" prefWidth="200.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                  <TableView fx:id="contactSimplesTableView" layoutX="-25.0" layoutY="32.0" prefHeight="200.0" prefWidth="200.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
                     <columns>
                       <TableColumn fx:id="prenomTableColumn" prefWidth="75.0" text="Prénom" />
                       <TableColumn fx:id="nomTableColumn" prefWidth="75.0" text="Nom" />
@@ -32,7 +32,7 @@
             </AnchorPane>
           <AnchorPane fx:id="renseignementsAnchorPane" minHeight="0.0" minWidth="0.0" prefHeight="160.0" prefWidth="100.0">
                <children>
-                  <Label fx:id="renseignementsLabel" layoutX="27.0" layoutY="14.0" text="Renseignements sur la personne" AnchorPane.leftAnchor="5.0" AnchorPane.topAnchor="5.0" />
+                  <Label fx:id="renseignementsLabel" layoutX="27.0" layoutY="14.0" text="Renseignements sur la contactSimple" AnchorPane.leftAnchor="5.0" AnchorPane.topAnchor="5.0" />
                   <GridPane fx:id="renseignementsGridPane" layoutX="34.0" layoutY="59.0" AnchorPane.leftAnchor="5.0" AnchorPane.rightAnchor="5.0" AnchorPane.topAnchor="30.0">
                     <columnConstraints>
                       <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
@@ -63,12 +63,12 @@
                   </GridPane>
                   <ButtonBar fx:id="editionButtonBar" layoutX="40.0" layoutY="244.0" prefHeight="40.0" prefWidth="200.0" AnchorPane.bottomAnchor="5.0" AnchorPane.rightAnchor="5.0">
                     <buttons>
-                      <Button fx:id="createButton" mnemonicParsing="false" onAction="#creerPersonne" text="Créer">
+                      <Button fx:id="createButton" mnemonicParsing="false" onAction="#creerContactSimple" text="Créer">
                            <padding>
                               <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
                            </padding>
                         </Button>
-                        <Button fx:id="editButton" mnemonicParsing="false" onAction="#modifierPersonne" text="Edit">
+                        <Button fx:id="editButton" mnemonicParsing="false" onAction="#modifierContactSimple" text="Edit">
                            <opaqueInsets>
                               <Insets />
                            </opaqueInsets>
@@ -76,7 +76,7 @@
                               <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
                            </padding>
                         </Button>
-                        <Button fx:id="deleteButton" mnemonicParsing="false" onAction="#deletePersonneSelectionnee" text="Delete">
+                        <Button fx:id="deleteButton" mnemonicParsing="false" onAction="#deleteContactSimpleSelectionnee" text="Delete">
                            <padding>
                               <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
                            </padding>

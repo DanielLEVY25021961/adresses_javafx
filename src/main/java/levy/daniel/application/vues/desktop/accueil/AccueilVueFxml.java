@@ -166,7 +166,7 @@ public class AccueilVueFxml {
 	
 	
 	/**
-	 * method recupererPersonneVueController(
+	 * method recupererContactSimpleVueController(
 	 * FXMLLoader pLoader) :<br/>
 	 * récupère le CONTROLLER DE VUE auprès du FXMLLoader.<br/>
 	 * <br/>

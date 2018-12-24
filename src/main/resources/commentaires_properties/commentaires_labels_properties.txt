@@ -6,5 +6,7 @@
 #
 # ######################################################################
 # Contient les labels PARAMETRABLES des champs des IHM de l'application 
-# exprimés en {$langue} 
+# exprimés en {$langue}.
+# lu dans le code Java par 
+# apptechnic/configurationmanagers/gestionnairespreferences/GestionnaireLabelsProperties.java 
 # ######################################################################

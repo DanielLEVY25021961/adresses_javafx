@@ -11,17 +11,17 @@ import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.BorderPane;
 import levy.daniel.application.MainApplication;
 import levy.daniel.application.controllers.desktop.accueil.IAccueilController;
-import levy.daniel.application.controllers.desktop.metier.personne.ICreationPersonneVueController;
-import levy.daniel.application.controllers.desktop.metier.personne.IListePersonnesController;
-import levy.daniel.application.controllers.desktop.metier.personne.IPersonneController;
-import levy.daniel.application.controllers.desktop.metier.personne.IPersonneVueController;
-import levy.daniel.application.controllers.desktop.metier.personne.impl.ListePersonnesController;
-import levy.daniel.application.controllers.desktop.metier.personne.impl.PersonneController;
-import levy.daniel.application.model.metier.personne.IPersonne;
-import levy.daniel.application.model.services.metier.personne.IPersonneService;
-import levy.daniel.application.model.services.metier.personne.impl.PersonneService;
+import levy.daniel.application.controllers.desktop.metier.contactsimple.IContactSimpleController;
+import levy.daniel.application.controllers.desktop.metier.contactsimple.IListeContactSimplesController;
+import levy.daniel.application.controllers.desktop.metier.contactsimple.impl.ContactSimpleController;
+import levy.daniel.application.controllers.desktop.metier.contactsimple.impl.ListeContactSimplesController;
+import levy.daniel.application.model.metier.contactsimple.IContactSimple;
+import levy.daniel.application.model.services.metier.contactsimple.IContactSimpleService;
+import levy.daniel.application.model.services.metier.contactsimple.impl.ContactSimpleService;
 import levy.daniel.application.vues.desktop.accueil.IAccueilVueController;
-import levy.daniel.application.vues.desktop.metier.personne.PersonneVueFxml;
+import levy.daniel.application.vues.desktop.metier.contactsimple.ContactSimpleVueFxml;
+import levy.daniel.application.vues.desktop.metier.contactsimple.IContactSimpleVueController;
+import levy.daniel.application.vues.desktop.metier.contactsimple.ICreationContactSimpleVueController;
 
 
 /**
@@ -66,19 +66,16 @@ public class AccueilController implements IAccueilController {
 	// ************************ATTRIBUTS************************************/
 
 	/**
-	 * mainApplication : MainApplication :<br/>
 	 * application principale.<br/>
 	 */
 	private MainApplication mainApplication;
 	
 	/**
-	 * root : BorderPane :<br/>
 	 * Panneau de fond de la scene.<br/>
 	 */
 	private BorderPane root;
 
     /**
-     * accueilVueController : AccueilVueController :<br/>
      * CONTROLLER DE VUE fabriqué automatiquement lors du 
      * chargement du FXML par le FXMLLoader.<br/>
      * Permet d'accéder aux objets graphiques de 
@@ -87,55 +84,51 @@ public class AccueilController implements IAccueilController {
     private IAccueilVueController accueilVueController;
     
 	/**
-	 * personneAnchorPane : AnchorPane :<br/>
-	 * panneau AnchorPane (VUE) modélisant une personne.<br/>
+	 * panneau AnchorPane (VUE) modélisant un contact simple.<br/>
 	 */
-	private AnchorPane personneAnchorPane;
+	private AnchorPane contactSimpleAnchorPane;
 
 	/**
-	 * personneVueController : PersonneVueController :<br/>
 	 * CONTROLLER DE VUE fabriqué automatiquement lors du 
      * chargement du FXML par le FXMLLoader.<br/>
      * Permet d'accéder aux objets graphiques de 
      * la VUE générés par le FXML.<br/>
 	 */
-	private IPersonneVueController personneVueController;
+	private IContactSimpleVueController contactSimpleVueController;
 	
 	/**
-	 * listePersonnes : ObservableList<IPersonneController> :<br/>
-	 * liste des PersonneController.<br/>
+	 * liste des ContactSimpleController observables 
+	 * pour tracker les changements dans les zones de texte.<br/>
 	 */
-	private ObservableList<IPersonneController> listePersonnes 
+	private ObservableList<IContactSimpleController> listeContactSimples 
 		= FXCollections.observableArrayList();
 
 	/**
-	 * personneService : IPersonneService :<br/>
-	 * SERVICE gérant les Personne et assurant le lien 
+	 * SERVICE gérant les ContactSimple et assurant le lien 
 	 * entre les CONTROLLERS et la logique metier.<br/>
 	 */
-	private IPersonneService personneService;
+	private IContactSimpleService contactSimpleService;
 	
 	/**
-	 * listePersonnesController : IListePersonnesController :<br/>
-	 * CONTROLLER gérant les listes de Personne et assurant le lien 
+	 * CONTROLLER gérant les listes de ContactSimple et assurant le lien 
 	 * entre la logique metier et les objets metier "Observers".<br/>
 	 */
-	private IListePersonnesController listePersonnesController;
+	private IListeContactSimplesController listeContactSimplesController;
 	
 
 	/**
 	 * creationPersonneVueAnchorPane : AnchorPane :<br/>
-	 * AnchorPane pour la création d'une Personne.
+	 * AnchorPane pour la création d'une ContactSimple.
 	 */
 	private AnchorPane creationPersonneVueAnchorPane;
 
 	
 	/**
-	 * creationPersonneVueController : ICreationPersonneVueController :<br/>
+	 * creationContactSimpleVueController : ICreationContactSimpleVueController :<br/>
 	 * CONTROLLER DE VUE de la VUE AnchorPane 
-	 * pour la création d'une personne.<br/>
+	 * pour la création d'un contact simple.<br/>
 	 */
-	private ICreationPersonneVueController creationPersonneVueController;
+	private ICreationContactSimpleVueController creationContactSimpleVueController;
 
 	
 	/**
@@ -155,7 +148,7 @@ public class AccueilController implements IAccueilController {
 	 * <ul>
 	 * <li>alimente <b>this.root</b> (BorderPane) et 
 	 * <b>this.accueilVueController</b> (CONTROLLER DE VUE).</li>
-	 * <li>instancie le SERVICE pour les Personne 
+	 * <li>instancie le SERVICE pour les ContactSimple 
 	 * <b>this.personneService</b>.</li>
 	 * <li>PREPARE LA SCENE D'ACCUEIL.</li>
 	 * </ul>
@@ -173,8 +166,8 @@ public class AccueilController implements IAccueilController {
 		this.accueilVueController 
 			= this.mainApplication.getAccueilVueController();
 		
-		/* instancie le SERVICE pour les Personne. */
-		this.personneService = new PersonneService();
+		/* instancie le SERVICE pour les ContactSimple. */
+		this.contactSimpleService = new ContactSimpleService();
 		
 		this.preparerSceneAccueil(); // NOPMD by dan on 09/05/18 17:54
 		
@@ -208,7 +201,7 @@ public class AccueilController implements IAccueilController {
 		/* intancie et dessine la VUE this.personneAnchorPane.*/
 		this.dessinerVueAnchorPanePersonne();
 		
-		new ListePersonnesController(this.personneAnchorPane, this, this.listePersonnes);
+		new ListeContactSimplesController(this.contactSimpleAnchorPane, this, this.listeContactSimples);
 		
 	} // Fin de preparerSceneAccueil().____________________________________
 
@@ -219,24 +212,24 @@ public class AccueilController implements IAccueilController {
 	 * <ul>
 	 * <li>sollicite les SERVICES pour initialiser 
 	 * toutes les données (MODEL) à passer à la VUE d'accueil.</li>
-	 * <li>Récupère la liste des Personne déjà stockées 
+	 * <li>Récupère la liste des ContactSimple déjà stockées 
 	 * auprès du SERVICE.</li>
-	 * <li>Convertit la List&lt;IPersonne&gt; en 
-	 * ObservableList&lt;IPersonneController&gt;.</li>
+	 * <li>Convertit la List&lt;IContactSimple&gt; en 
+	 * ObservableList&lt;IContactSimpleController&gt;.</li>
 	 * <li>Ajoute des valeurs initiales à l'ObservableList 
 	 * this.listePersonnes.</li>
 	 * </ul>
 	 */
 	private void initialiserDonnees() {
 		
-		/* Récupère la liste des Personne déjà stockées 
+		/* Récupère la liste des ContactSimple déjà stockées 
 		 * auprès du SERVICE. */
-		final List<IPersonne> listeInitialePersonnes 
-			= this.personneService.initialiserListePersonnes();
+		final List<IContactSimple> listeInitialePersonnes 
+			= this.contactSimpleService.initialiserListePersonnes();
 		
-		/* Convertit la List<IPersonne> en 
-		 * ObservableList<IPersonneController>. */
-		final ObservableList<IPersonneController> listeInitialePControllers 
+		/* Convertit la List<IContactSimple> en 
+		 * ObservableList<IContactSimpleController>. */
+		final ObservableList<IContactSimpleController> listeInitialePControllers 
 			= this.convertirList(listeInitialePersonnes);
 		
 		/* Ajoute des valeurs initiales à l'ObservableList 
@@ -255,7 +248,7 @@ public class AccueilController implements IAccueilController {
 	 * <li>Positionne this.personneAnchorPane dans 
 	 * le panneau de fond de la scene this.root;</li>
 	 * <li>Récupère la VUE this.personneAnchorPane auprès 
-	 * du PersonneVueFxml.</li>
+	 * du ContactSimpleVueFxml.</li>
 	 * <li>Récupère le CONTROLLER DE VUE this.personneVueController 
 	 * créé par le FXMLLoader.</li>
 	 * </ul>
@@ -263,15 +256,15 @@ public class AccueilController implements IAccueilController {
 	private void dessinerVueAnchorPanePersonne() {
 		
 		/* Instancie la VUE this.personneAnchorPane. */
-		final PersonneVueFxml personneVue = new PersonneVueFxml(this);
+		final ContactSimpleVueFxml personneVue = new ContactSimpleVueFxml(this);
 		
 		/* Récupère la VUE this.personneAnchorPane 
-		 * auprès du PersonneVueFxml. */
-		this.personneAnchorPane = personneVue.getPersonneAnchorPane();
+		 * auprès du ContactSimpleVueFxml. */
+		this.contactSimpleAnchorPane = personneVue.getPersonneAnchorPane();
 		
 		/* Récupère le CONTROLLER DE VUE this.personneVueController 
 		 * créé par le FXMLLoader. */
-		this.personneVueController 
+		this.contactSimpleVueController 
 			= personneVue.getPersonneVueController();
 				
 	} // Fin de dessinerVueAnchorPanePersonne().___________________________
@@ -280,36 +273,36 @@ public class AccueilController implements IAccueilController {
 
 	/**
 	 * method convertirList(
-	 * List&lt;IPersonne&gt; pList) :<br/>
-	 * convertit une java.util.List de IPersonne (MODEL) en 
-	 * Collection de IPersonneController (CONTROLLER de IPersonne).<br/>
+	 * List&lt;IContactSimple&gt; pList) :<br/>
+	 * convertit une java.util.List de IContactSimple (MODEL) en 
+	 * Collection de IContactSimpleController (CONTROLLER de IContactSimple).<br/>
 	 * <br/>
 	 * retourne null si pList == null.<br/>
 	 * <br/>
 	 *
-	 * @param pList : List&lt;IPersonne&gt;.<br/>
+	 * @param pList : List&lt;IContactSimple&gt;.<br/>
 	 *  
-	 * @return : ObservableList&lt;IPersonneController&gt;.<br/>
+	 * @return : ObservableList&lt;IContactSimpleController&gt;.<br/>
 	 */
-	private ObservableList<IPersonneController> convertirList(
-			final List<IPersonne> pList) {
+	private ObservableList<IContactSimpleController> convertirList(
+			final List<IContactSimple> pList) {
 		
 		/* retourne null si pList == null. */
 		if (pList == null) {
 			return null;
 		}
 
-		final ObservableList<IPersonneController> resultat 
+		final ObservableList<IContactSimpleController> resultat 
 			= FXCollections.observableArrayList();
 		
-		for (final IPersonne personne : pList) {
+		for (final IContactSimple contactSimple : pList) {
 			
-			if (personne != null) {
+			if (contactSimple != null) {
 				
-				final IPersonneController personneController 
-				= new PersonneController(personne);
+				final IContactSimpleController contactSimpleController 
+				= new ContactSimpleController(contactSimple);
 				
-				resultat.add(personneController);
+				resultat.add(contactSimpleController);
 				
 			}			
 		}
@@ -322,21 +315,21 @@ public class AccueilController implements IAccueilController {
 	
 	/**
 	 * method ajouterPersonnesContrlAListPersonnes(
-	 * ObservableList&lt;IPersonneController&gt; pList) :<br/>
-	 * Ajoute des IPersonneController à <b>this.listePersonnes</b>.<br/>
+	 * ObservableList&lt;IContactSimpleController&gt; pList) :<br/>
+	 * Ajoute des IContactSimpleController à <b>this.listePersonnes</b>.<br/>
 	 * <br/>
 	 *
-	 * @param pList : ObservableList&lt;IPersonneController&gt;.<br/>
+	 * @param pList : ObservableList&lt;IContactSimpleController&gt;.<br/>
 	 */
 	private void ajouterPersonnesContrlAListPersonnes(
-			final ObservableList<IPersonneController> pList) {
+			final ObservableList<IContactSimpleController> pList) {
 		
 		/* ne fait rien si pList == null. */
 		if (pList == null) {
 			return;
 		}
 		
-		this.listePersonnes.addAll(pList);
+		this.listeContactSimples.addAll(pList);
 		
 	} // Fin de ajouterPersonnesContrlAListPersonnes(...)._________________
 	
@@ -409,9 +402,9 @@ public class AccueilController implements IAccueilController {
 	 * {@inheritDoc}
 	 */
 	@Override
-	public final AnchorPane getPersonneAnchorPane() {	
-		return this.personneAnchorPane;
-	} // Fin de getPersonneAnchorPane().___________________________________
+	public final AnchorPane getContactSimpleAnchorPane() {	
+		return this.contactSimpleAnchorPane;
+	} // Fin de getContactSimpleAnchorPane().______________________________
 
 
 	
@@ -419,10 +412,10 @@ public class AccueilController implements IAccueilController {
 	 * {@inheritDoc}
 	 */
 	@Override
-	public final void setPersonneAnchorPane(
-			final AnchorPane pPersonneAnchorPane) {	
-		this.personneAnchorPane = pPersonneAnchorPane;
-	} // Fin de setPersonneAnchorPane(...).________________________________
+	public final void setContactSimpleAnchorPane(
+			final AnchorPane pContactSimpleAnchorPane) {	
+		this.contactSimpleAnchorPane = pContactSimpleAnchorPane;
+	} // Fin de setContactSimpleAnchorPane(...).___________________________
 	
 
 	
@@ -430,9 +423,9 @@ public class AccueilController implements IAccueilController {
 	 * {@inheritDoc}
 	 */
 	@Override
-	public final IPersonneVueController getPersonneVueController() {
-		return this.personneVueController;
-	} // Fin de getPersonneVueController().________________________________
+	public final IContactSimpleVueController getContactSimpleVueController() {
+		return this.contactSimpleVueController;
+	} // Fin de getContactSimpleVueController().___________________________
 
 
 	
@@ -441,8 +434,8 @@ public class AccueilController implements IAccueilController {
 	 */
 	@Override
 	public final void setPersonneVueController(
-			final IPersonneVueController pPersonneVueController) {
-		this.personneVueController = pPersonneVueController;
+			final IContactSimpleVueController pContactSimpleVueController) {
+		this.contactSimpleVueController = pContactSimpleVueController;
 	} // Fin de setPersonneVueController(...)._____________________________
 	
 
@@ -451,8 +444,8 @@ public class AccueilController implements IAccueilController {
 	 * {@inheritDoc}
 	 */
 	@Override
-	public final ObservableList<IPersonneController> getListePersonnes() {	
-		return this.listePersonnes;
+	public final ObservableList<IContactSimpleController> getListePersonnes() {	
+		return this.listeContactSimples;
 	} // Fin de getListePersonnes()._______________________________________
 
 
@@ -462,8 +455,8 @@ public class AccueilController implements IAccueilController {
 	 */
 	@Override
 	public final void setListePersonnes(
-			final ObservableList<IPersonneController> pListePersonnes) {	
-		this.listePersonnes = pListePersonnes;
+			final ObservableList<IContactSimpleController> pListePersonnes) {	
+		this.listeContactSimples = pListePersonnes;
 	} // Fin de setListePersonnes(...).____________________________________
 
 
@@ -472,8 +465,8 @@ public class AccueilController implements IAccueilController {
 	 * {@inheritDoc}
 	 */
 	@Override
-	public final IPersonneService getPersonneService() {
-		return this.personneService;
+	public final IContactSimpleService getPersonneService() {
+		return this.contactSimpleService;
 	} // Fin de getPersonneService().______________________________________
 
 
@@ -483,8 +476,8 @@ public class AccueilController implements IAccueilController {
 	 */
 	@Override
 	public final void setPersonneService(
-			final IPersonneService pPersonneService) {
-		this.personneService = pPersonneService;
+			final IContactSimpleService pContactSimpleService) {
+		this.contactSimpleService = pContactSimpleService;
 	} // Fin de setPersonneService(...).___________________________________
 	
 
@@ -514,8 +507,8 @@ public class AccueilController implements IAccueilController {
 	 * {@inheritDoc}
 	 */
 	@Override
-	public final ICreationPersonneVueController getCreationPersonneVueController() {
-		return this.creationPersonneVueController;
+	public final ICreationContactSimpleVueController getCreationPersonneVueController() {
+		return this.creationContactSimpleVueController;
 	} // Fin de getCreationPersonneVueController().________________________
 
 
@@ -525,8 +518,8 @@ public class AccueilController implements IAccueilController {
 	 */
 	@Override
 	public final void setCreationPersonneVueController(
-			final ICreationPersonneVueController pCreationPersonneVueController) {
-		this.creationPersonneVueController = pCreationPersonneVueController;
+			final ICreationContactSimpleVueController pCreationContactSimpleVueController) {
+		this.creationContactSimpleVueController = pCreationContactSimpleVueController;
 	} // Fin de setCreationPersonneVueController(...)._____________________
 	
 

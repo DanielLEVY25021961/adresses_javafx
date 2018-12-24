@@ -23,7 +23,7 @@ import org.junit.Test;
 
 import levy.daniel.application.apptechnic.configurationmanagers.gestionnairespaths.ManagerPaths;
 import levy.daniel.application.model.persistence.metier.JPAUtils;
-import levy.daniel.application.model.persistence.metier.personne.entities.jpa.PersonneEntityJPA;
+import levy.daniel.application.model.persistence.metier.contactsimple.entities.jpa.ContactSimpleEntityJPA;
 
 
 
@@ -158,15 +158,15 @@ public class JPAUtilsTest {
 			System.out.println("********** CLASSE JPAUtilsTest - méthode testIsLoaded() ********** ");
 		}
 		
-		final boolean resultat = JPAUtils.isLoaded(PersonneEntityJPA.class);
+		final boolean resultat = JPAUtils.isLoaded(ContactSimpleEntityJPA.class);
 		
 		/* garantit qu'une Entity JPA a bien été chargée. */
-		assertTrue("PersonneEntityJPA doit ête chargée : "
+		assertTrue("ContactSimpleEntityJPA doit ête chargée : "
 				, resultat);
 		
 		/* AFFICHAGE A LA CONSOLE. */
 		if (AFFICHAGE_GENERAL && affichage) {
-			System.out.println("PersonneEntityJPA chargée : " + resultat);
+			System.out.println("ContactSimpleEntityJPA chargée : " + resultat);
 		}
 				
 	} // Fin de testIsLoaded().____________________________________________

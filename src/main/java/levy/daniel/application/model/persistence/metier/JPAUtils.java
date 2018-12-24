@@ -472,7 +472,7 @@ public final class JPAUtils {
 	 * <ul>
 	 * <li>par exemple : <br/>
 	 * <code>boolean resultat = JPAUtils.isLoaded(
-	 * PersonneEntityJPA.class);</code> <br/>retourne true si 
+	 * ContactSimpleEntityJPA.class);</code> <br/>retourne true si 
 	 * l'Entity a été chargée.</li>
 	 * </ul>
 	 *

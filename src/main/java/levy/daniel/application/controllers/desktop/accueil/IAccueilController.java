@@ -4,11 +4,11 @@ import javafx.collections.ObservableList;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.BorderPane;
 import levy.daniel.application.MainApplication;
-import levy.daniel.application.controllers.desktop.metier.personne.ICreationPersonneVueController;
-import levy.daniel.application.controllers.desktop.metier.personne.IPersonneController;
-import levy.daniel.application.controllers.desktop.metier.personne.IPersonneVueController;
-import levy.daniel.application.model.services.metier.personne.IPersonneService;
+import levy.daniel.application.controllers.desktop.metier.contactsimple.IContactSimpleController;
+import levy.daniel.application.model.services.metier.contactsimple.IContactSimpleService;
 import levy.daniel.application.vues.desktop.accueil.IAccueilVueController;
+import levy.daniel.application.vues.desktop.metier.contactsimple.IContactSimpleVueController;
+import levy.daniel.application.vues.desktop.metier.contactsimple.ICreationContactSimpleVueController;
 
 
 
@@ -117,7 +117,7 @@ public interface IAccueilController {
 	 *
 	 * @return personneAnchorPane : AnchorPane.<br/>
 	 */
-	AnchorPane getPersonneAnchorPane();
+	AnchorPane getContactSimpleAnchorPane();
 
 
 
@@ -130,7 +130,7 @@ public interface IAccueilController {
 	* @param pPersonneAnchorPane : AnchorPane : 
 	* valeur à passer à personneAnchorPane.<br/>
 	*/
-	void setPersonneAnchorPane(AnchorPane pPersonneAnchorPane);
+	void setContactSimpleAnchorPane(AnchorPane pPersonneAnchorPane);
 
 
 	
@@ -142,83 +142,83 @@ public interface IAccueilController {
      * la VUE générés par le FXML.<br/>
 	 * <br/>
 	 *
-	 * @return personneVueController : PersonneVueController.<br/>
+	 * @return personneVueController : ContactSimpleVueController.<br/>
 	 */
-	IPersonneVueController getPersonneVueController();
+	IContactSimpleVueController getContactSimpleVueController();
 
 
 	
 	/**
 	* method setPersonneVueController(
-	* PersonneVueController pPersonneVueController) :<br/>
+	* ContactSimpleVueController pPersonneVueController) :<br/>
 	* Setter du CONTROLLER DE VUE fabriqué automatiquement lors du 
     * chargement du FXML par le FXMLLoader.<br/>
     * Permet d'accéder aux objets graphiques de 
     * la VUE générés par le FXML.<br/>
 	* <br/>
 	*
-	* @param pPersonneVueController : PersonneVueController : 
+	* @param pContactSimpleVueController : ContactSimpleVueController : 
 	* valeur à passer à personneVueController.<br/>
 	*/
 	void setPersonneVueController(
-			IPersonneVueController pPersonneVueController);
+			IContactSimpleVueController pContactSimpleVueController);
 	
 	
 	
 	/**
 	 * method getListePersonnes() :<br/>
-	 * Getter de la liste des PersonneController.
+	 * Getter de la liste des ContactSimpleController.
 	 * <br/>
 	 *
 	 * @return listePersonnes : 
-	 * ObservableList<IPersonneController>.<br/>
+	 * ObservableList<IContactSimpleController>.<br/>
 	 */
-	ObservableList<IPersonneController> getListePersonnes();
+	ObservableList<IContactSimpleController> getListePersonnes();
 
 
 	
 	/**
 	* method setListePersonnes(
-	* ObservableList<IPersonneController> pListePersonnes) :<br/>
-	* Setter de la liste des PersonneController.
+	* ObservableList<IContactSimpleController> pListePersonnes) :<br/>
+	* Setter de la liste des ContactSimpleController.
 	* <br/>
 	*
-	* @param pListePersonnes : ObservableList<IPersonneController> : 
+	* @param pListePersonnes : ObservableList<IContactSimpleController> : 
 	* valeur à passer à listePersonnes.<br/>
 	*/
 	void setListePersonnes(
-			ObservableList<IPersonneController> pListePersonnes);
+			ObservableList<IContactSimpleController> pListePersonnes);
 	
 
 	
 	/**
 	 * method getPersonneService() :<br/>
-	 * Getter du SERVICE gérant les Personne et assurant le lien 
+	 * Getter du SERVICE gérant les ContactSimple et assurant le lien 
 	 * entre les CONTROLLERS et la logique metier.<br/>
 	 * <br/>
 	 *
-	 * @return personneService : IPersonneService.<br/>
+	 * @return personneService : IContactSimpleService.<br/>
 	 */
-	IPersonneService getPersonneService();
+	IContactSimpleService getPersonneService();
 
 
 	
 	/**
 	* method setPersonneService(
-	* IPersonneService pPersonneService) :<br/>
-	* Setter du SERVICE gérant les Personne et assurant le lien 
+	* IContactSimpleService pPersonneService) :<br/>
+	* Setter du SERVICE gérant les ContactSimple et assurant le lien 
 	* entre les CONTROLLERS et la logique metier.<br/>
 	* <br/>
 	*
-	* @param pPersonneService : IPersonneService : 
+	* @param pContactSimpleService : IContactSimpleService : 
 	* valeur à passer à personneService.<br/>
 	*/
-	void setPersonneService(IPersonneService pPersonneService);
+	void setPersonneService(IContactSimpleService pContactSimpleService);
 	
 
 	
 	/**
-	 * Getter de l' AnchorPane pour la création d'une Personne.<br/>
+	 * Getter de l' AnchorPane pour la création d'une ContactSimple.<br/>
 	 * <br/>
 	 *
 	 * @return creationPersonneVueAnchorPane : AnchorPane : 
@@ -229,7 +229,7 @@ public interface IAccueilController {
 
 
 	/**
-	* Setter de l'AnchorPane pour la création d'une Personne.<br/>
+	* Setter de l'AnchorPane pour la création d'une ContactSimple.<br/>
 	* <br/>
 	*
 	* @param pCreationPersonneVueAnchorPane : AnchorPane : 
@@ -246,9 +246,9 @@ public interface IAccueilController {
 	 * <br/>
 	 *
 	 * @return this.creationPersonneVueController : 
-	 * ICreationPersonneVueController.<br/>
+	 * ICreationContactSimpleVueController.<br/>
 	 */
-	ICreationPersonneVueController getCreationPersonneVueController();
+	ICreationContactSimpleVueController getCreationPersonneVueController();
 
 
 
@@ -257,11 +257,11 @@ public interface IAccueilController {
 	* pour la création d'une personne.<br/>
 	* <br/>
 	*
-	* @param pCreationPersonneVueController : ICreationPersonneVueController : 
+	* @param pCreationContactSimpleVueController : ICreationContactSimpleVueController : 
 	* valeur à passer à this.creationPersonneVueController.<br/>
 	*/
 	void setCreationPersonneVueController(
-			ICreationPersonneVueController pCreationPersonneVueController);
+			ICreationContactSimpleVueController pCreationContactSimpleVueController);
 	
 	
 	

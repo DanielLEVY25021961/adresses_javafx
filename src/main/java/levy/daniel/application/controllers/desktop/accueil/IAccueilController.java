@@ -38,9 +38,7 @@ public interface IAccueilController {
 	
 		
 	/**
-	 * method getMainApplication() :<br/>
 	 * Getter de l'application principale.<br/>
-	 * <br/>
 	 *
 	 * @return mainApplication : MainApplication.<br/>
 	 */
@@ -49,10 +47,7 @@ public interface IAccueilController {
 	
 	
 	/**
-	* method setMainApplication(
-	* MainApplication pMainApplication) :<br/>
 	* Setter de l'application principale.<br/>
-	* <br/>
 	*
 	* @param pMainApplication : MainApplication : 
 	* valeur à passer à mainApplication.<br/>
@@ -62,33 +57,27 @@ public interface IAccueilController {
 
 	
 	/**
-	 * method getRoot() :<br/>
 	 * Getter du Panneau de fond de la scene.<br/>
-	 * <br/>
 	 *
-	 * @return root : BorderPane.<br/>
+	 * @return this.root : BorderPane.<br/>
 	 */
 	BorderPane getRoot();
 
 
 
 	/**
-	* method setRoot(
-	* BorderPane pRoot) :<br/>
 	* Setter du Panneau de fond de la scene.<br/>
-	* <br/>
 	*
-	* @param pRoot : BorderPane : valeur à passer à root.<br/>
+	* @param pRoot : BorderPane : 
+	* valeur à passer à this.root.<br/>
 	*/
 	void setRoot(BorderPane pRoot);
 
 
 	
 	/**
-	 * method getAccueilVueController() :<br/>
 	 * Getter du CONTROLLER DE VUE fabriqué automatiquement 
 	 * lors du chargement du FXML par le FXMLLoader.<br/>
-	 * <br/>
 	 *
 	 * @return accueilVueController : AccueilVueController.<br/>
 	 */
@@ -97,68 +86,56 @@ public interface IAccueilController {
 
 	
 	/**
-	* method setAccueilVueController(
-	* AccueilVueController pAccueilVueController) :<br/>
 	* Setter du CONTROLLER DE VUE fabriqué automatiquement 
 	* lors du chargement du FXML par le FXMLLoader.<br/>
-	* <br/>
 	*
 	* @param pAccueilVueController : AccueilVueController : 
-	* valeur à passer à accueilVueController.<br/>
+	* valeur à passer à this.accueilVueController.<br/>
 	*/
 	void setAccueilVueController(
 			IAccueilVueController pAccueilVueController);
 
 
 	/**
-	 * method getPersonneAnchorPane() :<br/>
-	 * Getter du panneau AnchorPane (VUE) modélisant une personne.<br/>
-	 * <br/>
+	 * Getter du panneau AnchorPane (VUE) modélisant un contact simple.<br/>
 	 *
-	 * @return personneAnchorPane : AnchorPane.<br/>
+	 * @return this.contactSimpleAnchorPane : AnchorPane.<br/>
 	 */
 	AnchorPane getContactSimpleAnchorPane();
 
 
 
 	/**
-	* method setPersonneAnchorPane(
-	* AnchorPane pPersonneAnchorPane) :<br/>
-	* Setter du panneau AnchorPane (VUE) modélisant une personne.<br/>
-	* <br/>
+	* Setter du panneau AnchorPane (VUE) modélisant un contact simple.<br/>
 	*
-	* @param pPersonneAnchorPane : AnchorPane : 
-	* valeur à passer à personneAnchorPane.<br/>
+	* @param pContactSimpleAnchorPane : AnchorPane : 
+	* valeur à passer à this.contactSimpleAnchorPane.<br/>
 	*/
-	void setContactSimpleAnchorPane(AnchorPane pPersonneAnchorPane);
+	void setContactSimpleAnchorPane(AnchorPane pContactSimpleAnchorPane);
 
 
 	
 	/**
-	 * method getPersonneVueController() :<br/>
 	 * Getter du CONTROLLER DE VUE fabriqué automatiquement lors du 
      * chargement du FXML par le FXMLLoader.<br/>
      * Permet d'accéder aux objets graphiques de 
      * la VUE générés par le FXML.<br/>
-	 * <br/>
 	 *
-	 * @return personneVueController : ContactSimpleVueController.<br/>
+	 * @return this.contactSimpleVueController : 
+	 * IContactSimpleVueController.<br/>
 	 */
 	IContactSimpleVueController getContactSimpleVueController();
 
 
 	
 	/**
-	* method setPersonneVueController(
-	* ContactSimpleVueController pPersonneVueController) :<br/>
 	* Setter du CONTROLLER DE VUE fabriqué automatiquement lors du 
     * chargement du FXML par le FXMLLoader.<br/>
     * Permet d'accéder aux objets graphiques de 
     * la VUE générés par le FXML.<br/>
-	* <br/>
 	*
 	* @param pContactSimpleVueController : ContactSimpleVueController : 
-	* valeur à passer à personneVueController.<br/>
+	* valeur à passer à contactSimpleVueController.<br/>
 	*/
 	void setContactSimpleVueController(
 			IContactSimpleVueController pContactSimpleVueController);
@@ -166,52 +143,46 @@ public interface IAccueilController {
 	
 	
 	/**
-	 * method getListePersonnes() :<br/>
-	 * Getter de la liste des ContactSimpleModelObs.
-	 * <br/>
+	 * Getter de la liste des ContactSimpleModelObs 
+	 * (liste d'OBSERVABLES insérable dans un MODEL et 
+	 * affichable dans un TableView).<br/>
 	 *
-	 * @return listePersonnes : 
-	 * ObservableList<IContactSimpleModelObs>.<br/>
+	 * @return this.listeContactSimples : 
+	 * ObservableList&lt;IContactSimpleModelObs&gt;.<br/>
 	 */
 	ObservableList<IContactSimpleModelObs> getListeContactSimples();
 
 
 	
 	/**
-	* method setListePersonnes(
-	* ObservableList<IContactSimpleModelObs> pListePersonnes) :<br/>
 	* Setter de la liste des ContactSimpleModelObs.
-	* <br/>
+	* (liste d'OBSERVABLES insérable dans un MODEL et 
+	 * affichable dans un TableView).<br/>
 	*
-	* @param pListePersonnes : ObservableList<IContactSimpleModelObs> : 
-	* valeur à passer à listePersonnes.<br/>
+	* @param pListeContactSimples : ObservableList&lt;IContactSimpleModelObs&gt; 
+	* valeur à passer à this.listeContactSimples.<br/>
 	*/
 	void setListeContactSimples(
-			ObservableList<IContactSimpleModelObs> pListePersonnes);
+			ObservableList<IContactSimpleModelObs> pListeContactSimples);
 	
 
 	
 	/**
-	 * method getPersonneService() :<br/>
 	 * Getter du SERVICE gérant les ContactSimple et assurant le lien 
 	 * entre les CONTROLLERS et la logique metier.<br/>
-	 * <br/>
 	 *
-	 * @return personneService : IContactSimpleService.<br/>
+	 * @return this.contactSimpleService : IContactSimpleService.<br/>
 	 */
 	IContactSimpleService getContactSimpleService();
 
 
 	
 	/**
-	* method setPersonneService(
-	* IContactSimpleService pPersonneService) :<br/>
 	* Setter du SERVICE gérant les ContactSimple et assurant le lien 
 	* entre les CONTROLLERS et la logique metier.<br/>
-	* <br/>
 	*
 	* @param pContactSimpleService : IContactSimpleService : 
-	* valeur à passer à personneService.<br/>
+	* valeur à passer à this.contactSimpleService.<br/>
 	*/
 	void setContactSimpleService(IContactSimpleService pContactSimpleService);
 	
@@ -219,48 +190,43 @@ public interface IAccueilController {
 	
 	/**
 	 * Getter de l' AnchorPane pour la création d'une ContactSimple.<br/>
-	 * <br/>
 	 *
-	 * @return creationPersonneVueAnchorPane : AnchorPane : 
-	 * this.creationPersonneVueAnchorPane.<br/>
+	 * @return this.creationContactSimpleVueAnchorPane : AnchorPane.<br/>
 	 */
-	AnchorPane getCreationPersonneVueAnchorPane();
+	AnchorPane getCreationContactSimpleVueAnchorPane();
 
 
 
 	/**
 	* Setter de l'AnchorPane pour la création d'une ContactSimple.<br/>
-	* <br/>
 	*
-	* @param pCreationPersonneVueAnchorPane : AnchorPane : 
-	* valeur à passer à this.creationPersonneVueAnchorPane.<br/>
+	* @param pCreationContactSimpleVueAnchorPane : AnchorPane : 
+	* valeur à passer à this.creationContactSimpleVueAnchorPane.<br/>
 	*/
-	void setCreationPersonneVueAnchorPane(
-			AnchorPane pCreationPersonneVueAnchorPane);
+	void setCreationContactSimpleVueAnchorPane(
+			AnchorPane pCreationContactSimpleVueAnchorPane);
 
 
 
 	/**
 	 * Getter du CONTROLLER DE VUE de la VUE AnchorPane 
-	 * pour la création d'une personne.<br/>
-	 * <br/>
+	 * pour la création d'un contact simple.<br/>
 	 *
-	 * @return this.creationPersonneVueController : 
+	 * @return this.creationContactSimpleVueController : 
 	 * ICreationContactSimpleVueController.<br/>
 	 */
-	ICreationContactSimpleVueController getCreationPersonneVueController();
+	ICreationContactSimpleVueController getCreationContactSimpleVueController();
 
 
 
 	/**
 	* Setter du CONTROLLER DE VUE de la VUE AnchorPane 
-	* pour la création d'une personne.<br/>
-	* <br/>
+	* pour la création d'un contact simple.<br/>
 	*
 	* @param pCreationContactSimpleVueController : ICreationContactSimpleVueController : 
-	* valeur à passer à this.creationPersonneVueController.<br/>
+	* valeur à passer à this.creationContactSimpleVueController.<br/>
 	*/
-	void setCreationPersonneVueController(
+	void setCreationContactSimpleVueController(
 			ICreationContactSimpleVueController pCreationContactSimpleVueController);
 	
 	

@@ -36,12 +36,12 @@ import levy.daniel.application.vues.desktop.metier.contactsimple.vue.CreationCon
 
 /**
  * CLASSE ContactSimpleVueController :<br/>
- * CONTROLLER de la VUE <b>PersonneVue.fxml</b>.<br/>
+ * CONTROLLER de la VUE <b>ContactSimpleVue.fxml</b>.<br/>
  * <ul>
  * <li>Permet d'accéder en JAVA aux objets graphiques de la VUE 
  * générée par le fxml.</li>
- * <li>la VUE générée par <b>PersonneVue.fxml</b> est l'AnchorPane 
- * <b>this.personneAnchorPane</b></li>
+ * <li>la VUE générée par <b>ContactSimpleVue.fxml</b> est l'AnchorPane 
+ * <b>this.contactSimpleAnchorPane</b></li>
  * <li>L'annotation FXML permet de lier les objets graphiques crées 
  * dans le fxml aux attributs du présent CONTROLLER DE VUE.</li>
  * <li>Ce CONTROLLER DE VUE est <b>AUTOMATIQUEMENT ALIMENTE</b> 
@@ -78,7 +78,6 @@ public class ContactSimpleVueController implements IContactSimpleVueController {
 
 
 	/**
-	 * accueilController : IAccueilController :<br/>
 	 * IAccueilController "Maître de Cérémonie" chargé 
 	 * de mettre à disposition du présent CONTROLLER 
 	 * toutes les vues, controllers et services de l'application.<br/>
@@ -86,116 +85,97 @@ public class ContactSimpleVueController implements IContactSimpleVueController {
 	private IAccueilController accueilController;
 
 	/**
-	 * personneAnchorPane : AnchorPane :<br/>
-	 * AnchorPane principal de PersonneVue.fxml.<br/>
+	 * AnchorPane principal de la VUE ContactSimpleVue.fxml.<br/>
 	 */
 	@FXML
-	private AnchorPane personneAnchorPane;
+	private AnchorPane contactSimpleAnchorPane;
 
 	/**
-	 * personneSplitPane : SplitPane :<br/>
-	 * SplitPane contenu dans this.personneAnchorPane.<br/>
+	 * SplitPane contenu dans this.contactSimpleAnchorPane.<br/>
 	 */
 	@FXML
-	private SplitPane personneSplitPane;
+	private SplitPane contactSimpleSplitPane;
 	
 	/**
-	 * personnesTableViewAnchorPane : AnchorPane :<br/>
 	 * AnchorPane gauche du SplitPane contenant le TableView.<br/>
 	 */
 	@FXML
-	private AnchorPane personnesTableViewAnchorPane;
-	
-	
+	private AnchorPane contactSimplesTableViewAnchorPane;
+		
 	/**
-	 * personnesTableView : TableView&lt;IContactSimpleModelObs&gt; :<br/>
 	 * TableView&lt;IContactSimpleModelObs&gt; affichant 
 	 * la liste des ContactSimple.<br/>
 	 */
 	@FXML
-	private TableView<IContactSimpleModelObs> personnesTableView;
+	private TableView<IContactSimpleModelObs> contactSimplesTableView;
 	
 	/**
-	 * prenomTableColumn : 
-	 * TableColumn&lt;ContactSimpleModelObs,String&gt; :<br/>
+	 * MODEL pour la sélection dans le TableView this.contactSimplesTableView.<br/>
+	 */
+	private TableViewSelectionModel<IContactSimpleModelObs> modelSelection;
+	
+	/**
 	 * colonne des prénoms.<br/>
 	 */
 	@FXML
 	private TableColumn<ContactSimpleModelObs, String> prenomTableColumn;
 	
 	/**
-	 * modelSelection : TableViewSelectionModel&lt;IContactSimpleModelObs&gt; :<br/>
-	 * MODEL pour la sélection dans le TableView this.personnesTableView.<br/>
-	 */
-	private TableViewSelectionModel<IContactSimpleModelObs> modelSelection;
-	
-	/**
-	 * nomTableColumn : 
-	 * TableColumn<ContactSimpleModelObs,String> :<br/>
 	 * colonne des noms.<br/>
 	 */
 	@FXML
 	private TableColumn<ContactSimpleModelObs, String> nomTableColumn;
 		
 	/**
-	 * renseignementsAnchorPane : AnchorPane :<br/>
 	 * AnchorPane de droite contenant les 
-	 * renseignements sur une ContactSimple.<br/>
+	 * renseignements sur un ContactSimple.<br/>
 	 */
 	@FXML
 	private AnchorPane renseignementsAnchorPane;
 	
 	/**
-	 * renseignementsLabel : Label :<br/>
-	 * Label "renseignements sur la ContactSimple".<br/>
+	 * Label "renseignements sur la Contact Simple".<br/>
 	 */
 	@FXML
 	private Label renseignementsLabel;
 	
 	/**
-	 * renseignementsGridPane : GridPane :<br/>
 	 * GridPane portant les renseignements sur une ContactSimple.<br/>
 	 */
 	@FXML
 	private GridPane renseignementsGridPane;
 	
 	/**
-	 * prenomLabel : Label :<br/>
 	 * Label pour le prénom.<br/>
 	 */
 	@FXML
 	private Label prenomLabel;
 	
 	/**
-	 * nomLabel : Label :<br/>
 	 * Label pour le nom.<br/>
 	 */
 	@FXML
 	private Label nomLabel;
 	
 	/**
-	 * rueLabel : Label :<br/>
 	 * Label pour la rue.<br/>
 	 */
 	@FXML
 	private Label rueLabel;
 	
 	/**
-	 * villeLabel : Label :<br/>
 	 * Label pour la ville.<br/>
 	 */
 	@FXML
 	private Label villeLabel;
 	
 	/**
-	 * codePostalLabel : Label :<br/>
 	 * Label pour le code postal.<br/>
 	 */
 	@FXML
 	private Label codePostalLabel;
 	
 	/**
-	 * dateNaissanceLabel : Label :<br/>
 	 * Label pour la date de naissance.<br/>
 	 */
 	@FXML
@@ -203,70 +183,60 @@ public class ContactSimpleVueController implements IContactSimpleVueController {
 
 	
 	/**
-	 * prenomTextField : TextField :<br/>
 	 * TextField pour le prénom.<br/>
 	 */
 	@FXML
 	private TextField prenomTextField;
 	
 	/**
-	 * nomTextField : TextField :<br/>
 	 * TextField pour le nom.<br/>
 	 */
 	@FXML
 	private TextField nomTextField;
 	
 	/**
-	 * rueTextField : TextField :<br/>
 	 * TextField pour la rue.<br/>
 	 */
 	@FXML
 	private TextField rueTextField;
 	
 	/**
-	 * villeTextField : TextField :<br/>
 	 * TextField pour la ville.<br/>
 	 */
 	@FXML
 	private TextField villeTextField;
 	
 	/**
-	 * codePostalTextField : TextField :<br/>
 	 * TextField pour le code postal.<br/>
 	 */
 	@FXML
 	private TextField codePostalTextField;
 	
 	/**
-	 * dateNaissanceTextField : TextField :<br/>
 	 * TextField pour la date de naissance.<br/>
 	 */
 	@FXML
 	private TextField dateNaissanceTextField;
 
 	/**
-	 * editionButtonBar : ButtonBar :<br/>
 	 * Barre de boutons d'édition des ContactSimple.<br/>
 	 */
 	@FXML
 	private ButtonBar editionButtonBar;
 	
 	/**
-	 * createButton : Button :<br/>
 	 * Bouton pour la création des ContactSimple.<br/>
 	 */
 	@FXML
 	private Button createButton;
 
 	/**
-	 * editButton : Button :<br/>
 	 * Bouton pour la modification des ContactSimple.<br/>
 	 */
 	@FXML
 	private Button editButton;
 	
 	/**
-	 * deleteButton : Button :<br/>
 	 * Bouton pour la destruction des ContactSimple.<br/>
 	 */
 	@FXML
@@ -274,16 +244,14 @@ public class ContactSimpleVueController implements IContactSimpleVueController {
 
 
 	/**
-	 * creationPersonneVueAnchorPane : AnchorPane :<br/>
 	 * AnchorPane pour la création d'une ContactSimple.
 	 */
-	private AnchorPane creationPersonneVueAnchorPane;
+	private AnchorPane creationContactSimpleVueAnchorPane;
 
 	
 	/**
-	 * creationContactSimpleVueController : ICreationContactSimpleVueController :<br/>
 	 * CONTROLLER DE VUE de la VUE AnchorPane 
-	 * pour la création d'une personne.<br/>
+	 * pour la création d'un contact simple.<br/>
 	 */
 	private ICreationContactSimpleVueController creationContactSimpleVueController;
 
@@ -321,7 +289,7 @@ public class ContactSimpleVueController implements IContactSimpleVueController {
 	@FXML
     private void initialize() {
 		
-		this.initialiserDonneesTbViewPersonnes();
+		this.initialiserDonneesTbViewContactSimples();
 		
 		this.creerListeners();
 		
@@ -330,7 +298,6 @@ public class ContactSimpleVueController implements IContactSimpleVueController {
 
 
 	/**
-	 * method initialiserDonneesTbViewPersonnes() :<br/>
 	 * <ul>
 	 * <li>initialise les TableColumns du TableView en les 
 	 * associant avec des attributs du ContactSimpleModelObs.</li>
@@ -340,7 +307,7 @@ public class ContactSimpleVueController implements IContactSimpleVueController {
 	 * <li>met la sélection dans le TableView en mode simple.</li>
 	 * </ul>
 	 */
-	private void initialiserDonneesTbViewPersonnes() {
+	private void initialiserDonneesTbViewContactSimples() {
 		
 		/* initialise les TableColumns du TableView en les 
 		 * associant avec des attributs du ContactSimpleModelObs. */
@@ -353,15 +320,15 @@ public class ContactSimpleVueController implements IContactSimpleVueController {
 					new PropertyValueFactory<ContactSimpleModelObs, String>("nom"));
 		
 		/* rend le TableView éditable. */
-		this.personnesTableView.setEditable(true);
+		this.contactSimplesTableView.setEditable(true);
 		
 		/* instancie le modelSelection du TableView this.modelSelection. */
-		this.modelSelection = this.personnesTableView.getSelectionModel();
+		this.modelSelection = this.contactSimplesTableView.getSelectionModel();
 		
 		/* met la sélection dans le TableView en mode simple. */
 		this.modelSelection.setSelectionMode(SelectionMode.SINGLE);
 				
-	} // Fin de initialiserDonneesTbViewPersonnes()._______________________
+	} // Fin de initialiserDonneesTbViewContactSimples().__________________
 
 	
 	
@@ -395,7 +362,7 @@ public class ContactSimpleVueController implements IContactSimpleVueController {
 					public void changed(final ObservableValue<? extends IContactSimpleModelObs> pObservable,
 							final IContactSimpleModelObs pOldValue, final IContactSimpleModelObs pNewValue) {
 
-						ContactSimpleVueController.this.afficherRenseignementsPersonne(pNewValue);
+						ContactSimpleVueController.this.afficherRenseignementsContactSimple(pNewValue);
 						
 					}
 				});
@@ -408,7 +375,7 @@ public class ContactSimpleVueController implements IContactSimpleVueController {
 	 * {@inheritDoc}
 	 */
 	@Override
-	public final void afficherRenseignementsPersonne(
+	public final void afficherRenseignementsContactSimple(
 			final IContactSimpleModelObs pContactSimpleModelObs) {
 		
 		if (pContactSimpleModelObs != null) {
@@ -441,7 +408,7 @@ public class ContactSimpleVueController implements IContactSimpleVueController {
 			
 		}
 		
-	} // Fin de afficherRenseignementsPersonne(...)._______________________
+	} // Fin de afficherRenseignementsContactSimple(...).__________________
 	
 
 	
@@ -450,35 +417,35 @@ public class ContactSimpleVueController implements IContactSimpleVueController {
 	 */
 	@Override
 	@FXML
-	public final void creerPersonne() {
+	public final void creerContactSimple() {
 		
 		/* instanciation d'une VUE via un FXMLLoader. */
 		final CreationContactSimpleVueFxml vue 
 			= new CreationContactSimpleVueFxml(this.accueilController);
 		
 		/* Récupération de la VUE créée. */
-		this.creationPersonneVueAnchorPane 
-			= vue.getCreationPersonneVueAnchorPane();
+		this.creationContactSimpleVueAnchorPane 
+			= vue.getCreationContactSimpleVueAnchorPane();
 		
 		/* Récupération du controller créé. */
 		this.creationContactSimpleVueController 
-			= vue.getCreationPersonneVueController();
+			= vue.getCreationContactSimpleVueController();
 		
 		/* Alimentation de this.accueilController. */
 		this.accueilController
-			.setCreationPersonneVueAnchorPane(
-					this.creationPersonneVueAnchorPane);
+			.setCreationContactSimpleVueAnchorPane(
+					this.creationContactSimpleVueAnchorPane);
 		
 		this.accueilController
-			.setCreationPersonneVueController(
+			.setCreationContactSimpleVueController(
 					this.creationContactSimpleVueController);
 		
 		/* Création de la Scene. */
-		final Scene scene = new Scene(this.creationPersonneVueAnchorPane);
+		final Scene scene = new Scene(this.creationContactSimpleVueAnchorPane);
 		
 		/* Création du theatre de la Boîte de dialogue. */
 		final Stage dialogStage = new Stage();
-        dialogStage.setTitle("Création de ContactSimple");
+        dialogStage.setTitle("Création d'un Contact Simple");
         dialogStage.initModality(Modality.WINDOW_MODAL);
         dialogStage.initOwner(this.accueilController.getMainApplication().getPrimaryStage());
 		
@@ -488,7 +455,7 @@ public class ContactSimpleVueController implements IContactSimpleVueController {
         /* Affiche le théatre jusqu'à ce que l'utilisateur le ferme. */
         dialogStage.showAndWait();
         
-	} // Fin de creerPersonne().___________________________________________
+	} // Fin de creerContactSimple().______________________________________
 	
 
 	
@@ -497,9 +464,9 @@ public class ContactSimpleVueController implements IContactSimpleVueController {
 	 */
 	@Override
 	@FXML
-	public final void modifierPersonne() {
+	public final void modifierContactSimple() {
 		/**/
-	} // Fin de modifierPersonne().________________________________________
+	} // Fin de modifierContactSimple().___________________________________
 	
 	
 	
@@ -508,7 +475,7 @@ public class ContactSimpleVueController implements IContactSimpleVueController {
 	 */
 	@Override
 	@FXML
-	public final void deletePersonneSelectionnee() {
+	public final void deleteContactSimple() {
 		
 		if (this.modelSelection == null) {
 			return;
@@ -517,7 +484,7 @@ public class ContactSimpleVueController implements IContactSimpleVueController {
 		final int selectedIndex = this.modelSelection.getSelectedIndex();
 		
 		if (selectedIndex >= 0) {
-			this.personnesTableView.getItems().remove(selectedIndex);
+			this.contactSimplesTableView.getItems().remove(selectedIndex);
 		} else {
 			
 	        final Alert alert = new Alert(AlertType.WARNING);
@@ -526,12 +493,12 @@ public class ContactSimpleVueController implements IContactSimpleVueController {
 	        			.getMainApplication().getPrimaryStage());
 	        alert.setTitle("Pas de ContactSimple sélectionnée");
 	        alert.setHeaderText("Pas de ContactSimple sélectionnée");
-	        alert.setContentText("SVP sélectionnez une personne dans la table.");
+	        alert.setContentText("SVP sélectionnez un contact simple dans la table.");
 
 	        alert.showAndWait();
 	    }
 		
-	} // Fin de deletePersonneSelectionnee().______________________________
+	} // Fin de deleteContactSimple()._____________________________________
 	
 	
 	
@@ -560,9 +527,9 @@ public class ContactSimpleVueController implements IContactSimpleVueController {
 	 * {@inheritDoc}
 	 */
 	@Override
-	public final AnchorPane getPersonneAnchorPane() {	
-		return this.personneAnchorPane;
-	} // Fin de getPersonneAnchorPane().___________________________________
+	public final AnchorPane getContactSimpleAnchorPane() {	
+		return this.contactSimpleAnchorPane;
+	} // Fin de getContactSimpleAnchorPane().______________________________
 
 	
 	
@@ -570,10 +537,10 @@ public class ContactSimpleVueController implements IContactSimpleVueController {
 	 * {@inheritDoc}
 	 */
 	@Override
-	public final void setPersonneAnchorPane(
-			final AnchorPane pPersonneAnchorPane) {	
-		this.personneAnchorPane = pPersonneAnchorPane;
-	} // Fin de setPersonneAnchorPane(...).________________________________
+	public final void setContactSimpleAnchorPane(
+			final AnchorPane pContactSimpleAnchorPane) {	
+		this.contactSimpleAnchorPane = pContactSimpleAnchorPane;
+	} // Fin de setContactSimpleAnchorPane(...).___________________________
 
 
 	
@@ -581,9 +548,9 @@ public class ContactSimpleVueController implements IContactSimpleVueController {
 	 * {@inheritDoc}
 	 */
 	@Override
-	public final SplitPane getPersonneSplitPane() {	
-		return this.personneSplitPane;
-	} // Fin de getPersonneSplitPane().____________________________________
+	public final SplitPane getContactSimpleSplitPane() {	
+		return this.contactSimpleSplitPane;
+	} // Fin de getContactSimpleSplitPane()._______________________________
 
 
 	
@@ -591,10 +558,10 @@ public class ContactSimpleVueController implements IContactSimpleVueController {
 	 * {@inheritDoc}
 	 */
 	@Override
-	public final void setPersonneSplitPane(
-			final SplitPane pPersonneSplitPane) {	
-		this.personneSplitPane = pPersonneSplitPane;
-	} // Fin de setPersonneSplitPane(...)._________________________________
+	public final void setContactSimpleSplitPane(
+			final SplitPane pContactSimpleSplitPane) {
+		this.contactSimpleSplitPane = pContactSimpleSplitPane;
+	} // Fin de setContactSimpleSplitPane(...).____________________________
 
 
 	
@@ -602,9 +569,9 @@ public class ContactSimpleVueController implements IContactSimpleVueController {
 	 * {@inheritDoc}
 	 */
 	@Override
-	public final AnchorPane getPersonnesTableViewAnchorPane() {
-		return this.personnesTableViewAnchorPane;
-	} // Fin de getPersonnesTableViewAnchorPane()._________________________
+	public final AnchorPane getContactSimplesTableViewAnchorPane() {
+		return this.contactSimplesTableViewAnchorPane;
+	} // Fin de getContactSimplesTableViewAnchorPane().____________________
 
 
 	
@@ -612,10 +579,10 @@ public class ContactSimpleVueController implements IContactSimpleVueController {
 	 * {@inheritDoc}
 	 */
 	@Override
-	public final void setPersonnesTableViewAnchorPane(
-			final AnchorPane pPersonnesTableViewAnchorPane) {
-		this.personnesTableViewAnchorPane = pPersonnesTableViewAnchorPane;
-	} // Fin de setPersonnesTableViewAnchorPane(...).______________________
+	public final void setContactSimplesTableViewAnchorPane(
+			final AnchorPane pContactSimplesTableViewAnchorPane) {
+		this.contactSimplesTableViewAnchorPane = pContactSimplesTableViewAnchorPane;
+	} // Fin de setContactSimplesTableViewAnchorPane(...)._________________
 
 
 	
@@ -623,9 +590,9 @@ public class ContactSimpleVueController implements IContactSimpleVueController {
 	 * {@inheritDoc}
 	 */
 	@Override
-	public final TableView<IContactSimpleModelObs> getPersonnesTableView() {
-		return this.personnesTableView;
-	} // Fin de getPersonnesTableView().___________________________________
+	public final TableView<IContactSimpleModelObs> getContactSimplesTableView() {
+		return this.contactSimplesTableView;
+	} // Fin de getContactSimplesTableView().______________________________
 
 
 	
@@ -633,10 +600,10 @@ public class ContactSimpleVueController implements IContactSimpleVueController {
 	 * {@inheritDoc}
 	 */
 	@Override
-	public final void setPersonnesTableView(
-			final TableView<IContactSimpleModelObs> pPersonnesTableView) {
-		this.personnesTableView = pPersonnesTableView;
-	} // Fin de setPersonnesTableView(...).________________________________
+	public final void setContactSimplesTableView(
+			final TableView<IContactSimpleModelObs> pContactSimplesTableView) {
+		this.contactSimplesTableView = pContactSimplesTableView;
+	} // Fin de setContactSimplesTableView(...).___________________________
 
 
 		
@@ -1106,9 +1073,9 @@ public class ContactSimpleVueController implements IContactSimpleVueController {
 	 * {@inheritDoc}
 	 */
 	@Override
-	public final AnchorPane getCreationPersonneVueAnchorPane() {
-		return this.creationPersonneVueAnchorPane;
-	} // Fin de getCreationPersonneVueAnchorPane().________________________
+	public final AnchorPane getCreationContactSimpleVueAnchorPane() {
+		return this.creationContactSimpleVueAnchorPane;
+	} // Fin de getCreationContactSimpleVueAnchorPane().___________________
 
 
 
@@ -1116,10 +1083,10 @@ public class ContactSimpleVueController implements IContactSimpleVueController {
 	 * {@inheritDoc}
 	 */
 	@Override
-	public final void setCreationPersonneVueAnchorPane(
-			final AnchorPane pCreationPersonneVueAnchorPane) {
-		this.creationPersonneVueAnchorPane = pCreationPersonneVueAnchorPane;
-	} // Fin de setCreationPersonneVueAnchorPane(...)._____________________
+	public final void setCreationContactSimpleVueAnchorPane(
+			final AnchorPane pCreationContactSimpleVueAnchorPane) {
+		this.creationContactSimpleVueAnchorPane = pCreationContactSimpleVueAnchorPane;
+	} // Fin de setCreationContactSimpleVueAnchorPane(...).________________
 
 
 
@@ -1127,9 +1094,9 @@ public class ContactSimpleVueController implements IContactSimpleVueController {
 	 * {@inheritDoc}
 	 */
 	@Override
-	public final ICreationContactSimpleVueController getCreationPersonneVueController() {
+	public final ICreationContactSimpleVueController getCreationContactSimpleVueController() {
 		return this.creationContactSimpleVueController;
-	} // Fin de getCreationPersonneVueController().________________________
+	} // Fin de getCreationContactSimpleVueController().___________________
 
 
 
@@ -1137,10 +1104,10 @@ public class ContactSimpleVueController implements IContactSimpleVueController {
 	 * {@inheritDoc}
 	 */
 	@Override
-	public final void setCreationPersonneVueController(
+	public final void setCreationContactSimpleVueController(
 			final ICreationContactSimpleVueController pCreationContactSimpleVueController) {
 		this.creationContactSimpleVueController = pCreationContactSimpleVueController;
-	} // Fin de setCreationPersonneVueController(...)._____________________
+	} // Fin de setCreationContactSimpleVueController(...).________________
 	
 
 
@@ -1148,11 +1115,11 @@ public class ContactSimpleVueController implements IContactSimpleVueController {
 	 * {@inheritDoc}
 	 */
 	@Override
-	public final void setModelTableViewPersonnes(
-			final ObservableList<IContactSimpleModelObs> pListePersonnes) {
-		this.personnesTableView.setItems(pListePersonnes);
-	} // Fin de setModelTableViewPersonnes(...).___________________________
+	public final void setModelTableViewContactSimples(
+			final ObservableList<IContactSimpleModelObs> pListeContactSimples) {
+		this.contactSimplesTableView.setItems(pListeContactSimples);
+	} // Fin de setModelTableViewContactSimples(...).______________________
 	
 	
 
-} // FIN DE LA CLASSE ContactSimpleVueController.---------------------------------
+} // FIN DE LA CLASSE ContactSimpleVueController.----------------------------

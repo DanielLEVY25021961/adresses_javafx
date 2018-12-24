@@ -241,32 +241,31 @@ public class AccueilController implements IAccueilController {
 	
 	
 	/**
-	 * method dessinerVueAnchorPanePersonne() :<br/>
 	 * <ul>
-	 * <li>intancie et dessine la VUE <b>this.personneAnchorPane</b>.</li>
-	 * <li>Positionne this.personneAnchorPane dans 
+	 * <li>intancie et dessine la VUE <b>this.contactSimpleAnchorPane</b>.</li>
+	 * <li>Positionne this.contactSimpleAnchorPane dans 
 	 * le panneau de fond de la scene this.root;</li>
-	 * <li>Récupère la VUE this.personneAnchorPane auprès 
+	 * <li>Récupère la VUE this.contactSimpleAnchorPane auprès 
 	 * du ContactSimpleVueFxml.</li>
-	 * <li>Récupère le CONTROLLER DE VUE this.personneVueController 
+	 * <li>Récupère le CONTROLLER DE VUE this.contactSimpleVueController 
 	 * créé par le FXMLLoader.</li>
 	 * </ul>
 	 */
 	private void dessinerVueAnchorPaneContactSimple() {
 		
-		/* Instancie la VUE this.personneAnchorPane. */
-		final ContactSimpleVueFxml personneVue = new ContactSimpleVueFxml(this);
+		/* Instancie la VUE this.contactSimpleAnchorPane. */
+		final ContactSimpleVueFxml vue = new ContactSimpleVueFxml(this);
 		
-		/* Récupère la VUE this.personneAnchorPane 
+		/* Récupère la VUE this.contactSimpleAnchorPane 
 		 * auprès du ContactSimpleVueFxml. */
-		this.contactSimpleAnchorPane = personneVue.getPersonneAnchorPane();
+		this.contactSimpleAnchorPane = vue.getContactSimpleAnchorPane();
 		
-		/* Récupère le CONTROLLER DE VUE this.personneVueController 
+		/* Récupère le CONTROLLER DE VUE this.contactSimpleVueController 
 		 * créé par le FXMLLoader. */
 		this.contactSimpleVueController 
-			= personneVue.getPersonneVueController();
+			= vue.getContactSimpleVueController();
 				
-	} // Fin de dessinerVueAnchorPanePersonne().___________________________
+	} // Fin de dessinerVueAnchorPaneContactSimple().______________________
 	
 	
 
@@ -483,9 +482,9 @@ public class AccueilController implements IAccueilController {
 	 * {@inheritDoc}
 	 */
 	@Override
-	public final AnchorPane getCreationPersonneVueAnchorPane() {
+	public final AnchorPane getCreationContactSimpleVueAnchorPane() {
 		return this.creationContactSimpleVueAnchorPane;
-	} // Fin de getCreationPersonneVueAnchorPane().________________________
+	} // Fin de getCreationContactSimpleVueAnchorPane().___________________
 
 
 
@@ -493,10 +492,10 @@ public class AccueilController implements IAccueilController {
 	 * {@inheritDoc}
 	 */
 	@Override
-	public final void setCreationPersonneVueAnchorPane(
-			final AnchorPane pCreationPersonneVueAnchorPane) {
-		this.creationContactSimpleVueAnchorPane = pCreationPersonneVueAnchorPane;
-	} // Fin de setCreationPersonneVueAnchorPane(...)._____________________
+	public final void setCreationContactSimpleVueAnchorPane(
+			final AnchorPane pCreationContactSimpleVueAnchorPane) {
+		this.creationContactSimpleVueAnchorPane = pCreationContactSimpleVueAnchorPane;
+	} // Fin de setCreationContactSimpleVueAnchorPane(...).________________
 
 
 
@@ -504,9 +503,9 @@ public class AccueilController implements IAccueilController {
 	 * {@inheritDoc}
 	 */
 	@Override
-	public final ICreationContactSimpleVueController getCreationPersonneVueController() {
+	public final ICreationContactSimpleVueController getCreationContactSimpleVueController() {
 		return this.creationContactSimpleVueController;
-	} // Fin de getCreationPersonneVueController().________________________
+	} // Fin de getCreationContactSimpleVueController().___________________
 
 
 
@@ -514,10 +513,10 @@ public class AccueilController implements IAccueilController {
 	 * {@inheritDoc}
 	 */
 	@Override
-	public final void setCreationPersonneVueController(
+	public final void setCreationContactSimpleVueController(
 			final ICreationContactSimpleVueController pCreationContactSimpleVueController) {
 		this.creationContactSimpleVueController = pCreationContactSimpleVueController;
-	} // Fin de setCreationPersonneVueController(...)._____________________
+	} // Fin de setCreationContactSimpleVueController(...).________________
 	
 
 

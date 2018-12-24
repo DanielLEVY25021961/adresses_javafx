@@ -105,9 +105,7 @@ public class MainApplication extends Application {
 
 	
 	 /**
-	 * method CONSTRUCTEUR MainApplication() :<br/>
 	 * CONSTRUCTEUR D'ARITE NULLE.<br/>
-	 * <br/>
 	 */
 	public MainApplication() {
 		super();
@@ -129,10 +127,10 @@ public class MainApplication extends Application {
 	 * border="1" align="center"/>
 	 * <br/>
 	 *
-	 * @param pArgs : String[] :  .<br/>
+	 * @param pArgs : String[].<br/>
 	 */
 	public static void main(
-			final String[] pArgs) {
+			final String... pArgs) {
 		
 		/* Exécution dans le Thread main. */
 //		System.out.println("main(String[] pArgs) method dans le Thread : " +  Thread.currentThread().getName());
@@ -291,11 +289,9 @@ public class MainApplication extends Application {
 	
 	
 	/**
-	 * method getPrimaryStage() :<br/>
 	 * Getter du Theatre.<br/>
-	 * <br/>
 	 *
-	 * @return primaryStage : Stage.<br/>
+	 * @return this.primaryStage : Stage.<br/>
 	 */
 	public Stage getPrimaryStage() {	
 		return this.primaryStage;
@@ -304,13 +300,10 @@ public class MainApplication extends Application {
 
 	
 	/**
-	* method setPrimaryStage(
-	* Stage pPrimaryStage) :<br/>
 	* Setter du Theatre.<br/>
-	* <br/>
 	*
 	* @param pPrimaryStage : Stage : 
-	* valeur à passer à primaryStage.<br/>
+	* valeur à passer à this.primaryStage.<br/>
 	*/
 	public void setPrimaryStage(
 			final Stage pPrimaryStage) {	
@@ -320,11 +313,9 @@ public class MainApplication extends Application {
 
 	
 	/**
-	 * method getRoot() :<br/>
 	 * Getter du panneau de fond de la scene.<br/>
-	 * <br/>
 	 *
-	 * @return root : BorderPane.<br/>
+	 * @return this.root : BorderPane.<br/>
 	 */
 	public BorderPane getRoot() {	
 		return this.root;
@@ -333,12 +324,10 @@ public class MainApplication extends Application {
 
 	
 	/**
-	* method setRoot(
-	* BorderPane pRoot) :<br/>
 	* Setter du panneau de fond de la scene.<br/>
-	* <br/>
 	*
-	* @param pRoot : BorderPane : valeur à passer à root.<br/>
+	* @param pRoot : BorderPane : 
+	* valeur à passer à this.root.<br/>
 	*/
 	public void setRoot(
 			final BorderPane pRoot) {	

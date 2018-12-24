@@ -21,12 +21,12 @@ import levy.daniel.application.vues.desktop.metier.contactsimple.modelobs.impl.C
 
 /**
  * CLASSE CreationContactSimpleVueController :<br/>
- * CONTROLLER de la VUE <b>CreationPersonneVue.fxml</b>.<br/>
+ * CONTROLLER de la VUE <b>CreationContactSimpleVue.fxml</b>.<br/>
  * <ul>
  * <li>Permet d'accéder en JAVA aux objets graphiques de la VUE 
  * générée par le fxml.</li>
- * <li>la VUE générée par <b>CreationPersonneVue.fxml</b> est l'AnchorPane 
- * <b>this.creationPersonneVueAnchorPane</b></li>
+ * <li>la VUE générée par <b>CreationContactSimpleVue.fxml</b> est l'AnchorPane 
+ * <b>this.creationContactSimpleVueAnchorPane</b></li>
  * <li>L'annotation FXML permet de lier les objets graphiques crées 
  * dans le fxml aux attributs du présent CONTROLLER DE VUE.</li>
  * <li>Ce CONTROLLER DE VUE est <b>AUTOMATIQUEMENT ALIMENTE</b> 
@@ -62,56 +62,48 @@ public class CreationContactSimpleVueController implements ICreationContactSimpl
 	// ************************ATTRIBUTS************************************/
 
 	/**
-	 * creationPersonneVueAnchorPane : AnchorPane :<br/>
 	 * AnchorPane de la vue de création d'une ContactSimple.<br/>
 	 */
 	@FXML
-	private AnchorPane creationPersonneVueAnchorPane;
+	private AnchorPane creationContactSimpleVueAnchorPane;
 	
 	/**
-	 * personneGridPane : GridPane :<br/>
 	 * GridPane de la vue de création d'une ContactSimple.<br/>
 	 */
 	@FXML
-	private GridPane personneGridPane;
+	private GridPane contactSimpleGridPane;
 	
 	/**
-	 * prenomLabel : Label :<br/>
 	 * Label pour le prénom.<br/>
 	 */
 	@FXML
 	private Label prenomLabel;
 	
 	/**
-	 * nomLabel : Label :<br/>
 	 * Label pour le nom.<br/>
 	 */
 	@FXML
 	private Label nomLabel;
 	
 	/**
-	 * rueLabel : Label :<br/>
 	 * Label pour la rue.<br/>
 	 */
 	@FXML
 	private Label rueLabel;
 	
 	/**
-	 * codePostalLabel : Label :<br/>
 	 * Label pour le code postal.<br/>
 	 */
 	@FXML
 	private Label codePostalLabel;
 	
 	/**
-	 * villeLabel : Label :<br/>
 	 * Label pour la ville.<br/>
 	 */
 	@FXML
 	private Label villeLabel;
 	
 	/**
-	 * dateNaissanceLabel : Label :<br/>
 	 * Label pour la date de naissance.<br/>
 	 */
 	@FXML
@@ -119,70 +111,60 @@ public class CreationContactSimpleVueController implements ICreationContactSimpl
 
 	
 	/**
-	 * prenomTextField : TextField :<br/>
 	 * TextField pour le prénom.<br/>
 	 */
 	@FXML
 	private TextField prenomTextField;
 	
 	/**
-	 * nomTextField : TextField :<br/>
 	 * TextField pour le nom.<br/>
 	 */
 	@FXML
 	private TextField nomTextField;
 	
 	/**
-	 * rueTextField : TextField :<br/>
 	 * TextField pour la rue.<br/>
 	 */
 	@FXML
 	private TextField rueTextField;
 	
 	/**
-	 * codePostalTextField : TextField :<br/>
 	 * TextField pour le code postal.<br/>
 	 */
 	@FXML
 	private TextField codePostalTextField;
 	
 	/**
-	 * villeTextField : TextField :<br/>
 	 * TextField pour la ville.<br/>
 	 */
 	@FXML
 	private TextField villeTextField;
 	
 	/**
-	 * dateNaissanceTextField : TextField :<br/>
 	 * TextField pour la date de naissance.<br/>
 	 */
 	@FXML
 	private TextField dateNaissanceTextField;
 
 	/**
-	 * creationPersonneVueButtonBar : ButtonBar :<br/>
 	 * barre de boutons.<br/>
 	 */
 	@FXML
-	private ButtonBar creationPersonneVueButtonBar;
+	private ButtonBar creationContactSimpleVueButtonBar;
 	
 	/**
-	 * enregistrerButton : Button :<br/>
 	 * bouton "enregistrer une ContactSimple".<br/>
 	 */
 	@FXML
 	private Button enregistrerButton;
 	
 	/**
-	 * annulerButton : Button :<br/>
 	 * bouton "annuler la saisie".<br/>
 	 */
 	@FXML
 	private Button annulerButton;
 	
 	/**
-	 * dialogStage : Stage :<br/>
 	 * theatre pour afficher la boîte de dialogue 
 	 * de création d'une ContactSimple.<br/>
 	 */
@@ -198,9 +180,7 @@ public class CreationContactSimpleVueController implements ICreationContactSimpl
 	// *************************METHODES************************************/
 		
 	 /**
-	 * method CONSTRUCTEUR CreationContactSimpleVueController() :<br/>
 	 * CONSTRUCTEUR D'ARITE NULLE.<br/>
-	 * <br/>
 	 */
 	public CreationContactSimpleVueController() {
 		super();
@@ -276,7 +256,7 @@ public class CreationContactSimpleVueController implements ICreationContactSimpl
 				= formatter.parse(dateNaissanceString, LocalDate::from);
 			}
 			
-			final IContactSimpleModelObs personne 
+			final IContactSimpleModelObs contactSimple 
 				= new ContactSimpleModelObs(
 						prenomString
 						, nomString
@@ -285,7 +265,7 @@ public class CreationContactSimpleVueController implements ICreationContactSimpl
 						, villeString
 						, dateNaissance);
 			
-			return personne;
+			return contactSimple;
 			
 		} catch (Exception e) {
 			
@@ -377,9 +357,9 @@ public class CreationContactSimpleVueController implements ICreationContactSimpl
 	 * {@inheritDoc}
 	 */
 	@Override
-	public final AnchorPane getCreationPersonneVueAnchorPane() {
-		return this.creationPersonneVueAnchorPane;
-	} // Fin de getCreationPersonneVueAnchorPane().________________________
+	public final AnchorPane getCreationContactSimpleVueAnchorPane() {
+		return this.creationContactSimpleVueAnchorPane;
+	} // Fin de getCreationContactSimpleVueAnchorPane().___________________
 
 	
 	
@@ -387,10 +367,10 @@ public class CreationContactSimpleVueController implements ICreationContactSimpl
 	 * {@inheritDoc}
 	 */
 	@Override
-	public final void setCreationPersonneVueAnchorPane(
-			final AnchorPane pCreationPersonneVueAnchorPane) {
-		this.creationPersonneVueAnchorPane = pCreationPersonneVueAnchorPane;
-	} // Fin de setCreationPersonneVueAnchorPane(...)._____________________
+	public final void setCreationContactSimpleVueAnchorPane(
+			final AnchorPane pCreationContactSimpleVueAnchorPane) {
+		this.creationContactSimpleVueAnchorPane = pCreationContactSimpleVueAnchorPane;
+	} // Fin de setCreationContactSimpleVueAnchorPane(...).________________
 	
 
 	
@@ -398,9 +378,9 @@ public class CreationContactSimpleVueController implements ICreationContactSimpl
 	 * {@inheritDoc}
 	 */
 	@Override
-	public final GridPane getPersonneGridPane() {
-		return this.personneGridPane;
-	} // Fin de getPersonneGridPane()._____________________________________
+	public final GridPane getContactSimpleGridPane() {
+		return this.contactSimpleGridPane;
+	} // Fin de getContactSimpleGridPane().________________________________
 
 
 	
@@ -408,10 +388,10 @@ public class CreationContactSimpleVueController implements ICreationContactSimpl
 	 * {@inheritDoc}
 	 */
 	@Override
-	public final void setPersonneGridPane(
-			final GridPane pPersonneGridPane) {
-		this.personneGridPane = pPersonneGridPane;
-	} // Fin de setPersonneGridPane(...).__________________________________
+	public final void setContactSimpleGridPane(
+			final GridPane pContactSimpleGridPane) {
+		this.contactSimpleGridPane = pContactSimpleGridPane;
+	} // Fin de setContactSimpleGridPane(...)._____________________________
 
 
 		
@@ -671,9 +651,9 @@ public class CreationContactSimpleVueController implements ICreationContactSimpl
 	 * {@inheritDoc}
 	 */
 	@Override
-	public final ButtonBar getCreationPersonneVueButtonBar() {
-		return this.creationPersonneVueButtonBar;
-	} // Fin de getCreationPersonneVueButtonBar()._________________________
+	public final ButtonBar getCreationContactSimpleVueButtonBar() {
+		return this.creationContactSimpleVueButtonBar;
+	} // Fin de getCreationContactSimpleVueButtonBar().____________________
 
 
 
@@ -681,10 +661,10 @@ public class CreationContactSimpleVueController implements ICreationContactSimpl
 	 * {@inheritDoc}
 	 */
 	@Override
-	public final void setCreationPersonneVueButtonBar(
-			final ButtonBar pCreationPersonneVueButtonBar) {
-		this.creationPersonneVueButtonBar = pCreationPersonneVueButtonBar;
-	} // Fin de setCreationPersonneVueButtonBar(...).______________________
+	public final void setcreationContactSimpleVueButtonBar(
+			final ButtonBar pCreationContactSimpleVueButtonBar) {
+		this.creationContactSimpleVueButtonBar = pCreationContactSimpleVueButtonBar;
+	} // Fin de setcreationContactSimpleVueButtonBar(...)._________________
 
 
 

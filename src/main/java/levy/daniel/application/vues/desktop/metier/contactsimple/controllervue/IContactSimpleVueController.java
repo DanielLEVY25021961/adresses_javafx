@@ -43,182 +43,158 @@ public interface IContactSimpleVueController {
 
 	
 	/**
-	 * method afficherRenseignementsPersonne(
-	 * IContactSimpleModelObs pPersonneController) :<br/>
-	 * Affiche les renseignements d'une ContactSimple donnée 
+	 * Affiche les renseignements d'une ContactSimple donné 
 	 * dans le GridPane de droite.<br/>
 	 * <br/>
 	 *
 	 * @param pContactSimpleModelObs : IContactSimpleModelObs.<br/>
 	 */
-	void afficherRenseignementsPersonne(IContactSimpleModelObs pContactSimpleModelObs);
+	void afficherRenseignementsContactSimple(
+			IContactSimpleModelObs pContactSimpleModelObs);
 
 	
 
 	/**
-	 * Gère l'appui sur le bouton "Créer une ContactSimple".<br/>
-	 * Liée au OnClick du bouton createButton dans PersonneVue.fxml.<br/>
+	 * Gère l'appui sur le bouton "Créer une Contact Simple".<br/>
+	 * Liée au OnClick du bouton createButton dans ContactSimpleVue.fxml.<br/>
 	 * <ul>
 	 * <li></li>
 	 * </ul>
 	 */
-	void creerPersonne();
+	void creerContactSimple();
 
 
 	
 	/**
-	 * Gère l'appui sur le bouton "Modifier une ContactSimple".<br/>
-	 * Liée au OnClick du bouton editButton dans PersonneVue.fxml.<br/>
+	 * Gère l'appui sur le bouton "Modifier une Contact Simple".<br/>
+	 * Liée au OnClick du bouton editButton dans ContactSimpleVue.fxml.<br/>
 	 * <ul>
 	 * <li></li>
 	 * </ul>
 	 */
-	void modifierPersonne();
+	void modifierContactSimple();
 	
 	
 	
 	/**
-	 * method deletePersonneSelectionnee() :<br/>
-	 * Gère l'appui sur le bouton "Détruire une ContactSimple".<br/>
-	 * Liée au OnClick du bouton deleteButton dans PersonneVue.fxml.<br/>
+	 * Gère l'appui sur le bouton "Détruire une Contact Simple".<br/>
+	 * Liée au OnClick du bouton deleteButton dans ContactSimpleVue.fxml.<br/>
 	 * <br/>
 	 */
-	void deletePersonneSelectionnee();
+	void deleteContactSimple();
 
 	
 	
 	/**
-	 * method getAccueilController() :<br/>
 	 * Getter de AccueilController.<br/>
-	 * <br/>
 	 *
-	 * @return accueilController : IAccueilController.<br/>
+	 * @return this.accueilController : IAccueilController.<br/>
 	 */
 	IAccueilController getAccueilController();
 	
 	
 
 	/**
-	* method setAccueilController(
-	* IAccueilController pAccueilController) :<br/>
 	* Setter de AccueilController.<br/>
-	* <br/>
 	*
 	* @param pAccueilController : IAccueilController : 
-	* valeur à passer à accueilController.<br/>
+	* valeur à passer à this.accueilController.<br/>
 	*/
 	void setAccueilController(IAccueilController pAccueilController);
 	
 	
 
 	/**
-	 * method getPersonneAnchorPane() :<br/>
-	 * Getter de l'AnchorPane principal de PersonneVue.fxml.<br/>
-	 * <br/>
+	 * Getter de l'AnchorPane principal de ContactSimpleVue.fxml.<br/>
 	 *
-	 * @return personneAnchorPane : AnchorPane.<br/>
+	 * @return this.contactSimpleAnchorPane : AnchorPane.<br/>
 	 */
-	AnchorPane getPersonneAnchorPane();
+	AnchorPane getContactSimpleAnchorPane();
 	
 	
 
 	/**
-	* method setPersonneAnchorPane(
-	* AnchorPane pPersonneAnchorPane) :<br/>
-	* Setter de l'AnchorPane principal de PersonneVue.fxml.<br/>
+	* Setter de l'AnchorPane principal de ContactSimpleVue.fxml.<br/>
+	*
+	* @param pContactSimpleAnchorPane : AnchorPane : 
+	* valeur à passer à this.contactSimpleAnchorPane.<br/>
+	*/
+	void setContactSimpleAnchorPane(AnchorPane pContactSimpleAnchorPane);
+
+	
+
+	/**
+	 * Getter du SplitPane contenu dans this.contactSimpleAnchorPane.<br/>
+	 *
+	 * @return this.contactSimpleSplitPane : SplitPane.<br/>
+	 */
+	SplitPane getContactSimpleSplitPane();
+	
+	
+
+	/**
+	* Setter du SplitPane contenu dans this.contactSimpleAnchorPane.<br/>
 	* <br/>
 	*
-	* @param pPersonneAnchorPane : AnchorPane : 
-	* valeur à passer à personneAnchorPane.<br/>
+	* @param pContactSimpleSplitPane : SplitPane : 
+	* valeur à passer à this.contactSimpleSplitPane.<br/>
 	*/
-	void setPersonneAnchorPane(AnchorPane pPersonneAnchorPane);
-
-	
-
-	/**
-	 * method getPersonneSplitPane() :<br/>
-	 * Getter du SplitPane contenu dans this.personneAnchorPane.<br/>
-	 * <br/>
-	 *
-	 * @return personneSplitPane : SplitPane.<br/>
-	 */
-	SplitPane getPersonneSplitPane();
+	void setContactSimpleSplitPane(SplitPane pContactSimpleSplitPane);
 	
 	
 
 	/**
-	* method setPersonneSplitPane(
-	* SplitPane pPersonneSplitPane) :<br/>
-	* Setter du SplitPane contenu dans this.personneAnchorPane.<br/>
-	* <br/>
-	*
-	* @param pPersonneSplitPane : SplitPane : 
-	* valeur à passer à personneSplitPane.<br/>
-	*/
-	void setPersonneSplitPane(SplitPane pPersonneSplitPane);
-	
-	
-
-	/**
-	 * method getPersonnesTableViewAnchorPane() :<br/>
 	 * Getter de l'AnchorPane gauche du SplitPane 
 	 * contenant le TableView.<br/>
 	 * <br/>
 	 *
-	 * @return personnesTableViewAnchorPane : AnchorPane.<br/>
+	 * @return this.contactSimplesTableViewAnchorPane : AnchorPane.<br/>
 	 */
-	AnchorPane getPersonnesTableViewAnchorPane();
+	AnchorPane getContactSimplesTableViewAnchorPane();
 	
 	
 
 	/**
-	* method setPersonnesTableViewAnchorPane(
-	* AnchorPane pPersonnesTableViewAnchorPane) :<br/>
 	* Setter de l'AnchorPane gauche du SplitPane 
 	* contenant le TableView.<br/>
-	* <br/>
 	*
-	* @param pPersonnesTableViewAnchorPane : AnchorPane : 
-	* valeur à passer à personnesTableViewAnchorPane.<br/>
+	* @param pContactSimplesTableViewAnchorPane : AnchorPane : 
+	* valeur à passer à this.contactSimplesTableViewAnchorPane.<br/>
 	*/
-	void setPersonnesTableViewAnchorPane(AnchorPane pPersonnesTableViewAnchorPane);
+	void setContactSimplesTableViewAnchorPane(
+			AnchorPane pContactSimplesTableViewAnchorPane);
 	
 	
 
 	/**
-	 * method getPersonnesTableView() :<br/>
 	 * Getter du TableView&lt;IContactSimpleModelObs&gt; affichant 
 	 * la liste des ContactSimple.<br/>
-	 * <br/>
 	 *
-	 * @return personnesTableView : 
+	 * @return this.contactSimplesTableView : 
 	 * TableView&lt;IContactSimpleModelObs&gt;.<br/>
 	 */
-	TableView<IContactSimpleModelObs> getPersonnesTableView();
+	TableView<IContactSimpleModelObs> getContactSimplesTableView();
 	
 	
 
 	/**
-	* method setPersonnesTableView(
-	* TableView&lt;IContactSimpleModelObs&gt; pPersonnesTableView) :<br/>
 	* Setter du TableView&lt;IContactSimpleModelObs&gt; affichant 
 	* la liste des ContactSimple.<br/>
 	* <br/>
 	*
-	* @param pPersonnesTableView : TableView&lt;IContactSimpleModelObs&gt; : 
-	* valeur à passer à personnesTableView.<br/>
+	* @param pcontactSimplesTableView : TableView&lt;IContactSimpleModelObs&gt; : 
+	* valeur à passer à this.contactSimplesTableView.<br/>
 	*/
-	void setPersonnesTableView(TableView<IContactSimpleModelObs> pPersonnesTableView);
+	void setContactSimplesTableView(
+			TableView<IContactSimpleModelObs> pcontactSimplesTableView);
 	
 	
 
 	/**
-	 * method getModelSelection() :<br/>
 	 * Getter du MODEL pour la sélection dans 
-	 * le TableView this.personnesTableView.<br/>
-	 * <br/>
+	 * le TableView this.contactSimplesTableView.<br/>
 	 *
-	 * @return modelSelection : 
+	 * @return this.modelSelection : 
 	 * TableViewSelectionModel&lt;IContactSimpleModelObs&gt;.<br/>
 	 */
 	TableViewSelectionModel<IContactSimpleModelObs> getModelSelection();
@@ -226,25 +202,23 @@ public interface IContactSimpleVueController {
 	
 
 	/**
-	* method setModelSelection(
-	* TableViewSelectionModel&lt;IContactSimpleModelObs&gt; pModelSelection) :<br/>
 	* Setter du MODEL pour la sélection dans 
-	* le TableView this.personnesTableView.<br/>
+	* le TableView this.contactSimplesTableView.<br/>
 	* <br/>
 	*
-	* @param pModelSelection : TableViewSelectionModel&lt;IContactSimpleModelObs&gt; : 
-	* valeur à passer à modelSelection.<br/>
+	* @param pModelSelection : 
+	* TableViewSelectionModel&lt;IContactSimpleModelObs&gt; : 
+	* valeur à passer à this.modelSelection.<br/>
 	*/
-	void setModelSelection(TableViewSelectionModel<IContactSimpleModelObs> pModelSelection);
+	void setModelSelection(
+			TableViewSelectionModel<IContactSimpleModelObs> pModelSelection);
 	
 	
 
 	/**
-	 * method getPrenomTableColumn() :<br/>
 	 * Getter de la colonne des prénoms.<br/>
-	 * <br/>
 	 *
-	 * @return prenomTableColumn : 
+	 * @return this.prenomTableColumn : 
 	 * TableColumn&lt;ContactSimpleModelObs,String&gt;.<br/>
 	 */
 	TableColumn<ContactSimpleModelObs, String> getPrenomTableColumn();
@@ -252,86 +226,70 @@ public interface IContactSimpleVueController {
 	
 
 	/**
-	* method setPrenomTableColumn(
-	* TableColumn&lt;ContactSimpleModelObs,String&gt; pPrenomTableColumn) :<br/>
 	* Setter de la colonne des prénoms.<br/>
-	* <br/>
 	*
 	* @param pPrenomTableColumn : 
 	* TableColumn&lt;ContactSimpleModelObs,String&gt; :
-	*  valeur à passer à prenomTableColumn.<br/>
+	*  valeur à passer à this.prenomTableColumn.<br/>
 	*/
 	void setPrenomTableColumn(TableColumn<ContactSimpleModelObs, String> pPrenomTableColumn);
 	
 	
 
 	/**
-	 * method getNomTableColumn() :<br/>
 	 * Getter de la colonne des noms.<br/>
-	 * <br/>
 	 *
-	 * @return nomTableColumn : TableColumn&lt;ContactSimpleModelObs,String&gt;.<br/>
+	 * @return this.nomTableColumn : 
+	 * TableColumn&lt;ContactSimpleModelObs,String&gt;.<br/>
 	 */
 	TableColumn<ContactSimpleModelObs, String> getNomTableColumn();
 	
 	
 
 	/**
-	* method setNomTableColumn(
-	* TableColumn&lt;ContactSimpleModelObs,String&gt; pNomTableColumn) :<br/>
 	* Setter de la colonne des noms.<br/>
-	* <br/>
 	*
 	* @param pNomTableColumn : 
 	* TableColumn&lt;ContactSimpleModelObs,String&gt; : 
-	* valeur à passer à nomTableColumn.<br/>
+	* valeur à passer à this.nomTableColumn.<br/>
 	*/
-	void setNomTableColumn(TableColumn<ContactSimpleModelObs, String> pNomTableColumn);
+	void setNomTableColumn(
+			TableColumn<ContactSimpleModelObs, String> pNomTableColumn);
 	
 	
 
 	/**
-	 * method getRenseignementsAnchorPane() :<br/>
 	 * Getter de l'AnchorPane de droite contenant les 
 	 * renseignements sur une ContactSimple.<br/>
-	 * <br/>
 	 *
-	 * @return renseignementsAnchorPane : AnchorPane.<br/>
+	 * @return this.renseignementsAnchorPane : AnchorPane.<br/>
 	 */
 	AnchorPane getRenseignementsAnchorPane();
 	
 	
 
 	/**
-	* method setRenseignementsAnchorPane(
-	* AnchorPane pRenseignementsAnchorPane) :<br/>
 	* Setter de l'AnchorPane de droite contenant les 
 	* renseignements sur une ContactSimple.<br/>
-	* <br/>
 	*
 	* @param pRenseignementsAnchorPane : AnchorPane : 
-	* valeur à passer à renseignementsAnchorPane.<br/>
+	* valeur à passer à this.renseignementsAnchorPane.<br/>
 	*/
 	void setRenseignementsAnchorPane(AnchorPane pRenseignementsAnchorPane);
 	
 	
 
 	/**
-	 * method getRenseignementsLabel() :<br/>
-	 * Getter du Label "renseignements sur la ContactSimple".<br/>
-	 * <br/>
+	 * Getter du Label "renseignements sur la Contact Simple".<br/>
 	 *
-	 * @return renseignementsLabel : Label.<br/>
+	 * @return this.renseignementsLabel : Label.<br/>
 	 */
 	Label getRenseignementsLabel();
 	
 	
 
 	/**
-	* method setRenseignementsLabel(
-	* Label pRenseignementsLabel) :<br/>
 	* Setter du Label "renseignements sur la ContactSimple".<br/>
-	* <br/>
 	*
 	* @param pRenseignementsLabel : Label : 
 	* valeur à passer à this.renseignementsLabel.<br/>
@@ -341,409 +299,325 @@ public interface IContactSimpleVueController {
 	
 
 	/**
-	 * method getRenseignementsGridPane() :<br/>
 	 * Getter du GridPane portant les renseignements 
 	 * sur une ContactSimple.<br/>
-	 * <br/>
 	 *
-	 * @return renseignementsGridPane : GridPane.<br/>
+	 * @return this.renseignementsGridPane : GridPane.<br/>
 	 */
 	GridPane getRenseignementsGridPane();
 
 	
 
 	/**
-	* method setRenseignementsGridPane(
-	* GridPane pRenseignementsGridPane) :<br/>
 	* Setter du GridPane portant les renseignements 
 	* sur une ContactSimple.<br/>
-	* <br/>
 	*
 	* @param pRenseignementsGridPane : GridPane : 
-	* valeur à passer à renseignementsGridPane.<br/>
+	* valeur à passer à this.renseignementsGridPane.<br/>
 	*/
 	void setRenseignementsGridPane(GridPane pRenseignementsGridPane);
 	
 	
 
 	/**
-	 * method getPrenomLabel() :<br/>
 	 * Getter du Label pour le prénom.<br/>
-	 * <br/>
 	 *
-	 * @return prenomLabel : Label.<br/>
+	 * @return this.prenomLabel : Label.<br/>
 	 */
 	Label getPrenomLabel();
 	
 	
 
 	/**
-	* method setPrenomLabel(
-	* Label pPrenomLabel) :<br/>
 	* Setter du Label pour le prénom.<br/>
-	* <br/>
 	*
 	* @param pPrenomLabel : Label : 
-	* valeur à passer à prenomLabel.<br/>
+	* valeur à passer à this.prenomLabel.<br/>
 	*/
 	void setPrenomLabel(Label pPrenomLabel);
 	
 	
 
 	/**
-	 * method getNomLabel() :<br/>
 	 * Getter du Label pour le nom.<br/>
-	 * <br/>
 	 *
-	 * @return nomLabel : Label.<br/>
+	 * @return this.nomLabel : Label.<br/>
 	 */
 	Label getNomLabel();
 	
 	
 
 	/**
-	* method setNomLabel(
-	* Label pNomLabel) :<br/>
 	* Setter du Label pour le nom.<br/>
-	* <br/>
 	*
 	* @param pNomLabel : Label : 
-	* valeur à passer à nomLabel.<br/>
+	* valeur à passer à this.nomLabel.<br/>
 	*/
 	void setNomLabel(Label pNomLabel);
 	
 	
 
 	/**
-	 * method getRueLabel() :<br/>
 	 * Getter du Label pour la rue.<br/>
-	 * <br/>
 	 *
-	 * @return rueLabel : Label.<br/>
+	 * @return this.rueLabel : Label.<br/>
 	 */
 	Label getRueLabel();
 	
 	
 
 	/**
-	* method setRueLabel(
-	* Label pRueLabel) :<br/>
 	* Setter du Label pour la rue.<br/>
-	* <br/>
 	*
 	* @param pRueLabel : Label : 
-	* valeur à passer à rueLabel.<br/>
+	* valeur à passer à this.rueLabel.<br/>
 	*/
 	void setRueLabel(Label pRueLabel);
 	
 	
 
 	/**
-	 * method getVilleLabel() :<br/>
 	 * Getter du Label pour la ville.<br/>
-	 * <br/>
 	 *
-	 * @return villeLabel : Label.<br/>
+	 * @return this.villeLabel : Label.<br/>
 	 */
 	Label getVilleLabel();
 	
 	
 
 	/**
-	* method setVilleLabel(
-	* Label pVilleLabel) :<br/>
 	* Setter du Label pour la ville.<br/>
-	* <br/>
 	*
 	* @param pVilleLabel : Label : 
-	* valeur à passer à villeLabel.<br/>
+	* valeur à passer à this.villeLabel.<br/>
 	*/
 	void setVilleLabel(Label pVilleLabel);
 	
 	
 
 	/**
-	 * method getCodePostalLabel() :<br/>
 	 * Getter du Label pour le code postal.<br/>
 	 *
-	 * @return codePostalLabel : Label.<br/>
+	 * @return this.codePostalLabel : Label.<br/>
 	 */
 	Label getCodePostalLabel();
 	
 	
 
 	/**
-	* method setCodePostalLabel(
-	* Label pCodePostalLabel) :<br/>
 	* Setter du Label pour le code postal.<br/>
-	* <br/>
 	*
 	* @param pCodePostalLabel : Label : 
-	* valeur à passer à codePostalLabel.<br/>
+	* valeur à passer à this.codePostalLabel.<br/>
 	*/
 	void setCodePostalLabel(Label pCodePostalLabel);
 	
 	
 
 	/**
-	 * method getDateNaissanceLabel() :<br/>
 	 * Getter du Label pour la date de naissance.<br/>
-	 * <br/>
 	 *
-	 * @return dateNaissanceLabel : Label.<br/>
+	 * @return this.dateNaissanceLabel : Label.<br/>
 	 */
 	Label getDateNaissanceLabel();
 	
 	
 
 	/**
-	* method setDateNaissanceLabel(
-	* Label pDateNaissanceLabel) :<br/>
 	* Setter du Label pour la date de naissance.<br/>
-	* <br/>
 	*
 	* @param pDateNaissanceLabel : Label : 
-	* valeur à passer à dateNaissanceLabel.<br/>
+	* valeur à passer à this.dateNaissanceLabel.<br/>
 	*/
 	void setDateNaissanceLabel(Label pDateNaissanceLabel);
 	
 	
 
 	/**
-	 * method getPrenomTextField() :<br/>
 	 * Getter du TextField pour le prénom.<br/>
-	 * <br/>
 	 *
-	 * @return prenomTextField : TextField.<br/>
+	 * @return this.prenomTextField : TextField.<br/>
 	 */
 	TextField getPrenomTextField();
 	
 	
 
 	/**
-	* method setPrenomTextField(
-	* TextField pPrenomTextField) :<br/>
 	* Setter du TextField pour le prénom.<br/>
-	* <br/>
 	*
 	* @param pPrenomTextField : TextField : 
-	* valeur à passer à prenomTextField.<br/>
+	* valeur à passer à this.prenomTextField.<br/>
 	*/
 	void setPrenomTextField(TextField pPrenomTextField);
 	
 	
 
 	/**
-	 * method getNomTextField() :<br/>
 	 * Getter du TextField pour le nom.<br/>
-	 * <br/>
 	 *
-	 * @return nomTextField : TextField.<br/>
+	 * @return this.nomTextField : TextField.<br/>
 	 */
 	TextField getNomTextField(); 
 	
 	
 
 	/**
-	* method setNomTextField(
-	* TextField pNomTextField) :<br/>
 	* Setter du TextField pour le nom.<br/>
-	* <br/>
 	*
 	* @param pNomTextField : TextField : 
-	* valeur à passer à nomTextField.<br/>
+	* valeur à passer à this.nomTextField.<br/>
 	*/
 	void setNomTextField(TextField pNomTextField);
 	
 	
 
 	/**
-	 * method getRueTextField() :<br/>
 	 * Getter du TextField pour la rue.<br/>
-	 * <br/>
 	 *
-	 * @return rueTextField : TextField.<br/>
+	 * @return this.rueTextField : TextField.<br/>
 	 */
 	TextField getRueTextField();
 	
 	
 
 	/**
-	* method setRueTextField(
-	* TextField pRueTextField) :<br/>
 	* Setter du TextField pour la rue.<br/>
-	* <br/>
 	*
 	* @param pRueTextField : TextField : 
-	* valeur à passer à rueTextField.<br/>
+	* valeur à passer à this.rueTextField.<br/>
 	*/
 	void setRueTextField(TextField pRueTextField);
 	
 	
 
 	/**
-	 * method getVilleTextField() :<br/>
 	 * Getter du TextField pour la ville.<br/>
-	 * <br/>
 	 *
-	 * @return villeTextField : TextField.<br/>
+	 * @return this.villeTextField : TextField.<br/>
 	 */
 	TextField getVilleTextField();
 	
 	
 
 	/**
-	* method setVilleTextField(
-	* TextField pVilleTextField) :<br/>
 	* Setter du TextField pour la ville.<br/>
-	* <br/>
 	*
 	* @param pVilleTextField : TextField : 
-	* valeur à passer à villeTextField.<br/>
+	* valeur à passer à this.villeTextField.<br/>
 	*/
 	void setVilleTextField(TextField pVilleTextField);
 
 	
 
 	/**
-	 * method getCodePostalTextField() :<br/>
 	 * Getter du TextField pour le code postal.<br/>
-	 * <br/>
 	 *
-	 * @return codePostalTextField : TextField.<br/>
+	 * @return this.codePostalTextField : TextField.<br/>
 	 */
 	TextField getCodePostalTextField();
 
 	
 
 	/**
-	* method setCodePostalTextField(
-	* TextField pCodePostalTextField) :<br/>
 	* Setter du TextField pour le code postal.<br/>
-	* <br/>
 	*
 	* @param pCodePostalTextField : TextField : 
-	* valeur à passer à codePostalTextField.<br/>
+	* valeur à passer à this.codePostalTextField.<br/>
 	*/
 	void setCodePostalTextField(TextField pCodePostalTextField);
 	
 	
 
 	/**
-	 * method getDateNaissanceTextField() :<br/>
 	 * Getter du TextField pour la date de naissance.<br/>
-	 * <br/>
 	 *
-	 * @return dateNaissanceTextField : TextField.<br/>
+	 * @return this.dateNaissanceTextField : TextField.<br/>
 	 */
 	TextField getDateNaissanceTextField();
 	
 	
 
 	/**
-	* method setDateNaissanceTextField(
-	* TextField pDateNaissanceTextField) :<br/>
 	* Setter du TextField pour la date de naissance.<br/>
-	* <br/>
 	*
 	* @param pDateNaissanceTextField : TextField : 
-	* valeur à passer à dateNaissanceTextField.<br/>
+	* valeur à passer à this.dateNaissanceTextField.<br/>
 	*/
 	void setDateNaissanceTextField(TextField pDateNaissanceTextField);
 	
 	
 
 	/**
-	 * method getEditionButtonBar() :<br/>
 	 * Getter de la Barre de boutons d'édition des ContactSimple.<br/>
-	 * <br/>
 	 *
-	 * @return editionButtonBar : ButtonBar.<br/>
+	 * @return this.editionButtonBar : ButtonBar.<br/>
 	 */
 	ButtonBar getEditionButtonBar();
 	
 	
 
 	/**
-	* method setEditionButtonBar(
-	* ButtonBar pEditionButtonBar) :<br/>
 	* Setter de la Barre de boutons d'édition des ContactSimple.<br/>
-	* <br/>
 	*
 	* @param pEditionButtonBar : ButtonBar : 
-	* valeur à passer à editionButtonBar.<br/>
+	* valeur à passer à this.editionButtonBar.<br/>
 	*/
 	void setEditionButtonBar(ButtonBar pEditionButtonBar);
 	
 	
 
 	/**
-	 * method getCreateButton() :<br/>
 	 * Getter du Bouton pour la création des ContactSimple.<br/>
-	 * <br/>
 	 *
-	 * @return createButton : Button.<br/>
+	 * @return this.createButton : Button.<br/>
 	 */
 	Button getCreateButton();
 	
 	
 
 	/**
-	* method setCreateButton(
-	* Button pCreateButton) :<br/>
 	* Setter du Bouton pour la création des ContactSimple.<br/>
-	* <br/>
 	*
 	* @param pCreateButton : Button : 
-	* valeur à passer à createButton.<br/>
+	* valeur à passer à this.createButton.<br/>
 	*/
 	void setCreateButton(Button pCreateButton);
 	
 	
 
 	/**
-	 * method getEditButton() :<br/>
 	 * Getter du Bouton pour la modification des ContactSimple.<br/>
-	 * <br/>
 	 *
-	 * @return editButton : Button.<br/>
+	 * @return this.editButton : Button.<br/>
 	 */
 	Button getEditButton();
 	
 	
 
 	/**
-	* method setEditButton(
-	* Button pEditButton) :<br/>
 	* Setter du Bouton pour la modification des ContactSimple.<br/>
-	* <br/>
 	*
 	* @param pEditButton : Button : 
-	* valeur à passer à editButton.<br/>
+	* valeur à passer à this.editButton.<br/>
 	*/
 	void setEditButton(Button pEditButton);
 	
 	
 
 	/**
-	 * method getDeleteButton() :<br/>
 	 * Getter du Bouton pour la destruction des ContactSimple.<br/>
-	 * <br/>
 	 *
-	 * @return deleteButton : Button.<br/>
+	 * @return this.deleteButton : Button.<br/>
 	 */
 	Button getDeleteButton();
 	
 	
 
 	/**
-	* method setDeleteButton(
-	* Button pDeleteButton) :<br/>
 	* Setter du Bouton pour la destruction des ContactSimple.<br/>
-	* <br/>
 	*
 	* @param pDeleteButton : Button : 
-	* valeur à passer à deleteButton.<br/>
+	* valeur à passer à this.deleteButton.<br/>
 	*/
 	void setDeleteButton(Button pDeleteButton);
 	
@@ -751,62 +625,56 @@ public interface IContactSimpleVueController {
 	
 	/**
 	 * Getter de l' AnchorPane pour la création d'une ContactSimple.<br/>
-	 * <br/>
 	 *
-	 * @return creationPersonneVueAnchorPane : AnchorPane : 
-	 * this.creationPersonneVueAnchorPane.<br/>
+	 * @return this.creationContactSimpleVueAnchorPane : AnchorPane.<br/>
 	 */
-	AnchorPane getCreationPersonneVueAnchorPane();
+	AnchorPane getCreationContactSimpleVueAnchorPane();
 
 
 
 	/**
 	* Setter de l'AnchorPane pour la création d'une ContactSimple.<br/>
-	* <br/>
 	*
-	* @param pCreationPersonneVueAnchorPane : AnchorPane : 
-	* valeur à passer à this.creationPersonneVueAnchorPane.<br/>
+	* @param pCreationContactSimpleVueAnchorPane : AnchorPane : 
+	* valeur à passer à this.creationContactSimpleVueAnchorPane.<br/>
 	*/
-	void setCreationPersonneVueAnchorPane(
-			AnchorPane pCreationPersonneVueAnchorPane);
+	void setCreationContactSimpleVueAnchorPane(
+			AnchorPane pCreationContactSimpleVueAnchorPane);
 
 
 
 	/**
 	 * Getter du CONTROLLER DE VUE de la VUE AnchorPane 
-	 * pour la création d'une personne.<br/>
-	 * <br/>
+	 * pour la création d'un contact simple.<br/>
 	 *
-	 * @return this.creationPersonneVueController : 
+	 * @return this.creationContactSimpleVueController : 
 	 * ICreationContactSimpleVueController.<br/>
 	 */
-	ICreationContactSimpleVueController getCreationPersonneVueController();
+	ICreationContactSimpleVueController getCreationContactSimpleVueController();
 
 
 
 	/**
 	* Setter du CONTROLLER DE VUE de la VUE AnchorPane 
-	* pour la création d'une personne.<br/>
-	* <br/>
+	* pour la création d'un contact simple.<br/>
 	*
-	* @param pCreationContactSimpleVueController : ICreationContactSimpleVueController : 
-	* valeur à passer à this.creationPersonneVueController.<br/>
+	* @param pCreationContactSimpleVueController : 
+	* ICreationContactSimpleVueController : 
+	* valeur à passer à this.creationContactSimpleVueController.<br/>
 	*/
-	void setCreationPersonneVueController(
+	void setCreationContactSimpleVueController(
 			ICreationContactSimpleVueController pCreationContactSimpleVueController);
 	
 	
 
 	/**
-	 * method setModelTableViewPersonnes(
-	 * ObservableList&lt;IContactSimpleModelObs&gt; pListePersonnes) :<br/>
 	 * Passe les données à afficher (MODEL) au TableView.<br/>
-	 * <br/>
 	 *
-	 * @param pListePersonnes : ObservableList&lt;IContactSimpleModelObs&gt; : 
-	 * données (MODEL) à passer à this.personnesTableView.<br/>
+	 * @param pListeContactSimples : ObservableList&lt;IContactSimpleModelObs&gt; : 
+	 * données (MODEL) à passer à this.contactSimplesTableView.<br/>
 	 */
-	void setModelTableViewPersonnes(ObservableList<IContactSimpleModelObs> pListePersonnes);
+	void setModelTableViewContactSimples(
+			ObservableList<IContactSimpleModelObs> pListeContactSimples);
 
 	
 	

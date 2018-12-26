@@ -151,7 +151,7 @@ public class MainApplication extends Application {
 			final Stage pPrimaryStage) throws Exception {
 		
 		this.primaryStage = pPrimaryStage;
-		this.primaryStage.setTitle("Application de gestion d'adresses JavaFX");
+		this.primaryStage.setTitle("Application de gestion de contacts simples JavaFX");
 				
 		/* Prépare la VUE d'accueil. */
 		this.fabriquerPanneauFond();

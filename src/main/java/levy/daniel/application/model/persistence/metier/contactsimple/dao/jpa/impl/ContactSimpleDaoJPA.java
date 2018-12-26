@@ -46,34 +46,29 @@ public class ContactSimpleDaoJPA {
 	// ************************ATTRIBUTS************************************/
 
 	/**
-	 * CLASSE_PERSONNEDAOJPA : String :<br/>
 	 * "Classe ContactSimpleDaoJPA".<br/>
 	 */
-	public static final String CLASSE_PERSONNEDAOJPA 
+	public static final String CLASSE_CONTACTSIMPLEDAOJPA 
 		= "Classe ContactSimpleDaoJPA";
 	
 	/**
-	 * METHODE_CREATE : String :<br/>
 	 * "Méthode create(IContactSimple pObject)".<br/>
 	 */
 	public static final String  METHODE_CREATE 
 		= "Méthode create(IContactSimple pObject)";
 	
 	/**
-	 * SEPARATEUR_MOINS_AERE : String :<br/>
 	 * " - ".<br/>
 	 */
 	public static final String SEPARATEUR_MOINS_AERE = " - ";
 
 	/**
-	 * SAUT_LIGNE_JAVA : char :<br/>
 	 * '\n'.<br/>
 	 */
 	public static final char SAUT_LIGNE_JAVA = '\n';
 
 	
 	/**
-	 * MESSAGE_ENTITYMANAGER_NULL : String :<br/>
 	 * "this.entityManager est NULL dans ContactSimpleDaoJPA".<br/>
 	 */
 	public static final String MESSAGE_ENTITYMANAGER_NULL 
@@ -393,7 +388,7 @@ public class ContactSimpleDaoJPA {
 			/* Gestion de la DAO Exception. */
 			this.gestionnaireException
 				.gererException(
-						CLASSE_PERSONNEDAOJPA
+						CLASSE_CONTACTSIMPLEDAOJPA
 							, METHODE_CREATE, e);
 						
 		}
@@ -529,7 +524,7 @@ public class ContactSimpleDaoJPA {
 							/* Gestion de la DAO Exception. */
 							this.gestionnaireException
 								.gererException(
-										CLASSE_PERSONNEDAOJPA
+										CLASSE_CONTACTSIMPLEDAOJPA
 											, "Méthode save(Iterable)", e);
 						}
 						
@@ -556,7 +551,7 @@ public class ContactSimpleDaoJPA {
 			/* Gestion de la DAO Exception. */
 			this.gestionnaireException
 				.gererException(
-						CLASSE_PERSONNEDAOJPA
+						CLASSE_CONTACTSIMPLEDAOJPA
 							, "Méthode save(Iterable)", e);
 
 		}
@@ -650,7 +645,7 @@ public class ContactSimpleDaoJPA {
 			/* Gestion de la DAO Exception. */
 			this.gestionnaireException
 				.gererException(
-						CLASSE_PERSONNEDAOJPA
+						CLASSE_CONTACTSIMPLEDAOJPA
 						, "Méthode retrieve(IContactSimple pObject)", e);
 		}
 				
@@ -708,7 +703,7 @@ public class ContactSimpleDaoJPA {
 			/* Gestion de la DAO Exception. */
 			this.gestionnaireException
 				.gererException(
-						CLASSE_PERSONNEDAOJPA
+						CLASSE_CONTACTSIMPLEDAOJPA
 						, "Méthode findById(ID)", e);
 			
 		}
@@ -770,7 +765,7 @@ public class ContactSimpleDaoJPA {
 			/* Gestion de la DAO Exception. */
 			this.gestionnaireException
 				.gererException(
-						CLASSE_PERSONNEDAOJPA
+						CLASSE_CONTACTSIMPLEDAOJPA
 						, "Méthode findall()", e);
 			
 		}
@@ -860,7 +855,7 @@ public class ContactSimpleDaoJPA {
 			/* Gestion de la DAO Exception. */
 			this.gestionnaireException
 				.gererException(
-						CLASSE_PERSONNEDAOJPA
+						CLASSE_CONTACTSIMPLEDAOJPA
 						, "Méthode update(IContactSimple Object)", e);
 						
 		}
@@ -946,7 +941,7 @@ public class ContactSimpleDaoJPA {
 			/* Gestion de la DAO Exception. */
 			this.gestionnaireException
 				.gererException(
-						CLASSE_PERSONNEDAOJPA
+						CLASSE_CONTACTSIMPLEDAOJPA
 						, "Méthode delete(IContactSimple pObject)", e);
 									
 		}
@@ -1026,7 +1021,7 @@ public class ContactSimpleDaoJPA {
 
 			/* Gestion de la DAO Exception. */
 			this.gestionnaireException
-				.gererException(CLASSE_PERSONNEDAOJPA
+				.gererException(CLASSE_CONTACTSIMPLEDAOJPA
 						, "Méthode deleteById(Long pId)", e);
 		}
 		
@@ -1111,7 +1106,7 @@ public class ContactSimpleDaoJPA {
 
 			/* Gestion de la DAO Exception. */
 			this.gestionnaireException
-				.gererException(CLASSE_PERSONNEDAOJPA
+				.gererException(CLASSE_CONTACTSIMPLEDAOJPA
 						, "Méthode deleteByIdBoolean(Long pId)", e);
 		}
 		
@@ -1167,7 +1162,7 @@ public class ContactSimpleDaoJPA {
 			/* Gestion de la DAO Exception. */
 			this.gestionnaireException
 				.gererException(
-						CLASSE_PERSONNEDAOJPA
+						CLASSE_CONTACTSIMPLEDAOJPA
 						, "Méthode deleteAll()", e);
 			
 		}
@@ -1229,7 +1224,7 @@ public class ContactSimpleDaoJPA {
 			/* Gestion de la DAO Exception. */
 			this.gestionnaireException
 				.gererException(
-						CLASSE_PERSONNEDAOJPA
+						CLASSE_CONTACTSIMPLEDAOJPA
 						, "Méthode deleteAllBoolean()", e);
 			
 		}
@@ -1305,7 +1300,7 @@ public class ContactSimpleDaoJPA {
 			
 			/* Gestion de la DAO Exception. */
 			this.gestionnaireException.gererException(
-					CLASSE_PERSONNEDAOJPA
+					CLASSE_CONTACTSIMPLEDAOJPA
 					, "Méthode delete(Iterable)", e);
 			
 		}
@@ -1389,7 +1384,7 @@ public class ContactSimpleDaoJPA {
 			
 			/* Gestion de la DAO Exception. */
 			this.gestionnaireException
-				.gererException(CLASSE_PERSONNEDAOJPA
+				.gererException(CLASSE_CONTACTSIMPLEDAOJPA
 						, "Méthode exists(IContactSimple pObject)", e);
 		}
 				

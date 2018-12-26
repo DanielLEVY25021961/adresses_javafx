@@ -79,7 +79,7 @@
 	<!-- en mode SERVEUR -->
 <!-- 		<property name="hibernate.connection.url" value="jdbc:hsqldb:hsql://localhost/base-adresses_javafx" /> >-->
     <!-- en mode FILE -->
-<!--        <property name="hibernate.connection.url" value="jdbc:hsqldb:file:D:/Donnees/eclipse/eclipseworkspace_oxygen/adresses_javafx/data/base-adresses_javafx-hsqldb/base-adresses_javafx" /> -->
+<!--        <property name="hibernate.connection.url" value="jdbc:hsqldb:file:D:/Donnees/eclipse/eclipseworkspace/adresses_javafx/data/base-adresses_javafx-hsqldb/base-adresses_javafx" /> -->
     <!-- en mode MEMORY -->
 	   <property name="hibernate.connection.url" value="jdbc:hsqldb:mem:base-adresses_javafx" />    
 	

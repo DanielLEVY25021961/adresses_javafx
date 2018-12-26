@@ -85,10 +85,10 @@ public final class JPAUtils {
 	/**
 	 * PERSISTENCE_UNIT : String :<br/>
 	 * Persistence-unit déclarée dans META-INF/Persistence.xml.<br/>
-	 * "persistence_unit_base-traficweb_springboot".<br/>
+	 * "persistence_unit_base-adresses_javafx".<br/>
 	 */
 	public static final String PERSISTENCE_UNIT 
-		= "persistence_unit_base-traficweb_springboot";
+		= "persistence_unit_base-adresses_javafx";
 
 
 	/**

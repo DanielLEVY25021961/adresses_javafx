@@ -125,7 +125,13 @@ public class ContactSimpleVueController implements IContactSimpleVueController {
 	 */
 	@FXML
 	private TableColumn<ContactSimpleModelObs, String> nomTableColumn;
-		
+	
+	/**
+	 * colonne des dates de naissance.<br/>
+	 */
+	@FXML
+	private TableColumn<ContactSimpleModelObs, String> dateNaissanceTableColumn;
+	
 	/**
 	 * AnchorPane de droite contenant les 
 	 * renseignements sur un ContactSimple.<br/>
@@ -299,8 +305,11 @@ public class ContactSimpleVueController implements IContactSimpleVueController {
 
 	/**
 	 * <ul>
-	 * <li>initialise les TableColumns du TableView en les 
-	 * associant avec des attributs du ContactSimpleModelObs.</li>
+	 * <li><b>initialise les TableColumns du TableView en les 
+	 * associant avec des <i>attributs de la Classe</i> 
+	 * du MODEL OBSERVABLE ContactSimpleModelObs</b>.<br/>
+	 * Par exemple, décide que le TableView va afficher les attributs 
+	 * [prenom, nom et dateDeNaissance] de chaque enregistrement du MODEL.</li>
 	 * <li>rend le TableView éditable.</li>
 	 * <li>instancie le modelSelection du TableView 
 	 * this.modelSelection.</li>
@@ -318,6 +327,14 @@ public class ContactSimpleVueController implements IContactSimpleVueController {
 		this.nomTableColumn
 			.setCellValueFactory(
 					new PropertyValueFactory<ContactSimpleModelObs, String>("nom"));
+		
+		/* "dateNaissance" est le nom de l'attribut 
+		 * dans le MODEL OBSERVABLE. */
+		final DateTimeFormatter formatter 
+			= DateTimeFormatter.ofPattern("dd MMMM yyyy");
+		
+		this.dateNaissanceTableColumn.setCellValueFactory(
+				new PropertyValueFactory<ContactSimpleModelObs, String>("dateNaissance"));
 		
 		/* rend le TableView éditable. */
 		this.contactSimplesTableView.setEditable(true);
@@ -491,8 +508,8 @@ public class ContactSimpleVueController implements IContactSimpleVueController {
 	        alert.initOwner(
 	        		this.accueilController
 	        			.getMainApplication().getPrimaryStage());
-	        alert.setTitle("Pas de ContactSimple sélectionnée");
-	        alert.setHeaderText("Pas de ContactSimple sélectionnée");
+	        alert.setTitle("Pas de Contact Simple sélectionné");
+	        alert.setHeaderText("Pas de Contact Simple sélectionné");
 	        alert.setContentText("SVP sélectionnez un contact simple dans la table.");
 
 	        alert.showAndWait();
@@ -669,7 +686,28 @@ public class ContactSimpleVueController implements IContactSimpleVueController {
 	} // Fin de setNomTableColumn(...).____________________________________
 	
 
-		
+			
+	/**
+	 * {@inheritDoc}
+	 */
+	@Override
+	public final TableColumn<ContactSimpleModelObs, String> getDateNaissanceTableColumn() {
+		return this.dateNaissanceTableColumn;
+	} // Fin de getDateNaissanceTableColumn()._____________________________
+
+
+
+	/**
+	 * {@inheritDoc}
+	 */
+	@Override
+	public final void setDateNaissanceTableColumn(
+			final TableColumn<ContactSimpleModelObs, String> pDateNaissanceTableColumn) {
+		this.dateNaissanceTableColumn = pDateNaissanceTableColumn;
+	} // Fin de setDateNaissanceTableColumn(...).__________________________
+
+
+
 	/**
 	 * {@inheritDoc}
 	 */

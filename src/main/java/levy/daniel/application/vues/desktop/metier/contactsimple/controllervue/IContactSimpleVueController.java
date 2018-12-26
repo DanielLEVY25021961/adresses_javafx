@@ -256,6 +256,28 @@ public interface IContactSimpleVueController {
 	void setNomTableColumn(
 			TableColumn<ContactSimpleModelObs, String> pNomTableColumn);
 	
+
+	
+	/**
+	 * Getter de la colonne des dates de naissance.<br/>
+	 *
+	 * @return this.dateNaissanceTableColumn : 
+	 * TableColumn&lt;ContactSimpleModelObs,String&gt; : 
+	 */
+	TableColumn<ContactSimpleModelObs, String> getDateNaissanceTableColumn();
+
+
+
+	/**
+	* Setter de la colonne des dates de naissance.<br/>
+	*
+	* @param pDateNaissanceTableColumn : 
+	* TableColumn&lt;ContactSimpleModelObs,String&gt; : 
+	* valeur à passer à this.dateNaissanceTableColumn.<br/>
+	*/
+	void setDateNaissanceTableColumn(
+			TableColumn<ContactSimpleModelObs, String> pDateNaissanceTableColumn);
+	
 	
 
 	/**

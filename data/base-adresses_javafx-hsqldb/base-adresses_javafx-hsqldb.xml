@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<ns2:listeContactSimplesEntityJAXB xmlns:ns2="levy.daniel.application">
+    <listeContactSimples>
+        <contactSimple>
+            <prenom>Horace</prenom>
+            <nom>Silver</nom>
+            <rue>17, rue de la Plomberie</rue>
+            <codePostal>73 698</codePostal>
+            <ville>Chambéry</ville>
+            <dateNaissance>1950-01-17</dateNaissance>
+        </contactSimple>
+        <contactSimple>
+            <prenom>Johnny</prenom>
+            <nom>Halliday</nom>
+            <rue>7, avenue des Zozos</rue>
+            <codePostal>75 001</codePostal>
+            <ville>Paris</ville>
+            <dateNaissance>1952-07-22</dateNaissance>
+        </contactSimple>
+        <contactSimple>
+            <prenom>Papy</prenom>
+            <nom>Gonzales</nom>
+            <rue>rue3</rue>
+            <codePostal>cp3</codePostal>
+            <ville>ville3</ville>
+            <dateNaissance>2018-05-03</dateNaissance>
+        </contactSimple>
+        <contactSimple>
+            <prenom>Zorro</prenom>
+            <nom>Démoniaque</nom>
+            <rue>rue4</rue>
+            <codePostal>cp4</codePostal>
+            <ville>ville4</ville>
+            <dateNaissance>2018-05-04</dateNaissance>
+        </contactSimple>
+    </listeContactSimples>
+</ns2:listeContactSimplesEntityJAXB>

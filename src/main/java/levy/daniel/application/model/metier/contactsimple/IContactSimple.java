@@ -10,8 +10,169 @@ import levy.daniel.application.model.metier.IExportateurJTable;
 
 /**
  * INTERFACE IContactSimple :<br/>
- * Interface factorisant les comportements 
- * des ContactSimple de MODEL/METIER.<br/>
+ * <p>
+ * <b>IContactSimple</b> modélise un un <i>concept</i> de <b>Contact</b> 
+ * (Personne avec des coordonnées) avec un nom, un prénom et des coordonnées
+ * <i>simples</i>.<br/>
+ * Un ContactSimple ne possède qu'une seule adresse, 
+ * un seul numéro de téléphone, et un seul mail.
+ * </p>
+ * 
+ * <ul>
+ * <p>
+ * <span style="text-decoration: underline;">
+ * HERITE de :
+ * </span>
+ * </p>
+ * <li><b>IExportateurCsv</b> pour l'export d'un Objet 
+ * métier en csv.</li>
+ * <li><b>IExportateurJTable</b> pour l'affichage dans 
+ * une JTable (Swing).</li>
+ * <li><b>Comparable</b> pour l'affichage des Collections 
+ * sous forme triée.</li>
+ * <li><b>Cloneable</b> pour garantir que tout objet métier 
+ * implémentant cette interface saura se cloner.</li>
+ * <li><b>Serializable</b> pour garantir que tout objet métier 
+ * implémentant cette interface pourra être serialisé.</li>
+ * </ul>
+ * 
+ * <ul>
+ * <p>
+ * <span style="text-decoration: underline;">
+ * Garantit que tout IContactSimple sait :
+ * </span>
+ * </p>
+ * <li>se <b>comparer</b> à un autre IContactSimple.</li>
+ * <li>se <b>cloner</b>.</li>
+ * <li>s'exporter sous forme <b>csv</b>.</li>
+ * <li>s'exporter sous forme <b>JTable</b>.</li>
+ * </ul>
+ * 
+ * 
+ * <ul>
+ * <p>
+ * <span style="text-decoration: underline;">
+ * Garantit que tout IContactSimple possède à minima :
+ * </span>
+ * </p>
+ * <li><b>id</b> pour la mise en base.</li>
+ * <li><b>prenom</b>.</li>
+ * <li><b>nom</b>.</li>
+ * <li><b>rue</b>.</li>
+ * <li><b>rue2</b>.</li>
+ * <li><b>codePostal</b>.</li>
+ * <li><b>ville</b>.</li>
+ * <li><b>pays</b>.</li>
+ * <li><b>telephone</b>.</li>
+ * <li><b>mail</b>.</li>
+ * <li><b>dateNaissance</b>.</li>
+ * </ul>
+ * 
+ * <p>
+ * <span style="text-decoration: underline;">EGALITE METIER</span>
+ * </p>
+ * <ul>
+ * <li>L'<b>égalité metier</b> d'un IContactSimple est vérifiée sur :</li>
+  * <ul>
+ * <li><b>nom</b> (insensible à la casse).</li>
+ * <li><b>prenom</b> (insensible à la casse).</li>
+ * <li><b>dateNaissance</b>.</li>
+ * </ul>
+ * </ul>
+ *  
+ * <p>
+ * <span style="text-decoration: underline;">COMPARAISON</span>
+ * </p>
+ * <ul>
+ * <li>La <b>comparaison</b> d'un IContactSimple est réalisée sur :</li>
+  * <ol>
+ * <li><b>nom</b> (insensible à la casse).</li>
+ * <li><b>prenom</b> (insensible à la casse).</li>
+ * <li><b>dateNaissance</b> (le plus jeune en premier).</li>
+ * </ol>
+ * </ul>
+ * 
+ * <p>
+ * <span style="text-decoration: underline;">DIAGRAMME DE CLASSES D'IMPLEMENTATION</span>
+ * </p>
+ * <ul>
+ * <li>
+ * <img src="../../../../../../../../../../javadoc/images/classes_implementation_country.png" 
+ * alt="classes d'implémentation des ICountry" border="1" align="center" />
+ * </li>
+ * </ul>
+ * 
+ * <br/>
+ * <p>
+ * <span style="text-decoration: underline;">REGLES DE GESTION</span>
+ * </p>
+ * <ul>
+ * <li>
+ * Les <b>Règles de Gestion (RG)</b> applicables aux attributs 
+ * d'un ICountry sont les suivantes :
+ * </li>
+ * <br/>
+ * <table border="1">
+ * <tr>
+ * <th>Attribut</th><th>Règle de Gestion</th>
+ * </tr>
+ * 
+ *  
+ * <tr>
+ * <td rowspan="3">
+ * prenom
+ * </td>
+ * <td>
+ * "RG_NOMMAGE_PRENOM_RENSEIGNE_01
+ *  : le prénom du ContactSimple 
+ *  doit être renseigné (obligatoire)"
+ * </td>
+ * </tr>
+ * <tr>
+ * <td>
+ * "RG_NOMMAGE_PRENOM_LITTERAL_02
+ *  : le prénom du ContactSimple 
+ *  ne doit contenir que des lettres ou des caractères spéciaux 
+ *  '-', '_', ... (aucun chiffre)"
+ * </td>
+ * </tr>
+ * <tr>
+ * <td>
+ * "RG_NOMMAGE_PRENOM_LONGUEUR_03
+ *  : le prénom du ContactSimple 
+ *  doit contenir entre [1] et [50] lettres"
+ * </td>
+ * </tr>
+
+ * <tr>
+ * <td rowspan="3">
+ * nom
+ * </td>
+ * <td>
+ * "RG_NOMMAGE_NOM_RENSEIGNE_04 : 
+ * le nom du ContactSimple 
+ * doit être renseigné (obligatoire)"
+ * </td>
+ * </tr>
+ * <tr>
+ * <td>
+ * "RG_NOMMAGE_NOM_LITTERAL_05 : 
+ * le nom du ContactSimple 
+ * ne doit contenir que des lettres ou des 
+ * caractères spéciaux '-', '_', ... (aucun chiffre)"
+ * </td>
+ * </tr>
+ * <tr>
+ * <td>
+ * "RG_NOMMAGE_NOM_LONGUEUR_06 : 
+ * le nom du ContactSimple 
+ * doit contenir entre [1] et [50] lettres"
+ * </td>
+ * </tr>
+ * 
+ * </table>
+ * </ul>
+ * 
  * <br/>
  *
  * - Exemple d'utilisation :<br/>
@@ -30,7 +191,8 @@ import levy.daniel.application.model.metier.IExportateurJTable;
  *
  */
 public interface IContactSimple extends Comparable<IContactSimple>
-	, Serializable, Cloneable, IExportateurCsv, IExportateurJTable {
+						, Serializable, Cloneable
+								, IExportateurCsv, IExportateurJTable {
 
 	
 	
@@ -81,8 +243,9 @@ public interface IContactSimple extends Comparable<IContactSimple>
 
 	/**
 	 * {@inheritDoc}
+	 * <b>enTete CSV pour un ContactSimple</b> :<br/>
+	 * "id;nom;prenom;rue;rue2;codePostal;ville;pays;téléphone;mail;dateNaissance;".<br/>
 	 * <br/>
-	 * "id;nom;prenom;rue;codePostal;ville;dateNaissance;".<br/>
 	 */
 	@Override
 	String fournirEnTeteCsv();
@@ -91,8 +254,9 @@ public interface IContactSimple extends Comparable<IContactSimple>
 
 	/**
 	 * {@inheritDoc}
+	 * <b>enTete CSV pour un ContactSimple</b> :<br/>
+	 * "id;nom;prenom;rue;rue2;codePostal;ville;pays;téléphone;mail;dateNaissance;".<br/>
 	 * <br/>
-	 * "id;nom;prenom;rue;codePostal;ville;dateNaissance;".<br/>
 	 */
 	@Override
 	String fournirStringCsv();
@@ -101,7 +265,9 @@ public interface IContactSimple extends Comparable<IContactSimple>
 
 	/**
 	 * {@inheritDoc}
-	 * "id;nom;prenom;rue;codePostal;ville;dateNaissance;".<br/>
+	 * <b>enTete CSV pour un ContactSimple</b> :<br/>
+	 * "id;nom;prenom;rue;rue2;codePostal;ville;pays;téléphone;mail;dateNaissance;".<br/>
+	 * <br/>
 	 */
 	@Override
 	String fournirEnTeteColonne(int pI);
@@ -110,7 +276,9 @@ public interface IContactSimple extends Comparable<IContactSimple>
 
 	/**
 	 * {@inheritDoc}
-	 * "id;nom;prenom;rue;codePostal;ville;dateNaissance;".<br/>
+	 * <b>enTete CSV pour un ContactSimple</b> :<br/>
+	 * "id;nom;prenom;rue;rue2;codePostal;ville;pays;téléphone;mail;dateNaissance;".<br/>
+	 * <br/>
 	 */
 	@Override
 	Object fournirValeurColonne(int pI);
@@ -208,7 +376,26 @@ public interface IContactSimple extends Comparable<IContactSimple>
 	void setRue(String pRue);
 	
 
+	
+	/**
+	 * Getter de rue2.
+	 *
+	 * @return this.rue2 : String.<br/>
+	 */
+	String getRue2();
+	
 
+	
+	/**
+	* Setter de rue2.
+	*
+	* @param pRue2 : String : 
+	* valeur à passer à this.rue2.<br/>
+	*/
+	void setRue2(String pRue2);
+	
+	
+	
 	/**
 	 * method getCodePostal() :<br/>
 	 * Getter du code postal.<br/>
@@ -254,6 +441,64 @@ public interface IContactSimple extends Comparable<IContactSimple>
 	void setVille(String pVille);
 
 
+	
+	/**
+	 * Getter du pays.
+	 *
+	 * @return this.pays : String.<br/>
+	 */
+	String getPays();
+
+
+	
+	/**
+	* Setter du pays.
+	*
+	* @param pPays : String : 
+	* valeur à passer à this.pays.<br/>
+	*/
+	void setPays(String pPays);
+
+
+	
+	/**
+	 * Getter du téléphone.
+	 *
+	 * @return this.telephone : String.<br/>
+	 */
+	String getTelephone();
+
+
+	
+	/**
+	* Setter du téléphone.
+	*
+	* @param pTelephone : String : 
+	* valeur à passer à this.telephone.<br/>
+	*/
+	void setTelephone(String pTelephone);
+
+
+	
+	/**
+	 * Getter du mail.
+	 *
+	 * @return this.mail : String.<br/>
+	 */
+	String getMail();
+
+
+	
+	/**
+	* Setter du mail.
+	*
+	* @param pMail : String : 
+	* valeur à passer à this.mail.<br/>
+	*/
+	void setMail(String pMail);
+	
+
+
 	/**
 	 * method getDateNaissance() :<br/>
 	 * Getter de la date de naissance.<br/>
@@ -278,4 +523,4 @@ public interface IContactSimple extends Comparable<IContactSimple>
 
 	
 	
-} // FIN de L'INTERFACE IContactSimple.-------------------------------------------
+} // FIN de L'INTERFACE IContactSimple.--------------------------------------

@@ -105,8 +105,11 @@ public class ContactSimpleVueFxml {
 		super();
 				
 		this.accueilController = pAccueilController;
-		this.root = this.accueilController.getRoot();
 		
+		if (this.accueilController != null) {
+			this.root = this.accueilController.getRoot();
+		}
+				
 		/* INSTANCIE LA VUE EN CHARGEANT UN FICHIER fxml. */
 		this.dessiner();
 		
@@ -158,8 +161,13 @@ public class ContactSimpleVueFxml {
             /* CALLBACK. */
             /* Récupère les données (MODEL) à afficher dans le TableView 
              * auprès du CONTROLLER this.accueilController. */
-            final ObservableList<IContactSimpleModelObs> modelTableView 
-            	= this.accueilController.getListeContactSimples();
+            ObservableList<IContactSimpleModelObs> modelTableView = null;
+            
+            if (this.accueilController != null) {
+            	modelTableView 
+            		= this.accueilController.getListeContactSimples();
+            }
+            
             
             /* Passe le MODEL initial (base de données, fichier...) 
              * à afficher dans le TableView au CONTROLLER DE VUE 
@@ -174,8 +182,10 @@ public class ContactSimpleVueFxml {
             	.setAccueilController(this.accueilController);
 
 			/* Positionne la VUE dans le panneau de fond de la scene. */
-			this.root.setCenter(this.contactSimpleAnchorPane);
-						
+            if (this.root != null) {
+            	this.root.setCenter(this.contactSimpleAnchorPane);
+            }
+								
 		}
 		catch (IOException e) {
 			

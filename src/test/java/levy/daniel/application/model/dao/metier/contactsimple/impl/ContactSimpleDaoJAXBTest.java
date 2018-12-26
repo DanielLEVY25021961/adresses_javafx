@@ -56,10 +56,11 @@ public class ContactSimpleDaoJAXBTest {
 	private transient ContactSimpleDaoJAXB dao;
 	
 	/**
-	 * FILE : File :<br/>
-	 * new File("./data/contacts.xml").<br/>
+	 * <b>fichier xml dans lequel on enregistre les données en JAXB</b>.<br/>
+	 * new File("./data/base-adresses_javafx-hsqldb/base-adresses_javafx-hsqldb.xml").<br/>
 	 */
-	public static final File FILE = new File("./data/contacts.xml");
+	public static final File FILE 
+		= new File("./data/base-adresses_javafx-hsqldb/base-adresses_javafx-hsqldb.xml");
 	
 	
 	/**

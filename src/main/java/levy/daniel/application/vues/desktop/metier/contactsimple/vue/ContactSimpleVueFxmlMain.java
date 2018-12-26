@@ -8,7 +8,6 @@ import javafx.scene.Node;
 import javafx.scene.Scene;
 import javafx.scene.layout.BorderPane;
 import javafx.stage.Stage;
-import levy.daniel.application.MainApplication;
 
 /**
  * CLASSE ContactSimpleVueFxmlMain :<br/>
@@ -94,7 +93,7 @@ public class ContactSimpleVueFxmlMain extends Application {
 		
 		/* Appel de la méthode launch(...) qui va appeler 
 		 * la méthode start(...) de cette classe. */
-		Application.launch(MainApplication.class, pArgs);
+		Application.launch(ContactSimpleVueFxmlMain.class, pArgs);
 
 	} // Fin de main(...)._________________________________________________
 

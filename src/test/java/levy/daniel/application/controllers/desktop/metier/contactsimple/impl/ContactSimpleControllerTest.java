@@ -44,6 +44,11 @@ import levy.daniel.application.vues.desktop.metier.contactsimple.modelobs.impl.C
 public class ContactSimpleControllerTest {
 
 	// ************************ATTRIBUTS************************************/
+
+	/**
+	 * "France".<br/>
+	 */
+	public static final String FRANCE = "France";
 	
 	/**
 	 * AFFICHAGE_GENERAL : Boolean :<br/>
@@ -59,7 +64,12 @@ public class ContactSimpleControllerTest {
 	public transient IContactSimple contactSimple1 
 		= new ContactSimple(
 				"Zorro", "Halliday"
-				, "2, rue de la Pompe", "73 850", "Chambéry"
+				, "2, rue de la Pompe"
+				, null
+				, "73 850", "Chambéry"
+				, FRANCE
+				, "04 75 98 65 32"
+				, "zorro.halliday@sfr.com"
 				, LocalDate.of(1900, 2, 25));
 
 	/**
@@ -69,7 +79,12 @@ public class ContactSimpleControllerTest {
 	public transient IContactSimple contactSimple1Equals 
 		= new ContactSimple(
 				"Zorro", "Halliday"
-				, "17, rue de la Mélodie", "77 850", "Provins"
+				, "17, rue de la Mélodie"
+				, null
+				, "77 850", "Provins"
+				, FRANCE
+				, "04 75 98 65 32"
+				, "zorro.halliday@sfr.com"
 				, LocalDate.of(1900, 2, 25));
 	
 	/**
@@ -79,7 +94,12 @@ public class ContactSimpleControllerTest {
 	public transient IContactSimple contactSimple2 
 		= new ContactSimple(
 			"Papy", "Gonzales"
-			, "7, avenue du Sentier", "75 008", "Paris"
+			, "7, avenue du Sentier"
+			, null
+			, "75 008", "Paris"
+			, FRANCE
+			, "01 75 98 65 32"
+			, "papy.gonzales@free.fr"
 			, LocalDate.of(1961, 2, 25));
 	
 	/**
@@ -89,7 +109,12 @@ public class ContactSimpleControllerTest {
 	public transient IContactSimple contactSimple3 
 		= new ContactSimple(
 			"Benito", "De la Roza"
-			, "3, rue de la Pompe", "74 850", "Annecy"
+			, "3, rue de la Pompe"
+			, "Bâtiment 4, appartement 563"
+			, "74 850", "Annecy"
+			, FRANCE
+			, "04 79 85 64 32"
+			, "benito.delaRoza@orange.fr"
 			, LocalDate.of(2000, 2, 25));
 
 	/**
@@ -99,7 +124,12 @@ public class ContactSimpleControllerTest {
 	public transient IContactSimple contactSimple4 
 		= new ContactSimple(
 			"Maléna", "Rozita"
-			, "2, rue de la Pompe", "74 950", "Annecy-le-Vieux"
+			, "2, rue de la Pompe"
+			, "impasse des clercs"
+			, "74 950", "Annecy-le-Vieux"
+			, FRANCE
+			, "04 79 85 64 32"
+			, "malena.rozita@orange.fr"
 			, LocalDate.of(2000, 2, 25));
 	
 	/**
@@ -109,7 +139,12 @@ public class ContactSimpleControllerTest {
 	public transient IContactSimple contactSimple5 
 		= new ContactSimple(
 			"Concerto", "D'Aranjuez"
-			, "2, rue de la Pompe", "73 850", "Chambéry"
+			, "2, rue de la Pompe"
+			, null
+			, "73 850", "Chambéry"
+			, FRANCE
+			, "04 79 77 64 32"
+			, "concerto.aranjuez@orange.fr"
 			, LocalDate.of(2000, 2, 25));
 
 	/**

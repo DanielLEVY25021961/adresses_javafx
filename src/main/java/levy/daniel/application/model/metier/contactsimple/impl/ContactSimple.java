@@ -221,7 +221,8 @@ public class ContactSimple implements IContactSimple {
 	 * "null".<br/>
 	 */
 	public static final String NULL = "null";
-			
+
+	
 	/**
 	 * id en base.<br/>
 	 */
@@ -273,7 +274,6 @@ public class ContactSimple implements IContactSimple {
 	private String mail;
 	
 	/**
-	 * dateNaissance : LocalDate :<br/>
 	 * date de naissance.<br/>
 	 */
 	private LocalDate dateNaissance;
@@ -541,36 +541,38 @@ public class ContactSimple implements IContactSimple {
 				return +1;
 			}
 		} else {
+			
 			if (pObjet.getNom() == null) {
 				return -1;
 			}
-		}
-		
-		compareNom 
+			
+			compareNom 
 			= this.getNom().compareToIgnoreCase(pObjet.getNom());
 		
-		if (compareNom != 0) {
-			return compareNom;
+			if (compareNom != 0) {
+				return compareNom;
+			}
 		}
-		
+				
 		/* prenom. */
 		if (this.getPrenom() == null) {
 			if (pObjet.getPrenom() != null) {
 				return +1;
 			}
 		} else {
+			
 			if (pObjet.getPrenom() == null) {
 				return -1;
 			}
-		}
-		
-		comparePrenom 
+			
+			comparePrenom 
 			= this.getPrenom().compareToIgnoreCase(pObjet.getPrenom());
 		
-		if (comparePrenom != 0) {
-			return comparePrenom;
+			if (comparePrenom != 0) {
+				return comparePrenom;
+			}
 		}
-		
+				
 		/* dateNaissance. */
 		if (this.getDateNaissance() == null) {
 			if (pObjet.getDateNaissance() != null) {
@@ -579,12 +581,13 @@ public class ContactSimple implements IContactSimple {
 			
 			return 0;
 		}
+		
 		if (pObjet.getDateNaissance() == null) {
 			return -1;
 		}
 		
 		compareDateNaissance 
-			= this.dateNaissance.compareTo(pObjet.getDateNaissance());
+			= this.getDateNaissance().compareTo(pObjet.getDateNaissance());
 		
 		return compareDateNaissance;
 		
@@ -753,7 +756,7 @@ public class ContactSimple implements IContactSimple {
 		final StringBuilder stb = new StringBuilder();
 
 		final DateTimeFormatter formatter 
-			= DateTimeFormatter.ofPattern("dd MMM yyyy");
+			= DateTimeFormatter.ofPattern("dd MMMM yyyy");
 
 		stb.append(this.getId());
 		stb.append(POINT_VIRGULE);
@@ -763,7 +766,7 @@ public class ContactSimple implements IContactSimple {
 		stb.append(POINT_VIRGULE);
 		stb.append(this.getRue());
 		stb.append(POINT_VIRGULE);
-		stb.append(this.getRue());
+		stb.append(this.getRue2());
 		stb.append(POINT_VIRGULE);
 		stb.append(this.getCodePostal());
 		stb.append(POINT_VIRGULE);
@@ -775,7 +778,11 @@ public class ContactSimple implements IContactSimple {
 		stb.append(POINT_VIRGULE);
 		stb.append(this.getMail());
 		stb.append(POINT_VIRGULE);
-		stb.append(formatter.format(this.getDateNaissance()));
+		if (this.getDateNaissance() != null) {
+			stb.append(formatter.format(this.getDateNaissance()));
+		} else {
+			stb.append(NULL);
+		}		
 		stb.append(POINT_VIRGULE);
 		
 		return stb.toString();
@@ -861,12 +868,14 @@ public class ContactSimple implements IContactSimple {
 		Object valeur = null;
 
 		final DateTimeFormatter formatter 
-			= DateTimeFormatter.ofPattern("dd MMM yyyy");
+			= DateTimeFormatter.ofPattern("dd MMMM yyyy");
 
 		switch (pI) {
 
 		case 0:
-			valeur = this.getId();
+			if (this.getId() != null) {
+				valeur = String.valueOf(this.getId());
+			}
 			break;
 
 		case 1:
@@ -906,7 +915,9 @@ public class ContactSimple implements IContactSimple {
 			break;
 			
 		case 10:
-			valeur = formatter.format(this.getDateNaissance());
+			if (this.getDateNaissance() != null) {
+				valeur = formatter.format(this.getDateNaissance());
+			}			
 			break;
 
 		default:

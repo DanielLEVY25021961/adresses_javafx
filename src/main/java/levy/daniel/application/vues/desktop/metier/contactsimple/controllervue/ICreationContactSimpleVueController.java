@@ -363,7 +363,7 @@ public interface ICreationContactSimpleVueController {
 	* @param pCreationContactSimpleVueButtonBar : ButtonBar : 
 	* valeur à passer à this.creationContactSimpleVueButtonBar.<br/>
 	*/
-	void setcreationContactSimpleVueButtonBar(
+	void setCreationContactSimpleVueButtonBar(
 			ButtonBar pCreationContactSimpleVueButtonBar);
 	
 	

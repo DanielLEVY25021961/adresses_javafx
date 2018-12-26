@@ -155,33 +155,35 @@ public class ContactSimpleDaoJAXB {
 	
 	
 	/**
-	 * method creerContactSimple(
-	 * ContactSimpleEntityJAXB pContactSimple) :<br/>
-	 * Crée une ContactSimple à partir d'une ContactSimpleEntityJAXB.<br/>
+	 * <b>Crée un OBJET METIER à partir d'une EntityJAXB</b>.<br/>
 	 * <br/>
-	 * retourne null si pContactSimple == null.<br/>
+	 * - retourne null si pEntityJAXB == null.<br/>
 	 * <br/>
 	 *
-	 * @param pContactSimple : ContactSimpleEntityJAXB.<br/>
+	 * @param pEntityJAXB : ContactSimpleEntityJAXB.<br/>
 	 * 
 	 * @return : IContactSimple.<br/>
 	 */
 	private IContactSimple creerContactSimple(
-			final ContactSimpleEntityJAXB pContactSimple) {
+			final ContactSimpleEntityJAXB pEntityJAXB) {
 		
-		/* retourne null si pContactSimple == null. */
-		if (pContactSimple == null) {
+		/* retourne null si pEntityJAXB == null. */
+		if (pEntityJAXB == null) {
 			return null;
 		}
 		
 		final IContactSimple contactSimple 
-			= new ContactSimple(pContactSimple.getId()
-					, pContactSimple.getPrenom()
-					, pContactSimple.getNom()
-					, pContactSimple.getRue()
-					, pContactSimple.getCodePostal()
-					, pContactSimple.getVille()
-					, pContactSimple.getDateNaissance());
+			= new ContactSimple(pEntityJAXB.getId()
+					, pEntityJAXB.getPrenom()
+					, pEntityJAXB.getNom()
+					, pEntityJAXB.getRue()
+					, pEntityJAXB.getRue2()
+					, pEntityJAXB.getCodePostal()
+					, pEntityJAXB.getVille()
+					, pEntityJAXB.getPays()
+					, pEntityJAXB.getTelephone()
+					, pEntityJAXB.getMail()
+					, pEntityJAXB.getDateNaissance());
 		
 		return contactSimple;
 		

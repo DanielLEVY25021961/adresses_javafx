@@ -527,7 +527,8 @@ public class DaoProfilCerbere extends AbstractDaoProfil {
 	 * {@inheritDoc}
 	 */
 	@Override
-	public Long retrieveId(IProfil pObject) throws AbstractDaoException {
+	public Long retrieveId(
+			final IProfil pObject) throws AbstractDaoException {
 		// TODO Auto-generated method stub
 		return null;
 	}
@@ -538,7 +539,8 @@ public class DaoProfilCerbere extends AbstractDaoProfil {
 	 * {@inheritDoc}
 	 */
 	@Override
-	public IProfil update(Long pIndex, IProfil pObjectModifie) throws Exception {
+	public IProfil update(
+			final Long pIndex, final IProfil pObjectModifie) throws Exception {
 		// TODO Auto-generated method stub
 		return null;
 	}
@@ -549,7 +551,8 @@ public class DaoProfilCerbere extends AbstractDaoProfil {
 	 * {@inheritDoc}
 	 */
 	@Override
-	public void deleteIterable(Iterable<IProfil> pList) throws Exception {
+	public void deleteIterable(
+			final Iterable<IProfil> pList) throws Exception {
 		// TODO Auto-generated method stub
 		
 	}
@@ -560,7 +563,8 @@ public class DaoProfilCerbere extends AbstractDaoProfil {
 	 * {@inheritDoc}
 	 */
 	@Override
-	public boolean deleteIterableBoolean(Iterable<IProfil> pList) throws Exception {
+	public boolean deleteIterableBoolean(
+			final Iterable<IProfil> pList) throws Exception {
 		// TODO Auto-generated method stub
 		return false;
 	}
@@ -582,7 +586,8 @@ public class DaoProfilCerbere extends AbstractDaoProfil {
 	 * {@inheritDoc}
 	 */
 	@Override
-	public String afficherListeObjetsMetier(List<IProfil> pList) {
+	public String afficherListeObjetsMetier(
+			final List<IProfil> pList) {
 		// TODO Auto-generated method stub
 		return null;
 	}

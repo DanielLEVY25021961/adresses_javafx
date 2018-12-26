@@ -229,7 +229,12 @@ public class ContactSimpleDaoJAXBTest {
 		final IContactSimple contactSimpleEnPlus 
 			= new ContactSimple(2L
 					, "Michael", "Caine"
-					, "75, 5th Avenue", "NY", "New York"
+					, "75, 5th Avenue"
+					, null
+					, "NY", "New York"
+					, "USA"
+					, "00 33 322 56 98"
+					, "michael.caine@aol.com"
 					, LocalDate.of(1950, 2, 20));
 		
 		final IContactSimple contactSimpleCreee 

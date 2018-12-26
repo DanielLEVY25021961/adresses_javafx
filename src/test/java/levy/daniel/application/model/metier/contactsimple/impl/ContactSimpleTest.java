@@ -23,7 +23,7 @@ import levy.daniel.application.model.metier.contactsimple.IContactSimple;
 
 /**
  * CLASSE ContactSimpleTest :<br/>
- * Test JUnit de la classe ContactSimple.<br/>
+ * Test JUnit de la classe OBJET METIER ContactSimple.<br/>
  * <br/>
  *
  * - Exemple d'utilisation :<br/>
@@ -44,12 +44,17 @@ import levy.daniel.application.model.metier.contactsimple.IContactSimple;
 public class ContactSimpleTest {
 
 	// ************************ATTRIBUTS************************************/
+
+	/**
+	 * "nomTest".<br/>
+	 */
+	public static final String NOMTEST = "nomTest";
 	
 	/**
 	 * Boolean qui commande l'affichage pour tous les tests.<br/>
 	 */
 	public static final Boolean AFFICHAGE_GENERAL = true;
-
+	
 	/**
 	 * "unused".<br/>
 	 */
@@ -75,7 +80,7 @@ public class ContactSimpleTest {
 	 * objet1, objet2EqualsObj1, objet3EqualsObj1 doivent être equals().
 	 */
 	public static transient IContactSimple objet1 
-		= new ContactSimple(1L, "prenomTest", "nomTest"
+		= new ContactSimple(1L, "prenomTest", NOMTEST
 				, "17, rue des Acacias"
 				, "Bâtiment 57, appartement 22"
 				, "75013", "Paris"
@@ -93,7 +98,7 @@ public class ContactSimpleTest {
 	 * objet1, objet2EqualsObj1, objet3EqualsObj1 doivent être equals().
 	 */
 	public static transient IContactSimple objet2EqualsObj1 
-		=  new ContactSimple(2L, "prenomTest", "nomTest"
+		=  new ContactSimple(2L, "prenomTest", NOMTEST
 				, "172, rue des Acacias"
 				, "Bâtiment 572, appartement 22"
 				, "75014", "Paris2"
@@ -106,7 +111,7 @@ public class ContactSimpleTest {
 	 * objet1, objet2EqualsObj1, objet3EqualsObj1 doivent être equals().
 	 */
 	public static transient IContactSimple objet3EqualsObj1 
-		= new ContactSimple(3L, "prenomTest", "nomTest"
+		= new ContactSimple(3L, "prenomTest", NOMTEST
 				, "174, rue des Acacias"
 				, "Bâtiment 573, appartement 22"
 				, "75015", "Paris3"
@@ -150,7 +155,7 @@ public class ContactSimpleTest {
 	 * doivent être equals() et avoir certains attributs à null.
 	 */
 	public static transient IContactSimple objet1AvecNull 
-		= new ContactSimple(3L, "prenomTest", "nomTest"
+		= new ContactSimple(3L, "prenomTestavecNull", "nomTestavecNull"
 				, "17, rue des Acacias"
 				, "Bâtiment 77, appartement 77"
 				, "73013", "Chambery"
@@ -164,7 +169,7 @@ public class ContactSimpleTest {
 	 * doivent être equals() et avoir certains attributs à null.
 	 */
 	public static transient IContactSimple objet2EqualsObjet1AvecNull 
-		= new ContactSimple(7L, "prenomTest", "nomTest"
+		= new ContactSimple(7L, "prenomTestavecNull", "nomTestavecNull"
 				, "17, rue des Acacias"
 				, "Bâtiment 65, appartement 33"
 				, "74013", "Annecy"
@@ -308,7 +313,7 @@ public class ContactSimpleTest {
 					
 		// **********************************
 		// AFFICHAGE DANS LE TEST ou NON
-		final boolean affichage = true;
+		final boolean affichage = false;
 		// **********************************
 		
 		/* AFFICHAGE A LA CONSOLE. */
@@ -324,7 +329,7 @@ public class ContactSimpleTest {
 			System.out.println("objet2EqualsObj1.toString() : " + objet2EqualsObj1.toString());
 			System.out.println("objet3EqualsObj1.toString() : " + objet3EqualsObj1.toString());
 			System.out.println();
-			System.out.println("objet.equals(objet1) : " + objet1.equals(objet1));
+			System.out.println("objet1.equals(objet1) : " + objet1.equals(objet1));
 			System.out.println(OBJET1_EQUALS_OBJET2 + objet1.equals(objet2EqualsObj1));
 			System.out.println("objet2EqualsObj1.equals(objet1) : " + objet2EqualsObj1.equals(objet1));
 			System.out.println("objet2EqualsObj1.equals(objet3EqualsObj1) : " + objet2EqualsObj1.equals(objet3EqualsObj1));
@@ -727,7 +732,7 @@ public class ContactSimpleTest {
 		
 		/* garantit que les null sont bien gérés dans toString(). */
 		assertEquals("objetNull1.toString() retourne une chaine : "
-				, "ContactSimple [id=0, nom=null, anneesExperience=0]"
+				, "ContactSimple [id=0, prenom=null, nom=null, rue=null, rue2=null, codePostal=null, ville=null, pays=null, telephone=null, mail=null, dateNaissance=null]"
 						, objetNull1.toString());
 		
 		/* AFFICHAGE A LA CONSOLE. */
@@ -738,7 +743,7 @@ public class ContactSimpleTest {
 		
 		/* garantit le bon affichage de toString(). */
 		assertEquals("affichage : "
-				, "ContactSimple [id=1, nom=Papy Gonzales, anneesExperience=15]"
+				, "ContactSimple [id=1, prenom=prenomTest, nom=nomTest, rue=17, rue des Acacias, rue2=Bâtiment 57, appartement 22, codePostal=75013, ville=Paris, pays=France, telephone=06 60 52 44 89, mail=test@free.fr, dateNaissance=05 janvier 1976]"
 						, objet1.toString());
 				
 	} // Fin de testToString().____________________________________________
@@ -781,7 +786,7 @@ public class ContactSimpleTest {
 		}
 		
 		assertEquals("en-tête csv : "
-				, "id;nom;anneesExperience;"
+				, "id;nom;prenom;rue;rue2;codePostal;ville;pays;téléphone;mail;dateNaissance;"
 					, entete);
 				
 	} // Fin de testFournirEnTeteCsv().____________________________________
@@ -824,7 +829,7 @@ public class ContactSimpleTest {
 		}
 
 		assertEquals("ligne csv null : "
-				, "0;null;0;"
+				, "0;null;null;null;null;null;null;null;null;null;null;"
 					, ligneCsvNull);
 		
 						
@@ -841,7 +846,7 @@ public class ContactSimpleTest {
 		}
 
 		assertEquals("ligne csv : "
-				, "1;Papy Gonzales;15;"
+				, "1;nomTest;prenomTest;17, rue des Acacias;Bâtiment 57, appartement 22;75013;Paris;France;06 60 52 44 89;test@free.fr;05 janv. 1976;"
 					, ligneCsv);
 				
 	} // Fin de testFournirStringCsv().____________________________________
@@ -877,11 +882,31 @@ public class ContactSimpleTest {
 		 * dans fournirEnTeteColonne(int pI). */		
 		final String enteteNull0 = objetNull1.fournirEnTeteColonne(0);
 		final String enteteNull1 = objetNull1.fournirEnTeteColonne(1);
+		final String enteteNull2 = objetNull1.fournirEnTeteColonne(2);
+		final String enteteNull3 = objetNull1.fournirEnTeteColonne(3);
+		final String enteteNull4 = objetNull1.fournirEnTeteColonne(4);
+		final String enteteNull5 = objetNull1.fournirEnTeteColonne(5);
+		final String enteteNull6 = objetNull1.fournirEnTeteColonne(6);
+		final String enteteNull7 = objetNull1.fournirEnTeteColonne(7);
+		final String enteteNull8 = objetNull1.fournirEnTeteColonne(8);
+		final String enteteNull9 = objetNull1.fournirEnTeteColonne(9);
+		final String enteteNull10 = objetNull1.fournirEnTeteColonne(10);
+		final String enteteNull11 = objetNull1.fournirEnTeteColonne(11);
 		
 		/* garantit que fournirEnTeteColonne(int pI) retourne 
 		 * la bonne en-tête de colonne. */
 		final String entete0 = objet1.fournirEnTeteColonne(0);
 		final String entete1 = objet1.fournirEnTeteColonne(1);
+		final String entete2 = objet1.fournirEnTeteColonne(2);
+		final String entete3 = objet1.fournirEnTeteColonne(3);
+		final String entete4 = objet1.fournirEnTeteColonne(4);
+		final String entete5 = objet1.fournirEnTeteColonne(5);
+		final String entete6 = objet1.fournirEnTeteColonne(6);
+		final String entete7 = objet1.fournirEnTeteColonne(7);
+		final String entete8 = objet1.fournirEnTeteColonne(8);
+		final String entete9 = objet1.fournirEnTeteColonne(9);
+		final String entete10 = objet1.fournirEnTeteColonne(10);
+		final String entete11 = objet1.fournirEnTeteColonne(11);
 		
 		/* AFFICHAGE A LA CONSOLE. */
 		if (AFFICHAGE_GENERAL && affichage) {
@@ -894,7 +919,38 @@ public class ContactSimpleTest {
 			System.out.println("enteteNull0 (objetNull1.fournirEnTeteColonne(0)) : " + enteteNull0);
 			System.out.println();
 			System.out.println("entete1 (objet1.fournirEnTeteColonne(1)) : " + entete1);
-			System.out.println("enteteNull1 (objetNull1.fournirEnTeteColonne(1)) : " + enteteNull1);			
+			System.out.println("enteteNull1 (objetNull1.fournirEnTeteColonne(1)) : " + enteteNull1);
+			System.out.println();
+			System.out.println("entete2 (objet1.fournirEnTeteColonne(2)) : " + entete2);
+			System.out.println("enteteNull2 (objetNull1.fournirEnTeteColonne(2)) : " + enteteNull2);			
+			System.out.println();
+			System.out.println("entete3 (objet1.fournirEnTeteColonne(3)) : " + entete3);
+			System.out.println("enteteNull3 (objetNull1.fournirEnTeteColonne(3)) : " + enteteNull3);			
+			System.out.println();
+			System.out.println("entete4 (objet1.fournirEnTeteColonne(4)) : " + entete4);
+			System.out.println("enteteNull4 (objetNull1.fournirEnTeteColonne(4)) : " + enteteNull4);			
+			System.out.println();
+			System.out.println("entete5 (objet1.fournirEnTeteColonne(5)) : " + entete5);
+			System.out.println("enteteNull5 (objetNull1.fournirEnTeteColonne(5)) : " + enteteNull5);			
+			System.out.println();
+			System.out.println("entete6 (objet1.fournirEnTeteColonne(6)) : " + entete6);
+			System.out.println("enteteNull6 (objetNull1.fournirEnTeteColonne(6)) : " + enteteNull6);			
+			System.out.println();
+			System.out.println("entete7 (objet1.fournirEnTeteColonne(7)) : " + entete7);
+			System.out.println("enteteNull7 (objetNull1.fournirEnTeteColonne(7)) : " + enteteNull7);			
+			System.out.println();
+			System.out.println("entete8 (objet1.fournirEnTeteColonne(8)) : " + entete8);
+			System.out.println("enteteNull8 (objetNull1.fournirEnTeteColonne(8)) : " + enteteNull8);			
+			System.out.println();
+			System.out.println("entete9 (objet1.fournirEnTeteColonne(9)) : " + entete9);
+			System.out.println("enteteNull9 (objetNull1.fournirEnTeteColonne(9)) : " + enteteNull9);			
+			System.out.println();
+			System.out.println("entete10 (objet1.fournirEnTeteColonne(10)) : " + entete10);
+			System.out.println("enteteNull10 (objetNull1.fournirEnTeteColonne(10)) : " + enteteNull10);			
+			System.out.println();
+			System.out.println("entete11 (objet1.fournirEnTeteColonne(11)) : " + entete11);
+			System.out.println("enteteNull11 (objetNull1.fournirEnTeteColonne(11)) : " + enteteNull11);			
+			
 		}
 
 		assertEquals("entete0 : ", "id", entete0);
@@ -937,6 +993,16 @@ public class ContactSimpleTest {
 		 * dans fournirValeurColonne(int pI). */
 		final String valeurNull0 = (String) objetNull1.fournirValeurColonne(0);
 		final String valeurNull1 = (String) objetNull1.fournirValeurColonne(1);
+		final String valeurNull2 = (String) objetNull1.fournirValeurColonne(2);
+		final String valeurNull3 = (String) objetNull1.fournirValeurColonne(3);
+		final String valeurNull4 = (String) objetNull1.fournirValeurColonne(4);
+		final String valeurNull5 = (String) objetNull1.fournirValeurColonne(5);
+		final String valeurNull6 = (String) objetNull1.fournirValeurColonne(6);
+		final String valeurNull7 = (String) objetNull1.fournirValeurColonne(7);
+		final String valeurNull8 = (String) objetNull1.fournirValeurColonne(8);
+		final String valeurNull9 = (String) objetNull1.fournirValeurColonne(9);
+		final String valeurNull10 = (String) objetNull1.fournirValeurColonne(10);
+		final String valeurNull11 = (String) objetNull1.fournirValeurColonne(11);
 		
 		/* AFFICHAGE A LA CONSOLE. */
 		if (AFFICHAGE_GENERAL && affichage) {
@@ -945,7 +1011,17 @@ public class ContactSimpleTest {
 			System.out.println(OBJETNULL1 + objetNull1.toString());
 			System.out.println();
 			System.out.println("valeurNull0 ((String) objetNull1.fournirValeurColonne(0)) : " + valeurNull0);
-			System.out.println("valeurNull1 ((String) objetNull1.fournirValeurColonne(1)) : " + valeurNull1);			
+			System.out.println("valeurNull1 ((String) objetNull1.fournirValeurColonne(1)) : " + valeurNull1);
+			System.out.println("valeurNull2 ((String) objetNull1.fournirValeurColonne(2)) : " + valeurNull2);
+			System.out.println("valeurNull3 ((String) objetNull1.fournirValeurColonne(3)) : " + valeurNull3);
+			System.out.println("valeurNull4 ((String) objetNull1.fournirValeurColonne(4)) : " + valeurNull4);
+			System.out.println("valeurNull5 ((String) objetNull1.fournirValeurColonne(5)) : " + valeurNull5);
+			System.out.println("valeurNull6 ((String) objetNull1.fournirValeurColonne(6)) : " + valeurNull6);
+			System.out.println("valeurNull7 ((String) objetNull1.fournirValeurColonne(7)) : " + valeurNull7);
+			System.out.println("valeurNull8 ((String) objetNull1.fournirValeurColonne(8)) : " + valeurNull8);
+			System.out.println("valeurNull9 ((String) objetNull1.fournirValeurColonne(9)) : " + valeurNull9);
+			System.out.println("valeurNull10 ((String) objetNull1.fournirValeurColonne(10)) : " + valeurNull10);
+			System.out.println("valeurNull11 ((String) objetNull1.fournirValeurColonne(11)) : " + valeurNull11);
 		}
 
 		assertEquals("valeurNull0 ((String) objetNull1.fournirValeurColonne(0)) : ", "0", valeurNull0);
@@ -955,7 +1031,17 @@ public class ContactSimpleTest {
 		/* garantit que fournirValeurColonne(int pI) retourne 
 		 * la bonne en-tête de colonne. */
 		final String valeur0 = (String) objet1.fournirValeurColonne(0);
-		final String valeur1 = (String) objet1.fournirValeurColonne(1);		
+		final String valeur1 = (String) objet1.fournirValeurColonne(1);
+		final String valeur2 = (String) objet1.fournirValeurColonne(2);
+		final String valeur3 = (String) objet1.fournirValeurColonne(3);
+		final String valeur4 = (String) objet1.fournirValeurColonne(4);
+		final String valeur5 = (String) objet1.fournirValeurColonne(5);
+		final String valeur6 = (String) objet1.fournirValeurColonne(6);
+		final String valeur7 = (String) objet1.fournirValeurColonne(7);
+		final String valeur8 = (String) objet1.fournirValeurColonne(8);
+		final String valeur9 = (String) objet1.fournirValeurColonne(9);
+		final String valeur10 = (String) objet1.fournirValeurColonne(10);
+		final String valeur11 = (String) objet1.fournirValeurColonne(11);
 
 		/* AFFICHAGE A LA CONSOLE. */
 		if (AFFICHAGE_GENERAL && affichage) {	
@@ -964,11 +1050,21 @@ public class ContactSimpleTest {
 			System.out.println(OBJET1 + objet1.toString());
 			System.out.println();
 			System.out.println("valeur0 ((String) objet1.fournirValeurColonne(0)) : " + valeur0);
-			System.out.println("valeur1 ((String) objet1.fournirValeurColonne(1)) : " + valeur1);			
+			System.out.println("valeur1 ((String) objet1.fournirValeurColonne(1)) : " + valeur1);
+			System.out.println("valeur2 ((String) objet1.fournirValeurColonne(2)) : " + valeur2);
+			System.out.println("valeur3 ((String) objet1.fournirValeurColonne(3)) : " + valeur3);
+			System.out.println("valeur4 ((String) objet1.fournirValeurColonne(4)) : " + valeur4);
+			System.out.println("valeur5 ((String) objet1.fournirValeurColonne(5)) : " + valeur5);
+			System.out.println("valeur6 ((String) objet1.fournirValeurColonne(6)) : " + valeur6);
+			System.out.println("valeur7 ((String) objet1.fournirValeurColonne(7)) : " + valeur7);
+			System.out.println("valeur8 ((String) objet1.fournirValeurColonne(8)) : " + valeur8);
+			System.out.println("valeur9 ((String) objet1.fournirValeurColonne(9)) : " + valeur9);
+			System.out.println("valeur10 ((String) objet1.fournirValeurColonne(10)) : " + valeur10);
+			System.out.println("valeur11 ((String) objet1.fournirValeurColonne(11)) : " + valeur11);
 		}
 		
 		assertEquals("valeur0 ((String) objet1.fournirValeurColonne(0)) : ", "1", valeur0);		
-		assertEquals("valeur1 ((String) objet1.fournirValeurColonne(1)) : ", PAPY, valeur1);
+		assertEquals("valeur1 ((String) objet1.fournirValeurColonne(1)) : ", "nomTest", valeur1);
 		
 	} // Fin de testFournirValeurColonne().________________________________
 	

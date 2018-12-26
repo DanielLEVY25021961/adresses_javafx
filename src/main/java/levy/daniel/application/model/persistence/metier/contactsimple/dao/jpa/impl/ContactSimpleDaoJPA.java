@@ -183,33 +183,35 @@ public class ContactSimpleDaoJPA {
 	
 	
 	/**
-	 * method creerContactSimple(
-	 * ContactSimpleEntityJPA pContactSimple) :<br/>
-	 * Crée une ContactSimple à partir d'une ContactSimpleEntityJPA.<br/>
+	 * <b>Crée un OBJET METIER à partir d'une EntityJPA</b>.<br/>
 	 * <br/>
-	 * retourne null si pContactSimple == null.<br/>
+	 * - retourne null si pEntityJPA == null.<br/>
 	 * <br/>
 	 *
-	 * @param pContactSimple : ContactSimpleEntityJPA.<br/>
+	 * @param pEntityJPA : ContactSimpleEntityJPA.<br/>
 	 * 
 	 * @return : IContactSimple.<br/>
 	 */
 	private IContactSimple creerContactSimple(
-			final ContactSimpleEntityJPA pContactSimple) {
+			final ContactSimpleEntityJPA pEntityJPA) {
 		
-		/* retourne null si pContactSimple == null. */
-		if (pContactSimple == null) {
+		/* retourne null si pEntityJPA == null. */
+		if (pEntityJPA == null) {
 			return null;
 		}
 		
 		final IContactSimple contactSimple 
-			= new ContactSimple(pContactSimple.getId()
-					, pContactSimple.getPrenom()
-					, pContactSimple.getNom()
-					, pContactSimple.getRue()
-					, pContactSimple.getCodePostal()
-					, pContactSimple.getVille()
-					, pContactSimple.getDateNaissance());
+			= new ContactSimple(pEntityJPA.getId()
+					, pEntityJPA.getPrenom()
+					, pEntityJPA.getNom()
+					, pEntityJPA.getRue()
+					, pEntityJPA.getRue2()
+					, pEntityJPA.getCodePostal()
+					, pEntityJPA.getVille()
+					, pEntityJPA.getPays()
+					, pEntityJPA.getTelephone()
+					, pEntityJPA.getMail()
+					, pEntityJPA.getDateNaissance());
 		
 		return contactSimple;
 		

@@ -40,6 +40,11 @@ public final class InitialiseurDeData {
 	// ************************ATTRIBUTS************************************/
 
 	/**
+	 * "France".<br/>
+	 */
+	public static final String FRANCE = "France";
+
+	/**
 	 * listeContactSimples : List&lt;IContactSimple&gt; :<br/>
 	 * Liste de IContactSimple.<br/>
 	 */
@@ -99,25 +104,45 @@ public final class InitialiseurDeData {
 		final IContactSimple contactSimple1 
 			= new ContactSimple(
 					"Horace", "Silver"
-					, "17, rue de la Plomberie", "73 698", "Chambéry"
+					, "17, rue de la Plomberie"
+					, null
+					, "73 698", "Chambéry"
+					, FRANCE
+					, "04 79 85 54 63"
+					, "horace.silver@free.fr"
 					, LocalDate.of(1950, 1, 17));
 		
 		final IContactSimple contactSimple2 
 		= new ContactSimple(
 				"Johnny", "Halliday"
-				, "7, avenue des Zozos", "75 001", "Paris"
+				, "7, avenue des Zozos"
+				, "Bâtiment les Etoiles"
+				, "75 001", "Paris"
+				, FRANCE
+				, "01 44 85 54 63"
+				, "johnny.halliday@free.fr"
 				, LocalDate.of(1952, 7, 22));
 
 		final IContactSimple contactSimple3 
 		= new ContactSimple(
 				"Papy", "Gonzales"
-				, "rue3", "cp3", "ville3"
+				, "rue3"
+				, "complément rue3"
+				, "cp3", "ville3"
+				, "USA"
+				, "00 33 (1) 585 54 63"
+				, "papy.gonzales@aol.com"
 				, LocalDate.of(2018, 5, 3));
 
 		final IContactSimple contactSimple4 
 		= new ContactSimple(
 				"Zorro", "Démoniaque"
-				, "rue4", "cp4", "ville4"
+				, "rue4"
+				, null
+				, "cp4", "ville4"
+				, "Angleterre"
+				, "00 33 (3) 472 54 63"
+				, "zorro.demoniac@british.com"
 				, LocalDate.of(2018, 5, 4));
 
 		listeContactSimples.add(contactSimple1);

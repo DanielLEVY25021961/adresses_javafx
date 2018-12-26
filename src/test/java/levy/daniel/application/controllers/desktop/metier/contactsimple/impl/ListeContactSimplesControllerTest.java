@@ -44,80 +44,11 @@ public class ListeContactSimplesControllerTest {
 
 	// ************************ATTRIBUTS************************************/
 
-
-	
-	
 	/**
-	 * listeContactSimples : ObservableList<IContactSimpleModelObs> :<br/>
-	 * liste des ContactSimpleModelObs.<br/>
+	 * "France".<br/>
 	 */
-	public transient ObservableList<IContactSimpleModelObs> listeContactSimples 
-		= FXCollections.observableArrayList();	
+	public static final String FRANCE = "France";
 	
-
-	/**
-	 * listeContactSimpleController : IListeContactSimplesModelObs :<br/>
-	 * .<br/>
-	 */
-	public transient IListeContactSimplesModelObs listeContactSimpleController 
-		= new ListeContactSimplesModelObs(null, null, this.listeContactSimples);
-	
-	
-	/**
-	 * contactSimple1 : IContactSimple :<br/>
-	 * .<br/>
-	 */
-	public transient IContactSimple contactSimple1 
-		= new ContactSimple(
-				"Zorro", "Halliday"
-				, "2, rue de la Pompe", "74 850", "Annecy"
-				, LocalDate.of(1900, 2, 25));
-	
-	/**
-	 * contactSimple2 : IContactSimple :<br/>
-	 * .<br/>
-	 */
-	public transient IContactSimple contactSimple2 
-		= new ContactSimple(
-			"Papy", "Gonzales"
-			, "7, avenue du Sentier", "75 008", "Paris"
-			, LocalDate.of(1961, 2, 25));
-	
-	/**
-	 * contactSimple3 : IContactSimple :<br/>
-	 * .<br/>
-	 */
-	public transient IContactSimple contactSimple3 
-		= new ContactSimple(
-			"Benito", "De la Roza"
-			, "3, rue de la Pompe", "73 850", "Chambéry"
-			, LocalDate.of(2000, 2, 25));
-
-	/**
-	 * contactSimple4 : IContactSimple :<br/>
-	 * .<br/>
-	 */
-	public transient IContactSimple contactSimple4 
-		= new ContactSimple(
-			"Maléna", "Rozita"
-			, "4, rue de la Pompe", "73 950", "Chambéry"
-			, LocalDate.of(2000, 2, 25));
-	
-	/**
-	 * contactSimple5 : IContactSimple :<br/>
-	 * .<br/>
-	 */
-	public transient IContactSimple contactSimple5 
-		= new ContactSimple(
-			"Concerto", "D'Aranjuez"
-			, "2, rue de la Pompe", "73 850", "Chambéry"
-			, LocalDate.of(2000, 2, 25));
-
-	/**
-	 * listeContactSimplesAAjouter : List<IContactSimple> :<br/>
-	 * .<br/>
-	 */
-	public transient List<IContactSimple> listeContactSimplesAAjouter;
 	
 	/**
 	 * AFFICHAGE_GENERAL : Boolean :<br/>
@@ -167,6 +98,123 @@ public class ListeContactSimplesControllerTest {
 	 */
 	public static final String CONTENU_LISTE 
 		= "CONTENU DE LA LISTE : ";
+
+	
+	
+	/**
+	 * listeContactSimples : ObservableList<IContactSimpleModelObs> :<br/>
+	 * liste des ContactSimpleModelObs.<br/>
+	 */
+	public transient ObservableList<IContactSimpleModelObs> listeContactSimples 
+		= FXCollections.observableArrayList();	
+	
+
+	/**
+	 * listeContactSimpleController : IListeContactSimplesModelObs :<br/>
+	 * .<br/>
+	 */
+	public transient IListeContactSimplesModelObs listeContactSimpleController 
+		= new ListeContactSimplesModelObs(null, null, this.listeContactSimples);
+	
+	
+	
+	/**
+	 * contactSimple1 : IContactSimple :<br/>
+	 * .<br/>
+	 */
+	public transient IContactSimple contactSimple1 
+		= new ContactSimple(
+				"Zorro", "Halliday"
+				, "2, rue de la Pompe"
+				, null
+				, "73 850", "Chambéry"
+				, FRANCE
+				, "04 75 98 65 32"
+				, "zorro.halliday@sfr.com"
+				, LocalDate.of(1900, 2, 25));
+
+	/**
+	 * contactSimple1 : IContactSimple :<br/>
+	 * .<br/>
+	 */
+	public transient IContactSimple contactSimple1Equals 
+		= new ContactSimple(
+				"Zorro", "Halliday"
+				, "17, rue de la Mélodie"
+				, null
+				, "77 850", "Provins"
+				, FRANCE
+				, "04 75 98 65 32"
+				, "zorro.halliday@sfr.com"
+				, LocalDate.of(1900, 2, 25));
+	
+	/**
+	 * contactSimple2 : IContactSimple :<br/>
+	 * .<br/>
+	 */
+	public transient IContactSimple contactSimple2 
+		= new ContactSimple(
+			"Papy", "Gonzales"
+			, "7, avenue du Sentier"
+			, null
+			, "75 008", "Paris"
+			, FRANCE
+			, "01 75 98 65 32"
+			, "papy.gonzales@free.fr"
+			, LocalDate.of(1961, 2, 25));
+	
+	/**
+	 * contactSimple3 : IContactSimple :<br/>
+	 * .<br/>
+	 */
+	public transient IContactSimple contactSimple3 
+		= new ContactSimple(
+			"Benito", "De la Roza"
+			, "3, rue de la Pompe"
+			, "Bâtiment 4, appartement 563"
+			, "74 850", "Annecy"
+			, FRANCE
+			, "04 79 85 64 32"
+			, "benito.delaRoza@orange.fr"
+			, LocalDate.of(2000, 2, 25));
+
+	/**
+	 * contactSimple4 : IContactSimple :<br/>
+	 * .<br/>
+	 */
+	public transient IContactSimple contactSimple4 
+		= new ContactSimple(
+			"Maléna", "Rozita"
+			, "2, rue de la Pompe"
+			, "impasse des clercs"
+			, "74 950", "Annecy-le-Vieux"
+			, FRANCE
+			, "04 79 85 64 32"
+			, "malena.rozita@orange.fr"
+			, LocalDate.of(2000, 2, 25));
+	
+	/**
+	 * contactSimple5 : IContactSimple :<br/>
+	 * .<br/>
+	 */
+	public transient IContactSimple contactSimple5 
+		= new ContactSimple(
+			"Concerto", "D'Aranjuez"
+			, "2, rue de la Pompe"
+			, null
+			, "73 850", "Chambéry"
+			, FRANCE
+			, "04 79 77 64 32"
+			, "concerto.aranjuez@orange.fr"
+			, LocalDate.of(2000, 2, 25));
+
+
+	/**
+	 * listeContactSimplesAAjouter : List<IContactSimple> :<br/>
+	 * .<br/>
+	 */
+	public transient List<IContactSimple> listeContactSimplesAAjouter;
+
 	
 	/**
 	 * LOG : Log : 

@@ -661,7 +661,7 @@ public class CreationContactSimpleVueController implements ICreationContactSimpl
 	 * {@inheritDoc}
 	 */
 	@Override
-	public final void setcreationContactSimpleVueButtonBar(
+	public final void setCreationContactSimpleVueButtonBar(
 			final ButtonBar pCreationContactSimpleVueButtonBar) {
 		this.creationContactSimpleVueButtonBar = pCreationContactSimpleVueButtonBar;
 	} // Fin de setcreationContactSimpleVueButtonBar(...)._________________

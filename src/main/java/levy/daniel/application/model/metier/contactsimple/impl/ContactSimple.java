@@ -17,7 +17,7 @@ import levy.daniel.application.model.metier.contactsimple.IContactSimple;
  * CLASSE CONCRETE <b>ContactSimple</b> sous MODEL/METIER :<br/>
  * 
  * <p>
- * <b>ContactSimple</b> modélise un un <i>concept</i> de <b>Contact</b> 
+ * <b>ContactSimple</b> modélise un <i>concept</i> de <b>Contact</b> 
  * (Personne avec des coordonnées) avec un nom, un prénom et des coordonnées
  * <i>simples</i>.<br/>
  * Un ContactSimple ne possède qu'une seule adresse, 

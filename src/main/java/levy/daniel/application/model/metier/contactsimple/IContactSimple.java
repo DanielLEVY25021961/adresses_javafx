@@ -221,9 +221,7 @@ public interface IContactSimple extends Comparable<IContactSimple>
 
 
 	/**
-	 * method clone() :<br/>
 	 * clone.<br/>
-	 * <br/>
 	 *
 	 * @return IContactSimple
 	 * 
@@ -286,46 +284,38 @@ public interface IContactSimple extends Comparable<IContactSimple>
 
 
 	/**
-	 * method getId() :<br/>
 	 * Getter de l'ID en base.<br/>
-	 * <br/>
 	 *
-	 * @return id : Long.<br/>
+	 * @return this.id : Long.<br/>
 	 */
 	Long getId();
 
 
 
 	/**
-	* method setId(
-	* Long pId) :<br/>
 	* Setter de l'ID en base.<br/>
-	* <br/>
 	*
-	* @param pId : Long : valeur à passer à id.<br/>
+	* @param pId : Long : 
+	* valeur à passer à this.id.<br/>
 	*/
 	void setId(Long pId);
 
 
 
 	/**
-	 * method getPrenom() :<br/>
 	 * Getter du prénom.<br/>
-	 * <br/>
 	 *
-	 * @return prenom : String.<br/>
+	 * @return this.prenom : String.<br/>
 	 */
 	String getPrenom();
 
 
 
 	/**
-	* method setPrenom(
-	* String pPrenom) :<br/>
 	* Setter du prénom.<br/>
-	* <br/>
 	*
-	* @param pPrenom : String : valeur à passer à prenom.<br/>
+	* @param pPrenom : String : 
+	* valeur à passer à this.prenom.<br/>
 	*/
 	void setPrenom(String pPrenom);
 

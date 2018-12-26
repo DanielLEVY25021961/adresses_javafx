@@ -395,6 +395,26 @@ public interface IContactSimpleVueController {
 	* valeur à passer à this.rueLabel.<br/>
 	*/
 	void setRueLabel(Label pRueLabel);
+
+
+	
+	/**
+	 * Getter du Label pour le complément de rue.<br/>
+	 * <br/>
+	 *
+	 * @return this.rue2Label : Label.<br/>
+	 */
+	Label getRue2Label();
+
+
+
+	/**
+	* Setter du Label pour le complément de rue.<br/>
+	*
+	* @param pRue2Label : Label : 
+	* valeur à passer à this.rue2Label.<br/>
+	*/
+	void setRue2Label(Label pRue2Label);
 	
 	
 
@@ -433,6 +453,63 @@ public interface IContactSimpleVueController {
 	* valeur à passer à this.codePostalLabel.<br/>
 	*/
 	void setCodePostalLabel(Label pCodePostalLabel);
+	
+	
+
+	/**
+	 * Getter du Label pour le pays.<br/>
+	 *
+	 * @return this.paysLabel : Label.<br/>
+	 */
+	Label getPaysLabel();
+	
+	
+
+	/**
+	* Setter du Label pour le pays.<br/>
+	*
+	* @param pPaysLabel : Label : 
+	* valeur à passer à this.paysLabel.<br/>
+	*/
+	void setPaysLabel(Label pPaysLabel);
+	
+	
+
+	/**
+	 * Getter du Label pour le téléphone.<br/>
+	 *
+	 * @return this.telephoneLabel : Label.<br/>
+	 */
+	Label getTelephoneLabel();
+	
+	
+
+	/**
+	* Setter du Label pour le téléphone.<br/>
+	*
+	* @param pTelephoneLabel : Label : 
+	* valeur à passer à this.telephoneLabel.<br/>
+	*/
+	void setTelephoneLabel(Label pTelephoneLabel);
+	
+	
+
+	/**
+	 * Getter du Label pour le mail.<br/>
+	 *
+	 * @return this.mailLabel : Label.<br/>
+	 */
+	Label getMailLabel();
+	
+	
+
+	/**
+	* Setter du Label pour le mail.<br/>
+	*
+	* @param pMailLabel : Label : 
+	* valeur à passer à this.mailLabel.<br/>
+	*/
+	void setMailLabel(Label pMailLabel);
 	
 	
 
@@ -513,6 +590,25 @@ public interface IContactSimpleVueController {
 	
 
 	/**
+	 * Getter du TextField pour le complément de rue.<br/>
+	 *
+	 * @return this.rue2TextField : TextField.<br/>
+	 */
+	TextField getRue2TextField();
+	
+	
+
+	/**
+	* Setter du TextField pour le complément de rue.<br/>
+	*
+	* @param pRue2TextField : TextField : 
+	* valeur à passer à this.rue2TextField.<br/>
+	*/
+	void setRue2TextField(TextField pRue2TextField);
+	
+	
+
+	/**
 	 * Getter du TextField pour la ville.<br/>
 	 *
 	 * @return this.villeTextField : TextField.<br/>
@@ -548,6 +644,63 @@ public interface IContactSimpleVueController {
 	*/
 	void setCodePostalTextField(TextField pCodePostalTextField);
 	
+	
+
+	/**
+	 * Getter du TextField pour le pays.<br/>
+	 *
+	 * @return this.paysTextField : TextField.<br/>
+	 */
+	TextField getPaysTextField();
+	
+	
+
+	/**
+	* Setter du TextField pour le pays.<br/>
+	*
+	* @param pPaysTextField : TextField : 
+	* valeur à passer à this.paysTextField.<br/>
+	*/
+	void setPaysTextField(TextField pPaysTextField);
+	
+	
+
+	/**
+	 * Getter du TextField pour le téléphone.<br/>
+	 *
+	 * @return this.telephoneTextField : TextField.<br/>
+	 */
+	TextField getTelephoneTextField();
+	
+	
+
+	/**
+	* Setter du TextField pour le téléphone.<br/>
+	*
+	* @param pTelephoneTextField : TextField : 
+	* valeur à passer à this.telephoneTextField.<br/>
+	*/
+	void setTelephoneTextField(TextField pTelephoneTextField);
+	
+	
+
+	/**
+	 * Getter du TextField pour le mail.<br/>
+	 *
+	 * @return this.mailTextField : TextField.<br/>
+	 */
+	TextField getMailTextField();
+	
+	
+
+	/**
+	* Setter du TextField pour le mail.<br/>
+	*
+	* @param pMailTextField : TextField : 
+	* valeur à passer à this.mailTextField.<br/>
+	*/
+	void setMailTextField(TextField pMailTextField);
+
 	
 
 	/**

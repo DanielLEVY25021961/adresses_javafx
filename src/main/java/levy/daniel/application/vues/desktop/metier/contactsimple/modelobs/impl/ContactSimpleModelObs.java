@@ -50,47 +50,75 @@ public class ContactSimpleModelObs implements IContactSimpleModelObs {
 	 */
 	private static final long serialVersionUID = 1L;
 
+	/**
+	 * ';'.<br/>
+	 */
+	public static final char POINT_VIRGULE = ';';
+	
+	/**
+	 * ", ".<br/>
+	 */
+	public static final String VIRGULE_ESPACE = ", ";
+	
+	/**
+	 * "null".<br/>
+	 */
+	public static final String NULL = "null";
+
 
 	/**
-	 * id : StringProperty :<br/>
-	 * ID en base.<br/>
+	 * ID en base (StringProperty).<br/>
 	 */
 	private StringProperty id;
 	
 	
     /**
-     * prenom : StringProperty :<br/>
-     * prénom.<br/>
+     * prénom (StringProperty).<br/>
      */
     private StringProperty prenom;
     
     /**
-     * nom : StringProperty :<br/>
-     * nom.<br/>
+     * nom (StringProperty).<br/>
      */
     private StringProperty nom;
        
     /**
-     * rue : StringProperty :<br/>
-     * rue.<br/>
+     * rue (StringProperty).<br/>
      */
     private StringProperty rue;
     
     /**
-     * codePostal : StringProperty :<br/>
-     * code postal.<br/>
+     * complément de rue (StringProperty).<br/>
+     */
+    private StringProperty rue2;
+    
+    /**
+     * code postal (StringProperty).<br/>
      */
     private StringProperty codePostal;
     
     /**
-     * ville : StringProperty :<br/>
-     * ville.<br/>
+     * ville (StringProperty).<br/>
      */
     private StringProperty ville;
     
     /**
-     * dateNaissance : ObjectProperty<LocalDate> :<br/>
-     * date de naissance.<br/>
+     * pays (StringProperty).<br/>
+     */
+    private StringProperty pays;
+    
+    /**
+     * téléphone (StringProperty).<br/>
+     */
+    private StringProperty telephone;
+    
+    /**
+     * mail (StringProperty).<br/>
+     */
+    private StringProperty mail;
+    
+    /**
+     * date de naissance (ObjectProperty&lt;LocalDate&gt;).<br/>
      */
     private ObjectProperty<LocalDate> dateNaissance;
 
@@ -104,41 +132,50 @@ public class ContactSimpleModelObs implements IContactSimpleModelObs {
 
 	
 	 /**
-	 * method CONSTRUCTEUR ContactSimpleModelObs() :<br/>
 	 * CONSTRUCTEUR D'ARITE NULLE.<br/>
-	 * <br/>
 	 */
 	public ContactSimpleModelObs() {
 		
-		this((StringProperty) null, null, null, null, null, null, null);
+		this((StringProperty) 
+				null
+				, null, null
+				, null, null, null, null, null
+				, null, null
+				, null);
 		
 	} // Fin de  CONSTRUCTEUR D'ARITE NULLE._______________________________
 	
 	
 	
 	 /**
-	 * method CONSTRUCTEUR ContactSimpleModelObs(...) :<br/>
 	 * CONSTRUCTEUR COMPLET.<br/>
-	 * <br/>
 	 *
-	 * @param pPrenom : StringProperty
-	 * @param pNom : StringProperty
-	 * @param pRue : StringProperty
-	 * @param pCodePostal : StringProperty
-	 * @param pVille : StringProperty
-	 * @param pDateNaissance : ObjectProperty
+	 * @param pPrenom : StringProperty : prénom.<br/>
+	 * @param pNom : StringProperty : nom.<br/>
+	 * @param pRue : StringProperty : rue.<br/>
+	 * @param pRue2 : StringProperty : complément de rue.<br/>
+	 * @param pCodePostal : StringProperty : code postal.<br/>
+	 * @param pVille : StringProperty : ville.<br/>
+	 * @param pPays : StringProperty : pays.<br/>
+	 * @param pTelephone : StringProperty : téléphone.<br/>
+	 * @param pMail : StringProperty : mail.<br/>
+	 * @param pDateNaissance : ObjectProperty : date de naissance.<br/>
 	 */
 	public ContactSimpleModelObs(
 			final StringProperty pPrenom
 				, final StringProperty pNom
 			, final StringProperty pRue
-				, final StringProperty pCodePostal
-					, final StringProperty pVille
+			, final StringProperty pRue2
+			, final StringProperty pCodePostal
+				, final StringProperty pVille
+					, final StringProperty pPays
+			, final StringProperty pTelephone, final StringProperty pMail
 			, final ObjectProperty<LocalDate> pDateNaissance) {
 		
 		this(null
 				, pPrenom, pNom
-				, pRue, pCodePostal, pVille
+				, pRue, pRue2, pCodePostal, pVille, pPays
+				, pTelephone, pMail
 				, pDateNaissance);
 		
 	} // Fin de CONSTRUCTEUR COMPLET.______________________________________
@@ -146,56 +183,30 @@ public class ContactSimpleModelObs implements IContactSimpleModelObs {
 	
 	
 	 /**
-	 * method CONSTRUCTEUR ContactSimpleModelObs() :<br/>
-	 * CONSTRUCTEUR COMPLET MODEL.<br/>
-	 * Fait le lien entre un <b>model.metier.contactSimple.impl.ContactSimple</b> 
-	 * et le présent ContactSimpleModelObs.<br/>
-	 * <br/>
-	 *
-	 * @param pPrenom
-	 * @param pNom
-	 * @param pRue
-	 * @param pCodePostal
-	 * @param pVille
-	 * @param pDateNaissance
-	 */
-	public ContactSimpleModelObs(
-			final String pPrenom
-				, final String pNom
-			, final String pRue
-				, final String pCodePostal
-					, final String pVille
-			, final LocalDate pDateNaissance) {
-		
-		this(null
-				, pPrenom, pNom
-				, pRue, pCodePostal, pVille
-				, pDateNaissance);
-		
-	} // Fin de CONSTRUCTEUR COMPLET MODEL.________________________________
-
-	
-	
-	 /**
-	 * method CONSTRUCTEUR ContactSimpleModelObs(...) :<br/>
 	 * CONSTRUCTEUR COMPLET BASE.<br/>
-	 * <br/>
 	 *
-	 * @param pId : StringProperty
-	 * @param pPrenom : StringProperty
-	 * @param pNom : StringProperty
-	 * @param pRue : StringProperty
-	 * @param pCodePostal : StringProperty
-	 * @param pVille : StringProperty
-	 * @param pDateNaissance : ObjectProperty
+	 * @param pId : StringProperty : ID en base.<br/>
+	 * @param pPrenom : StringProperty : prénom.<br/>
+	 * @param pNom : StringProperty : nom.<br/>
+	 * @param pRue : StringProperty : rue.<br/>
+	 * @param pRue2 : StringProperty : complément de rue.<br/>
+	 * @param pCodePostal : StringProperty : code postal.<br/>
+	 * @param pVille : StringProperty : ville.<br/>
+	 * @param pPays : StringProperty : pays.<br/>
+	 * @param pTelephone : StringProperty : téléphone.<br/>
+	 * @param pMail : StringProperty : mail.<br/>
+	 * @param pDateNaissance : ObjectProperty : date de naissance.<br/>
 	 */
 	public ContactSimpleModelObs(
 			final StringProperty pId
 				, final StringProperty pPrenom
 					, final StringProperty pNom
 			, final StringProperty pRue
+			, final StringProperty pRue2
 				, final StringProperty pCodePostal
 					, final StringProperty pVille
+						, final StringProperty pPays
+			, final StringProperty pTelephone, final StringProperty pMail
 			, final ObjectProperty<LocalDate> pDateNaissance) {
 
 		super();
@@ -204,60 +215,25 @@ public class ContactSimpleModelObs implements IContactSimpleModelObs {
 		this.prenom = pPrenom;
 		this.nom = pNom;
 		this.rue = pRue;
+		this.rue2 = pRue2;
 		this.codePostal = pCodePostal;
 		this.ville = pVille;
+		this.pays = pPays;
+		this.telephone = pTelephone;
+		this.mail = pMail;
 		this.dateNaissance = pDateNaissance;
 		
 	} // Fin de CONSTRUCTEUR COMPLET BASE._________________________________
 
-
-	
-	 /**
-	 * method CONSTRUCTEUR ContactSimpleModelObs() :<br/>
-	 * CONSTRUCTEUR COMPLET BASE MODEL.<br/>
-	 * Fait le lien entre les attributs d'un 
-	 * <b>model.metier.contactSimple.impl.ContactSimple</b> 
-	 * et le présent ContactSimpleModelObs.<br/>
-	 * <br/>
-	 *
-	 * @param pId : Long : ID en base.<br/>
-	 * @param pPrenom : String : prenom.<br/>
-	 * @param pNom : String : nom.<br/>
-	 * @param pRue : String : rue.<br/>
-	 * @param pCodePostal : String : code postal.<br/>
-	 * @param pVille : String : ville.<br/>
-	 * @param pDateNaissance : LocalDate : date de naissance.<br/>
-	 */
-	public ContactSimpleModelObs(
-			final Long pId
-				, final String pPrenom
-					, final String pNom
-			, final String pRue
-				, final String pCodePostal
-					, final String pVille
-			, final LocalDate pDateNaissance) {
-
-		super();
-		
-		this.id = new SimpleStringProperty(String.valueOf(pId));
-		this.prenom = new SimpleStringProperty(pPrenom);
-		this.nom = new SimpleStringProperty(pNom);
-		this.rue = new SimpleStringProperty(pRue);
-		this.codePostal = new SimpleStringProperty(pCodePostal);
-		this.ville = new SimpleStringProperty(pVille);
-		this.dateNaissance = new SimpleObjectProperty<LocalDate>(pDateNaissance);
-		
-	} // Fin de CONSTRUCTEUR COMPLET BASE MODEL.___________________________
-	
 	
 	
 	 /**
 	 * method CONSTRUCTEUR ContactSimpleModelObs(
 	 * IContactSimple pContactSimple) :<br/>
 	 * CONSTRUCTEUR LIEN.<br/>
-	 * Fait le lien entre un 
+	 * Fait le lien entre un OBJET METIER
 	 * <b>model.metier.contactSimple.impl.ContactSimple</b> 
-	 * et le présent ContactSimpleModelObs.<br/>
+	 * et le présent DTO OBSERVABLE ContactSimpleModelObs.<br/>
 	 * <br/>
 	 *
 	 * @param pContactSimple : model.metier.contactSimple.IContactSimple.<br/>
@@ -269,22 +245,43 @@ public class ContactSimpleModelObs implements IContactSimpleModelObs {
 		
 		if (pContactSimple != null) {
 			
-			this.id 
-			= new SimpleStringProperty(String.valueOf(
-					pContactSimple.getId()));
+			final Long idObjetMetier = pContactSimple.getId();
+			final LocalDate dateNaissanceObjetMetier 
+				= pContactSimple.getDateNaissance();
+			
+			if (idObjetMetier != null) {
+				this.id 
+				= new SimpleStringProperty(String.valueOf(
+						idObjetMetier));
+			} else {
+				this.id = null;
+			}			
 			this.prenom 
-			= new SimpleStringProperty(pContactSimple.getPrenom());
+				= new SimpleStringProperty(pContactSimple.getPrenom());
 			this.nom 
-			= new SimpleStringProperty(pContactSimple.getNom());
+				= new SimpleStringProperty(pContactSimple.getNom());
 			this.rue 
-			= new SimpleStringProperty(pContactSimple.getRue());
+				= new SimpleStringProperty(pContactSimple.getRue());
+			this.rue2 
+				= new SimpleStringProperty(pContactSimple.getRue2());
 			this.codePostal 
-			= new SimpleStringProperty(pContactSimple.getCodePostal());
+				= new SimpleStringProperty(pContactSimple.getCodePostal());
 			this.ville 
-			= new SimpleStringProperty(pContactSimple.getVille());
-			this.dateNaissance 
-			= new SimpleObjectProperty<LocalDate>(
-					pContactSimple.getDateNaissance());
+				= new SimpleStringProperty(pContactSimple.getVille());
+			this.pays 
+				= new SimpleStringProperty(pContactSimple.getPays());
+			this.telephone 
+				= new SimpleStringProperty(pContactSimple.getTelephone());
+			this.mail 
+				= new SimpleStringProperty(pContactSimple.getMail());
+			if (dateNaissanceObjetMetier != null) {
+				this.dateNaissance 
+					= new SimpleObjectProperty<LocalDate>(
+							dateNaissanceObjetMetier);
+			} else {
+				this.dateNaissance = null;
+			}
+			
 			
 		} else {
 			
@@ -292,8 +289,12 @@ public class ContactSimpleModelObs implements IContactSimpleModelObs {
 			this.prenom = null;
 			this.nom = null;
 			this.rue = null;
+			this.rue2 = null;
 			this.codePostal = null;
 			this.ville = null;
+			this.pays = null;
+			this.telephone = null;
+			this.mail = null;
 			this.dateNaissance = null;
 		}
 		
@@ -495,14 +496,19 @@ public class ContactSimpleModelObs implements IContactSimpleModelObs {
 	@Override
 	public final ContactSimpleModelObs clone() throws CloneNotSupportedException {
 
-		final ContactSimpleModelObs clone = (ContactSimpleModelObs) super.clone();
+		final ContactSimpleModelObs clone 
+			= (ContactSimpleModelObs) super.clone();
 		
 		clone.id.set(this.id.get());
 		clone.prenom.set(this.prenom.get());
 		clone.nom.set(this.nom.get());
 		clone.rue.set(this.rue.get());
+		clone.rue2.set(this.rue2.get());
 		clone.codePostal.set(this.codePostal.get());
 		clone.ville.set(this.ville.get());
+		clone.pays.set(this.pays.get());
+		clone.telephone.set(this.telephone.get());
+		clone.mail.set(this.mail.get());
 		clone.dateNaissance.set(this.dateNaissance.get());
 		
 		return clone;
@@ -521,39 +527,91 @@ public class ContactSimpleModelObs implements IContactSimpleModelObs {
 		
 		builder.append("ContactSimpleModelObs [");
 		
-		if (this.id != null) {
-			builder.append("id=");
+		builder.append("id=");
+		if (this.id != null) {			
 			builder.append(this.id);
-			builder.append(", ");
+		} else {
+			builder.append(NULL);
 		}
+		builder.append(VIRGULE_ESPACE);
+		
+		builder.append("prenom=");
 		if (this.prenom != null) {
-			builder.append("prenom=");
 			builder.append(this.prenom);
-			builder.append(", ");
+		} else {
+			builder.append(NULL);
 		}
-		if (this.nom != null) {
-			builder.append("nom=");
+		builder.append(VIRGULE_ESPACE);
+		
+		builder.append("nom=");
+		if (this.nom != null) {			
 			builder.append(this.nom);
-			builder.append(", ");
+		} else {
+			builder.append(NULL);
 		}
+		builder.append(VIRGULE_ESPACE);
+		
+		builder.append("rue=");
 		if (this.rue != null) {
-			builder.append("rue=");
 			builder.append(this.rue);
-			builder.append(", ");
+		} else {
+			builder.append(NULL);
 		}
+		builder.append(VIRGULE_ESPACE);
+		
+		builder.append("rue2=");
+		if (this.rue2 != null) {
+			builder.append(this.rue2);
+		} else {
+			builder.append(NULL);
+		}
+		builder.append(VIRGULE_ESPACE);
+		
+		builder.append("codePostal=");
 		if (this.codePostal != null) {
-			builder.append("codePostal=");
 			builder.append(this.codePostal);
-			builder.append(", ");
+		} else {
+			builder.append(NULL);
 		}
+		builder.append(VIRGULE_ESPACE);
+		
+		builder.append("ville=");
 		if (this.ville != null) {
-			builder.append("ville=");
 			builder.append(this.ville);
-			builder.append(", ");
+		} else {
+			builder.append(NULL);
 		}
+		builder.append(VIRGULE_ESPACE);
+		
+		builder.append("pays=");
+		if (this.pays != null) {
+			builder.append(this.pays);
+		} else {
+			builder.append(NULL);
+		}
+		builder.append(VIRGULE_ESPACE);
+		
+		builder.append("telephone=");
+		if (this.telephone != null) {
+			builder.append(this.telephone);
+		} else {
+			builder.append(NULL);
+		}
+		builder.append(VIRGULE_ESPACE);
+		
+		builder.append("mail=");
+		if (this.mail != null) {
+			builder.append(this.mail);
+		} else {
+			builder.append(NULL);
+		}
+		builder.append(VIRGULE_ESPACE);
+		
+		builder.append("dateNaissance=");
 		if (this.dateNaissance != null) {
-			builder.append("dateNaissance=");
 			builder.append(this.dateNaissance);
+		} else {
+			builder.append(NULL);
 		}
 		
 		builder.append(']');

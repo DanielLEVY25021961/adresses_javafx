@@ -147,7 +147,7 @@ public class ContactSimpleVueFxmlMain extends Application {
 	 */
 	private void fabriquerPanneauFond() {
 		
-		ContactSimpleVueFxml vue = new ContactSimpleVueFxml(null);
+		final ContactSimpleVueFxml vue = new ContactSimpleVueFxml(null);
 		final Node node = vue.getContactSimpleAnchorPane();
 		
     	/* *********************************************** */

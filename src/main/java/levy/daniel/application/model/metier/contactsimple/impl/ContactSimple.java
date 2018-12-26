@@ -104,8 +104,8 @@ import levy.daniel.application.model.metier.contactsimple.IContactSimple;
  * </p>
  * <ul>
  * <li>
- * <img src="../../../../../../../../../../javadoc/images/classes_implementation_country.png" 
- * alt="classes d'implémentation des ICountry" border="1" align="center" />
+ * <img src="../../../../../../../../../../javadoc/images/model/metier/contactsimple/diagramme_classes_contactsimple.png" 
+ * alt="classes d'implémentation des IContactSimple" border="1" align="center" />
  * </li>
  * </ul>
  * 

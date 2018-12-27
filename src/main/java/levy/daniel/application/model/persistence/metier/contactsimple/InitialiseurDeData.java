@@ -51,10 +51,9 @@ public final class InitialiseurDeData {
 	private static List<IContactSimple> listeContactSimples = new ArrayList<IContactSimple>();
 	
 	/**
-	 * listeContactSimplesControllers : ObservableList<IContactSimpleModelObs> :<br/>
 	 * Liste de IContactSimpleModelObs correspondant à la listeContactSimples.<br/>
 	 */
-	private static ObservableList<IContactSimpleModelObs> listeContactSimplesControllers 
+	private static ObservableList<IContactSimpleModelObs> listeContactSimplesObservables 
 		= FXCollections.observableArrayList();
 
 	/**
@@ -67,9 +66,7 @@ public final class InitialiseurDeData {
 	// *************************METHODES************************************/
 	
 	/**
-	 * method CONSTRUCTEUR InitialiseurDeData() :<br/>
 	 * CONSTRUCTEUR D'ARITE NULLE.<br/>
-	 * <br/>
 	 */
 	private InitialiseurDeData() {
 		super();
@@ -78,15 +75,12 @@ public final class InitialiseurDeData {
 	
 
 	/**
-	 * method main(
-	 * String[] pArgs) :<br/>
 	 * Point d'entrée de la classe.<br/>
-	 * <br/>
 	 *
-	 * @param pArgs : String[] :  .<br/>
+	 * @param pArgs : String[].<br/>
 	 */
 	public static void main(
-			final String[] pArgs) {
+			final String... pArgs) {
 		
 		instancierContactSimples();
 
@@ -95,9 +89,8 @@ public final class InitialiseurDeData {
 
 	
 	/**
-	 * method instancierContactSimples() :<br/>
-	 * Instancie des ContactSimple et les intègre à listeContactSimples.<br/>
-	 * <br/>
+	 * Instancie des ContactSimple et les 
+	 * intègre à listeContactSimples.<br/>
 	 */
 	private static void instancierContactSimples() {
 		
@@ -146,15 +139,15 @@ public final class InitialiseurDeData {
 				, LocalDate.of(2018, 5, 4));
 
 		listeContactSimples.add(contactSimple1);
-		listeContactSimplesControllers.add(new ContactSimpleModelObs(contactSimple1));
+		listeContactSimplesObservables.add(new ContactSimpleModelObs(contactSimple1));
 		listeContactSimples.add(contactSimple2);
-		listeContactSimplesControllers.add(new ContactSimpleModelObs(contactSimple2));
+		listeContactSimplesObservables.add(new ContactSimpleModelObs(contactSimple2));
 		listeContactSimples.add(contactSimple3);
-		listeContactSimplesControllers.add(new ContactSimpleModelObs(contactSimple3));
+		listeContactSimplesObservables.add(new ContactSimpleModelObs(contactSimple3));
 		listeContactSimples.add(contactSimple4);
-		listeContactSimplesControllers.add(new ContactSimpleModelObs(contactSimple4));
+		listeContactSimplesObservables.add(new ContactSimpleModelObs(contactSimple4));
 		
-	} // Fin de instancierContactSimples()._____________________________________
+	} // Fin de instancierContactSimples().________________________________
 
 
 	
@@ -163,7 +156,7 @@ public final class InitialiseurDeData {
 	 * IContactSimple pContactSimple) :<br/>
 	 * Ajoute une IContactSimple à listeContactSimples.<br/>
 	 * Ajoute un ContactSimpleModelObs correspondant 
-	 * à listeContactSimplesControllers.<br/>
+	 * à listeContactSimplesObservables.<br/>
 	 * <br/>
 	 *
 	 * @param pContactSimple : IContactSimple :  .<br/>
@@ -172,16 +165,14 @@ public final class InitialiseurDeData {
 			final IContactSimple pContactSimple) {
 		
 		listeContactSimples.add(pContactSimple);
-		listeContactSimplesControllers.add(new ContactSimpleModelObs(pContactSimple));
+		listeContactSimplesObservables.add(new ContactSimpleModelObs(pContactSimple));
 		
-	} // Fin de ajouterContactSimple(...).______________________________________
+	} // Fin de ajouterContactSimple(...).__________________________________
 	
 	
 	
 	/**
-	 * method getListeContactSimples() :<br/>
 	 * Getter de la liste de ContactSimple.<br/>
-	 * <br/>
 	 *
 	 * @return listeContactSimples : List&lt;IContactSimple&gt;.<br/>
 	 */
@@ -193,26 +184,24 @@ public final class InitialiseurDeData {
 		
 		return listeContactSimples;
 		
-	} // Fin de getListeContactSimples()._______________________________________
+	} // Fin de getListeContactSimples().__________________________________
 
 
 	
 	/**
-	 * method getListeContactSimplesControllers() :<br/>
 	 * Getter de la liste de ContactSimpleControllers.<br/>
-	 * <br/>
 	 *
-	 * @return : ObservableList&lt;IContactSimpleModelObs&gt; :  .<br/>
+	 * @return : ObservableList&lt;IContactSimpleModelObs&gt;.<br/>
 	 */
-	public static ObservableList<IContactSimpleModelObs> getListeContactSimplesControllers() {
+	public static ObservableList<IContactSimpleModelObs> getListeContactSimplesObservables() {
 		
-		if (listeContactSimplesControllers.isEmpty()) {
+		if (listeContactSimplesObservables.isEmpty()) {
 			instancierContactSimples();
 		}
 		
-		return listeContactSimplesControllers;
+		return listeContactSimplesObservables;
 		
-	} // Fin de getListeContactSimplesControllers().____________________________
+	} // Fin de getListeContactSimplesObservables()._______________________
 	
 	
 	

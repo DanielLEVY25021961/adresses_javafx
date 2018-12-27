@@ -199,7 +199,8 @@ public class AccueilController implements IAccueilController {
 		/* intancie et dessine la VUE this.contactSimpleAnchorPane.*/
 		this.dessinerVueAnchorPaneContactSimple();
 		
-		new ListeContactSimplesModelObs(
+		this.listeContactSimplesModelObs 
+			= new ListeContactSimplesModelObs(
 				this.contactSimpleAnchorPane, this, this.listeContactSimples);
 		
 	} // Fin de preparerSceneAccueil().____________________________________

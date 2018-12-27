@@ -18,6 +18,16 @@ import levy.daniel.application.model.metier.IExportateurJTable;
  * un seul numéro de téléphone, et un seul mail.
  * </p>
  * 
+ * <p>
+ * <b><span style="text-decoration: underline;">
+ * Représentation schématique d'un ContactSimple :
+ * </span></b>
+ * </p>
+ * <p>
+ * <img src="../../../../../../../../../javadoc/images/model/metier/contactsimple/vue_simplifiee_ContactSimple.png" 
+ * alt="vue simplifiée d'un ContactSimple" border="1" align="center" />
+ * </p>
+ * 
  * <ul>
  * <p>
  * <span style="text-decoration: underline;">

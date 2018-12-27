@@ -451,28 +451,51 @@ public class ContactSimpleVueController implements IContactSimpleVueController {
 					pContactSimpleModelObs.getNom());
 			this.rueTextField.setText(
 					pContactSimpleModelObs.getRue());
+			this.rue2TextField.setText(
+					pContactSimpleModelObs.getRue2());
 			this.villeTextField.setText(
 					pContactSimpleModelObs.getVille());
 			this.codePostalTextField.setText(
 					pContactSimpleModelObs.getCodePostal());
+			this.paysTextField.setText(
+					pContactSimpleModelObs.getPays());
+			this.telephoneTextField.setText(
+					pContactSimpleModelObs.getTelephone());
+			this.mailTextField.setText(
+					pContactSimpleModelObs.getMail());
 			this.dateNaissanceTextField.setText(
 					formatter.format(
 							pContactSimpleModelObs.getDateNaissance()));
 			
 		} else {
 			
-			this.prenomTextField.setText(null);
-			this.nomTextField.setText(null);
-			this.rueTextField.setText(null);
-			this.villeTextField.setText(null);
-			this.codePostalTextField.setText(null);
-			this.dateNaissanceTextField.setText(null);
+			this.nettoyerVue();
 			
 		}
 		
 	} // Fin de afficherRenseignementsContactSimple(...).__________________
 	
 
+	
+	/**
+	 * <b>nettoie la VUE</b>.<br/>
+	 */
+	public final void nettoyerVue() {
+		
+		this.prenomTextField.setText(null);
+		this.nomTextField.setText(null);
+		this.rueTextField.setText(null);
+		this.rue2TextField.setText(null);
+		this.villeTextField.setText(null);
+		this.codePostalTextField.setText(null);
+		this.paysTextField.setText(null);
+		this.telephoneTextField.setText(null);
+		this.mailTextField.setText(null);
+		this.dateNaissanceTextField.setText(null);
+		
+	} // Fin de nettoyerVue()._____________________________________________
+	
+	
 	
 	/**
 	 * {@inheritDoc}

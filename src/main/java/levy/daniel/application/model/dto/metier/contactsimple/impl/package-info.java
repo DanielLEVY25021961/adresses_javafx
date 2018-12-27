@@ -1,6 +1,9 @@
 /**
  * CLASSE package-info :<br/>
- * .<br/>
+ * Ce package contient tous les Data Transfer Object (DTO) 
+ * CONCRETS relatifs au concept de <b>ContactSimple</b>.<br/>
+ * Les DTO ne servent qu'à véhiculer de l'information 
+ * entre les couches VUE, CONTROLLER et MODEL.<br/>
  * <br/>
  *
  * - Exemple d'utilisation :<br/>

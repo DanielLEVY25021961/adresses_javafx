@@ -91,10 +91,6 @@ public class ListeContactSimplesModelObs implements IListeContactSimplesModelObs
 	
 	
 	 /**
-	 * method CONSTRUCTEUR ListeContactSimplesModelObs(
-	 * AnchorPane pAnchorPane
-	 * , IAccueilController pAccueilController
-	 * , ObservableList&lt;IContactSimpleModelObs&gt; pList) :<br/>
 	 * CONSTRUCTEUR COMPLET.<br/>
 	 * <br/>
 	 *

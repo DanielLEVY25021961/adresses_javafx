@@ -15,6 +15,8 @@ import levy.daniel.application.model.dto.metier.contactsimple.IContactSimpleDTO;
 /**
  * CLASSE ContactSimpleDTO :<br/>
  * CLASSE CONCRETE <b>ContactSimpleDTO</b> sous MODEL/DTO/METIER :<br/>
+ * Les DTO ne servent qu'à véhiculer de l'information 
+ * entre les couches VUE, CONTROLLER et MODEL.<br/>
  * 
  * <p>
  * <b>ContactSimpleDTO</b> modélise un <i>concept</i> de <b>Contact</b> 

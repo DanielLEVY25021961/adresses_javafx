@@ -3,6 +3,8 @@
  * Ce package <b>levy.daniel.application.model.metier</b> 
  * contient toutes les classes métier, c'est à dire 
  * les <b>Objets métier</b> (aussi appelés <i>Objets du Domaine</i>).
+ * 
+ * <ul>
  * <li>Ces objets métier ou objets du domaine <i>transitent dans 
  * toutes les couches</i> [<b>VUES</b> + <b>CONTROLLERS</b> 
  * + <b>MODEL</b>(Services + Métier + DAOs)].</li>
@@ -10,7 +12,10 @@
  * La COUCHE <b>METIER</b> fait partie intégrante de la 
  * <b>logique métier (MODEL)</b>.
  * </li>
+ * </ul>
  * <br/>
+ * 
+ * <ul>
  * <li>
  * <img src="../../../../../../../../javadoc/images/architecture_applicative.png" 
  * alt="architecture applicative" border="1" align="center" />

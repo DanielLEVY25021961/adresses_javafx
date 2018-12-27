@@ -1,6 +1,5 @@
 package levy.daniel.application.vues.desktop.metier.contactsimple.controllervue.impl;
 
-import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 
 import org.apache.commons.logging.Log;
@@ -16,9 +15,9 @@ import javafx.scene.layout.GridPane;
 import javafx.stage.Stage;
 import levy.daniel.application.model.dto.metier.contactsimple.IContactSimpleDTO;
 import levy.daniel.application.model.dto.metier.contactsimple.impl.ContactSimpleDTO;
+import levy.daniel.application.vues.desktop.metier.contactsimple.ContactSimpleConvertisseurObservableDTO;
 import levy.daniel.application.vues.desktop.metier.contactsimple.controllervue.ICreationContactSimpleVueController;
 import levy.daniel.application.vues.desktop.metier.contactsimple.modelobs.IContactSimpleModelObs;
-import levy.daniel.application.vues.desktop.metier.contactsimple.modelobs.impl.ContactSimpleModelObs;
 
 
 /**
@@ -275,10 +274,10 @@ public class CreationContactSimpleVueController implements ICreationContactSimpl
 
     
     /**
-     * .<br/>
-     * <br/>
+     * <b>lit toutes les valeurs dans les zones de texte 
+     * de la VUE et retourne le DTO équivalent</b>.<br/>
      *
-     * @return : IContactSimpleDTO :  .<br/>
+     * @return : IContactSimpleDTO : DTO.<br/>
      */
     private IContactSimpleDTO lireVueEtFournirDTO() {
     	
@@ -303,7 +302,8 @@ public class CreationContactSimpleVueController implements ICreationContactSimpl
     				, dateNaissanceString);
     	
     	return dto;
-    }
+    	
+    } // Fin de lireVueEtFournirDTO()._____________________________________
     
     
     
@@ -318,39 +318,13 @@ public class CreationContactSimpleVueController implements ICreationContactSimpl
     		return null;
     	}
     	
-    	final DateTimeFormatter formatter 
-		= DateTimeFormatter.ofPattern("dd MMMM yyyy");
+    	final IContactSimpleDTO dto = this.lireVueEtFournirDTO();
     	
-    	LocalDate dateNaissance = null;
+    	final IContactSimpleModelObs observable 
+    		= ContactSimpleConvertisseurObservableDTO
+    			.convertirDTOEnObservable(dto);
     	
-    	
-    	
-    	
-    	try {
-    		
-			if (dateNaissanceString != null) {
-				dateNaissance 
-				= formatter.parse(dateNaissanceString, LocalDate::from);
-			}
-			
-			final IContactSimpleModelObs contactSimple 
-				= new ContactSimpleModelObs(
-						prenomString
-						, nomString
-						, rueString
-						, codePostalString
-						, villeString
-						, dateNaissance);
-			
-			return contactSimple;
-			
-		} catch (Exception e) {
-			
-			if (LOG.isDebugEnabled()) {
-				LOG.debug("Date incorrecte", e);
-			}
-			return null;
-		}
+    	return observable;
     	
     } // Fin de lire().____________________________________________________
     
@@ -360,7 +334,7 @@ public class CreationContactSimpleVueController implements ICreationContactSimpl
 	 * {@inheritDoc}
 	 */
     @Override
-	public final void afficher(
+	public final void afficherDansVUE(
     		final IContactSimpleModelObs pContactSimpleModelObs) {
     	
 		if (pContactSimpleModelObs != null) {
@@ -374,28 +348,52 @@ public class CreationContactSimpleVueController implements ICreationContactSimpl
 					pContactSimpleModelObs.getNom());
 			this.rueTextField.setText(
 					pContactSimpleModelObs.getRue());
+			this.rue2TextField.setText(
+					pContactSimpleModelObs.getRue2());
 			this.villeTextField.setText(
 					pContactSimpleModelObs.getVille());
 			this.codePostalTextField.setText(
 					pContactSimpleModelObs.getCodePostal());
+			this.paysTextField.setText(
+					pContactSimpleModelObs.getPays());
+			this.telephoneTextField.setText(
+					pContactSimpleModelObs.getTelephone());
+			this.mailTextField.setText(
+					pContactSimpleModelObs.getMail());
 			this.dateNaissanceTextField.setText(
 					formatter.format(
 							pContactSimpleModelObs.getDateNaissance()));
 			
 		} else {
 			
-			this.prenomTextField.setText(null);
-			this.nomTextField.setText(null);
-			this.rueTextField.setText(null);
-			this.villeTextField.setText(null);
-			this.codePostalTextField.setText(null);
-			this.dateNaissanceTextField.setText(null);
+			this.nettoyerVUE();
 			
 		}
 
     } // Fin de afficher(...)._____________________________________________
     
-   
+
+    
+    /**
+	 * {@inheritDoc}
+	 */
+    @Override
+    public final void nettoyerVUE() {
+    	
+    	this.prenomTextField.setText(null);
+		this.nomTextField.setText(null);
+		this.rueTextField.setText(null);
+		this.rue2TextField.setText(null);
+		this.villeTextField.setText(null);
+		this.codePostalTextField.setText(null);
+		this.paysTextField.setText(null);
+		this.telephoneTextField.setText(null);
+		this.mailTextField.setText(null);
+		this.dateNaissanceTextField.setText(null);
+		
+    } // Fin de nettoyerVUE()._____________________________________________
+    
+    
     
     /**
      * Détermine si la VUE est vide.<br/>

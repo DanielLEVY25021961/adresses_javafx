@@ -14,6 +14,7 @@ import javafx.beans.property.SimpleObjectProperty;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.property.StringProperty;
 import levy.daniel.application.model.dto.metier.contactsimple.IContactSimpleDTO;
+import levy.daniel.application.model.dto.metier.contactsimple.impl.ContactSimpleDTO;
 import levy.daniel.application.vues.desktop.metier.contactsimple.modelobs.IContactSimpleModelObs;
 import levy.daniel.application.vues.desktop.metier.contactsimple.modelobs.impl.ContactSimpleModelObs;
 
@@ -139,16 +140,84 @@ public final class ContactSimpleConvertisseurObservableDTO {
 							, telephoneStringProperty, mailStringProperty
 							, dateNaissanceStringProperty);
 				
-			} else {
-				
-				resultat = null;
 			}
 			
+			/* retourne null si pDTO == null. */
 			return resultat;
 			
 		} // Fin de synchronized._______________________________________
 		
 	} // Fin de convertirDTOEnObservable(...)._____________________________
+	
+
+	
+	/**
+	 * <b>convertit un OBSERVABLE en DTO</b>.<br/>
+	 * <ul>
+	 * <li>retourne null si pObservable == null.</li>
+	 * <li>récupère les valeurs dans les Properties de l'OBSERVABLE.</li>
+	 * <li>instancie un DTO avec les valeurs dans l'OBSERVABLE.</li>
+	 * </ul>
+	 *
+	 * @param pObservable : IContactSimpleModelObs.<br/>
+	 * 
+	 * @return : IContactSimpleDTO.<br/>
+	 */
+	public static IContactSimpleDTO convertirObservableEnDTO(
+							final IContactSimpleModelObs pObservable) {
+		
+		synchronized (ContactSimpleConvertisseurObservableDTO.class) {
+			
+			IContactSimpleDTO resultat = null;
+			
+			final DateTimeFormatter dateFormatterAffichage 
+				= DateTimeFormatter.ofPattern("dd MMMM yyyy");
+			
+			if (pObservable != null) {
+				
+				String localDateString = null;
+				
+				final LocalDate localDate 
+					= pObservable.getDateNaissance();
+				
+				if (localDate != null) {
+					localDateString 
+						= dateFormatterAffichage.format(localDate);
+				}
+				
+				/* récupère les valeurs dans les Properties 
+				 * de l'OBSERVABLE. */
+				final String idString = pObservable.getId();
+				final String prenomString = pObservable.getPrenom();
+				final String nomString = pObservable.getNom();
+				final String rueString = pObservable.getRue();
+				final String rue2String = pObservable.getRue2();
+				final String codePostalString = pObservable.getCodePostal();
+				final String villeString = pObservable.getVille();
+				final String paysString = pObservable.getPays();
+				final String telephoneString = pObservable.getTelephone();
+				final String mailString = pObservable.getMail();
+				final String dateNaissanceString = localDateString;
+				
+				/* instancie un DTO avec les valeurs dans l'OBSERVABLE. */
+				resultat 
+					= new ContactSimpleDTO(
+						idString
+						, prenomString, nomString
+						, rueString, rue2String
+						, codePostalString, villeString
+						, paysString
+						, telephoneString, mailString
+						, dateNaissanceString);
+				
+			}
+			
+			/* retourne null si pObservable == null. */
+			return resultat;
+			
+		} // Fin de synchronized._______________________________________
+		
+	} // Fin de convertirObservableEnDTO(...)._____________________________
 	
 	
 	

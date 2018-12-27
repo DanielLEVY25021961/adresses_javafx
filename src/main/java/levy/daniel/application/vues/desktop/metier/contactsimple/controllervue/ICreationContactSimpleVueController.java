@@ -70,17 +70,24 @@ public interface ICreationContactSimpleVueController {
     
     
 	/**
-	 * Affiche un ContactSimpleModelObs dans la VUE.<br/>
+	 * Affiche un OBSERVABLE ContactSimpleModelObs dans la VUE.<br/>
 	 * <ul>
-	 * <li></li>
+	 * <li>nettoie la VUE si pContactSimpleModelObs == null.</li>
 	 * </ul>
 	 *
 	 * @param pContactSimpleModelObs : IContactSimpleModelObs.<br/>
 	 */
-	void afficher(IContactSimpleModelObs pContactSimpleModelObs);
-	
+	void afficherDansVUE(IContactSimpleModelObs pContactSimpleModelObs);
 	
 
+	
+	/**
+	 * nettoie la VUE.<br/>
+	 */
+	void nettoyerVUE();
+	
+	
+	
 	/**
 	 * Getter de l'AnchorPane de la vue de création d'une ContactSimple.<br/>
 	 *

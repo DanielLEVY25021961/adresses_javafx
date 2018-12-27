@@ -10,177 +10,34 @@ import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
 import levy.daniel.application.model.dto.metier.contactsimple.IContactSimpleDTO;
+import levy.daniel.application.model.metier.contactsimple.impl.ContactSimple;
 
 
 /**
  * CLASSE ContactSimpleDTO :<br/>
- * CLASSE CONCRETE <b>ContactSimpleDTO</b> sous MODEL/DTO/METIER :<br/>
- * Les DTO ne servent qu'à véhiculer de l'information 
- * entre les couches VUE, CONTROLLER et MODEL.<br/>
  * 
  * <p>
- * <b>ContactSimpleDTO</b> modélise un <i>concept</i> de <b>Contact</b> 
- * (Personne avec des coordonnées) avec un nomString, un prénom et des coordonnées
- * <i>simples</i>.<br/>
- * Un ContactSimpleDTO ne possède qu'une seule adresse, 
- * un seul numéro de téléphone, et un seul mailString.
+ * DTO CONCRET pour les {@link ContactSimple}.
  * </p>
  * 
  * <ul>
- * <p>
- * <span style="text-decoration: underline;">
- * HERITE de :
- * </span>
- * </p>
- * <li><b>IContactSimple</b></li>
- * <li><b>IExportateurCsv</b> pour l'export d'un Objet 
- * métier en csv.</li>
- * <li><b>IExportateurJTable</b> pour l'affichage dans 
- * une JTable (Swing).</li>
- * <li><b>Comparable</b> pour l'affichage des Collections 
- * sous forme triée.</li>
- * <li><b>Cloneable</b> pour garantir que tout objet métier 
- * implémentant cette interface saura se cloner.</li>
- * <li><b>Serializable</b> pour garantir que tout objet métier 
- * implémentant cette interface pourra être serialisé.</li>
- * </ul>
- * 
- * <ul>
- * <p>
- * <span style="text-decoration: underline;">
- * Garantit que tout IContactSimple sait :
- * </span>
- * </p>
- * <li>se <b>comparer</b> à un autre IContactSimple.</li>
- * <li>se <b>cloner</b>.</li>
- * <li>s'exporter sous forme <b>csv</b>.</li>
- * <li>s'exporter sous forme <b>JTable</b>.</li>
- * </ul>
- * 
- * 
- * <ul>
- * <p>
- * <span style="text-decoration: underline;">
- * Garantit que tout IContactSimple possède à minima :
- * </span>
- * </p>
- * <li><b>idString</b> pour la mise en base.</li>
- * <li><b>prenomString</b>.</li>
- * <li><b>nomString</b>.</li>
- * <li><b>rueString</b>.</li>
- * <li><b>rue2String</b>.</li>
- * <li><b>codePostalString</b>.</li>
- * <li><b>villeString</b>.</li>
- * <li><b>paysString</b>.</li>
- * <li><b>telephoneString</b>.</li>
- * <li><b>mailString</b>.</li>
- * <li><b>dateNaissanceString</b>.</li>
+ * <li>Les DTO ne servent qu'à véhiculer de l'information 
+ * entre les couches VUE, CONTROLLER et MODEL.</li>
+ * <li>le DTO ne comprend <b>que des attributs typés String</b>.</li>
+ * <li>la VUE alimente le DTO avec les valeurs saisies par l'utilisateur.</li>
+ * <li>le DTO sert ensuite de conteneur de données 
+ * et est envoyé par la VUE vers le CONTROLLER.</li>
  * </ul>
  * 
  * <p>
- * <span style="text-decoration: underline;">EGALITE METIER</span>
+ * <b><span style="text-decoration: underline;">
+ * Diagramme des classes de ContactSimpleDTO :
+ * </span></b>
  * </p>
- * <ul>
- * <li>L'<b>égalité metier</b> d'un IContactSimple est vérifiée sur :</li>
-  * <ul>
- * <li><b>nomString</b> (insensible à la casse).</li>
- * <li><b>prenomString</b> (insensible à la casse).</li>
- * <li><b>dateNaissanceString</b>.</li>
- * </ul>
- * </ul>
- *  
  * <p>
- * <span style="text-decoration: underline;">COMPARAISON</span>
+ * <img src="../../../../../../../../../../../javadoc/images/model/dto/metier/contactsimple/diagramme_classes_ContactSimpleDTO.png" 
+ * alt="diagramme de classes de ContactSimpleDTO" border="1" align="center" />
  * </p>
- * <ul>
- * <li>La <b>comparaison</b> d'un IContactSimple est réalisée sur :</li>
-  * <ol>
- * <li><b>nomString</b> (insensible à la casse).</li>
- * <li><b>prenomString</b> (insensible à la casse).</li>
- * <li><b>dateNaissanceString</b> (le plus jeune en premier).</li>
- * </ol>
- * </ul>
- * 
- * <p>
- * <span style="text-decoration: underline;">DIAGRAMME DE CLASSES D'IMPLEMENTATION</span>
- * </p>
- * <ul>
- * <li>
- * <img src="../../../../../../../../../../javadoc/images/model/metier/contactsimple/diagramme_classes_contactsimple.png" 
- * alt="classes d'implémentation des IContactSimple" border="1" align="center" />
- * </li>
- * </ul>
- * 
- * <br/>
- * <p>
- * <span style="text-decoration: underline;">REGLES DE GESTION</span>
- * </p>
- * <ul>
- * <li>
- * Les <b>Règles de Gestion (RG)</b> applicables aux attributs 
- * d'un ICountry sont les suivantes :
- * </li>
- * <br/>
- * <table border="1">
- * <tr>
- * <th>Attribut</th><th>Règle de Gestion</th>
- * </tr>
- * 
- *  
- * <tr>
- * <td rowspan="3">
- * prenomString
- * </td>
- * <td>
- * "RG_NOMMAGE_PRENOM_RENSEIGNE_01
- *  : le prénom du ContactSimpleDTO 
- *  doit être renseigné (obligatoire)"
- * </td>
- * </tr>
- * <tr>
- * <td>
- * "RG_NOMMAGE_PRENOM_LITTERAL_02
- *  : le prénom du ContactSimpleDTO 
- *  ne doit contenir que des lettres ou des caractères spéciaux 
- *  '-', '_', ... (aucun chiffre)"
- * </td>
- * </tr>
- * <tr>
- * <td>
- * "RG_NOMMAGE_PRENOM_LONGUEUR_03
- *  : le prénom du ContactSimpleDTO 
- *  doit contenir entre [1] et [50] lettres"
- * </td>
- * </tr>
-
- * <tr>
- * <td rowspan="3">
- * nomString
- * </td>
- * <td>
- * "RG_NOMMAGE_NOM_RENSEIGNE_04 : 
- * le nomString du ContactSimpleDTO 
- * doit être renseigné (obligatoire)"
- * </td>
- * </tr>
- * <tr>
- * <td>
- * "RG_NOMMAGE_NOM_LITTERAL_05 : 
- * le nomString du ContactSimpleDTO 
- * ne doit contenir que des lettres ou des 
- * caractères spéciaux '-', '_', ... (aucun chiffre)"
- * </td>
- * </tr>
- * <tr>
- * <td>
- * "RG_NOMMAGE_NOM_LONGUEUR_06 : 
- * le nomString du ContactSimpleDTO 
- * doit contenir entre [1] et [50] lettres"
- * </td>
- * </tr>
- * 
- * </table>
- * </ul>
  * 
  * <br/>
  *

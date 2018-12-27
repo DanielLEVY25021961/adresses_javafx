@@ -1,9 +1,36 @@
 package levy.daniel.application.model.dto.metier.contactsimple;
 
+import levy.daniel.application.model.metier.contactsimple.impl.ContactSimple;
+
 /**
  * INTERFACE IContactSimpleDTO :<br/>
- * .<br/>
+ * 
+ * <p>
+ * DTO ABSTRAIT pour les {@link ContactSimple}.
+ * </p>
+ * 
+ * 
+ * <ul>
+ * <li>Les DTO ne servent qu'à véhiculer de l'information 
+ * entre les couches VUE, CONTROLLER et MODEL.</li>
+ * <li>le DTO ne comprend <b>que des attributs typés String</b>.</li>
+ * <li>la VUE alimente le DTO avec les valeurs saisies par l'utilisateur.</li>
+ * <li>le DTO sert ensuite de conteneur de données 
+ * et est envoyé par la VUE vers le CONTROLLER.</li>
+ * </ul>
+ * 
+ * <p>
+ * <b><span style="text-decoration: underline;">
+ * Diagramme des classes de ContactSimpleDTO :
+ * </span></b>
+ * </p>
+ * <p>
+ * <img src="../../../../../../../../../../javadoc/images/model/dto/metier/contactsimple/diagramme_classes_ContactSimpleDTO.png" 
+ * alt="diagramme de classes de ContactSimpleDTO" border="1" align="center" />
+ * </p>
+ * 
  * <br/>
+ * 
  *
  * - Exemple d'utilisation :<br/>
  *<br/>

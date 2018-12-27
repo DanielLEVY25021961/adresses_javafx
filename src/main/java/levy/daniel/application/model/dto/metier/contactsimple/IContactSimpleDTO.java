@@ -26,7 +26,8 @@ public interface IContactSimpleDTO {
 	
 	/**
 	 * {@inheritDoc}
-	 */
+	 */	
+	@Override
 	String toString();
 	
 

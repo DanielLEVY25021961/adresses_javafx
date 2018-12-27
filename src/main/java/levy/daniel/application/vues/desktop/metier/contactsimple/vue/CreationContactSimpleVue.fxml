@@ -10,7 +10,7 @@
 <?import javafx.scene.layout.GridPane?>
 <?import javafx.scene.layout.RowConstraints?>
 
-<AnchorPane fx:id="creationContactSimpleVueAnchorPane" prefHeight="300.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/8.0.141" xmlns:fx="http://javafx.com/fxml/1" fx:controller="levy.daniel.application.vues.desktop.metier.contactsimple.controllervue.impl.CreationContactSimpleVueController">
+<AnchorPane fx:id="creationContactSimpleVueAnchorPane" prefHeight="600.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/8.0.111" xmlns:fx="http://javafx.com/fxml/1" fx:controller="levy.daniel.application.vues.desktop.metier.contactsimple.controllervue.impl.CreationContactSimpleVueController">
    <children>
       <GridPane fx:id="contactSimpleGridPane" alignment="CENTER" layoutX="-175.0" layoutY="-200.0" prefHeight="233.0" prefWidth="600.0" AnchorPane.bottomAnchor="67.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
         <columnConstraints>
@@ -18,87 +18,120 @@
           <ColumnConstraints hgrow="SOMETIMES" maxWidth="399.0" minWidth="0.0" prefWidth="399.0" />
         </columnConstraints>
         <rowConstraints>
-          <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-          <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-          <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-            <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-            <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-            <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+          <RowConstraints minHeight="10.0" prefHeight="30.0" />
+          <RowConstraints minHeight="10.0" prefHeight="30.0" />
+          <RowConstraints minHeight="10.0" prefHeight="30.0" />
+            <RowConstraints minHeight="10.0" prefHeight="30.0" />
+            <RowConstraints minHeight="10.0" prefHeight="30.0" />
+            <RowConstraints minHeight="10.0" prefHeight="30.0" />
+            <RowConstraints />
+            <RowConstraints />
+            <RowConstraints />
+            <RowConstraints />
         </rowConstraints>
-         <children>
-            <Label fx:id="prenomLabel" prefHeight="17.0" prefWidth="57.0" text="prénom">
-               <GridPane.margin>
-                  <Insets left="20.0" />
-               </GridPane.margin>
-            </Label>
-            <Label fx:id="nomLabel" text="nom" GridPane.rowIndex="1">
-               <GridPane.margin>
-                  <Insets left="20.0" />
-               </GridPane.margin>
-            </Label>
-            <Label fx:id="rueLabel" text="rue" GridPane.rowIndex="2">
-               <GridPane.margin>
-                  <Insets left="20.0" />
-               </GridPane.margin>
-            </Label>
-            <Label fx:id="villeLabel" text="ville" GridPane.rowIndex="3">
-               <GridPane.margin>
-                  <Insets left="20.0" />
-               </GridPane.margin>
-            </Label>
-            <Label fx:id="codePostalLabel" text="code postal" GridPane.rowIndex="4">
-               <GridPane.margin>
-                  <Insets left="20.0" />
-               </GridPane.margin>
-            </Label>
-            <Label fx:id="dateNaissanceLabel" text="date de naissance" GridPane.rowIndex="5">
-               <GridPane.margin>
-                  <Insets left="20.0" />
-               </GridPane.margin>
-            </Label>
-            <TextField fx:id="prenomTextField" prefHeight="25.0" prefWidth="370.0" GridPane.columnIndex="1">
-               <GridPane.margin>
-                  <Insets right="20.0" />
-               </GridPane.margin>
-            </TextField>
-            <TextField fx:id="nomTextField" GridPane.columnIndex="1" GridPane.rowIndex="1">
-               <GridPane.margin>
-                  <Insets right="20.0" />
-               </GridPane.margin>
-            </TextField>
-            <TextField fx:id="rueTextField" GridPane.columnIndex="1" GridPane.rowIndex="2">
-               <GridPane.margin>
-                  <Insets right="20.0" />
-               </GridPane.margin>
-            </TextField>
-            <TextField fx:id="villeTextField" GridPane.columnIndex="1" GridPane.rowIndex="3">
-               <GridPane.margin>
-                  <Insets right="20.0" />
-               </GridPane.margin>
-            </TextField>
-            <TextField fx:id="codePostalTextField" GridPane.columnIndex="1" GridPane.rowIndex="4">
-               <GridPane.margin>
-                  <Insets right="20.0" />
-               </GridPane.margin>
-            </TextField>
-            <TextField fx:id="dateNaissanceTextField" GridPane.columnIndex="1" GridPane.rowIndex="5">
-               <GridPane.margin>
-                  <Insets right="20.0" />
-               </GridPane.margin>
-            </TextField>
-         </children>
+              <children>
+                 <Label fx:id="prenomLabel" text="Prénom :" GridPane.halignment="RIGHT">
+                    <GridPane.margin>
+                       <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
+                    </GridPane.margin></Label>
+                 <Label fx:id="nomLabel" text="Nom : " GridPane.halignment="RIGHT" GridPane.rowIndex="1">
+                    <GridPane.margin>
+                       <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
+                    </GridPane.margin></Label>
+                 <Label fx:id="rueLabel" text="Rue : " GridPane.halignment="RIGHT" GridPane.rowIndex="2">
+                    <GridPane.margin>
+                       <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
+                    </GridPane.margin></Label>
+                 <Label fx:id="villeLabel" text="Ville : " GridPane.halignment="RIGHT" GridPane.rowIndex="5">
+                    <GridPane.margin>
+                       <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
+                    </GridPane.margin></Label>
+                 <Label fx:id="codePostalLabel" text="Code Postal : " GridPane.halignment="RIGHT" GridPane.rowIndex="4">
+                    <GridPane.margin>
+                       <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
+                    </GridPane.margin></Label>
+                 <Label fx:id="dateNaissanceLabel" text="Date de Naissance : " GridPane.halignment="RIGHT" GridPane.rowIndex="9">
+                    <GridPane.margin>
+                       <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
+                    </GridPane.margin></Label>
+                 <TextField fx:id="prenomTextField" GridPane.columnIndex="1">
+                    <GridPane.margin>
+                       <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
+                    </GridPane.margin></TextField>
+                 <TextField fx:id="nomTextField" GridPane.columnIndex="1" GridPane.rowIndex="1">
+                    <GridPane.margin>
+                       <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
+                    </GridPane.margin></TextField>
+                 <TextField fx:id="rueTextField" GridPane.columnIndex="1" GridPane.rowIndex="2">
+                    <GridPane.margin>
+                       <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
+                    </GridPane.margin></TextField>
+                 <TextField fx:id="villeTextField" GridPane.columnIndex="1" GridPane.rowIndex="5">
+                    <GridPane.margin>
+                       <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
+                    </GridPane.margin></TextField>
+                 <TextField fx:id="dateNaissanceTextField" GridPane.columnIndex="1" GridPane.rowIndex="9">
+                    <GridPane.margin>
+                       <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
+                    </GridPane.margin></TextField>
+                 <Label fx:id="mailLabel" text="e-mail : " GridPane.halignment="RIGHT" GridPane.rowIndex="8">
+                    <GridPane.margin>
+                       <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
+                    </GridPane.margin>
+                 </Label>
+                 <TextField fx:id="mailTextField" GridPane.columnIndex="1" GridPane.rowIndex="8">
+                    <GridPane.margin>
+                       <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
+                    </GridPane.margin>
+                 </TextField>
+                 <Label fx:id="telephoneLabel" text="Téléphone : " GridPane.halignment="RIGHT" GridPane.rowIndex="7">
+                    <GridPane.margin>
+                       <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
+                    </GridPane.margin>
+                 </Label>
+                 <TextField fx:id="telephoneTextField" GridPane.columnIndex="1" GridPane.rowIndex="7">
+                    <GridPane.margin>
+                       <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
+                    </GridPane.margin>
+                 </TextField>
+                 <TextField fx:id="paysTextField" GridPane.columnIndex="1" GridPane.rowIndex="6">
+                    <GridPane.margin>
+                       <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
+                    </GridPane.margin>
+                 </TextField>
+                 <Label fx:id="paysLabel" text="Pays : " GridPane.halignment="RIGHT" GridPane.rowIndex="6">
+                    <GridPane.margin>
+                       <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
+                    </GridPane.margin>
+                 </Label>
+                 <Label fx:id="rue2Label" text="Complément d'adresse : " GridPane.halignment="RIGHT" GridPane.rowIndex="3">
+                    <GridPane.margin>
+                       <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
+                    </GridPane.margin>
+                 </Label>
+                 <TextField fx:id="rue2TextField" GridPane.columnIndex="1" GridPane.rowIndex="3">
+                    <GridPane.margin>
+                       <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
+                    </GridPane.margin>
+                 </TextField>
+                 <TextField fx:id="codePostalTextField" maxWidth="100.0" GridPane.columnIndex="1" GridPane.rowIndex="4">
+                    <GridPane.margin>
+                       <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
+                    </GridPane.margin>
+                 </TextField>
+              </children>
          <padding>
             <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
          </padding>
       </GridPane>
-      <ButtonBar fx:id="creationContactSimpleVueButtonBar" layoutX="387.0" layoutY="246.0" prefHeight="40.0" prefWidth="149.0">
+      <ButtonBar fx:id="creationContactSimpleVueButtonBar" layoutX="389.0" layoutY="533.0" prefHeight="40.0" prefWidth="149.0">
         <buttons>
-          <Button fx:id="enregistrerButton" mnemonicParsing="false" onAction="#enregistrer" text="Enregistrer">
+            <Button fx:id="annulerButton" mnemonicParsing="false" onAction="#annuler" text="Annuler">
                <padding>
                   <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
                </padding>
             </Button>
-            <Button fx:id="annulerButton" mnemonicParsing="false" onAction="#annuler" text="Annuler">
+          <Button fx:id="enregistrerButton" mnemonicParsing="false" onAction="#enregistrer" text="Enregistrer">
                <padding>
                   <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
                </padding>

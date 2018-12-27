@@ -14,6 +14,8 @@ import javafx.scene.control.TextField;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.GridPane;
 import javafx.stage.Stage;
+import levy.daniel.application.model.dto.metier.contactsimple.IContactSimpleDTO;
+import levy.daniel.application.model.dto.metier.contactsimple.impl.ContactSimpleDTO;
 import levy.daniel.application.vues.desktop.metier.contactsimple.controllervue.ICreationContactSimpleVueController;
 import levy.daniel.application.vues.desktop.metier.contactsimple.modelobs.IContactSimpleModelObs;
 import levy.daniel.application.vues.desktop.metier.contactsimple.modelobs.impl.ContactSimpleModelObs;
@@ -92,16 +94,40 @@ public class CreationContactSimpleVueController implements ICreationContactSimpl
 	private Label rueLabel;
 	
 	/**
-	 * Label pour le code postal.<br/>
+	 * Label pour le complément de rue.<br/>
 	 */
 	@FXML
-	private Label codePostalLabel;
+	private Label rue2Label;
 	
 	/**
 	 * Label pour la ville.<br/>
 	 */
 	@FXML
 	private Label villeLabel;
+	
+	/**
+	 * Label pour le code postal.<br/>
+	 */
+	@FXML
+	private Label codePostalLabel;
+
+	/**
+	 * Label pour le pays.<br/>
+	 */
+	@FXML
+	private Label paysLabel;
+	
+	/**
+	 * Label pour le téléphone.<br/>
+	 */
+	@FXML
+	private Label telephoneLabel;
+	
+	/**
+	 * Label pour le mail.<br/>
+	 */
+	@FXML
+	private Label mailLabel;
 	
 	/**
 	 * Label pour la date de naissance.<br/>
@@ -129,10 +155,10 @@ public class CreationContactSimpleVueController implements ICreationContactSimpl
 	private TextField rueTextField;
 	
 	/**
-	 * TextField pour le code postal.<br/>
+	 * TextField pour le complément de rue.<br/>
 	 */
 	@FXML
-	private TextField codePostalTextField;
+	private TextField rue2TextField;
 	
 	/**
 	 * TextField pour la ville.<br/>
@@ -141,11 +167,35 @@ public class CreationContactSimpleVueController implements ICreationContactSimpl
 	private TextField villeTextField;
 	
 	/**
+	 * TextField pour le code postal.<br/>
+	 */
+	@FXML
+	private TextField codePostalTextField;
+
+	/**
+	 * TextField pour le pays.<br/>
+	 */
+	@FXML
+	private TextField paysTextField;
+
+	/**
+	 * TextField pour le téléphone.<br/>
+	 */
+	@FXML
+	private TextField telephoneTextField;
+
+	/**
+	 * TextField pour le mail.<br/>
+	 */
+	@FXML
+	private TextField mailTextField;
+	
+	/**
 	 * TextField pour la date de naissance.<br/>
 	 */
 	@FXML
 	private TextField dateNaissanceTextField;
-
+	
 	/**
 	 * barre de boutons.<br/>
 	 */
@@ -225,6 +275,39 @@ public class CreationContactSimpleVueController implements ICreationContactSimpl
 
     
     /**
+     * .<br/>
+     * <br/>
+     *
+     * @return : IContactSimpleDTO :  .<br/>
+     */
+    private IContactSimpleDTO lireVue() {
+    	
+    	final String prenomString = this.prenomTextField.getText();
+    	final String nomString = this.nomTextField.getText();
+    	final String rueString = this.rueTextField.getText();
+    	final String rue2String = this.rue2TextField.getText();
+    	final String codePostalString = this.codePostalTextField.getText();
+    	final String villeString = this.villeTextField.getText();
+    	final String paysString = this.paysTextField.getText();
+    	final String telephoneString = this.telephoneTextField.getText();
+    	final String mailString = this.mailTextField.getText();
+    	final String dateNaissanceString 
+    		= this.dateNaissanceTextField.getText();
+    	
+    	final IContactSimpleDTO dto 
+    		= new ContactSimpleDTO(
+    				prenomString, nomString
+    				, rueString, rue2String
+    				, codePostalString, villeString, paysString
+    				, telephoneString, mailString
+    				, dateNaissanceString);
+    	
+    	return dto;
+    }
+    
+    
+    
+    /**
    	 * {@inheritDoc}
    	 */
     @Override
@@ -240,13 +323,7 @@ public class CreationContactSimpleVueController implements ICreationContactSimpl
     	
     	LocalDate dateNaissance = null;
     	
-    	final String prenomString = this.prenomTextField.getText();
-    	final String nomString = this.nomTextField.getText();
-    	final String rueString = this.rueTextField.getText();
-    	final String codePostalString = this.codePostalTextField.getText();
-    	final String villeString = this.villeTextField.getText();
-    	final String dateNaissanceString 
-    		= this.dateNaissanceTextField.getText();
+    	
     	
     	
     	try {
@@ -394,7 +471,7 @@ public class CreationContactSimpleVueController implements ICreationContactSimpl
 	} // Fin de setContactSimpleGridPane(...)._____________________________
 
 
-		
+	
 	/**
 	 * {@inheritDoc}
 	 */
@@ -402,8 +479,8 @@ public class CreationContactSimpleVueController implements ICreationContactSimpl
 	public final Label getPrenomLabel() {
 		return this.prenomLabel;
 	} // Fin de getPrenomLabel().__________________________________________
-	
-	
+
+
 	
 	/**
 	 * {@inheritDoc}
@@ -413,8 +490,8 @@ public class CreationContactSimpleVueController implements ICreationContactSimpl
 			final Label pPrenomLabel) {
 		this.prenomLabel = pPrenomLabel;
 	} // Fin de setPrenomLabel(...)._______________________________________
-	
-	
+
+
 	
 	/**
 	 * {@inheritDoc}
@@ -423,8 +500,8 @@ public class CreationContactSimpleVueController implements ICreationContactSimpl
 	public final Label getNomLabel() {
 		return this.nomLabel;
 	} // Fin de getNomLabel()._____________________________________________
-	
-	
+
+
 	
 	/**
 	 * {@inheritDoc}
@@ -434,8 +511,8 @@ public class CreationContactSimpleVueController implements ICreationContactSimpl
 			final Label pNomLabel) {
 		this.nomLabel = pNomLabel;
 	} // Fin de setNomLabel(...).__________________________________________
-	
-	
+
+
 	
 	/**
 	 * {@inheritDoc}
@@ -444,8 +521,8 @@ public class CreationContactSimpleVueController implements ICreationContactSimpl
 	public final Label getRueLabel() {
 		return this.rueLabel;
 	} // Fin de getRueLabel()._____________________________________________
-	
-	
+
+
 	
 	/**
 	 * {@inheritDoc}
@@ -455,30 +532,30 @@ public class CreationContactSimpleVueController implements ICreationContactSimpl
 			final Label pRueLabel) {
 		this.rueLabel = pRueLabel;
 	} // Fin de setRueLabel(...).__________________________________________
-	
-		
-	
-	/**
-	 * {@inheritDoc}
-	 */
-	@Override
-	public final Label getCodePostalLabel() {
-		return this.codePostalLabel;
-	} // Fin de getCodePostalLabel().______________________________________
-	
-	
+
+
 	
 	/**
 	 * {@inheritDoc}
 	 */
 	@Override
-	public final void setCodePostalLabel(
-			final Label pCodePostalLabel) {
-		this.codePostalLabel = pCodePostalLabel;
-	} // Fin de setCodePostalLabel(...).___________________________________
-	
-	
-	
+	public final Label getRue2Label() {
+		return this.rue2Label;
+	} // Fin de getRue2Label().____________________________________________
+
+
+
+	/**
+	 * {@inheritDoc}
+	 */
+	@Override
+	public final void setRue2Label(
+			final Label pRue2Label) {
+		this.rue2Label = pRue2Label;
+	} // Fin de setRue2Label(...)._________________________________________
+
+
+
 	/**
 	 * {@inheritDoc}
 	 */
@@ -486,8 +563,8 @@ public class CreationContactSimpleVueController implements ICreationContactSimpl
 	public final Label getVilleLabel() {
 		return this.villeLabel;
 	} // Fin de getVilleLabel().___________________________________________
-	
-	
+
+
 	
 	/**
 	 * {@inheritDoc}
@@ -497,9 +574,93 @@ public class CreationContactSimpleVueController implements ICreationContactSimpl
 			final Label pVilleLabel) {
 		this.villeLabel = pVilleLabel;
 	} // Fin de setVilleLabel(...).________________________________________
-	
+
 
 	
+	/**
+	 * {@inheritDoc}
+	 */
+	@Override
+	public final Label getCodePostalLabel() {
+		return this.codePostalLabel;
+	} // Fin de getCodePostalLabel().______________________________________
+
+
+	
+	/**
+	 * {@inheritDoc}
+	 */
+	@Override
+	public final void setCodePostalLabel(
+			final Label pCodePostalLabel) {
+		this.codePostalLabel = pCodePostalLabel;
+	} // Fin de setCodePostalLabel(...).___________________________________
+
+
+	
+	/**
+	 * {@inheritDoc}
+	 */
+	@Override
+	public final Label getPaysLabel() {
+		return this.paysLabel;
+	} // Fin de getPaysLabel().____________________________________________
+
+
+
+	/**
+	 * {@inheritDoc}
+	 */
+	@Override
+	public final void setPaysLabel(
+			final Label pPaysLabel) {
+		this.paysLabel = pPaysLabel;		
+	} // Fin de setPaysLabel(...)._________________________________________
+
+
+	
+	/**
+	 * {@inheritDoc}
+	 */
+	@Override
+	public final Label getTelephoneLabel() {
+		return this.telephoneLabel;
+	} // Fin de getTelephoneLabel()._______________________________________
+
+
+
+	/**
+	 * {@inheritDoc}
+	 */
+	@Override
+	public final void setTelephoneLabel(
+			final Label pTelephoneLabel) {
+		this.telephoneLabel = pTelephoneLabel;		
+	} // Fin de setTelephoneLabel(...).____________________________________
+
+
+
+	/**
+	 * {@inheritDoc}
+	 */
+	@Override
+	public final Label getMailLabel() {
+		return this.mailLabel;
+	} // Fin de getMailLabel().____________________________________________
+
+
+
+	/**
+	 * {@inheritDoc}
+	 */
+	@Override
+	public final void setMailLabel(
+			final Label pMailLabel) {
+		this.mailLabel = pMailLabel;		
+	} // Fin de setMailLabel(...)._________________________________________
+
+
+
 	/**
 	 * {@inheritDoc}
 	 */
@@ -507,8 +668,8 @@ public class CreationContactSimpleVueController implements ICreationContactSimpl
 	public final Label getDateNaissanceLabel() {
 		return this.dateNaissanceLabel;
 	} // Fin de getDateNaissanceLabel().___________________________________
-	
-	
+
+
 	
 	/**
 	 * {@inheritDoc}
@@ -518,7 +679,7 @@ public class CreationContactSimpleVueController implements ICreationContactSimpl
 			final Label pDateNaissanceLabel) {
 		this.dateNaissanceLabel = pDateNaissanceLabel;
 	} // Fin de setDateNaissanceLabel(...).________________________________
-	
+
 
 	
 	/**
@@ -588,6 +749,27 @@ public class CreationContactSimpleVueController implements ICreationContactSimpl
 	 * {@inheritDoc}
 	 */
 	@Override
+	public final TextField getRue2TextField() {
+		return this.rue2TextField;
+	} // Fin de getRue2TextField().________________________________________
+
+
+	
+	/**
+	 * {@inheritDoc}
+	 */
+	@Override
+	public final void setRue2TextField(
+			final TextField pRue2TextField) {
+		this.rue2TextField = pRue2TextField;
+	} // Fin de setRue2TextField(...)._____________________________________
+
+
+	
+	/**
+	 * {@inheritDoc}
+	 */
+	@Override
 	public final TextField getVilleTextField() {
 		return this.villeTextField;
 	} // Fin de getVilleTextField()._______________________________________
@@ -625,7 +807,70 @@ public class CreationContactSimpleVueController implements ICreationContactSimpl
 	} // Fin de setCodePostalTextField(...)._______________________________
 
 
-	
+
+	/**
+	 * {@inheritDoc}
+	 */
+	@Override
+	public final TextField getPaysTextField() {
+		return this.paysTextField;
+	} // Fin de getPaysTextField().________________________________________
+
+
+
+	/**
+	 * {@inheritDoc}
+	 */
+	@Override
+	public final void setPaysTextField(
+			final TextField pPaysTextField) {
+		this.paysTextField = pPaysTextField;		
+	} // Fin de setPaysTextField(...)._____________________________________
+
+
+
+	/**
+	 * {@inheritDoc}
+	 */
+	@Override
+	public final TextField getTelephoneTextField() {
+		return this.telephoneTextField;
+	} // Fin de getTelephoneTextField().___________________________________
+
+
+
+	/**
+	 * {@inheritDoc}
+	 */
+	@Override
+	public final void setTelephoneTextField(
+			final TextField pTelephoneTextField) {
+		this.telephoneTextField = pTelephoneTextField;		
+	} // Fin de setTelephoneTextField(...).________________________________
+
+
+
+	/**
+	 * {@inheritDoc}
+	 */
+	@Override
+	public final TextField getMailTextField() {
+		return this.mailTextField;
+	} // Fin de getMailTextField().________________________________________
+
+
+
+	/**
+	 * {@inheritDoc}
+	 */
+	@Override
+	public final void setMailTextField(
+			final TextField pMailTextField) {
+		this.mailTextField = pMailTextField;		
+	} // Fin de setMailTextField(...)._____________________________________
+
+
+
 	/**
 	 * {@inheritDoc}
 	 */

@@ -280,7 +280,7 @@ public class CreationContactSimpleVueController implements ICreationContactSimpl
      *
      * @return : IContactSimpleDTO :  .<br/>
      */
-    private IContactSimpleDTO lireVue() {
+    private IContactSimpleDTO lireVueEtFournirDTO() {
     	
     	final String prenomString = this.prenomTextField.getText();
     	final String nomString = this.nomTextField.getText();

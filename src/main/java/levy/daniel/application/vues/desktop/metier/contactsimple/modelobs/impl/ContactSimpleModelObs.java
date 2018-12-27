@@ -765,6 +765,42 @@ public class ContactSimpleModelObs implements IContactSimpleModelObs {
 	} // Fin de getRueProperty().__________________________________________
 
 
+	
+	/**
+	 * {@inheritDoc}
+	 */
+	@Override
+	public final String getRue2() {
+		if (this.rue2 != null) {
+			return this.rue2.get();
+		}
+		return null;
+	} // Fin de getRue2()._________________________________________________
+	
+	
+	
+	/**
+	 * {@inheritDoc}
+	 */
+	@Override
+	public final void setRue2(
+			final String pRue2) {
+		if (this.rue2 != null) {
+			this.rue2.set(pRue2);
+		}		
+	} // Fin de setRue2(...).______________________________________________
+
+
+
+	/**
+	 * {@inheritDoc}
+	 */
+	@Override
+	public final StringProperty getRue2Property() {	
+		return this.rue2;
+	} // Fin de getRue2Property()._________________________________________
+
+
 		
 	/**
 	 * {@inheritDoc}
@@ -838,6 +874,114 @@ public class ContactSimpleModelObs implements IContactSimpleModelObs {
 
 
 		
+	/**
+	 * {@inheritDoc}
+	 */
+	@Override
+	public final String getPays() {
+		if (this.pays != null) {
+			return this.pays.get();
+		}
+		return null;
+	} // Fin de getPays()._________________________________________________
+
+
+
+	/**
+	 * {@inheritDoc}
+	 */
+	@Override
+	public final void setPays(
+			final String pPays) {
+		if (this.pays != null) {
+			this.pays.set(pPays);
+		}		
+	} // Fin de setPays(...).______________________________________________
+
+
+
+	/**
+	 * {@inheritDoc}
+	 */
+	@Override
+	public StringProperty getPaysProperty() {
+		return this.pays;
+	} // Fin de getPaysProperty()._________________________________________
+
+
+	
+	/**
+	 * {@inheritDoc}
+	 */
+	@Override
+	public final String getTelephone() {
+		if (this.telephone != null) {
+			return this.telephone.get();
+		}
+		return null;
+	} // Fin de getTelephone().____________________________________________
+
+
+
+	/**
+	 * {@inheritDoc}
+	 */
+	@Override
+	public final void setTelephone(
+			final String pTelephone) {
+		if (this.telephone != null) {
+			this.telephone.set(pTelephone);
+		}		
+	} // Fin de setTelephone(...)._________________________________________
+
+
+
+	/**
+	 * {@inheritDoc}
+	 */
+	@Override
+	public StringProperty getTelephoneProperty() {
+		return this.telephone;
+	} // Fin de getTelephoneProperty().____________________________________
+
+
+	
+	/**
+	 * {@inheritDoc}
+	 */
+	@Override
+	public final String getMail() {
+		if (this.mail != null) {
+			return this.mail.get();
+		}
+		return null;
+	} // Fin de getMail().____________________________________________
+
+
+
+	/**
+	 * {@inheritDoc}
+	 */
+	@Override
+	public final void setMail(
+			final String pMail) {
+		if (this.mail != null) {
+			this.mail.set(pMail);
+		}		
+	} // Fin de setMail(...)._________________________________________
+
+
+
+	/**
+	 * {@inheritDoc}
+	 */
+	@Override
+	public StringProperty getMailProperty() {
+		return this.mail;
+	} // Fin de getMailProperty().____________________________________
+
+
+
 	/**
 	 * {@inheritDoc}
 	 */

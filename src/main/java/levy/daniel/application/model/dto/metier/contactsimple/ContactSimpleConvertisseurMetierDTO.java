@@ -8,6 +8,7 @@ import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
+import levy.daniel.application.model.dto.metier.contactsimple.impl.ContactSimpleDTO;
 import levy.daniel.application.model.metier.contactsimple.IContactSimple;
 import levy.daniel.application.model.metier.contactsimple.impl.ContactSimple;
 
@@ -64,6 +65,8 @@ public final class ContactSimpleConvertisseurMetierDTO {
 	 * <li>récupère les valeurs String dans le DTO.</li>
 	 * <li>convertit les String du DTO en types de l'Objet métier.</li>
 	 * <li>injecte les valeurs typées dans un OBJET METIER.</li>
+	 * <li>accepte les formats [dd MMMM yyyy][dd/MM/yyyy][yyyy-MM-dd]
+	 * [yyyy-MMM-dd] pour le parse des dates</li>
 	 * </ul>
 	 *
 	 * @param pDTO : IContactSimpleDTO.<br/>
@@ -104,15 +107,15 @@ public final class ContactSimpleConvertisseurMetierDTO {
 					}
 				}
 				
-				String prenom = prenomString;
-				String nom = nomString;
-				String rue = rueString;
-				String rue2 = rue2String;
-				String codePostal = codePostalString;
-				String ville = villeString;
-				String pays = paysString;
-				String telephone = telephoneString;
-				String mail = mailString;
+				final String prenom = prenomString;
+				final String nom = nomString;
+				final String rue = rueString;
+				final String rue2 = rue2String;
+				final String codePostal = codePostalString;
+				final String ville = villeString;
+				final String pays = paysString;
+				final String telephone = telephoneString;
+				final String mail = mailString;
 				LocalDate dateNaissance = null;
 				
 				if (!StringUtils.isBlank(dateNaissanceString)) {
@@ -135,6 +138,88 @@ public final class ContactSimpleConvertisseurMetierDTO {
 		} // Fin de synchronized._______________________
 		
 	} // Fin de convertirDTOEnObjetMetier(...).____________________________
+	
+
+	
+	/**
+	 * <b>convertit un OBJET METIER en DTO</b>.<br/>
+	 * <ul>
+	 * <li>retourne null si pObject == null.</li>
+	 * <li>récupère les valeurs typées dans l'objet métier.</li>
+	 * <li>convertit les types de l'Objet métier en String du DTO.</li>
+	 * <li>injecte les valeurs String dans un DTO.</li>
+	 * <li>formate les LocalDate au format "dd MMMM yyyy" 
+	 * (12 février 1962).</li>
+	 * </ul>
+	 *
+	 * @param pObject : Objet métier.<br/>
+	 * 
+	 * @return : IContactSimpleDTO : DTO.<br/>
+	 */
+	public static IContactSimpleDTO convertirObjetMetierEnDTO(
+			final IContactSimple pObject) {
+		
+		synchronized (ContactSimpleConvertisseurMetierDTO.class) {
+			
+			IContactSimpleDTO resultat = null;
+			
+			if (pObject != null) {
+				
+				/* 12 février 1962. */
+				final DateTimeFormatter dateFormatterAffichage 
+					= DateTimeFormatter.ofPattern("dd MMMM yyyy")
+						.withLocale(Locale.getDefault());
+				
+				/* récupère les valeurs typées dans l'objet métier. */
+				final Long id = pObject.getId();
+				final String nom = pObject.getNom();
+				final String prenom = pObject.getPrenom();
+				final String rue = pObject.getRue();
+				final String rue2 = pObject.getRue2();
+				final String codePostal = pObject.getCodePostal();
+				final String ville = pObject.getVille();
+				final String pays = pObject.getPays();
+				final String telephone = pObject.getTelephone();
+				final String mail = pObject.getMail();
+				final LocalDate dateNaissance = pObject.getDateNaissance();
+				
+				/* convertit les types de l'Objet métier en String du DTO. */
+				final String idString = String.valueOf(id);
+				final String nomString = nom;
+				final String prenomString = prenom;
+				final String rueString = rue;
+				final String rue2String = rue2;
+				final String codePostalString = codePostal;
+				final String villeString = ville;
+				final String paysString = pays;
+				final String telephoneString = telephone;
+				final String mailString = mail;
+				String dateNaissanceString = null;
+				
+				if (dateNaissance != null) {
+					dateNaissanceString 
+						= dateFormatterAffichage.format(dateNaissance);
+				} 
+				
+				/* injecte les valeurs String dans un DTO. */
+				resultat 
+					= new ContactSimpleDTO(
+							idString
+							, prenomString, nomString
+							, rueString
+							, rue2String
+							, codePostalString, villeString
+							, paysString
+							, telephoneString, mailString
+							, dateNaissanceString);
+				
+			}
+						
+			return resultat;
+			
+		} // Fin de synchronized._______________________
+		
+	} // Fin de convertirObjetMetierEnDTO(...).____________________________
 	
 	
 	

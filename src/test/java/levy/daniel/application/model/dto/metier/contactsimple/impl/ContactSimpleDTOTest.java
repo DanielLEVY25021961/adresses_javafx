@@ -1,6 +1,7 @@
 package levy.daniel.application.model.dto.metier.contactsimple.impl;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertNull;
 
 import java.time.LocalDate;
@@ -116,7 +117,7 @@ public class ContactSimpleDTOTest {
 					
 		// **********************************
 		// AFFICHAGE DANS LE TEST ou NON
-		final boolean affichage = true;
+		final boolean affichage = false;
 		// **********************************
 		
 		/* AFFICHAGE A LA CONSOLE. */
@@ -141,32 +142,40 @@ public class ContactSimpleDTOTest {
 		assertEquals("objetTransforme1 equals objet1 : "
 				, objet1, objetTransforme1);
 		
-//		final IContactSimpleDTO dtoTransforme1 = new DeveloppeurDTO(objet1);
+		final IContactSimpleDTO dtoTransforme1 
+			= ContactSimpleConvertisseurMetierDTO.convertirObjetMetierEnDTO(objet1);
 		
 		/* AFFICHAGE A LA CONSOLE. */
-//		if (AFFICHAGE_GENERAL && affichage) {
-//			System.out.println();
-//			System.out.println("DTO créé en transformant l'objet métier : " 
-//						+ dtoTransforme1.toString());
-//			System.out.println("objet1DTO : " + objet1DTO);
-//		}
+		if (AFFICHAGE_GENERAL && affichage) {
+			System.out.println();
+			System.out.println("OBJET METIER : " + objet1.toString());
+			System.out.println("DTO créé en transformant l'objet métier : " 
+						+ dtoTransforme1.toString());
+			System.out.println("objet1DTO : " + objet1DTO);
+		}
 		
 		/* vérifie que le constructeur transformateur d'objet métier 
 		 * dans le DTO fonctionne. */
-//		assertEquals("dtoTransforme1 equals objet1DTO : "
-//				, objet1DTO, dtoTransforme1);
+		assertEquals("dtoTransforme1 equals objet1DTO : "
+				, objet1DTO, dtoTransforme1);
 
 	} // Fin de testTransformateur().______________________________________
 	
 
+	
 	/**
 	 * teste la méthode fournirLodalDate(String).<br/>
 	 * <ul>
 	 * <li>garantit que fournirLocalDate(null) retourne null.</li>
-	 * <li></li>
-	 * <li></li>
-	 * <li></li>
-	 * <li></li>
+	 * <li>garantit que fournirLocalDate("dd MMMM yyyy") (12 février 1960) 
+	 * n'est pas null et vaut la bonne date.</li>
+	 * <li>garantit que fournirLocalDate("dd/MM/yyyy") (12/02/1960) 
+	 * n'est pas null et vaut la bonne date.</li>
+	 * <li>garantit que fournirLocalDate("yyyy-MMM-dd") (1960-févr.-12) 
+	 * n'est pas null et vaut la bonne date.</li>
+	 * <li>garantit que fournirLocalDate("yyyy-MM-dd") (1960-02-12) 
+	 * n'est pas null et vaut la bonne date.</li>
+	 * <li>garantit que fournirLocalDate(dateInexistante) retourne null.</li>
 	 * </ul>
 	 */
 	@SuppressWarnings(UNUSED)
@@ -175,7 +184,7 @@ public class ContactSimpleDTOTest {
 				
 		// **********************************
 		// AFFICHAGE DANS LE TEST ou NON
-		final boolean affichage = true;
+		final boolean affichage = false;
 		// **********************************
 		
 		/* AFFICHAGE A LA CONSOLE. */
@@ -244,6 +253,25 @@ public class ContactSimpleDTOTest {
 
 		/* garantit que fournirLocalDate(null) retourne null. */
 		assertNull("dateNull doit être null : ", dateNull);
+		
+		/* garantit que fournirLocalDate("dd MMMM yyyy") (12 février 1960) n'est pas null et vaut la bonne date. */
+		assertNotNull("dateAffichage ne doit pas être null : ", dateAffichage);
+		assertEquals("", LocalDate.of(1960, 2, 12), dateAffichage);
+		
+		/* garantit que fournirLocalDate("dd/MM/yyyy") (12/02/1960) n'est pas null et vaut la bonne date. */
+		assertNotNull("dateSaisie ne doit pas être null : ", dateSaisie);
+		assertEquals("", LocalDate.of(1960, 2, 12), dateSaisie);
+		
+		/* garantit que fournirLocalDate("yyyy-MMM-dd") (1960-févr.-12) n'est pas null et vaut la bonne date. */
+		assertNotNull("dateIso1 ne doit pas être null : ", dateIso1);
+		assertEquals("", LocalDate.of(1960, 2, 12), dateIso1);
+		
+		/* garantit que fournirLocalDate("yyyy-MM-dd") (1960-02-12) n'est pas null et vaut la bonne date. */
+		assertNotNull("dateIso ne doit pas être null : ", dateIso);
+		assertEquals("", LocalDate.of(1960, 2, 12), dateIso);
+		
+		/* garantit que fournirLocalDate(dateInexistante) retourne null. */
+		assertNull("dateInexistante doit être null : ", dateInexistante);
 		
 	} // Fin de testFournirLocalDate().____________________________________
 	

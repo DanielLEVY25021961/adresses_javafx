@@ -113,7 +113,7 @@ public class AccueilController implements IAccueilController {
 	 * CONTROLLER gérant les listes de ContactSimple et assurant le lien 
 	 * entre la logique metier et les objets metier "Observers".<br/>
 	 */
-	private IListeContactSimplesModelObs listeContactSimplesModelObs;
+	private transient IListeContactSimplesModelObs listeContactSimplesModelObs;
 	
 
 	/**

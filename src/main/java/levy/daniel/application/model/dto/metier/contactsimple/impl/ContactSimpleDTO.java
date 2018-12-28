@@ -2,6 +2,7 @@ package levy.daniel.application.model.dto.metier.contactsimple.impl;
 
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
+import java.util.Locale;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -295,6 +296,176 @@ public class ContactSimpleDTO implements IContactSimpleDTO {
 		return null;
 		
 	} // Fin de fournirLocalDate(...)._____________________________________
+
+
+	
+	/**
+	 * <b>Instancie et retourne une LocalDate à partir d'une String 
+	 * SAISIE soit <br/>
+	 * - sous la forme "dd MMMM yyyy" comme 12 février 1962,<br/>
+	 * - soit sous la forme "dd/MM/yyyy" comme 12/02/1962,<br/>
+	 * - soit sous la forme ISO "yyyy-MMM-dd" comme 1962-02-12</b>.<br/>
+	 * <ul>
+	 * <li>Par exemple, <code>fournirLocalDate("05/01/1976")</code> 
+	 * retourne une LocalDate située le 05 janvier 1976.</li>
+	 * <li>utilise <code>dateFormatterSaisie.<b>parse</b>(pString
+	 * , LocalDate::from);</code></li>
+	 * <li>essaie d'abord avec le format d'affichage 12 février 1962.</li>
+	 * <li>essaie ensuite avec le format d'affichage 12/02/1962.</li>
+	 * <li>essaie finalement avec le format d'affichage ISO 1962-02-12.</li>
+	 * <li>retourne null si pString n'est conforme à aucun de ces formats.</li>
+	 * </ul>
+	 * - retourne null si pString est blank.<br/>
+	 * <br/>
+	 *
+	 * @param pString : String : 
+	 * date sous forme de String au format "dd MMMM yyyy"
+	 * , "dd/MM/yyyy" ou ISO "yyyy-MMM-dd".<br/>
+	 * 
+	 * @return : LocalDate.<br/>
+	 */
+	private LocalDate fournirLocalDateMulti(
+							final String pString) {
+		
+		/* retourne null si pString est blank. */
+		if (StringUtils.isBlank(pString)) {
+			return null;
+		}
+
+		/* 12 février 1962. */
+		final DateTimeFormatter dateFormatterAffichage 
+			= DateTimeFormatter.ofPattern("dd MMMM yyyy")
+				.withLocale(Locale.getDefault());
+		
+		/* 12/02/1962. */
+		final DateTimeFormatter dateFormatterSaisie 
+		= DateTimeFormatter.ofPattern("dd/MM/yyyy")
+			.withLocale(Locale.getDefault());
+		
+		/* 1962-02-12. */
+		final DateTimeFormatter dateFormatterIso 
+			= DateTimeFormatter.ofPattern("[yyyy-MM-dd][yyyy-MMM-dd]")
+				.withLocale(Locale.getDefault());
+					
+		LocalDate resultat = null;
+		
+		/* essaie d'abord avec le format d'affichage 12 février 1962. */
+		try {
+			
+			resultat 
+				= dateFormatterAffichage.parse(pString, LocalDate::from);
+			
+		} catch (Exception e) {
+			
+			/* essaie ensuite avec le format d'affichage 12/02/1962. */			
+			try {
+				
+				resultat 
+					= dateFormatterSaisie.parse(pString, LocalDate::from);
+				
+			} catch (Exception e1) {
+				
+				/* essaie finalement avec le format d'affichage 
+				 * ISO 1962-02-12. */			
+				try {
+					resultat 
+					= dateFormatterIso.parse(pString, LocalDate::from);
+				} catch (Exception e2) {
+					
+					/* retourne null si pString n'est conforme 
+					 * à aucun de ces formats. */
+					return null;
+				}
+			}
+		}
+		
+		return resultat;
+						
+	} // Fin de fournirLocalDateMulti(...).________________________________
+	
+	
+
+	/**
+	 * {@inheritDoc}
+	 */
+	@Override
+	public int hashCode() {
+		final int prime = 31;
+		int result = 1;
+		result = prime * result + ((this.dateNaissanceString == null) ? 0 : this.dateNaissanceString.hashCode());
+		result = prime * result + ((this.nomString == null) ? 0 : this.nomString.hashCode());
+		result = prime * result + ((this.prenomString == null) ? 0 : this.prenomString.hashCode());
+		
+		return result;
+		
+	} // Fin de hashCode().________________________________________________
+
+
+
+	/**
+	 * {@inheritDoc}
+	 */
+	@Override
+	public boolean equals(
+			final Object pObject) {
+		
+		if (this == pObject) {
+			return true;
+		}
+		if (pObject == null) {
+			return false;
+		}
+		if (!(pObject instanceof IContactSimpleDTO)) {
+			return false;
+		}
+		
+		final IContactSimpleDTO other = (IContactSimpleDTO) pObject;
+		
+		if (this.getNomString() == null) {
+			if (other.getNomString() != null) {
+				return false;
+			}
+		} else if (!this.getNomString()
+				.equalsIgnoreCase(other.getNomString())) {
+			return false;
+		}
+		
+		if (this.getPrenomString() == null) {
+			if (other.getPrenomString() != null) {
+				return false;
+			}
+		} else if (!this.getPrenomString()
+				.equalsIgnoreCase(other.getPrenomString())) {
+			return false;
+		}
+		
+		if (this.getDateNaissanceString() == null) {
+			if (other.getDateNaissanceString() != null) {
+				return false;
+			}
+		} else {
+			
+			if (other.getDateNaissanceString() == null) {
+				return false;
+			}
+			
+			final LocalDate dateNaissance1 
+				= this.fournirLocalDateMulti(
+						this.getDateNaissanceString());
+			
+			final LocalDate dateNaissance2 
+				= this.fournirLocalDateMulti(
+						other.getDateNaissanceString());
+			
+			if (!dateNaissance1.equals(dateNaissance2)) {
+				return false;
+			}
+			
+		}
+		
+		return true;
+		
+	} // Fin de  equals(...).______________________________________________
 
 
 

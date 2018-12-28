@@ -1,8 +1,15 @@
 /**
  * class package-info :<br/>
- * ce package contient toutes les classes nécessaires 
- * pour créer la VUE qui s'affiche lorsque l'on lance 
- * l'application.<br/>
+ * Ce package contient toutes les classes <b>VUES</b>
+ * destinées à <b>l'initialisation et à l'accueil</b> 
+ * d'une application <b>DESKTOP</b> respectant le modèle MVC.<br/>
+ * La couche VUES intercepte les actions de l'UTILISATEUR 
+ * et dialogue avec les CONTROLLERS chargés d'interroger 
+ * la logique METIER (SERVICES).<br/>
+ * Le rôle d'une Vue est de prendre en compte les actions de 
+ * l'utilisateur et de présenter à l'utilisateur les résultats 
+ * fournis par la logique métier.<br/>
+ * <br/>
  * <br/>
  *
  * - Exemple d'utilisation :<br/>

@@ -1,6 +1,7 @@
 /**
  * CLASSE package-info :<br/>
- * Ce package contient toutes les Entities relatives au concept de Developpeur.<br/>
+ * Ce package contient toutes les Entities relatives 
+ * au concept de ConceptSimple.<br/>
  * <br/>
  *
  * - Exemple d'utilisation :<br/>

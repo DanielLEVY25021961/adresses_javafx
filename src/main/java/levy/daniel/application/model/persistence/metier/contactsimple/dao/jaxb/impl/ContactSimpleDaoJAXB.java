@@ -17,6 +17,7 @@ import org.apache.commons.logging.LogFactory;
 import levy.daniel.application.model.metier.contactsimple.IContactSimple;
 import levy.daniel.application.model.metier.contactsimple.impl.ContactSimple;
 import levy.daniel.application.model.persistence.metier.contactsimple.entities.jaxb.ListeContactSimplesEntityJAXB;
+import levy.daniel.application.model.persistence.metier.contactsimple.IContactSimpleDAO;
 import levy.daniel.application.model.persistence.metier.contactsimple.entities.jaxb.ContactSimpleEntityJAXB;
 
 
@@ -40,7 +41,7 @@ import levy.daniel.application.model.persistence.metier.contactsimple.entities.j
  * @since 24 mai 2018
  *
  */
-public class ContactSimpleDaoJAXB {
+public class ContactSimpleDaoJAXB implements IContactSimpleDAO {
 
 	// ************************ATTRIBUTS************************************/
 
@@ -305,6 +306,23 @@ public class ContactSimpleDaoJAXB {
 	} // Fin de creerEntityJAXB(...).______________________________________
 
 
+
+	
+	/* CREATE ************/
+
+	
+
+	/**
+	 * {@inheritDoc}
+	 */
+	@Override
+	public IContactSimple create(
+			final IContactSimple pObject) throws Exception {
+		// TODO Auto-generated method stub
+		return null;
+	}
+	
+	
 	
 	/**
 	 * Crée la ContactSimple pObject dans un fichier XML pFile.<br/>
@@ -359,6 +377,274 @@ public class ContactSimpleDaoJAXB {
 		return null;
 				
 	} // Fin de create(...)._______________________________________________
+
+
+
+	/**
+	 * {@inheritDoc}
+	 */
+	@Override
+	public void persist(IContactSimple pObject) throws Exception {
+		// TODO Auto-generated method stub
+		
+	}
+
+
+
+	/**
+	 * {@inheritDoc}
+	 */
+	@Override
+	public Long createReturnId(IContactSimple pObject) throws Exception {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+
+
+	/**
+	 * {@inheritDoc}
+	 */
+	@Override
+	public Iterable<IContactSimple> save(Iterable<IContactSimple> pList) throws Exception {
+		// TODO Auto-generated method stub
+		return null;
+	}
+	
+	
+
+	/* READ *************/
+
+
+
+	/**
+	 * {@inheritDoc}
+	 */
+	@Override
+	public IContactSimple retrieve(IContactSimple pObject) throws Exception {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+
+
+	/**
+	 * {@inheritDoc}
+	 */
+	@Override
+	public IContactSimple findById(Long pId) throws Exception {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+
+
+	/**
+	 * {@inheritDoc}
+	 */
+	@Override
+	public Long retrieveId(IContactSimple pObject) throws Exception {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+
+
+	/**
+	 * {@inheritDoc}
+	 */
+	@Override
+	public List<IContactSimple> findAll() throws Exception {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+
+
+	/**
+	 * {@inheritDoc}
+	 */
+	@Override
+	public List<IContactSimple> findAllMax(int pStartPosition, int pMaxResult) throws Exception {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+
+
+	/**
+	 * {@inheritDoc}
+	 */
+	@Override
+	public Iterable<IContactSimple> findAll(Iterable<Long> pIds) throws Exception {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+
+
+	/* UPDATE *************/
+
+	
+	/**
+	 * {@inheritDoc}
+	 */
+	@Override
+	public IContactSimple update(IContactSimple pObject) throws Exception {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+
+
+	/**
+	 * {@inheritDoc}
+	 */
+	@Override
+	public IContactSimple update(Long pId, IContactSimple pObjectModifie) throws Exception {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+
+
+	/* DELETE *************/
+
+
+
+	/**
+	 * {@inheritDoc}
+	 */
+	@Override
+	public boolean delete(IContactSimple pObject) throws Exception {
+		// TODO Auto-generated method stub
+		return false;
+	}
+
+
+
+	/**
+	 * {@inheritDoc}
+	 */
+	@Override
+	public void deleteById(Long pId) throws Exception {
+		// TODO Auto-generated method stub
+		
+	}
+
+
+
+	/**
+	 * {@inheritDoc}
+	 */
+	@Override
+	public boolean deleteByIdBoolean(Long pId) throws Exception {
+		// TODO Auto-generated method stub
+		return false;
+	}
+
+
+
+	/**
+	 * {@inheritDoc}
+	 */
+	@Override
+	public void deleteAll() throws Exception {
+		// TODO Auto-generated method stub
+		
+	}
+
+
+
+	/**
+	 * {@inheritDoc}
+	 */
+	@Override
+	public boolean deleteAllBoolean() throws Exception {
+		// TODO Auto-generated method stub
+		return false;
+	}
+
+
+
+	/**
+	 * {@inheritDoc}
+	 */
+	@Override
+	public void deleteIterable(Iterable<IContactSimple> pList) throws Exception {
+		// TODO Auto-generated method stub
+		
+	}
+
+
+
+	/**
+	 * {@inheritDoc}
+	 */
+	@Override
+	public boolean deleteIterableBoolean(Iterable<IContactSimple> pList) throws Exception {
+		// TODO Auto-generated method stub
+		return false;
+	}
+
+
+
+	/* TOOLS *************/
+
+
+
+	/**
+	 * {@inheritDoc}
+	 */
+	@Override
+	public boolean exists(IContactSimple pObject) throws Exception {
+		// TODO Auto-generated method stub
+		return false;
+	}
+
+
+
+	/**
+	 * {@inheritDoc}
+	 */
+	@Override
+	public boolean exists(Long pId) throws Exception {
+		// TODO Auto-generated method stub
+		return false;
+	}
+
+
+
+	/**
+	 * {@inheritDoc}
+	 */
+	@Override
+	public Long count() throws Exception {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+
+
+	/**
+	 * {@inheritDoc}
+	 */
+	@Override
+	public void ecrireStockageDansConsole() throws Exception {
+		// TODO Auto-generated method stub
+		
+	}
+
+
+
+	/**
+	 * {@inheritDoc}
+	 */
+	@Override
+	public String afficherListeObjetsMetier(List<IContactSimple> pList) {
+		// TODO Auto-generated method stub
+		return null;
+	}
 
 
 	

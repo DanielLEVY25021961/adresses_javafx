@@ -207,8 +207,8 @@ public class ContactSimpleDTOTest {
 		final LocalDate dateAffichage = fournirLocalDate(dateAffichageString);
 		final LocalDate dateSaisie = fournirLocalDate(dateSaisieString);
 		final LocalDate dateIso1 = fournirLocalDate(dateIso1String);
-		final LocalDate dateIso =fournirLocalDate(dateIsoString);
-		final LocalDate dateInexistante =fournirLocalDate(dateInexistanteString);
+		final LocalDate dateIso = fournirLocalDate(dateIsoString);
+		final LocalDate dateInexistante = fournirLocalDate(dateInexistanteString);
 		
 		/* AFFICHAGE A LA CONSOLE. */
 		if (AFFICHAGE_GENERAL && affichage) {

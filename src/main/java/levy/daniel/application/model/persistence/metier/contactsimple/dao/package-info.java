@@ -1,6 +1,7 @@
 /**
  * CLASSE package-info :<br/>
- * Ce package contient tous les DAO relatifs au concept de Developpeur.<br/>
+ * Ce package contient tous les DAO relatifs 
+ * au concept de ConceptSimple.<br/>
  * <br/>
  *
  * - Exemple d'utilisation :<br/>

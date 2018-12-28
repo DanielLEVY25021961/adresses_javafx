@@ -46,36 +46,32 @@ public class ContactSimpleDaoJAXB implements IContactSimpleDAO {
 	// ************************ATTRIBUTS************************************/
 
 	/**
-	 * context : JAXBContext :<br/>
 	 * context JAXB.<br/>
 	 */
 	private transient JAXBContext context;
 		
 	/**
-	 * marshaller : Marshaller :<br/>
 	 * Objet vers XML.<br/>
 	 */
 	private transient Marshaller marshaller;
 
 	/**
-	 * unmarshaller : Unmarshaller :<br/>
 	 * XML vers Objet.<br/>
 	 */
 	private transient Unmarshaller unmarshaller;
 
 	
 	/**
-	 * fichierXML : File :<br/>
 	 * fichier XML dans lequel écrire les entities JAXB.<br/>
 	 */
 	private File fichierXML;
 	
 	
 	/**
-	 * SAUT_LIGNE_JAVA : Character :<br/>
-	 * saut de ligne "\n".<br/>
+	 * saut de ligne de la plateforme.<br/>
 	 */
-	public static final String SAUT_LIGNE_JAVA = "\n";
+	public static final String SAUT_LIGNE_PLATEFORME 
+		= System.getProperty("line.separator");
 	
 	
 	/**
@@ -88,9 +84,8 @@ public class ContactSimpleDaoJAXB implements IContactSimpleDAO {
 	
 	
 	 /**
-	 * method CONSTRUCTEUR ContactSimpleDaoJAXB() :<br/>
 	 * CONSTRUCTEUR D'ARITE NULLE.<br/>
-	 * <br/>
+	 * 
 	 * @throws JAXBException 
 	 */
 	public ContactSimpleDaoJAXB() throws JAXBException {
@@ -100,10 +95,7 @@ public class ContactSimpleDaoJAXB implements IContactSimpleDAO {
 
 		
 	 /**
-	 * method CONSTRUCTEUR ContactSimpleDaoJAXB(
-	 * File pFile) :<br/>
 	 * CONSTRUCTEUR COMPLET.<br/>
-	 * <br/>
 	 *
 	 * @param pFile : java.io.File : 
 	 * le fichier XML dans lequel écrire les entities JAXB.<br/>
@@ -124,7 +116,6 @@ public class ContactSimpleDaoJAXB implements IContactSimpleDAO {
 	
 	
 	/**
-	 * method instancierContext() :<br/>
 	 * Instancie le context JAXB et les Marshaller et Unmarshaller.<br/>
 	 * <ul>
 	 * <li>instancie le context pour l'Entity ListeContactSimplesEntityJAXB. </li>
@@ -165,7 +156,7 @@ public class ContactSimpleDaoJAXB implements IContactSimpleDAO {
 	 * 
 	 * @return : IContactSimple.<br/>
 	 */
-	private IContactSimple creerContactSimple(
+	private IContactSimple creerObjetMetier(
 			final ContactSimpleEntityJAXB pEntityJAXB) {
 		
 		/* retourne null si pEntityJAXB == null. */
@@ -188,15 +179,13 @@ public class ContactSimpleDaoJAXB implements IContactSimpleDAO {
 		
 		return contactSimple;
 		
-	} // Fin de creerContactSimple(...).________________________________________
+	} // Fin de creerObjetMetier(...)._____________________________________
 	
 	
 	
 	/**
-	 * method convertirListModelEnEntities(
-	 * List&lt;IContactSimple&gt; pList) :<br/>
-	 * convertit une Liste de ContactSimple (MODEL) en liste 
-	 * de ContactSimpleEntityJAXB (Entities JAXB).<br/>
+	 * <b>convertit une Liste d'OBJETS METIER en liste 
+	 * d'Entities JAXB</b>.<br/>
 	 * <br/>
 	 * retourne null si pList == null.<br/>
 	 * <br/>
@@ -235,10 +224,8 @@ public class ContactSimpleDaoJAXB implements IContactSimpleDAO {
 
 		
 	/**
-	 * method convertirListEntitiesEnModel(
-	 * List&lt;ContactSimpleEntityJAXB&gt; pList) :<br/>
-	 * convertit une Liste de ContactSimpleEntityJAXB (Entities JAXB) 
-	 * en liste de ContactSimple (MODEL).<br/>
+	 * <b>convertit une Liste d'Entities JAXB 
+	 * en liste d'OBJETS METIER</b>.<br/>
 	 * <br/>
 	 *
 	 * @param pList : List&lt;ContactSimpleEntityJAXB&gt;.<br/>
@@ -261,7 +248,7 @@ public class ContactSimpleDaoJAXB implements IContactSimpleDAO {
 			if (contactSimple != null) {
 				
 				final IContactSimple contactSimpleModel 
-					= this.creerContactSimple(contactSimple);
+					= this.creerObjetMetier(contactSimple);
 				
 				resultat.add(contactSimpleModel);
 				
@@ -275,8 +262,8 @@ public class ContactSimpleDaoJAXB implements IContactSimpleDAO {
 	
 	
 	/**
-	 * Instancie une Entity JAXB ListeContactSimplesEntityJAXB à partir 
-	 * d'une Liste de MODEL List&lt;IContactSimple&gt; pList.<br/>
+	 * <b>Instancie une Entity JAXB ListeContactSimplesEntityJAXB à partir 
+	 * d'une Liste de MODEL List&lt;IContactSimple&gt; pList</b>.<br/>
 	 * <ul>
 	 * <li>retourne null si pList == null.</li>
 	 * </ul>
@@ -384,7 +371,8 @@ public class ContactSimpleDaoJAXB implements IContactSimpleDAO {
 	 * {@inheritDoc}
 	 */
 	@Override
-	public void persist(IContactSimple pObject) throws Exception {
+	public void persist(
+			final IContactSimple pObject) throws Exception {
 		// TODO Auto-generated method stub
 		
 	}
@@ -395,7 +383,8 @@ public class ContactSimpleDaoJAXB implements IContactSimpleDAO {
 	 * {@inheritDoc}
 	 */
 	@Override
-	public Long createReturnId(IContactSimple pObject) throws Exception {
+	public Long createReturnId(
+			final IContactSimple pObject) throws Exception {
 		// TODO Auto-generated method stub
 		return null;
 	}
@@ -406,7 +395,8 @@ public class ContactSimpleDaoJAXB implements IContactSimpleDAO {
 	 * {@inheritDoc}
 	 */
 	@Override
-	public Iterable<IContactSimple> save(Iterable<IContactSimple> pList) throws Exception {
+	public Iterable<IContactSimple> save(
+			final Iterable<IContactSimple> pList) throws Exception {
 		// TODO Auto-generated method stub
 		return null;
 	}
@@ -421,7 +411,8 @@ public class ContactSimpleDaoJAXB implements IContactSimpleDAO {
 	 * {@inheritDoc}
 	 */
 	@Override
-	public IContactSimple retrieve(IContactSimple pObject) throws Exception {
+	public IContactSimple retrieve(
+			final IContactSimple pObject) throws Exception {
 		// TODO Auto-generated method stub
 		return null;
 	}
@@ -432,7 +423,8 @@ public class ContactSimpleDaoJAXB implements IContactSimpleDAO {
 	 * {@inheritDoc}
 	 */
 	@Override
-	public IContactSimple findById(Long pId) throws Exception {
+	public IContactSimple findById(
+			final Long pId) throws Exception {
 		// TODO Auto-generated method stub
 		return null;
 	}
@@ -443,7 +435,8 @@ public class ContactSimpleDaoJAXB implements IContactSimpleDAO {
 	 * {@inheritDoc}
 	 */
 	@Override
-	public Long retrieveId(IContactSimple pObject) throws Exception {
+	public Long retrieveId(
+			final IContactSimple pObject) throws Exception {
 		// TODO Auto-generated method stub
 		return null;
 	}
@@ -465,7 +458,8 @@ public class ContactSimpleDaoJAXB implements IContactSimpleDAO {
 	 * {@inheritDoc}
 	 */
 	@Override
-	public List<IContactSimple> findAllMax(int pStartPosition, int pMaxResult) throws Exception {
+	public List<IContactSimple> findAllMax(
+			final int pStartPosition, final int pMaxResult) throws Exception {
 		// TODO Auto-generated method stub
 		return null;
 	}
@@ -476,7 +470,8 @@ public class ContactSimpleDaoJAXB implements IContactSimpleDAO {
 	 * {@inheritDoc}
 	 */
 	@Override
-	public Iterable<IContactSimple> findAll(Iterable<Long> pIds) throws Exception {
+	public Iterable<IContactSimple> findAll(
+			final Iterable<Long> pIds) throws Exception {
 		// TODO Auto-generated method stub
 		return null;
 	}
@@ -490,7 +485,8 @@ public class ContactSimpleDaoJAXB implements IContactSimpleDAO {
 	 * {@inheritDoc}
 	 */
 	@Override
-	public IContactSimple update(IContactSimple pObject) throws Exception {
+	public IContactSimple update(
+			final IContactSimple pObject) throws Exception {
 		// TODO Auto-generated method stub
 		return null;
 	}
@@ -501,7 +497,8 @@ public class ContactSimpleDaoJAXB implements IContactSimpleDAO {
 	 * {@inheritDoc}
 	 */
 	@Override
-	public IContactSimple update(Long pId, IContactSimple pObjectModifie) throws Exception {
+	public IContactSimple update(
+			final Long pId, final IContactSimple pObjectModifie) throws Exception {
 		// TODO Auto-generated method stub
 		return null;
 	}
@@ -516,7 +513,8 @@ public class ContactSimpleDaoJAXB implements IContactSimpleDAO {
 	 * {@inheritDoc}
 	 */
 	@Override
-	public boolean delete(IContactSimple pObject) throws Exception {
+	public boolean delete(
+			final IContactSimple pObject) throws Exception {
 		// TODO Auto-generated method stub
 		return false;
 	}
@@ -527,7 +525,8 @@ public class ContactSimpleDaoJAXB implements IContactSimpleDAO {
 	 * {@inheritDoc}
 	 */
 	@Override
-	public void deleteById(Long pId) throws Exception {
+	public void deleteById(
+			final Long pId) throws Exception {
 		// TODO Auto-generated method stub
 		
 	}
@@ -538,7 +537,8 @@ public class ContactSimpleDaoJAXB implements IContactSimpleDAO {
 	 * {@inheritDoc}
 	 */
 	@Override
-	public boolean deleteByIdBoolean(Long pId) throws Exception {
+	public boolean deleteByIdBoolean(
+			final Long pId) throws Exception {
 		// TODO Auto-generated method stub
 		return false;
 	}
@@ -571,7 +571,8 @@ public class ContactSimpleDaoJAXB implements IContactSimpleDAO {
 	 * {@inheritDoc}
 	 */
 	@Override
-	public void deleteIterable(Iterable<IContactSimple> pList) throws Exception {
+	public void deleteIterable(
+			final Iterable<IContactSimple> pList) throws Exception {
 		// TODO Auto-generated method stub
 		
 	}
@@ -582,7 +583,8 @@ public class ContactSimpleDaoJAXB implements IContactSimpleDAO {
 	 * {@inheritDoc}
 	 */
 	@Override
-	public boolean deleteIterableBoolean(Iterable<IContactSimple> pList) throws Exception {
+	public boolean deleteIterableBoolean(
+			final Iterable<IContactSimple> pList) throws Exception {
 		// TODO Auto-generated method stub
 		return false;
 	}
@@ -597,7 +599,8 @@ public class ContactSimpleDaoJAXB implements IContactSimpleDAO {
 	 * {@inheritDoc}
 	 */
 	@Override
-	public boolean exists(IContactSimple pObject) throws Exception {
+	public boolean exists(
+			final IContactSimple pObject) throws Exception {
 		// TODO Auto-generated method stub
 		return false;
 	}
@@ -608,7 +611,8 @@ public class ContactSimpleDaoJAXB implements IContactSimpleDAO {
 	 * {@inheritDoc}
 	 */
 	@Override
-	public boolean exists(Long pId) throws Exception {
+	public boolean exists(
+			final Long pId) throws Exception {
 		// TODO Auto-generated method stub
 		return false;
 	}
@@ -641,7 +645,8 @@ public class ContactSimpleDaoJAXB implements IContactSimpleDAO {
 	 * {@inheritDoc}
 	 */
 	@Override
-	public String afficherListeObjetsMetier(List<IContactSimple> pList) {
+	public String afficherListeObjetsMetier(
+			final List<IContactSimple> pList) {
 		// TODO Auto-generated method stub
 		return null;
 	}
@@ -930,7 +935,7 @@ public class ContactSimpleDaoJAXB implements IContactSimpleDAO {
 		for (final IContactSimple contactSimple : pList) {
 			
 			stb.append(contactSimple.toString());
-			stb.append(SAUT_LIGNE_JAVA);
+			stb.append(SAUT_LIGNE_PLATEFORME);
 			
 		}
 		
@@ -966,7 +971,7 @@ public class ContactSimpleDaoJAXB implements IContactSimpleDAO {
 		for (final ContactSimpleEntityJAXB contactSimple : pList) {
 			
 			stb.append(contactSimple.toString());
-			stb.append(SAUT_LIGNE_JAVA);
+			stb.append(SAUT_LIGNE_PLATEFORME);
 			
 		}
 		

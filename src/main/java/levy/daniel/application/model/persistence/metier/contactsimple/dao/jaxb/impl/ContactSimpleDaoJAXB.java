@@ -883,7 +883,14 @@ public class ContactSimpleDaoJAXB implements IContactSimpleDAO {
 	 */
 	@Override
 	public void deleteAll() throws AbstractDaoException {
-		// TODO Auto-generated method stub
+		
+		List<IContactSimple> contacts = null;
+		
+		if (this.fichierXML.exists()) {
+			contacts = this.recupererListeModeles(this.fichierXML);
+		} else {
+			
+		}
 		
 	}
 

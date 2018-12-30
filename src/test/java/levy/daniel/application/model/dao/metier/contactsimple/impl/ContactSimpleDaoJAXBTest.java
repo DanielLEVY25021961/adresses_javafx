@@ -679,7 +679,7 @@ public class ContactSimpleDaoJAXBTest {
 
 		final Long nbeObjetsFinal = this.daoCiviliteAbregee.countSousClasse();
 		
-		assertEquals("La table doit être contenir 3 enregistements : "
+		assertEquals("Le stockage doit être contenir 3 enregistements : "
 				, Long.valueOf(3L), nbeObjetsFinal);
 		
 	} // Fin de remplirStockage(...).______________________________________
@@ -697,7 +697,7 @@ public class ContactSimpleDaoJAXBTest {
 		
 		final Long nbreObjetsFinal = dao.count();
 		
-		assertEquals("La table doit être vide : "
+		assertEquals("Le stockage doit être vide : "
 				, Long.valueOf(0L), nbreObjetsFinal);
 		
 	} // Fin de viderStockage().___________________________________________

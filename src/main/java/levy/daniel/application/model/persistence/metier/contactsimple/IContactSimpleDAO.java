@@ -135,6 +135,8 @@ public interface IContactSimpleDAO {
 	 * <li>retourne null si l'objet métier 
 	 * n'existe pas dans le stockage.</li>
 	 * </ul>
+	 * - retourne null si pObject == null.<br/>
+	 * <br/>
 	 *
 	 * @param pObject : IContactSimple : 
 	 * objet métier à rechercher.<br/>
@@ -155,6 +157,8 @@ public interface IContactSimpleDAO {
 	 * <li>retourne null si l'objet métier 
 	 * n'existe pas dans le stockage.</li>
 	 * </ul>
+	 * - retourne null si pId == null.<br/>
+	 * <br/>
 	 *
 	 * @param pId : Long : 
 	 * index (0-based) ou identifiant en base 

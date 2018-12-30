@@ -1,9 +1,10 @@
 package levy.daniel.application.model.persistence.metier.contactsimple.dao.jaxb.impl;
 
 import java.io.File;
-import java.io.FileNotFoundException;
 import java.io.FileReader;
+import java.nio.file.Path;
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 
 import javax.xml.bind.JAXBContext;
@@ -14,11 +15,14 @@ import javax.xml.bind.Unmarshaller;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
+import levy.daniel.application.ConfigurationApplicationManager;
 import levy.daniel.application.model.metier.contactsimple.IContactSimple;
 import levy.daniel.application.model.metier.contactsimple.impl.ContactSimple;
-import levy.daniel.application.model.persistence.metier.contactsimple.entities.jaxb.ListeContactSimplesEntityJAXB;
+import levy.daniel.application.model.persistence.daoexceptions.AbstractDaoException;
+import levy.daniel.application.model.persistence.daoexceptions.technical.impl.DaoJAXBException;
 import levy.daniel.application.model.persistence.metier.contactsimple.IContactSimpleDAO;
 import levy.daniel.application.model.persistence.metier.contactsimple.entities.jaxb.ContactSimpleEntityJAXB;
+import levy.daniel.application.model.persistence.metier.contactsimple.entities.jaxb.ListeContactSimplesEntityJAXB;
 
 
 /**
@@ -45,6 +49,18 @@ public class ContactSimpleDaoJAXB implements IContactSimpleDAO {
 
 	// ************************ATTRIBUTS************************************/
 
+	/**
+	 * "CLasse ContactSimpleDaoJAXB".
+	 */
+	public static final String CLASSE_CONTACTSIMPLE_DAO 
+		= "CLasse ContactSimpleDaoJAXB";
+	
+	/**
+	 * " - ".
+	 */
+	public static final String TIRET_MOINS_ESPACE 
+		= " - ";
+	
 	/**
 	 * context JAXB.<br/>
 	 */
@@ -78,7 +94,8 @@ public class ContactSimpleDaoJAXB implements IContactSimpleDAO {
 	 * LOG : Log : 
 	 * Logger pour Log4j (utilisant commons-logging).
 	 */
-	private static final Log LOG = LogFactory.getLog(ContactSimpleDaoJAXB.class);
+	private static final Log LOG 
+		= LogFactory.getLog(ContactSimpleDaoJAXB.class);
 
 	// *************************METHODES************************************/
 	
@@ -107,20 +124,51 @@ public class ContactSimpleDaoJAXB implements IContactSimpleDAO {
 		
 		super();
 		
-		this.fichierXML = pFile;
+		if (pFile != null) {
+			this.fichierXML = pFile;
+		} else {
+			this.fichierXML = this.fournirFichierXMLParDefaut();
+		}
+		
 		
 		this.instancierContextJAXB();
 		
 	} // Fin de CONSTRUCTEUR COMPLET.______________________________________
 	
+
+	
+	/**
+	 * <b>retourne le fichier XML de stockage du DAO stocké 
+	 * dans ConfigurationApplicationManager</b>.<br/>
+	 * <ul>
+	 * <li><code>data/
+	 * base-adresses_javafx-JAXB/base-adresses_javafx-JAXB.xml</code></li>
+	 * </ul>
+	 *
+	 * @return : File : fichier XML de stockage du DAO.<br/>
+	 */
+	private File fournirFichierXMLParDefaut() {
+		
+		final Path pathFichierXML 
+			= ConfigurationApplicationManager.getFichierJAXBXMLPath();
+		
+		final File fichierXMLParDefaut = pathFichierXML.toFile();
+		
+		return fichierXMLParDefaut;
+		
+	} // Fin de fournirFichierXMLParDefaut().______________________________
+	
 	
 	
 	/**
-	 * Instancie le context JAXB et les Marshaller et Unmarshaller.<br/>
+	 * <b>Instancie le context JAXB et les Marshaller 
+	 * et Unmarshaller</b>.<br/>
 	 * <ul>
-	 * <li>instancie le context pour l'Entity ListeContactSimplesEntityJAXB. </li>
+	 * <li>instancie le context pour l'Entity 
+	 * ListeContactSimplesEntityJAXB (équivalent d'une table SGBDR).</li>
 	 * <li>Instancie le Marshaller (Objet vers XML).</li>
-	 * <li>Paramètre le Marshaller (Objet vers XML).</li>
+	 * <li>Paramètre le Marshaller (Objet vers XML) 
+	 * en demandant le formatage.</li>
 	 * <li>Instancie le Unmarshaller (XML vers Objet).</li>
 	 * </ul>
 	 * 
@@ -135,7 +183,8 @@ public class ContactSimpleDaoJAXB implements IContactSimpleDAO {
 		/* Instancie le Marshaller (Objet vers XML). */
 		this.marshaller = this.context.createMarshaller();
 		
-		/* Paramètre le Marshaller (Objet vers XML). */
+		/* Paramètre le Marshaller (Objet vers XML) 
+		 * en demandant le formatage. */
 		this.marshaller.setProperty(
 				Marshaller.JAXB_FORMATTED_OUTPUT, Boolean.TRUE);
 		
@@ -262,16 +311,17 @@ public class ContactSimpleDaoJAXB implements IContactSimpleDAO {
 	
 	
 	/**
-	 * <b>Instancie une Entity JAXB ListeContactSimplesEntityJAXB à partir 
-	 * d'une Liste de MODEL List&lt;IContactSimple&gt; pList</b>.<br/>
+	 * <b>Instancie une Entity JAXB ListeContactSimplesEntityJAXB 
+	 * <i>(équivalent d'une table SGBDR)</i> à partir 
+	 * d'une Liste d'OBJETS METIER List&lt;IContactSimple&gt; pList</b>.<br/>
 	 * <ul>
 	 * <li>retourne null si pList == null.</li>
 	 * </ul>
 	 *
-	 * @param pList : List&lt;IContactSimple&gt; : Liste de MODEL 
-	 * à transformer en Entities JAXB en vue de la sérialization.<br/>
+	 * @param pList : List&lt;IContactSimple&gt; : Liste d'OBJETS METIER
+	 * à transformer en Entity JAXB en vue de la sérialization.<br/>
 	 * 
-	 * @return : ListeContactSimplesEntityJAXB : Entity serializable 
+	 * @return : ListeContactSimplesEntityJAXB : Entity JAXB serializable 
 	 * sous forme de fichier XML.<br/>
 	 */
 	private ListeContactSimplesEntityJAXB creerEntityJAXB(
@@ -304,33 +354,38 @@ public class ContactSimpleDaoJAXB implements IContactSimpleDAO {
 	 */
 	@Override
 	public IContactSimple create(
-			final IContactSimple pObject) throws Exception {
-		// TODO Auto-generated method stub
-		return null;
-	}
+			final IContactSimple pObject) throws AbstractDaoException {
+		return this.create(pObject, this.fichierXML);
+	} // Fin de create(...)._______________________________________________
 	
 	
 	
 	/**
-	 * Crée la ContactSimple pObject dans un fichier XML pFile.<br/>
+	 * <b>Crée l'OBJET METIER pObject dans un fichier XML pFile 
+	 * et retourne l'Objet Métier persisté</b>.<br/>
 	 * <ul>
-	 * <li>retourne null si pObject == null.</li>
-	 * <li>retourne null si pFile == null.</li>
+	 * <li>ajoute l'Objet Métier pObject à la liste 
+	 * des objets métier stockés.</li>
+	 * <li>enregistre la nouvelle liste dans le stockage XML.</li>
+	 * <li>ne crée pas de doublon.</li>
+	 * <li>retourne null si pObject existe déjà dans le stockage.</li>
 	 * </ul>
+	 * - retourne null si pObject == null.<br/>
+	 * - retourne null si pFile == null.<br/>
+	 * <br/>
 	 *
 	 * @param pObject : IContactSimple.<br/>
 	 * @param pFile : java.io.File : 
 	 * le fichier XML dans lequel écrire les entities JAXB.<br/>
 	 *  
-	 * @return : IContactSimple : le MODEL stocké dans le fichier.<br/>
+	 * @return : IContactSimple : OBJET METIER stocké dans le fichier.<br/>
 	 * 
-	 * @throws JAXBException 
-	 * @throws FileNotFoundException 
+	 * @throws AbstractDaoException 
 	 */
-	public IContactSimple create(
+	private IContactSimple create(
 			final IContactSimple pObject
 				, final File pFile) 
-						throws FileNotFoundException, JAXBException {
+						throws AbstractDaoException {
 		
 		/* retourne null si pObject == null. */
 		if (pObject == null) {
@@ -352,15 +407,26 @@ public class ContactSimpleDaoJAXB implements IContactSimpleDAO {
 		  		
 		if (contacts != null) {
 			
-			/* ajout de la contactSimple à la liste. */
-			contacts.add(pObject);
-			
-			/* enregistrement de la nouvelle liste. */
-			this.enregistrer(contacts, pFile);
-			
+			/* ne crée pas de doublon. */
+			if (!this.exists(pObject)) {
+				
+				/* ajoute l'Objet Métier pObject à la liste 
+				 * des objets métier stockés. */
+				contacts.add(pObject);
+				
+				/* enregistre la nouvelle liste dans le stockage XML. */
+				this.enregistrer(contacts, pFile);
+				
+			} else {
+				/* retourne null si pObject existe déjà dans le stockage. */
+				return null;
+			}
+						
 			return pObject;
-		} 
 			
+		} 
+		
+		/* retourne null si pObject == null. */
 		return null;
 				
 	} // Fin de create(...)._______________________________________________
@@ -369,25 +435,103 @@ public class ContactSimpleDaoJAXB implements IContactSimpleDAO {
 
 	/**
 	 * {@inheritDoc}
+	 * - ne fait rien si this.fichierXML == null.<br/>
+	 * <br/>
 	 */
 	@Override
 	public void persist(
-			final IContactSimple pObject) throws Exception {
-		// TODO Auto-generated method stub
+			final IContactSimple pObject) throws AbstractDaoException {
 		
-	}
+		/* ne fait rien si pObject == null. */
+		if (pObject == null) {
+			return;
+		}
+		
+		/* ne fait rien si this.fichierXML == null. */
+		if (this.fichierXML == null) {
+			return;
+		}
+		
+		List<IContactSimple> contacts = null;
+		
+		if (this.fichierXML.exists()) {
+			contacts = this.recupererListeModeles(this.fichierXML);
+		} else {
+			contacts = new ArrayList<IContactSimple>();
+		}
+		  		
+		if (contacts != null) {
+			
+			/* ne crée pas de doublon. */
+			if (!this.exists(pObject)) {
+				
+				/* ajoute l'Objet Métier pObject à la liste 
+				 * des objets métier stockés. */
+				contacts.add(pObject);
+				
+				/* enregistre la nouvelle liste dans le stockage XML. */
+				this.enregistrer(contacts, this.fichierXML);
+				
+			}
+			
+		} 
+				
+	} // Fin de persist(...).______________________________________________
 
 
 
 	/**
 	 * {@inheritDoc}
+	 *  retourne null si this.fichierXML == null.<br/>
+	 *  <br/>
 	 */
 	@Override
 	public Long createReturnId(
-			final IContactSimple pObject) throws Exception {
-		// TODO Auto-generated method stub
+			final IContactSimple pObject) throws AbstractDaoException {
+		
+		/* retourne null si pObject == null. */
+		if (pObject == null) {
+			return null;
+		}
+		
+		/* retourne null si this.fichierXML == null. */
+		if (this.fichierXML == null) {
+			return null;
+		}
+		
+		List<IContactSimple> contacts = null;
+		
+		if (this.fichierXML.exists()) {
+			contacts = this.recupererListeModeles(this.fichierXML);
+		} else {
+			contacts = new ArrayList<IContactSimple>();
+		}
+		  		
+		if (contacts != null) {
+			
+			/* ne crée pas de doublon. */
+			if (!this.exists(pObject)) {
+				
+				/* ajoute l'Objet Métier pObject à la liste 
+				 * des objets métier stockés. */
+				contacts.add(pObject);
+				
+				/* enregistre la nouvelle liste dans le stockage XML. */
+				this.enregistrer(contacts, this.fichierXML);
+				
+			} else {
+				/* retourne null si pObject existe déjà dans le stockage. */
+				return null;
+			}
+						
+			return this.retrieveId(pObject);
+			
+		} 
+		
+		/* retourne null si pObject == null. */
 		return null;
-	}
+				
+	} // Fin de createReturnId(...)._______________________________________
 
 
 
@@ -396,10 +540,54 @@ public class ContactSimpleDaoJAXB implements IContactSimpleDAO {
 	 */
 	@Override
 	public Iterable<IContactSimple> save(
-			final Iterable<IContactSimple> pList) throws Exception {
-		// TODO Auto-generated method stub
-		return null;
-	}
+			final Iterable<IContactSimple> pList) throws AbstractDaoException {
+		
+		/* retourne null si pList == null. */
+		if (pList == null) {
+			return null;
+		}
+
+		List<IContactSimple> contacts = null;
+		
+		if (this.fichierXML.exists()) {
+			contacts = this.recupererListeModeles(this.fichierXML);
+		} else {
+			contacts = new ArrayList<IContactSimple>();
+		}
+
+		final List<IContactSimple> resultat = new ArrayList<IContactSimple>();
+
+		final Iterator<IContactSimple> iteS = pList.iterator();
+		
+		if (contacts != null) {
+			
+			while (iteS.hasNext()) {
+				
+				final IContactSimple contactSimple = iteS.next();
+				
+				if (contactSimple != null) {
+					
+					/* ne crée pas de doublon. */
+					if (!this.exists(contactSimple)) {
+						
+						/* ajoute l'Objet Métier pObject à la liste 
+						 * des objets métier stockés. */
+						contacts.add(contactSimple);
+						
+						resultat.add(contactSimple);
+					}
+					
+				}
+							
+			}
+			
+			/* enregistre la nouvelle liste dans le stockage XML. */
+			this.enregistrer(contacts, this.fichierXML);
+		}
+
+		return resultat;
+		
+	} // Fin de save(...)._________________________________________________
 	
 	
 
@@ -409,60 +597,204 @@ public class ContactSimpleDaoJAXB implements IContactSimpleDAO {
 
 	/**
 	 * {@inheritDoc}
+	 * - retourne null si le stockage n'existe pas.<br/>
+	 * - retourne null si le stockage est vide.<br/>
+	 * <br/>
 	 */
 	@Override
 	public IContactSimple retrieve(
-			final IContactSimple pObject) throws Exception {
-		// TODO Auto-generated method stub
-		return null;
-	}
+			final IContactSimple pObject) throws AbstractDaoException {
+		
+		/* retourne null si pObject == null. */
+		if (pObject == null) {
+			return null;
+		}
+		
+		List<IContactSimple> contacts = null;
+		
+		/* retourne null si le stockage n'existe pas. */
+		if (this.fichierXML.exists()) {
+			contacts = this.recupererListeModeles(this.fichierXML);
+		} else {
+			return null;
+		}
+		
+		/* retourne null si le stockage est vide. */
+		if (contacts.isEmpty()) {
+			return null;
+		}
+		
+		IContactSimple resultat = null;
+		
+		for (final IContactSimple contactSimple : contacts) {
+			
+			if (pObject.equals(contactSimple)) {
+				resultat = contactSimple;
+				break;
+			}
+		}
+		
+		return resultat;
+		
+	} // Fin de retrieve(...)._____________________________________________
 
 
 
 	/**
 	 * {@inheritDoc}
+	 * - retourne null si le stockage n'existe pas.<br/>
+	 * - retourne null si le stockage est vide.<br/>
+	 * <br/>
 	 */
 	@Override
 	public IContactSimple findById(
-			final Long pId) throws Exception {
-		// TODO Auto-generated method stub
-		return null;
-	}
+			final Long pId) throws AbstractDaoException {
+		
+		/* retourne null si pId == null. */
+		if (pId == null) {
+			return null;
+		}
+		
+		List<IContactSimple> contacts = null;
+		
+		/* retourne null si le stockage n'existe pas. */
+		if (this.fichierXML.exists()) {
+			contacts = this.recupererListeModeles(this.fichierXML);
+		} else {
+			return null;
+		}
+		
+		/* retourne null si le stockage est vide. */
+		if (contacts.isEmpty()) {
+			return null;
+		}
+		
+		IContactSimple resultat = null;
+		
+		for (final IContactSimple contactSimple : contacts) {
+			
+			if (pId.equals(contactSimple.getId())) {
+				resultat = contactSimple;
+				break;
+			}
+		}
+		
+		return resultat;
+		
+	} // Fin de findById(...)._____________________________________________
 
 
 
 	/**
 	 * {@inheritDoc}
+	 * - retourne null si le stockage n'existe pas.<br/>
+	 * - retourne null si le stockage est vide.<br/>
+	 * <br/>
 	 */
 	@Override
 	public Long retrieveId(
-			final IContactSimple pObject) throws Exception {
-		// TODO Auto-generated method stub
-		return null;
-	}
+			final IContactSimple pObject) throws AbstractDaoException {
+		
+		/* retourne null si pObject == null. */
+		if (pObject == null) {
+			return null;
+		}
+		
+		List<IContactSimple> contacts = null;
+		
+		/* retourne null si le stockage n'existe pas. */
+		if (this.fichierXML.exists()) {
+			contacts = this.recupererListeModeles(this.fichierXML);
+		} else {
+			return null;
+		}
+		
+		/* retourne null si le stockage est vide. */
+		if (contacts.isEmpty()) {
+			return null;
+		}
+		
+		Long resultat = null;
+		
+		for (final IContactSimple contactSimple : contacts) {
+			
+			if (pObject.equals(contactSimple)) {
+				resultat = contactSimple.getId();
+				break;
+			}
+		}
+		
+		return resultat;
+		
+	} // Fin de retrieveId(...).___________________________________________
 
 
 
 	/**
 	 * {@inheritDoc}
+	 * - retourne null si le stockage n'existe pas.<br/>
+	 * <br/>
 	 */
 	@Override
-	public List<IContactSimple> findAll() throws Exception {
-		// TODO Auto-generated method stub
-		return null;
-	}
+	public List<IContactSimple> findAll() throws AbstractDaoException {
+		
+		List<IContactSimple> contacts = null;
+		
+		/* retourne null si le stockage n'existe pas. */
+		if (this.fichierXML.exists()) {
+			contacts = this.recupererListeModeles(this.fichierXML);
+		} else {
+			return null;
+		}
+		
+		return contacts;
+		
+	} // Fin de findAll()._________________________________________________
 
 
 
 	/**
 	 * {@inheritDoc}
+	 * - retourne null si le stockage n'existe pas.<br/>
+	 * - retourne null si le stockage est vide.<br/>
+	 * <br/>
 	 */
 	@Override
 	public List<IContactSimple> findAllMax(
-			final int pStartPosition, final int pMaxResult) throws Exception {
-		// TODO Auto-generated method stub
-		return null;
-	}
+			final int pStartPosition, final int pMaxResult) 
+						throws AbstractDaoException {
+		
+		List<IContactSimple> contacts = null;
+		
+		/* retourne null si le stockage n'existe pas. */
+		if (this.fichierXML.exists()) {
+			contacts = this.recupererListeModeles(this.fichierXML);
+		} else {
+			return null;
+		}
+		
+		/* retourne null si le stockage est vide. */
+		if (contacts.isEmpty()) {
+			return null;
+		}
+		
+		final List<IContactSimple> resultat 
+			= new ArrayList<IContactSimple>();
+		
+		for (final IContactSimple contactSimple : contacts) {
+			
+			final Long indexContactSimple = contactSimple.getId();
+			final int finPosition = pStartPosition + pMaxResult;
+			
+			if (indexContactSimple >= pStartPosition 
+					&& indexContactSimple < finPosition) {
+				resultat.add(contactSimple);
+			}
+		}
+		
+		return resultat;
+		
+	} // Fin de findAllMax(...).___________________________________________
 
 
 
@@ -471,7 +803,7 @@ public class ContactSimpleDaoJAXB implements IContactSimpleDAO {
 	 */
 	@Override
 	public Iterable<IContactSimple> findAll(
-			final Iterable<Long> pIds) throws Exception {
+			final Iterable<Long> pIds) throws AbstractDaoException {
 		// TODO Auto-generated method stub
 		return null;
 	}
@@ -486,7 +818,7 @@ public class ContactSimpleDaoJAXB implements IContactSimpleDAO {
 	 */
 	@Override
 	public IContactSimple update(
-			final IContactSimple pObject) throws Exception {
+			final IContactSimple pObject) throws AbstractDaoException {
 		// TODO Auto-generated method stub
 		return null;
 	}
@@ -498,7 +830,8 @@ public class ContactSimpleDaoJAXB implements IContactSimpleDAO {
 	 */
 	@Override
 	public IContactSimple update(
-			final Long pId, final IContactSimple pObjectModifie) throws Exception {
+			final Long pId, final IContactSimple pObjectModifie) 
+					throws AbstractDaoException {
 		// TODO Auto-generated method stub
 		return null;
 	}
@@ -514,7 +847,7 @@ public class ContactSimpleDaoJAXB implements IContactSimpleDAO {
 	 */
 	@Override
 	public boolean delete(
-			final IContactSimple pObject) throws Exception {
+			final IContactSimple pObject) throws AbstractDaoException {
 		// TODO Auto-generated method stub
 		return false;
 	}
@@ -526,7 +859,7 @@ public class ContactSimpleDaoJAXB implements IContactSimpleDAO {
 	 */
 	@Override
 	public void deleteById(
-			final Long pId) throws Exception {
+			final Long pId) throws AbstractDaoException {
 		// TODO Auto-generated method stub
 		
 	}
@@ -538,7 +871,7 @@ public class ContactSimpleDaoJAXB implements IContactSimpleDAO {
 	 */
 	@Override
 	public boolean deleteByIdBoolean(
-			final Long pId) throws Exception {
+			final Long pId) throws AbstractDaoException {
 		// TODO Auto-generated method stub
 		return false;
 	}
@@ -549,7 +882,7 @@ public class ContactSimpleDaoJAXB implements IContactSimpleDAO {
 	 * {@inheritDoc}
 	 */
 	@Override
-	public void deleteAll() throws Exception {
+	public void deleteAll() throws AbstractDaoException {
 		// TODO Auto-generated method stub
 		
 	}
@@ -560,7 +893,7 @@ public class ContactSimpleDaoJAXB implements IContactSimpleDAO {
 	 * {@inheritDoc}
 	 */
 	@Override
-	public boolean deleteAllBoolean() throws Exception {
+	public boolean deleteAllBoolean() throws AbstractDaoException {
 		// TODO Auto-generated method stub
 		return false;
 	}
@@ -572,7 +905,7 @@ public class ContactSimpleDaoJAXB implements IContactSimpleDAO {
 	 */
 	@Override
 	public void deleteIterable(
-			final Iterable<IContactSimple> pList) throws Exception {
+			final Iterable<IContactSimple> pList) throws AbstractDaoException {
 		// TODO Auto-generated method stub
 		
 	}
@@ -584,7 +917,7 @@ public class ContactSimpleDaoJAXB implements IContactSimpleDAO {
 	 */
 	@Override
 	public boolean deleteIterableBoolean(
-			final Iterable<IContactSimple> pList) throws Exception {
+			final Iterable<IContactSimple> pList) throws AbstractDaoException {
 		// TODO Auto-generated method stub
 		return false;
 	}
@@ -600,7 +933,7 @@ public class ContactSimpleDaoJAXB implements IContactSimpleDAO {
 	 */
 	@Override
 	public boolean exists(
-			final IContactSimple pObject) throws Exception {
+			final IContactSimple pObject) throws AbstractDaoException {
 		// TODO Auto-generated method stub
 		return false;
 	}
@@ -612,7 +945,7 @@ public class ContactSimpleDaoJAXB implements IContactSimpleDAO {
 	 */
 	@Override
 	public boolean exists(
-			final Long pId) throws Exception {
+			final Long pId) throws AbstractDaoException {
 		// TODO Auto-generated method stub
 		return false;
 	}
@@ -623,7 +956,7 @@ public class ContactSimpleDaoJAXB implements IContactSimpleDAO {
 	 * {@inheritDoc}
 	 */
 	@Override
-	public Long count() throws Exception {
+	public Long count() throws AbstractDaoException {
 		// TODO Auto-generated method stub
 		return null;
 	}
@@ -634,7 +967,8 @@ public class ContactSimpleDaoJAXB implements IContactSimpleDAO {
 	 * {@inheritDoc}
 	 */
 	@Override
-	public void ecrireStockageDansConsole() throws Exception {
+	public void ecrireStockageDansConsole() 
+					throws AbstractDaoException {
 		// TODO Auto-generated method stub
 		
 	}
@@ -654,23 +988,25 @@ public class ContactSimpleDaoJAXB implements IContactSimpleDAO {
 
 	
 	/**
-	 * Enregistre sur disque dans le fichier XML pFile 
-	 * la liste de MODEL List&lt;IContactSimple&gt; pList.<br/>
+	 * <b>Enregistre sur disque dans le fichier XML pFile 
+	 * la liste d'OBJETS METIER 
+	 * List&lt;IContactSimple&gt; pList</b>.<br/>
 	 * <ul>
-	 * <li>Crée pFile sur disque si il n'existe pas.</li>
+	 * <li>Crée le fichier XML pFile sur disque si il n'existe pas.</li>
 	 * <li>Remplace pFile si il existe déjà.</li>
-	 * <li>ne fait rien si pList == null.</li>
-	 * <li>ne fait rien si pFile == null.</li>
 	 * </ul>
+	 * - ne fait rien si pList == null.<br/>
+	 * - ne fait rien si pFile == null.<br/>
+	 * <br/>
 	 *
 	 * @param pList : List&lt;IContactSimple&gt;.<br/>
 	 * @param pFile : java.io.File.<br/>
 	 * 
-	 * @throws JAXBException
+	 * @throws AbstractDaoException
 	 */
-	public void enregistrer(
+	private void enregistrer(
 			final List<IContactSimple> pList
-				, final File pFile) throws JAXBException {
+				, final File pFile) throws AbstractDaoException {
 		
 		/* ne fait rien si pList == null. */
 		if (pList == null) {
@@ -682,7 +1018,8 @@ public class ContactSimpleDaoJAXB implements IContactSimpleDAO {
 			return;
 		}
 		
-		final ListeContactSimplesEntityJAXB contacts = this.creerEntityJAXB(pList);
+		final ListeContactSimplesEntityJAXB contacts 
+			= this.creerEntityJAXB(pList);
 		
 		this.enregistrer(contacts, pFile);
 		
@@ -691,23 +1028,27 @@ public class ContactSimpleDaoJAXB implements IContactSimpleDAO {
 	
 	
 	/**
-	 * Enregistre sur disque dans le fichier XML pFile 
-	 * l'Entity JAXB pContactsEntityJAXB.<br/>
+	 * <b>Enregistre sur disque dans le fichier XML pFile 
+	 * l'Entity JAXB pContactsEntityJAXB</b>.<br/>
 	 * <ul>
-	 * <li>Crée pFile sur disque si il n'existe pas.</li>
+	 * <li>Crée le fichier XML pFile sur disque si il n'existe pas.</li>
 	 * <li>Remplace pFile si il existe déjà.</li>
-	 * <li>ne fait rien si pContactsEntityJAXB == null.</li>
-	 * <li>ne fait rien si pFile == null.</li>
+	 * <li>utilise <code>marshaller.marshal(
+	 * pListeContactSimplesEntityJAXB, pFile);</code> pour serializer 
+	 * dans le fichier XML</li>
 	 * </ul>
+	 * - ne fait rien si pContactsEntityJAXB == null.<br/>
+	 * - ne fait rien si pFile == null.<br/>
+	 * <br/>
 	 *
 	 * @param pListeContactSimplesEntityJAXB : ListeContactSimplesEntityJAXB.<br/>
 	 * @param pFile : java.io.File.<br/>
 	 * 
-	 * @throws JAXBException
+	 * @throws AbstractDaoException
 	 */
 	private void enregistrer(
 			final ListeContactSimplesEntityJAXB pListeContactSimplesEntityJAXB
-				, final File pFile) throws JAXBException {
+				, final File pFile) throws AbstractDaoException {
 		
 		/* ne fait rien si pContactsEntityJAXB == null. */
 		if (pListeContactSimplesEntityJAXB == null) {
@@ -720,7 +1061,29 @@ public class ContactSimpleDaoJAXB implements IContactSimpleDAO {
 		}
 		
 		/* Ecriture sur disque dur sous forme de fichier XML. */
-		this.marshaller.marshal(pListeContactSimplesEntityJAXB, pFile);
+		try {
+			
+			this.marshaller.marshal(pListeContactSimplesEntityJAXB, pFile);
+			
+		} catch (JAXBException e) {
+			
+			final String message 
+				= CLASSE_CONTACTSIMPLE_DAO
+				+ TIRET_MOINS_ESPACE
+				+ "méthode enregistrer("
+				+ "ListeContactSimplesEntityJAXB pListeContactSimplesEntityJAXB"
+				+ ", File pFile)" 
+				+ TIRET_MOINS_ESPACE 
+				+ "Impossible de sérializer dans le fichier : " 
+				+ pFile.getAbsolutePath();
+			
+			if (LOG.isFatalEnabled()) {
+				LOG.fatal(message, e);
+			}
+			
+			throw new DaoJAXBException(message, e);
+
+		}
 		
 	} // Fin de enregistrer(...).__________________________________________
 	
@@ -735,10 +1098,10 @@ public class ContactSimpleDaoJAXB implements IContactSimpleDAO {
 	 *
 	 * @param pList : List&lt;IContactSimple&gt;
 	 * 
-	 * @throws JAXBException
+	 * @throws AbstractDaoException
 	 */
 	public void ecrireContactsConsole(
-			final List<IContactSimple> pList) throws JAXBException {
+			final List<IContactSimple> pList) throws AbstractDaoException {
 		
 		/* ne fait rien si pList == null. */
 		if (pList == null) {
@@ -768,11 +1131,11 @@ public class ContactSimpleDaoJAXB implements IContactSimpleDAO {
 	 *
 	 * @param pListeContactSimplesEntityJAXB : ListeContactSimplesEntityJAXB.<br/>
 	 * 
-	 * @throws JAXBException 
+	 * @throws AbstractDaoException 
 	 */
 	private void ecrireContactsConsole(
 			final ListeContactSimplesEntityJAXB pListeContactSimplesEntityJAXB) 
-					throws JAXBException {
+					throws AbstractDaoException {
 		
 		/* ne fait rien si pContactsEntityJAXB == null. */
 		if (pListeContactSimplesEntityJAXB == null) {
@@ -780,29 +1143,51 @@ public class ContactSimpleDaoJAXB implements IContactSimpleDAO {
 		}
 		
 		/* Ecriture dans la console sous forme de fichier XML. */
-		this.marshaller.marshal(pListeContactSimplesEntityJAXB, System.out);
+		try {
+			
+			this.marshaller.marshal(pListeContactSimplesEntityJAXB, System.out);
+			
+		} catch (JAXBException e) {
+			
+			final String message 
+				= CLASSE_CONTACTSIMPLE_DAO
+				+ TIRET_MOINS_ESPACE
+				+ "méthode ecrireContactsConsole("
+				+ "ListeContactSimplesEntityJAXB pListeContactSimplesEntityJAXB)" 
+				+ TIRET_MOINS_ESPACE 
+				+ "Impossible d'écrire les objets dans la console";
+			
+			if (LOG.isFatalEnabled()) {
+				LOG.fatal(message, e);
+			}
+			
+			throw new DaoJAXBException(message, e);
+
+		}
 		
 	} // Fin de ecrireContactsConsole(...).________________________________
 	
 	
 	
 	/**
-	 * method recupererListeModeles(
-	 * File pFile) :<br/>
-	 * Récupére la liste des MODEL dans le fichier XML 
-	 * correspondant à une Entity JAXB.<br/>
+	 * Récupére la liste des OBJETS METIER dans le fichier XML 
+	 * correspondant à une Entity JAXB ListeContactSimplesEntityJAXB 
+	 * (équivalent d'une table SGBDR).<br/>
+	 * <br/>
+	 * - return null si pFile == null.<br/>
+	 * - return null si pFile n'existe pas.<br/>
+	 * - return null si pFile n'est pas un fichier simple.<br/>
 	 * <br/>
 	 *
 	 * @param pFile : java.io.File.<br/>
 	 * 
 	 * @return List&lt;IContactSimple&gt;.<br/>
 	 * 
-	 * @throws FileNotFoundException
-	 * @throws JAXBException :  :  .<br/>
+	 * @throws AbstractDaoException 
 	 */
 	public List<IContactSimple> recupererListeModeles(
 			final File pFile) 
-					throws FileNotFoundException, JAXBException {
+					throws AbstractDaoException {
 		
 		/* return null si pFile == null. */
 		if (pFile == null) {
@@ -835,7 +1220,9 @@ public class ContactSimpleDaoJAXB implements IContactSimpleDAO {
 	
 	
 	/**
-	 * Récupère une Entity JAXB à partir du fichier XML pFile.<br/>
+	 * <b>Récupère une Entity JAXB ListeContactSimplesEntityJAXB 
+	 * (équivalent d'une table SGBDR)
+	 * à partir du fichier XML pFile</b>.<br/>
 	 * <ul>
 	 * <li>return null si pFile == null.</li>
 	 * <li>return null si pFile n'existe pas.</li>
@@ -845,14 +1232,14 @@ public class ContactSimpleDaoJAXB implements IContactSimpleDAO {
 	 * @param pFile : java.io.File.<br/>
 	 * 
 	 * @return ListeContactSimplesEntityJAXB : 
-	 * Entity JAXB modélisant le contenu du fichier XML pFile.<br/>
+	 * Entity JAXB modélisant le contenu du fichier XML pFile 
+	 * (équivalent d'une table SGBDR).<br/>
 	 * 
-	 * @throws FileNotFoundException
-	 * @throws JAXBException
+	 * @throws AbstractDaoException
 	 */
 	public ListeContactSimplesEntityJAXB recupererEntites(
 			final File pFile) 
-					throws FileNotFoundException, JAXBException {
+					throws AbstractDaoException {
 		
 		/* return null si pFile == null. */
 		if (pFile == null) {
@@ -869,10 +1256,34 @@ public class ContactSimpleDaoJAXB implements IContactSimpleDAO {
 			return null;
 		}
 		
-		final FileReader fileReader = new FileReader(pFile);
+		FileReader fileReader = null;
 		
-		final ListeContactSimplesEntityJAXB resultat 
-			= (ListeContactSimplesEntityJAXB) this.unmarshaller.unmarshal(fileReader);
+		ListeContactSimplesEntityJAXB resultat = null;
+		
+		try {
+			
+			fileReader = new FileReader(pFile);
+			
+			resultat 
+				= (ListeContactSimplesEntityJAXB) 
+					this.unmarshaller.unmarshal(fileReader);
+			
+		} catch (Exception e) {
+			
+			final String message 
+				= CLASSE_CONTACTSIMPLE_DAO
+				+ TIRET_MOINS_ESPACE
+				+ "méthode recupererEntites(File pFile)" 
+				+ TIRET_MOINS_ESPACE 
+				+ "Impossible de désérializer le fichier : " 
+				+ pFile.getAbsolutePath();
+			
+			if (LOG.isFatalEnabled()) {
+				LOG.fatal(message, e);
+			}
+			
+			throw new DaoJAXBException(message, e);
+		}
 		
 		return resultat;
 		

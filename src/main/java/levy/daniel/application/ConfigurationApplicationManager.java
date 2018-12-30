@@ -1,5 +1,6 @@
 package levy.daniel.application;
 
+import java.nio.file.Path;
 import java.util.Locale;
 import java.util.ResourceBundle;
 
@@ -8,6 +9,7 @@ import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
 import levy.daniel.application.apptechnic.configurationmanagers.gestionnairesbundles.ConfigurationBundlesManager;
+import levy.daniel.application.apptechnic.configurationmanagers.gestionnairespaths.ArboresceurPresentProjet;
 import levy.daniel.application.apptechnic.exceptions.technical.impl.BundleManquantRunTimeException;
 import levy.daniel.application.apptechnic.exceptions.technical.impl.CleManquanteRunTimeException;
 import levy.daniel.application.apptechnic.exceptions.technical.impl.CleNullRunTimeException;
@@ -174,7 +176,15 @@ public final class ConfigurationApplicationManager {
 	 */
 	private static String rapportUtilisateurCsv;
 	
-
+	/**
+	 * Path du fichier XML pour la serialization en JAXB.
+	 * ul>
+	 * <li>par exemple <code>data/
+	 * base-adresses_javafx-JAXB/base-adresses_javafx-JAXB.xml</code></li>
+	 * </ul>
+	 */
+	private static Path fichierJAXBXMLPath;
+	
 	/**
 	 * LOG : Log : 
 	 * Logger pour Log4j (utilisant commons-logging).
@@ -833,7 +843,42 @@ public final class ConfigurationApplicationManager {
 	} // Fin de getRapportUtilisateurCsv().________________________________
 
 	
-	
+		
+	/**
+	 * Getter du Path du fichier XML pour la serialization en JAXB.
+	 * <ul>
+	 * <li>par exemple <code>data/
+	 * base-adresses_javafx-JAXB/base-adresses_javafx-JAXB.xml</code></li>
+	 * </ul>
+	 *
+	 * @return fichierJAXBXMLPath : Path.<br/>
+	 */
+	public static Path getFichierJAXBXMLPath() {
+		
+		/* Bloc synchronized. */
+		synchronized (ConfigurationApplicationManager.class) {
+			
+			if (fichierJAXBXMLPath == null) {
+				
+				final String nomFichier 
+					= "base-" 
+							+ ArboresceurPresentProjet.getProjetSourceNom() 
+								+ "-JAXB.xml";
+				
+				fichierJAXBXMLPath 
+					= ArboresceurPresentProjet.getDataJAXBPath()
+						.resolve(nomFichier)
+							.toAbsolutePath().normalize();
+			}
+			
+			return fichierJAXBXMLPath;
+			
+		} // Fin de synchronized.________________________________________
+				
+	} // Fin de getFichierJAXBXMLPath().___________________________________
+
+
+
 	/**
 	 * method ajouterMessageAuRapportConfigurationCsv(
 	 * String pMessage) :<br/>

@@ -40,6 +40,8 @@ public interface IContactSimpleDAO {
 	 * <ul>
 	 * <li>ne crée <b>pas de doublon</b>.</li>
 	 * <li>retourne null si pObject existe déjà dans le stockage.</li>
+	 * <li>retourne null si les attributs obligatoires 
+	 * de pObject ne sont pas remplis.</li>
 	 * </ul>
 	 * - retourne null si pObject == null.<br/>
 	 * <br/>

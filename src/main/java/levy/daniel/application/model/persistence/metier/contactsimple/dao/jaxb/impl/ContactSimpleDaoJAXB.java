@@ -412,8 +412,13 @@ public class ContactSimpleDaoJAXB implements IContactSimpleDAO {
 				
 				/* ajoute l'Objet Métier pObject à la liste 
 				 * des objets métier stockés. */
-				contacts.add(pObject);
-				
+				/* VERIFIE LES CHAMPS OBLIGATOIRES. */
+				if (pObject.getNom() != null && pObject.getPrenom() != null) {
+					contacts.add(pObject);
+				} else {
+					return null;
+				}
+								
 				/* enregistre la nouvelle liste dans le stockage XML. */
 				this.enregistrer(contacts, pFile);
 				
@@ -884,15 +889,13 @@ public class ContactSimpleDaoJAXB implements IContactSimpleDAO {
 	@Override
 	public void deleteAll() throws AbstractDaoException {
 		
-		List<IContactSimple> contacts = null;
+		/* instancie une nouvelle liste vide. */
+		List<IContactSimple> contacts = new ArrayList<IContactSimple>();
 		
-		if (this.fichierXML.exists()) {
-			contacts = this.recupererListeModeles(this.fichierXML);
-		} else {
-			
-		}
+		/* enregistre la nouvelle liste vide dans le stockage XML. */
+		this.enregistrer(contacts, this.fichierXML);
 		
-	}
+	} // Fin de deleteAll()._______________________________________________
 
 
 
@@ -964,9 +967,18 @@ public class ContactSimpleDaoJAXB implements IContactSimpleDAO {
 	 */
 	@Override
 	public Long count() throws AbstractDaoException {
-		// TODO Auto-generated method stub
+		
+		List<IContactSimple> contacts = null;
+		
+		contacts = this.findAll();
+		
+		if (contacts != null) {
+			return Long.valueOf(contacts.size());
+		}
+		
 		return null;
-	}
+		
+	} // Fin de count().___________________________________________________
 
 
 
@@ -981,16 +993,38 @@ public class ContactSimpleDaoJAXB implements IContactSimpleDAO {
 	}
 
 
-
+	
 	/**
-	 * {@inheritDoc}
+	 * <b>fournit une String pour l'affichage à la console 
+	 * d'une Liste d'OBJETS METIER</b>.<br/>
+	 * <br/>
+	 * retourne null si pList == null.<br/>
+	 *
+	 * @param pList : List&lt;IContactSimple&gt;.<br/>
+	 * 
+	 * @return : String.<br/>
 	 */
 	@Override
 	public String afficherListeObjetsMetier(
 			final List<IContactSimple> pList) {
-		// TODO Auto-generated method stub
-		return null;
-	}
+		
+		/* retourne null si pList == null. */
+		if (pList == null) {
+			return null;
+		}
+		
+		final StringBuffer stb = new StringBuffer();
+		
+		for (final IContactSimple contactSimple : pList) {
+			
+			stb.append(contactSimple.toString());
+			stb.append(SAUT_LIGNE_PLATEFORME);
+			
+		}
+		
+		return stb.toString();
+		
+	} // Fin de afficherListeContactSimple(...).________________________________
 
 
 	
@@ -1324,42 +1358,6 @@ public class ContactSimpleDaoJAXB implements IContactSimpleDAO {
 		return this.afficherListeContactSimpleJAXB(listeEntities);
 		
 	} // Fin de afficherListeContactSimpleDansContacts(...).____________________
-	
-	
-	
-	/**
-	 * method afficherListeContactSimple(
-	 * List&lt;IContactSimple&gt; pList) :<br/>
-	 * fournit une String pour l'affichage à la console 
-	 * d'une Liste de IContactSimple.<br/>
-	 * <br/>
-	 * retourne null si pList == null.<br/>
-	 * <br/>
-	 *
-	 * @param pList : List&lt;IContactSimple&gt;.<br/>
-	 * 
-	 * @return : String.<br/>
-	 */
-	public String afficherListeContactSimple(
-			final List<IContactSimple> pList) {
-		
-		/* retourne null si pList == null. */
-		if (pList == null) {
-			return null;
-		}
-		
-		final StringBuffer stb = new StringBuffer();
-		
-		for (final IContactSimple contactSimple : pList) {
-			
-			stb.append(contactSimple.toString());
-			stb.append(SAUT_LIGNE_PLATEFORME);
-			
-		}
-		
-		return stb.toString();
-		
-	} // Fin de afficherListeContactSimple(...).________________________________
 	
 	
 	

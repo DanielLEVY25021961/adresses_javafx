@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<ns2:listeContactSimplesEntityJAXB xmlns:ns2="levy.daniel.application">
+    <listeContactSimples>
+        <contactSimple>
+            <prenom>Horace</prenom>
+            <nom>Silver</nom>
+            <rue>17, rue de la Plomberie</rue>
+            <codePostal>73 698</codePostal>
+            <ville>Chambéry</ville>
+            <pays>France</pays>
+            <telephone>04 79 85 54 63</telephone>
+            <mail>horace.silver@free.fr</mail>
+            <dateNaissance>1950-01-17</dateNaissance>
+        </contactSimple>
+        <contactSimple>
+            <prenom>Johnny</prenom>
+            <nom>Halliday</nom>
+            <rue>7, avenue des Zozos</rue>
+            <rue2>Bâtiment les Etoiles</rue2>
+            <codePostal>75 001</codePostal>
+            <ville>Paris</ville>
+            <pays>France</pays>
+            <telephone>01 44 85 54 63</telephone>
+            <mail>johnny.halliday@free.fr</mail>
+            <dateNaissance>1952-07-22</dateNaissance>
+        </contactSimple>
+        <contactSimple>
+            <prenom>Papy</prenom>
+            <nom>Gonzales</nom>
+            <rue>rue3</rue>
+            <rue2>complément rue3</rue2>
+            <codePostal>cp3</codePostal>
+            <ville>ville3</ville>
+            <pays>USA</pays>
+            <telephone>00 33 (1) 585 54 63</telephone>
+            <mail>papy.gonzales@aol.com</mail>
+            <dateNaissance>2018-05-03</dateNaissance>
+        </contactSimple>
+        <contactSimple>
+            <prenom>Zorro</prenom>
+            <nom>Démoniaque</nom>
+            <rue>rue4</rue>
+            <codePostal>cp4</codePostal>
+            <ville>ville4</ville>
+            <pays>Angleterre</pays>
+            <telephone>00 33 (3) 472 54 63</telephone>
+            <mail>zorro.demoniac@british.com</mail>
+            <dateNaissance>2018-05-04</dateNaissance>
+        </contactSimple>
+        <contactSimple>
+            <prenom>Michael</prenom>
+            <nom>Caine</nom>
+            <rue>75, 5th Avenue</rue>
+            <codePostal>NY</codePostal>
+            <ville>New York</ville>
+            <pays>USA</pays>
+            <telephone>00 33 322 56 98</telephone>
+            <mail>michael.caine@aol.com</mail>
+            <dateNaissance>1950-02-20</dateNaissance>
+        </contactSimple>
+    </listeContactSimples>
+</ns2:listeContactSimplesEntityJAXB>

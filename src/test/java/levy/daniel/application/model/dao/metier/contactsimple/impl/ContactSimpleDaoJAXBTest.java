@@ -4,9 +4,13 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
 
 import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
+import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.junit.BeforeClass;
@@ -24,6 +28,7 @@ import levy.daniel.application.model.persistence.metier.contactsimple.entities.j
 /**
  * CLASSE ContactSimpleDaoJAXBTest :<br/>
  * Test JUnit de la classe ContactSimpleDaoJAXB.<br/>
+ * TEST DE DAO.<br/>
  * <br/>
  *
  * - Exemple d'utilisation :<br/>
@@ -49,7 +54,12 @@ public class ContactSimpleDaoJAXBTest {
 	 * DAO.<br/>
 	 */
 	private static transient ContactSimpleDaoJAXB dao;
-				
+
+	/**
+	 * "nomTest".<br/>
+	 */
+	public static final String NOMTEST = "nomTest";
+					
 	/**
 	 * Boolean qui commande l'affichage pour tous les tests.<br/>
 	 */
@@ -151,110 +161,84 @@ public class ContactSimpleDaoJAXBTest {
 		= "testSaveDoublon()";
 	
 	/**
-	 * TEST_SAVELOT : String :<br/>
 	 * "testSaveLot()".<br/>
 	 */
 	public static final String TEST_SAVELOT 
 		= "testSaveLot()";
 	
 	/**
-	 * TEST_RETRIEVE : String :<br/>
 	 * "testRetrieve()".<br/>
 	 */
 	public static final String TEST_RETRIEVE 
 		= "testRetrieve()";
-
 	
 	/**
-	 * TEST_FINDBYID : String :<br/>
 	 * "testFindById()".<br/>
 	 */
 	public static final String TEST_FINDBYID 
 		= "testFindById()";
-
 	
 	/**
-	 * TEST_FINDALL : String :<br/>
 	 * "testFindAll()".<br/>
 	 */
 	public static final String TEST_FINDALL 
 		= "testFindAll()";
-
 	
 	/**
-	 * TEST_FINDALLMAX : String :<br/>
 	 * "testFindAllMax()".<br/>
 	 */
 	public static final String TEST_FINDALLMAX 
 		= "testFindAllMax()";
-	
-	
+		
 	/**
-	 * TEST_FINDALLITERABLE : String :<br/>
 	 * "testFindAllIterable()".<br/>
 	 */
 	public static final String TEST_FINDALLITERABLE 
 		= "testFindAllIterable()";
-	
-	
+		
 	/**
-	 * TEST_UPDATE_INEXISTANT : String :<br/>
 	 * "testUpdateInexistant()".<br/>
 	 */
 	public static final String TEST_UPDATE_INEXISTANT 
 		= "testUpdateInexistant()";
-	
-	
+		
 	/**
-	 * TEST_UPDATE : String :<br/>
 	 * "testUpdate()".<br/>
 	 */
 	public static final String TEST_UPDATE 
 		= "testUpdate()";
 	
-
 	/**
-	 * TEST_DELETE_INEXISTANT : String :<br/>
 	 * "testDeleteInexistant()".<br/>
 	 */
 	public static final String TEST_DELETE_INEXISTANT 
 		= "testDeleteInexistant()";
-
 	
 	/**
-	 * TEST_DELETE : String :<br/>
 	 * "testDelete()".<br/>
 	 */
 	public static final String TEST_DELETE 
 		= "testDelete()";
-	
-	
+		
 	/**
-	 * TEST_DELETEBYID_INEXISTANT : String :<br/>
 	 * "testDeleteByIdInexistant()".<br/>
 	 */
 	public static final String TEST_DELETEBYID_INEXISTANT 
 		= "testDeleteByIdInexistant()";
-
 		
 	/**
-	 * TEST_DELETEBYID : String :<br/>
 	 * "testDeleteById()".<br/>
 	 */
 	public static final String TEST_DELETEBYID 
 		= "testDeleteById()";
-
 	
 	/**
-	 * TEST_DELETEBYIDBOOLEAN_INEXISTANT : String :<br/>
 	 * "testDeleteByIdBooleanInexistant()".<br/>
 	 */
 	public static final String TEST_DELETEBYIDBOOLEAN_INEXISTANT 
 		= "testDeleteByIdBooleanInexistant()";
-
 		
 	/**
-	 * TEST_DELETEBYIDBOOLEAN : String :<br/>
 	 * "testDeleteByIdBoolean()".<br/>
 	 */
 	public static final String TEST_DELETEBYIDBOOLEAN 
@@ -271,14 +255,13 @@ public class ContactSimpleDaoJAXBTest {
 	
 	/**
 	 * NBRE_OBJET_INITIAL : String :<br/>
-	 * "NOMBRE D'OBJETS INITIALEMENT EN BASE : ".<br/>
+	 * "NOMBRE D'OBJETS INITIALEMENT dans le stockage : ".<br/>
 	 */
 	public static final String NBRE_OBJET_INITIAL 
-		= "NOMBRE D'OBJETS INITIALEMENT EN BASE : ";
+		= "NOMBRE D'OBJETS INITIALEMENT dans le stockage : ";
 	
 		
 	/**
-	 * NBRE_OBJETS_FINAL_DOIT : String :<br/>
 	 * "nombreObjetsFinal doit valoir ".<br/>
 	 */
 	public static final String NBRE_OBJETS_FINAL_DOIT 
@@ -286,7 +269,6 @@ public class ContactSimpleDaoJAXBTest {
 	
 	
 	/**
-	 * NBRE_INITIAL_PLUS_ZERO : String :<br/>
 	 * "nombreObjetsinitial + 0 : ".<br/>
 	 */
 	public static final String NBRE_INITIAL_PLUS_ZERO 
@@ -294,7 +276,6 @@ public class ContactSimpleDaoJAXBTest {
 	
 	
 	/**
-	 * NBRE_INITIAL_PLUS_UN : String :<br/>
 	 * "nombreObjetsinitial + 1 : ".<br/>
 	 */
 	public static final String NBRE_INITIAL_PLUS_UN 
@@ -302,7 +283,6 @@ public class ContactSimpleDaoJAXBTest {
 
 	
 	/**
-	 * NBRE_INITIAL_PLUS_DEUX : String :<br/>
 	 * "nombreObjetsinitial + 2 : ".<br/>
 	 */
 	public static final String NBRE_INITIAL_PLUS_DEUX 
@@ -310,15 +290,19 @@ public class ContactSimpleDaoJAXBTest {
 
 	
 	/**
-	 * NBRE_INITIAL_PLUS_TROIS : String :<br/>
 	 * "nombreObjetsinitial + 3 : ".<br/>
 	 */
 	public static final String NBRE_INITIAL_PLUS_TROIS 
 	= "nombreObjetsinitial + 3 : ";
+	
+	/**
+	 * "nombreObjetsinitial + 4 : ".<br/>
+	 */
+	public static final String NBRE_INITIAL_PLUS_QUATRE 
+	= "nombreObjetsinitial + 4 : ";
 
 
 	/**
-	 * OBJET1_NON_PERSISTANT : String :<br/>
 	 * "OBJET1 NON PERSISTANT : ".<br/>
 	 */
 	public static final String OBJET1_NON_PERSISTANT 
@@ -334,20 +318,102 @@ public class ContactSimpleDaoJAXBTest {
 	
 	/**
 	 * LOT_OBJET_INITIAL : String :<br/>
-	 * "LOT D'OBJETS INITIALEMENT EN BASE : ".<br/>
+	 * "LOT D'OBJETS INITIALEMENT dans le stockage : ".<br/>
 	 */
 	public static final String LOT_OBJET_INITIAL 
-	= "LOT D'OBJETS INITIALEMENT EN BASE : ";
+	= "LOT D'OBJETS INITIALEMENT dans le stockage : ";
 	
 	
 	/**
 	 * LOT_OBJETS_APRES_DELETE : String :<br/>
-	 * "LOT D'OBJETS EN BASE APRES DELETE : ".<br/>
+	 * "LOT D'OBJETS dans le stockage APRES DELETE : ".<br/>
 	 */
 	public static final String LOT_OBJETS_APRES_DELETE 
-		= "LOT D'OBJETS EN BASE APRES DELETE : ";
-
+		= "LOT D'OBJETS dans le stockage APRES DELETE : ";
 	
+	/**
+	 * objet CORRECT à créer dans le stockage 
+	 * pour les tests creation.<br/>
+	 * Ne doit pas causer de doublon
+	 */
+	public static transient IContactSimple objetACreer1 
+		= new ContactSimple(
+			"Michael", "Caine"
+			, "75, 5th Avenue"
+			, null
+			, "NY", "New York"
+			, "USA"
+			, "00 33 322 56 98"
+			, "michael.caine@aol.com"
+			, LocalDate.of(1950, 2, 20));
+	
+	/**
+	 * objet1, objet2EqualsObj1, objet3EqualsObj1 doivent être equals().
+	 */
+	public static transient IContactSimple objet1 
+		= new ContactSimple(1L, "prenomTest", NOMTEST
+				, "17, rue des Acacias"
+				, "Bâtiment 57, appartement 22"
+				, "75013", "Paris"
+				, "France"
+				, "06 60 52 44 89"
+				, "test@free.fr"
+				, fournirLocalDate("05/01/1976"));
+	
+	/**
+	 * objet1MemeInstance doit être la même instance que objet1.<br/>
+	 */
+	public static transient IContactSimple objet1MemeInstance = objet1;
+	
+	/**
+	 * objet1, objet2EqualsObj1, objet3EqualsObj1 doivent être equals().
+	 */
+	public static transient IContactSimple objet2EqualsObj1 
+		=  new ContactSimple(2L, "prenomTest", NOMTEST
+				, "172, rue des Acacias"
+				, "Bâtiment 572, appartement 22"
+				, "75014", "Paris2"
+				, "France2"
+				, "06 60 52 44 90"
+				, "test@free.fr"
+				, fournirLocalDate("05/01/1976"));
+	
+	/**
+	 * objet1, objet2EqualsObj1, objet3EqualsObj1 doivent être equals().
+	 */
+	public static transient IContactSimple objet3EqualsObj1 
+		= new ContactSimple(3L, "prenomTest", NOMTEST
+				, "174, rue des Acacias"
+				, "Bâtiment 573, appartement 22"
+				, "75015", "Paris3"
+				, "France3"
+				, "06 60 52 44 91"
+				, "test@free.fr"
+				, fournirLocalDate("05/01/1976"));
+
+	/**
+	 * objetNull1 et objetNull2 doivent être instanciés 
+	 * avec le constructeur d'arité nulle ou avoir 
+	 * tous les attributs aux valeurs par défaut.
+	 */
+	public static transient IContactSimple objetNull1 
+		= new ContactSimple(null, null
+				, null
+				, null
+				, null, null
+				, null
+				, null
+				, null
+				, null);
+	
+	/**
+	 * objetNull1 et objetNull2 doivent être instanciés 
+	 * avec le constructeur d'arité nulle ou avoir 
+	 * tous les attributs aux valeurs par défaut.
+	 */
+	public static transient IContactSimple objetNull2 
+		= new ContactSimple();
+
 	
 	/**
 	 * LOG : Log : 
@@ -383,7 +449,7 @@ public class ContactSimpleDaoJAXBTest {
 				
 		// **********************************
 		// AFFICHAGE DANS LE TEST ou NON
-		final boolean affichage = true;
+		final boolean affichage = false;
 		// **********************************
 
 		/* AFFICHAGE A LA CONSOLE. */
@@ -402,7 +468,7 @@ public class ContactSimpleDaoJAXBTest {
 			
 			return;
 			
-		} // Fin de daoCiviliteAbregee NON INJECTE._______________
+		} // Fin de dao NON INJECTE._____________________
 
 		
 		/* Vide le stockage. */
@@ -411,12 +477,13 @@ public class ContactSimpleDaoJAXBTest {
 		Long nombreObjetsinitial = 0L;
 		Long nombreObjetsFinal = 0L;
 		
-		final IContactSimple objet1 = null;
-		IContactSimple objet1Persistant = null;
+		final IContactSimple objetVraimentNull1 = null;
+		IContactSimple objetVraimentNull1Persistant = null;
 						
-		/* Compte du nombre d'Objets initialement en base. */
+		/* Compte du nombre d'Objets initialement dans le stockage. */
 		nombreObjetsinitial = dao.count();
 		
+		/* AFFICHAGE A LA CONSOLE. */
 		if (AFFICHAGE_GENERAL && affichage) {
 			this.afficherNbreObjetsInitial(nombreObjetsinitial);			
 		}
@@ -425,11 +492,17 @@ public class ContactSimpleDaoJAXBTest {
 			
 			/* *********************************************** */
 			/* ********************* CREATION **************** */
-			objet1Persistant = dao.create(objet1);
+			objetVraimentNull1Persistant = dao.create(objetVraimentNull1);
 			/* *********************************************** */
 			
-			/* Calcul du nombre d'objets en base après le traitement. */
+			/* Calcul du nombre d'objets dans le stockage après le traitement. */
 			nombreObjetsFinal = dao.count();
+			
+			/* AFFICHAGE A LA CONSOLE. */
+			if (AFFICHAGE_GENERAL && affichage) {
+				this.afficherObjetPersistant(
+						objetVraimentNull1Persistant, nombreObjetsFinal);						
+			}
 			
 			/* garantit que create(null) ne fait rien et retourne null. */
 			assertTrue(NBRE_OBJETS_FINAL_DOIT
@@ -443,22 +516,119 @@ public class ContactSimpleDaoJAXBTest {
 			e.printStackTrace();
 		}
 		
-		/* AFFICHAGE A LA CONSOLE. */
-		if (AFFICHAGE_GENERAL && affichage) {
-			this.afficherObjetPersistant(
-					objet1Persistant, nombreObjetsFinal);						
-		}
-
 	} // Fin de testCreateNull().__________________________________________
 	
-	
-		
 
 	
 	/**
-	 * Teste la méthode create(IContactSimple, File).<br/>
+	 * Teste la méthode <b>create(objetNull)</b>.<br/>
 	 * <ul>
-	 * <li>garantit que create rajoute la ContactSimple à la liste des MODEL.</li>
+	 * <li>garantit que create(objetNull) ne fait rien 
+	 * et retourne null.</li>
+	 * <li>objetNull est un objet avec les valeurs obligatoires à null.</li>
+	 * </ul>
+	 *
+	 * @throws Exception
+	 */
+	@SuppressWarnings(UNUSED)
+	@Test
+	public void testCreateObjetNull() throws Exception {
+				
+		// **********************************
+		// AFFICHAGE DANS LE TEST ou NON
+		final boolean affichage = true;
+		// **********************************
+
+		/* AFFICHAGE A LA CONSOLE. */
+		if (AFFICHAGE_GENERAL && affichage) {
+			System.out.println("********** CLASSE ContactSimpleDaoJAXBTest - méthode testCreateObjetNull() ********** ");
+		}
+
+		/* dao NON INJECTE. */
+		if (dao == null) {
+			
+			/* AFFICHAGE A LA CONSOLE. */
+			if (AFFICHAGE_GENERAL && affichage) {
+				System.out.println(TEST_CREATE_NULL);
+				this.afficherDAONonInstancie();
+			}
+			
+			return;
+			
+		} // Fin de dao NON INJECTE._____________________
+
+		
+		/* Vide le stockage. */
+		this.viderStockage();
+
+		Long nombreObjetsinitial = 0L;
+		Long nombreObjetsFinal = 0L;
+		
+		IContactSimple objetNull1Persistant = null;
+		IContactSimple objetNull2Persistant = null;
+						
+		/* Compte du nombre d'Objets initialement dans le stockage. */
+		nombreObjetsinitial = dao.count();
+		
+		/* AFFICHAGE A LA CONSOLE. */
+		if (AFFICHAGE_GENERAL && affichage) {
+			this.afficherNbreObjetsInitial(nombreObjetsinitial);			
+		}
+		
+		try {
+			
+			/* *********************************************** */
+			/* ********************* CREATION **************** */
+			objetNull1Persistant = dao.create(objetNull1);
+			objetNull2Persistant = dao.create(objetNull2);
+			/* *********************************************** */
+			
+			/* Calcul du nombre d'objets dans le stockage après le traitement. */
+			nombreObjetsFinal = dao.count();
+			
+			/* AFFICHAGE A LA CONSOLE. */
+			if (AFFICHAGE_GENERAL && affichage) {
+				
+				System.out.println("OBJET METIER AVEC ATTRIBUTS NULL objetNull1 : " + objetNull1.toString());
+				
+				if (objetNull1Persistant != null) {
+					System.out.println("OBJET PERSISTANT objetNull1Persistant : " + objetNull1Persistant.toString());
+				} else {
+					System.out.println("OBJET PERSISTANT objetNull1Persistant : null");
+				}
+				
+				System.out.println("OBJET METIER AVEC ATTRIBUTS NULL objetNull2 : " + objetNull2.toString());
+				
+				if (objetNull1Persistant != null) {
+					System.out.println("OBJET PERSISTANT objetNull2Persistant : " + objetNull2Persistant.toString());
+				} else {
+					System.out.println("OBJET PERSISTANT objetNull2Persistant : null");
+				}
+				
+				this.afficherNbreObjetsFinal(nombreObjetsFinal);
+				
+			}
+			
+			/* garantit que create(objetNull) ne fait rien et retourne null. */
+			assertTrue(NBRE_OBJETS_FINAL_DOIT
+					+ NBRE_INITIAL_PLUS_ZERO
+					, nombreObjetsFinal == nombreObjetsinitial + 0);
+			
+		}
+		catch (AbstractDaoException e) {
+			System.out.println(TEST_CREATE_NULL);
+			this.afficherAbstractDaoException(e);			
+			e.printStackTrace();
+		}
+		
+	} // Fin de testCreateNull().__________________________________________
+	
+
+		
+	/**
+	 * Teste la méthode create(Objet Metier).<br/>
+	 * <ul>
+	 * <li>garantit que create rajoute l'objet métier dans le stockage.</li>
 	 * </ul>
 	 * @throws Exception 
 	 */
@@ -468,55 +638,85 @@ public class ContactSimpleDaoJAXBTest {
 				
 		// **********************************
 		// AFFICHAGE DANS LE TEST ou NON
-		final boolean affichage = false;
+		final boolean affichage = true;
 		// **********************************
 		
 		/* AFFICHAGE A LA CONSOLE. */
 		if (AFFICHAGE_GENERAL && affichage) {
 			System.out.println("********** CLASSE ContactSimpleDaoJAXBTest - méthode testCreate() ********** ");
 		}
-		
-		final List<IContactSimple> contactsContactSimple 
-		= InitialiseurDeData.getListeContactSimples();
-	
-		/* enregistrement. */
-		dao.enregistrer(contactsContactSimple, FILE);
-		
-		/* récupération. */
-		final List<IContactSimple> contacts = dao.recupererListeModeles(FILE);
-		
-		final int tailleInitiale = contacts.size();
 
-		/* ajout d'une IContactSimple. */
-		final IContactSimple contactSimpleEnPlus 
-			= new ContactSimple(2L
-					, "Michael", "Caine"
-					, "75, 5th Avenue"
-					, null
-					, "NY", "New York"
-					, "USA"
-					, "00 33 322 56 98"
-					, "michael.caine@aol.com"
-					, LocalDate.of(1950, 2, 20));
+		/* dao NON INJECTE. */
+		if (dao == null) {
+			
+			/* AFFICHAGE A LA CONSOLE. */
+			if (AFFICHAGE_GENERAL && affichage) {
+				System.out.println(TEST_CREATE);
+				this.afficherDAONonInstancie();
+			}
+			
+			return;
+			
+		} // Fin de dao NON INJECTE._____________________
+
 		
-		final IContactSimple contactSimpleCreee 
-			= dao.create(contactSimpleEnPlus);
+		/* vide et remplit le stockage. */
+		this.remplirStockage(false);
 		
+		Long nombreObjetsInitial = 0L;
+		Long nombreObjetsFinal = 0L;
+
 		/* récupération. */
-		final List<IContactSimple> contactsFinaux = dao.recupererListeModeles(FILE);
+		final List<IContactSimple> objetInitiaux = dao.findAll();
 		
-		final int tailleFinale = contactsFinaux.size();
+		/* Compte du nombre d'Objets initialement dans le stockage. */
+		nombreObjetsInitial = dao.count();
 		
-		/* garantit que create rajoute la ContactSimple à la liste des MODEL. */
-		assertEquals("Taille finale vaut taille initiale + 1 : "
-				, tailleFinale
-					, tailleInitiale + 1);
-		
-		/* AFFICHAGE A LA CONSOLE. */
 		if (AFFICHAGE_GENERAL && affichage) {
-			System.out.println(contactSimpleCreee.toString());
+			System.out.println("LISTE D'OBJETS AVANT CREATE : ");
+			System.out.println(dao.afficherListeObjetsMetier(objetInitiaux));
+			this.afficherNbreObjetsInitial(nombreObjetsInitial);
 		}
 		
+		try {
+			
+			/* ********************************************************* */
+			/* ***********************CREATION************************** */		
+			final IContactSimple objetPersiste1 = dao.create(objetACreer1);
+			/* ********************************************************* */
+			
+			/* AFFICHAGE A LA CONSOLE. */
+			if (AFFICHAGE_GENERAL && affichage) {
+				System.out.println();
+				System.out.println("OBJET CREE : " + objetPersiste1.toString());
+			}
+			
+			/* récupération. */
+			final List<IContactSimple> objetsFinaux = dao.findAll();
+			
+			/* Calcul du nombre d'objets dans le stockage après le traitement. */
+			nombreObjetsFinal = dao.count();
+			
+			if (AFFICHAGE_GENERAL && affichage) {
+				System.out.println();
+				System.out.println("LISTE D'OBJETS APRES CREATE : ");
+				System.out.println(dao.afficherListeObjetsMetier(objetsFinaux));
+				this.afficherNbreObjetsFinal(nombreObjetsFinal);
+			}
+						
+			/* garantit que create rajoute l'objet métier dans le stockage. */
+			assertEquals("nombreObjetsFinal vaut nombreObjetsInitial + 1 : "
+					, nombreObjetsFinal
+						, Long.valueOf(nombreObjetsInitial + 1));
+
+			
+		}
+		catch (AbstractDaoException e) {
+			System.out.println(TEST_CREATE);
+			this.afficherAbstractDaoException(e);			
+			e.printStackTrace();
+		}
+				
 	} // Fin de testCreate().______________________________________________
 	
 	
@@ -594,11 +794,11 @@ public class ContactSimpleDaoJAXBTest {
 	
 	
 	/**
-	 * Remplit le STOCKAGE avec 6 enregistrements.<br/>
+	 * <b>Vide d'abord puis Remplit le STOCKAGE 
+	 * avec 4 enregistrements</b>.<br/>
 	 * <ul>
-	 * <li>3 enregistrements CiviliteAbregee</li>
-	 * <li>3 enregistrements CiviliteComplete</li>
-	 * </ul>>
+	 * <li>4 enregistrements IContactSimple</li>
+	 * </ul>
 	 * 
 	 * @param pAffichage : boolean.<br/>
 	 * 
@@ -615,30 +815,26 @@ public class ContactSimpleDaoJAXBTest {
 		Long nombreObjetsinitial = 0L;
 		Long nombreObjetsFinal = 0L;
 		
+		/* vide le stockage*/
+		this.viderStockage();
+		
 		/* Constitution d'un lot d'objets. */
-		final List<IContactSimple> contactsContactSimple 
+		final List<IContactSimple> lot 
 			= InitialiseurDeData.getListeContactSimples();
-	
+		
+		List<IContactSimple> lotPersistant = null;
 		
 		/* AFFICHAGE A LA CONSOLE. */
 		if (AFFICHAGE_GENERAL && affichage) {
 			System.out.println("********** CLASSE ContactSimpleDaoJAXBTest - méthode remplirStockage(boolean) ********** ");
 		}
 		
-		/* Compte du nombre d'Objets initialement en base. */
+		/* Compte du nombre d'Objets initialement dans le stockage. */
 		nombreObjetsinitial = dao.count();
 
 		/* AFFICHAGE A LA CONSOLE. */
 		if (AFFICHAGE_GENERAL && pAffichage) {
-
 			System.out.println(NBRE_OBJET_INITIAL + nombreObjetsinitial);
-			System.out.println(OBJET1_NON_PERSISTANT + objet1.toString());
-			System.out.println("OBJET2 NON PERSISTANT : " + objet2.toString());
-			System.out.println("OBJET3 NON PERSISTANT : " + objet3.toString());
-			System.out.println("OBJET4 NON PERSISTANT : " + objet4.toString());
-			System.out.println("OBJET5 NON PERSISTANT : " + objet5.toString());
-			System.out.println("OBJET6 NON PERSISTANT : " + objet6.toString());
-			System.out.println(TIRETS);
 			System.out.println();
 		}
 
@@ -646,16 +842,16 @@ public class ContactSimpleDaoJAXBTest {
 			
 			/* *********************************************** */
 			/* ********************* CREATION **************** */
-			lotPersistant = (List<ICivilite>) this.daoCiviliteAbregee.save(lot);
+			lotPersistant = (List<IContactSimple>) dao.save(lot);
 			/* *********************************************** */
 			
-			nombreObjetsFinal = this.daoCiviliteAbregee.countSousClasse();
+			nombreObjetsFinal = dao.count();
 			
 			/* garantit que save(Lot pObjects) 
-			 * insère des objets en base.*/
+			 * insère des objets dans le stockage.*/
 			assertEquals(NBRE_OBJETS_FINAL_DOIT
 					+ NBRE_INITIAL_PLUS_TROIS
-					, Long.valueOf(nombreObjetsinitial + 3)
+					, Long.valueOf(nombreObjetsinitial + 4)
 						, nombreObjetsFinal);
 			
 		}
@@ -670,18 +866,13 @@ public class ContactSimpleDaoJAXBTest {
 			System.out.println(TIRETS);
 			System.out.println("remplirTable(boolean)");
 			System.out.println("NOMBRE D'OBJETS PERSISTES APRES save(Lot) : " + nombreObjetsFinal);
-			System.out.println("LOT D'ENREGISTREMENTS EN BASE APRES remplirTable(boolean) : ");
-			System.out.println(this.daoCiviliteAbregee.afficherListe(lotPersistant));
+			System.out.println("LOT D'ENREGISTREMENTS dans le stockage APRES remplirTable(boolean) : ");
+			System.out.println(dao.afficherListeObjetsMetier(lotPersistant));
 			System.out.println(TIRETS);
 			System.out.println();
 
 		}
 
-		final Long nbeObjetsFinal = this.daoCiviliteAbregee.countSousClasse();
-		
-		assertEquals("Le stockage doit être contenir 3 enregistements : "
-				, Long.valueOf(3L), nbeObjetsFinal);
-		
 	} // Fin de remplirStockage(...).______________________________________
 	
 
@@ -705,24 +896,22 @@ public class ContactSimpleDaoJAXBTest {
 
 	
 	/**
-	 * method afficherNbreObjetsInitial(
-	 * Long pNbreObjetsInitial) :<br/>
 	 * <ul>
 	 * Affiche à la console :
 	 * <li>Le nombre d'objets pNbreObjetsInitial initialement 
-	 * en base avant le test.</li>
+	 * dans le stockage avant le test.</li>
 	 * </ul>
 	 * <br/>
 	 *
 	 * @param pNbreObjetsInitial : Long : 
-	 * Nombre d'objets initialement en base.<br/>
+	 * Nombre d'objets initialement dans le stockage.<br/>
 	 */
 	private void afficherNbreObjetsInitial(
 						final Long pNbreObjetsInitial) {
 		
 		System.out.println();
 		System.out.println(TIRETS);
-		System.out.println("nombre d'objets initialement en base = " 
+		System.out.println("nombre d'objets initialement dans le stockage = " 
 				+ pNbreObjetsInitial);
 		System.out.println(TIRETS);
 		System.out.println();
@@ -734,15 +923,40 @@ public class ContactSimpleDaoJAXBTest {
 	/**
 	 * <ul>
 	 * Affiche à la console :
-	 * <li>l'objet pObjetPersistant persisté en base.</li>
 	 * <li>Le nombre d'objets pNbreObjetsFinal finalement 
-	 * en base après le test.</li>
+	 * dans le stockage après le test.</li>
+	 * </ul>
+	 * <br/>
+	 *
+	 * @param pNbreObjetsFinal : Long : 
+	 * Nombre d'objets finalement dans le stockage.<br/>
+	 */
+	private void afficherNbreObjetsFinal(
+						final Long pNbreObjetsFinal) {
+		
+		System.out.println();
+		System.out.println(TIRETS);
+		System.out.println("nombre d'objets finalement dans le stockage = " 
+				+ pNbreObjetsFinal);
+		System.out.println(TIRETS);
+		System.out.println();
+
+	} // Fin de afficherNbreObjetsFinal(...).______________________________
+	
+	
+	
+	/**
+	 * <ul>
+	 * Affiche à la console :
+	 * <li>l'objet pObjetPersistant persisté dans le stockage.</li>
+	 * <li>Le nombre d'objets pNbreObjetsFinal finalement 
+	 * dans le stockage après le test.</li>
 	 * </ul>
 	 *
 	 * @param pObjetPersistant : IContactSimple : 
-	 * Objet persistant en base.<br/>
+	 * Objet persistant dans le stockage.<br/>
 	 * @param pNbreObjetsFinal : Long : 
-	 * Nombre d'objets finalement en base.<br/>
+	 * Nombre d'objets finalement dans le stockage.<br/>
 	 */
 	private void afficherObjetPersistant(
 			final IContactSimple pObjetPersistant
@@ -754,7 +968,7 @@ public class ContactSimpleDaoJAXBTest {
 			System.out.println(TIRETS);
 			System.out.println("objet persistant : " 
 					+ pObjetPersistant.toString());
-			System.out.println("nombre d'objets finalement en base = " 
+			System.out.println("nombre d'objets finalement dans le stockage = " 
 					+ pNbreObjetsFinal);
 			System.out.println(TIRETS);
 			System.out.println();
@@ -764,6 +978,8 @@ public class ContactSimpleDaoJAXBTest {
 			System.out.println();
 			System.out.println(TIRETS);
 			System.out.println("objetPersistant est NULL");
+			System.out.println("nombre d'objets finalement dans le stockage = " 
+					+ pNbreObjetsFinal);
 			System.out.println(TIRETS);
 			System.out.println();
 			
@@ -817,9 +1033,64 @@ public class ContactSimpleDaoJAXBTest {
 		System.out.println();
 		
 	} // Fin de afficherDAONonInstancie()._________________________________
-	
-	
 
+	
+	
+	/**
+	 * <b>Instancie et retourne une LocalDate à partir d'une String 
+	 * sous la forme "dd/MM/yyyy"</b>.<br/>
+	 * <ul>
+	 * <li>Par exemple, <code>fournirLocalDate("05/01/1976")</code> 
+	 * retourne une LocalDate située le 05 janvier 1976.</li>
+	 * <li>utilise <code>dateFormatterSaisie.<b>parse</b>(pString
+	 * , LocalDate::from);</code></li>
+	 * <li>vérifie que pString est au format "23/07/1972" 
+	 * (format REGEX "^\\d{2}/\\d{2}/\\d{4}").<br/>
+	 * retourne null si ce n'est pas le cas.</li>
+	 * </ul>
+	 * - retourne null si pString est blank.<br/>
+	 * <br/>
+	 *
+	 * @param pString : String : 
+	 * String au format "05/01/1976" ou "19/02/1961".<br/>
+	 * 
+	 * @return : LocalDate.<br/>
+	 */
+	private static LocalDate fournirLocalDate(
+			final String pString) {
+		
+		/* retourne null si pString est blank. */
+		if (StringUtils.isBlank(pString)) {
+			return null;
+		}
+		
+		final DateTimeFormatter dateFormatterSaisie 
+			= DateTimeFormatter.ofPattern("dd/MM/yyyy");
+				
+		/* motif REGEX d'une date sous la forme 05/01/1976. */
+		final String motifRegex = "^\\d{2}/\\d{2}/\\d{4}";
+		final Pattern pattern = Pattern.compile(motifRegex);
+		final Matcher matcher = pattern.matcher(pString);
+		
+		LocalDate resultat = null;
+		
+		/* vérifie que pString est au format "23/07/1972" 
+		 * (format REGEX "^\\d{2}/\\d{2}/\\d{4}"). */
+		if (matcher.matches()) {
+			
+			/* instancie une LocalDate à partir d'une String 
+			 * sous la forme 05/01/1976. */
+			resultat = dateFormatterSaisie.parse(pString, LocalDate::from);
+						
+			return resultat;
+		}
+
+		return null;
+		
+	} // Fin de fournirLocalDate(...)._____________________________________
+	
+	
+	
 	/**
 	 * method avantTests() :<br/>
 	 * <ul>

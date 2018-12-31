@@ -64,6 +64,8 @@ public interface IContactSimpleDAO {
 	 * <ul>
 	 * <li>ne crée <b>pas de doublon</b>.</li>
 	 * <li>ne fait rien si pObject existe déjà dans le stockage.</li>
+	 * <li>ne fait rien si les attributs obligatoires 
+	 * de pObject ne sont pas remplis.</li>
 	 * </ul>
 	 * - ne fait rien si pObject == null.<br/>
 	 * <br/>
@@ -79,10 +81,13 @@ public interface IContactSimpleDAO {
 
 	/**
 	 * <b>crée un objet métier pObject dans le stockage 
-	 * et retourne l'identifiant de l'objet persisté</b>.<br/>
+	 * et retourne l'identifiant (ou index 0-based) 
+	 * de l'objet persisté</b>.<br/>
 	 * <ul>
 	 * <li>ne crée <b>pas de doublon</b>.</li>
 	 * <li>retourne null si pObject existe déjà dans le stockage.</li>
+	 * <li>retourne null si les attributs obligatoires 
+	 * de pObject ne sont pas remplis.</li>
 	 * </ul>
 	 * - retourne null si pObject == null.<br/>
 	 * <br/>
@@ -109,6 +114,11 @@ public interface IContactSimpleDAO {
 	 * dans l'itérable existe déjà dans le stockage.</li>
 	 * <li>ne fait rien et continue la sauvegarde si un objet 
 	 * null est contenu dans l'itérable.</li>
+	 * <li>ne fait rien et continue la sauvegarde 
+	 * si les attributs obligatoires 
+	 * d'un objet de l'itérable ne sont pas remplis.</li>
+	 * <li>retourne une liste <b>vide</b> (pas null) 
+	 * si aucun objet ne l'itérable n'a pu être enregistré.</li>
 	 * </ul>
 	 * - retourne null si pList == null.<br/>
 	 * <br/>
@@ -155,8 +165,11 @@ public interface IContactSimpleDAO {
 	/**
 	 * <b>recherche un objet métier pObject via son identifiant (index) 
 	 * dans le stockage</b> et retourne l'objet métier persisté.<br/>
+	 * L'identifiant peut être soit un identifiant en base, 
+	 * soit un index 0-based indiquant la position 
+	 * de l'objet dans le stockage (fichier XML par exemple).<br/>
 	 * <ul>
-	 * <li>retourne null si l'objet métier 
+	 * <li>retourne null si l'objet métier d'identifiant pId
 	 * n'existe pas dans le stockage.</li>
 	 * </ul>
 	 * - retourne null si pId == null.<br/>
@@ -172,14 +185,17 @@ public interface IContactSimpleDAO {
 	 */
 	IContactSimple findById(Long pId) throws Exception;
 	
+
 	
-
-	/* READ *************/
-
-
 	/**
 	 * <b>retourne l'identifiant ou l'index (0-based) 
 	 * de l'objet métier pObject dans le stockage</b>.<br/>
+	 * L'identifiant peut être soit un identifiant en base, 
+	 * soit un index 0-based indiquant la position 
+	 * de l'objet dans le stockage (fichier XML par exemple).<br/>
+	 * <ul>
+	 * <li>retourne null si l'objet nexiste pas dans le stockage.</li>
+	 * </ul>
 	 *
 	 * @param pObject : IContactSimple : 
 	 * objet métier dont on recherche l'identifiant.<br/>

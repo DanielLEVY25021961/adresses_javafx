@@ -369,6 +369,8 @@ public class ContactSimpleDaoJAXB implements IContactSimpleDAO {
 	 * <li>enregistre la nouvelle liste dans le stockage XML.</li>
 	 * <li>ne crée pas de doublon.</li>
 	 * <li>retourne null si pObject existe déjà dans le stockage.</li>
+	 * <li>retourne null si les attributs obligatoires 
+	 * de pObject ne sont pas remplis.</li>
 	 * </ul>
 	 * - retourne null si pObject == null.<br/>
 	 * - retourne null si pFile == null.<br/>
@@ -397,30 +399,30 @@ public class ContactSimpleDaoJAXB implements IContactSimpleDAO {
 			return null;
 		}
 		
-		List<IContactSimple> contacts = null;
+		List<IContactSimple> stockageLIst = null;
 		
 		if (pFile.exists()) {
-			contacts = this.recupererListeModeles(pFile);
+			stockageLIst = this.recupererListeModeles(pFile);
 		} else {
-			contacts = new ArrayList<IContactSimple>();
+			stockageLIst = new ArrayList<IContactSimple>();
 		}
 		  		
-		if (contacts != null) {
+		if (stockageLIst != null) {
 			
 			/* ne crée pas de doublon. */
 			if (!this.exists(pObject)) {
 				
 				/* ajoute l'Objet Métier pObject à la liste 
 				 * des objets métier stockés. */
-				/* VERIFIE LES CHAMPS OBLIGATOIRES. */
+				/* VERIFIE LES ATTRIBUTS OBLIGATOIRES. */
 				if (pObject.getNom() != null && pObject.getPrenom() != null) {
-					contacts.add(pObject);
+					stockageLIst.add(pObject);
 				} else {
 					return null;
 				}
 								
 				/* enregistre la nouvelle liste dans le stockage XML. */
-				this.enregistrer(contacts, pFile);
+				this.enregistrer(stockageLIst, pFile);
 				
 			} else {
 				/* retourne null si pObject existe déjà dans le stockage. */
@@ -457,25 +459,30 @@ public class ContactSimpleDaoJAXB implements IContactSimpleDAO {
 			return;
 		}
 		
-		List<IContactSimple> contacts = null;
+		List<IContactSimple> stockageList = null;
 		
 		if (this.fichierXML.exists()) {
-			contacts = this.recupererListeModeles(this.fichierXML);
+			stockageList = this.recupererListeModeles(this.fichierXML);
 		} else {
-			contacts = new ArrayList<IContactSimple>();
+			stockageList = new ArrayList<IContactSimple>();
 		}
 		  		
-		if (contacts != null) {
+		if (stockageList != null) {
 			
 			/* ne crée pas de doublon. */
 			if (!this.exists(pObject)) {
 				
 				/* ajoute l'Objet Métier pObject à la liste 
 				 * des objets métier stockés. */
-				contacts.add(pObject);
-				
+				/* VERIFIE LES ATTRIBUTS OBLIGATOIRES. */
+				if (pObject.getNom() != null && pObject.getPrenom() != null) {
+					stockageList.add(pObject);
+				} else {
+					return;
+				}
+								
 				/* enregistre la nouvelle liste dans le stockage XML. */
-				this.enregistrer(contacts, this.fichierXML);
+				this.enregistrer(stockageList, this.fichierXML);
 				
 			}
 			
@@ -494,48 +501,15 @@ public class ContactSimpleDaoJAXB implements IContactSimpleDAO {
 	public Long createReturnId(
 			final IContactSimple pObject) throws AbstractDaoException {
 		
-		/* retourne null si pObject == null. */
-		if (pObject == null) {
-			return null;
+		IContactSimple objetPersistant = this.create(pObject);
+		Long resultat = null;
+		
+		if (objetPersistant != null) {
+			resultat = this.retrieveId(objetPersistant);
 		}
 		
-		/* retourne null si this.fichierXML == null. */
-		if (this.fichierXML == null) {
-			return null;
-		}
+		return resultat;
 		
-		List<IContactSimple> contacts = null;
-		
-		if (this.fichierXML.exists()) {
-			contacts = this.recupererListeModeles(this.fichierXML);
-		} else {
-			contacts = new ArrayList<IContactSimple>();
-		}
-		  		
-		if (contacts != null) {
-			
-			/* ne crée pas de doublon. */
-			if (!this.exists(pObject)) {
-				
-				/* ajoute l'Objet Métier pObject à la liste 
-				 * des objets métier stockés. */
-				contacts.add(pObject);
-				
-				/* enregistre la nouvelle liste dans le stockage XML. */
-				this.enregistrer(contacts, this.fichierXML);
-				
-			} else {
-				/* retourne null si pObject existe déjà dans le stockage. */
-				return null;
-			}
-						
-			return this.retrieveId(pObject);
-			
-		} 
-		
-		/* retourne null si pObject == null. */
-		return null;
-				
 	} // Fin de createReturnId(...)._______________________________________
 
 
@@ -552,34 +526,45 @@ public class ContactSimpleDaoJAXB implements IContactSimpleDAO {
 			return null;
 		}
 
-		List<IContactSimple> contacts = null;
+		List<IContactSimple> stockageList = null;
 		
 		if (this.fichierXML.exists()) {
-			contacts = this.recupererListeModeles(this.fichierXML);
+			stockageList = this.recupererListeModeles(this.fichierXML);
 		} else {
-			contacts = new ArrayList<IContactSimple>();
+			stockageList = new ArrayList<IContactSimple>();
 		}
 
 		final List<IContactSimple> resultat = new ArrayList<IContactSimple>();
 
 		final Iterator<IContactSimple> iteS = pList.iterator();
 		
-		if (contacts != null) {
+		if (stockageList != null) {
 			
 			while (iteS.hasNext()) {
 				
-				final IContactSimple contactSimple = iteS.next();
+				final IContactSimple objet = iteS.next();
 				
-				if (contactSimple != null) {
+				if (objet != null) {
 					
 					/* ne crée pas de doublon. */
-					if (!this.exists(contactSimple)) {
+					if (!this.exists(objet)) {
 						
 						/* ajoute l'Objet Métier pObject à la liste 
 						 * des objets métier stockés. */
-						contacts.add(contactSimple);
+						/* VERIFIE LES ATTRIBUTS OBLIGATOIRES. */
+						if (objet.getNom() != null 
+								&& objet.getPrenom() != null) {
+							
+							if (!stockageList.contains(objet)) {
+								stockageList.add(objet);
+							}
+							
+							if (!resultat.contains(objet)) {
+								resultat.add(objet);
+							}
+							
+						}
 						
-						resultat.add(contactSimple);
 					}
 					
 				}
@@ -587,7 +572,7 @@ public class ContactSimpleDaoJAXB implements IContactSimpleDAO {
 			}
 			
 			/* enregistre la nouvelle liste dans le stockage XML. */
-			this.enregistrer(contacts, this.fichierXML);
+			this.enregistrer(stockageList, this.fichierXML);
 		}
 
 		return resultat;
@@ -615,23 +600,23 @@ public class ContactSimpleDaoJAXB implements IContactSimpleDAO {
 			return null;
 		}
 		
-		List<IContactSimple> contacts = null;
+		List<IContactSimple> stockageList = null;
 		
 		/* retourne null si le stockage n'existe pas. */
 		if (this.fichierXML.exists()) {
-			contacts = this.recupererListeModeles(this.fichierXML);
+			stockageList = this.recupererListeModeles(this.fichierXML);
 		} else {
 			return null;
 		}
 		
 		/* retourne null si le stockage est vide. */
-		if (contacts.isEmpty()) {
+		if (stockageList.isEmpty()) {
 			return null;
 		}
 		
 		IContactSimple resultat = null;
 		
-		for (final IContactSimple contactSimple : contacts) {
+		for (final IContactSimple contactSimple : stockageList) {
 			
 			if (pObject.equals(contactSimple)) {
 				resultat = contactSimple;
@@ -647,6 +632,7 @@ public class ContactSimpleDaoJAXB implements IContactSimpleDAO {
 
 	/**
 	 * {@inheritDoc}
+	 * - retourne null si pId est en dehors des index de stockage.<br/>
 	 * - retourne null si le stockage n'existe pas.<br/>
 	 * - retourne null si le stockage est vide.<br/>
 	 * <br/>
@@ -660,28 +646,37 @@ public class ContactSimpleDaoJAXB implements IContactSimpleDAO {
 			return null;
 		}
 		
-		List<IContactSimple> contacts = null;
+		List<IContactSimple> stockageList = null;
 		
 		/* retourne null si le stockage n'existe pas. */
 		if (this.fichierXML.exists()) {
-			contacts = this.recupererListeModeles(this.fichierXML);
+			stockageList = this.recupererListeModeles(this.fichierXML);
 		} else {
 			return null;
 		}
 		
 		/* retourne null si le stockage est vide. */
-		if (contacts.isEmpty()) {
+		if (stockageList.isEmpty()) {
+			return null;
+		}
+		
+		/* retourne null si pId est en dehors des index de stockage. */
+		if (pId > stockageList.size() - 1) {
 			return null;
 		}
 		
 		IContactSimple resultat = null;
 		
-		for (final IContactSimple contactSimple : contacts) {
+		Long id = 0L;
+		
+		for (final IContactSimple contactSimple : stockageList) {
 			
-			if (pId.equals(contactSimple.getId())) {
+			if (pId.equals(id)) {
 				resultat = contactSimple;
 				break;
 			}
+			
+			id++;
 		}
 		
 		return resultat;
@@ -721,12 +716,16 @@ public class ContactSimpleDaoJAXB implements IContactSimpleDAO {
 		
 		Long resultat = null;
 		
+		int i = 0;
+		
 		for (final IContactSimple contactSimple : contacts) {
 			
 			if (pObject.equals(contactSimple)) {
-				resultat = contactSimple.getId();
+				resultat = Long.valueOf(i);
 				break;
 			}
+			
+			i++;
 		}
 		
 		return resultat;
@@ -743,16 +742,16 @@ public class ContactSimpleDaoJAXB implements IContactSimpleDAO {
 	@Override
 	public List<IContactSimple> findAll() throws AbstractDaoException {
 		
-		List<IContactSimple> contacts = null;
+		List<IContactSimple> stockageList = null;
 		
 		/* retourne null si le stockage n'existe pas. */
 		if (this.fichierXML.exists()) {
-			contacts = this.recupererListeModeles(this.fichierXML);
+			stockageList = this.recupererListeModeles(this.fichierXML);
 		} else {
 			return null;
 		}
 		
-		return contacts;
+		return stockageList;
 		
 	} // Fin de findAll()._________________________________________________
 
@@ -944,9 +943,26 @@ public class ContactSimpleDaoJAXB implements IContactSimpleDAO {
 	@Override
 	public boolean exists(
 			final IContactSimple pObject) throws AbstractDaoException {
-		// TODO Auto-generated method stub
+		
+		/* retourne false si pObject == null. */
+		if (pObject == null) {
+			return false;
+		}
+		
+		List<IContactSimple> stockageList = null;
+		
+		stockageList = this.findAll();
+		
+		for (final IContactSimple objet : stockageList) {
+			
+			if (pObject.equals(objet)) {
+				return true;
+			}
+		}
+		
 		return false;
-	}
+
+	} // Fin de exists(...)._______________________________________________
 
 
 

@@ -3219,7 +3219,7 @@ public class ContactSimpleDaoJAXBTest {
 		
 		/* AFFICHAGE A LA CONSOLE. */
 		if (AFFICHAGE_GENERAL && affichage) {
-			System.out.println("LISTE D'OBJETS AVANT RETRIVEID(NULL) : ");
+			System.out.println("LISTE D'OBJETS AVANT RETRIEVEID(NULL) : ");
 			System.out.println(dao.afficherListeObjetsMetier(objetInitiaux));
 			this.afficherNbreObjetsInitial(nombreObjetsInitial);
 		}
@@ -3262,7 +3262,7 @@ public class ContactSimpleDaoJAXBTest {
 			
 			if (AFFICHAGE_GENERAL && affichage) {
 				System.out.println();
-				System.out.println("LISTE D'OBJETS APRES RETRIVEID(NULL) : ");
+				System.out.println("LISTE D'OBJETS APRES RETRIEVEID(NULL) : ");
 				System.out.println(dao.afficherListeObjetsMetier(objetsFinaux));
 				this.afficherNbreObjetsFinal(nombreObjetsFinal);
 			}
@@ -3280,7 +3280,7 @@ public class ContactSimpleDaoJAXBTest {
 			
 		}
 
-	} // Fin de testRetrieveIdNull().________________________________________
+	} // Fin de testRetrieveIdNull().______________________________________
 	
 
 	
@@ -3334,7 +3334,7 @@ public class ContactSimpleDaoJAXBTest {
 		
 		/* AFFICHAGE A LA CONSOLE. */
 		if (AFFICHAGE_GENERAL && affichage) {
-			System.out.println("LISTE D'OBJETS AVANT RETRIVEID(OBJET NULL) : ");
+			System.out.println("LISTE D'OBJETS AVANT RETRIEVEID(OBJET NULL) : ");
 			System.out.println(dao.afficherListeObjetsMetier(objetInitiaux));
 			this.afficherNbreObjetsInitial(nombreObjetsInitial);
 		}
@@ -3380,7 +3380,7 @@ public class ContactSimpleDaoJAXBTest {
 			
 			if (AFFICHAGE_GENERAL && affichage) {
 				System.out.println();
-				System.out.println("LISTE D'OBJETS APRES RETRIVEID(OBJET NULL) : ");
+				System.out.println("LISTE D'OBJETS APRES RETRIEVEID(OBJET NULL) : ");
 				System.out.println(dao.afficherListeObjetsMetier(objetsFinaux));
 				this.afficherNbreObjetsFinal(nombreObjetsFinal);
 			}
@@ -3398,7 +3398,7 @@ public class ContactSimpleDaoJAXBTest {
 			
 		}
 
-	} // Fin de testRetrieveIdObjetNull().___________________________________
+	} // Fin de testRetrieveIdObjetNull()._________________________________
 	
 
 	
@@ -3452,7 +3452,7 @@ public class ContactSimpleDaoJAXBTest {
 		
 		/* AFFICHAGE A LA CONSOLE. */
 		if (AFFICHAGE_GENERAL && affichage) {
-			System.out.println("LISTE D'OBJETS AVANT RETRIVEID(INEXISTANT) : ");
+			System.out.println("LISTE D'OBJETS AVANT RETRIEVEID(INEXISTANT) : ");
 			System.out.println(dao.afficherListeObjetsMetier(objetInitiaux));
 			this.afficherNbreObjetsInitial(nombreObjetsInitial);
 		}
@@ -3498,7 +3498,7 @@ public class ContactSimpleDaoJAXBTest {
 			
 			if (AFFICHAGE_GENERAL && affichage) {
 				System.out.println();
-				System.out.println("LISTE D'OBJETS APRES RETRIVEID(INEXISTANT) : ");
+				System.out.println("LISTE D'OBJETS APRES RETRIEVEID(INEXISTANT) : ");
 				System.out.println(dao.afficherListeObjetsMetier(objetsFinaux));
 				this.afficherNbreObjetsFinal(nombreObjetsFinal);
 			}
@@ -3516,7 +3516,7 @@ public class ContactSimpleDaoJAXBTest {
 			
 		}
 
-	} // Fin de testRetrieveIdInexistant().__________________________________
+	} // Fin de testRetrieveIdInexistant().________________________________
 	
 
 	
@@ -3571,7 +3571,7 @@ public class ContactSimpleDaoJAXBTest {
 		
 		/* AFFICHAGE A LA CONSOLE. */
 		if (AFFICHAGE_GENERAL && affichage) {
-			System.out.println("LISTE D'OBJETS AVANT RETRIVEID(EXISTANT) : ");
+			System.out.println("LISTE D'OBJETS AVANT RETRIEVEID(EXISTANT) : ");
 			System.out.println(dao.afficherListeObjetsMetier(objetInitiaux));
 			this.afficherNbreObjetsInitial(nombreObjetsInitial);
 		}
@@ -3617,7 +3617,7 @@ public class ContactSimpleDaoJAXBTest {
 			
 			if (AFFICHAGE_GENERAL && affichage) {
 				System.out.println();
-				System.out.println("LISTE D'OBJETS APRES RETRIVEID(EXISTANT) : ");
+				System.out.println("LISTE D'OBJETS APRES RETRIEVEID(EXISTANT) : ");
 				System.out.println(dao.afficherListeObjetsMetier(objetsFinaux));
 				this.afficherNbreObjetsFinal(nombreObjetsFinal);
 			}
@@ -3636,7 +3636,81 @@ public class ContactSimpleDaoJAXBTest {
 			
 		}
 
-	} // Fin de testRetrieveId().____________________________________________
+	} // Fin de testRetrieveId().__________________________________________
+	
+
+	
+	/**
+	 * Teste la méthode <b>findAll()</b>.<br/>
+	 * <ul>
+	 * <li>garantit que findAll() retourne tout le stockage.</li>
+	 * </ul>
+	 *
+	 * @throws Exception
+	 */
+	@SuppressWarnings(UNUSED)
+	@Test
+	public void testFindAll() throws Exception {
+				
+		// **********************************
+		// AFFICHAGE DANS LE TEST ou NON
+		final boolean affichage = true;
+		// **********************************
+		
+		/* AFFICHAGE A LA CONSOLE. */
+		if (AFFICHAGE_GENERAL && affichage) {
+			System.out.println("********** CLASSE ContactSimpleDaoJAXBTest - méthode testFindAll() ********** ");
+		}
+		
+		/* dao NON INJECTE. */
+		if (dao == null) {
+			
+			/* AFFICHAGE A LA CONSOLE. */
+			if (AFFICHAGE_GENERAL && affichage) {
+				System.out.println(TEST_FINDALL);
+				this.afficherDAONonInstancie();
+			}
+			
+			return;
+			
+		} // Fin de dao NON INJECTE._____________________
+		
+		
+		/* vide et remplit le stockage. */
+		this.remplirStockage(false);
+		
+		List<IContactSimple> stockageList = null;
+		
+		try {
+			
+			/* ********************************************************* */
+			/* ***********************RETRIVEID************************** */		
+			stockageList = dao.findAll();
+			/* ********************************************************* */
+			
+			/* Calcul du nombre d'objets dans le stockage après le traitement. */
+			final Long nombreObjetsFinal = dao.count();
+			
+			if (AFFICHAGE_GENERAL && affichage) {
+				System.out.println();
+				System.out.println("LISTE D'OBJETS APRES FINDALL() : ");
+				System.out.println(dao.afficherListeObjetsMetier(stockageList));
+				this.afficherNbreObjetsFinal(nombreObjetsFinal);
+			}
+
+			assertEquals("findAll() doit retourner 4 enregistrements : "
+					, Long.valueOf(4L)
+						, nombreObjetsFinal);
+			
+		} catch (AbstractDaoException e) {
+			
+			System.out.println(TEST_FINDALL);
+			this.afficherAbstractDaoException(e);			
+			e.printStackTrace();
+			
+		}
+
+	} // Fin de testFindAll().____________________________________________
 	
 	
 	

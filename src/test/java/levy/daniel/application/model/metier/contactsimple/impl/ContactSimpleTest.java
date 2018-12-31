@@ -846,7 +846,7 @@ public class ContactSimpleTest {
 		}
 
 		assertEquals("ligne csv : "
-				, "1;nomTest;prenomTest;17, rue des Acacias;Bâtiment 57, appartement 22;75013;Paris;France;06 60 52 44 89;test@free.fr;05 janv. 1976;"
+				, "1;nomTest;prenomTest;17, rue des Acacias;Bâtiment 57, appartement 22;75013;Paris;France;06 60 52 44 89;test@free.fr;05 janvier 1976;"
 					, ligneCsv);
 				
 	} // Fin de testFournirStringCsv().____________________________________

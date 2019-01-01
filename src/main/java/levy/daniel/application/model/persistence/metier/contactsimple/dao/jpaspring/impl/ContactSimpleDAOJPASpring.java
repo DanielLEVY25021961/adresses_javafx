@@ -683,7 +683,7 @@ public class ContactSimpleDAOJPASpring implements IContactSimpleDAO {
 	 * {@inheritDoc}
 	 */
 	@Override
-	public Iterable<IContactSimple> findAll(
+	public Iterable<IContactSimple> findAllIterable(
 			final Iterable<Long> pIds) throws Exception {
 
 		/* retourne null si pIds == null. */

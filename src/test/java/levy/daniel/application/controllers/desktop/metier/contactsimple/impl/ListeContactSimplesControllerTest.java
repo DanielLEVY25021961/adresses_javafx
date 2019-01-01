@@ -245,7 +245,7 @@ public class ListeContactSimplesControllerTest {
 	 * <li>L'ajout dans la liste du CONTROLLER se passe bien.</li>
 	 * </ul>
 	 */
-	@SuppressWarnings("unused") // NOPMD by dan on 16/05/18 20:11
+	@SuppressWarnings("unused") 
 	@Test
 	public void testAjouterContactSimpleAList() {
 		

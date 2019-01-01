@@ -1,10 +1,10 @@
 package levy.daniel.application.model.persistence.metier.contactsimple.dao.jaxb.impl;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertNull;
 import static org.junit.Assert.assertTrue;
-import static org.junit.Assert.assertFalse;
 
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
@@ -225,23 +225,53 @@ public class ContactSimpleDaoJAXBTest {
 		= "testFindAll()";
 	
 	/**
+	 * "testFindAllMaxOut()".<br/>
+	 */
+	public static final String TEST_FINDALLMAX_OUT 
+		= "testFindAllMaxOut()";
+	
+	/**
 	 * "testFindAllMax()".<br/>
 	 */
 	public static final String TEST_FINDALLMAX 
 		= "testFindAllMax()";
 		
 	/**
-	 * "testFindAllIterable()".<br/>
+	 * "testFindAllIterableNull()".<br/>
 	 */
-	public static final String TEST_FINDALLITERABLE 
-		= "testFindAllIterable()";
+	public static final String TEST_FINDALLITERABLE_NULL 
+		= "testFindAllIterableNull()";
 		
+	/**
+	 * "testFindAllIterableOut()".<br/>
+	 */
+	public static final String TEST_FINDALLITERABLE_OUT 
+		= "testFindAllIterableOut()";
+	
+	/**
+	* "testFindAllIterable()".<br/>
+	*/
+	public static final String TEST_FINDALLITERABLE 
+	= "testFindAllIterable()";
+
+	/**
+	 * "testUpdateNull()".<br/>
+	 */
+	public static final String TEST_UPDATE_NULL 
+		= "testUpdateNull()";
+
 	/**
 	 * "testUpdateInexistant()".<br/>
 	 */
 	public static final String TEST_UPDATE_INEXISTANT 
 		= "testUpdateInexistant()";
-		
+
+	/**
+	 * "testUpdateDoublon()".<br/>
+	 */
+	public static final String TEST_UPDATE_DOUBLON 
+		= "testUpdateDoublon()";
+
 	/**
 	 * "testUpdate()".<br/>
 	 */
@@ -3654,7 +3684,7 @@ public class ContactSimpleDaoJAXBTest {
 				
 		// **********************************
 		// AFFICHAGE DANS LE TEST ou NON
-		final boolean affichage = true;
+		final boolean affichage = false;
 		// **********************************
 		
 		/* AFFICHAGE A LA CONSOLE. */
@@ -3687,7 +3717,7 @@ public class ContactSimpleDaoJAXBTest {
 			/* ***********************RETRIVEID************************** */		
 			stockageList = dao.findAll();
 			/* ********************************************************* */
-			
+
 			/* Calcul du nombre d'objets dans le stockage après le traitement. */
 			final Long nombreObjetsFinal = dao.count();
 			
@@ -3710,7 +3740,594 @@ public class ContactSimpleDaoJAXBTest {
 			
 		}
 
-	} // Fin de testFindAll().____________________________________________
+	} // Fin de testFindAll()._____________________________________________
+	
+
+	
+	/**
+	 * Teste la méthode <b>findAllMax(out)</b>.<br/>
+	 * <ul>
+	 * <li>garantit que findAllMax(out) retourne null.</li>
+	 * </ul>
+	 *
+	 * @throws Exception
+	 */
+	@SuppressWarnings(UNUSED)
+	@Test
+	public void testFindAllMaxOut() throws Exception {
+				
+		// **********************************
+		// AFFICHAGE DANS LE TEST ou NON
+		final boolean affichage = false;
+		// **********************************
+		
+		/* AFFICHAGE A LA CONSOLE. */
+		if (AFFICHAGE_GENERAL && affichage) {
+			System.out.println("********** CLASSE ContactSimpleDaoJAXBTest - méthode testFindAllMaxOut() ********** ");
+		}
+		
+		/* dao NON INJECTE. */
+		if (dao == null) {
+			
+			/* AFFICHAGE A LA CONSOLE. */
+			if (AFFICHAGE_GENERAL && affichage) {
+				System.out.println(TEST_FINDALLMAX_OUT);
+				this.afficherDAONonInstancie();
+			}
+			
+			return;
+			
+		} // Fin de dao NON INJECTE._____________________
+		
+		
+		/* vide et remplit le stockage. */
+		this.remplirStockage(false);
+
+		Long nombreObjetsInitial = 0L;
+		Long nombreObjetsFinal = 0L;
+		List<IContactSimple> resultat = null;
+
+		/* récupération. */
+		final List<IContactSimple> objetInitiaux = dao.findAll();
+
+		/* Compte du nombre d'Objets initialement dans le stockage. */
+		nombreObjetsInitial = dao.count();
+
+		/* AFFICHAGE A LA CONSOLE. */
+		if (AFFICHAGE_GENERAL && affichage) {
+			System.out.println("LISTE D'OBJETS AVANT FINDALLMAX(OUT) : ");
+			System.out.println(dao.afficherListeObjetsMetier(objetInitiaux));
+			this.afficherNbreObjetsInitial(nombreObjetsInitial);
+		}
+
+		/* ************************* */
+		// STARTPOSITION HORS DES CLOUS.
+		final int startPosition = 4;
+		final int maxResult = 3;
+		
+		try {
+
+			/* ********************************************************* */
+			/* *********************FINDALLMAX************************** */
+			resultat = dao.findAllMax(startPosition, maxResult);
+			/* ********************************************************* */
+
+			/* AFFICHAGE A LA CONSOLE. */
+			if (AFFICHAGE_GENERAL && affichage) {
+				System.out.println();
+				System.out.println("OBJETS TROUVES : ");
+				System.out.println(dao.afficherListeObjetsMetier(resultat));
+			}
+
+			/* garantit que findAllMax(out) retourne null. */
+			assertNull(
+					"findAllMax(out) doit retourner null : "
+						, resultat);
+
+			/* récupération. */
+			final List<IContactSimple> objetsFinaux = dao.findAll();
+
+			/* Calcul du nombre d'objets dans le stockage après le traitement. */
+			nombreObjetsFinal = dao.count();
+
+			if (AFFICHAGE_GENERAL && affichage) {
+				System.out.println();
+				System.out.println("LISTE D'OBJETS APRES FINDALLMAX(OUT) : ");
+				System.out.println(dao.afficherListeObjetsMetier(objetsFinaux));
+				this.afficherNbreObjetsFinal(nombreObjetsFinal);
+			}
+
+			assertEquals(
+					"findAll() doit retourner 4 enregistrements : "
+						, Long.valueOf(4L)
+							, nombreObjetsFinal);
+
+		} catch (AbstractDaoException e) {
+
+			System.out.println(TEST_FINDALLMAX_OUT);
+			this.afficherAbstractDaoException(e);
+			e.printStackTrace();
+
+		}
+
+	} // Fin de testFindAllMaxOut()._______________________________________
+
+	
+	
+	/**
+	 * Teste la méthode <b>findAllMax()</b>.<br/>
+	 * <ul>
+	 * <li>garantit que findAllMax() retourne 
+	 * la liste d'objets trouvés.</li>
+	 * </ul>
+	 *
+	 * @throws Exception
+	 */
+	@SuppressWarnings(UNUSED)
+	@Test
+	public void testFindAllMax() throws Exception {
+
+		// **********************************
+		// AFFICHAGE DANS LE TEST ou NON
+		final boolean affichage = false;
+		// **********************************
+
+		/* AFFICHAGE A LA CONSOLE. */
+		if (AFFICHAGE_GENERAL && affichage) {
+			System.out.println("********** CLASSE ContactSimpleDaoJAXBTest - méthode testFindAllMax() ********** ");
+		}
+
+		/* dao NON INJECTE. */
+		if (dao == null) {
+
+			/* AFFICHAGE A LA CONSOLE. */
+			if (AFFICHAGE_GENERAL && affichage) {
+				System.out.println(TEST_FINDALLMAX);
+				this.afficherDAONonInstancie();
+			}
+
+			return;
+
+		} // Fin de dao NON INJECTE._____________________
+
+		/* vide et remplit le stockage. */
+		this.remplirStockage(false);
+
+		Long nombreObjetsInitial = 0L;
+		Long nombreObjetsFinal = 0L;
+		List<IContactSimple> resultat = null;
+
+		/* récupération. */
+		final List<IContactSimple> objetInitiaux = dao.findAll();
+
+		/* Compte du nombre d'Objets initialement dans le stockage. */
+		nombreObjetsInitial = dao.count();
+
+		/* AFFICHAGE A LA CONSOLE. */
+		if (AFFICHAGE_GENERAL && affichage) {
+			System.out.println("LISTE D'OBJETS AVANT FINDALLMAX() : ");
+			System.out.println(dao.afficherListeObjetsMetier(objetInitiaux));
+			this.afficherNbreObjetsInitial(nombreObjetsInitial);
+		}
+
+		/* ************************* */
+		// STARTPOSITION DANS LES CLOUS.
+		final int startPosition = 2;
+		final int maxResult = 7;
+				
+		
+		try {
+
+			/* ********************************************************* */
+			/* *********************FINDALLMAX************************** */
+			resultat = dao.findAllMax(startPosition, maxResult);
+			/* ********************************************************* */
+
+			/* AFFICHAGE A LA CONSOLE. */
+			if (AFFICHAGE_GENERAL && affichage) {
+				System.out.println();
+				System.out.println("OBJETS TROUVES : ");
+				System.out.println(dao.afficherListeObjetsMetier(resultat));
+			}
+
+			/* garantit que findAllMax() retourne 
+			 * la liste d'objets trouvés. */
+			assertNotNull(
+					"findAllMax() doit retourner la liste d'objets trouvés : "
+						, resultat);
+			
+			assertEquals(
+					"findAllMax() doit retourner nombreObjetsInitial - startPosition objets : "
+					, nombreObjetsInitial - startPosition 
+						, resultat.size());
+			
+			/* récupération. */
+			final List<IContactSimple> objetsFinaux = dao.findAll();
+
+			/* Calcul du nombre d'objets dans le stockage après le traitement. */
+			nombreObjetsFinal = dao.count();
+
+			if (AFFICHAGE_GENERAL && affichage) {
+				System.out.println();
+				System.out.println("LISTE D'OBJETS APRES FINDALLMAX() : ");
+				System.out.println(dao.afficherListeObjetsMetier(objetsFinaux));
+				this.afficherNbreObjetsFinal(nombreObjetsFinal);
+			}
+
+			assertEquals(
+					"findAll() doit retourner 4 enregistrements : "
+						, Long.valueOf(4L)
+							, nombreObjetsFinal);
+
+		} catch (AbstractDaoException e) {
+
+			System.out.println(TEST_FINDALLMAX);
+			this.afficherAbstractDaoException(e);
+	
+		}
+
+	} // Fin de testFindAllMax().__________________________________________
+	
+	
+	
+	/**
+	 * Teste la méthode <b>findAllIterable(null)</b>.<br/>
+	 * <ul>
+	 * <li>garantit que findAllIterable(null) retourne null.</li>
+	 * </ul>
+	 *
+	 * @throws Exception
+	 */
+	@SuppressWarnings(UNUSED)
+	@Test
+	public void testFindAllIterableNull() throws Exception {
+
+		// **********************************
+		// AFFICHAGE DANS LE TEST ou NON
+		final boolean affichage = false;
+		// **********************************
+
+		/* AFFICHAGE A LA CONSOLE. */
+		if (AFFICHAGE_GENERAL && affichage) {
+			System.out.println("********** CLASSE ContactSimpleDaoJAXBTest - méthode testFindAllIterableNull() ********** ");
+		}
+
+		/* dao NON INJECTE. */
+		if (dao == null) {
+
+			/* AFFICHAGE A LA CONSOLE. */
+			if (AFFICHAGE_GENERAL && affichage) {
+				System.out.println(TEST_FINDALLITERABLE_NULL);
+				this.afficherDAONonInstancie();
+			}
+
+			return;
+
+		} // Fin de dao NON INJECTE._____________________
+
+		/* vide et remplit le stockage. */
+		this.remplirStockage(false);
+
+		Long nombreObjetsInitial = 0L;
+		Long nombreObjetsFinal = 0L;
+		List<IContactSimple> resultat = null;
+
+		/* récupération. */
+		final List<IContactSimple> objetInitiaux = dao.findAll();
+
+		/* Compte du nombre d'Objets initialement dans le stockage. */
+		nombreObjetsInitial = dao.count();
+
+		/* AFFICHAGE A LA CONSOLE. */
+		if (AFFICHAGE_GENERAL && affichage) {
+			System.out.println("LISTE D'OBJETS AVANT FINDALLITERABLE(NULL) : ");
+			System.out.println(dao.afficherListeObjetsMetier(objetInitiaux));
+			this.afficherNbreObjetsInitial(nombreObjetsInitial);
+		}
+
+		/* ************************* */
+		// ITERABLE NULL.
+		final Iterable<Long> ids = null;
+				
+		try {
+
+			/* ********************************************************* */
+			/* ********************FINDALLITERABLE********************** */
+			resultat = (List<IContactSimple>) dao.findAllIterable(ids);
+			/* ********************************************************* */
+			
+			/* AFFICHAGE A LA CONSOLE. */
+			if (AFFICHAGE_GENERAL && affichage) {
+				System.out.println();
+				if (resultat != null) {
+					System.out.println("OBJETS TROUVES : " + dao.afficherListeObjetsMetier(resultat));
+				} else {
+					System.out.println("OBJETS TROUVES : NULL");
+				}				
+			}
+
+			/* garantit que findAllIterable(null) retourne null. */
+			assertNull(
+					"findAllIterable(null) doit retourner null : "
+						, resultat);
+			
+					
+			/* récupération. */
+			final List<IContactSimple> objetsFinaux = dao.findAll();
+
+			/* Calcul du nombre d'objets dans le stockage après le traitement. */
+			nombreObjetsFinal = dao.count();
+
+			if (AFFICHAGE_GENERAL && affichage) {
+				System.out.println();
+				System.out.println("LISTE D'OBJETS APRES FINDALLITERABLE(NULL) : ");
+				System.out.println(dao.afficherListeObjetsMetier(objetsFinaux));
+				this.afficherNbreObjetsFinal(nombreObjetsFinal);
+			}
+
+			assertEquals(
+					"findAll() doit retourner 4 enregistrements : "
+						, Long.valueOf(4L)
+							, nombreObjetsFinal);
+
+		} catch (AbstractDaoException e) {
+
+			System.out.println(TEST_FINDALLITERABLE_NULL);
+			this.afficherAbstractDaoException(e);
+
+		}
+
+	} // Fin de testFindAllIterableNull()._________________________________
+	
+	
+	
+	/**
+	 * Teste la méthode <b>findAllIterable(out)</b>.<br/>
+	 * <ul>
+	 * <li>garantit que findAllIterable(out) retourne une liste vide.</li>
+	 * </ul>
+	 *
+	 * @throws Exception
+	 */
+	@SuppressWarnings(UNUSED)
+	@Test
+	public void testFindAllIterableOut() throws Exception {
+
+		// **********************************
+		// AFFICHAGE DANS LE TEST ou NON
+		final boolean affichage = false;
+		// **********************************
+
+		/* AFFICHAGE A LA CONSOLE. */
+		if (AFFICHAGE_GENERAL && affichage) {
+			System.out.println("********** CLASSE ContactSimpleDaoJAXBTest - méthode testFindAllIterableOut() ********** ");
+		}
+
+		/* dao NON INJECTE. */
+		if (dao == null) {
+
+			/* AFFICHAGE A LA CONSOLE. */
+			if (AFFICHAGE_GENERAL && affichage) {
+				System.out.println(TEST_FINDALLITERABLE_OUT);
+				this.afficherDAONonInstancie();
+			}
+
+			return;
+
+		} // Fin de dao NON INJECTE._____________________
+
+		/* vide et remplit le stockage. */
+		this.remplirStockage(false);
+
+		Long nombreObjetsInitial = 0L;
+		Long nombreObjetsFinal = 0L;
+		List<IContactSimple> resultat = null;
+
+		/* récupération. */
+		final List<IContactSimple> objetInitiaux = dao.findAll();
+
+		/* Compte du nombre d'Objets initialement dans le stockage. */
+		nombreObjetsInitial = dao.count();
+
+		/* AFFICHAGE A LA CONSOLE. */
+		if (AFFICHAGE_GENERAL && affichage) {
+			System.out.println("LISTE D'OBJETS AVANT FINDALLITERABLE(OUT) : ");
+			System.out.println(dao.afficherListeObjetsMetier(objetInitiaux));
+			this.afficherNbreObjetsInitial(nombreObjetsInitial);
+		}
+
+		/* ************************* */
+		// ITERABLE OUT.
+		final List<Long> ids = new ArrayList<Long>();
+		ids.add(17L);
+		ids.add(20L);
+		
+		/* AFFICHAGE A LA CONSOLE. */
+		if (AFFICHAGE_GENERAL && affichage) {
+			System.out.println();
+			System.out.println("LISTE DES IDS A RECHERCHER : ");
+			for (final Long id : ids) {
+				System.out.println(id.toString());
+			}
+		}
+				
+		try {
+
+			/* ********************************************************* */
+			/* ********************FINDALLITERABLE********************** */
+			resultat = (List<IContactSimple>) dao.findAllIterable(ids);
+			/* ********************************************************* */
+			
+			/* AFFICHAGE A LA CONSOLE. */
+			if (AFFICHAGE_GENERAL && affichage) {
+				System.out.println();
+				if (resultat != null) {
+					System.out.println("OBJETS TROUVES : ");
+					System.out.println(dao.afficherListeObjetsMetier(resultat));
+				} else {
+					System.out.println("OBJETS TROUVES : NULL");
+				}				
+			}
+
+			/* garantit que findAllIterable(out) retourne une liste vide. */
+			if (resultat != null) {
+				assertTrue(
+						"findAllIterable(out) doit retourner une liste vide : "
+							, resultat.isEmpty());
+			}
+								
+			/* récupération. */
+			final List<IContactSimple> objetsFinaux = dao.findAll();
+
+			/* Calcul du nombre d'objets dans le stockage après le traitement. */
+			nombreObjetsFinal = dao.count();
+
+			if (AFFICHAGE_GENERAL && affichage) {
+				System.out.println();
+				System.out.println("LISTE D'OBJETS APRES FINDALLITERABLE(OUT) : ");
+				System.out.println(dao.afficherListeObjetsMetier(objetsFinaux));
+				this.afficherNbreObjetsFinal(nombreObjetsFinal);
+			}
+
+			assertEquals(
+					"findAll() doit retourner 4 enregistrements : "
+						, Long.valueOf(4L)
+							, nombreObjetsFinal);
+
+		} catch (AbstractDaoException e) {
+
+			System.out.println(TEST_FINDALLITERABLE_OUT);
+			this.afficherAbstractDaoException(e);
+
+		}
+
+	} // Fin de testFindAllIterableOut().__________________________________
+	
+	
+	
+	/**
+	 * Teste la méthode <b>findAllIterable()</b>.<br/>
+	 * <ul>
+	 * <li>garantit que findAllIterable() retourne la liste des objets.</li>
+	 * </ul>
+	 *
+	 * @throws Exception
+	 */
+	@SuppressWarnings(UNUSED)
+	@Test
+	public void testFindAllIterable() throws Exception {
+
+		// **********************************
+		// AFFICHAGE DANS LE TEST ou NON
+		final boolean affichage = false;
+		// **********************************
+
+		/* AFFICHAGE A LA CONSOLE. */
+		if (AFFICHAGE_GENERAL && affichage) {
+			System.out.println("********** CLASSE ContactSimpleDaoJAXBTest - méthode testFindAllIterable() ********** ");
+		}
+
+		/* dao NON INJECTE. */
+		if (dao == null) {
+
+			/* AFFICHAGE A LA CONSOLE. */
+			if (AFFICHAGE_GENERAL && affichage) {
+				System.out.println(TEST_FINDALLITERABLE);
+				this.afficherDAONonInstancie();
+			}
+
+			return;
+
+		} // Fin de dao NON INJECTE._____________________
+
+		/* vide et remplit le stockage. */
+		this.remplirStockage(false);
+
+		Long nombreObjetsInitial = 0L;
+		Long nombreObjetsFinal = 0L;
+		List<IContactSimple> resultat = null;
+
+		/* récupération. */
+		final List<IContactSimple> objetInitiaux = dao.findAll();
+
+		/* Compte du nombre d'Objets initialement dans le stockage. */
+		nombreObjetsInitial = dao.count();
+
+		/* AFFICHAGE A LA CONSOLE. */
+		if (AFFICHAGE_GENERAL && affichage) {
+			System.out.println("LISTE D'OBJETS AVANT FINDALLITERABLE() : ");
+			System.out.println(dao.afficherListeObjetsMetier(objetInitiaux));
+			this.afficherNbreObjetsInitial(nombreObjetsInitial);
+		}
+
+		/* ************************* */
+		// ITERABLE CORRECT.
+		final List<Long> ids = new ArrayList<Long>();
+		ids.add(2L);
+		ids.add(3L);
+		ids.add(17L);
+		ids.add(20L);
+		
+		/* AFFICHAGE A LA CONSOLE. */
+		if (AFFICHAGE_GENERAL && affichage) {
+			System.out.println();
+			System.out.println("LISTE DES IDS A RECHERCHER : ");
+			for (final Long id : ids) {
+				System.out.println(id.toString());
+			}
+		}
+				
+		try {
+
+			/* ********************************************************* */
+			/* ********************FINDALLITERABLE********************** */
+			resultat = (List<IContactSimple>) dao.findAllIterable(ids);
+			/* ********************************************************* */
+			
+			/* AFFICHAGE A LA CONSOLE. */
+			if (AFFICHAGE_GENERAL && affichage) {
+				System.out.println();
+				if (resultat != null) {
+					System.out.println("OBJETS TROUVES : ");
+					System.out.println(dao.afficherListeObjetsMetier(resultat));
+				} else {
+					System.out.println("OBJETS TROUVES : NULL");
+				}				
+			}
+
+			/* garantit que findAllIterable() retourne une liste non vide. */
+			if (resultat != null) {
+				assertFalse(
+						"findAllIterable() doit retourner une liste NON vide : "
+							, resultat.isEmpty());
+			}
+								
+			/* récupération. */
+			final List<IContactSimple> objetsFinaux = dao.findAll();
+
+			/* Calcul du nombre d'objets dans le stockage après le traitement. */
+			nombreObjetsFinal = dao.count();
+
+			if (AFFICHAGE_GENERAL && affichage) {
+				System.out.println();
+				System.out.println("LISTE D'OBJETS APRES FINDALLITERABLE() : ");
+				System.out.println(dao.afficherListeObjetsMetier(objetsFinaux));
+				this.afficherNbreObjetsFinal(nombreObjetsFinal);
+			}
+
+			assertEquals(
+					"findAll() doit retourner 4 enregistrements : "
+						, Long.valueOf(4L)
+							, nombreObjetsFinal);
+
+		} catch (AbstractDaoException e) {
+
+			System.out.println(TEST_FINDALLITERABLE);
+			this.afficherAbstractDaoException(e);
+
+		}
+
+	} // Fin de testFindAllIterable()._____________________________________
 	
 	
 	

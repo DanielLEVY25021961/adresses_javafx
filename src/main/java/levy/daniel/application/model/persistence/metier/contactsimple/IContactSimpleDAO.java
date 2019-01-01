@@ -224,12 +224,14 @@ public interface IContactSimpleDAO {
 	
 
 	/**
-	 * <b>retourne la liste des pMax objets métier 
+	 * <b>retourne la liste des pMaxResult objets métier 
 	 * persistés dans le stockage</b> à partir de la 
 	 * position pStartPosition (0-based).<br/>
 	 * <ul>
 	 * <li>retourne par exemple les 50 objets métier stockés 
 	 * à partir du 100ème.</li>
+	 * <li>retourne [count() - pStartPosition] objets 
+	 * si [pStartPosition + pMaxResult] sort des indexes.</li>
 	 * <li>retourne null si pStartPosition est hors indexes.</li>
 	 * </ul>
 	 *
@@ -249,28 +251,27 @@ public interface IContactSimpleDAO {
 	
 
 	/**
-	 * method findAll(
-	 * Iterable&lt;Long&gt; pIds) :<br/>
-	 * <ul>
-	 * <li>retourne une Collection iterable d'Objets métier 
+	 * <b>retourne une Collection iterable d'Objets métier 
 	 * (List&lt;IContactSimple&gt;) dont les IDs appartiennent 
-	 * à la Collection itérable d'IDs passée en paramètre.</li>
-	 * <li>Inclut dans la liste les sous-classe de IContactSimple 
-	 * (strategy=InheritanceType.JOINED) 
-	 * avec la visibilité (Typé) IContactSimple.</li>
+	 * à la Collection itérable d'IDs passée en paramètre.</b>
+	 * <ul>
+	 * <li>retourne une liste <b>vide</b> (pas null) 
+	 * si aucun objet avec un ID contenu dans pIds 
+	 * n'a été persisté dans le stockage.</li>
 	 * </ul>
-	 * retourne null si pIds == null.<br/>
-	 * ne retourne que les objets de la collection 
+	 * - retourne null si pIds == null.<br/>
+	 * - ne retourne que les objets de la collection 
 	 * effectivement persistés en base.<br/>
 	 * <br/>
 	 *
 	 * @param pIds : Iterable&lt;Long&gt;.<br/>
 	 * 
-	 * @return Iterable&lt;IContactSimple&gt; : List&lt;IContactSimple&gt;.<br/>
+	 * @return Iterable&lt;IContactSimple&gt; : 
+	 * List&lt;IContactSimple&gt;.<br/>
 	 * 
 	 * @throws Exception 
 	 */
-	Iterable<IContactSimple> findAll(Iterable<Long> pIds) throws Exception;
+	Iterable<IContactSimple> findAllIterable(Iterable<Long> pIds) throws Exception;
 
 
 
@@ -278,34 +279,34 @@ public interface IContactSimpleDAO {
 
 	
 	/**
-	 * method update(
-	 * IContactSimple pObject) :<br/>
 	 * <ul>
 	 * <li><b>Modifie</b> un objet métier <b>persistant</b> 
-	 * existant en base.</li>
-	 * <li>Retourne l'objet métier pObject <b>modifié en base</b> 
-	 * avec la visibilité (Typé) IContactSimple.</li>
+	 * <i>existant</i> dans le stockage.</li>
+	 * <li>Retourne l'objet métier pObject <b>modifié dans le stockage</b>.</li>
+	 * <li>Les modifications ne doivent 
+	 * pas altérer l'identifiant dans le stockage.</li>
 	 * </ul>
-	 * retourne null si pObject == null.<br/>
-	 * ne fait rien et retourne l'instance détachée 
-	 * si pObject n'est pas déjà persistant en base.<br/>
+	 * - retourne null si pObject == null.<br/>
+	 * - ne fait rien et retourne l'instance détachée 
+	 * si pObject n'est pas déjà persistant dans le stockage.<br/>
 	 * <br/>
 	 * <code>Exemple de code : </code><br/>
 	 * <code>// Récupération de l'objet persistant à modifier.</code><br/>
-	 * <code>objet1Persistant = this.daoUserSimple.retrieve(objet1);</code><br/>
+	 * <code>objet1Persistant = this.dao.retrieve(objet1);</code><br/>
 	 * <code>// Modifications.</code><br/>
 	 * <code>objet1Persistant.setPrenom("Jean-Frédéric modifié");</code><br/>
 	 * <code>objet1Persistant.setNom("Bôrne modifié");</code><br/>
 	 * <code>// Application des modifications en base.</code><br/>
 	 * <code>objet1ModifiePersistant = 
-	 * this.daoUserSimple.<b>update(objet1Persistant)</b>;</code><br/>
+	 * this.dao.<b>update(objet1Persistant)</b>;</code><br/>
 	 * <br/>
 	 *
-	 * @param pObject : IContactSimple : objet métier avec ID 
-	 * et comportant les modifications.<br/>
+	 * @param pObject : IContactSimple : 
+	 * objet métier comportant les modifications 
+	 * à appliquer à l'objet persistant.<br/>
 	 * 
-	 * @return : T : objet métier de Type paramétré 
-	 * T modifié en base.<br/>
+	 * @return : IContactSimple : 
+	 * objet métier persistant modifié dans le stockage.<br/>
 	 * 
 	 * @throws Exception 
 	 */
@@ -318,12 +319,16 @@ public interface IContactSimpleDAO {
 	 * l'objet d'index (0-based) ou d'identifiant pId 
 	 * avec les valeurs 
 	 * contenues dans pObjectModifie</b>.<br/>
+	 * substitue pObjectModifie à l'objet persistant
+	 *  d'ID pId dans le stockage.<br/>
 	 * <ul>
 	 * <li><b>pId doit correspondre à l'index (0-based) 
 	 * de l'objet métier à modifier</b>.</li>
 	 * <li>pObjectModifie est un conteneur contenant les modifications 
 	 * à apporter à un objet persistant dans le stockage. 
-	 * Il n'a pas besoin d'avoir d'ID.</li>
+	 * Il n'a pas besoin d'avoir d'attribut id.</li>
+	 * <li>retourne null si l'objet modifie pObjectModifie 
+	 * créerait un doublon dans le stockage.</li>
 	 * <li>retourne null s'il n'y a pas d'objet persistant à pId.</li>
 	 * <li>retourne null si pId est en dehors des indexes.</li>
 	 * </ul>

@@ -399,15 +399,15 @@ public class ContactSimpleDaoJAXB implements IContactSimpleDAO {
 			return null;
 		}
 		
-		List<IContactSimple> stockageLIst = null;
+		List<IContactSimple> stockageList = null;
 		
 		if (pFile.exists()) {
-			stockageLIst = this.recupererListeModeles(pFile);
+			stockageList = this.recupererListeModeles(pFile);
 		} else {
-			stockageLIst = new ArrayList<IContactSimple>();
+			stockageList = new ArrayList<IContactSimple>();
 		}
 		  		
-		if (stockageLIst != null) {
+		if (stockageList != null) {
 			
 			/* ne crée pas de doublon. */
 			if (!this.exists(pObject)) {
@@ -416,13 +416,13 @@ public class ContactSimpleDaoJAXB implements IContactSimpleDAO {
 				 * des objets métier stockés. */
 				/* VERIFIE LES ATTRIBUTS OBLIGATOIRES. */
 				if (pObject.getNom() != null && pObject.getPrenom() != null) {
-					stockageLIst.add(pObject);
+					stockageList.add(pObject);
 				} else {
 					return null;
 				}
 								
 				/* enregistre la nouvelle liste dans le stockage XML. */
-				this.enregistrer(stockageLIst, pFile);
+				this.enregistrer(stockageList, pFile);
 				
 			} else {
 				/* retourne null si pObject existe déjà dans le stockage. */
@@ -616,10 +616,10 @@ public class ContactSimpleDaoJAXB implements IContactSimpleDAO {
 		
 		IContactSimple resultat = null;
 		
-		for (final IContactSimple contactSimple : stockageList) {
+		for (final IContactSimple objet : stockageList) {
 			
-			if (pObject.equals(contactSimple)) {
-				resultat = contactSimple;
+			if (pObject.equals(objet)) {
+				resultat = objet;
 				break;
 			}
 		}
@@ -669,10 +669,10 @@ public class ContactSimpleDaoJAXB implements IContactSimpleDAO {
 		
 		Long id = 0L;
 		
-		for (final IContactSimple contactSimple : stockageList) {
+		for (final IContactSimple objet : stockageList) {
 			
 			if (pId.equals(id)) {
-				resultat = contactSimple;
+				resultat = objet;
 				break;
 			}
 			
@@ -700,17 +700,17 @@ public class ContactSimpleDaoJAXB implements IContactSimpleDAO {
 			return null;
 		}
 		
-		List<IContactSimple> contacts = null;
+		List<IContactSimple> stockageList = null;
 		
 		/* retourne null si le stockage n'existe pas. */
 		if (this.fichierXML.exists()) {
-			contacts = this.recupererListeModeles(this.fichierXML);
+			stockageList = this.recupererListeModeles(this.fichierXML);
 		} else {
 			return null;
 		}
 		
 		/* retourne null si le stockage est vide. */
-		if (contacts.isEmpty()) {
+		if (stockageList.isEmpty()) {
 			return null;
 		}
 		
@@ -718,9 +718,9 @@ public class ContactSimpleDaoJAXB implements IContactSimpleDAO {
 		
 		int i = 0;
 		
-		for (final IContactSimple contactSimple : contacts) {
+		for (final IContactSimple objet : stockageList) {
 			
-			if (pObject.equals(contactSimple)) {
+			if (pObject.equals(objet)) {
 				resultat = Long.valueOf(i);
 				break;
 			}
@@ -768,31 +768,37 @@ public class ContactSimpleDaoJAXB implements IContactSimpleDAO {
 			final int pStartPosition, final int pMaxResult) 
 						throws AbstractDaoException {
 		
-		List<IContactSimple> contacts = null;
+		List<IContactSimple> stockageList = null;
 		
 		/* retourne null si le stockage n'existe pas. */
 		if (this.fichierXML.exists()) {
-			contacts = this.recupererListeModeles(this.fichierXML);
+			stockageList = this.recupererListeModeles(this.fichierXML);
 		} else {
 			return null;
 		}
 		
 		/* retourne null si le stockage est vide. */
-		if (contacts.isEmpty()) {
+		if (stockageList.isEmpty()) {
 			return null;
 		}
+		
+		/* retourne null si pId est en dehors des index de stockage. */
+		if (pStartPosition > stockageList.size() - 1) {
+			return null;
+		}
+		
 		
 		final List<IContactSimple> resultat 
 			= new ArrayList<IContactSimple>();
 		
-		for (final IContactSimple contactSimple : contacts) {
+		for (final IContactSimple objet : stockageList) {
 			
-			final Long indexContactSimple = contactSimple.getId();
+			final Long indexContactSimple = this.retrieveId(objet);
 			final int finPosition = pStartPosition + pMaxResult;
 			
 			if (indexContactSimple >= pStartPosition 
 					&& indexContactSimple < finPosition) {
-				resultat.add(contactSimple);
+				resultat.add(objet);
 			}
 		}
 		
@@ -804,13 +810,48 @@ public class ContactSimpleDaoJAXB implements IContactSimpleDAO {
 
 	/**
 	 * {@inheritDoc}
+	 * - retourne null si le stockage n'existe pas.<br/>
+	 * - retourne null si le stockage est vide.<br/>
+	 * <br/>
 	 */
 	@Override
-	public Iterable<IContactSimple> findAll(
+	public Iterable<IContactSimple> findAllIterable(
 			final Iterable<Long> pIds) throws AbstractDaoException {
-		// TODO Auto-generated method stub
-		return null;
-	}
+		
+		/* retourne null si pIds == null. */
+		if (pIds == null) {
+			return null;
+		}
+		
+		List<IContactSimple> stockageList = null;
+		
+		/* retourne null si le stockage n'existe pas. */
+		if (this.fichierXML.exists()) {
+			stockageList = this.recupererListeModeles(this.fichierXML);
+		} else {
+			return null;
+		}
+		
+		/* retourne null si le stockage est vide. */
+		if (stockageList.isEmpty()) {
+			return null;
+		}
+
+		final List<IContactSimple> resultat 
+			= new ArrayList<IContactSimple>();
+		
+		for (final Long id : pIds) {
+			
+			final IContactSimple objet = this.findById(id);
+			
+			if (objet != null) {
+				resultat.add(objet);
+			}
+		}
+		
+		return resultat;
+		
+	} // Fin de findAll(...).______________________________________________
 
 
 
@@ -819,26 +860,87 @@ public class ContactSimpleDaoJAXB implements IContactSimpleDAO {
 	
 	/**
 	 * {@inheritDoc}
+	 * <b>retourne toujours null pour un DAO JAXB.</b><br/>
+	 * <br/>
 	 */
 	@Override
 	public IContactSimple update(
 			final IContactSimple pObject) throws AbstractDaoException {
-		// TODO Auto-generated method stub
+		
 		return null;
-	}
+				
+	} // Fin de update(...)._______________________________________________
 
 
 
 	/**
 	 * {@inheritDoc}
+	 * - retourne null si le stockage n'existe pas.<br/>
+	 * - retourne null si le stockage est vide.<br/>
+	 * <br/>
 	 */
 	@Override
 	public IContactSimple update(
 			final Long pId, final IContactSimple pObjectModifie) 
 					throws AbstractDaoException {
-		// TODO Auto-generated method stub
-		return null;
-	}
+		
+		/* retourne null si pId == null. */
+		if (pId == null) {
+			return null;
+		}
+		
+		/* retourne null si pId est en dehors des indexes. */
+		if (pId > this.count() - 1) {
+			return null;
+		}
+		
+		/* retourne null si l'objet modifie pObjectModifie 
+		 * créerait un doublon dans le stockage. */
+		if (this.exists(pObjectModifie)) {
+			return null;
+		}
+		
+		final IContactSimple objetPersistant = this.findById(pId);
+		
+		/* retourne null s'il n'y a pas d'objet persistant à pId. */
+		if (objetPersistant == null) {
+			return null;
+		}
+		
+		
+		List<IContactSimple> stockageList = null;
+		
+		/* retourne null si le stockage n'existe pas. */
+		if (this.fichierXML.exists()) {
+			stockageList = this.recupererListeModeles(this.fichierXML);
+		} else {
+			return null;
+		}
+		
+		/* retourne null si le stockage est vide. */
+		if (stockageList.isEmpty()) {
+			return null;
+		}
+		
+		List<IContactSimple> resultat = new ArrayList<IContactSimple>();
+		
+		/* substitue pObjectModifie à l'objet persistant 
+		 * d'ID pId dans le stockage. */
+		for (final IContactSimple objet : stockageList) {
+			
+			if (!objetPersistant.equals(objet)) {				
+				resultat.add(objet);
+			} else {
+				resultat.add(pObjectModifie);
+			}
+		}
+
+		/* enregistre la nouvelle liste dans le stockage XML. */
+		this.enregistrer(resultat, this.fichierXML);
+		
+		return this.retrieve(pObjectModifie);
+		
+	} // Fin de update(...)._______________________________________________
 
 
 

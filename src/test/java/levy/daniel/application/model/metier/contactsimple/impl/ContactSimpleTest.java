@@ -689,7 +689,7 @@ public class ContactSimpleTest {
 			System.out.println("objetClone1 : " 
 					+ objetClone1.toString());
 			System.out.println();
-			System.out.println("objet1 == objetClone1 : " + (objet1 == objetClone1));  // NOPMD by daniel.levy on 03/09/18 09:28
+			System.out.println("objet1 == objetClone1 : " + (objet1 == objetClone1));  
 		}
 		
 		/* garantit que x et son clone ne sont pas la même instance. */

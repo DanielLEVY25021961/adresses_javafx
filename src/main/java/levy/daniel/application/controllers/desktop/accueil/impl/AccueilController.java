@@ -167,7 +167,7 @@ public class AccueilController implements IAccueilController {
 		/* instancie le SERVICE pour les ContactSimple. */
 		this.contactSimpleService = new ContactSimpleService();
 		
-		this.preparerSceneAccueil(); // NOPMD by dan on 09/05/18 17:54
+		this.preparerSceneAccueil(); 
 		
 	} // Fin de CONSTRUCTEUR COMPLET.______________________________________
 	

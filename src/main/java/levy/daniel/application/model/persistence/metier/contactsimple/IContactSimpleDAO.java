@@ -282,9 +282,12 @@ public interface IContactSimpleDAO {
 	 * <ul>
 	 * <li><b>Modifie</b> un objet métier <b>persistant</b> 
 	 * <i>existant</i> dans le stockage.</li>
-	 * <li>Retourne l'objet métier pObject <b>modifié dans le stockage</b>.</li>
+	 * <li>Retourne l'objet métier pObject 
+	 * <b>modifié dans le stockage</b>.</li>
 	 * <li>Les modifications ne doivent 
 	 * pas altérer l'identifiant dans le stockage.</li>
+	 * <li>Les modifications ne doivent pas créer 
+	 * un doublon dans le stockage. retourne null sinon.</li>
 	 * </ul>
 	 * - retourne null si pObject == null.<br/>
 	 * - ne fait rien et retourne l'instance détachée 
@@ -294,7 +297,8 @@ public interface IContactSimpleDAO {
 	 * <code>// Récupération de l'objet persistant à modifier.</code><br/>
 	 * <code>objet1Persistant = this.dao.retrieve(objet1);</code><br/>
 	 * <code>// Modifications.</code><br/>
-	 * <code>objet1Persistant.setPrenom("Jean-Frédéric modifié");</code><br/>
+	 * <code>objet1Persistant.setPrenom(
+	 * "Jean-Frédéric modifié");</code><br/>
 	 * <code>objet1Persistant.setNom("Bôrne modifié");</code><br/>
 	 * <code>// Application des modifications en base.</code><br/>
 	 * <code>objet1ModifiePersistant = 

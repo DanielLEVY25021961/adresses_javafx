@@ -501,7 +501,7 @@ public class ContactSimpleDaoJAXB implements IContactSimpleDAO {
 	public Long createReturnId(
 			final IContactSimple pObject) throws AbstractDaoException {
 		
-		IContactSimple objetPersistant = this.create(pObject);
+		final IContactSimple objetPersistant = this.create(pObject);
 		Long resultat = null;
 		
 		if (objetPersistant != null) {
@@ -894,6 +894,11 @@ public class ContactSimpleDaoJAXB implements IContactSimpleDAO {
 			return null;
 		}
 		
+		/* retourne null si pObjectModifie == null. */
+		if (pObjectModifie == null) {
+			return null;
+		}
+		
 		/* retourne null si l'objet modifie pObjectModifie 
 		 * créerait un doublon dans le stockage. */
 		if (this.exists(pObjectModifie)) {
@@ -922,7 +927,8 @@ public class ContactSimpleDaoJAXB implements IContactSimpleDAO {
 			return null;
 		}
 		
-		List<IContactSimple> resultat = new ArrayList<IContactSimple>();
+		final List<IContactSimple> resultat 
+			= new ArrayList<IContactSimple>();
 		
 		/* substitue pObjectModifie à l'objet persistant 
 		 * d'ID pId dans le stockage. */
@@ -991,7 +997,7 @@ public class ContactSimpleDaoJAXB implements IContactSimpleDAO {
 	public void deleteAll() throws AbstractDaoException {
 		
 		/* instancie une nouvelle liste vide. */
-		List<IContactSimple> contacts = new ArrayList<IContactSimple>();
+		final List<IContactSimple> contacts = new ArrayList<IContactSimple>();
 		
 		/* enregistre la nouvelle liste vide dans le stockage XML. */
 		this.enregistrer(contacts, this.fichierXML);

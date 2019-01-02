@@ -48,6 +48,46 @@ import levy.daniel.application.model.persistence.metier.contactsimple.entities.j
  * @since 24 mai 2018
  *
  */
+/**
+ * CLASSE ContactSimpleDaoJAXBTest :<br/>
+ * .<br/>
+ * <br/>
+ *
+ * - Exemple d'utilisation :<br/>
+ *<br/>
+ * 
+ * - Mots-clé :<br/>
+ * <br/>
+ *
+ * - Dépendances :<br/>
+ * <br/>
+ *
+ *
+ * @author daniel.levy Lévy
+ * @version 1.0
+ * @since 2 janv. 2019
+ *
+ */
+/**
+ * CLASSE ContactSimpleDaoJAXBTest :<br/>
+ * .<br/>
+ * <br/>
+ *
+ * - Exemple d'utilisation :<br/>
+ *<br/>
+ * 
+ * - Mots-clé :<br/>
+ * <br/>
+ *
+ * - Dépendances :<br/>
+ * <br/>
+ *
+ *
+ * @author daniel.levy Lévy
+ * @version 1.0
+ * @since 2 janv. 2019
+ *
+ */
 public class ContactSimpleDaoJAXBTest {
 
 	// ************************ATTRIBUTS************************************/
@@ -61,6 +101,11 @@ public class ContactSimpleDaoJAXBTest {
 	 * "nomTest".<br/>
 	 */
 	public static final String NOMTEST = "nomTest";
+
+	/**
+	 * "France".<br/>
+	 */
+	public static final String FRANCE = "France";
 					
 	/**
 	 * Boolean qui commande l'affichage pour tous les tests.<br/>
@@ -277,6 +322,30 @@ public class ContactSimpleDaoJAXBTest {
 	 */
 	public static final String TEST_UPDATE 
 		= "testUpdate()";
+
+	/**
+	 * "testUpdateIdNull()".<br/>
+	 */
+	public static final String TEST_UPDATEID_NULL 
+		= "testUpdateIdNull()";
+
+	/**
+	 * "testUpdateIdInexistant()".<br/>
+	 */
+	public static final String TEST_UPDATEID_INEXISTANT 
+		= "testUpdateIdInexistant()";
+
+	/**
+	 * "testUpdateIdDoublon()".<br/>
+	 */
+	public static final String TEST_UPDATEID_DOUBLON 
+		= "testUpdateIdDoublon()";
+
+	/**
+	 * "testUpdateId()".<br/>
+	 */
+	public static final String TEST_UPDATEID 
+		= "testUpdateId()";
 	
 	/**
 	 * "testDeleteInexistant()".<br/>
@@ -351,6 +420,11 @@ public class ContactSimpleDaoJAXBTest {
 	public static final String NBRE_INITIAL_PLUS_UN 
 		= "nombreObjetsinitial + 1 : ";
 
+	/**
+	 * "nombreObjetsFinal vaut nombreObjetsInitial + 1 : ".<br/>
+	 */
+	public static final String FINAL_VAUT_INITIAL_PLUS_1 
+		= "nombreObjetsFinal vaut nombreObjetsInitial + 1 : ";
 	
 	/**
 	 * "nombreObjetsinitial + 2 : ".<br/>
@@ -402,13 +476,144 @@ public class ContactSimpleDaoJAXBTest {
 	public static final String SAUT_LIGNE_PLATEFORME 
 		= System.getProperty("line.separator");
 
+	/**
+	 * "objet1 : ".<br/>
+	 */
+	public static final String OBJET1 
+		= "objet1 : ";
 
 	/**
-	 * "France".<br/>
+	 * "objet1MemeInstance : ".<br/>
 	 */
-	public static final String FRANCE = "France";
+	public static final String OBJET1_MEME_INSTANCE 
+		= "objet1MemeInstance : ";
+	
+	/**
+	 * "objet2EqualsObj1 : ".<br/>
+	 */
+	public static final String OBJET2_EQUALS_OBJET1 
+		= "objet2EqualsObj1 : ";
 
+	/**
+	 * "objet3EqualsObj1 : ".<br/>
+	 */
+	public static final String OBJET3_EQUALS_OBJET1 
+		= "objet3EqualsObj1 : ";
+	
+	/**
+	 * "OBJET PERSISTANT TROUVE : ".<br/>
+	 */
+	public static final String OBJET_PERSISTANT_TROUVE 
+		= "OBJET PERSISTANT TROUVE : ";
+	
+	/**
+	 * "OBJET METIER A RECHERCHER : ".<br/>
+	 */
+	public static final String OBJET_METIER_A_RECHERCHER 
+		= "OBJET METIER A RECHERCHER : ";
 
+	/**
+	 * "objetPersisteTrouve1Id : ".<br/>
+	 */
+	public static final String OBJET_PERSISTE_TROUVE1_ID 
+		= "objetPersisteTrouve1Id : ";
+	
+	/**
+	 * "objetPersisteTrouve1Id : NULL".<br/>
+	 */
+	public static final String OBJET_PERSISTE_TROUVE1_ID_NULL 
+		= "objetPersisteTrouve1Id : NULL";
+
+	/**
+	 * "objetARechercher1 : ".<br/>
+	 */
+	public static final String OBJET_A_RECHERCHER1 
+		= "objetARechercher1 : ";
+	
+	/**
+	 * "objetARechercher1 : NULL".<br/>
+	 */
+	public static final String OBJET_A_RECHERCHER1_NULL 
+		= "objetARechercher1 : NULL";
+	
+	/**
+	 * "objetPersisteTrouve1 : ".<br/>
+	 */
+	public static final String OBJET_PERSISTE_TROUVE1 
+		= "objetPersisteTrouve1 : ";	
+	
+	/**
+	 * "objetPersisteTrouve1 : NULL".<br/>
+	 */
+	public static final String OBJET_PERSISTE_TROUVE_NULL 
+		= "objetPersisteTrouve1 : NULL";
+
+	/**
+	 * "LISTE D'OBJETS METIER A CREER : ".<br/>
+	 */
+	public static final String LISTE_OBJETS_METIER_A_CREER 
+		= "LISTE D'OBJETS METIER A CREER : ";
+
+	/**
+	 * "LISTE D'OBJETS PERSISTES : ".<br/>
+	 */
+	public static final String LISTE_OBJETS_PERSISTES 
+		= "LISTE D'OBJETS PERSISTES : ";
+
+	/**
+	 * "LISTE D'OBJETS PERSISTES : NULL".<br/>
+	 */
+	public static final String LISTE_OBJETS_PERSISTES_NULL 
+		= "LISTE D'OBJETS PERSISTES : NULL";
+
+	/**
+	 * "LISTE D'OBJETS APRES CREATE : ".<br/>
+	 */
+	public static final String LISTE_OBJETS_APRES_CREATE 
+		= "LISTE D'OBJETS APRES CREATE : ";
+	
+	/**
+	 * "OBJETS TROUVES : ".<br/>
+	 */
+	public static final String OBJETS_TROUVES 
+		= "OBJETS TROUVES : ";	
+
+	/**
+	 * "ID DE L'OBJET PERSISTANT TROUVE : ".<br/>
+	 */
+	public static final String ID_OBJET_PERSISTANT_TROUVE 
+		= "ID DE L'OBJET PERSISTANT TROUVE : ";
+
+	/**
+	 * "findAll() doit retourner 4 enregistrements : ".<br/>
+	 */
+	public static final String FINDALL_DOIT_RETOURNER_4_ENREGISTREMENTS 
+		= "findAll() doit retourner 4 enregistrements : ";
+	
+	/**
+	 * "OBJET METIER A MODIFIER : ".<br/>
+	 */
+	public static final String OBJET_METIER_A_MODIFIER 
+		= "OBJET METIER A MODIFIER : ";
+	
+	/**
+	 * "OBJET METIER A MODIFIER : NULL".<br/>
+	 */
+	public static final String OBJET_METIER_A_MODIFIER_NULL 
+		= "OBJET METIER A MODIFIER : NULL";
+
+	/**
+	 * "ID DE L'OBJET A MODIFIER : ".<br/>
+	 */
+	public static final String ID_OBJET_A_MODIFIER 
+		= "ID DE L'OBJET A MODIFIER : ";
+	
+	/**
+	 * "ID DE L'OBJET A MODIFIER : NULL".<br/>
+	 */
+	public static final String ID_OBJET_A_MODIFIER_NULL 
+		= "ID DE L'OBJET A MODIFIER : NULL";
+	
 	 /**
 	 * objet CORRECT à créer dans le stockage 
 	 * pour la méthode remplirStockage() .<br/>
@@ -476,7 +681,7 @@ public class ContactSimpleDaoJAXBTest {
 	/**
 	 * objet CORRECT à créer dans le stockage 
 	 * pour les tests creation.<br/>
-	 * Ne doit pas causer de doublon
+	 * Ne doit pas causer de doublon avec les objetRemplirStockage.
 	 */
 	public static transient IContactSimple objetACreer1 
 		= new ContactSimple(
@@ -492,7 +697,7 @@ public class ContactSimpleDaoJAXBTest {
 	/**
 	 * objet CORRECT à créer dans le stockage 
 	 * pour les tests creation.<br/>
-	 * Ne doit pas causer de doublon
+	 * Ne doit pas causer de doublon avec les objetRemplirStockage.
 	 */
 	public static transient IContactSimple objetACreer2 
 		= new ContactSimple(
@@ -576,7 +781,7 @@ public class ContactSimpleDaoJAXBTest {
 	 * Objet Inexistant dans le stockage.
 	 */
 	public static transient IContactSimple objetInexistant 
-	= new ContactSimple("prenomInexistant", "nomInexistant"
+		= new ContactSimple("prenomInexistant", "nomInexistant"
 			, "rue1Inexistant"
 			, "rue2Inexistant"
 			, "codePostalInexistant", "villeInexistant"
@@ -585,6 +790,38 @@ public class ContactSimpleDaoJAXBTest {
 			, "mail inexistant"
 			, LocalDate.of(1940, 9, 3));
 
+	
+	/**
+	 * Objet modifiant objetRemplirStockage1 
+	 * sans toucher à son id et sans créer 
+	 * de doublon dans le stockage.<br/>
+	 */
+	public static transient IContactSimple objetModifieCorrect
+		= new ContactSimple(
+			"Horace modifié", "Silver modifié"
+			, "17, rue de la Plomberie"
+			, null
+			, "73 698", "Chambéry"
+			, FRANCE
+			, "04 79 85 54 63"
+			, "horace.silver@free.fr"
+			, LocalDate.of(1950, 1, 17));
+	
+	/**
+	 * Objet modifiant objetRemplirStockage2 
+	 * sans toucher à son id et créant 
+	 * un doublon avec objetRemplirStockage1 dans le stockage.<br/>
+	 */
+	public static transient IContactSimple objetModifieDoublon
+		= new ContactSimple(
+			"Horace", "Silver"
+			, "7, avenue des Zozos"
+			, "Bâtiment les Etoiles"
+			, "75 001", "Paris"
+			, FRANCE
+			, "01 44 85 54 63"
+			, "johnny.halliday@free.fr"
+			, LocalDate.of(1950, 1, 17));
 	
 	/**
 	 * LOG : Log : 
@@ -815,7 +1052,7 @@ public class ContactSimpleDaoJAXBTest {
 	 * </ul>
 	 * @throws Exception 
 	 */
-	@SuppressWarnings("unused")
+	@SuppressWarnings(UNUSED)
 	@Test
 	public void testCreate() throws Exception {
 				
@@ -887,13 +1124,13 @@ public class ContactSimpleDaoJAXBTest {
 			
 			if (AFFICHAGE_GENERAL && affichage) {
 				System.out.println();
-				System.out.println("LISTE D'OBJETS APRES CREATE : ");
+				System.out.println(LISTE_OBJETS_APRES_CREATE);
 				System.out.println(dao.afficherListeObjetsMetier(objetsFinaux));
 				this.afficherNbreObjetsFinal(nombreObjetsFinal);
 			}
 						
 			/* garantit que create rajoute l'objet métier dans le stockage. */
-			assertEquals("nombreObjetsFinal vaut nombreObjetsInitial + 1 : "
+			assertEquals(FINAL_VAUT_INITIAL_PLUS_1
 					, nombreObjetsFinal
 						, Long.valueOf(nombreObjetsInitial + 1));
 
@@ -917,7 +1154,7 @@ public class ContactSimpleDaoJAXBTest {
 	 * </ul>
 	 * @throws Exception 
 	 */
-	@SuppressWarnings("unused")
+	@SuppressWarnings(UNUSED)
 	@Test
 	public void testCreateDoublon() throws Exception {
 				
@@ -967,11 +1204,11 @@ public class ContactSimpleDaoJAXBTest {
 			this.afficherNbreObjetsInitial(nombreObjetsInitial);
 			
 			System.out.println();
-			System.out.println("LISTE D'OBJETS METIER A CREER : ");
-			System.out.println("objet1 : " + objet1.toString());
-			System.out.println("objet1MemeInstance : " + objet1MemeInstance.toString());
-			System.out.println("objet2EqualsObj1 : " + objet2EqualsObj1.toString());
-			System.out.println("objet3EqualsObj1 : " + objet3EqualsObj1.toString());
+			System.out.println(LISTE_OBJETS_METIER_A_CREER);
+			System.out.println(OBJET1 + objet1.toString());
+			System.out.println(OBJET1_MEME_INSTANCE + objet1MemeInstance.toString());
+			System.out.println(OBJET2_EQUALS_OBJET1 + objet2EqualsObj1.toString());
+			System.out.println(OBJET3_EQUALS_OBJET1 + objet3EqualsObj1.toString());
 		}
 		
 		try {
@@ -1043,14 +1280,14 @@ public class ContactSimpleDaoJAXBTest {
 			
 			if (AFFICHAGE_GENERAL && affichage) {
 				System.out.println();
-				System.out.println("LISTE D'OBJETS APRES CREATE : ");
+				System.out.println(LISTE_OBJETS_APRES_CREATE);
 				System.out.println(dao.afficherListeObjetsMetier(objetsFinaux));
 				this.afficherNbreObjetsFinal(nombreObjetsFinal);
 			}
 						
 			/* garantit que create rajoute l'objet métier dans le stockage. */
 			/* garantit que create(Doublon) ne rajoute rien dans le stockage. */
-			assertEquals("nombreObjetsFinal vaut nombreObjetsInitial + 1 : "
+			assertEquals(FINAL_VAUT_INITIAL_PLUS_1
 					, nombreObjetsFinal
 						, Long.valueOf(nombreObjetsInitial + 1));
 
@@ -1247,7 +1484,7 @@ public class ContactSimpleDaoJAXBTest {
 	 * </ul>
 	 * @throws Exception 
 	 */
-	@SuppressWarnings("unused")
+	@SuppressWarnings(UNUSED)
 	@Test
 	public void testPersist() throws Exception {
 				
@@ -1314,7 +1551,7 @@ public class ContactSimpleDaoJAXBTest {
 			}
 						
 			/* garantit que persist rajoute l'objet métier dans le stockage. */
-			assertEquals("nombreObjetsFinal vaut nombreObjetsInitial + 1 : "
+			assertEquals(FINAL_VAUT_INITIAL_PLUS_1
 					, nombreObjetsFinal
 						, Long.valueOf(nombreObjetsInitial + 1));
 
@@ -1337,7 +1574,7 @@ public class ContactSimpleDaoJAXBTest {
 	 * </ul>
 	 * @throws Exception 
 	 */
-	@SuppressWarnings("unused")
+	@SuppressWarnings(UNUSED)
 	@Test
 	public void testPersistDoublon() throws Exception {
 				
@@ -1382,11 +1619,11 @@ public class ContactSimpleDaoJAXBTest {
 			this.afficherNbreObjetsInitial(nombreObjetsInitial);
 			
 			System.out.println();
-			System.out.println("LISTE D'OBJETS METIER A CREER : ");
-			System.out.println("objet1 : " + objet1.toString());
-			System.out.println("objet1MemeInstance : " + objet1MemeInstance.toString());
-			System.out.println("objet2EqualsObj1 : " + objet2EqualsObj1.toString());
-			System.out.println("objet3EqualsObj1 : " + objet3EqualsObj1.toString());
+			System.out.println(LISTE_OBJETS_METIER_A_CREER);
+			System.out.println(OBJET1 + objet1.toString());
+			System.out.println(OBJET1_MEME_INSTANCE + objet1MemeInstance.toString());
+			System.out.println(OBJET2_EQUALS_OBJET1 + objet2EqualsObj1.toString());
+			System.out.println(OBJET3_EQUALS_OBJET1 + objet3EqualsObj1.toString());
 		}
 		
 		try {
@@ -1414,7 +1651,7 @@ public class ContactSimpleDaoJAXBTest {
 						
 			/* garantit que persist rajoute l'objet métier dans le stockage. */
 			/* garantit que persist(Doublon) ne rajoute rien dans le stockage. */
-			assertEquals("nombreObjetsFinal vaut nombreObjetsInitial + 1 : "
+			assertEquals(FINAL_VAUT_INITIAL_PLUS_1
 					, nombreObjetsFinal
 						, Long.valueOf(nombreObjetsInitial + 1));
 
@@ -1640,7 +1877,7 @@ public class ContactSimpleDaoJAXBTest {
 	 * </ul>
 	 * @throws Exception 
 	 */
-	@SuppressWarnings("unused")
+	@SuppressWarnings(UNUSED)
 	@Test
 	public void testCreateReturnId() throws Exception {
 				
@@ -1712,13 +1949,13 @@ public class ContactSimpleDaoJAXBTest {
 			
 			if (AFFICHAGE_GENERAL && affichage) {
 				System.out.println();
-				System.out.println("LISTE D'OBJETS APRES CREATE : ");
+				System.out.println(LISTE_OBJETS_APRES_CREATE);
 				System.out.println(dao.afficherListeObjetsMetier(objetsFinaux));
 				this.afficherNbreObjetsFinal(nombreObjetsFinal);
 			}
 						
 			/* garantit que createReturnId rajoute l'objet métier dans le stockage. */
-			assertEquals("nombreObjetsFinal vaut nombreObjetsInitial + 1 : "
+			assertEquals(FINAL_VAUT_INITIAL_PLUS_1
 					, nombreObjetsFinal
 						, Long.valueOf(nombreObjetsInitial + 1));
 
@@ -1742,7 +1979,7 @@ public class ContactSimpleDaoJAXBTest {
 	 * </ul>
 	 * @throws Exception 
 	 */
-	@SuppressWarnings("unused")
+	@SuppressWarnings(UNUSED)
 	@Test
 	public void testCreateReturnIdDoublon() throws Exception {
 				
@@ -1792,11 +2029,11 @@ public class ContactSimpleDaoJAXBTest {
 			this.afficherNbreObjetsInitial(nombreObjetsInitial);
 			
 			System.out.println();
-			System.out.println("LISTE D'OBJETS METIER A CREER : ");
-			System.out.println("objet1 : " + objet1.toString());
-			System.out.println("objet1MemeInstance : " + objet1MemeInstance.toString());
-			System.out.println("objet2EqualsObj1 : " + objet2EqualsObj1.toString());
-			System.out.println("objet3EqualsObj1 : " + objet3EqualsObj1.toString());
+			System.out.println(LISTE_OBJETS_METIER_A_CREER);
+			System.out.println(OBJET1 + objet1.toString());
+			System.out.println(OBJET1_MEME_INSTANCE + objet1MemeInstance.toString());
+			System.out.println(OBJET2_EQUALS_OBJET1 + objet2EqualsObj1.toString());
+			System.out.println(OBJET3_EQUALS_OBJET1 + objet3EqualsObj1.toString());
 		}
 		
 		try {
@@ -1873,14 +2110,14 @@ public class ContactSimpleDaoJAXBTest {
 			
 			if (AFFICHAGE_GENERAL && affichage) {
 				System.out.println();
-				System.out.println("LISTE D'OBJETS APRES CREATE : ");
+				System.out.println(LISTE_OBJETS_APRES_CREATE);
 				System.out.println(dao.afficherListeObjetsMetier(objetsFinaux));
 				this.afficherNbreObjetsFinal(nombreObjetsFinal);
 			}
 						
 			/* garantit que createReturnId rajoute l'objet métier dans le stockage. */
 			/* garantit que createReturnId(Doublon) ne rajoute rien dans le stockage. */
-			assertEquals("nombreObjetsFinal vaut nombreObjetsInitial + 1 : "
+			assertEquals(FINAL_VAUT_INITIAL_PLUS_1
 					, nombreObjetsFinal
 						, Long.valueOf(nombreObjetsInitial + 1));
 
@@ -1975,11 +2212,11 @@ public class ContactSimpleDaoJAXBTest {
 				
 				System.out.println();
 				if (listVraimentNull1Persistant != null) {
-					System.out.println("LISTE D'OBJETS PERSISTES : ");
+					System.out.println(LISTE_OBJETS_PERSISTES);
 					System.out.println(this.afficherListeObjetsMetier(
 									listVraimentNull1Persistant));
 				} else {
-					System.out.println("LISTE D'OBJETS PERSISTES : NULL");
+					System.out.println(LISTE_OBJETS_PERSISTES_NULL);
 				}
 					
 				this.afficherNbreObjetsFinal(nombreObjetsFinal);
@@ -2067,7 +2304,7 @@ public class ContactSimpleDaoJAXBTest {
 			this.afficherNbreObjetsInitial(nombreObjetsInitial);
 			
 			System.out.println();
-			System.out.println("LISTE D'OBJETS METIER A CREER : ");
+			System.out.println(LISTE_OBJETS_METIER_A_CREER);
 			System.out.println("objetNull1 : " + objetNull1.toString());
 			System.out.println("objetNull2 : " + objetNull2.toString());
 		}
@@ -2093,11 +2330,11 @@ public class ContactSimpleDaoJAXBTest {
 				
 				System.out.println();
 				if (listAvecNull1Persistant != null) {
-					System.out.println("LISTE D'OBJETS PERSISTES : ");
+					System.out.println(LISTE_OBJETS_PERSISTES);
 					System.out.println(this.afficherListeObjetsMetier(
 									listAvecNull1Persistant));
 				} else {
-					System.out.println("LISTE D'OBJETS PERSISTES : NULL");
+					System.out.println(LISTE_OBJETS_PERSISTES_NULL);
 				}
 					
 				this.afficherNbreObjetsFinal(nombreObjetsFinal);
@@ -2190,7 +2427,7 @@ public class ContactSimpleDaoJAXBTest {
 			this.afficherNbreObjetsInitial(nombreObjetsInitial);
 			
 			System.out.println();
-			System.out.println("LISTE D'OBJETS METIER A CREER : ");
+			System.out.println(LISTE_OBJETS_METIER_A_CREER);
 			System.out.println("objetACreer1 : " + objetACreer1.toString());
 			System.out.println("objetACreer2 : " + objetACreer2.toString());
 		}
@@ -2216,11 +2453,11 @@ public class ContactSimpleDaoJAXBTest {
 				
 				System.out.println();
 				if (list1Persistante != null) {
-					System.out.println("LISTE D'OBJETS PERSISTES : ");
+					System.out.println(LISTE_OBJETS_PERSISTES);
 					System.out.println(this.afficherListeObjetsMetier(
 									list1Persistante));
 				} else {
-					System.out.println("LISTE D'OBJETS PERSISTES : NULL");
+					System.out.println(LISTE_OBJETS_PERSISTES_NULL);
 				}
 					
 				this.afficherNbreObjetsFinal(nombreObjetsFinal);
@@ -2315,11 +2552,11 @@ public class ContactSimpleDaoJAXBTest {
 			this.afficherNbreObjetsInitial(nombreObjetsInitial);
 			
 			System.out.println();
-			System.out.println("LISTE D'OBJETS METIER A CREER : ");
-			System.out.println("objet1 : " + objet1.toString());
-			System.out.println("objet1MemeInstance : " + objet1MemeInstance.toString());
-			System.out.println("objet2EqualsObj1 : " + objet2EqualsObj1.toString());
-			System.out.println("objet3EqualsObj1 : " + objet3EqualsObj1.toString());
+			System.out.println(LISTE_OBJETS_METIER_A_CREER);
+			System.out.println(OBJET1 + objet1.toString());
+			System.out.println(OBJET1_MEME_INSTANCE + objet1MemeInstance.toString());
+			System.out.println(OBJET2_EQUALS_OBJET1 + objet2EqualsObj1.toString());
+			System.out.println(OBJET3_EQUALS_OBJET1 + objet3EqualsObj1.toString());
 		}
 		
 		try {
@@ -2343,11 +2580,11 @@ public class ContactSimpleDaoJAXBTest {
 				
 				System.out.println();
 				if (list1Persistante != null) {
-					System.out.println("LISTE D'OBJETS PERSISTES : ");
+					System.out.println(LISTE_OBJETS_PERSISTES);
 					System.out.println(this.afficherListeObjetsMetier(
 									list1Persistante));
 				} else {
-					System.out.println("LISTE D'OBJETS PERSISTES : NULL");
+					System.out.println(LISTE_OBJETS_PERSISTES_NULL);
 				}
 					
 				this.afficherNbreObjetsFinal(nombreObjetsFinal);
@@ -2440,8 +2677,8 @@ public class ContactSimpleDaoJAXBTest {
 		/* AFFICHAGE A LA CONSOLE. */
 		if (AFFICHAGE_GENERAL && affichage) {
 			System.out.println();
-			System.out.println("OBJET METIER A RECHERCHER : ");
-			System.out.println("objetARechercher1 : NULL");
+			System.out.println(OBJET_METIER_A_RECHERCHER);
+			System.out.println(OBJET_A_RECHERCHER1_NULL);
 
 		}
 
@@ -2455,11 +2692,11 @@ public class ContactSimpleDaoJAXBTest {
 
 			if (AFFICHAGE_GENERAL && affichage) {
 				System.out.println();
-				System.out.println("OBJET PERSISTANT TROUVE : ");
+				System.out.println(OBJET_PERSISTANT_TROUVE);
 				if (objetPersisteTrouve1 != null) {
-					System.out.println("objetPersisteTrouve1 : " + objetPersisteTrouve1.toString());
+					System.out.println(OBJET_PERSISTE_TROUVE1 + objetPersisteTrouve1.toString());
 				} else {
-					System.out.println("objetPersisteTrouve1 : NULL");
+					System.out.println(OBJET_PERSISTE_TROUVE_NULL);
 				}
 			}
 			
@@ -2555,11 +2792,11 @@ public class ContactSimpleDaoJAXBTest {
 		/* AFFICHAGE A LA CONSOLE. */
 		if (AFFICHAGE_GENERAL && affichage) {
 			System.out.println();
-			System.out.println("OBJET METIER A RECHERCHER : ");
+			System.out.println(OBJET_METIER_A_RECHERCHER);
 			if (objetARechercher1 != null) {
-				System.out.println("objetARechercher1 : " + objetARechercher1.toString());
+				System.out.println(OBJET_A_RECHERCHER1 + objetARechercher1.toString());
 			} else {
-				System.out.println("objetARechercher1 : NULL");
+				System.out.println(OBJET_A_RECHERCHER1_NULL);
 			}
 		}
 
@@ -2573,11 +2810,11 @@ public class ContactSimpleDaoJAXBTest {
 
 			if (AFFICHAGE_GENERAL && affichage) {
 				System.out.println();
-				System.out.println("OBJET PERSISTANT TROUVE : ");
+				System.out.println(OBJET_PERSISTANT_TROUVE);
 				if (objetPersisteTrouve1 != null) {
-					System.out.println("objetPersisteTrouve1 : " + objetPersisteTrouve1.toString());
+					System.out.println(OBJET_PERSISTE_TROUVE1 + objetPersisteTrouve1.toString());
 				} else {
-					System.out.println("objetPersisteTrouve1 : NULL");
+					System.out.println(OBJET_PERSISTE_TROUVE_NULL);
 				}
 			}
 			
@@ -2673,11 +2910,11 @@ public class ContactSimpleDaoJAXBTest {
 		/* AFFICHAGE A LA CONSOLE. */
 		if (AFFICHAGE_GENERAL && affichage) {
 			System.out.println();
-			System.out.println("OBJET METIER A RECHERCHER : ");
+			System.out.println(OBJET_METIER_A_RECHERCHER);
 			if (objetARechercher1 != null) {
-				System.out.println("objetARechercher1 : " + objetARechercher1.toString());
+				System.out.println(OBJET_A_RECHERCHER1 + objetARechercher1.toString());
 			} else {
-				System.out.println("objetARechercher1 : NULL");
+				System.out.println(OBJET_A_RECHERCHER1_NULL);
 			}
 		}
 
@@ -2691,11 +2928,11 @@ public class ContactSimpleDaoJAXBTest {
 
 			if (AFFICHAGE_GENERAL && affichage) {
 				System.out.println();
-				System.out.println("OBJET PERSISTANT TROUVE : ");
+				System.out.println(OBJET_PERSISTANT_TROUVE);
 				if (objetPersisteTrouve1 != null) {
-					System.out.println("objetPersisteTrouve1 : " + objetPersisteTrouve1.toString());
+					System.out.println(OBJET_PERSISTE_TROUVE1 + objetPersisteTrouve1.toString());
 				} else {
-					System.out.println("objetPersisteTrouve1 : NULL");
+					System.out.println(OBJET_PERSISTE_TROUVE_NULL);
 				}
 			}
 			
@@ -2792,11 +3029,11 @@ public class ContactSimpleDaoJAXBTest {
 		/* AFFICHAGE A LA CONSOLE. */
 		if (AFFICHAGE_GENERAL && affichage) {
 			System.out.println();
-			System.out.println("OBJET METIER A RECHERCHER : ");
+			System.out.println(OBJET_METIER_A_RECHERCHER);
 			if (objetARechercher1 != null) {
-				System.out.println("objetARechercher1 : " + objetARechercher1.toString());
+				System.out.println(OBJET_A_RECHERCHER1 + objetARechercher1.toString());
 			} else {
-				System.out.println("objetARechercher1 : NULL");
+				System.out.println(OBJET_A_RECHERCHER1_NULL);
 			}
 		}
 
@@ -2810,11 +3047,11 @@ public class ContactSimpleDaoJAXBTest {
 
 			if (AFFICHAGE_GENERAL && affichage) {
 				System.out.println();
-				System.out.println("OBJET PERSISTANT TROUVE : ");
+				System.out.println(OBJET_PERSISTANT_TROUVE);
 				if (objetPersisteTrouve1 != null) {
-					System.out.println("objetPersisteTrouve1 : " + objetPersisteTrouve1.toString());
+					System.out.println(OBJET_PERSISTE_TROUVE1 + objetPersisteTrouve1.toString());
 				} else {
-					System.out.println("objetPersisteTrouve1 : NULL");
+					System.out.println(OBJET_PERSISTE_TROUVE_NULL);
 				}
 			}
 			
@@ -2931,11 +3168,11 @@ public class ContactSimpleDaoJAXBTest {
 
 			if (AFFICHAGE_GENERAL && affichage) {
 				System.out.println();
-				System.out.println("OBJET PERSISTANT TROUVE : ");
+				System.out.println(OBJET_PERSISTANT_TROUVE);
 				if (objetPersisteTrouve1 != null) {
-					System.out.println("objetPersisteTrouve1 : " + objetPersisteTrouve1.toString());
+					System.out.println(OBJET_PERSISTE_TROUVE1 + objetPersisteTrouve1.toString());
 				} else {
-					System.out.println("objetPersisteTrouve1 : NULL");
+					System.out.println(OBJET_PERSISTE_TROUVE_NULL);
 				}
 			}
 			
@@ -3045,11 +3282,11 @@ public class ContactSimpleDaoJAXBTest {
 
 			if (AFFICHAGE_GENERAL && affichage) {
 				System.out.println();
-				System.out.println("OBJET PERSISTANT TROUVE : ");
+				System.out.println(OBJET_PERSISTANT_TROUVE);
 				if (objetPersisteTrouve1 != null) {
-					System.out.println("objetPersisteTrouve1 : " + objetPersisteTrouve1.toString());
+					System.out.println(OBJET_PERSISTE_TROUVE1 + objetPersisteTrouve1.toString());
 				} else {
-					System.out.println("objetPersisteTrouve1 : NULL");
+					System.out.println(OBJET_PERSISTE_TROUVE_NULL);
 				}
 			}
 			
@@ -3160,11 +3397,11 @@ public class ContactSimpleDaoJAXBTest {
 
 			if (AFFICHAGE_GENERAL && affichage) {
 				System.out.println();
-				System.out.println("OBJET PERSISTANT TROUVE : ");
+				System.out.println(OBJET_PERSISTANT_TROUVE);
 				if (objetPersisteTrouve1 != null) {
-					System.out.println("objetPersisteTrouve1 : " + objetPersisteTrouve1.toString());
+					System.out.println(OBJET_PERSISTE_TROUVE1 + objetPersisteTrouve1.toString());
 				} else {
-					System.out.println("objetPersisteTrouve1 : NULL");
+					System.out.println(OBJET_PERSISTE_TROUVE_NULL);
 				}
 			}
 			
@@ -3261,8 +3498,8 @@ public class ContactSimpleDaoJAXBTest {
 		/* AFFICHAGE A LA CONSOLE. */
 		if (AFFICHAGE_GENERAL && affichage) {
 			System.out.println();
-			System.out.println("OBJET METIER A RECHERCHER : ");
-			System.out.println("objetARechercher1 : NULL");
+			System.out.println(OBJET_METIER_A_RECHERCHER);
+			System.out.println(OBJET_A_RECHERCHER1_NULL);
 
 		}
 
@@ -3276,11 +3513,11 @@ public class ContactSimpleDaoJAXBTest {
 
 			if (AFFICHAGE_GENERAL && affichage) {
 				System.out.println();
-				System.out.println("ID DE L'OBJET PERSISTANT TROUVE : ");
+				System.out.println(ID_OBJET_PERSISTANT_TROUVE);
 				if (objetPersisteTrouve1Id != null) {
-					System.out.println("objetPersisteTrouve1Id : " + objetPersisteTrouve1Id.toString());
+					System.out.println(OBJET_PERSISTE_TROUVE1_ID + objetPersisteTrouve1Id.toString());
 				} else {
-					System.out.println("objetPersisteTrouve1Id : NULL");
+					System.out.println(OBJET_PERSISTE_TROUVE1_ID_NULL);
 				}
 			}
 			
@@ -3376,11 +3613,11 @@ public class ContactSimpleDaoJAXBTest {
 		/* AFFICHAGE A LA CONSOLE. */
 		if (AFFICHAGE_GENERAL && affichage) {
 			System.out.println();
-			System.out.println("OBJET METIER A RECHERCHER : ");
+			System.out.println(OBJET_METIER_A_RECHERCHER);
 			if (objetARechercher1 != null) {
-				System.out.println("objetARechercher1 : " + objetARechercher1.toString());
+				System.out.println(OBJET_A_RECHERCHER1 + objetARechercher1.toString());
 			} else {
-				System.out.println("objetARechercher1 : NULL");
+				System.out.println(OBJET_A_RECHERCHER1_NULL);
 			}
 		}
 
@@ -3394,11 +3631,11 @@ public class ContactSimpleDaoJAXBTest {
 
 			if (AFFICHAGE_GENERAL && affichage) {
 				System.out.println();
-				System.out.println("ID DE L'OBJET PERSISTANT TROUVE : ");
+				System.out.println(ID_OBJET_PERSISTANT_TROUVE);
 				if (objetPersisteTrouve1Id != null) {
-					System.out.println("objetPersisteTrouve1Id : " + objetPersisteTrouve1Id.toString());
+					System.out.println(OBJET_PERSISTE_TROUVE1_ID + objetPersisteTrouve1Id.toString());
 				} else {
-					System.out.println("objetPersisteTrouve1Id : NULL");
+					System.out.println(OBJET_PERSISTE_TROUVE1_ID_NULL);
 				}
 			}
 			
@@ -3494,11 +3731,11 @@ public class ContactSimpleDaoJAXBTest {
 		/* AFFICHAGE A LA CONSOLE. */
 		if (AFFICHAGE_GENERAL && affichage) {
 			System.out.println();
-			System.out.println("OBJET METIER A RECHERCHER : ");
+			System.out.println(OBJET_METIER_A_RECHERCHER);
 			if (objetARechercher1 != null) {
-				System.out.println("objetARechercher1 : " + objetARechercher1.toString());
+				System.out.println(OBJET_A_RECHERCHER1 + objetARechercher1.toString());
 			} else {
-				System.out.println("objetARechercher1 : NULL");
+				System.out.println(OBJET_A_RECHERCHER1_NULL);
 			}
 		}
 
@@ -3512,11 +3749,11 @@ public class ContactSimpleDaoJAXBTest {
 
 			if (AFFICHAGE_GENERAL && affichage) {
 				System.out.println();
-				System.out.println("ID DE L'OBJET PERSISTANT TROUVE : ");
+				System.out.println(ID_OBJET_PERSISTANT_TROUVE);
 				if (objetPersisteTrouve1Id != null) {
-					System.out.println("objetPersisteTrouve1Id : " + objetPersisteTrouve1Id.toString());
+					System.out.println(OBJET_PERSISTE_TROUVE1_ID + objetPersisteTrouve1Id.toString());
 				} else {
-					System.out.println("objetPersisteTrouve1Id : NULL");
+					System.out.println(OBJET_PERSISTE_TROUVE1_ID_NULL);
 				}
 			}
 			
@@ -3613,11 +3850,11 @@ public class ContactSimpleDaoJAXBTest {
 		/* AFFICHAGE A LA CONSOLE. */
 		if (AFFICHAGE_GENERAL && affichage) {
 			System.out.println();
-			System.out.println("OBJET METIER A RECHERCHER : ");
+			System.out.println(OBJET_METIER_A_RECHERCHER);
 			if (objetARechercher1 != null) {
-				System.out.println("objetARechercher1 : " + objetARechercher1.toString());
+				System.out.println(OBJET_A_RECHERCHER1 + objetARechercher1.toString());
 			} else {
-				System.out.println("objetARechercher1 : NULL");
+				System.out.println(OBJET_A_RECHERCHER1_NULL);
 			}
 		}
 
@@ -3631,11 +3868,11 @@ public class ContactSimpleDaoJAXBTest {
 
 			if (AFFICHAGE_GENERAL && affichage) {
 				System.out.println();
-				System.out.println("ID DE L'OBJET PERSISTANT TROUVE : ");
+				System.out.println(ID_OBJET_PERSISTANT_TROUVE);
 				if (objetPersisteTrouve1Id != null) {
-					System.out.println("objetPersisteTrouve1Id : " + objetPersisteTrouve1Id.toString());
+					System.out.println(OBJET_PERSISTE_TROUVE1_ID + objetPersisteTrouve1Id.toString());
 				} else {
-					System.out.println("objetPersisteTrouve1Id : NULL");
+					System.out.println(OBJET_PERSISTE_TROUVE1_ID_NULL);
 				}
 			}
 			
@@ -3728,7 +3965,7 @@ public class ContactSimpleDaoJAXBTest {
 				this.afficherNbreObjetsFinal(nombreObjetsFinal);
 			}
 
-			assertEquals("findAll() doit retourner 4 enregistrements : "
+			assertEquals(FINDALL_DOIT_RETOURNER_4_ENREGISTREMENTS
 					, Long.valueOf(4L)
 						, nombreObjetsFinal);
 			
@@ -3815,7 +4052,7 @@ public class ContactSimpleDaoJAXBTest {
 			/* AFFICHAGE A LA CONSOLE. */
 			if (AFFICHAGE_GENERAL && affichage) {
 				System.out.println();
-				System.out.println("OBJETS TROUVES : ");
+				System.out.println(OBJETS_TROUVES);
 				System.out.println(dao.afficherListeObjetsMetier(resultat));
 			}
 
@@ -3838,7 +4075,7 @@ public class ContactSimpleDaoJAXBTest {
 			}
 
 			assertEquals(
-					"findAll() doit retourner 4 enregistrements : "
+					FINDALL_DOIT_RETOURNER_4_ENREGISTREMENTS
 						, Long.valueOf(4L)
 							, nombreObjetsFinal);
 
@@ -3926,7 +4163,7 @@ public class ContactSimpleDaoJAXBTest {
 			/* AFFICHAGE A LA CONSOLE. */
 			if (AFFICHAGE_GENERAL && affichage) {
 				System.out.println();
-				System.out.println("OBJETS TROUVES : ");
+				System.out.println(OBJETS_TROUVES);
 				System.out.println(dao.afficherListeObjetsMetier(resultat));
 			}
 
@@ -3955,7 +4192,7 @@ public class ContactSimpleDaoJAXBTest {
 			}
 
 			assertEquals(
-					"findAll() doit retourner 4 enregistrements : "
+					FINDALL_DOIT_RETOURNER_4_ENREGISTREMENTS
 						, Long.valueOf(4L)
 							, nombreObjetsFinal);
 
@@ -4040,7 +4277,7 @@ public class ContactSimpleDaoJAXBTest {
 			if (AFFICHAGE_GENERAL && affichage) {
 				System.out.println();
 				if (resultat != null) {
-					System.out.println("OBJETS TROUVES : " + dao.afficherListeObjetsMetier(resultat));
+					System.out.println(OBJETS_TROUVES + dao.afficherListeObjetsMetier(resultat));
 				} else {
 					System.out.println("OBJETS TROUVES : NULL");
 				}				
@@ -4066,7 +4303,7 @@ public class ContactSimpleDaoJAXBTest {
 			}
 
 			assertEquals(
-					"findAll() doit retourner 4 enregistrements : "
+					FINDALL_DOIT_RETOURNER_4_ENREGISTREMENTS
 						, Long.valueOf(4L)
 							, nombreObjetsFinal);
 
@@ -4162,7 +4399,7 @@ public class ContactSimpleDaoJAXBTest {
 			if (AFFICHAGE_GENERAL && affichage) {
 				System.out.println();
 				if (resultat != null) {
-					System.out.println("OBJETS TROUVES : ");
+					System.out.println(OBJETS_TROUVES);
 					System.out.println(dao.afficherListeObjetsMetier(resultat));
 				} else {
 					System.out.println("OBJETS TROUVES : NULL");
@@ -4190,7 +4427,7 @@ public class ContactSimpleDaoJAXBTest {
 			}
 
 			assertEquals(
-					"findAll() doit retourner 4 enregistrements : "
+					FINDALL_DOIT_RETOURNER_4_ENREGISTREMENTS
 						, Long.valueOf(4L)
 							, nombreObjetsFinal);
 
@@ -4288,7 +4525,7 @@ public class ContactSimpleDaoJAXBTest {
 			if (AFFICHAGE_GENERAL && affichage) {
 				System.out.println();
 				if (resultat != null) {
-					System.out.println("OBJETS TROUVES : ");
+					System.out.println(OBJETS_TROUVES);
 					System.out.println(dao.afficherListeObjetsMetier(resultat));
 				} else {
 					System.out.println("OBJETS TROUVES : NULL");
@@ -4316,7 +4553,7 @@ public class ContactSimpleDaoJAXBTest {
 			}
 
 			assertEquals(
-					"findAll() doit retourner 4 enregistrements : "
+					FINDALL_DOIT_RETOURNER_4_ENREGISTREMENTS
 						, Long.valueOf(4L)
 							, nombreObjetsFinal);
 
@@ -4328,6 +4565,643 @@ public class ContactSimpleDaoJAXBTest {
 		}
 
 	} // Fin de testFindAllIterable()._____________________________________
+	
+
+	
+	@SuppressWarnings(UNUSED)
+	@Test
+	public void testUpdateNull() throws Exception {
+		
+		// **********************************
+		// AFFICHAGE DANS LE TEST ou NON
+		final boolean affichage = false;
+		// **********************************
+
+		/* AFFICHAGE A LA CONSOLE. */
+		if (AFFICHAGE_GENERAL && affichage) {
+			System.out.println("********** CLASSE ContactSimpleDaoJAXBTest - méthode testUpdateNull() ********** ");
+		}
+
+		/* dao NON INJECTE. */
+		if (dao == null) {
+
+			/* AFFICHAGE A LA CONSOLE. */
+			if (AFFICHAGE_GENERAL && affichage) {
+				System.out.println(TEST_UPDATE_NULL);
+				this.afficherDAONonInstancie();
+			}
+
+			return;
+
+		} // Fin de dao NON INJECTE._____________________
+
+		/* vide et remplit le stockage. */
+		this.remplirStockage(false);
+
+		Long nombreObjetsInitial = 0L;
+		Long nombreObjetsFinal = 0L;
+
+		IContactSimple resultat = null;
+		
+		/* récupération. */
+		final List<IContactSimple> objetInitiaux = dao.findAll();
+
+		/* Compte du nombre d'Objets initialement dans le stockage. */
+		nombreObjetsInitial = dao.count();
+
+		/* AFFICHAGE A LA CONSOLE. */
+		if (AFFICHAGE_GENERAL && affichage) {
+			System.out.println("LISTE D'OBJETS AVANT TESTUPDATE(NULL) : ");
+			System.out.println(dao.afficherListeObjetsMetier(objetInitiaux));
+			this.afficherNbreObjetsInitial(nombreObjetsInitial);
+		}
+
+		/* ************************* */
+		// CONDITIONS DE TEST
+		/* ************************* */
+		final IContactSimple objetAModifier = null;
+		
+		/* AFFICHAGE A LA CONSOLE. */
+		if (AFFICHAGE_GENERAL && affichage) {
+			System.out.println();
+			System.out.println(OBJET_METIER_A_MODIFIER_NULL);
+		}
+		
+		
+		try {
+
+			/* ********************************************************* */
+			/* ***********************UPDATE**************************** */
+			resultat = dao.update(objetAModifier);
+			/* ********************************************************* */
+			
+		} catch (AbstractDaoException e) {
+
+			System.out.println(TEST_UPDATE_NULL);
+			this.afficherAbstractDaoException(e);
+
+		}
+				
+	} // Fin de testUpdateNull().__________________________________________
+	
+
+	
+	@SuppressWarnings(UNUSED)
+	@Test
+	public void testUpdateInexistant() throws Exception {
+
+		// **********************************
+		// AFFICHAGE DANS LE TEST ou NON
+		final boolean affichage = false;
+		// **********************************
+
+		/* AFFICHAGE A LA CONSOLE. */
+		if (AFFICHAGE_GENERAL && affichage) {
+			System.out.println("********** CLASSE ContactSimpleDaoJAXBTest - méthode testUpdateInexistant() ********** ");
+		}
+
+		/* dao NON INJECTE. */
+		if (dao == null) {
+
+			/* AFFICHAGE A LA CONSOLE. */
+			if (AFFICHAGE_GENERAL && affichage) {
+				System.out.println(TEST_UPDATE_INEXISTANT);
+				this.afficherDAONonInstancie();
+			}
+
+			return;
+
+		} // Fin de dao NON INJECTE._____________________
+		
+		/* vide et remplit le stockage. */
+		this.remplirStockage(false);
+
+		Long nombreObjetsInitial = 0L;
+		Long nombreObjetsFinal = 0L;
+
+		IContactSimple resultat = null;
+		
+		/* récupération. */
+		final List<IContactSimple> objetInitiaux = dao.findAll();
+
+		/* Compte du nombre d'Objets initialement dans le stockage. */
+		nombreObjetsInitial = dao.count();
+
+		/* AFFICHAGE A LA CONSOLE. */
+		if (AFFICHAGE_GENERAL && affichage) {
+			System.out.println("LISTE D'OBJETS AVANT TESTUPDATE(INEXISTANT) : ");
+			System.out.println(dao.afficherListeObjetsMetier(objetInitiaux));
+			this.afficherNbreObjetsInitial(nombreObjetsInitial);
+		}
+
+		/* ************************* */
+		// CONDITIONS DE TEST
+		/* ************************* */
+		final IContactSimple objetAModifier = objetInexistant;
+
+		/* AFFICHAGE A LA CONSOLE. */
+		if (AFFICHAGE_GENERAL && affichage) {
+			System.out.println();
+			System.out.println(OBJET_METIER_A_MODIFIER + objetAModifier.toString());
+		}
+		
+		
+		try {
+
+			/* ********************************************************* */
+			/* ***********************UPDATE**************************** */
+			resultat = dao.update(objetAModifier);
+			/* ********************************************************* */
+			
+		} catch (AbstractDaoException e) {
+
+			System.out.println(TEST_UPDATE_INEXISTANT);
+			this.afficherAbstractDaoException(e);
+
+		}
+				
+	} // Fin de testUpdateInexistant().____________________________________
+	
+
+	
+	@SuppressWarnings(UNUSED)
+	@Test
+	public void testUpdateDoublon() throws Exception {
+
+		// **********************************
+		// AFFICHAGE DANS LE TEST ou NON
+		final boolean affichage = false;
+		// **********************************
+
+		/* AFFICHAGE A LA CONSOLE. */
+		if (AFFICHAGE_GENERAL && affichage) {
+			System.out.println("********** CLASSE ContactSimpleDaoJAXBTest - méthode testUpdateDoublon() ********** ");
+		}
+
+		/* dao NON INJECTE. */
+		if (dao == null) {
+
+			/* AFFICHAGE A LA CONSOLE. */
+			if (AFFICHAGE_GENERAL && affichage) {
+				System.out.println(TEST_UPDATE_DOUBLON);
+				this.afficherDAONonInstancie();
+			}
+
+			return;
+
+		} // Fin de dao NON INJECTE._____________________
+		
+		/* vide et remplit le stockage. */
+		this.remplirStockage(false);
+
+		Long nombreObjetsInitial = 0L;
+		Long nombreObjetsFinal = 0L;
+
+		IContactSimple resultat = null;
+		
+		/* récupération. */
+		final List<IContactSimple> objetInitiaux = dao.findAll();
+
+		/* Compte du nombre d'Objets initialement dans le stockage. */
+		nombreObjetsInitial = dao.count();
+
+		/* AFFICHAGE A LA CONSOLE. */
+		if (AFFICHAGE_GENERAL && affichage) {
+			System.out.println("LISTE D'OBJETS AVANT TESTUPDATE(DOUBLON) : ");
+			System.out.println(dao.afficherListeObjetsMetier(objetInitiaux));
+			this.afficherNbreObjetsInitial(nombreObjetsInitial);
+		}
+
+		/* ************************* */
+		// CONDITIONS DE TEST
+		/* ************************* */
+		final IContactSimple objetAModifier = objetRemplirStockage1;
+		/* modifier et créer un doublon. */
+		
+		/* AFFICHAGE A LA CONSOLE. */
+		if (AFFICHAGE_GENERAL && affichage) {
+			System.out.println();
+			System.out.println(OBJET_METIER_A_MODIFIER + objetAModifier.toString());
+		}
+		
+		
+		try {
+
+			/* ********************************************************* */
+			/* ***********************UPDATE**************************** */
+			resultat = dao.update(objetAModifier);
+			/* ********************************************************* */
+			
+		} catch (AbstractDaoException e) {
+
+			System.out.println(TEST_UPDATE_DOUBLON);
+			this.afficherAbstractDaoException(e);
+
+		}
+						
+	} // Fin de testUpdateDoublon()._______________________________________
+	
+
+	
+	@SuppressWarnings(UNUSED)
+	@Test
+	public void testUpdate() throws Exception {
+
+		// **********************************
+		// AFFICHAGE DANS LE TEST ou NON
+		final boolean affichage = false;
+		// **********************************
+
+		/* AFFICHAGE A LA CONSOLE. */
+		if (AFFICHAGE_GENERAL && affichage) {
+			System.out.println("********** CLASSE ContactSimpleDaoJAXBTest - méthode testUpdate() ********** ");
+		}
+
+		/* dao NON INJECTE. */
+		if (dao == null) {
+
+			/* AFFICHAGE A LA CONSOLE. */
+			if (AFFICHAGE_GENERAL && affichage) {
+				System.out.println(TEST_UPDATE);
+				this.afficherDAONonInstancie();
+			}
+
+			return;
+
+		} // Fin de dao NON INJECTE._____________________
+		
+		/* vide et remplit le stockage. */
+		this.remplirStockage(false);
+
+		Long nombreObjetsInitial = 0L;
+		Long nombreObjetsFinal = 0L;
+
+		IContactSimple resultat = null;
+		
+		/* récupération. */
+		final List<IContactSimple> objetInitiaux = dao.findAll();
+
+		/* Compte du nombre d'Objets initialement dans le stockage. */
+		nombreObjetsInitial = dao.count();
+
+		/* AFFICHAGE A LA CONSOLE. */
+		if (AFFICHAGE_GENERAL && affichage) {
+			System.out.println("LISTE D'OBJETS AVANT TESTUPDATE() : ");
+			System.out.println(dao.afficherListeObjetsMetier(objetInitiaux));
+			this.afficherNbreObjetsInitial(nombreObjetsInitial);
+		}
+
+		/* ************************* */
+		// CONDITIONS DE TEST
+		/* ************************* */
+		final IContactSimple objetAModifier = objetRemplirStockage1;
+		/* modifier sans créer de doublon. */
+
+		/* AFFICHAGE A LA CONSOLE. */
+		if (AFFICHAGE_GENERAL && affichage) {
+			System.out.println();
+			System.out.println(OBJET_METIER_A_MODIFIER + objetAModifier.toString());
+		}
+		
+		
+		try {
+
+			/* ********************************************************* */
+			/* ***********************UPDATE**************************** */
+			resultat = dao.update(objetAModifier);
+			/* ********************************************************* */
+			
+		} catch (AbstractDaoException e) {
+
+			System.out.println(TEST_UPDATE);
+			this.afficherAbstractDaoException(e);
+
+		}
+				
+	} // Fin de testUpdate().______________________________________________
+	
+
+	
+	@SuppressWarnings(UNUSED)
+	@Test
+	public void testUpdateIdNull() throws Exception {
+
+		// **********************************
+		// AFFICHAGE DANS LE TEST ou NON
+		final boolean affichage = false;
+		// **********************************
+
+		/* AFFICHAGE A LA CONSOLE. */
+		if (AFFICHAGE_GENERAL && affichage) {
+			System.out.println("********** CLASSE ContactSimpleDaoJAXBTest - méthode testUpdateIdNull() ********** ");
+		}
+
+		/* dao NON INJECTE. */
+		if (dao == null) {
+
+			/* AFFICHAGE A LA CONSOLE. */
+			if (AFFICHAGE_GENERAL && affichage) {
+				System.out.println(TEST_UPDATEID_NULL);
+				this.afficherDAONonInstancie();
+			}
+
+			return;
+
+		} // Fin de dao NON INJECTE._____________________
+		
+		/* vide et remplit le stockage. */
+		this.remplirStockage(false);
+
+		Long nombreObjetsInitial = 0L;
+		Long nombreObjetsFinal = 0L;
+
+		IContactSimple resultat = null;
+		
+		/* récupération. */
+		final List<IContactSimple> objetInitiaux = dao.findAll();
+
+		/* Compte du nombre d'Objets initialement dans le stockage. */
+		nombreObjetsInitial = dao.count();
+
+		/* AFFICHAGE A LA CONSOLE. */
+		if (AFFICHAGE_GENERAL && affichage) {
+			System.out.println("LISTE D'OBJETS AVANT TESTUPDATEID(NULL) : ");
+			System.out.println(dao.afficherListeObjetsMetier(objetInitiaux));
+			this.afficherNbreObjetsInitial(nombreObjetsInitial);
+		}
+
+		/* ************************* */
+		// CONDITIONS DE TEST
+		/* ************************* */
+		final Long idObjetAModifier = null;
+		final IContactSimple objetModifie = objetModifieCorrect;
+
+		/* AFFICHAGE A LA CONSOLE. */
+		if (AFFICHAGE_GENERAL && affichage) {
+			System.out.println();
+			System.out.println(ID_OBJET_A_MODIFIER_NULL);
+			System.out.println(OBJET_METIER_A_MODIFIER + objetModifie.toString());
+		}
+		
+		
+		try {
+
+			/* ********************************************************* */
+			/* **********************UPDATEID*************************** */
+			resultat = dao.update(idObjetAModifier, objetModifie);
+			/* ********************************************************* */
+			
+		} catch (AbstractDaoException e) {
+
+			System.out.println(TEST_UPDATEID_NULL);
+			this.afficherAbstractDaoException(e);
+
+		}
+				
+	} // Fin de testUpdateIdNull().________________________________________
+	
+
+	
+	@SuppressWarnings(UNUSED)
+	@Test
+	public void testUpdateIdInexistant() throws Exception {
+
+		// **********************************
+		// AFFICHAGE DANS LE TEST ou NON
+		final boolean affichage = false;
+		// **********************************
+
+		/* AFFICHAGE A LA CONSOLE. */
+		if (AFFICHAGE_GENERAL && affichage) {
+			System.out.println("********** CLASSE ContactSimpleDaoJAXBTest - méthode testUpdateIdInexistant() ********** ");
+		}
+
+		/* dao NON INJECTE. */
+		if (dao == null) {
+
+			/* AFFICHAGE A LA CONSOLE. */
+			if (AFFICHAGE_GENERAL && affichage) {
+				System.out.println(TEST_UPDATEID_INEXISTANT);
+				this.afficherDAONonInstancie();
+			}
+
+			return;
+
+		} // Fin de dao NON INJECTE._____________________
+		
+		/* vide et remplit le stockage. */
+		this.remplirStockage(false);
+
+		Long nombreObjetsInitial = 0L;
+		Long nombreObjetsFinal = 0L;
+
+		IContactSimple resultat = null;
+		
+		/* récupération. */
+		final List<IContactSimple> objetInitiaux = dao.findAll();
+
+		/* Compte du nombre d'Objets initialement dans le stockage. */
+		nombreObjetsInitial = dao.count();
+
+		/* AFFICHAGE A LA CONSOLE. */
+		if (AFFICHAGE_GENERAL && affichage) {
+			System.out.println("LISTE D'OBJETS AVANT TESTUPDATEID(INEXISTANT) : ");
+			System.out.println(dao.afficherListeObjetsMetier(objetInitiaux));
+			this.afficherNbreObjetsInitial(nombreObjetsInitial);
+		}
+
+		/* ************************* */
+		// CONDITIONS DE TEST
+		/* ************************* */
+		/* ID inexistant. */
+		final Long idObjetAModifier = 17L;
+		final IContactSimple objetModifie = objetModifieCorrect;
+
+		/* AFFICHAGE A LA CONSOLE. */
+		if (AFFICHAGE_GENERAL && affichage) {
+			System.out.println();
+			System.out.println(ID_OBJET_A_MODIFIER + idObjetAModifier.toString());
+			System.out.println(OBJET_METIER_A_MODIFIER + objetModifie.toString());
+		}
+		
+		
+		try {
+
+			/* ********************************************************* */
+			/* **********************UPDATEID*************************** */
+			resultat = dao.update(idObjetAModifier, objetModifie);
+			/* ********************************************************* */
+			
+		} catch (AbstractDaoException e) {
+
+			System.out.println(TEST_UPDATEID_INEXISTANT);
+			this.afficherAbstractDaoException(e);
+
+		}
+				
+	} // Fin de testUpdateIdInexistant().__________________________________
+	
+
+	
+	@SuppressWarnings(UNUSED)
+	@Test
+	public void testUpdateIdDoublon() throws Exception {
+
+		// **********************************
+		// AFFICHAGE DANS LE TEST ou NON
+		final boolean affichage = false;
+		// **********************************
+
+		/* AFFICHAGE A LA CONSOLE. */
+		if (AFFICHAGE_GENERAL && affichage) {
+			System.out.println("********** CLASSE ContactSimpleDaoJAXBTest - méthode testUpdateIdDoublon() ********** ");
+		}
+
+		/* dao NON INJECTE. */
+		if (dao == null) {
+
+			/* AFFICHAGE A LA CONSOLE. */
+			if (AFFICHAGE_GENERAL && affichage) {
+				System.out.println(TEST_UPDATEID_DOUBLON);
+				this.afficherDAONonInstancie();
+			}
+
+			return;
+
+		} // Fin de dao NON INJECTE._____________________
+		
+		/* vide et remplit le stockage. */
+		this.remplirStockage(false);
+
+		Long nombreObjetsInitial = 0L;
+		Long nombreObjetsFinal = 0L;
+
+		IContactSimple resultat = null;
+		
+		/* récupération. */
+		final List<IContactSimple> objetInitiaux = dao.findAll();
+
+		/* Compte du nombre d'Objets initialement dans le stockage. */
+		nombreObjetsInitial = dao.count();
+
+		/* AFFICHAGE A LA CONSOLE. */
+		if (AFFICHAGE_GENERAL && affichage) {
+			System.out.println("LISTE D'OBJETS AVANT TESTUPDATEID(DOUBLON) : ");
+			System.out.println(dao.afficherListeObjetsMetier(objetInitiaux));
+			this.afficherNbreObjetsInitial(nombreObjetsInitial);
+		}
+
+		/* ************************* */
+		// CONDITIONS DE TEST
+		/* ************************* */
+		final Long idObjetAModifier = 1L;
+		final IContactSimple objetModifie = objetModifieDoublon;
+
+		/* AFFICHAGE A LA CONSOLE. */
+		if (AFFICHAGE_GENERAL && affichage) {
+			System.out.println();
+			System.out.println(ID_OBJET_A_MODIFIER + idObjetAModifier.toString());
+			System.out.println(OBJET_METIER_A_MODIFIER + objetModifie.toString());
+		}
+		
+		
+		try {
+
+			/* ********************************************************* */
+			/* **********************UPDATEID*************************** */
+			resultat = dao.update(idObjetAModifier, objetModifie);
+			/* ********************************************************* */
+			
+		} catch (AbstractDaoException e) {
+
+			System.out.println(TEST_UPDATEID_DOUBLON);
+			this.afficherAbstractDaoException(e);
+
+		}
+				
+	} // Fin de testUpdateIdDoublon()._____________________________________
+	
+
+	
+	@SuppressWarnings(UNUSED)
+	@Test
+	public void testUpdateId() throws Exception {
+
+		// **********************************
+		// AFFICHAGE DANS LE TEST ou NON
+		final boolean affichage = false;
+		// **********************************
+
+		/* AFFICHAGE A LA CONSOLE. */
+		if (AFFICHAGE_GENERAL && affichage) {
+			System.out.println("********** CLASSE ContactSimpleDaoJAXBTest - méthode testUpdateId() ********** ");
+		}
+
+		/* dao NON INJECTE. */
+		if (dao == null) {
+
+			/* AFFICHAGE A LA CONSOLE. */
+			if (AFFICHAGE_GENERAL && affichage) {
+				System.out.println(TEST_UPDATEID);
+				this.afficherDAONonInstancie();
+			}
+
+			return;
+
+		} // Fin de dao NON INJECTE._____________________
+		
+		/* vide et remplit le stockage. */
+		this.remplirStockage(false);
+
+		Long nombreObjetsInitial = 0L;
+		Long nombreObjetsFinal = 0L;
+
+		IContactSimple resultat = null;
+		
+		/* récupération. */
+		final List<IContactSimple> objetInitiaux = dao.findAll();
+
+		/* Compte du nombre d'Objets initialement dans le stockage. */
+		nombreObjetsInitial = dao.count();
+
+		/* AFFICHAGE A LA CONSOLE. */
+		if (AFFICHAGE_GENERAL && affichage) {
+			System.out.println("LISTE D'OBJETS AVANT TESTUPDATEID() : ");
+			System.out.println(dao.afficherListeObjetsMetier(objetInitiaux));
+			this.afficherNbreObjetsInitial(nombreObjetsInitial);
+		}
+
+		/* ************************* */
+		// CONDITIONS DE TEST
+		/* ************************* */
+		final Long idObjetAModifier = 0L;
+		final IContactSimple objetModifie = objetModifieCorrect;
+
+		/* AFFICHAGE A LA CONSOLE. */
+		if (AFFICHAGE_GENERAL && affichage) {
+			System.out.println();
+			System.out.println(ID_OBJET_A_MODIFIER + idObjetAModifier.toString());
+			System.out.println(OBJET_METIER_A_MODIFIER + objetModifie.toString());
+		}
+		
+		
+		try {
+
+			/* ********************************************************* */
+			/* **********************UPDATEID*************************** */
+			resultat = dao.update(idObjetAModifier, objetModifie);
+			/* ********************************************************* */
+			
+		} catch (AbstractDaoException e) {
+
+			System.out.println(TEST_UPDATEID);
+			this.afficherAbstractDaoException(e);
+
+		}
+				
+	} // Fin de testUpdateId().____________________________________________
+
+	
 	
 	
 	

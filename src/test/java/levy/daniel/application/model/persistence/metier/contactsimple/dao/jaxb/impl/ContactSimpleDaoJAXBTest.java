@@ -98,6 +98,12 @@ public class ContactSimpleDaoJAXBTest {
 	private static transient ContactSimpleDaoJAXB dao;
 
 	/**
+	 * boolean qui spécifie si le DAO testé est de type JPA 
+	 * (utilise Hibernate et merge()) ou pas (JAXB, ...).<br/>
+	 */
+	private static final transient boolean DAO_JPA = false;
+	
+	/**
 	 * "nomTest".<br/>
 	 */
 	public static final String NOMTEST = "nomTest";
@@ -340,12 +346,18 @@ public class ContactSimpleDaoJAXBTest {
 	 */
 	public static final String TEST_UPDATEID_DOUBLON 
 		= "testUpdateIdDoublon()";
-
+	
 	/**
 	 * "testUpdateId()".<br/>
 	 */
 	public static final String TEST_UPDATEID 
 		= "testUpdateId()";
+
+	/**
+	 * "testDeleteNull()".<br/>
+	 */
+	public static final String TEST_DELETE_NULL 
+		= "testDeleteNull()";
 	
 	/**
 	 * "testDeleteInexistant()".<br/>
@@ -591,6 +603,12 @@ public class ContactSimpleDaoJAXBTest {
 		= "findAll() doit retourner 4 enregistrements : ";
 	
 	/**
+	 * "findAll() doit retourner 3 enregistrements : ".<br/>
+	 */
+	public static final String FINDALL_DOIT_RETOURNER_3_ENREGISTREMENTS 
+		= "findAll() doit retourner 3 enregistrements : ";
+	
+	/**
 	 * "OBJET METIER A MODIFIER : ".<br/>
 	 */
 	public static final String OBJET_METIER_A_MODIFIER 
@@ -613,6 +631,36 @@ public class ContactSimpleDaoJAXBTest {
 	 */
 	public static final String ID_OBJET_A_MODIFIER_NULL 
 		= "ID DE L'OBJET A MODIFIER : NULL";
+
+	/**
+	 * "OBJET MODIFIE : ".<br/>
+	 */
+	public static final String OBJET_MODIFIE 
+		= "OBJET MODIFIE : ";
+
+	/**
+	 * "OBJET MODIFIE : NULL".<br/>
+	 */
+	public static final String OBJET_MODIFIE_NULL 
+		= "OBJET MODIFIE : NULL";
+
+	/**
+	 * "OBJET METIER A DELETER : ".<br/>
+	 */
+	public static final String OBJET_A_DELETER 
+		= "OBJET METIER A DELETER : ";
+	
+	/**
+	 * "OBJET METIER A DELETER : NULL".<br/>
+	 */
+	public static final String OBJET_A_DELETER_NULL 
+		= "OBJET METIER A DELETER : NULL";
+
+	/**
+	 * "L'OBJET METIER A-T-IL ETE DETRUIT ? : ".<br/>
+	 */
+	public static final String OBJET_DETRUIT 
+		= "L'OBJET METIER A-T-IL ETE DETRUIT ? : ";
 	
 	 /**
 	 * objet CORRECT à créer dans le stockage 
@@ -4538,7 +4586,8 @@ public class ContactSimpleDaoJAXBTest {
 						"findAllIterable() doit retourner une liste NON vide : "
 							, resultat.isEmpty());
 			}
-								
+			
+			// ETAT FINAL
 			/* récupération. */
 			final List<IContactSimple> objetsFinaux = dao.findAll();
 
@@ -4568,6 +4617,14 @@ public class ContactSimpleDaoJAXBTest {
 	
 
 	
+	/**
+	 * teste la méthode <b>update(null)</b>.<br/>
+	 * <ul>
+	 * <li>garantit que update(null) retourne null.</li>
+	 * </ul>
+	 *
+	 * @throws Exception
+	 */
 	@SuppressWarnings(UNUSED)
 	@Test
 	public void testUpdateNull() throws Exception {
@@ -4635,6 +4692,45 @@ public class ContactSimpleDaoJAXBTest {
 			resultat = dao.update(objetAModifier);
 			/* ********************************************************* */
 			
+			/* AFFICHAGE A LA CONSOLE. */
+			if (AFFICHAGE_GENERAL && affichage) {
+				System.out.println();
+				if (resultat != null) {
+					System.out.println(OBJET_MODIFIE + resultat.toString());
+				} else {
+					System.out.println(OBJET_MODIFIE_NULL);
+				}
+			}
+
+			
+			/* *********** */
+			// ASSERTIONS
+			/* *********** */
+			/* garantit que update(null) retourne null. */
+			assertNull(
+					"update(null) doit retourner null : "
+						, resultat);
+			
+			
+			// ETAT FINAL
+			/* récupération. */
+			final List<IContactSimple> objetsFinaux = dao.findAll();
+
+			/* Calcul du nombre d'objets dans le stockage après le traitement. */
+			nombreObjetsFinal = dao.count();
+
+			if (AFFICHAGE_GENERAL && affichage) {
+				System.out.println();
+				System.out.println("LISTE D'OBJETS APRES TESTUPDATE(NULL) : ");
+				System.out.println(dao.afficherListeObjetsMetier(objetsFinaux));
+				this.afficherNbreObjetsFinal(nombreObjetsFinal);
+			}
+
+			assertEquals(
+					FINDALL_DOIT_RETOURNER_4_ENREGISTREMENTS
+						, Long.valueOf(4L)
+							, nombreObjetsFinal);
+			
 		} catch (AbstractDaoException e) {
 
 			System.out.println(TEST_UPDATE_NULL);
@@ -4646,6 +4742,17 @@ public class ContactSimpleDaoJAXBTest {
 	
 
 	
+	/**
+	 * teste la méthode <b>update(inexistant)</b>.<br/>
+	 * <ul>
+	 * <li>garantit que update(inexistant) ne fait rien 
+	 * et retourne l'objetAModifier pour un DAO JPA.</li>
+	 * <li>garantit que update(inexistant) retourne null 
+	 * pour un DAO non JPA.</li>
+	 * </ul>
+	 *
+	 * @throws Exception
+	 */
 	@SuppressWarnings(UNUSED)
 	@Test
 	public void testUpdateInexistant() throws Exception {
@@ -4713,6 +4820,58 @@ public class ContactSimpleDaoJAXBTest {
 			resultat = dao.update(objetAModifier);
 			/* ********************************************************* */
 			
+			/* AFFICHAGE A LA CONSOLE. */
+			if (AFFICHAGE_GENERAL && affichage) {
+				System.out.println();
+				if (resultat != null) {
+					System.out.println(OBJET_MODIFIE + resultat.toString());
+				} else {
+					System.out.println(OBJET_MODIFIE_NULL);
+				}
+			}
+
+			
+			/* *********** */
+			// ASSERTIONS
+			/* *********** */
+			if (DAO_JPA) {
+				/* garantit que update(inexistant) ne fait rien 
+				 * et retourne l'objetAModifier pour un DAO JPA. */
+				assertEquals(
+						"update(inexistant) ne fait rien et doit "
+						+ "retourner l'objetAModifier pour un DAO JPA : "
+						, objetAModifier
+							, resultat);
+			} else {
+				/* garantit que update(inexistant) retourne null 
+				 * pour un DAO non JPA. */
+				assertNull(
+						"update(inexistant) doit retourner "
+						+ "null pour un DAO non JPA : "
+							, resultat);
+			}
+			
+			
+			// ETAT FINAL
+			/* récupération. */
+			final List<IContactSimple> objetsFinaux = dao.findAll();
+
+			/* Calcul du nombre d'objets dans le stockage après le traitement. */
+			nombreObjetsFinal = dao.count();
+
+			if (AFFICHAGE_GENERAL && affichage) {
+				System.out.println();
+				System.out.println("LISTE D'OBJETS APRES TESTUPDATE(INEXISTANT) : ");
+				System.out.println(dao.afficherListeObjetsMetier(objetsFinaux));
+				this.afficherNbreObjetsFinal(nombreObjetsFinal);
+			}
+
+			assertEquals(
+					FINDALL_DOIT_RETOURNER_4_ENREGISTREMENTS
+						, Long.valueOf(4L)
+							, nombreObjetsFinal);
+			
+			
 		} catch (AbstractDaoException e) {
 
 			System.out.println(TEST_UPDATE_INEXISTANT);
@@ -4722,8 +4881,16 @@ public class ContactSimpleDaoJAXBTest {
 				
 	} // Fin de testUpdateInexistant().____________________________________
 	
-
 	
+	
+	/**
+	 * teste la méthode <b>update(doublon)</b>.<br/>
+	 * <ul>
+	 * <li>garantit que update(doublon) retourne null.</li>
+	 * </ul>
+	 *
+	 * @throws Exception
+	 */
 	@SuppressWarnings(UNUSED)
 	@Test
 	public void testUpdateDoublon() throws Exception {
@@ -4792,6 +4959,46 @@ public class ContactSimpleDaoJAXBTest {
 			resultat = dao.update(objetAModifier);
 			/* ********************************************************* */
 			
+			/* AFFICHAGE A LA CONSOLE. */
+			if (AFFICHAGE_GENERAL && affichage) {
+				System.out.println();
+				if (resultat != null) {
+					System.out.println(OBJET_MODIFIE + resultat.toString());
+				} else {
+					System.out.println(OBJET_MODIFIE_NULL);
+				}
+			}
+
+			
+			/* *********** */
+			// ASSERTIONS
+			/* *********** */
+			/* garantit que update(doublon) retourne null. */
+			assertNull(
+					"update(doublon) doit retourner null : "
+						, resultat);
+			
+			
+			// ETAT FINAL
+			/* récupération. */
+			final List<IContactSimple> objetsFinaux = dao.findAll();
+
+			/* Calcul du nombre d'objets dans le stockage après le traitement. */
+			nombreObjetsFinal = dao.count();
+
+			if (AFFICHAGE_GENERAL && affichage) {
+				System.out.println();
+				System.out.println("LISTE D'OBJETS APRES TESTUPDATE(DOUBLON) : ");
+				System.out.println(dao.afficherListeObjetsMetier(objetsFinaux));
+				this.afficherNbreObjetsFinal(nombreObjetsFinal);
+			}
+
+			assertEquals(
+					FINDALL_DOIT_RETOURNER_4_ENREGISTREMENTS
+						, Long.valueOf(4L)
+							, nombreObjetsFinal);
+			
+			
 		} catch (AbstractDaoException e) {
 
 			System.out.println(TEST_UPDATE_DOUBLON);
@@ -4803,6 +5010,17 @@ public class ContactSimpleDaoJAXBTest {
 	
 
 	
+	/**
+	 * teste la méthode <b>update()</b>.<br/>
+	 * <ul>
+	 * <li>garantit que update() modifie 
+	 * et retourne l'objet modifié pour un DAO JPA.</li>
+	 * <li>garantit que update() retourne null 
+	 * pour un DAO non JPA.</li>
+	 * </ul>
+	 *
+	 * @throws Exception
+	 */
 	@SuppressWarnings(UNUSED)
 	@Test
 	public void testUpdate() throws Exception {
@@ -4871,6 +5089,57 @@ public class ContactSimpleDaoJAXBTest {
 			resultat = dao.update(objetAModifier);
 			/* ********************************************************* */
 			
+			/* AFFICHAGE A LA CONSOLE. */
+			if (AFFICHAGE_GENERAL && affichage) {
+				System.out.println();
+				if (resultat != null) {
+					System.out.println(OBJET_MODIFIE + resultat.toString());
+				} else {
+					System.out.println(OBJET_MODIFIE_NULL);
+				}
+			}
+
+			
+			/* *********** */
+			// ASSERTIONS
+			/* *********** */
+			if (DAO_JPA) {
+				/* garantit que update() modifie 
+				 * et retourne l'objet modifié pour un DAO JPA. */
+				assertEquals(
+						"update() modifie et doit "
+						+ "retourner l'objet modifié pour un DAO JPA : "
+						, objetAModifier
+							, resultat);
+			} else {
+				/* garantit que update() retourne null 
+				 * pour un DAO non JPA. */
+				assertNull(
+						"update() doit retourner null "
+						+ "pour un DAO non JPA : "
+							, resultat);
+			}
+			
+			
+			// ETAT FINAL
+			/* récupération. */
+			final List<IContactSimple> objetsFinaux = dao.findAll();
+
+			/* Calcul du nombre d'objets dans le stockage après le traitement. */
+			nombreObjetsFinal = dao.count();
+
+			if (AFFICHAGE_GENERAL && affichage) {
+				System.out.println();
+				System.out.println("LISTE D'OBJETS APRES TESTUPDATE() : ");
+				System.out.println(dao.afficherListeObjetsMetier(objetsFinaux));
+				this.afficherNbreObjetsFinal(nombreObjetsFinal);
+			}
+
+			assertEquals(
+					FINDALL_DOIT_RETOURNER_4_ENREGISTREMENTS
+						, Long.valueOf(4L)
+							, nombreObjetsFinal);
+						
 		} catch (AbstractDaoException e) {
 
 			System.out.println(TEST_UPDATE);
@@ -4882,6 +5151,14 @@ public class ContactSimpleDaoJAXBTest {
 	
 
 	
+	/**
+	 * teste la méthode <b>update(id null, objet correct)</b>.<br/>
+	 * <ul>
+	 * <li>garantit que update(id null, objet correct) retourne null.</li>
+	 * </ul>
+	 *
+	 * @throws Exception
+	 */	
 	@SuppressWarnings(UNUSED)
 	@Test
 	public void testUpdateIdNull() throws Exception {
@@ -4934,13 +5211,18 @@ public class ContactSimpleDaoJAXBTest {
 		// CONDITIONS DE TEST
 		/* ************************* */
 		final Long idObjetAModifier = null;
+		final IContactSimple objetAModifier = dao.findById(idObjetAModifier);
 		final IContactSimple objetModifie = objetModifieCorrect;
 
 		/* AFFICHAGE A LA CONSOLE. */
 		if (AFFICHAGE_GENERAL && affichage) {
 			System.out.println();
 			System.out.println(ID_OBJET_A_MODIFIER_NULL);
-			System.out.println(OBJET_METIER_A_MODIFIER + objetModifie.toString());
+			if (objetAModifier != null) {
+				System.out.println(OBJET_METIER_A_MODIFIER + objetAModifier.toString());
+			} else {
+				System.out.println(OBJET_METIER_A_MODIFIER_NULL);
+			}			
 		}
 		
 		
@@ -4950,6 +5232,45 @@ public class ContactSimpleDaoJAXBTest {
 			/* **********************UPDATEID*************************** */
 			resultat = dao.update(idObjetAModifier, objetModifie);
 			/* ********************************************************* */
+			
+			/* AFFICHAGE A LA CONSOLE. */
+			if (AFFICHAGE_GENERAL && affichage) {
+				System.out.println();
+				if (resultat != null) {
+					System.out.println(OBJET_MODIFIE + resultat.toString());
+				} else {
+					System.out.println(OBJET_MODIFIE_NULL);
+				}
+			}
+
+			
+			/* *********** */
+			// ASSERTIONS
+			/* *********** */
+			/* garantit que update(id null, objet correct) retourne null. */
+			assertNull(
+					"update(id null, objet correct) doit retourner null : "
+						, resultat);
+			
+			
+			// ETAT FINAL
+			/* récupération. */
+			final List<IContactSimple> objetsFinaux = dao.findAll();
+
+			/* Calcul du nombre d'objets dans le stockage après le traitement. */
+			nombreObjetsFinal = dao.count();
+
+			if (AFFICHAGE_GENERAL && affichage) {
+				System.out.println();
+				System.out.println("LISTE D'OBJETS APRES TESTUPDATEID(NULL) : ");
+				System.out.println(dao.afficherListeObjetsMetier(objetsFinaux));
+				this.afficherNbreObjetsFinal(nombreObjetsFinal);
+			}
+
+			assertEquals(
+					FINDALL_DOIT_RETOURNER_4_ENREGISTREMENTS
+						, Long.valueOf(4L)
+							, nombreObjetsFinal);
 			
 		} catch (AbstractDaoException e) {
 
@@ -4962,6 +5283,14 @@ public class ContactSimpleDaoJAXBTest {
 	
 
 	
+	/**
+	 * teste la méthode <b>update(id inexistant, objet correct)</b>.<br/>
+	 * <ul>
+	 * <li>garantit que update(id inexistant, objet correct) retourne null.</li>
+	 * </ul>
+	 *
+	 * @throws Exception
+	 */	
 	@SuppressWarnings(UNUSED)
 	@Test
 	public void testUpdateIdInexistant() throws Exception {
@@ -5015,13 +5344,18 @@ public class ContactSimpleDaoJAXBTest {
 		/* ************************* */
 		/* ID inexistant. */
 		final Long idObjetAModifier = 17L;
+		final IContactSimple objetAModifier = dao.findById(idObjetAModifier);
 		final IContactSimple objetModifie = objetModifieCorrect;
 
 		/* AFFICHAGE A LA CONSOLE. */
 		if (AFFICHAGE_GENERAL && affichage) {
 			System.out.println();
 			System.out.println(ID_OBJET_A_MODIFIER + idObjetAModifier.toString());
-			System.out.println(OBJET_METIER_A_MODIFIER + objetModifie.toString());
+			if (objetAModifier != null) {
+				System.out.println(OBJET_METIER_A_MODIFIER + objetAModifier.toString());
+			} else {
+				System.out.println(OBJET_METIER_A_MODIFIER_NULL);
+			}			
 		}
 		
 		
@@ -5032,6 +5366,45 @@ public class ContactSimpleDaoJAXBTest {
 			resultat = dao.update(idObjetAModifier, objetModifie);
 			/* ********************************************************* */
 			
+			/* AFFICHAGE A LA CONSOLE. */
+			if (AFFICHAGE_GENERAL && affichage) {
+				System.out.println();
+				if (resultat != null) {
+					System.out.println(OBJET_MODIFIE + resultat.toString());
+				} else {
+					System.out.println(OBJET_MODIFIE_NULL);
+				}
+			}
+
+			
+			/* *********** */
+			// ASSERTIONS
+			/* *********** */
+			/* garantit que update(id inexistant, objet correct) retourne null. */
+			assertNull(
+					"update(id inexistant, objet correct) doit retourner null : "
+						, resultat);
+			
+			
+			// ETAT FINAL
+			/* récupération. */
+			final List<IContactSimple> objetsFinaux = dao.findAll();
+
+			/* Calcul du nombre d'objets dans le stockage après le traitement. */
+			nombreObjetsFinal = dao.count();
+
+			if (AFFICHAGE_GENERAL && affichage) {
+				System.out.println();
+				System.out.println("LISTE D'OBJETS APRES TESTUPDATEID(INEXISTANT) : ");
+				System.out.println(dao.afficherListeObjetsMetier(objetsFinaux));
+				this.afficherNbreObjetsFinal(nombreObjetsFinal);
+			}
+
+			assertEquals(
+					FINDALL_DOIT_RETOURNER_4_ENREGISTREMENTS
+						, Long.valueOf(4L)
+							, nombreObjetsFinal);
+									
 		} catch (AbstractDaoException e) {
 
 			System.out.println(TEST_UPDATEID_INEXISTANT);
@@ -5043,6 +5416,14 @@ public class ContactSimpleDaoJAXBTest {
 	
 
 	
+	/**
+	 * teste la méthode <b>update(id correct, objet doublon)</b>.<br/>
+	 * <ul>
+	 * <li>garantit que update(id correct, objet doublon) retourne null.</li>
+	 * </ul>
+	 *
+	 * @throws Exception
+	 */	
 	@SuppressWarnings(UNUSED)
 	@Test
 	public void testUpdateIdDoublon() throws Exception {
@@ -5095,13 +5476,18 @@ public class ContactSimpleDaoJAXBTest {
 		// CONDITIONS DE TEST
 		/* ************************* */
 		final Long idObjetAModifier = 1L;
+		final IContactSimple objetAModifier = dao.findById(idObjetAModifier);
 		final IContactSimple objetModifie = objetModifieDoublon;
 
 		/* AFFICHAGE A LA CONSOLE. */
 		if (AFFICHAGE_GENERAL && affichage) {
 			System.out.println();
 			System.out.println(ID_OBJET_A_MODIFIER + idObjetAModifier.toString());
-			System.out.println(OBJET_METIER_A_MODIFIER + objetModifie.toString());
+			if (objetAModifier != null) {
+				System.out.println(OBJET_METIER_A_MODIFIER + objetAModifier.toString());
+			} else {
+				System.out.println(OBJET_METIER_A_MODIFIER_NULL);
+			}			
 		}
 		
 		
@@ -5112,6 +5498,45 @@ public class ContactSimpleDaoJAXBTest {
 			resultat = dao.update(idObjetAModifier, objetModifie);
 			/* ********************************************************* */
 			
+			/* AFFICHAGE A LA CONSOLE. */
+			if (AFFICHAGE_GENERAL && affichage) {
+				System.out.println();
+				if (resultat != null) {
+					System.out.println(OBJET_MODIFIE + resultat.toString());
+				} else {
+					System.out.println(OBJET_MODIFIE_NULL);
+				}
+			}
+
+			
+			/* *********** */
+			// ASSERTIONS
+			/* *********** */
+			/* garantit que update(id correct, objet doublon) retourne null. */
+			assertNull(
+					"update(id correct, objet doublon) doit retourner null : "
+						, resultat);
+			
+			
+			// ETAT FINAL
+			/* récupération. */
+			final List<IContactSimple> objetsFinaux = dao.findAll();
+
+			/* Calcul du nombre d'objets dans le stockage après le traitement. */
+			nombreObjetsFinal = dao.count();
+
+			if (AFFICHAGE_GENERAL && affichage) {
+				System.out.println();
+				System.out.println("LISTE D'OBJETS APRES TESTUPDATEID(DOUBLON) : ");
+				System.out.println(dao.afficherListeObjetsMetier(objetsFinaux));
+				this.afficherNbreObjetsFinal(nombreObjetsFinal);
+			}
+
+			assertEquals(
+					FINDALL_DOIT_RETOURNER_4_ENREGISTREMENTS
+						, Long.valueOf(4L)
+							, nombreObjetsFinal);
+									
 		} catch (AbstractDaoException e) {
 
 			System.out.println(TEST_UPDATEID_DOUBLON);
@@ -5123,6 +5548,16 @@ public class ContactSimpleDaoJAXBTest {
 	
 
 	
+	/**
+	 * teste la méthode <b>update(id correct, objet correct)</b>.<br/>
+	 * <ul>
+	 * <li>garantit que update(id correct, objet correct) 
+	 * retourne l'instance modifiée.</li>
+	 * <li>garantit que l'ID de l'objet modifié vaut pId.</li>
+	 * </ul>
+	 *
+	 * @throws Exception
+	 */	
 	@SuppressWarnings(UNUSED)
 	@Test
 	public void testUpdateId() throws Exception {
@@ -5158,6 +5593,7 @@ public class ContactSimpleDaoJAXBTest {
 
 		IContactSimple resultat = null;
 		
+		// ETAT INITIAL
 		/* récupération. */
 		final List<IContactSimple> objetInitiaux = dao.findAll();
 
@@ -5175,13 +5611,18 @@ public class ContactSimpleDaoJAXBTest {
 		// CONDITIONS DE TEST
 		/* ************************* */
 		final Long idObjetAModifier = 0L;
+		final IContactSimple objetAModifier = dao.findById(idObjetAModifier);
 		final IContactSimple objetModifie = objetModifieCorrect;
 
 		/* AFFICHAGE A LA CONSOLE. */
 		if (AFFICHAGE_GENERAL && affichage) {
 			System.out.println();
 			System.out.println(ID_OBJET_A_MODIFIER + idObjetAModifier.toString());
-			System.out.println(OBJET_METIER_A_MODIFIER + objetModifie.toString());
+			if (objetAModifier != null) {
+				System.out.println(OBJET_METIER_A_MODIFIER + objetAModifier.toString());
+			} else {
+				System.out.println(OBJET_METIER_A_MODIFIER_NULL);
+			}			
 		}
 		
 		
@@ -5192,6 +5633,59 @@ public class ContactSimpleDaoJAXBTest {
 			resultat = dao.update(idObjetAModifier, objetModifie);
 			/* ********************************************************* */
 			
+			/* AFFICHAGE A LA CONSOLE. */
+			if (AFFICHAGE_GENERAL && affichage) {
+				System.out.println();
+				if (resultat != null) {
+					System.out.println(OBJET_MODIFIE + resultat.toString());
+				} else {
+					System.out.println(OBJET_MODIFIE_NULL);
+				}
+			}
+
+			
+			/* *********** */
+			// ASSERTIONS
+			/* *********** */
+			/* garantit que update(id correct, objet correct) 
+			 * retourne l'instance modifiée. */
+			assertNotNull(
+					"update(id correct, objet correct) doit "
+					+ "retourner l'instance modifiée : "
+						, resultat);
+			
+			assertEquals(
+					"update(id correct, objet correct) doit "
+					+ "retourner l'instance modifiée : "
+						, objetModifie
+							, resultat);
+			
+			/* garantit que l'ID de l'objet modifié vaut pId. */
+			assertEquals(
+					"ID de l'objet modifié doit valoir pId : "
+						, idObjetAModifier
+							, dao.retrieveId(resultat));
+			
+			
+			// ETAT FINAL
+			/* récupération. */
+			final List<IContactSimple> objetsFinaux = dao.findAll();
+
+			/* Calcul du nombre d'objets dans le stockage après le traitement. */
+			nombreObjetsFinal = dao.count();
+
+			if (AFFICHAGE_GENERAL && affichage) {
+				System.out.println();
+				System.out.println("LISTE D'OBJETS APRES TESTUPDATEID(DOUBLON) : ");
+				System.out.println(dao.afficherListeObjetsMetier(objetsFinaux));
+				this.afficherNbreObjetsFinal(nombreObjetsFinal);
+			}
+
+			assertEquals(
+					FINDALL_DOIT_RETOURNER_4_ENREGISTREMENTS
+						, Long.valueOf(4L)
+							, nombreObjetsFinal);
+									
 		} catch (AbstractDaoException e) {
 
 			System.out.println(TEST_UPDATEID);
@@ -5201,9 +5695,374 @@ public class ContactSimpleDaoJAXBTest {
 				
 	} // Fin de testUpdateId().____________________________________________
 
+
 	
+	/**
+	 * teste la méthode <b>delete(null)</b>.<br/>
+	 * <ul>
+	 * <li>garantit que delete(null) retourne false.</li>
+	 * </ul>
+	 *
+	 * @throws Exception
+	 */
+	@SuppressWarnings(UNUSED)
+	@Test
+	public void testDeleteNull() throws Exception {	
+		
+		// **********************************
+		// AFFICHAGE DANS LE TEST ou NON
+		final boolean affichage = false;
+		// **********************************
+
+		/* AFFICHAGE A LA CONSOLE. */
+		if (AFFICHAGE_GENERAL && affichage) {
+			System.out.println("********** CLASSE ContactSimpleDaoJAXBTest - méthode testDeleteNull() ********** ");
+		}
+
+		/* dao NON INJECTE. */
+		if (dao == null) {
+
+			/* AFFICHAGE A LA CONSOLE. */
+			if (AFFICHAGE_GENERAL && affichage) {
+				System.out.println(TEST_DELETE_NULL);
+				this.afficherDAONonInstancie();
+			}
+
+			return;
+
+		} // Fin de dao NON INJECTE._____________________
+
+		/* vide et remplit le stockage. */
+		this.remplirStockage(false);
+
+		Long nombreObjetsInitial = 0L;
+		Long nombreObjetsFinal = 0L;
+		
+		boolean resultat = false;
+		
+		// ETAT INITIAL
+		/* récupération. */
+		final List<IContactSimple> objetInitiaux = dao.findAll();
+
+		/* Compte du nombre d'Objets initialement dans le stockage. */
+		nombreObjetsInitial = dao.count();
+
+		/* AFFICHAGE A LA CONSOLE. */
+		if (AFFICHAGE_GENERAL && affichage) {
+			System.out.println("LISTE D'OBJETS AVANT TESTDELETE(NULL) : ");
+			System.out.println(dao.afficherListeObjetsMetier(objetInitiaux));
+			this.afficherNbreObjetsInitial(nombreObjetsInitial);
+		}
+
+		/* ************************* */
+		// CONDITIONS DE TEST
+		/* ************************* */
+		final IContactSimple objetADeleter = null;
+		
+		/* AFFICHAGE A LA CONSOLE. */
+		if (AFFICHAGE_GENERAL && affichage) {
+			System.out.println();
+			System.out.println(OBJET_A_DELETER_NULL);
+		}
+
+		
+		try {
+
+			/* ********************************************************* */
+			/* ***********************DELETE**************************** */
+			resultat = dao.delete(objetADeleter);
+			/* ********************************************************* */
+			
+			/* AFFICHAGE A LA CONSOLE. */
+			if (AFFICHAGE_GENERAL && affichage) {
+				System.out.println();
+				System.out.println(OBJET_DETRUIT + resultat);
+			}
+
+			
+			/* *********** */
+			// ASSERTIONS
+			/* *********** */
+			/* garantit que delete(null) retourne false. */
+			assertFalse(
+					"delete(null) doit retourner false : "
+						, resultat);
+			
+			
+			// ETAT FINAL
+			/* récupération. */
+			final List<IContactSimple> objetsFinaux = dao.findAll();
+
+			/* Calcul du nombre d'objets dans le stockage après le traitement. */
+			nombreObjetsFinal = dao.count();
+
+			if (AFFICHAGE_GENERAL && affichage) {
+				System.out.println();
+				System.out.println("LISTE D'OBJETS APRES TESTDELETE(NULL) : ");
+				System.out.println(dao.afficherListeObjetsMetier(objetsFinaux));
+				this.afficherNbreObjetsFinal(nombreObjetsFinal);
+			}
+
+			assertEquals(
+					FINDALL_DOIT_RETOURNER_4_ENREGISTREMENTS
+						, Long.valueOf(4L)
+							, nombreObjetsFinal);
+												
+		} catch (AbstractDaoException e) {
+
+			System.out.println(TEST_DELETE_NULL);
+			this.afficherAbstractDaoException(e);
+
+		}
+		
+	} // Fin de testDeleteNull().__________________________________________
+
+
 	
+	/**
+	 * teste la méthode <b>delete(inexistant)</b>.<br/>
+	 * <ul>
+	 * <li>garantit que delete(inexistant) retourne false.</li>
+	 * </ul>
+	 *
+	 * @throws Exception
+	 */
+	@SuppressWarnings(UNUSED)
+	@Test
+	public void testDeleteInexistant() throws Exception {	
+		
+		// **********************************
+		// AFFICHAGE DANS LE TEST ou NON
+		final boolean affichage = false;
+		// **********************************
+
+		/* AFFICHAGE A LA CONSOLE. */
+		if (AFFICHAGE_GENERAL && affichage) {
+			System.out.println("********** CLASSE ContactSimpleDaoJAXBTest - méthode testDeleteInexistant() ********** ");
+		}
+
+		/* dao NON INJECTE. */
+		if (dao == null) {
+
+			/* AFFICHAGE A LA CONSOLE. */
+			if (AFFICHAGE_GENERAL && affichage) {
+				System.out.println(TEST_DELETE_INEXISTANT);
+				this.afficherDAONonInstancie();
+			}
+
+			return;
+
+		} // Fin de dao NON INJECTE._____________________
+
+		/* vide et remplit le stockage. */
+		this.remplirStockage(false);
+
+		Long nombreObjetsInitial = 0L;
+		Long nombreObjetsFinal = 0L;
+		
+		boolean resultat = false;
+		
+		// ETAT INITIAL
+		/* récupération. */
+		final List<IContactSimple> objetInitiaux = dao.findAll();
+
+		/* Compte du nombre d'Objets initialement dans le stockage. */
+		nombreObjetsInitial = dao.count();
+
+		/* AFFICHAGE A LA CONSOLE. */
+		if (AFFICHAGE_GENERAL && affichage) {
+			System.out.println("LISTE D'OBJETS AVANT TESTDELETE(INEXISTANT) : ");
+			System.out.println(dao.afficherListeObjetsMetier(objetInitiaux));
+			this.afficherNbreObjetsInitial(nombreObjetsInitial);
+		}
+
+		/* ************************* */
+		// CONDITIONS DE TEST
+		/* ************************* */
+		final IContactSimple objetADeleter = objetInexistant;
+		
+		/* AFFICHAGE A LA CONSOLE. */
+		if (AFFICHAGE_GENERAL && affichage) {
+			System.out.println();
+			System.out.println(OBJET_A_DELETER + objetADeleter.toString());
+		}
+
+		
+		try {
+
+			/* ********************************************************* */
+			/* ***********************DELETE**************************** */
+			resultat = dao.delete(objetADeleter);
+			/* ********************************************************* */
+			
+			/* AFFICHAGE A LA CONSOLE. */
+			if (AFFICHAGE_GENERAL && affichage) {
+				System.out.println();
+				System.out.println(OBJET_DETRUIT + resultat);
+			}
+
+			
+			/* *********** */
+			// ASSERTIONS
+			/* *********** */
+			/* garantit que delete(inexistant) retourne false. */
+			assertFalse(
+					"delete(inexistant) doit retourner false : "
+						, resultat);
+			
+			
+			// ETAT FINAL
+			/* récupération. */
+			final List<IContactSimple> objetsFinaux = dao.findAll();
+
+			/* Calcul du nombre d'objets dans le stockage après le traitement. */
+			nombreObjetsFinal = dao.count();
+
+			if (AFFICHAGE_GENERAL && affichage) {
+				System.out.println();
+				System.out.println("LISTE D'OBJETS APRES TESTDELETE(INEXISTANT) : ");
+				System.out.println(dao.afficherListeObjetsMetier(objetsFinaux));
+				this.afficherNbreObjetsFinal(nombreObjetsFinal);
+			}
+
+			assertEquals(
+					FINDALL_DOIT_RETOURNER_4_ENREGISTREMENTS
+						, Long.valueOf(4L)
+							, nombreObjetsFinal);
+												
+		} catch (AbstractDaoException e) {
+
+			System.out.println(TEST_DELETE_NULL);
+			this.afficherAbstractDaoException(e);
+
+		}
+						
+	} // Fin de testDeleteInexistant().____________________________________
+
+
 	
+	/**
+	 * teste la méthode <b>delete()</b>.<br/>
+	 * <ul>
+	 * <li>garantit que delete() retourne true.</li>
+	 * </ul>
+	 *
+	 * @throws Exception
+	 */
+	@SuppressWarnings(UNUSED)
+	@Test
+	public void testDelete() throws Exception {	
+		
+		// **********************************
+		// AFFICHAGE DANS LE TEST ou NON
+		final boolean affichage = false;
+		// **********************************
+
+		/* AFFICHAGE A LA CONSOLE. */
+		if (AFFICHAGE_GENERAL && affichage) {
+			System.out.println("********** CLASSE ContactSimpleDaoJAXBTest - méthode testDelete() ********** ");
+		}
+
+		/* dao NON INJECTE. */
+		if (dao == null) {
+
+			/* AFFICHAGE A LA CONSOLE. */
+			if (AFFICHAGE_GENERAL && affichage) {
+				System.out.println(TEST_DELETE);
+				this.afficherDAONonInstancie();
+			}
+
+			return;
+
+		} // Fin de dao NON INJECTE._____________________
+
+		/* vide et remplit le stockage. */
+		this.remplirStockage(false);
+
+		Long nombreObjetsInitial = 0L;
+		Long nombreObjetsFinal = 0L;
+		
+		boolean resultat = false;
+		
+		// ETAT INITIAL
+		/* récupération. */
+		final List<IContactSimple> objetInitiaux = dao.findAll();
+
+		/* Compte du nombre d'Objets initialement dans le stockage. */
+		nombreObjetsInitial = dao.count();
+
+		/* AFFICHAGE A LA CONSOLE. */
+		if (AFFICHAGE_GENERAL && affichage) {
+			System.out.println("LISTE D'OBJETS AVANT TESTDELETE() : ");
+			System.out.println(dao.afficherListeObjetsMetier(objetInitiaux));
+			this.afficherNbreObjetsInitial(nombreObjetsInitial);
+		}
+
+		/* ************************* */
+		// CONDITIONS DE TEST
+		/* ************************* */
+		final IContactSimple objetADeleter = objetRemplirStockage1;
+		
+		/* AFFICHAGE A LA CONSOLE. */
+		if (AFFICHAGE_GENERAL && affichage) {
+			System.out.println();
+			System.out.println(OBJET_A_DELETER + objetADeleter.toString());
+		}
+
+		
+		try {
+
+			/* ********************************************************* */
+			/* ***********************DELETE**************************** */
+			resultat = dao.delete(objetADeleter);
+			/* ********************************************************* */
+			
+			/* AFFICHAGE A LA CONSOLE. */
+			if (AFFICHAGE_GENERAL && affichage) {
+				System.out.println();
+				System.out.println(OBJET_DETRUIT + resultat);
+			}
+
+			
+			/* *********** */
+			// ASSERTIONS
+			/* *********** */
+			/* garantit que delete(existant) retourne true. */
+			assertTrue(
+					"delete(existant) doit retourner true : "
+						, resultat);
+			
+			
+			// ETAT FINAL
+			/* récupération. */
+			final List<IContactSimple> objetsFinaux = dao.findAll();
+
+			/* Calcul du nombre d'objets dans le stockage après le traitement. */
+			nombreObjetsFinal = dao.count();
+
+			if (AFFICHAGE_GENERAL && affichage) {
+				System.out.println();
+				System.out.println("LISTE D'OBJETS APRES TESTDELETE() : ");
+				System.out.println(dao.afficherListeObjetsMetier(objetsFinaux));
+				this.afficherNbreObjetsFinal(nombreObjetsFinal);
+			}
+
+			assertEquals(
+					FINDALL_DOIT_RETOURNER_3_ENREGISTREMENTS
+						, Long.valueOf(3L)
+							, nombreObjetsFinal);
+												
+			
+		} catch (AbstractDaoException e) {
+
+			System.out.println(TEST_DELETE_NULL);
+			this.afficherAbstractDaoException(e);
+
+		}
+		
+	} // Fin de testDelete().______________________________________________
+	
+
 	
 	/**
 	 * <b>convertit une Liste d'Objets Metier en liste 

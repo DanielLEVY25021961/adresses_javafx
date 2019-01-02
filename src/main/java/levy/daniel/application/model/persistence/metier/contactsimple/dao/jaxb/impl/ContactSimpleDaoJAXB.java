@@ -956,13 +956,61 @@ public class ContactSimpleDaoJAXB implements IContactSimpleDAO {
 
 	/**
 	 * {@inheritDoc}
+	 * - retourne false si le stockage n'existe pas.<br/>
+	 * - retourne false si le stockage est vide.<br/>
+	 * <br/>
 	 */
 	@Override
 	public boolean delete(
 			final IContactSimple pObject) throws AbstractDaoException {
-		// TODO Auto-generated method stub
-		return false;
-	}
+		
+		/* retourne false si pObject == null. */
+		if (pObject == null) {
+			return false;
+		}
+		
+		/* retourne false si pObject n'est pas persisté. */
+		if (!this.exists(pObject)) {
+			return false;
+		}
+		
+		List<IContactSimple> stockageList = null;
+		
+		/* retourne false si le stockage n'existe pas. */
+		if (this.fichierXML.exists()) {
+			stockageList = this.recupererListeModeles(this.fichierXML);
+		} else {
+			return false;
+		}
+		
+		/* retourne false si le stockage est vide. */
+		if (stockageList.isEmpty()) {
+			return false;
+		}
+		
+		boolean retire = false;
+		
+		final List<IContactSimple> resultat 
+			= new ArrayList<IContactSimple>();
+		
+		/* retire pObject dans le stockage. */
+		for (final IContactSimple objet : stockageList) {
+			
+			if (!pObject.equals(objet)) {				
+				resultat.add(objet);
+			} else {
+				/* retourne true. */
+				retire = true;
+				continue;
+			}
+		}
+
+		/* enregistre la nouvelle liste dans le stockage XML. */
+		this.enregistrer(resultat, this.fichierXML);
+
+		return retire;
+		
+	} // Fin de delete(...)._______________________________________________
 
 
 

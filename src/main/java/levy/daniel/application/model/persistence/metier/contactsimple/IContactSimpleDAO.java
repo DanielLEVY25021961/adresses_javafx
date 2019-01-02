@@ -282,6 +282,9 @@ public interface IContactSimpleDAO {
 	 * <ul>
 	 * <li><b>Modifie</b> un objet métier <b>persistant</b> 
 	 * <i>existant</i> dans le stockage.</li>
+	 * <li><i>A utiliser pour les DAO utilisant une 
+	 * technologie capable de tracker une ENTITE 
+	 * (JPA + HIBERNATE par exemple) et de faire un merge()</i>.</li>
 	 * <li>Retourne l'objet métier pObject 
 	 * <b>modifié dans le stockage</b>.</li>
 	 * <li>Les modifications ne doivent 

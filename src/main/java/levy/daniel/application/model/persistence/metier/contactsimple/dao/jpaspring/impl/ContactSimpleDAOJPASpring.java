@@ -1470,7 +1470,7 @@ public class ContactSimpleDAOJPASpring implements IContactSimpleDAO {
 	 * {@inheritDoc}
 	 */
 	@Override
-	public boolean exists(
+	public boolean existsId(
 			final Long pId) throws Exception {
 
 		/* retourne false si pId == null. */

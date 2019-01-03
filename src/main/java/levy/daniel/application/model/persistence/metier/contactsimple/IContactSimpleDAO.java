@@ -489,6 +489,7 @@ public interface IContactSimpleDAO {
 	/**
 	 * <b>retourne true si l'objet métier pObject 
 	 * existe dans le stockage</b>.<br/>
+	 * <br/>
 	 * - retourne false si pObject == null.<br/>
 	 * - retourne false si l'Objet métier pObject n'existe pas en base.<br/>
 	 * <br/>
@@ -508,7 +509,11 @@ public interface IContactSimpleDAO {
 	 * <b>retourne true si l'objet métier pObject 
 	 * d'identifiant ou d'index (0-based) pId 
 	 * existe dans le stockage</b>.<br/>
+	 * <br/>
 	 * - retourne false si pId == null.<br/>
+	 * - retourne false si pId est hors indexes.<br/>
+	 * - retourne false si il n'existe pas d'objet métier 
+	 * d'index pId (0-based) dans le stockage.<br/>
 	 * <br/>
 	 *
 	 * @param pId : Long : 
@@ -520,7 +525,7 @@ public interface IContactSimpleDAO {
 	 * 
 	 * @throws Exception
 	 */
-	boolean exists(Long pId) throws Exception;
+	boolean existsId(Long pId) throws Exception;
 	
 	
 

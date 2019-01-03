@@ -430,6 +430,18 @@ public class ContactSimpleDaoJAXBTest {
 	 */
 	public static final String TEST_DELETEITERABLEBOOLEAN 
 		= "testDeleteIterableBoolean()";
+
+	/**
+	 * "testExists".
+	 */
+	public static final String TEST_EXISTS 
+		= "testExists";
+	
+	/**
+	 * "testExistsId".
+	 */
+	public static final String TEST_EXISTS_ID 
+		= "testExistsId";
 	
 	/**
 	 * TIRETS : String :<br/>
@@ -7306,7 +7318,7 @@ public class ContactSimpleDaoJAXBTest {
 		try {
 
 			/* ********************************************************* */
-			/* *********************DELETEITERABLEBOOLEAN********************* */
+			/* *****************DELETEITERABLEBOOLEAN******************* */
 			resultat = dao.deleteIterableBoolean(list1);
 			/* ********************************************************* */
 			
@@ -7316,6 +7328,14 @@ public class ContactSimpleDaoJAXBTest {
 				System.out.println("LES OBJETS DE L'ITERABLE ONT BIEN ETE DETRUITS ? : " + resultat);
 			}
 			
+			/* *********** */
+			// ASSERTIONS
+			/* *********** */
+			/* garantit que deleteIterableBoolean() retourne true. */
+			assertTrue(
+					"deleteIterableBoolean() doit retourner true : "
+						, resultat);
+
 			// ETAT FINAL
 			/* récupération. */
 			final List<IContactSimple> objetsFinaux = dao.findAll();
@@ -7347,7 +7367,283 @@ public class ContactSimpleDaoJAXBTest {
 								
 	} // Fin de testDeleteIterableBoolean()._______________________________
 	
+
 	
+	/**
+	 * teste la méthode <b>exists(objet)</b>.<br/>
+	 * <ul>
+	 * <li>garantit que exists(existant) retourne true.</li>
+	 * <li>garantit que exists(inexistant) retourne false.</li>
+	 * </ul>
+	 *
+	 * @throws Exception
+	 */
+	@SuppressWarnings(UNUSED)
+	@Test
+	public void testExists() throws Exception {
+
+		// **********************************
+		// AFFICHAGE DANS LE TEST ou NON
+		final boolean affichage = false;
+		// **********************************
+
+		/* AFFICHAGE A LA CONSOLE. */
+		if (AFFICHAGE_GENERAL && affichage) {
+			System.out.println("********** CLASSE ContactSimpleDaoJAXBTest - méthode testExists() ********** ");
+		}
+
+		/* dao NON INJECTE. */
+		if (dao == null) {
+
+			/* AFFICHAGE A LA CONSOLE. */
+			if (AFFICHAGE_GENERAL && affichage) {
+				System.out.println(TEST_EXISTS);
+				this.afficherDAONonInstancie();
+			}
+
+			return;
+
+		} // Fin de dao NON INJECTE._____________________
+
+		/* vide et remplit le stockage. */
+		this.remplirStockage(false);
+
+
+		Long nombreObjetsInitial = 0L;
+		Long nombreObjetsFinal = 0L;
+
+		boolean resultatExistant = false;
+		boolean resultatInexistant = false;
+		
+		// ETAT INITIAL
+		/* récupération. */
+		final List<IContactSimple> objetInitiaux = dao.findAll();
+
+		/* Compte du nombre d'Objets initialement dans le stockage. */
+		nombreObjetsInitial = dao.count();
+
+		/* AFFICHAGE A LA CONSOLE. */
+		if (AFFICHAGE_GENERAL && affichage) {
+			System.out.println("LISTE D'OBJETS AVANT EXISTS() : ");
+			System.out.println(dao.afficherListeObjetsMetier(objetInitiaux));
+			this.afficherNbreObjetsInitial(nombreObjetsInitial);
+		}
+		
+
+		/* ************************* */
+		// CONDITIONS DE TEST
+		/* ************************* */
+		final IContactSimple objetExistantTest = objetRemplirStockage1;
+		final IContactSimple objetInexistantTest = objetInexistant;
+		
+		/* AFFICHAGE A LA CONSOLE. */
+		if (AFFICHAGE_GENERAL && affichage) {
+			System.out.println();
+			System.out.println("OBJETS DE TEST : ");
+			System.out.println("objetExistantTest : " 
+					+ objetExistantTest.toString());
+			System.out.println("objetInexistantTest : " 
+					+ objetInexistantTest.toString());
+		}
+		
+		try {
+
+			/* ********************************************************* */
+			/* ************************EXISTS*************************** */
+			resultatExistant = dao.exists(objetExistantTest);
+			resultatInexistant = dao.exists(objetInexistantTest);
+			/* ********************************************************* */
+			
+			/* AFFICHAGE A LA CONSOLE. */
+			if (AFFICHAGE_GENERAL && affichage) {
+				System.out.println();
+				System.out.println("objetExistantTest EXISTE ? : " + resultatExistant);
+				System.out.println("objetInexistantTest EXISTE ? : " + resultatInexistant);
+			}
+	
+			
+			/* *********** */
+			// ASSERTIONS
+			/* *********** */
+			/* garantit que exists(existant) retourne true. */
+			assertTrue(
+					"exists(existant) doit retourner true : "
+						, resultatExistant);
+			/* garantit que exists(inexistant) retourne false. */
+			assertFalse(
+					"exists(inexistant) doit retourner false : "
+						, resultatInexistant);
+
+			
+			// ETAT FINAL
+			/* récupération. */
+			final List<IContactSimple> objetsFinaux = dao.findAll();
+
+			/* Calcul du nombre d'objets dans le stockage après le traitement. */
+			nombreObjetsFinal = dao.count();
+
+			/* AFFICHAGE A LA CONSOLE. */
+			if (AFFICHAGE_GENERAL && affichage) {
+				System.out.println();
+				System.out.println("LISTE D'OBJETS APRES EXISTS() : ");
+				System.out.println(dao.afficherListeObjetsMetier(objetsFinaux));
+				this.afficherNbreObjetsFinal(nombreObjetsFinal);
+			}
+
+			/* garantit que exists() ne touche à rien. */
+			assertEquals(
+					FINDALL_DOIT_RETOURNER_4_ENREGISTREMENTS
+						, Long.valueOf(4L)
+							, nombreObjetsFinal);
+															
+		} catch (AbstractDaoException e) {
+
+			System.out.println(TEST_EXISTS);
+			this.afficherAbstractDaoException(e);
+
+		}
+
+	} // Fin de testExists().______________________________________________
+	
+
+	
+	/**
+	 * teste la méthode <b>existsId(id)</b>.<br/>
+	 * <ul>
+	 * <li>garantit que existsId(existant) retourne true.</li>
+	 * <li>garantit que existsId(inexistant) retourne false.</li>
+	 * </ul>
+	 *
+	 * @throws Exception
+	 */
+	@SuppressWarnings(UNUSED)
+	@Test
+	public void testExistsId() throws Exception {
+
+		// **********************************
+		// AFFICHAGE DANS LE TEST ou NON
+		final boolean affichage = false;
+		// **********************************
+
+		/* AFFICHAGE A LA CONSOLE. */
+		if (AFFICHAGE_GENERAL && affichage) {
+			System.out.println("********** CLASSE ContactSimpleDaoJAXBTest - méthode testExistsId() ********** ");
+		}
+
+		/* dao NON INJECTE. */
+		if (dao == null) {
+
+			/* AFFICHAGE A LA CONSOLE. */
+			if (AFFICHAGE_GENERAL && affichage) {
+				System.out.println(TEST_EXISTS_ID);
+				this.afficherDAONonInstancie();
+			}
+
+			return;
+
+		} // Fin de dao NON INJECTE._____________________
+
+		/* vide et remplit le stockage. */
+		this.remplirStockage(false);
+
+
+		Long nombreObjetsInitial = 0L;
+		Long nombreObjetsFinal = 0L;
+
+		boolean resultatExistant = false;
+		boolean resultatInexistant = false;
+		
+		// ETAT INITIAL
+		/* récupération. */
+		final List<IContactSimple> objetInitiaux = dao.findAll();
+
+		/* Compte du nombre d'Objets initialement dans le stockage. */
+		nombreObjetsInitial = dao.count();
+
+		/* AFFICHAGE A LA CONSOLE. */
+		if (AFFICHAGE_GENERAL && affichage) {
+			System.out.println("LISTE D'OBJETS AVANT EXISTS_ID() : ");
+			System.out.println(dao.afficherListeObjetsMetier(objetInitiaux));
+			this.afficherNbreObjetsInitial(nombreObjetsInitial);
+		}
+		
+
+		/* ************************* */
+		// CONDITIONS DE TEST
+		/* ************************* */
+		final Long objetExistantTestId = 0L;
+		final Long objetInexistantTestId = 17L;
+		
+		/* AFFICHAGE A LA CONSOLE. */
+		if (AFFICHAGE_GENERAL && affichage) {
+			System.out.println();
+			System.out.println("ID DES OBJETS DE TEST : ");
+			System.out.println("objetExistantTestId : " 
+					+ objetExistantTestId.toString());
+			System.out.println("objetInexistantTestId : " 
+					+ objetInexistantTestId.toString());
+		}
+		
+		try {
+
+			/* ********************************************************* */
+			/* ************************EXISTS_ID*************************** */
+			resultatExistant = dao.existsId(objetExistantTestId);
+			resultatInexistant = dao.existsId(objetInexistantTestId);
+			/* ********************************************************* */
+			
+			/* AFFICHAGE A LA CONSOLE. */
+			if (AFFICHAGE_GENERAL && affichage) {
+				System.out.println();
+				System.out.println("objetExistantTest EXISTE ? : " + resultatExistant);
+				System.out.println("objetInexistantTest EXISTE ? : " + resultatInexistant);
+			}
+	
+			
+			/* *********** */
+			// ASSERTIONS
+			/* *********** */
+			/* garantit que existsId(existant) retourne true. */
+			assertTrue(
+					"existsId(existant) doit retourner true : "
+						, resultatExistant);
+			/* garantit que existsId(inexistant) retourne false. */
+			assertFalse(
+					"existsId(inexistant) doit retourner false : "
+						, resultatInexistant);
+
+			
+			// ETAT FINAL
+			/* récupération. */
+			final List<IContactSimple> objetsFinaux = dao.findAll();
+
+			/* Calcul du nombre d'objets dans le stockage après le traitement. */
+			nombreObjetsFinal = dao.count();
+
+			/* AFFICHAGE A LA CONSOLE. */
+			if (AFFICHAGE_GENERAL && affichage) {
+				System.out.println();
+				System.out.println("LISTE D'OBJETS APRES EXISTS_ID() : ");
+				System.out.println(dao.afficherListeObjetsMetier(objetsFinaux));
+				this.afficherNbreObjetsFinal(nombreObjetsFinal);
+			}
+
+			/* garantit que exists() ne touche à rien. */
+			assertEquals(
+					FINDALL_DOIT_RETOURNER_4_ENREGISTREMENTS
+						, Long.valueOf(4L)
+							, nombreObjetsFinal);
+															
+		} catch (AbstractDaoException e) {
+
+			System.out.println(TEST_EXISTS_ID);
+			this.afficherAbstractDaoException(e);
+
+		}
+
+	} // Fin de testExistsId().______________________________________________
+	
+
 	
 	/**
 	 * <b>convertit une Liste d'Objets Metier en liste 

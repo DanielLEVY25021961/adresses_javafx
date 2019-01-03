@@ -1274,6 +1274,9 @@ public class ContactSimpleDaoJAXB implements IContactSimpleDAO {
 
 	/**
 	 * {@inheritDoc}
+	 * - retourne false si le stockage n'existe pas.<br/>
+	 * - retourne false si le stockage est vide.<br/>
+	 * <br/>
 	 */
 	@Override
 	public boolean exists(
@@ -1286,7 +1289,17 @@ public class ContactSimpleDaoJAXB implements IContactSimpleDAO {
 		
 		List<IContactSimple> stockageList = null;
 		
-		stockageList = this.findAll();
+		/* retourne false si le stockage n'existe pas. */
+		if (this.fichierXML.exists()) {
+			stockageList = this.recupererListeModeles(this.fichierXML);
+		} else {
+			return false;
+		}
+		
+		/* retourne false si le stockage est vide. */
+		if (stockageList.isEmpty()) {
+			return false;
+		}
 		
 		for (final IContactSimple objet : stockageList) {
 			
@@ -1303,13 +1316,49 @@ public class ContactSimpleDaoJAXB implements IContactSimpleDAO {
 
 	/**
 	 * {@inheritDoc}
+	 * - retourne false si le stockage n'existe pas.<br/>
+	 * - retourne false si le stockage est vide.<br/>
+	 * <br/>
 	 */
 	@Override
-	public boolean exists(
+	public boolean existsId(
 			final Long pId) throws AbstractDaoException {
-		// TODO Auto-generated method stub
+		
+		/* retourne false si pId == null. */
+		if (pId == null) {
+			return false;
+		}
+		
+		List<IContactSimple> stockageList = null;
+		
+		/* retourne false si le stockage n'existe pas. */
+		if (this.fichierXML.exists()) {
+			stockageList = this.recupererListeModeles(this.fichierXML);
+		} else {
+			return false;
+		}
+		
+		/* retourne false si le stockage est vide. */
+		if (stockageList.isEmpty()) {
+			return false;
+		}
+
+		final List<Long> listIds = new ArrayList<Long>();
+		
+		Long id = 0L;
+		
+		for (final IContactSimple objet : stockageList) {
+			listIds.add(id);
+			id++;
+		}
+		
+		if (listIds.contains(pId)) {
+			return true;
+		}
+		
 		return false;
-	}
+		
+	} // Fin de existsId(...)._____________________________________________
 
 
 

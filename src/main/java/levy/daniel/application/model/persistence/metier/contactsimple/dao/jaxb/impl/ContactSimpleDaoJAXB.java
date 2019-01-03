@@ -1049,7 +1049,8 @@ public class ContactSimpleDaoJAXB implements IContactSimpleDAO {
 		}
 
 		Long id = 0L;
-		List<IContactSimple> resultat = new ArrayList<IContactSimple>();
+		final List<IContactSimple> resultat 
+				= new ArrayList<IContactSimple>();
 		
 		for (final IContactSimple objet : stockageList) {
 			
@@ -1069,13 +1070,60 @@ public class ContactSimpleDaoJAXB implements IContactSimpleDAO {
 
 	/**
 	 * {@inheritDoc}
+	 * - retourne false si le stockage n'existe pas.<br/>
+	 * - retourne false si le stockage est vide.<br/>
+	 * <br/>
 	 */
 	@Override
 	public boolean deleteByIdBoolean(
 			final Long pId) throws AbstractDaoException {
-		// TODO Auto-generated method stub
-		return false;
-	}
+		
+		/* retourne false si pId == null. */
+		if (pId == null) {
+			return false;
+		}
+		
+		List<IContactSimple> stockageList = null;
+		
+		/* retourne false si le stockage n'existe pas. */
+		if (this.fichierXML.exists()) {
+			stockageList = this.recupererListeModeles(this.fichierXML);
+		} else {
+			return false;
+		}
+		
+		/* retourne false si le stockage est vide. */
+		if (stockageList.isEmpty()) {
+			return false;
+		}
+		
+		/* retourne false si pId est en dehors des index de stockage. */
+		if (pId > stockageList.size() - 1) {
+			return false;
+		}
+
+		Long id = 0L;
+		boolean retire = false;
+		
+		final List<IContactSimple> resultat 
+				= new ArrayList<IContactSimple>();
+		
+		for (final IContactSimple objet : stockageList) {
+			
+			if (!id.equals(pId)) {
+				resultat.add(objet);
+			}
+			
+			retire = true;
+			id++;
+		}
+		
+		/* enregistre la nouvelle liste dans le stockage XML. */
+		this.enregistrer(resultat, this.fichierXML);
+		
+		return retire;
+
+	} // Fin de deleteByIdBoolean(...).____________________________________
 
 
 
@@ -1086,10 +1134,11 @@ public class ContactSimpleDaoJAXB implements IContactSimpleDAO {
 	public void deleteAll() throws AbstractDaoException {
 		
 		/* instancie une nouvelle liste vide. */
-		final List<IContactSimple> contacts = new ArrayList<IContactSimple>();
+		final List<IContactSimple> stockageList 
+			= new ArrayList<IContactSimple>();
 		
 		/* enregistre la nouvelle liste vide dans le stockage XML. */
-		this.enregistrer(contacts, this.fichierXML);
+		this.enregistrer(stockageList, this.fichierXML);
 		
 	} // Fin de deleteAll()._______________________________________________
 
@@ -1100,33 +1149,122 @@ public class ContactSimpleDaoJAXB implements IContactSimpleDAO {
 	 */
 	@Override
 	public boolean deleteAllBoolean() throws AbstractDaoException {
-		// TODO Auto-generated method stub
-		return false;
-	}
+		
+		this.deleteAll();
+		
+		if (this.count() > 0) {
+			return false;
+		}
+		
+		return true;
+		
+	} // Fin de deleteAllBoolean().________________________________________
 
 
 
 	/**
 	 * {@inheritDoc}
+	 * - ne fait rien si le stockage n'existe pas.<br/>
+	 * - ne fait rien si le stockage est vide.<br/>
+	 * <br/>
 	 */
 	@Override
 	public void deleteIterable(
 			final Iterable<IContactSimple> pList) throws AbstractDaoException {
-		// TODO Auto-generated method stub
+
+		/* ne fait rien si pList == null. */
+		if (pList == null) {
+			return;
+		}
+				
+		List<IContactSimple> stockageList = null;
 		
-	}
+		/* ne fait rien si le stockage n'existe pas. */
+		if (this.fichierXML.exists()) {
+			stockageList = this.recupererListeModeles(this.fichierXML);
+		} else {
+			return;
+		}
+		
+		/* ne fait rien si le stockage est vide. */
+		if (stockageList.isEmpty()) {
+			return;
+		}
+		
+		final List<IContactSimple> liste 
+			= (List<IContactSimple>) pList;
+		
+		final List<IContactSimple> resultat 
+			= new ArrayList<IContactSimple>();
+		
+		for (final IContactSimple objet : stockageList) {
+			
+			if (!liste.contains(objet)) {
+				resultat.add(objet);
+			}
+		}
+		
+		/* enregistre la nouvelle liste dans le stockage XML. */
+		this.enregistrer(resultat, this.fichierXML);
+
+	} // Fin de deleteIterable(...)._______________________________________
 
 
 
 	/**
 	 * {@inheritDoc}
+	 * - retourne false si le stockage n'existe pas.<br/>
+	 * - retourne false si le stockage est vide.<br/>
+	 * <br/>
 	 */
 	@Override
 	public boolean deleteIterableBoolean(
 			final Iterable<IContactSimple> pList) throws AbstractDaoException {
-		// TODO Auto-generated method stub
-		return false;
-	}
+		
+		/* retourne false si pList == null.*/
+		if (pList == null) {
+			return false;
+		}
+		
+		
+		List<IContactSimple> stockageList = null;
+		
+		/* retourne false si le stockage n'existe pas. */
+		if (this.fichierXML.exists()) {
+			stockageList = this.recupererListeModeles(this.fichierXML);
+		} else {
+			return false;
+		}
+		
+		/* retourne false si le stockage est vide. */
+		if (stockageList.isEmpty()) {
+			return false;
+		}
+
+		
+		final List<IContactSimple> liste 
+			= (List<IContactSimple>) pList;
+		
+		final List<IContactSimple> resultat 
+			= new ArrayList<IContactSimple>();
+		
+		boolean retire = false;
+		
+		for (final IContactSimple objet : stockageList) {
+			
+			if (!liste.contains(objet)) {
+				resultat.add(objet);
+			} else {
+				retire = true;
+			}
+		}
+		
+		/* enregistre la nouvelle liste dans le stockage XML. */
+		this.enregistrer(resultat, this.fichierXML);
+
+		return retire;
+		
+	} // Fin de deleteIterableBoolean(...).________________________________
 
 
 

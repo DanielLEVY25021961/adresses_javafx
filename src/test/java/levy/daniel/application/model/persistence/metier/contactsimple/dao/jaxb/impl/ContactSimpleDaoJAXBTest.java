@@ -94,6 +94,7 @@ public class ContactSimpleDaoJAXBTest {
 
 	/**
 	 * DAO.<br/>
+	 * Instancié dans avantTests() ou injecté par Spring.
 	 */
 	private static transient ContactSimpleDaoJAXB dao;
 
@@ -178,28 +179,28 @@ public class ContactSimpleDaoJAXBTest {
 		= "testCreateReturnIdDoublon()";
 	
 	/**
-	 * "testSaveNull()".<br/>
+	 * "testSaveIterableNull()".<br/>
 	 */
-	public static final String TEST_SAVE_NULL 
-		= "testSaveNull()";
+	public static final String TEST_SAVEITERABLE_NULL 
+		= "testSaveIterableNull()";
 
 	/**
-	 * testSaveObjetsNull().
+	 * testSaveIterableObjetsNull().
 	 */
-	public static final String TEST_SAVE_OBJETS_NULL 
-		= "testSaveObjetsNull()";
+	public static final String TEST_SAVEITERABLE_OBJETS_NULL 
+		= "testSaveIterableObjetsNull()";
 
 	/**
-	 * "testSave()".<br/>
+	 * "testSaveIterable()".<br/>
 	 */
-	public static final String TEST_SAVE 
-		= "testSave()";
+	public static final String TEST_SAVEITERABLE 
+		= "testSaveIterable()";
 		
 	/**
-	 * "testSaveDoublon()".<br/>
+	 * "testSaveIterableDoublon()".<br/>
 	 */
-	public static final String TEST_SAVE_DOUBLON 
-		= "testSaveDoublon()";
+	public static final String TEST_SAVEITERABLE_DOUBLON 
+		= "testSaveIterableDoublon()";
 	
 	/**
 	 * "testRetrieveNull()".<br/>
@@ -442,6 +443,12 @@ public class ContactSimpleDaoJAXBTest {
 	 */
 	public static final String TEST_EXISTS_ID 
 		= "testExistsId";
+	
+	/**
+	 * "testCount".
+	 */
+	public static final String TEST_COUNT 
+		= "testCount";
 	
 	/**
 	 * TIRETS : String :<br/>
@@ -2278,17 +2285,17 @@ public class ContactSimpleDaoJAXBTest {
 
 
 	/**
-	 * Teste la méthode <b>save(null)</b>.<br/>
+	 * Teste la méthode <b>saveIterable(null)</b>.<br/>
 	 * <ul>
-	 * <li>garantit que save(null) ne stocke rien.</li>
-	 * <li>garantit que save(null) retourne null.</li>
+	 * <li>garantit que saveIterable(null) ne stocke rien.</li>
+	 * <li>garantit que saveIterable(null) retourne null.</li>
 	 * </ul>
 	 *
 	 * @throws Exception
 	 */
 	@SuppressWarnings(UNUSED)
 	@Test
-	public void testSaveNull() throws Exception {
+	public void testSaveIterableNull() throws Exception {
 				
 		// **********************************
 		// AFFICHAGE DANS LE TEST ou NON
@@ -2297,7 +2304,7 @@ public class ContactSimpleDaoJAXBTest {
 
 		/* AFFICHAGE A LA CONSOLE. */
 		if (AFFICHAGE_GENERAL && affichage) {
-			System.out.println("********** CLASSE ContactSimpleDaoJAXBTest - méthode testSaveNull() ********** ");
+			System.out.println("********** CLASSE ContactSimpleDaoJAXBTest - méthode testSaveIterableNull() ********** ");
 		}
 
 		/* dao NON INJECTE. */
@@ -2305,7 +2312,7 @@ public class ContactSimpleDaoJAXBTest {
 			
 			/* AFFICHAGE A LA CONSOLE. */
 			if (AFFICHAGE_GENERAL && affichage) {
-				System.out.println(TEST_SAVE_NULL);
+				System.out.println(TEST_SAVEITERABLE_NULL);
 				this.afficherDAONonInstancie();
 			}
 			
@@ -2340,7 +2347,7 @@ public class ContactSimpleDaoJAXBTest {
 			
 			/* *********************************************** */
 			/* ********************* CREATION **************** */
-			listVraimentNull1Persistant = (List<IContactSimple>) dao.save(listVraimentNull1);
+			listVraimentNull1Persistant = (List<IContactSimple>) dao.saveIterable(listVraimentNull1);
 			/* *********************************************** */
 			
 			/* récupération. */
@@ -2366,39 +2373,39 @@ public class ContactSimpleDaoJAXBTest {
 				this.afficherNbreObjetsFinal(nombreObjetsFinal);
 			}
 			
-			/* garantit que save(null) retourne null. */
+			/* garantit que saveIterable(null) retourne null. */
 			assertNull(
-					"save(null) doit retourner null : "
+					"saveIterable(null) doit retourner null : "
 						, listVraimentNull1Persistant);
 			
-			/* garantit que save(null) ne stocke rien. */
+			/* garantit que saveIterable(null) ne stocke rien. */
 			assertTrue(NBRE_OBJETS_FINAL_DOIT
 					+ NBRE_INITIAL_PLUS_ZERO
 					, nombreObjetsFinal == nombreObjetsInitial + 0);
 			
 		}
 		catch (AbstractDaoException e) {
-			System.out.println(TEST_SAVE_NULL);
+			System.out.println(TEST_SAVEITERABLE_NULL);
 			this.afficherAbstractDaoException(e);			
 			e.printStackTrace();
 		}
 		
-	} // Fin de testSaveNull().____________________________________________
+	} // Fin de testSaveIterableNull().____________________________________
 	
 	
 	
 	/**
-	 * Teste la méthode <b>save(objets Null)</b>.<br/>
+	 * Teste la méthode <b>saveIterable(objets Null)</b>.<br/>
 	 * <ul>
-	 * <li>garantit que save(objets null) ne stocke rien.</li>
-	 * <li>garantit que save(objets null) retourne une liste vide.</li>
+	 * <li>garantit que saveIterable(objets null) ne stocke rien.</li>
+	 * <li>garantit que saveIterable(objets null) retourne une liste vide.</li>
 	 * </ul>
 	 *
 	 * @throws Exception
 	 */
 	@SuppressWarnings(UNUSED)
 	@Test
-	public void testSaveObjetsNull() throws Exception {
+	public void testSaveIterableObjetsNull() throws Exception {
 				
 		// **********************************
 		// AFFICHAGE DANS LE TEST ou NON
@@ -2407,7 +2414,7 @@ public class ContactSimpleDaoJAXBTest {
 
 		/* AFFICHAGE A LA CONSOLE. */
 		if (AFFICHAGE_GENERAL && affichage) {
-			System.out.println("********** CLASSE ContactSimpleDaoJAXBTest - méthode testSaveObjetsNull() ********** ");
+			System.out.println("********** CLASSE ContactSimpleDaoJAXBTest - méthode testSaveIterableObjetsNull() ********** ");
 		}
 
 		/* dao NON INJECTE. */
@@ -2415,7 +2422,7 @@ public class ContactSimpleDaoJAXBTest {
 			
 			/* AFFICHAGE A LA CONSOLE. */
 			if (AFFICHAGE_GENERAL && affichage) {
-				System.out.println(TEST_SAVE_OBJETS_NULL);
+				System.out.println(TEST_SAVEITERABLE_OBJETS_NULL);
 				this.afficherDAONonInstancie();
 			}
 			
@@ -2457,7 +2464,7 @@ public class ContactSimpleDaoJAXBTest {
 			
 			/* *********************************************** */
 			/* ********************* CREATION **************** */
-			listAvecNull1Persistant = (List<IContactSimple>) dao.save(listAvecNull1);
+			listAvecNull1Persistant = (List<IContactSimple>) dao.saveIterable(listAvecNull1);
 			/* *********************************************** */
 			
 			/* récupération. */
@@ -2484,36 +2491,36 @@ public class ContactSimpleDaoJAXBTest {
 				this.afficherNbreObjetsFinal(nombreObjetsFinal);
 			}
 			
-			/* garantit que save(objets null) retourne une liste vide. */
+			/* garantit que saveIterable(objets null) retourne une liste vide. */
 			if (listAvecNull1Persistant != null) {
 				
 				assertTrue(
-						"save(objets null) doit retourner unue liste vide : "
+						"saveIterable(objets null) doit retourner unue liste vide : "
 							, listAvecNull1Persistant.isEmpty());
 			}
 			
 			
-			/* garantit que save(objets null) ne stocke rien. */
+			/* garantit que saveIterable(objets null) ne stocke rien. */
 			assertTrue(NBRE_OBJETS_FINAL_DOIT
 					+ NBRE_INITIAL_PLUS_ZERO
 					, nombreObjetsFinal == nombreObjetsInitial + 0);
 			
 		}
 		catch (AbstractDaoException e) {
-			System.out.println(TEST_SAVE_OBJETS_NULL);
+			System.out.println(TEST_SAVEITERABLE_OBJETS_NULL);
 			this.afficherAbstractDaoException(e);			
 			e.printStackTrace();
 		}
 		
-	} // Fin de testSaveObjetsNull().______________________________________
+	} // Fin de testSaveIterableObjetsNull().______________________________
 	
 	
 	
 	/**
-	 * Teste la méthode <b>save(objets corrects)</b>.<br/>
+	 * Teste la méthode <b>saveIterable(objets corrects)</b>.<br/>
 	 * <ul>
-	 * <li>garantit que save(objets corrects) stocke.</li>
-	 * <li>garantit que save(objets corrects) 
+	 * <li>garantit que saveIterable(objets corrects) stocke.</li>
+	 * <li>garantit que saveIterable(objets corrects) 
 	 * retourne une liste des objets stockés.</li>
 	 * </ul>
 	 *
@@ -2521,7 +2528,7 @@ public class ContactSimpleDaoJAXBTest {
 	 */
 	@SuppressWarnings(UNUSED)
 	@Test
-	public void testSave() throws Exception {
+	public void testSaveIterable() throws Exception {
 				
 		// **********************************
 		// AFFICHAGE DANS LE TEST ou NON
@@ -2530,7 +2537,7 @@ public class ContactSimpleDaoJAXBTest {
 
 		/* AFFICHAGE A LA CONSOLE. */
 		if (AFFICHAGE_GENERAL && affichage) {
-			System.out.println("********** CLASSE ContactSimpleDaoJAXBTest - méthode testSave() ********** ");
+			System.out.println("********** CLASSE ContactSimpleDaoJAXBTest - méthode testSaveIterable() ********** ");
 		}
 
 		/* dao NON INJECTE. */
@@ -2538,7 +2545,7 @@ public class ContactSimpleDaoJAXBTest {
 			
 			/* AFFICHAGE A LA CONSOLE. */
 			if (AFFICHAGE_GENERAL && affichage) {
-				System.out.println(TEST_SAVE);
+				System.out.println(TEST_SAVEITERABLE);
 				this.afficherDAONonInstancie();
 			}
 			
@@ -2580,7 +2587,7 @@ public class ContactSimpleDaoJAXBTest {
 			
 			/* *********************************************** */
 			/* ********************* CREATION **************** */
-			list1Persistante = (List<IContactSimple>) dao.save(list1);
+			list1Persistante = (List<IContactSimple>) dao.saveIterable(list1);
 			/* *********************************************** */
 			
 			/* récupération. */
@@ -2607,36 +2614,36 @@ public class ContactSimpleDaoJAXBTest {
 				this.afficherNbreObjetsFinal(nombreObjetsFinal);
 			}
 			
-			/* garantit que save(objets corrects) retourne une liste non vide. */
+			/* garantit que saveIterable(objets corrects) retourne une liste non vide. */
 			if (list1Persistante != null) {
 				
 				assertFalse(
-						"save(objets null) doit retourner une liste NON vide : "
+						"saveIterable(objets null) doit retourner une liste NON vide : "
 							, list1Persistante.isEmpty());
 			}
 			
 			
-			/* garantit que save(objets corrects) stocke. */
+			/* garantit que saveIterable(objets corrects) stocke. */
 			assertTrue(NBRE_OBJETS_FINAL_DOIT
 					+ NBRE_INITIAL_PLUS_DEUX
 					, nombreObjetsFinal == nombreObjetsInitial + 2);
 			
 		}
 		catch (AbstractDaoException e) {
-			System.out.println(TEST_SAVE);
+			System.out.println(TEST_SAVEITERABLE);
 			this.afficherAbstractDaoException(e);			
 			e.printStackTrace();
 		}
 		
-	} // Fin de testSave().________________________________________________
+	} // Fin de testSaveIterable().________________________________________
 	
 	
 	
 	/**
-	 * Teste la méthode <b>save(doublons)</b>.<br/>
+	 * Teste la méthode <b>saveIterable(doublons)</b>.<br/>
 	 * <ul>
-	 * <li>garantit que save(doublons) ne stocke pas de doublon.</li>
-	 * <li>garantit que save(doublons) 
+	 * <li>garantit que saveIterable(doublons) ne stocke pas de doublon.</li>
+	 * <li>garantit que saveIterable(doublons) 
 	 * retourne une liste des objets stockés.</li>
 	 * </ul>
 	 *
@@ -2644,7 +2651,7 @@ public class ContactSimpleDaoJAXBTest {
 	 */
 	@SuppressWarnings(UNUSED)
 	@Test
-	public void testSaveDoublon() throws Exception {
+	public void testSaveIterableDoublon() throws Exception {
 				
 		// **********************************
 		// AFFICHAGE DANS LE TEST ou NON
@@ -2653,7 +2660,7 @@ public class ContactSimpleDaoJAXBTest {
 
 		/* AFFICHAGE A LA CONSOLE. */
 		if (AFFICHAGE_GENERAL && affichage) {
-			System.out.println("********** CLASSE ContactSimpleDaoJAXBTest - méthode testSaveDoublon() ********** ");
+			System.out.println("********** CLASSE ContactSimpleDaoJAXBTest - méthode testSaveIterableDoublon() ********** ");
 		}
 
 		/* dao NON INJECTE. */
@@ -2661,7 +2668,7 @@ public class ContactSimpleDaoJAXBTest {
 			
 			/* AFFICHAGE A LA CONSOLE. */
 			if (AFFICHAGE_GENERAL && affichage) {
-				System.out.println(TEST_SAVE_DOUBLON);
+				System.out.println(TEST_SAVEITERABLE_DOUBLON);
 				this.afficherDAONonInstancie();
 			}
 			
@@ -2707,7 +2714,7 @@ public class ContactSimpleDaoJAXBTest {
 			
 			/* *********************************************** */
 			/* ********************* CREATION **************** */
-			list1Persistante = (List<IContactSimple>) dao.save(list1);
+			list1Persistante = (List<IContactSimple>) dao.saveIterable(list1);
 			/* *********************************************** */
 			
 			/* récupération. */
@@ -2734,28 +2741,28 @@ public class ContactSimpleDaoJAXBTest {
 				this.afficherNbreObjetsFinal(nombreObjetsFinal);
 			}
 			
-			/* garantit que save(doublon) retourne une liste non vide. */
+			/* garantit que saveIterable(doublon) retourne une liste non vide. */
 			if (list1Persistante != null) {
 				
 				assertFalse(
-						"save(objets null) doit retourner une liste NON vide : "
+						"saveIterable(objets null) doit retourner une liste NON vide : "
 							, list1Persistante.isEmpty());
 			}
 			
 			
-			/* garantit que save(doublon) stocke mais aucun doublon. */
+			/* garantit que saveIterable(doublon) stocke mais aucun doublon. */
 			assertTrue(NBRE_OBJETS_FINAL_DOIT
 					+ NBRE_INITIAL_PLUS_UN
 					, nombreObjetsFinal == nombreObjetsInitial + 1);
 			
 		}
 		catch (AbstractDaoException e) {
-			System.out.println(TEST_SAVE_DOUBLON);
+			System.out.println(TEST_SAVEITERABLE_DOUBLON);
 			this.afficherAbstractDaoException(e);			
 			e.printStackTrace();
 		}
 		
-	} // Fin de testSaveDoublon()._________________________________________
+	} // Fin de testSaveIterableDoublon()._________________________________
 	
 
 	
@@ -5250,9 +5257,9 @@ public class ContactSimpleDaoJAXBTest {
 
 	
 	/**
-	 * teste la méthode <b>update(id null, objet correct)</b>.<br/>
+	 * teste la méthode <b>updateById(id null, objet correct)</b>.<br/>
 	 * <ul>
-	 * <li>garantit que update(id null, objet correct) retourne null.</li>
+	 * <li>garantit que updateById(id null, objet correct) retourne null.</li>
 	 * </ul>
 	 *
 	 * @throws Exception
@@ -5329,7 +5336,7 @@ public class ContactSimpleDaoJAXBTest {
 
 			/* ********************************************************* */
 			/* **********************UPDATEID*************************** */
-			resultat = dao.update(idObjetAModifier, objetModifie);
+			resultat = dao.updateById(idObjetAModifier, objetModifie);
 			/* ********************************************************* */
 			
 			/* AFFICHAGE A LA CONSOLE. */
@@ -5346,9 +5353,9 @@ public class ContactSimpleDaoJAXBTest {
 			/* *********** */
 			// ASSERTIONS
 			/* *********** */
-			/* garantit que update(id null, objet correct) retourne null. */
+			/* garantit que updateById(id null, objet correct) retourne null. */
 			assertNull(
-					"update(id null, objet correct) doit retourner null : "
+					"updateById(id null, objet correct) doit retourner null : "
 						, resultat);
 			
 			
@@ -5383,9 +5390,9 @@ public class ContactSimpleDaoJAXBTest {
 
 	
 	/**
-	 * teste la méthode <b>update(id inexistant, objet correct)</b>.<br/>
+	 * teste la méthode <b>updateById(id inexistant, objet correct)</b>.<br/>
 	 * <ul>
-	 * <li>garantit que update(id inexistant, objet correct) retourne null.</li>
+	 * <li>garantit que updateById(id inexistant, objet correct) retourne null.</li>
 	 * </ul>
 	 *
 	 * @throws Exception
@@ -5462,7 +5469,7 @@ public class ContactSimpleDaoJAXBTest {
 
 			/* ********************************************************* */
 			/* **********************UPDATEID*************************** */
-			resultat = dao.update(idObjetAModifier, objetModifie);
+			resultat = dao.updateById(idObjetAModifier, objetModifie);
 			/* ********************************************************* */
 			
 			/* AFFICHAGE A LA CONSOLE. */
@@ -5479,9 +5486,9 @@ public class ContactSimpleDaoJAXBTest {
 			/* *********** */
 			// ASSERTIONS
 			/* *********** */
-			/* garantit que update(id inexistant, objet correct) retourne null. */
+			/* garantit que updateById(id inexistant, objet correct) retourne null. */
 			assertNull(
-					"update(id inexistant, objet correct) doit retourner null : "
+					"updateById(id inexistant, objet correct) doit retourner null : "
 						, resultat);
 			
 			
@@ -5516,9 +5523,9 @@ public class ContactSimpleDaoJAXBTest {
 
 	
 	/**
-	 * teste la méthode <b>update(id correct, objet doublon)</b>.<br/>
+	 * teste la méthode <b>updateById(id correct, objet doublon)</b>.<br/>
 	 * <ul>
-	 * <li>garantit que update(id correct, objet doublon) retourne null.</li>
+	 * <li>garantit que updateById(id correct, objet doublon) retourne null.</li>
 	 * </ul>
 	 *
 	 * @throws Exception
@@ -5594,7 +5601,7 @@ public class ContactSimpleDaoJAXBTest {
 
 			/* ********************************************************* */
 			/* **********************UPDATEID*************************** */
-			resultat = dao.update(idObjetAModifier, objetModifie);
+			resultat = dao.updateById(idObjetAModifier, objetModifie);
 			/* ********************************************************* */
 			
 			/* AFFICHAGE A LA CONSOLE. */
@@ -5611,9 +5618,9 @@ public class ContactSimpleDaoJAXBTest {
 			/* *********** */
 			// ASSERTIONS
 			/* *********** */
-			/* garantit que update(id correct, objet doublon) retourne null. */
+			/* garantit que updateById(id correct, objet doublon) retourne null. */
 			assertNull(
-					"update(id correct, objet doublon) doit retourner null : "
+					"updateById(id correct, objet doublon) doit retourner null : "
 						, resultat);
 			
 			
@@ -5648,9 +5655,9 @@ public class ContactSimpleDaoJAXBTest {
 
 	
 	/**
-	 * teste la méthode <b>update(id correct, objet correct)</b>.<br/>
+	 * teste la méthode <b>updateById(id correct, objet correct)</b>.<br/>
 	 * <ul>
-	 * <li>garantit que update(id correct, objet correct) 
+	 * <li>garantit que updateById(id correct, objet correct) 
 	 * retourne l'instance modifiée.</li>
 	 * <li>garantit que l'ID de l'objet modifié vaut pId.</li>
 	 * </ul>
@@ -5729,7 +5736,7 @@ public class ContactSimpleDaoJAXBTest {
 
 			/* ********************************************************* */
 			/* **********************UPDATEID*************************** */
-			resultat = dao.update(idObjetAModifier, objetModifie);
+			resultat = dao.updateById(idObjetAModifier, objetModifie);
 			/* ********************************************************* */
 			
 			/* AFFICHAGE A LA CONSOLE. */
@@ -5746,15 +5753,15 @@ public class ContactSimpleDaoJAXBTest {
 			/* *********** */
 			// ASSERTIONS
 			/* *********** */
-			/* garantit que update(id correct, objet correct) 
+			/* garantit que updateById(id correct, objet correct) 
 			 * retourne l'instance modifiée. */
 			assertNotNull(
-					"update(id correct, objet correct) doit "
+					"updateById(id correct, objet correct) doit "
 					+ "retourner l'instance modifiée : "
 						, resultat);
 			
 			assertEquals(
-					"update(id correct, objet correct) doit "
+					"updateById(id correct, objet correct) doit "
 					+ "retourner l'instance modifiée : "
 						, objetModifie
 							, resultat);
@@ -7646,6 +7653,71 @@ public class ContactSimpleDaoJAXBTest {
 
 	
 	/**
+	 * teste la méthode <b>count()</b>.<br/>
+	 * <ul>
+	 * <li>garantit que count() retourne 
+	 * le bon nombre d'enregistrements.</li>
+	 * </ul>
+	 *
+	 * @throws Exception
+	 */
+	@SuppressWarnings(UNUSED)
+	@Test
+	public void testCount() throws Exception {
+
+		// **********************************
+		// AFFICHAGE DANS LE TEST ou NON
+		final boolean affichage = false;
+		// **********************************
+
+		/* AFFICHAGE A LA CONSOLE. */
+		if (AFFICHAGE_GENERAL && affichage) {
+			System.out.println("********** CLASSE ContactSimpleDaoJAXBTest - méthode testCount() ********** ");
+		}
+
+		/* dao NON INJECTE. */
+		if (dao == null) {
+
+			/* AFFICHAGE A LA CONSOLE. */
+			if (AFFICHAGE_GENERAL && affichage) {
+				System.out.println(TEST_COUNT);
+				this.afficherDAONonInstancie();
+			}
+
+			return;
+
+		} // Fin de dao NON INJECTE._____________________
+
+		/* vide et remplit le stockage. */
+		this.remplirStockage(false);
+		
+		Long nombreObjetsInitial = 0L;
+		
+		// ETAT INITIAL
+		/* récupération. */
+		final List<IContactSimple> objetInitiaux = dao.findAll();
+
+		/* Compte du nombre d'Objets initialement dans le stockage. */
+		nombreObjetsInitial = dao.count();
+
+		/* AFFICHAGE A LA CONSOLE. */
+		if (AFFICHAGE_GENERAL && affichage) {
+			System.out.println("LISTE D'OBJETS DANS LE STOCKAGE : ");
+			System.out.println(dao.afficherListeObjetsMetier(objetInitiaux));
+			this.afficherNbreObjetsInitial(nombreObjetsInitial);
+		}
+		
+		/* garantit que count() retourne le bon nombre d'enregistrements. */
+		assertEquals(
+				FINDALL_DOIT_RETOURNER_4_ENREGISTREMENTS
+					, Long.valueOf(4L)
+						, nombreObjetsInitial);
+		
+	} // Fin de testCount()._______________________________________________
+
+	
+	
+	/**
 	 * <b>convertit une Liste d'Objets Metier en liste 
 	 * d'Entities</b>.<br/>
 	 *
@@ -7763,7 +7835,7 @@ public class ContactSimpleDaoJAXBTest {
 			
 			/* *********************************************** */
 			/* ********************* CREATION **************** */
-			lotPersistant = (List<IContactSimple>) dao.save(lot);
+			lotPersistant = (List<IContactSimple>) dao.saveIterable(lot);
 			/* *********************************************** */
 			
 			nombreObjetsFinal = dao.count();

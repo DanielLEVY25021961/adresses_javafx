@@ -81,7 +81,7 @@ public interface IConstantesApplicatives {
 
 	
 	/**
-	 * SAUT_LIGNE_JAVA : String :<br/>
+	 * SAUT_LIGNE_PLATEFORME : String :<br/>
 	 * "\n".<br/>
 	 */
 	String SAUT_LIGNE_JAVA = "\n";

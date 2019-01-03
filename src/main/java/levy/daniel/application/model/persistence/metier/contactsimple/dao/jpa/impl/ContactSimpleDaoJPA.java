@@ -18,6 +18,7 @@ import levy.daniel.application.model.metier.contactsimple.impl.ContactSimple;
 import levy.daniel.application.model.persistence.daoexceptions.AbstractDaoException;
 import levy.daniel.application.model.persistence.daoexceptions.GestionnaireDaoException;
 import levy.daniel.application.model.persistence.metier.JPAUtils;
+import levy.daniel.application.model.persistence.metier.contactsimple.IContactSimpleDAO;
 import levy.daniel.application.model.persistence.metier.contactsimple.entities.jpa.ContactSimpleEntityJPA;
 
 
@@ -41,32 +42,27 @@ import levy.daniel.application.model.persistence.metier.contactsimple.entities.j
  * @since 25 mai 2018
  *
  */
-public class ContactSimpleDaoJPA {
+public class ContactSimpleDaoJPA implements IContactSimpleDAO {
 
 	// ************************ATTRIBUTS************************************/
 
 	/**
 	 * "Classe ContactSimpleDaoJPA".<br/>
 	 */
-	public static final String CLASSE_CONTACTSIMPLEDAOJPA 
+	public static final String CLASSE_CONTACTSIMPLE_DAO_JPA 
 		= "Classe ContactSimpleDaoJPA";
-	
-	/**
-	 * "Méthode create(IContactSimple pObject)".<br/>
-	 */
-	public static final String  METHODE_CREATE 
-		= "Méthode create(IContactSimple pObject)";
 	
 	/**
 	 * " - ".<br/>
 	 */
-	public static final String SEPARATEUR_MOINS_AERE = " - ";
-
+	public static final String SEPARATEUR_MOINS_AERE 
+		= " - ";
+	
 	/**
-	 * '\n'.<br/>
+	 * saut de ligne de la plateforme.<br/>
 	 */
-	public static final char SAUT_LIGNE_JAVA = '\n';
-
+	public static final String SAUT_LIGNE_PLATEFORME 
+		= System.getProperty("line.separator");
 	
 	/**
 	 * "this.entityManager est NULL dans ContactSimpleDaoJPA".<br/>
@@ -108,15 +104,14 @@ public class ContactSimpleDaoJPA {
 	 * LOG : Log : 
 	 * Logger pour Log4j (utilisant commons-logging).
 	 */
-	private static final Log LOG = LogFactory.getLog(ContactSimpleDaoJPA.class);
+	private static final Log LOG 
+		= LogFactory.getLog(ContactSimpleDaoJPA.class);
 
 	// *************************METHODES************************************/
 
 	
 	 /**
-	 * method CONSTRUCTEUR ContactSimpleDaoJPA() :<br/>
 	 * CONSTRUCTEUR D'ARITE NULLE.<br/>
-	 * <br/>
 	 */
 	public ContactSimpleDaoJPA() {
 		
@@ -129,9 +124,6 @@ public class ContactSimpleDaoJPA {
 
 	
 	/**
-	 * method instancierContextJPA() :<br/>
-	 * Instancie le Contexte JPA 
-	 * (EntityManagerFactory).<br/>
 	 * <ul>
 	 * <li>lit le contexte de persistence dans META-INF/persistence.xml 
 	 * (connexion à la base, driver, ORM, ...).</li>
@@ -298,24 +290,17 @@ public class ContactSimpleDaoJPA {
 		return resultat;
 		
 	} // Fin de convertirListEntitiesEnModel(...)._________________________
-	
-	
-	
+
+
+
 	
 	/* CREATE ************/
+
 	
 	/**
-	 * method create(
-	 * IContactSimple pObject) :<br/>
-	 * Crée un Objet en base.<br/>
-	 * <br/>
-	 *
-	 * @param pObject : IContactSimple.<br/>
-	 * 
-	 * @return : IContactSimple : Objet persisté en base.<br/>
-	 * 
-	 * @throws AbstractDaoException 
+	 * {@inheritDoc}
 	 */
+	@Override
 	public IContactSimple create(
 			final IContactSimple pObject) throws AbstractDaoException {
 		
@@ -390,8 +375,8 @@ public class ContactSimpleDaoJPA {
 			/* Gestion de la DAO Exception. */
 			this.gestionnaireException
 				.gererException(
-						CLASSE_CONTACTSIMPLEDAOJPA
-							, METHODE_CREATE, e);
+						CLASSE_CONTACTSIMPLE_DAO_JPA
+							, "méthode create(object)", e);
 						
 		}
 		finally {
@@ -410,38 +395,38 @@ public class ContactSimpleDaoJPA {
 	} // Fin de create(...)._______________________________________________
 	
 
+
+	/**
+	 * {@inheritDoc}
+	 */
+	@Override
+	public void persist(
+			final IContactSimple pObject) throws AbstractDaoException {
+		// TODO Auto-generated method stub
+		
+	} // Fin de persist(...).______________________________________________
+
+
+
+	/**
+	 * {@inheritDoc}
+	 */
+	@Override
+	public Long createReturnId(
+			final IContactSimple pObject) throws AbstractDaoException {
+		// TODO Auto-generated method stub
+		return null;
+	} // Fin de createReturnId(...)._______________________________________
+
+	
 	
 	/**
-	 * method save(
-	 * Iterable&lt;IContactSimple&gt; pObjects) :<br/>
-	 * <ul>
-	 * <li>Sauvegarde en base tous les objets métier de type IContactSimple 
-	 * contenus dans la collection itérable d'objets métier 
-	 * de type IContactSimple "pObjects".</li>
-	 * <li>Retourne la Collection itérable (List&lt;IContactSimple&gt;) 
-	 * d'objets de type IContactSimple sauvegardés en base.</li>
-	 * <li>ne <b>sauvegarde pas et n'ajoute pas à la Collection 
-	 * retournée un doublon</b> présent dans le lot pObjects sans lever 
-	 * d'Exception (test de l'existence avant la mise en base).</li>
-	 * <li>Ne fait rien et continue si un objet est null 
-	 * dans le lot pObjects.</li>
-	 * </ul>
-	 * retourne null si pObjects == null.<br/>
-	 * jette une AbstractDaoException si pObjects n'a pu être enregistrée 
-	 * en base (doublon, Exception, ...).<br/>
-	 * <br/>
-	 *
-	 * @param pObjects : Iterable&lt;IContactSimple&gt; : 
-	 * collection itérable d'objets métier de type IContactSimple.<br/>
-	 *  
-	 * @return : Iterable&lt;IContactSimple&gt; : La Collection itérable d'objets 
-	 * de type IContactSimple sauvegardés en base.<br/>
-	 * 
-	 * @throws AbstractDaoException 
+	 * {@inheritDoc}
 	 */
-	public final Iterable<IContactSimple> save(
+	@Override
+	public Iterable<IContactSimple> saveIterable(
 			final Iterable<IContactSimple> pObjects) 
-			throws AbstractDaoException {
+									throws AbstractDaoException {
 
 		/* retourne null si pObjects == null. */
 		if (pObjects == null) {
@@ -526,7 +511,7 @@ public class ContactSimpleDaoJPA {
 							/* Gestion de la DAO Exception. */
 							this.gestionnaireException
 								.gererException(
-										CLASSE_CONTACTSIMPLEDAOJPA
+										CLASSE_CONTACTSIMPLE_DAO_JPA
 											, "Méthode save(Iterable)", e);
 						}
 						
@@ -553,7 +538,7 @@ public class ContactSimpleDaoJPA {
 			/* Gestion de la DAO Exception. */
 			this.gestionnaireException
 				.gererException(
-						CLASSE_CONTACTSIMPLEDAOJPA
+						CLASSE_CONTACTSIMPLE_DAO_JPA
 							, "Méthode save(Iterable)", e);
 
 		}
@@ -570,34 +555,18 @@ public class ContactSimpleDaoJPA {
 		/* retourne l'iterable resultat. */
 		return resultat;
 
-	} // Fin de save(...)._________________________________________________
+	} // Fin de saveIterable(...)._________________________________________
+	
+	
 
-	
-	
-	
-	
 	/* READ *************/
-	
 
-	
+
+
 	/**
-	 * method retrieve(
-	 * IContactSimple pObject) :<br/>
-	 * <ul>
-	 * <li>Recherche un objet métier de Type 
-	 * IContactSimple pObject en base.</li>
-	 * </ul>
-	 * Retourne null si aucun objet equals à pObject 
-	 * est retrouvé en base.<br/>
-	 * La base doit avoir un index d'unicité sur equals(...).<br/>
-	 * <br/>
-	 *
-	 * @param pObject : IContactSimple.<br/>
-	 * 
-	 * @return : IContactSimple : objet métier existant en base.<br/>
-	 * 
-	 * @throws AbstractDaoException 
+	 * {@inheritDoc}
 	 */
+	@Override
 	public IContactSimple retrieve(
 			final IContactSimple pObject) throws AbstractDaoException {
 		
@@ -647,7 +616,7 @@ public class ContactSimpleDaoJPA {
 			/* Gestion de la DAO Exception. */
 			this.gestionnaireException
 				.gererException(
-						CLASSE_CONTACTSIMPLEDAOJPA
+						CLASSE_CONTACTSIMPLE_DAO_JPA
 						, "Méthode retrieve(IContactSimple pObject)", e);
 		}
 				
@@ -658,22 +627,9 @@ public class ContactSimpleDaoJPA {
 
 	
 	/**
-	 * method findById(
-	 * Long pId) :<br/>
-	 * <ul>
-	 * <li>Recherche un Objet métier de Type 
-	 * IContactSimple via son ID en base.</li>
-	 * </ul>
-	 * retourne null si pId == null.<br/>
-	 * retourne null si pId n'existe pas en base.<br/>
-	 * <br/>
-	 *
-	 * @param pId : Long : ID en base de l'Objet métier.<br/>
-	 * 
-	 * @return : IContactSimple : Objet métier existant en base.<br/>
-	 * 
-	 * @throws AbstractDaoException 
+	 * {@inheritDoc}
 	 */
+	@Override
 	public IContactSimple findById(
 			final Long pId) throws AbstractDaoException {
 		
@@ -705,7 +661,7 @@ public class ContactSimpleDaoJPA {
 			/* Gestion de la DAO Exception. */
 			this.gestionnaireException
 				.gererException(
-						CLASSE_CONTACTSIMPLEDAOJPA
+						CLASSE_CONTACTSIMPLE_DAO_JPA
 						, "Méthode findById(ID)", e);
 			
 		}
@@ -713,22 +669,25 @@ public class ContactSimpleDaoJPA {
 		return objetTrouve;
 				
 	} // Fin de findById(...)._____________________________________________
+
+
+
+	/**
+	 * {@inheritDoc}
+	 */
+	@Override
+	public Long retrieveId(
+			final IContactSimple pObject) throws AbstractDaoException {
+		// TODO Auto-generated method stub
+		return null;
+	} // Fin de retrieveId(...).___________________________________________
 	
 
 	
 	/**
-	 * method findAll() :<br/>
-	 * <ul>
-	 * <li>Retourne la liste de tous les objets métier de Type IContactSimple 
-	 * présents en base.</li>
-	 * </ul>
-	 *
-	 * @return : List&lt;IContactSimple&gt; : 
-	 * liste de tous les objets métier de Type IContactSimple 
-	 * présents en base.<br/>
-	 * 
-	 * @throws AbstractDaoException 
+	 * {@inheritDoc}
 	 */
+	@Override
 	public List<IContactSimple> findAll() throws AbstractDaoException {
 		
 		/* Cas où this.entityManager == null. */
@@ -767,7 +726,7 @@ public class ContactSimpleDaoJPA {
 			/* Gestion de la DAO Exception. */
 			this.gestionnaireException
 				.gererException(
-						CLASSE_CONTACTSIMPLEDAOJPA
+						CLASSE_CONTACTSIMPLE_DAO_JPA
 						, "Méthode findall()", e);
 			
 		}
@@ -779,40 +738,39 @@ public class ContactSimpleDaoJPA {
 
 
 	
+	/**
+	 * {@inheritDoc}
+	 */
+	@Override
+	public List<IContactSimple> findAllMax(
+			final int pStartPosition, final int pMaxResult) 
+										throws AbstractDaoException {
+		// TODO Auto-generated method stub
+		return null;
+	} // Fin de findAllMax(...).___________________________________________
+
+
+
+	/**
+	 * {@inheritDoc}
+	 */
+	@Override
+	public Iterable<IContactSimple> findAllIterable(
+			final Iterable<Long> pIds) throws AbstractDaoException {
+		// TODO Auto-generated method stub
+		return null;
+	} // Fin de findAllIterable(...).______________________________________
+
+
+
 	/* UPDATE *************/
+
 	
 	/**
-	 * method update(
-	 * IContactSimple pObject) :<br/>
-	 * <ul>
-	 * <li><b>Modifie</b> un objet métier <b>persistant</b> 
-	 * de Type IContactSimple pObject.</li>
-	 * <li>Retourne l'objet métier de Type IContactSimple 
-	 * pObject modifié en base.</li>
-	 * </ul>
-	 * retourne null si pObject == null.<br/>
-	 * ne fait rien et retourne l'instance détachée 
-	 * si pObject n'est pas déjà persistant en base.<br/>
-	 * <br/>
-	 * <code>Exemple de code : </code><br/>
-	 * <code>// Récupération de l'objet persistant à modifier.</code><br/>
-	 * <code>objet1Persistant = this.daoUserSimple.retrieve(objet1);</code><br/>
-	 * <code>// Modifications.</code><br/>
-	 * <code>objet1Persistant.setPrenom("Jean-Frédéric modifié");</code><br/>
-	 * <code>objet1Persistant.setNom("Bôrne modifié");</code><br/>
-	 * <code>// Application des modifications en base.</code><br/>
-	 * <code>objet1ModifiePersistant = 
-	 * this.daoUserSimple.<b>update(objet1Persistant)</b>;</code><br/>
-	 * <br/>
-	 *
-	 * @param pObject : IContactSimple.<br/>
-	 * 
-	 * @return : IContactSimple : objet métier de Type IContactSimple
-	 * modifié en base.<br/>
-	 * 
-	 * @throws AbstractDaoException 
+	 * {@inheritDoc}
 	 */
-	public final IContactSimple update(
+	@Override
+	public IContactSimple update(
 			final IContactSimple pObject) throws AbstractDaoException {
 		
 		/* retourne null si pObject == null. */
@@ -857,7 +815,7 @@ public class ContactSimpleDaoJPA {
 			/* Gestion de la DAO Exception. */
 			this.gestionnaireException
 				.gererException(
-						CLASSE_CONTACTSIMPLEDAOJPA
+						CLASSE_CONTACTSIMPLE_DAO_JPA
 						, "Méthode update(IContactSimple Object)", e);
 						
 		}
@@ -867,33 +825,31 @@ public class ContactSimpleDaoJPA {
 		
 	} // Fin de update(...)._______________________________________________
 
-		
-	
-	/* DELETE *************/
-	
-	
+
+
 	/**
-	 * method delete(
-	 * IContactSimple pObject) :<br/>
-	 * <ul>
-	 * <li>Détruit un Objet métier de Type IContactSimple pObject
-	 * existant en base.</li>
-	 * <li>Vérifie que pObject est déjà persistant en base.</li>
-	 * <li>Retourne un boolean (true si OK) précisant 
-	 * si l'opération de destruction a eu lieu.</li>
-	 * </ul>
-	 * retourne false si pObject == null.<br/>
-	 * retourne false si l'objet n'existait pas en base.<br/>
-	 * <br/>
-	 *
-	 * @param pObject : IContactSimple.<br/>
-	 * 
-	 * @return : boolean : true si l'objet métier de Type IContactSimple
-	 * a été détruit en base.<br/>
-	 * 
-	 * @throws AbstractDaoException 
+	 * {@inheritDoc}
 	 */
-	public final boolean delete(
+	@Override
+	public IContactSimple updateById(
+			final Long pId
+				, final IContactSimple pObjectModifie) 
+										throws AbstractDaoException {
+		// TODO Auto-generated method stub
+		return null;
+	} // Fin de updateById(...).___________________________________________
+
+
+
+	/* DELETE *************/
+
+
+
+	/**
+	 * {@inheritDoc}
+	 */
+	@Override
+	public boolean delete(
 			final IContactSimple pObject) throws AbstractDaoException {
 		
 		/* retourne false si pObject == null. */
@@ -943,7 +899,7 @@ public class ContactSimpleDaoJPA {
 			/* Gestion de la DAO Exception. */
 			this.gestionnaireException
 				.gererException(
-						CLASSE_CONTACTSIMPLEDAOJPA
+						CLASSE_CONTACTSIMPLE_DAO_JPA
 						, "Méthode delete(IContactSimple pObject)", e);
 									
 		}
@@ -955,21 +911,10 @@ public class ContactSimpleDaoJPA {
 
 	
 	/**
-	 * method deleteById(
-	 * Long pId) :<br/>
-	 * <ul>
-	 * <li>Détruit un Objet métier de Type IContactSimple 
-	 * existant en base via son ID de Type Long.</li>
-	 * </ul>
-	 * ne fait rien si pId est null.<br/>
-	 * ne fait rien si pId n'existe pas en base.<br/>
-	 * <br/>
-	 * 
-	 * @param pId : Long : ID en base.<br/>
-	 * 
-	 * @throws AbstractDaoException 
+	 * {@inheritDoc}
 	 */
-	public final void deleteById(
+	@Override
+	public void deleteById(
 			final Long pId) throws AbstractDaoException {
 		
 		/* ne fait rien si pId == null. */
@@ -1023,7 +968,7 @@ public class ContactSimpleDaoJPA {
 
 			/* Gestion de la DAO Exception. */
 			this.gestionnaireException
-				.gererException(CLASSE_CONTACTSIMPLEDAOJPA
+				.gererException(CLASSE_CONTACTSIMPLE_DAO_JPA
 						, "Méthode deleteById(Long pId)", e);
 		}
 		
@@ -1032,26 +977,10 @@ public class ContactSimpleDaoJPA {
 	
 		
 	/**
-	 * method deleteBoolean(
-	 * Long pId) :<br/>
-	 * <ul>
-	 * <li>Détruit un Objet métier de Type IContactSimple
-	 * existant en base via son ID en base.</li>
-	 * <li>Retourne un boolean (true si OK) précisant 
-	 * si l'opération de destruction a eu lieu.</li>
-	 * </ul>
-	 * retourne false si pId est null.<br/>
-	 * retourne false si pId n'existe pas en base.<br/>
-	 * <br/>
-	 *
-	 * @param pId : Long : ID en base.<br/>
-	 * 
-	 * @return boolean : true si l'objet d'ID pId 
-	 * a été détruit en base.<br:>
-	 * 
-	 * @throws AbstractDaoException 
+	 * {@inheritDoc}
 	 */
-	public final boolean deleteByIdBoolean(
+	@Override
+	public boolean deleteByIdBoolean(
 			final Long pId) throws AbstractDaoException {
 		
 		/* retourne false si pId == null. */
@@ -1108,7 +1037,7 @@ public class ContactSimpleDaoJPA {
 
 			/* Gestion de la DAO Exception. */
 			this.gestionnaireException
-				.gererException(CLASSE_CONTACTSIMPLEDAOJPA
+				.gererException(CLASSE_CONTACTSIMPLE_DAO_JPA
 						, "Méthode deleteByIdBoolean(Long pId)", e);
 		}
 		
@@ -1119,15 +1048,10 @@ public class ContactSimpleDaoJPA {
 	
 
 	/**
-	 * method deleteAll() :<br/>
-	 * <ul>
-	 * <li>Détruit en base toutes les instances 
-	 * d'Objets métier de Type IContactSimple.</li>
-	 * </ul>
-	 * 
-	 * @throws AbstractDaoException 
+	 * {@inheritDoc}
 	 */
-	public final void deleteAll() throws AbstractDaoException {
+	@Override
+	public void deleteAll() throws AbstractDaoException {
 		
 		/* Cas où this.entityManager == null. */
 		if (this.entityManager == null) {
@@ -1164,7 +1088,7 @@ public class ContactSimpleDaoJPA {
 			/* Gestion de la DAO Exception. */
 			this.gestionnaireException
 				.gererException(
-						CLASSE_CONTACTSIMPLEDAOJPA
+						CLASSE_CONTACTSIMPLE_DAO_JPA
 						, "Méthode deleteAll()", e);
 			
 		}
@@ -1174,18 +1098,10 @@ public class ContactSimpleDaoJPA {
 
 	
 	/**
-	 * method deleteAllBoolean() :<br/>
-	 * <ul>
-	 * <li>Détruit en base tous les enregistrements 
-	 * d'Objets métier de Type IContactSimple.</li>
-	 * <li>Retourne true si la destruction a bien été effectuée.</li>
-	 * </ul>
-	 * @return boolean : true si tous les enregistrements 
-	 * ont été détruits en base.<br/>
-	 * 
-	 * @throws AbstractDaoException 
+	 * {@inheritDoc}
 	 */
-	public final boolean deleteAllBoolean() throws AbstractDaoException {
+	@Override
+	public boolean deleteAllBoolean() throws AbstractDaoException {
 		
 		/* Cas où this.entityManager == null. */
 		if (this.entityManager == null) {
@@ -1226,48 +1142,35 @@ public class ContactSimpleDaoJPA {
 			/* Gestion de la DAO Exception. */
 			this.gestionnaireException
 				.gererException(
-						CLASSE_CONTACTSIMPLEDAOJPA
+						CLASSE_CONTACTSIMPLE_DAO_JPA
 						, "Méthode deleteAllBoolean()", e);
 			
 		}
 		
 		return resultat;
 		
-	} // Fin de deleteAll()._______________________________________________
+	} // Fin de deleteAllBoolean().________________________________________
 
 
-	
+
 	/**
-	 * method delete(
-	 * Iterable&lt;IContactSimple&gt; pObjects) :<br/>
-	 * <ul>
-	 * <li>Détruit en base tous les objets métier de IContactSimple
-	 * contenus dans la collection itérable pObjects.</li>
-	 * </ul>
-	 * ne fait rien si pObjects == null.<br/>
-	 * ne plante pas si un des objets de la collection 
-	 * n'existe pas en base.<br/>
-	 * <br/>
-	 *
-	 * @param pObjects : Iterable&lt;IContactSimple&gt; : 
-	 * collection itérable d'objets de type IContactSimple.<br/>
-	 * 
-	 * @throws AbstractDaoException 
+	 * {@inheritDoc}
 	 */
-	public final void delete(
-			final Iterable<IContactSimple> pObjects) 
+	@Override
+	public void deleteIterable(
+			final Iterable<IContactSimple> pList) 
 						throws AbstractDaoException {
 		
-		/* ne fait rien si pObjects == null. */
-		if (pObjects == null) {
+		/* ne fait rien si pList == null. */
+		if (pList == null) {
 			return;
 		}
 		
-		final Iterator<IContactSimple> itePersistants = pObjects.iterator();
+		final Iterator<IContactSimple> itePersistants = pList.iterator();
 		final List<IContactSimple> listePersistants 
 			= new ArrayList<IContactSimple>();
 		
-		/* Récupération préalable des objets persistans en base. */
+		/* Récupération préalable des objets persistants en base. */
 		while (itePersistants.hasNext()) {
 			final IContactSimple objet = itePersistants.next();
 			final IContactSimple objetPersistant = this.retrieve(objet);
@@ -1302,36 +1205,36 @@ public class ContactSimpleDaoJPA {
 			
 			/* Gestion de la DAO Exception. */
 			this.gestionnaireException.gererException(
-					CLASSE_CONTACTSIMPLEDAOJPA
-					, "Méthode delete(Iterable)", e);
+					CLASSE_CONTACTSIMPLE_DAO_JPA
+					, "Méthode deleteIterable(Iterable)", e);
 			
 		}
 				
-	} // Fin de delete(...)._______________________________________________
+	} // Fin de deleteIterable(...)._______________________________________
 
-	
 
-	
+
+	/**
+	 * {@inheritDoc}
+	 */
+	@Override
+	public boolean deleteIterableBoolean(
+			final Iterable<IContactSimple> pList) 
+						throws AbstractDaoException {
+		// TODO Auto-generated method stub
+		return false;
+	} // Fin de deleteIterableBoolean(...).________________________________
+
+
+
 	/* TOOLS *************/
 
-	
+
+
 	/**
-	 * method exists(
-	 * IContactSimple pObject) :<br/>
-	 * <ul>
-	 * <li>Retourne un boolean permettant de déterminer si l'Objet métier 
-	 * de Type IContactSimple pObject est persisté en base.</li>
-	 * <li>Retourne true si l'Objet métier a été trouvé en base.</li>
-	 * </ul>
-	 * retourne false si l'objet n'existe pas en base.<br/>
-	 * <br/>
-	 *
-	 * @param pObject : IContactSimple.<br/>
-	 * 
-	 * @return boolean : true si l'objet métier existe en base.<br/>
-	 * 
-	 * @throws AbstractDaoException
+	 * {@inheritDoc}
 	 */
+	@Override
 	public boolean exists(
 			final IContactSimple pObject) throws AbstractDaoException {
 		
@@ -1386,35 +1289,21 @@ public class ContactSimpleDaoJPA {
 			
 			/* Gestion de la DAO Exception. */
 			this.gestionnaireException
-				.gererException(CLASSE_CONTACTSIMPLEDAOJPA
+				.gererException(CLASSE_CONTACTSIMPLE_DAO_JPA
 						, "Méthode exists(IContactSimple pObject)", e);
 		}
 				
 		return resultat;
 		
 	} // Fin de exists(...)._______________________________________________
-	
-	
+
+
 
 	/**
-	 * method exists(
-	 * Long pId) :<br/>
-	 * <ul>
-	 * <li>Retourne un boolean permettant de déterminer si un Objet métier 
-	 * de Type IContactSimple avec ID == pId  est persisté en base.</li>
-	 * <li>Retourne true si l'Objet métier a été trouvé en base.</li>
-	 * </ul>
-	 * retourne false si l'objet n'existe pas en base.<br/>
-	 * <br/>
-	 *
-	 * @param pId : Long .<br/>
-	 * 
-	 * @return boolean : true si l'objet métier de Type IContactSimple 
-	 * existe en base.<br/>
-	 * 
-	 * @throws AbstractDaoException 
+	 * {@inheritDoc}
 	 */
-	public boolean exists(
+	@Override
+	public boolean existsId(
 			final Long pId) throws AbstractDaoException {
 		
 		/* retourne false si pId == null . */
@@ -1429,24 +1318,15 @@ public class ContactSimpleDaoJPA {
 		
 		return false;
 		
-	} // Fin de exists(...)._______________________________________________
+	} // Fin de existsId(...)._____________________________________________
 	
 
 	
 	/**
-	 * method count() :<br/>
-	 * <ul>
-	 * <li>Retourne le nombre d'Objets metier 
-	 * de type IContactSimple présents en base.</li>
-	 * </ul>
-	 *
-	 * @return : Long : 
-	 * le nombre d'Objets metier de type IContactSimple 
-	 * présents en base.<br/>
-	 * 
-	 * @throws AbstractDaoException 
+	 * {@inheritDoc}
 	 */
-	public final Long count() throws AbstractDaoException {
+	@Override
+	public Long count() throws AbstractDaoException {
 		
 		/* Récupère la liste d'Objets métier de Type paramétré T. */
 		final List<IContactSimple> listObjects = this.findAll();
@@ -1457,12 +1337,36 @@ public class ContactSimpleDaoJPA {
 			return Long.valueOf(listObjects.size()) ;
 		}
 		
-		return 0L;
+		return null;
 		
 	} // Fin de count().___________________________________________________
+
+
+
+	/**
+	 * {@inheritDoc}
+	 */
+	@Override
+	public void ecrireStockageDansConsole() 
+					throws AbstractDaoException {
+		// TODO Auto-generated method stub
+		
+	} // Fin de ecrireStockageDansConsole()._______________________________
+
+
+
+	/**
+	 * {@inheritDoc}
+	 */
+	@Override
+	public String afficherListeObjetsMetier(
+			final List<IContactSimple> pList) {
+		// TODO Auto-generated method stub
+		return null;
+	} // Fin de afficherListeObjetsMetier(...).____________________________
+
 	
-	
-	
+		
 	/**
 	 * method afficherListe(
 	 * List&lt;IContactSimple&gt; pListe) :<br/>
@@ -1476,7 +1380,7 @@ public class ContactSimpleDaoJPA {
 	 * 
 	 * @return : String : String pour affichage à la console.<br/>
 	 */
-	public final String afficherListe(
+	public String afficherListe(
 			final List<IContactSimple> pListe) {
 		
 		/* retourne null si pListe == null. */
@@ -1488,13 +1392,13 @@ public class ContactSimpleDaoJPA {
 		
 		for (final IContactSimple objet : pListe) {
 			stb.append(objet.toString());
-			stb.append(SAUT_LIGNE_JAVA);
+			stb.append(SAUT_LIGNE_PLATEFORME);
 		}
 				
 		return stb.toString();			
 
 	} // Fin de afficherListe(...).________________________________________
-	
+
 
 	
-} // FIN DE LA CLASSE ContactSimpleDaoJPA.----------------------------------------
+} // FIN DE LA CLASSE ContactSimpleDaoJPA.-----------------------------------

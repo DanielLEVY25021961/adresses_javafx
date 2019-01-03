@@ -37,7 +37,7 @@ import java.util.List;
 public interface IDaoGeneric<T, ID extends Serializable> {
 	
 	/**
-	 * SAUT_LIGNE_JAVA : Character :<br/>
+	 * SAUT_LIGNE_PLATEFORME : Character :<br/>
 	 * saut de ligne "\n".<br/>
 	 */
 	String SAUT_LIGNE_JAVA = "\n";

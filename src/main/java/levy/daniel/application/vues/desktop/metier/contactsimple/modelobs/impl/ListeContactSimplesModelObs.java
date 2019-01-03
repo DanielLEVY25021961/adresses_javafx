@@ -65,7 +65,7 @@ public class ListeContactSimplesModelObs implements IListeContactSimplesModelObs
 	
 
 	/**
-	 * SAUT_LIGNE_JAVA : char :<br/>
+	 * SAUT_LIGNE_PLATEFORME : char :<br/>
 	 * '\n'.<br/>
 	 */
 	public static final char SAUT_LIGNE_JAVA = '\n';

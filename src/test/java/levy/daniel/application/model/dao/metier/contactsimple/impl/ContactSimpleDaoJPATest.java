@@ -109,7 +109,7 @@ public class ContactSimpleDaoJPATest {
 		
 		/* Enregistrement de la liste en base. */
 		final List<IContactSimple> listecontactSimples 
-			= (List<IContactSimple>) this.dao.save(contactsContactSimple);
+			= (List<IContactSimple>) this.dao.saveIterable(contactsContactSimple);
 		
 		/* garantit que la liste en base existe. */
 		assertNotNull("la liste en base doit exister : ", listecontactSimples);

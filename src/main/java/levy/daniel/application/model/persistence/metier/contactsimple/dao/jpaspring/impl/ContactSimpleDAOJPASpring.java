@@ -324,7 +324,7 @@ public class ContactSimpleDAOJPASpring implements IContactSimpleDAO {
 	 * {@inheritDoc}
 	 */
 	@Override
-	public Iterable<IContactSimple> save(
+	public Iterable<IContactSimple> saveIterable(
 			final Iterable<IContactSimple> pList) 
 					throws Exception {
 		
@@ -796,7 +796,7 @@ public class ContactSimpleDAOJPASpring implements IContactSimpleDAO {
 	 * {@inheritDoc}
 	 */
 	@Override
-	public IContactSimple update(
+	public IContactSimple updateById(
 			final Long pId, final IContactSimple pObjectModifie) 
 												throws Exception {
 

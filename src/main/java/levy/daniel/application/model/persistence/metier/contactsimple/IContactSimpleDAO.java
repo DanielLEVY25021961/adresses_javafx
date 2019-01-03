@@ -131,7 +131,8 @@ public interface IContactSimpleDAO {
 	 * 
 	 * @throws Exception
 	 */
-	Iterable<IContactSimple> save(Iterable<IContactSimple> pList) throws Exception;
+	Iterable<IContactSimple> saveIterable(Iterable<IContactSimple> pList) 
+				throws Exception;
 	
 	
 
@@ -353,7 +354,7 @@ public interface IContactSimpleDAO {
 	 * 
 	 * @throws Exception
 	 */
-	IContactSimple update(Long pId, IContactSimple pObjectModifie) throws Exception;
+	IContactSimple updateById(Long pId, IContactSimple pObjectModifie) throws Exception;
 
 
 
@@ -532,7 +533,9 @@ public interface IContactSimpleDAO {
 	/**
 	 * <b>retourne le nombre total d'objets métier</b> 
 	 * stockés dans le stockage.<br/>
-	 * - retourne 0L si this.findAll() retourne null.<br/>
+	 * <br/>
+	 * - retourne 0L si le stockage est vide.<br/>
+	 * - retourne null si this.findAll() retourne null.<br/>
 	 * <br/>
 	 *
 	 * @return : Long : 
@@ -546,6 +549,7 @@ public interface IContactSimpleDAO {
 
 	/**
 	 * <b>écrit le contenu du stockage dans la console</b>.<br/>
+	 * <br/>
 	 * - ne fait rien si findAll() retourne null.<br/>
 	 * <br/>
 	 *
@@ -556,11 +560,10 @@ public interface IContactSimpleDAO {
 	
 
 	/**
-	 * fournit une String pour l'affichage à la console 
-	 * d'une Liste d'Objets métier.<br/>
+	 * <b>fournit une String pour l'affichage à la console 
+	 * d'une Liste d'OBJETS METIER</b>.<br/>
 	 * <br/>
 	 * retourne null si pList == null.<br/>
-	 * <br/>
 	 *
 	 * @param pList : List&lt;IContactSimple&gt;.<br/>
 	 * 

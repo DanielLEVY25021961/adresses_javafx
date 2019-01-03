@@ -1016,13 +1016,54 @@ public class ContactSimpleDaoJAXB implements IContactSimpleDAO {
 
 	/**
 	 * {@inheritDoc}
+	 * - ne fait rien si le stockage n'existe pas.<br/>
+	 * - ne fait rien si le stockage est vide.<br/>
+	 * <br/>
 	 */
 	@Override
 	public void deleteById(
 			final Long pId) throws AbstractDaoException {
-		// TODO Auto-generated method stub
 		
-	}
+		/* ne fait rien si pId == null. */
+		if (pId == null) {
+			return;
+		}
+		
+		List<IContactSimple> stockageList = null;
+		
+		/* ne fait rien si le stockage n'existe pas. */
+		if (this.fichierXML.exists()) {
+			stockageList = this.recupererListeModeles(this.fichierXML);
+		} else {
+			return;
+		}
+		
+		/* ne fait rien si le stockage est vide. */
+		if (stockageList.isEmpty()) {
+			return;
+		}
+		
+		/* ne fait rien si pId est en dehors des index de stockage. */
+		if (pId > stockageList.size() - 1) {
+			return;
+		}
+
+		Long id = 0L;
+		List<IContactSimple> resultat = new ArrayList<IContactSimple>();
+		
+		for (final IContactSimple objet : stockageList) {
+			
+			if (!id.equals(pId)) {
+				resultat.add(objet);
+			}
+			
+			id++;
+		}
+		
+		/* enregistre la nouvelle liste dans le stockage XML. */
+		this.enregistrer(resultat, this.fichierXML);
+
+	} // Fin de deleteById(...).___________________________________________
 
 
 

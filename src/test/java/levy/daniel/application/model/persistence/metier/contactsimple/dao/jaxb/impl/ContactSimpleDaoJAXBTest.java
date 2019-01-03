@@ -370,7 +370,13 @@ public class ContactSimpleDaoJAXBTest {
 	 */
 	public static final String TEST_DELETE 
 		= "testDelete()";
-		
+
+	/**
+	 * "testDeleteByIdNull()".<br/>
+	 */
+	public static final String TEST_DELETEBYID_NULL 
+		= "testDeleteByIdNull()";
+
 	/**
 	 * "testDeleteByIdInexistant()".<br/>
 	 */
@@ -644,6 +650,18 @@ public class ContactSimpleDaoJAXBTest {
 	public static final String OBJET_MODIFIE_NULL 
 		= "OBJET MODIFIE : NULL";
 
+	/**
+	 * "ID DE L'OBJET A DELETER : ".
+	 */
+	public static final String ID_OBJET_A_DELETER 
+		= "ID DE L'OBJET A DELETER : ";
+	
+	/**
+	 * "ID DE L'OBJET A DELETER : NULL".
+	 */
+	public static final String ID_OBJET_A_DELETER_NULL 
+		= "ID DE L'OBJET A DELETER : NULL";
+	
 	/**
 	 * "OBJET METIER A DELETER : ".<br/>
 	 */
@@ -5194,6 +5212,7 @@ public class ContactSimpleDaoJAXBTest {
 
 		IContactSimple resultat = null;
 		
+		// ETAT INITIAL
 		/* récupération. */
 		final List<IContactSimple> objetInitiaux = dao.findAll();
 
@@ -6063,6 +6082,354 @@ public class ContactSimpleDaoJAXBTest {
 	} // Fin de testDelete().______________________________________________
 	
 
+	
+	/**
+	 * teste la méthode <b>deleteById(null)</b>.<br/>
+	 * <ul>
+	 * <li>garantit que deleteById(null) ne fait rien.</li>
+	 * </ul>
+	 *
+	 * @throws Exception
+	 */
+	@SuppressWarnings(UNUSED)
+	@Test
+	public void testDeleteByIdNull() throws Exception {	
+
+		// **********************************
+		// AFFICHAGE DANS LE TEST ou NON
+		final boolean affichage = false;
+		// **********************************
+
+		/* AFFICHAGE A LA CONSOLE. */
+		if (AFFICHAGE_GENERAL && affichage) {
+			System.out.println("********** CLASSE ContactSimpleDaoJAXBTest - méthode testDeleteByIdNull() ********** ");
+		}
+
+		/* dao NON INJECTE. */
+		if (dao == null) {
+
+			/* AFFICHAGE A LA CONSOLE. */
+			if (AFFICHAGE_GENERAL && affichage) {
+				System.out.println(TEST_DELETEBYID_NULL);
+				this.afficherDAONonInstancie();
+			}
+
+			return;
+
+		} // Fin de dao NON INJECTE._____________________
+		
+		/* vide et remplit le stockage. */
+		this.remplirStockage(false);
+
+		Long nombreObjetsInitial = 0L;
+		Long nombreObjetsFinal = 0L;
+
+		// ETAT INITIAL
+		/* récupération. */
+		final List<IContactSimple> objetInitiaux = dao.findAll();
+
+		/* Compte du nombre d'Objets initialement dans le stockage. */
+		nombreObjetsInitial = dao.count();
+
+		/* AFFICHAGE A LA CONSOLE. */
+		if (AFFICHAGE_GENERAL && affichage) {
+			System.out.println("LISTE D'OBJETS AVANT TESTDELETEBYID(NULL) : ");
+			System.out.println(dao.afficherListeObjetsMetier(objetInitiaux));
+			this.afficherNbreObjetsInitial(nombreObjetsInitial);
+		}
+		
+		/* ************************* */
+		// CONDITIONS DE TEST
+		/* ************************* */
+		final Long idObjetADeleter = null;
+		
+		final IContactSimple objetADeleter = dao.findById(idObjetADeleter);
+		
+		/* AFFICHAGE A LA CONSOLE. */
+		if (AFFICHAGE_GENERAL && affichage) {
+			
+			System.out.println();
+			
+			System.out.println(ID_OBJET_A_DELETER_NULL);
+						
+			if (objetADeleter != null) {
+				System.out.println(OBJET_A_DELETER + objetADeleter.toString());
+			} else {
+				System.out.println(OBJET_A_DELETER_NULL);
+			}			
+		}
+
+		
+		try {
+
+			/* ********************************************************* */
+			/* ***********************DELETE**************************** */
+			dao.deleteById(idObjetADeleter);
+			/* ********************************************************* */
+			
+			
+			// ETAT FINAL
+			/* récupération. */
+			final List<IContactSimple> objetsFinaux = dao.findAll();
+
+			/* Calcul du nombre d'objets dans le stockage après le traitement. */
+			nombreObjetsFinal = dao.count();
+
+			if (AFFICHAGE_GENERAL && affichage) {
+				System.out.println();
+				System.out.println("LISTE D'OBJETS APRES TESTDELETEBYID(NULL) : ");
+				System.out.println(dao.afficherListeObjetsMetier(objetsFinaux));
+				this.afficherNbreObjetsFinal(nombreObjetsFinal);
+			}
+
+			/* garantit que deleteById(null) ne fait rien. */
+			assertEquals(
+					FINDALL_DOIT_RETOURNER_4_ENREGISTREMENTS
+						, Long.valueOf(4L)
+							, nombreObjetsFinal);
+															
+		} catch (AbstractDaoException e) {
+
+			System.out.println(TEST_DELETEBYID_NULL);
+			this.afficherAbstractDaoException(e);
+
+		}
+		
+	} // Fin de testDeleteByIdNull().______________________________________
+	
+
+	
+	/**
+	 * teste la méthode <b>deleteById(inexistant)</b>.<br/>
+	 * <ul>
+	 * <li>garantit que deleteById(inexistant) ne fait rien.</li>
+	 * </ul>
+	 *
+	 * @throws Exception
+	 */
+	@SuppressWarnings(UNUSED)
+	@Test
+	public void testDeleteByIdInexistant() throws Exception {	
+
+		// **********************************
+		// AFFICHAGE DANS LE TEST ou NON
+		final boolean affichage = false;
+		// **********************************
+
+		/* AFFICHAGE A LA CONSOLE. */
+		if (AFFICHAGE_GENERAL && affichage) {
+			System.out.println("********** CLASSE ContactSimpleDaoJAXBTest - méthode testDeleteByIdInexistant() ********** ");
+		}
+
+		/* dao NON INJECTE. */
+		if (dao == null) {
+
+			/* AFFICHAGE A LA CONSOLE. */
+			if (AFFICHAGE_GENERAL && affichage) {
+				System.out.println(TEST_DELETEBYID_INEXISTANT);
+				this.afficherDAONonInstancie();
+			}
+
+			return;
+
+		} // Fin de dao NON INJECTE._____________________
+		
+		/* vide et remplit le stockage. */
+		this.remplirStockage(false);
+
+		Long nombreObjetsInitial = 0L;
+		Long nombreObjetsFinal = 0L;
+
+		// ETAT INITIAL
+		/* récupération. */
+		final List<IContactSimple> objetInitiaux = dao.findAll();
+
+		/* Compte du nombre d'Objets initialement dans le stockage. */
+		nombreObjetsInitial = dao.count();
+
+		/* AFFICHAGE A LA CONSOLE. */
+		if (AFFICHAGE_GENERAL && affichage) {
+			System.out.println("LISTE D'OBJETS AVANT TESTDELETEBYID(INEXISTANT) : ");
+			System.out.println(dao.afficherListeObjetsMetier(objetInitiaux));
+			this.afficherNbreObjetsInitial(nombreObjetsInitial);
+		}
+		
+		/* ************************* */
+		// CONDITIONS DE TEST
+		/* ************************* */
+		final Long idObjetADeleter = 17L;
+		
+		final IContactSimple objetADeleter = dao.findById(idObjetADeleter);
+		
+		/* AFFICHAGE A LA CONSOLE. */
+		if (AFFICHAGE_GENERAL && affichage) {
+			
+			System.out.println();
+						
+			System.out.println(ID_OBJET_A_DELETER + idObjetADeleter.toString());
+						
+			if (objetADeleter != null) {
+				System.out.println(OBJET_A_DELETER + objetADeleter.toString());
+			} else {
+				System.out.println(OBJET_A_DELETER_NULL);
+			}			
+		}
+
+		
+		try {
+
+			/* ********************************************************* */
+			/* ***********************DELETE**************************** */
+			dao.deleteById(idObjetADeleter);
+			/* ********************************************************* */
+			
+			
+			// ETAT FINAL
+			/* récupération. */
+			final List<IContactSimple> objetsFinaux = dao.findAll();
+
+			/* Calcul du nombre d'objets dans le stockage après le traitement. */
+			nombreObjetsFinal = dao.count();
+
+			if (AFFICHAGE_GENERAL && affichage) {
+				System.out.println();
+				System.out.println("LISTE D'OBJETS APRES TESTDELETEBYID(INEXISTANT) : ");
+				System.out.println(dao.afficherListeObjetsMetier(objetsFinaux));
+				this.afficherNbreObjetsFinal(nombreObjetsFinal);
+			}
+
+			/* garantit que deleteById(inexistant) ne fait rien. */
+			assertEquals(
+					FINDALL_DOIT_RETOURNER_4_ENREGISTREMENTS
+						, Long.valueOf(4L)
+							, nombreObjetsFinal);
+														
+		} catch (AbstractDaoException e) {
+
+			System.out.println(TEST_DELETEBYID_INEXISTANT);
+			this.afficherAbstractDaoException(e);
+
+		}
+				
+	} // Fin de testDeleteByIdInexistant().________________________________
+	
+
+	
+	/**
+	 * teste la méthode <b>deleteById()</b>.<br/>
+	 * <ul>
+	 * <li>garantit que deleteById() supprime un enregistrement.</li>
+	 * </ul>
+	 *
+	 * @throws Exception
+	 */
+	@SuppressWarnings(UNUSED)
+	@Test
+	public void testDeleteById() throws Exception {	
+
+		// **********************************
+		// AFFICHAGE DANS LE TEST ou NON
+		final boolean affichage = false;
+		// **********************************
+
+		/* AFFICHAGE A LA CONSOLE. */
+		if (AFFICHAGE_GENERAL && affichage) {
+			System.out.println("********** CLASSE ContactSimpleDaoJAXBTest - méthode testDeleteById() ********** ");
+		}
+
+		/* dao NON INJECTE. */
+		if (dao == null) {
+
+			/* AFFICHAGE A LA CONSOLE. */
+			if (AFFICHAGE_GENERAL && affichage) {
+				System.out.println(TEST_DELETEBYID);
+				this.afficherDAONonInstancie();
+			}
+
+			return;
+
+		} // Fin de dao NON INJECTE._____________________
+		
+		/* vide et remplit le stockage. */
+		this.remplirStockage(false);
+
+		Long nombreObjetsInitial = 0L;
+		Long nombreObjetsFinal = 0L;
+
+		// ETAT INITIAL
+		/* récupération. */
+		final List<IContactSimple> objetInitiaux = dao.findAll();
+
+		/* Compte du nombre d'Objets initialement dans le stockage. */
+		nombreObjetsInitial = dao.count();
+
+		/* AFFICHAGE A LA CONSOLE. */
+		if (AFFICHAGE_GENERAL && affichage) {
+			System.out.println("LISTE D'OBJETS AVANT TESTDELETEBYID(NULL) : ");
+			System.out.println(dao.afficherListeObjetsMetier(objetInitiaux));
+			this.afficherNbreObjetsInitial(nombreObjetsInitial);
+		}
+		
+		/* ************************* */
+		// CONDITIONS DE TEST
+		/* ************************* */
+		final Long idObjetADeleter = 0L;
+		
+		final IContactSimple objetADeleter = dao.findById(idObjetADeleter);
+		
+		/* AFFICHAGE A LA CONSOLE. */
+		if (AFFICHAGE_GENERAL && affichage) {
+			
+			System.out.println();
+						
+			System.out.println(ID_OBJET_A_DELETER + idObjetADeleter.toString());
+						
+			if (objetADeleter != null) {
+				System.out.println(OBJET_A_DELETER + objetADeleter.toString());
+			} else {
+				System.out.println(OBJET_A_DELETER_NULL);
+			}			
+		}
+
+		
+		try {
+
+			/* ********************************************************* */
+			/* ***********************DELETE**************************** */
+			dao.deleteById(idObjetADeleter);
+			/* ********************************************************* */
+			
+			
+			// ETAT FINAL
+			/* récupération. */
+			final List<IContactSimple> objetsFinaux = dao.findAll();
+
+			/* Calcul du nombre d'objets dans le stockage après le traitement. */
+			nombreObjetsFinal = dao.count();
+
+			if (AFFICHAGE_GENERAL && affichage) {
+				System.out.println();
+				System.out.println("LISTE D'OBJETS APRES TESTDELETEBYID() : ");
+				System.out.println(dao.afficherListeObjetsMetier(objetsFinaux));
+				this.afficherNbreObjetsFinal(nombreObjetsFinal);
+			}
+
+			/* garantit que deleteById() supprime un enregistrement. */
+			assertEquals(
+					FINDALL_DOIT_RETOURNER_3_ENREGISTREMENTS
+						, Long.valueOf(3L)
+							, nombreObjetsFinal);
+															
+		} catch (AbstractDaoException e) {
+
+			System.out.println(TEST_DELETEBYID);
+			this.afficherAbstractDaoException(e);
+
+		}
+						
+	} // Fin de testDeleteById().__________________________________________
+	
+	
 	
 	/**
 	 * <b>convertit une Liste d'Objets Metier en liste 

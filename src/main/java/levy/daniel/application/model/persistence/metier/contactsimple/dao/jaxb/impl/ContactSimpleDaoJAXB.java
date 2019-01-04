@@ -901,6 +901,14 @@ public class ContactSimpleDaoJAXB implements IContactSimpleDAO {
 			return null;
 		}
 		
+		/* retourne null si les attributs obligatoires 
+		 * de pObject ne sont pas remplis.*/
+		if (pObjectModifie.getPrenom() == null 
+				|| pObjectModifie.getNom() == null 
+					|| pObjectModifie.getDateNaissance() == null) {
+			return null;
+		}
+		
 		/* retourne null si l'objet modifie pObjectModifie 
 		 * créerait un doublon dans le stockage. */
 		if (this.exists(pObjectModifie)) {

@@ -801,7 +801,7 @@ public class ContactSimpleDaoJAXBTest {
 	 * objet1, objet2EqualsObj1, objet3EqualsObj1 doivent être equals().
 	 */
 	public static transient IContactSimple objet1 
-		= new ContactSimple(1L, "prenomTest", NOMTEST
+		= new ContactSimple("prenomTest", NOMTEST
 				, "17, rue des Acacias"
 				, "Bâtiment 57, appartement 22"
 				, "75013", "Paris"
@@ -819,7 +819,7 @@ public class ContactSimpleDaoJAXBTest {
 	 * objet1, objet2EqualsObj1, objet3EqualsObj1 doivent être equals().
 	 */
 	public static transient IContactSimple objet2EqualsObj1 
-		=  new ContactSimple(2L, "prenomTest", NOMTEST
+		=  new ContactSimple("prenomTest", NOMTEST
 				, "172, rue des Acacias"
 				, "Bâtiment 572, appartement 22"
 				, "75014", "Paris2"
@@ -832,7 +832,7 @@ public class ContactSimpleDaoJAXBTest {
 	 * objet1, objet2EqualsObj1, objet3EqualsObj1 doivent être equals().
 	 */
 	public static transient IContactSimple objet3EqualsObj1 
-		= new ContactSimple(3L, "prenomTest", NOMTEST
+		= new ContactSimple("prenomTest", NOMTEST
 				, "174, rue des Acacias"
 				, "Bâtiment 573, appartement 22"
 				, "75015", "Paris3"

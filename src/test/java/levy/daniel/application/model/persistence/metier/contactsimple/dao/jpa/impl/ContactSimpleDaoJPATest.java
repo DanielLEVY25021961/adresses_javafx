@@ -800,7 +800,7 @@ public class ContactSimpleDaoJPATest {
 	 * objet1, objet2EqualsObj1, objet3EqualsObj1 doivent être equals().
 	 */
 	public static transient IContactSimple objet1 
-		= new ContactSimple(1L, "prenomTest", NOMTEST
+		= new ContactSimple("prenomTest", NOMTEST
 				, "17, rue des Acacias"
 				, "Bâtiment 57, appartement 22"
 				, "75013", "Paris"
@@ -818,7 +818,7 @@ public class ContactSimpleDaoJPATest {
 	 * objet1, objet2EqualsObj1, objet3EqualsObj1 doivent être equals().
 	 */
 	public static transient IContactSimple objet2EqualsObj1 
-		=  new ContactSimple(2L, "prenomTest", NOMTEST
+		=  new ContactSimple("prenomTest", NOMTEST
 				, "172, rue des Acacias"
 				, "Bâtiment 572, appartement 22"
 				, "75014", "Paris2"
@@ -831,7 +831,7 @@ public class ContactSimpleDaoJPATest {
 	 * objet1, objet2EqualsObj1, objet3EqualsObj1 doivent être equals().
 	 */
 	public static transient IContactSimple objet3EqualsObj1 
-		= new ContactSimple(3L, "prenomTest", NOMTEST
+		= new ContactSimple("prenomTest", NOMTEST
 				, "174, rue des Acacias"
 				, "Bâtiment 573, appartement 22"
 				, "75015", "Paris3"
@@ -943,7 +943,7 @@ public class ContactSimpleDaoJPATest {
 				
 		// **********************************
 		// AFFICHAGE DANS LE TEST ou NON
-		final boolean affichage = true;
+		final boolean affichage = false;
 		// **********************************
 
 		/* AFFICHAGE A LA CONSOLE. */
@@ -1167,7 +1167,7 @@ public class ContactSimpleDaoJPATest {
 				
 		// **********************************
 		// AFFICHAGE DANS LE TEST ou NON
-		final boolean affichage = false;
+		final boolean affichage = true;
 		// **********************************
 		
 		/* AFFICHAGE A LA CONSOLE. */
@@ -1691,7 +1691,7 @@ public class ContactSimpleDaoJPATest {
 				
 		// **********************************
 		// AFFICHAGE DANS LE TEST ou NON
-		final boolean affichage = false;
+		final boolean affichage = true;
 		// **********************************
 		
 		/* AFFICHAGE A LA CONSOLE. */
@@ -7791,6 +7791,16 @@ public class ContactSimpleDaoJPATest {
 			System.out.println();
 		}
 
+		/* AFFICHAGE A LA CONSOLE. */
+		if (AFFICHAGE_GENERAL && pAffichage) {
+			System.out.println();
+			System.out.println("OBJETS METIER A STOCKER : ");
+			for (final IContactSimple objet : lot) {
+				System.out.println(objet.toString());
+			}
+		}
+		
+		
 		try {
 			
 			/* *********************************************** */

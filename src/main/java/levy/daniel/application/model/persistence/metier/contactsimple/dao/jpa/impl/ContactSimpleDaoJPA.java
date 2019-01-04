@@ -169,7 +169,9 @@ public class ContactSimpleDaoJPA implements IContactSimpleDAO {
 			 * auprès de la Factory. */
 			this.entityManager 
 				= this.entityManagerFactory.createEntityManager();
+			
 		}
+		
 	} // Fin de instancierEntityManager()._________________________________
 	
 	
@@ -314,7 +316,7 @@ public class ContactSimpleDaoJPA implements IContactSimpleDAO {
 		/* TRANSACTIONNEL. ****/
 		/* instancie un EntityManager. */
 		this.instancierEntityManager();
-		
+				
 		/* Cas où this.entityManager == null. */
 		if (this.entityManager == null) {
 						
@@ -365,8 +367,7 @@ public class ContactSimpleDaoJPA implements IContactSimpleDAO {
 			
 			/* TRANSACTIONNEL. *****/
 			transaction.rollback();
-			
-			
+						
 			/* LOG. */
 			if (LOG.isDebugEnabled()) {
 				LOG.debug(e.getMessage(), e);
@@ -402,7 +403,87 @@ public class ContactSimpleDaoJPA implements IContactSimpleDAO {
 	@Override
 	public void persist(
 			final IContactSimple pObject) throws AbstractDaoException {
-		// TODO Auto-generated method stub
+		
+		/* ne fait rien si pObject == null. */
+		if (pObject == null) {
+			return;
+		}
+		
+		/* TRANSACTIONNEL. ****/
+		/* instancie un EntityManager. */
+		this.instancierEntityManager();
+		
+		/* Cas où this.entityManager == null. */
+		if (this.entityManager == null) {
+						
+			/* LOG. */
+			if (LOG.isFatalEnabled()) {
+				LOG.fatal(MESSAGE_ENTITYMANAGER_NULL);
+			}
+			return;
+		}
+		
+		/* ne fait rien si pObject est un doublon. */
+		if (this.exists(pObject)) {
+			return;
+		}
+		
+		/* TRANSACTIONNEL. ****/
+		EntityTransaction transaction = null;
+		
+		if (this.entityManager != null) {
+			transaction = this.entityManager.getTransaction();
+		}
+		
+		if (transaction == null) {
+			/* LOG. */
+			if (LOG.isFatalEnabled()) {
+				LOG.fatal("Persist - Transaction null");
+			}
+			return;
+		}
+		
+		
+		try {
+			
+			/* TRANSACTIONNEL. ****/	
+			transaction.begin();
+			
+			/* ***************** */
+			/* PERSISTE en base. */
+			this.entityManager.persist(pObject);
+			
+			/* TRANSACTIONNEL. *****/
+			transaction.commit();
+												
+		}
+		catch (Exception e) {
+			
+			/* TRANSACTIONNEL. *****/
+			transaction.rollback();
+			
+			
+			/* LOG. */
+			if (LOG.isDebugEnabled()) {
+				LOG.debug(e.getMessage(), e);
+			}
+			
+			/* Gestion de la DAO Exception. */
+			this.gestionnaireException
+				.gererException(
+						CLASSE_CONTACTSIMPLE_DAO_JPA
+							, "méthode persist(object)", e);
+						
+		}
+		finally {
+			
+			/* TRANSACTIONNEL. *****/
+			/* détruit l'entityManager. */
+			if (this.entityManager != null) {
+				this.entityManager.close();
+				
+			}
+		}
 		
 	} // Fin de persist(...).______________________________________________
 
@@ -1052,7 +1133,11 @@ public class ContactSimpleDaoJPA implements IContactSimpleDAO {
 	 */
 	@Override
 	public void deleteAll() throws AbstractDaoException {
-		
+
+		/* TRANSACTIONNEL. ****/
+		/* instancie un EntityManager. */
+		this.instancierEntityManager();
+
 		/* Cas où this.entityManager == null. */
 		if (this.entityManager == null) {
 						
@@ -1066,10 +1151,28 @@ public class ContactSimpleDaoJPA implements IContactSimpleDAO {
 		
 		/* Création de la requête HQL sous forme de String. */
 		final String requeteString 
-			= "delete from IContactSimple";
+			= "delete from ContactSimpleEntityJPA";
+
+		/* TRANSACTIONNEL. ****/
+		EntityTransaction transaction = null;
 		
+		if (this.entityManager != null) {
+			transaction = this.entityManager.getTransaction();
+		}
+		
+		if (transaction == null) {
+			/* LOG. */
+			if (LOG.isFatalEnabled()) {
+				LOG.fatal("Create - Transaction null");
+			}
+			return;
+		}
+
 		try {
 			
+			/* TRANSACTIONNEL. ****/	
+			transaction.begin();
+
 			/* Crée la requête javax.persistence.Query. */
 			final Query query 
 				= this.entityManager.createQuery(requeteString);
@@ -1077,8 +1180,14 @@ public class ContactSimpleDaoJPA implements IContactSimpleDAO {
 			/* EXECUTION DE LA REQUETE. */
 			query.executeUpdate();
 			
+			/* TRANSACTIONNEL. *****/
+			transaction.commit();
+			
 		}
 		catch (Exception e) {
+			
+			/* TRANSACTIONNEL. *****/
+			transaction.rollback();
 			
 			/* LOG. */
 			if (LOG.isDebugEnabled()) {

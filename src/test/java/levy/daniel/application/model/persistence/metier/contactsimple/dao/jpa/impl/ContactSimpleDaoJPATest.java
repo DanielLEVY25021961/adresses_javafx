@@ -1,4 +1,4 @@
-package levy.daniel.application.model.persistence.metier.contactsimple.dao.jaxb.impl;
+package levy.daniel.application.model.persistence.metier.contactsimple.dao.jpa.impl;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
@@ -27,10 +27,9 @@ import levy.daniel.application.model.persistence.metier.contactsimple.Initialise
 import levy.daniel.application.model.persistence.metier.contactsimple.entities.jaxb.ContactSimpleEntityJAXB;
 import levy.daniel.application.model.persistence.metier.contactsimple.entities.jaxb.ListeContactSimplesEntityJAXB;
 
-
 /**
- * CLASSE ContactSimpleDaoJAXBTest :<br/>
- * Test JUnit de la classe ContactSimpleDaoJAXB.<br/>
+ * CLASSE ContactSimpleDaoJPATest :<br/>
+ * Test JUnit de la classe ContactSimpleDaoJPA.<br/>
  * TEST DE DAO.<br/>
  * <br/>
  *
@@ -44,12 +43,12 @@ import levy.daniel.application.model.persistence.metier.contactsimple.entities.j
  * <br/>
  *
  *
- * @author dan Lévy
+ * @author daniel.levy Lévy
  * @version 1.0
- * @since 24 mai 2018
+ * @since 4 janv. 2019
  *
  */
-public class ContactSimpleDaoJAXBTest {
+public class ContactSimpleDaoJPATest {
 
 	// ************************ATTRIBUTS************************************/
 
@@ -63,7 +62,7 @@ public class ContactSimpleDaoJAXBTest {
 	 * boolean qui spécifie si le DAO testé est de type JPA 
 	 * (utilise Hibernate et merge()) ou pas (JAXB, ...).<br/>
 	 */
-	private static final transient boolean DAO_JPA = false;
+	private static final transient boolean DAO_JPA = true;
 	
 	/**
 	 * "nomTest".<br/>
@@ -909,13 +908,13 @@ public class ContactSimpleDaoJAXBTest {
 			, "01 44 85 54 63"
 			, "johnny.halliday@free.fr"
 			, LocalDate.of(1950, 1, 17));
-	
+
 	/**
 	 * LOG : Log : 
 	 * Logger pour Log4j (utilisant commons-logging).
 	 */
 	private static final Log LOG 
-		= LogFactory.getLog(ContactSimpleDaoJAXBTest.class);
+		= LogFactory.getLog(ContactSimpleDaoJPATest.class);
 
 	// *************************METHODES************************************/
 
@@ -923,7 +922,7 @@ public class ContactSimpleDaoJAXBTest {
 	 /**
 	 * CONSTRUCTEUR D'ARITE NULLE.<br/>
 	 */
-	public ContactSimpleDaoJAXBTest() {
+	public ContactSimpleDaoJPATest() {
 		super();
 	} // Fin du CONSTRUCTEUR D'ARITE NULLE.________________________________
 	
@@ -944,12 +943,12 @@ public class ContactSimpleDaoJAXBTest {
 				
 		// **********************************
 		// AFFICHAGE DANS LE TEST ou NON
-		final boolean affichage = false;
+		final boolean affichage = true;
 		// **********************************
 
 		/* AFFICHAGE A LA CONSOLE. */
 		if (AFFICHAGE_GENERAL && affichage) {
-			System.out.println("********** CLASSE ContactSimpleDaoJAXBTest - méthode testCreateNull() ********** ");
+			System.out.println("********** CLASSE ContactSimpleDaoJPATest - méthode testCreateNull() ********** ");
 		}
 
 		/* dao NON INJECTE. */
@@ -1056,7 +1055,7 @@ public class ContactSimpleDaoJAXBTest {
 
 		/* AFFICHAGE A LA CONSOLE. */
 		if (AFFICHAGE_GENERAL && affichage) {
-			System.out.println("********** CLASSE ContactSimpleDaoJAXBTest - méthode testCreateObjetNull() ********** ");
+			System.out.println("********** CLASSE ContactSimpleDaoJPATest - méthode testCreateObjetNull() ********** ");
 		}
 
 		/* dao NON INJECTE. */
@@ -1173,7 +1172,7 @@ public class ContactSimpleDaoJAXBTest {
 		
 		/* AFFICHAGE A LA CONSOLE. */
 		if (AFFICHAGE_GENERAL && affichage) {
-			System.out.println("********** CLASSE ContactSimpleDaoJAXBTest - méthode testCreate() ********** ");
+			System.out.println("********** CLASSE ContactSimpleDaoJPATest - méthode testCreate() ********** ");
 		}
 
 		/* dao NON INJECTE. */
@@ -1276,7 +1275,7 @@ public class ContactSimpleDaoJAXBTest {
 		
 		/* AFFICHAGE A LA CONSOLE. */
 		if (AFFICHAGE_GENERAL && affichage) {
-			System.out.println("********** CLASSE ContactSimpleDaoJAXBTest - méthode testCreateDoublon() ********** ");
+			System.out.println("********** CLASSE ContactSimpleDaoJPATest - méthode testCreateDoublon() ********** ");
 		}
 
 		/* dao NON INJECTE. */
@@ -1434,7 +1433,7 @@ public class ContactSimpleDaoJAXBTest {
 
 		/* AFFICHAGE A LA CONSOLE. */
 		if (AFFICHAGE_GENERAL && affichage) {
-			System.out.println("********** CLASSE ContactSimpleDaoJAXBTest - méthode testPersistNull() ********** ");
+			System.out.println("********** CLASSE ContactSimpleDaoJPATest - méthode testPersistNull() ********** ");
 		}
 
 		/* dao NON INJECTE. */
@@ -1518,7 +1517,7 @@ public class ContactSimpleDaoJAXBTest {
 
 		/* AFFICHAGE A LA CONSOLE. */
 		if (AFFICHAGE_GENERAL && affichage) {
-			System.out.println("********** CLASSE ContactSimpleDaoJAXBTest - méthode testPersistObjetNull() ********** ");
+			System.out.println("********** CLASSE ContactSimpleDaoJPATest - méthode testPersistObjetNull() ********** ");
 		}
 
 		/* dao NON INJECTE. */
@@ -1607,7 +1606,7 @@ public class ContactSimpleDaoJAXBTest {
 		
 		/* AFFICHAGE A LA CONSOLE. */
 		if (AFFICHAGE_GENERAL && affichage) {
-			System.out.println("********** CLASSE ContactSimpleDaoJAXBTest - méthode testPersist() ********** ");
+			System.out.println("********** CLASSE ContactSimpleDaoJPATest - méthode testPersist() ********** ");
 		}
 
 		/* dao NON INJECTE. */
@@ -1697,7 +1696,7 @@ public class ContactSimpleDaoJAXBTest {
 		
 		/* AFFICHAGE A LA CONSOLE. */
 		if (AFFICHAGE_GENERAL && affichage) {
-			System.out.println("********** CLASSE ContactSimpleDaoJAXBTest - méthode testPersistDoublon() ********** ");
+			System.out.println("********** CLASSE ContactSimpleDaoJPATest - méthode testPersistDoublon() ********** ");
 		}
 
 		/* dao NON INJECTE. */
@@ -1799,7 +1798,7 @@ public class ContactSimpleDaoJAXBTest {
 
 		/* AFFICHAGE A LA CONSOLE. */
 		if (AFFICHAGE_GENERAL && affichage) {
-			System.out.println("********** CLASSE ContactSimpleDaoJAXBTest - méthode testCreateReturnIdNull() ********** ");
+			System.out.println("********** CLASSE ContactSimpleDaoJPATest - méthode testCreateReturnIdNull() ********** ");
 		}
 
 		/* dao NON INJECTE. */
@@ -1890,7 +1889,7 @@ public class ContactSimpleDaoJAXBTest {
 
 		/* AFFICHAGE A LA CONSOLE. */
 		if (AFFICHAGE_GENERAL && affichage) {
-			System.out.println("********** CLASSE ContactSimpleDaoJAXBTest - méthode testCreateReturnIdObjetNull() ********** ");
+			System.out.println("********** CLASSE ContactSimpleDaoJPATest - méthode testCreateReturnIdObjetNull() ********** ");
 		}
 
 		/* dao NON INJECTE. */
@@ -2000,7 +1999,7 @@ public class ContactSimpleDaoJAXBTest {
 		
 		/* AFFICHAGE A LA CONSOLE. */
 		if (AFFICHAGE_GENERAL && affichage) {
-			System.out.println("********** CLASSE ContactSimpleDaoJAXBTest - méthode testCreateReturnId() ********** ");
+			System.out.println("********** CLASSE ContactSimpleDaoJPATest - méthode testCreateReturnId() ********** ");
 		}
 
 		/* dao NON INJECTE. */
@@ -2102,7 +2101,7 @@ public class ContactSimpleDaoJAXBTest {
 		
 		/* AFFICHAGE A LA CONSOLE. */
 		if (AFFICHAGE_GENERAL && affichage) {
-			System.out.println("********** CLASSE ContactSimpleDaoJAXBTest - méthode testCreateReturnIdDoublon() ********** ");
+			System.out.println("********** CLASSE ContactSimpleDaoJPATest - méthode testCreateReturnIdDoublon() ********** ");
 		}
 
 		/* dao NON INJECTE. */
@@ -2265,7 +2264,7 @@ public class ContactSimpleDaoJAXBTest {
 
 		/* AFFICHAGE A LA CONSOLE. */
 		if (AFFICHAGE_GENERAL && affichage) {
-			System.out.println("********** CLASSE ContactSimpleDaoJAXBTest - méthode testSaveIterableNull() ********** ");
+			System.out.println("********** CLASSE ContactSimpleDaoJPATest - méthode testSaveIterableNull() ********** ");
 		}
 
 		/* dao NON INJECTE. */
@@ -2375,7 +2374,7 @@ public class ContactSimpleDaoJAXBTest {
 
 		/* AFFICHAGE A LA CONSOLE. */
 		if (AFFICHAGE_GENERAL && affichage) {
-			System.out.println("********** CLASSE ContactSimpleDaoJAXBTest - méthode testSaveIterableObjetsNull() ********** ");
+			System.out.println("********** CLASSE ContactSimpleDaoJPATest - méthode testSaveIterableObjetsNull() ********** ");
 		}
 
 		/* dao NON INJECTE. */
@@ -2498,7 +2497,7 @@ public class ContactSimpleDaoJAXBTest {
 
 		/* AFFICHAGE A LA CONSOLE. */
 		if (AFFICHAGE_GENERAL && affichage) {
-			System.out.println("********** CLASSE ContactSimpleDaoJAXBTest - méthode testSaveIterable() ********** ");
+			System.out.println("********** CLASSE ContactSimpleDaoJPATest - méthode testSaveIterable() ********** ");
 		}
 
 		/* dao NON INJECTE. */
@@ -2621,7 +2620,7 @@ public class ContactSimpleDaoJAXBTest {
 
 		/* AFFICHAGE A LA CONSOLE. */
 		if (AFFICHAGE_GENERAL && affichage) {
-			System.out.println("********** CLASSE ContactSimpleDaoJAXBTest - méthode testSaveIterableDoublon() ********** ");
+			System.out.println("********** CLASSE ContactSimpleDaoJPATest - méthode testSaveIterableDoublon() ********** ");
 		}
 
 		/* dao NON INJECTE. */
@@ -2746,7 +2745,7 @@ public class ContactSimpleDaoJAXBTest {
 		
 		/* AFFICHAGE A LA CONSOLE. */
 		if (AFFICHAGE_GENERAL && affichage) {
-			System.out.println("********** CLASSE ContactSimpleDaoJAXBTest - méthode testRetrieveNull() ********** ");
+			System.out.println("********** CLASSE ContactSimpleDaoJPATest - méthode testRetrieveNull() ********** ");
 		}
 		
 		/* dao NON INJECTE. */
@@ -2861,7 +2860,7 @@ public class ContactSimpleDaoJAXBTest {
 		
 		/* AFFICHAGE A LA CONSOLE. */
 		if (AFFICHAGE_GENERAL && affichage) {
-			System.out.println("********** CLASSE ContactSimpleDaoJAXBTest - méthode testRetrieveObjetNull() ********** ");
+			System.out.println("********** CLASSE ContactSimpleDaoJPATest - méthode testRetrieveObjetNull() ********** ");
 		}
 		
 		/* dao NON INJECTE. */
@@ -2979,7 +2978,7 @@ public class ContactSimpleDaoJAXBTest {
 		
 		/* AFFICHAGE A LA CONSOLE. */
 		if (AFFICHAGE_GENERAL && affichage) {
-			System.out.println("********** CLASSE ContactSimpleDaoJAXBTest - méthode testRetrieveInexistant() ********** ");
+			System.out.println("********** CLASSE ContactSimpleDaoJPATest - méthode testRetrieveInexistant() ********** ");
 		}
 		
 		/* dao NON INJECTE. */
@@ -3098,7 +3097,7 @@ public class ContactSimpleDaoJAXBTest {
 		
 		/* AFFICHAGE A LA CONSOLE. */
 		if (AFFICHAGE_GENERAL && affichage) {
-			System.out.println("********** CLASSE ContactSimpleDaoJAXBTest - méthode testRetrieve() ********** ");
+			System.out.println("********** CLASSE ContactSimpleDaoJPATest - méthode testRetrieve() ********** ");
 		}
 		
 		/* dao NON INJECTE. */
@@ -3222,7 +3221,7 @@ public class ContactSimpleDaoJAXBTest {
 		
 		/* AFFICHAGE A LA CONSOLE. */
 		if (AFFICHAGE_GENERAL && affichage) {
-			System.out.println("********** CLASSE ContactSimpleDaoJAXBTest - méthode testFindByIdNull() ********** ");
+			System.out.println("********** CLASSE ContactSimpleDaoJPATest - méthode testFindByIdNull() ********** ");
 		}
 		
 		/* dao NON INJECTE. */
@@ -3337,7 +3336,7 @@ public class ContactSimpleDaoJAXBTest {
 		
 		/* AFFICHAGE A LA CONSOLE. */
 		if (AFFICHAGE_GENERAL && affichage) {
-			System.out.println("********** CLASSE ContactSimpleDaoJAXBTest - méthode testFindByIdInexistant() ********** ");
+			System.out.println("********** CLASSE ContactSimpleDaoJPATest - méthode testFindByIdInexistant() ********** ");
 		}
 		
 		/* dao NON INJECTE. */
@@ -3452,7 +3451,7 @@ public class ContactSimpleDaoJAXBTest {
 		
 		/* AFFICHAGE A LA CONSOLE. */
 		if (AFFICHAGE_GENERAL && affichage) {
-			System.out.println("********** CLASSE ContactSimpleDaoJAXBTest - méthode testFindById() ********** ");
+			System.out.println("********** CLASSE ContactSimpleDaoJPATest - méthode testFindById() ********** ");
 		}
 		
 		/* dao NON INJECTE. */
@@ -3567,7 +3566,7 @@ public class ContactSimpleDaoJAXBTest {
 		
 		/* AFFICHAGE A LA CONSOLE. */
 		if (AFFICHAGE_GENERAL && affichage) {
-			System.out.println("********** CLASSE ContactSimpleDaoJAXBTest - méthode testRetrieveIdNull() ********** ");
+			System.out.println("********** CLASSE ContactSimpleDaoJPATest - méthode testRetrieveIdNull() ********** ");
 		}
 		
 		/* dao NON INJECTE. */
@@ -3682,7 +3681,7 @@ public class ContactSimpleDaoJAXBTest {
 		
 		/* AFFICHAGE A LA CONSOLE. */
 		if (AFFICHAGE_GENERAL && affichage) {
-			System.out.println("********** CLASSE ContactSimpleDaoJAXBTest - méthode testRetrieveIdObjetNull() ********** ");
+			System.out.println("********** CLASSE ContactSimpleDaoJPATest - méthode testRetrieveIdObjetNull() ********** ");
 		}
 		
 		/* dao NON INJECTE. */
@@ -3800,7 +3799,7 @@ public class ContactSimpleDaoJAXBTest {
 		
 		/* AFFICHAGE A LA CONSOLE. */
 		if (AFFICHAGE_GENERAL && affichage) {
-			System.out.println("********** CLASSE ContactSimpleDaoJAXBTest - méthode testRetrieveIdInexistant() ********** ");
+			System.out.println("********** CLASSE ContactSimpleDaoJPATest - méthode testRetrieveIdInexistant() ********** ");
 		}
 		
 		/* dao NON INJECTE. */
@@ -3919,7 +3918,7 @@ public class ContactSimpleDaoJAXBTest {
 		
 		/* AFFICHAGE A LA CONSOLE. */
 		if (AFFICHAGE_GENERAL && affichage) {
-			System.out.println("********** CLASSE ContactSimpleDaoJAXBTest - méthode testRetrieveId() ********** ");
+			System.out.println("********** CLASSE ContactSimpleDaoJPATest - méthode testRetrieveId() ********** ");
 		}
 		
 		/* dao NON INJECTE. */
@@ -4038,7 +4037,7 @@ public class ContactSimpleDaoJAXBTest {
 		
 		/* AFFICHAGE A LA CONSOLE. */
 		if (AFFICHAGE_GENERAL && affichage) {
-			System.out.println("********** CLASSE ContactSimpleDaoJAXBTest - méthode testFindAll() ********** ");
+			System.out.println("********** CLASSE ContactSimpleDaoJPATest - méthode testFindAll() ********** ");
 		}
 		
 		/* dao NON INJECTE. */
@@ -4112,7 +4111,7 @@ public class ContactSimpleDaoJAXBTest {
 		
 		/* AFFICHAGE A LA CONSOLE. */
 		if (AFFICHAGE_GENERAL && affichage) {
-			System.out.println("********** CLASSE ContactSimpleDaoJAXBTest - méthode testFindAllMaxOut() ********** ");
+			System.out.println("********** CLASSE ContactSimpleDaoJPATest - méthode testFindAllMaxOut() ********** ");
 		}
 		
 		/* dao NON INJECTE. */
@@ -4223,7 +4222,7 @@ public class ContactSimpleDaoJAXBTest {
 
 		/* AFFICHAGE A LA CONSOLE. */
 		if (AFFICHAGE_GENERAL && affichage) {
-			System.out.println("********** CLASSE ContactSimpleDaoJAXBTest - méthode testFindAllMax() ********** ");
+			System.out.println("********** CLASSE ContactSimpleDaoJPATest - méthode testFindAllMax() ********** ");
 		}
 
 		/* dao NON INJECTE. */
@@ -4338,7 +4337,7 @@ public class ContactSimpleDaoJAXBTest {
 
 		/* AFFICHAGE A LA CONSOLE. */
 		if (AFFICHAGE_GENERAL && affichage) {
-			System.out.println("********** CLASSE ContactSimpleDaoJAXBTest - méthode testFindAllIterableNull() ********** ");
+			System.out.println("********** CLASSE ContactSimpleDaoJPATest - méthode testFindAllIterableNull() ********** ");
 		}
 
 		/* dao NON INJECTE. */
@@ -4449,7 +4448,7 @@ public class ContactSimpleDaoJAXBTest {
 
 		/* AFFICHAGE A LA CONSOLE. */
 		if (AFFICHAGE_GENERAL && affichage) {
-			System.out.println("********** CLASSE ContactSimpleDaoJAXBTest - méthode testFindAllIterableOut() ********** ");
+			System.out.println("********** CLASSE ContactSimpleDaoJPATest - méthode testFindAllIterableOut() ********** ");
 		}
 
 		/* dao NON INJECTE. */
@@ -4573,7 +4572,7 @@ public class ContactSimpleDaoJAXBTest {
 
 		/* AFFICHAGE A LA CONSOLE. */
 		if (AFFICHAGE_GENERAL && affichage) {
-			System.out.println("********** CLASSE ContactSimpleDaoJAXBTest - méthode testFindAllIterable() ********** ");
+			System.out.println("********** CLASSE ContactSimpleDaoJPATest - méthode testFindAllIterable() ********** ");
 		}
 
 		/* dao NON INJECTE. */
@@ -4700,7 +4699,7 @@ public class ContactSimpleDaoJAXBTest {
 
 		/* AFFICHAGE A LA CONSOLE. */
 		if (AFFICHAGE_GENERAL && affichage) {
-			System.out.println("********** CLASSE ContactSimpleDaoJAXBTest - méthode testUpdateNull() ********** ");
+			System.out.println("********** CLASSE ContactSimpleDaoJPATest - méthode testUpdateNull() ********** ");
 		}
 
 		/* dao NON INJECTE. */
@@ -4829,7 +4828,7 @@ public class ContactSimpleDaoJAXBTest {
 
 		/* AFFICHAGE A LA CONSOLE. */
 		if (AFFICHAGE_GENERAL && affichage) {
-			System.out.println("********** CLASSE ContactSimpleDaoJAXBTest - méthode testUpdateInexistant() ********** ");
+			System.out.println("********** CLASSE ContactSimpleDaoJPATest - méthode testUpdateInexistant() ********** ");
 		}
 
 		/* dao NON INJECTE. */
@@ -4967,7 +4966,7 @@ public class ContactSimpleDaoJAXBTest {
 
 		/* AFFICHAGE A LA CONSOLE. */
 		if (AFFICHAGE_GENERAL && affichage) {
-			System.out.println("********** CLASSE ContactSimpleDaoJAXBTest - méthode testUpdateDoublon() ********** ");
+			System.out.println("********** CLASSE ContactSimpleDaoJPATest - méthode testUpdateDoublon() ********** ");
 		}
 
 		/* dao NON INJECTE. */
@@ -5097,7 +5096,7 @@ public class ContactSimpleDaoJAXBTest {
 
 		/* AFFICHAGE A LA CONSOLE. */
 		if (AFFICHAGE_GENERAL && affichage) {
-			System.out.println("********** CLASSE ContactSimpleDaoJAXBTest - méthode testUpdate() ********** ");
+			System.out.println("********** CLASSE ContactSimpleDaoJPATest - méthode testUpdate() ********** ");
 		}
 
 		/* dao NON INJECTE. */
@@ -5236,7 +5235,7 @@ public class ContactSimpleDaoJAXBTest {
 
 		/* AFFICHAGE A LA CONSOLE. */
 		if (AFFICHAGE_GENERAL && affichage) {
-			System.out.println("********** CLASSE ContactSimpleDaoJAXBTest - méthode testUpdateIdNull() ********** ");
+			System.out.println("********** CLASSE ContactSimpleDaoJPATest - méthode testUpdateIdNull() ********** ");
 		}
 
 		/* dao NON INJECTE. */
@@ -5369,7 +5368,7 @@ public class ContactSimpleDaoJAXBTest {
 
 		/* AFFICHAGE A LA CONSOLE. */
 		if (AFFICHAGE_GENERAL && affichage) {
-			System.out.println("********** CLASSE ContactSimpleDaoJAXBTest - méthode testUpdateIdInexistant() ********** ");
+			System.out.println("********** CLASSE ContactSimpleDaoJPATest - méthode testUpdateIdInexistant() ********** ");
 		}
 
 		/* dao NON INJECTE. */
@@ -5502,7 +5501,7 @@ public class ContactSimpleDaoJAXBTest {
 
 		/* AFFICHAGE A LA CONSOLE. */
 		if (AFFICHAGE_GENERAL && affichage) {
-			System.out.println("********** CLASSE ContactSimpleDaoJAXBTest - méthode testUpdateIdDoublon() ********** ");
+			System.out.println("********** CLASSE ContactSimpleDaoJPATest - méthode testUpdateIdDoublon() ********** ");
 		}
 
 		/* dao NON INJECTE. */
@@ -5636,7 +5635,7 @@ public class ContactSimpleDaoJAXBTest {
 
 		/* AFFICHAGE A LA CONSOLE. */
 		if (AFFICHAGE_GENERAL && affichage) {
-			System.out.println("********** CLASSE ContactSimpleDaoJAXBTest - méthode testUpdateId() ********** ");
+			System.out.println("********** CLASSE ContactSimpleDaoJPATest - méthode testUpdateId() ********** ");
 		}
 
 		/* dao NON INJECTE. */
@@ -5783,7 +5782,7 @@ public class ContactSimpleDaoJAXBTest {
 
 		/* AFFICHAGE A LA CONSOLE. */
 		if (AFFICHAGE_GENERAL && affichage) {
-			System.out.println("********** CLASSE ContactSimpleDaoJAXBTest - méthode testDeleteNull() ********** ");
+			System.out.println("********** CLASSE ContactSimpleDaoJPATest - méthode testDeleteNull() ********** ");
 		}
 
 		/* dao NON INJECTE. */
@@ -5905,7 +5904,7 @@ public class ContactSimpleDaoJAXBTest {
 
 		/* AFFICHAGE A LA CONSOLE. */
 		if (AFFICHAGE_GENERAL && affichage) {
-			System.out.println("********** CLASSE ContactSimpleDaoJAXBTest - méthode testDeleteInexistant() ********** ");
+			System.out.println("********** CLASSE ContactSimpleDaoJPATest - méthode testDeleteInexistant() ********** ");
 		}
 
 		/* dao NON INJECTE. */
@@ -6027,7 +6026,7 @@ public class ContactSimpleDaoJAXBTest {
 
 		/* AFFICHAGE A LA CONSOLE. */
 		if (AFFICHAGE_GENERAL && affichage) {
-			System.out.println("********** CLASSE ContactSimpleDaoJAXBTest - méthode testDelete() ********** ");
+			System.out.println("********** CLASSE ContactSimpleDaoJPATest - méthode testDelete() ********** ");
 		}
 
 		/* dao NON INJECTE. */
@@ -6150,7 +6149,7 @@ public class ContactSimpleDaoJAXBTest {
 
 		/* AFFICHAGE A LA CONSOLE. */
 		if (AFFICHAGE_GENERAL && affichage) {
-			System.out.println("********** CLASSE ContactSimpleDaoJAXBTest - méthode testDeleteByIdNull() ********** ");
+			System.out.println("********** CLASSE ContactSimpleDaoJPATest - méthode testDeleteByIdNull() ********** ");
 		}
 
 		/* dao NON INJECTE. */
@@ -6266,7 +6265,7 @@ public class ContactSimpleDaoJAXBTest {
 
 		/* AFFICHAGE A LA CONSOLE. */
 		if (AFFICHAGE_GENERAL && affichage) {
-			System.out.println("********** CLASSE ContactSimpleDaoJAXBTest - méthode testDeleteByIdInexistant() ********** ");
+			System.out.println("********** CLASSE ContactSimpleDaoJPATest - méthode testDeleteByIdInexistant() ********** ");
 		}
 
 		/* dao NON INJECTE. */
@@ -6382,7 +6381,7 @@ public class ContactSimpleDaoJAXBTest {
 
 		/* AFFICHAGE A LA CONSOLE. */
 		if (AFFICHAGE_GENERAL && affichage) {
-			System.out.println("********** CLASSE ContactSimpleDaoJAXBTest - méthode testDeleteById() ********** ");
+			System.out.println("********** CLASSE ContactSimpleDaoJPATest - méthode testDeleteById() ********** ");
 		}
 
 		/* dao NON INJECTE. */
@@ -6499,7 +6498,7 @@ public class ContactSimpleDaoJAXBTest {
 
 		/* AFFICHAGE A LA CONSOLE. */
 		if (AFFICHAGE_GENERAL && affichage) {
-			System.out.println("********** CLASSE ContactSimpleDaoJAXBTest - méthode testDeleteByIdBooleanNull() ********** ");
+			System.out.println("********** CLASSE ContactSimpleDaoJPATest - méthode testDeleteByIdBooleanNull() ********** ");
 		}
 
 		/* dao NON INJECTE. */
@@ -6633,7 +6632,7 @@ public class ContactSimpleDaoJAXBTest {
 
 		/* AFFICHAGE A LA CONSOLE. */
 		if (AFFICHAGE_GENERAL && affichage) {
-			System.out.println("********** CLASSE ContactSimpleDaoJAXBTest - méthode testDeleteByIdBooleanInexistant() ********** ");
+			System.out.println("********** CLASSE ContactSimpleDaoJPATest - méthode testDeleteByIdBooleanInexistant() ********** ");
 		}
 
 		/* dao NON INJECTE. */
@@ -6767,7 +6766,7 @@ public class ContactSimpleDaoJAXBTest {
 
 		/* AFFICHAGE A LA CONSOLE. */
 		if (AFFICHAGE_GENERAL && affichage) {
-			System.out.println("********** CLASSE ContactSimpleDaoJAXBTest - méthode testDeleteByIdBoolean() ********** ");
+			System.out.println("********** CLASSE ContactSimpleDaoJPATest - méthode testDeleteByIdBoolean() ********** ");
 		}
 
 		/* dao NON INJECTE. */
@@ -6900,7 +6899,7 @@ public class ContactSimpleDaoJAXBTest {
 
 		/* AFFICHAGE A LA CONSOLE. */
 		if (AFFICHAGE_GENERAL && affichage) {
-			System.out.println("********** CLASSE ContactSimpleDaoJAXBTest - méthode testDeleteAll() ********** ");
+			System.out.println("********** CLASSE ContactSimpleDaoJPATest - méthode testDeleteAll() ********** ");
 		}
 
 		/* dao NON INJECTE. */
@@ -6997,7 +6996,7 @@ public class ContactSimpleDaoJAXBTest {
 
 		/* AFFICHAGE A LA CONSOLE. */
 		if (AFFICHAGE_GENERAL && affichage) {
-			System.out.println("********** CLASSE ContactSimpleDaoJAXBTest - méthode testDeleteAllBoolean() ********** ");
+			System.out.println("********** CLASSE ContactSimpleDaoJPATest - méthode testDeleteAllBoolean() ********** ");
 		}
 
 		/* dao NON INJECTE. */
@@ -7108,7 +7107,7 @@ public class ContactSimpleDaoJAXBTest {
 
 		/* AFFICHAGE A LA CONSOLE. */
 		if (AFFICHAGE_GENERAL && affichage) {
-			System.out.println("********** CLASSE ContactSimpleDaoJAXBTest - méthode testDeleteIterable() ********** ");
+			System.out.println("********** CLASSE ContactSimpleDaoJPATest - méthode testDeleteIterable() ********** ");
 		}
 
 		/* dao NON INJECTE. */
@@ -7225,7 +7224,7 @@ public class ContactSimpleDaoJAXBTest {
 
 		/* AFFICHAGE A LA CONSOLE. */
 		if (AFFICHAGE_GENERAL && affichage) {
-			System.out.println("********** CLASSE ContactSimpleDaoJAXBTest - méthode testDeleteIterableBoolean() ********** ");
+			System.out.println("********** CLASSE ContactSimpleDaoJPATest - méthode testDeleteIterableBoolean() ********** ");
 		}
 
 		/* dao NON INJECTE. */
@@ -7357,7 +7356,7 @@ public class ContactSimpleDaoJAXBTest {
 
 		/* AFFICHAGE A LA CONSOLE. */
 		if (AFFICHAGE_GENERAL && affichage) {
-			System.out.println("********** CLASSE ContactSimpleDaoJAXBTest - méthode testExists() ********** ");
+			System.out.println("********** CLASSE ContactSimpleDaoJPATest - méthode testExists() ********** ");
 		}
 
 		/* dao NON INJECTE. */
@@ -7495,7 +7494,7 @@ public class ContactSimpleDaoJAXBTest {
 
 		/* AFFICHAGE A LA CONSOLE. */
 		if (AFFICHAGE_GENERAL && affichage) {
-			System.out.println("********** CLASSE ContactSimpleDaoJAXBTest - méthode testExistsId() ********** ");
+			System.out.println("********** CLASSE ContactSimpleDaoJPATest - méthode testExistsId() ********** ");
 		}
 
 		/* dao NON INJECTE. */
@@ -7633,7 +7632,7 @@ public class ContactSimpleDaoJAXBTest {
 
 		/* AFFICHAGE A LA CONSOLE. */
 		if (AFFICHAGE_GENERAL && affichage) {
-			System.out.println("********** CLASSE ContactSimpleDaoJAXBTest - méthode testCount() ********** ");
+			System.out.println("********** CLASSE ContactSimpleDaoJPATest - méthode testCount() ********** ");
 		}
 
 		/* dao NON INJECTE. */
@@ -7780,7 +7779,7 @@ public class ContactSimpleDaoJAXBTest {
 		
 		/* AFFICHAGE A LA CONSOLE. */
 		if (AFFICHAGE_GENERAL && affichage) {
-			System.out.println("********** CLASSE ContactSimpleDaoJAXBTest - méthode remplirStockage(boolean) ********** ");
+			System.out.println("********** CLASSE ContactSimpleDaoJPATest - méthode remplirStockage(boolean) ********** ");
 		}
 		
 		/* Compte du nombre d'Objets initialement dans le stockage. */
@@ -8023,6 +8022,7 @@ public class ContactSimpleDaoJAXBTest {
 
 	
 	
+	
 	/**
 	 * <b>Instancie et retourne une LocalDate à partir d'une String 
 	 * sous la forme "dd/MM/yyyy"</b>.<br/>
@@ -8090,10 +8090,10 @@ public class ContactSimpleDaoJAXBTest {
 	@BeforeClass
    public static void avantTests() throws Exception {
 		
-		dao = new ContactSimpleDaoJAXB();
+		dao = new ContactSimpleDaoJPA();
 		
 	} // Fin de avantTests().______________________________________________
 	
 
 	
-} // FIN DE LA CLASSE ContactSimpleDaoJAXBTest.-----------------------------------
+} // FIN DE LA CLASSE ContactSimpleDaoJPATest.-------------------------------

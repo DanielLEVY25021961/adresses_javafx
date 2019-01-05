@@ -703,7 +703,8 @@ public class ContactSimpleDaoJPATest {
 	 /**
 	 * objet CORRECT à créer dans le stockage 
 	 * pour la méthode remplirStockage() .<br/>
-	 * Ne doit pas causer de doublon
+	 * <b>Ne doit pas causer de doublon</b>.<br/>
+	 * <b>PAS d'ID pour ne pas gêner de séquence</b>.
 	 */
 	public static transient IContactSimple objetRemplirStockage1 
 		= new ContactSimple(
@@ -719,7 +720,8 @@ public class ContactSimpleDaoJPATest {
 	 /**
 	 * objet CORRECT à créer dans le stockage 
 	 * pour la méthode remplirStockage() .<br/>
-	 * Ne doit pas causer de doublon
+	 * <b>Ne doit pas causer de doublon</b>.<br/>
+	 * <b>PAS d'ID pour ne pas gêner de séquence</b>.
 	 */
 	public static transient IContactSimple objetRemplirStockage2 
 		= new ContactSimple(
@@ -735,7 +737,8 @@ public class ContactSimpleDaoJPATest {
 	 /**
 	 * objet CORRECT à créer dans le stockage 
 	 * pour la méthode remplirStockage() .<br/>
-	 * Ne doit pas causer de doublon
+	 * <b>Ne doit pas causer de doublon</b>.<br/>
+	 * <b>PAS d'ID pour ne pas gêner de séquence</b>.
 	 */
 	public static transient IContactSimple objetRemplirStockage3 
 	= new ContactSimple(
@@ -751,7 +754,8 @@ public class ContactSimpleDaoJPATest {
 	 /**
 	 * objet CORRECT à créer dans le stockage 
 	 * pour la méthode remplirStockage() .<br/>
-	 * Ne doit pas causer de doublon
+	 * <b>Ne doit pas causer de doublon</b>.<br/>
+	 * <b>PAS d'ID pour ne pas gêner de séquence</b>.
 	 */
 	public static transient IContactSimple objetRemplirStockage4 
 		= new ContactSimple(
@@ -767,7 +771,8 @@ public class ContactSimpleDaoJPATest {
 	/**
 	 * objet CORRECT à créer dans le stockage 
 	 * pour les tests creation.<br/>
-	 * Ne doit pas causer de doublon avec les objetRemplirStockage.
+	 * Ne doit pas causer de doublon avec les objetRemplirStockage.<br/>
+	 * <b>PAS d'ID pour ne pas gêner de séquence</b>.
 	 */
 	public static transient IContactSimple objetACreer1 
 		= new ContactSimple(
@@ -783,7 +788,8 @@ public class ContactSimpleDaoJPATest {
 	/**
 	 * objet CORRECT à créer dans le stockage 
 	 * pour les tests creation.<br/>
-	 * Ne doit pas causer de doublon avec les objetRemplirStockage.
+	 * Ne doit pas causer de doublon avec les objetRemplirStockage.<br/>
+	 * <b>PAS d'ID pour ne pas gêner de séquence</b>.
 	 */
 	public static transient IContactSimple objetACreer2 
 		= new ContactSimple(
@@ -797,7 +803,8 @@ public class ContactSimpleDaoJPATest {
 			, LocalDate.of(1947, 7, 27));
 	
 	/**
-	 * objet1, objet2EqualsObj1, objet3EqualsObj1 doivent être equals().
+	 * objet1, objet2EqualsObj1, objet3EqualsObj1 doivent être equals().<br/>
+	 * <b>PAS d'ID pour ne pas gêner de séquence</b>.
 	 */
 	public static transient IContactSimple objet1 
 		= new ContactSimple("prenomTest", NOMTEST
@@ -815,7 +822,8 @@ public class ContactSimpleDaoJPATest {
 	public static transient IContactSimple objet1MemeInstance = objet1;
 	
 	/**
-	 * objet1, objet2EqualsObj1, objet3EqualsObj1 doivent être equals().
+	 * objet1, objet2EqualsObj1, objet3EqualsObj1 doivent être equals().<br/>
+	 * <b>PAS d'ID pour ne pas gêner de séquence</b>.
 	 */
 	public static transient IContactSimple objet2EqualsObj1 
 		=  new ContactSimple("prenomTest", NOMTEST
@@ -828,7 +836,8 @@ public class ContactSimpleDaoJPATest {
 				, fournirLocalDate("05/01/1976"));
 	
 	/**
-	 * objet1, objet2EqualsObj1, objet3EqualsObj1 doivent être equals().
+	 * objet1, objet2EqualsObj1, objet3EqualsObj1 doivent être equals().<br/>
+	 * <b>PAS d'ID pour ne pas gêner de séquence</b>.
 	 */
 	public static transient IContactSimple objet3EqualsObj1 
 		= new ContactSimple("prenomTest", NOMTEST
@@ -1167,7 +1176,7 @@ public class ContactSimpleDaoJPATest {
 				
 		// **********************************
 		// AFFICHAGE DANS LE TEST ou NON
-		final boolean affichage = true;
+		final boolean affichage = false;
 		// **********************************
 		
 		/* AFFICHAGE A LA CONSOLE. */
@@ -1629,6 +1638,7 @@ public class ContactSimpleDaoJPATest {
 		Long nombreObjetsInitial = 0L;
 		Long nombreObjetsFinal = 0L;
 
+		// ETAT INITIAL
 		/* récupération. */
 		final List<IContactSimple> objetInitiaux = dao.findAll();
 		
@@ -1641,13 +1651,25 @@ public class ContactSimpleDaoJPATest {
 			this.afficherNbreObjetsInitial(nombreObjetsInitial);
 		}
 		
+		/* ************************* */
+		// CONDITIONS DE TEST
+		/* ************************* */
+		final IContactSimple objetAPersister = objetACreer1;
+		
+		if (AFFICHAGE_GENERAL && affichage) {			
+			System.out.println();
+			System.out.println("OBJET A PERSISTER : " + objetAPersister.toString());
+		}
+		
+		
 		try {
 			
 			/* ********************************************************* */
 			/* ***********************CREATION************************** */		
-			dao.persist(objetACreer1);
+			dao.persist(objetAPersister);
 			/* ********************************************************* */
-						
+			
+			// ETAT FINAL
 			/* récupération. */
 			final List<IContactSimple> objetsFinaux = dao.findAll();
 			
@@ -1691,7 +1713,7 @@ public class ContactSimpleDaoJPATest {
 				
 		// **********************************
 		// AFFICHAGE DANS LE TEST ou NON
-		final boolean affichage = true;
+		final boolean affichage = false;
 		// **********************************
 		
 		/* AFFICHAGE A LA CONSOLE. */
@@ -1718,6 +1740,8 @@ public class ContactSimpleDaoJPATest {
 		Long nombreObjetsInitial = 0L;
 		Long nombreObjetsFinal = 0L;
 		
+		
+		// ETAT INITIAL
 		/* récupération. */
 		final List<IContactSimple> objetInitiaux = dao.findAll();
 		
@@ -1728,7 +1752,13 @@ public class ContactSimpleDaoJPATest {
 			System.out.println("LISTE D'OBJETS AVANT PERSIST DOUBLON : ");
 			System.out.println(dao.afficherListeObjetsMetier(objetInitiaux));
 			this.afficherNbreObjetsInitial(nombreObjetsInitial);
-			
+		}
+		
+				
+		/* ************************* */
+		// CONDITIONS DE TEST
+		/* ************************* */
+		if (AFFICHAGE_GENERAL && affichage) {
 			System.out.println();
 			System.out.println(LISTE_OBJETS_METIER_A_CREER);
 			System.out.println(OBJET1 + objet1.toString());
@@ -1736,6 +1766,7 @@ public class ContactSimpleDaoJPATest {
 			System.out.println(OBJET2_EQUALS_OBJET1 + objet2EqualsObj1.toString());
 			System.out.println(OBJET3_EQUALS_OBJET1 + objet3EqualsObj1.toString());
 		}
+
 		
 		try {
 			
@@ -1746,7 +1777,8 @@ public class ContactSimpleDaoJPATest {
 			dao.persist(objet2EqualsObj1);
 			dao.persist(objet3EqualsObj1);
 			/* ********************************************************* */
-									
+			
+			// ETAT FINAL
 			/* récupération. */
 			final List<IContactSimple> objetsFinaux = dao.findAll();
 			
@@ -1793,7 +1825,7 @@ public class ContactSimpleDaoJPATest {
 				
 		// **********************************
 		// AFFICHAGE DANS LE TEST ou NON
-		final boolean affichage = false;
+		final boolean affichage = true;
 		// **********************************
 
 		/* AFFICHAGE A LA CONSOLE. */
@@ -1821,9 +1853,8 @@ public class ContactSimpleDaoJPATest {
 		Long nombreObjetsInitial = 0L;
 		Long nombreObjetsFinal = 0L;
 		
-		final IContactSimple objetVraimentNull1 = null;
-		Long objetVraimentNull1PersistantId = null;
-						
+		
+		//ETAT INITIAL
 		/* Compte du nombre d'Objets initialement dans le stockage. */
 		nombreObjetsInitial = dao.count();
 		
@@ -1831,6 +1862,13 @@ public class ContactSimpleDaoJPATest {
 		if (AFFICHAGE_GENERAL && affichage) {
 			this.afficherNbreObjetsInitial(nombreObjetsInitial);		
 		}
+
+		/* ************************* */
+		// CONDITIONS DE TEST
+		/* ************************* */
+		final IContactSimple objetVraimentNull1 = null;
+		Long objetVraimentNull1PersistantId = null;
+
 		
 		try {
 			
@@ -1838,7 +1876,16 @@ public class ContactSimpleDaoJPATest {
 			/* ********************* CREATION **************** */
 			objetVraimentNull1PersistantId = dao.createReturnId(objetVraimentNull1);
 			/* *********************************************** */
+
+			/* *********** */
+			// ASSERTIONS
+			/* *********** */
+			/* garantit que createReturnId(null) retourne null. */
+			assertNull(
+					"createReturnId(null) doit retourner null : "
+						, objetVraimentNull1PersistantId);
 			
+			// ETAT FINAL
 			/* Calcul du nombre d'objets dans le stockage après le traitement. */
 			nombreObjetsFinal = dao.count();
 			
@@ -1846,12 +1893,7 @@ public class ContactSimpleDaoJPATest {
 			if (AFFICHAGE_GENERAL && affichage) {
 				this.afficherNbreObjetsFinal(nombreObjetsFinal);					
 			}
-			
-			/* garantit que createReturnId(null) retourne null. */
-			assertNull(
-					"createReturnId(null) doit retourner null : "
-						, objetVraimentNull1PersistantId);
-			
+						
 			/* garantit que createReturnId(null) ne stocke rien. */
 			assertTrue(NBRE_OBJETS_FINAL_DOIT
 					+ NBRE_INITIAL_PLUS_ZERO
@@ -1912,9 +1954,7 @@ public class ContactSimpleDaoJPATest {
 		Long nombreObjetsInitial = 0L;
 		Long nombreObjetsFinal = 0L;
 		
-		Long objetNull1PersistantId = null;
-		Long objetNull2PersistantId = null;
-						
+		// ETAT INITIAL				
 		/* Compte du nombre d'Objets initialement dans le stockage. */
 		nombreObjetsInitial = dao.count();
 		
@@ -1922,6 +1962,13 @@ public class ContactSimpleDaoJPATest {
 		if (AFFICHAGE_GENERAL && affichage) {
 			this.afficherNbreObjetsInitial(nombreObjetsInitial);			
 		}
+
+		/* ************************* */
+		// CONDITIONS DE TEST
+		/* ************************* */		
+		Long objetNull1PersistantId = null;
+		Long objetNull2PersistantId = null;
+
 		
 		try {
 			
@@ -1931,6 +1978,15 @@ public class ContactSimpleDaoJPATest {
 			objetNull2PersistantId = dao.createReturnId(objetNull2);
 			/* *********************************************** */
 			
+			/* *********** */
+			// ASSERTIONS
+			/* *********** */
+			/* garantit que createReturnId(objetNull) retourne null. */
+			assertNull(
+					"createReturnId(objetNull) doit retourner null : "
+						, objetNull1PersistantId);
+
+			// ETAT FINAL
 			/* Calcul du nombre d'objets dans le stockage après le traitement. */
 			nombreObjetsFinal = dao.count();
 			
@@ -1957,11 +2013,6 @@ public class ContactSimpleDaoJPATest {
 				
 			}
 			
-			/* garantit que createReturnId(objetNull) retourne null. */
-			assertNull(
-					"createReturnId(objetNull) doit retourner null : "
-						, objetNull1PersistantId);
-
 			/* garantit que createReturnId(objetNull) ne stocke rien. */
 			assertTrue(NBRE_OBJETS_FINAL_DOIT
 					+ NBRE_INITIAL_PLUS_ZERO
@@ -1994,7 +2045,7 @@ public class ContactSimpleDaoJPATest {
 				
 		// **********************************
 		// AFFICHAGE DANS LE TEST ou NON
-		final boolean affichage = false;
+		final boolean affichage = true;
 		// **********************************
 		
 		/* AFFICHAGE A LA CONSOLE. */
@@ -2022,6 +2073,7 @@ public class ContactSimpleDaoJPATest {
 		Long nombreObjetsInitial = 0L;
 		Long nombreObjetsFinal = 0L;
 
+		// ETAT INITIAL
 		/* récupération. */
 		final List<IContactSimple> objetInitiaux = dao.findAll();
 		
@@ -2029,16 +2081,28 @@ public class ContactSimpleDaoJPATest {
 		nombreObjetsInitial = dao.count();
 		
 		if (AFFICHAGE_GENERAL && affichage) {
-			System.out.println("LISTE D'OBJETS AVANT CREATE : ");
+			System.out.println("LISTE D'OBJETS AVANT CREATERETURNID(objet correct) : ");
 			System.out.println(dao.afficherListeObjetsMetier(objetInitiaux));
 			this.afficherNbreObjetsInitial(nombreObjetsInitial);
 		}
+		
+		/* ************************* */
+		// CONDITIONS DE TEST
+		/* ************************* */		
+		final IContactSimple objetAStocker = objetACreer1;
+		
+		/* AFFICHAGE A LA CONSOLE. */
+		if (AFFICHAGE_GENERAL && affichage) {
+			System.out.println();
+			System.out.println("OBJET A STOCKER AVEC createReturnId(Object) : " + objetAStocker.toString());
+		}
+		
 		
 		try {
 			
 			/* ********************************************************* */
 			/* ***********************CREATION************************** */		
-			final Long objetPersiste1Id = dao.createReturnId(objetACreer1);
+			final Long objetPersiste1Id = dao.createReturnId(objetAStocker);
 			/* ********************************************************* */
 			
 			/* AFFICHAGE A LA CONSOLE. */
@@ -2047,11 +2111,16 @@ public class ContactSimpleDaoJPATest {
 				System.out.println("ID de l'OBJET CREE : " + objetPersiste1Id.toString());
 			}
 			
-			/* garantit que createReturnId(...) retourne l'objet persisté. */
+			/* *********** */
+			// ASSERTIONS
+			/* *********** */			
+			/* garantit que createReturnId(...) retourne 
+			 * l'ID de l'objet persisté. */
 			assertNotNull(
 					"l'ID de l'objet persisté retourne par createReturnId(...) ne doit pas être null : "
 						, objetPersiste1Id);
-			
+
+			// ETAT FINAL
 			/* récupération. */
 			final List<IContactSimple> objetsFinaux = dao.findAll();
 			
@@ -2060,7 +2129,7 @@ public class ContactSimpleDaoJPATest {
 			
 			if (AFFICHAGE_GENERAL && affichage) {
 				System.out.println();
-				System.out.println(LISTE_OBJETS_APRES_CREATE);
+				System.out.println("LISTE D'OBJETS APRES CREATERETURNID(objet correct) : ");
 				System.out.println(dao.afficherListeObjetsMetier(objetsFinaux));
 				this.afficherNbreObjetsFinal(nombreObjetsFinal);
 			}
@@ -2096,7 +2165,7 @@ public class ContactSimpleDaoJPATest {
 				
 		// **********************************
 		// AFFICHAGE DANS LE TEST ou NON
-		final boolean affichage = false;
+		final boolean affichage = true;
 		// **********************************
 		
 		/* AFFICHAGE A LA CONSOLE. */
@@ -2123,22 +2192,30 @@ public class ContactSimpleDaoJPATest {
 		Long nombreObjetsInitial = 0L;
 		Long nombreObjetsFinal = 0L;
 		
-		Long objet1PersistantId = null;
-		Long objet1MemeInstancePersistantId = null;
-		Long objet2EqualsObjet1PersistantId = null;
-		Long objet3EqualsObjet1PersistantId = null;
-		
+		// ETAT INITIAL
 		/* récupération. */
 		final List<IContactSimple> objetInitiaux = dao.findAll();
 		
 		/* Compte du nombre d'Objets initialement dans le stockage. */
 		nombreObjetsInitial = dao.count();
 		
+		/* AFFICHAGE A LA CONSOLE. */
 		if (AFFICHAGE_GENERAL && affichage) {
-			System.out.println("LISTE D'OBJETS AVANT CREATE DOUBLON : ");
+			System.out.println("LISTE D'OBJETS AVANT CREATERETURNID DOUBLON : ");
 			System.out.println(dao.afficherListeObjetsMetier(objetInitiaux));
-			this.afficherNbreObjetsInitial(nombreObjetsInitial);
-			
+			this.afficherNbreObjetsInitial(nombreObjetsInitial);			
+		}
+
+		/* ************************* */
+		// CONDITIONS DE TEST
+		/* ************************* */				
+		Long objet1PersistantId = null;
+		Long objet1MemeInstancePersistantId = null;
+		Long objet2EqualsObjet1PersistantId = null;
+		Long objet3EqualsObjet1PersistantId = null;
+
+		/* AFFICHAGE A LA CONSOLE. */
+		if (AFFICHAGE_GENERAL && affichage) {
 			System.out.println();
 			System.out.println(LISTE_OBJETS_METIER_A_CREER);
 			System.out.println(OBJET1 + objet1.toString());
@@ -2146,6 +2223,7 @@ public class ContactSimpleDaoJPATest {
 			System.out.println(OBJET2_EQUALS_OBJET1 + objet2EqualsObj1.toString());
 			System.out.println(OBJET3_EQUALS_OBJET1 + objet3EqualsObj1.toString());
 		}
+		
 		
 		try {
 			
@@ -2187,16 +2265,14 @@ public class ContactSimpleDaoJPATest {
 				}
 				
 			}
-			
+
+			/* *********** */
+			// ASSERTIONS
+			/* *********** */			
 			/* garantit que createReturnId(...) retourne l'objet persisté. */
 			assertNotNull(
 					"ID de l'objet persisté retourne par createReturnId(...) ne doit pas être null : "
 						, objet1PersistantId);
-			
-			assertEquals(
-					"ID de l'objet persisté retourne par createReturnId(...) doit valoir 0L : "
-						, Long.valueOf(0L)
-							, objet1PersistantId);
 			
 			/* garantit que createReturnId(Doublon) retourne null. */
 			assertNull(
@@ -2212,7 +2288,8 @@ public class ContactSimpleDaoJPATest {
 			assertNull(
 					"createReturnId(doublon) doit retourner null : "
 						, objet3EqualsObjet1PersistantId);
-			
+
+			// ETAT FINAL
 			/* récupération. */
 			final List<IContactSimple> objetsFinaux = dao.findAll();
 			
@@ -2221,7 +2298,7 @@ public class ContactSimpleDaoJPATest {
 			
 			if (AFFICHAGE_GENERAL && affichage) {
 				System.out.println();
-				System.out.println(LISTE_OBJETS_APRES_CREATE);
+				System.out.println("LISTE D'OBJETS APRES CREATERETURNID DOUBLON : ");
 				System.out.println(dao.afficherListeObjetsMetier(objetsFinaux));
 				this.afficherNbreObjetsFinal(nombreObjetsFinal);
 			}
@@ -2287,9 +2364,7 @@ public class ContactSimpleDaoJPATest {
 		Long nombreObjetsInitial = 0L;
 		Long nombreObjetsFinal = 0L;
 		
-		final List<IContactSimple> listVraimentNull1 = null;
-		List<IContactSimple> listVraimentNull1Persistant = null;
-		
+		// ETAT INITIAL
 		/* récupération. */
 		final List<IContactSimple> objetInitiaux = dao.findAll();
 					
@@ -2298,11 +2373,18 @@ public class ContactSimpleDaoJPATest {
 		
 		/* AFFICHAGE A LA CONSOLE. */
 		if (AFFICHAGE_GENERAL && affichage) {
-			System.out.println("LISTE D'OBJETS AVANT SAVE(NULL) : ");
+			System.out.println("LISTE D'OBJETS AVANT SAVEITERABLE(NULL) : ");
 			System.out.println(dao.afficherListeObjetsMetier(objetInitiaux));
 			this.afficherNbreObjetsInitial(nombreObjetsInitial);			
 		}
+
+		/* ************************* */
+		// CONDITIONS DE TEST
+		/* ************************* */				
+		final List<IContactSimple> listVraimentNull1 = null;
+		List<IContactSimple> listVraimentNull1Persistant = null;
 		
+
 		try {
 			
 			/* *********************************************** */
@@ -2310,6 +2392,16 @@ public class ContactSimpleDaoJPATest {
 			listVraimentNull1Persistant = (List<IContactSimple>) dao.saveIterable(listVraimentNull1);
 			/* *********************************************** */
 			
+			/* *********** */
+			// ASSERTIONS
+			/* *********** */			
+			/* garantit que saveIterable(null) retourne null. */
+			assertNull(
+					"saveIterable(null) doit retourner null : "
+						, listVraimentNull1Persistant);
+			
+
+			// ETAT FINAL
 			/* récupération. */
 			final List<IContactSimple> objetsFinaux = dao.findAll();
 			
@@ -2318,7 +2410,7 @@ public class ContactSimpleDaoJPATest {
 			
 			/* AFFICHAGE A LA CONSOLE. */
 			if (AFFICHAGE_GENERAL && affichage) {
-				System.out.println("LISTE D'OBJETS APRES SAVE(NULL) : ");
+				System.out.println("LISTE D'OBJETS APRES SAVEITERABLE(NULL) : ");
 				System.out.println(dao.afficherListeObjetsMetier(objetsFinaux));
 				
 				System.out.println();
@@ -2332,11 +2424,6 @@ public class ContactSimpleDaoJPATest {
 					
 				this.afficherNbreObjetsFinal(nombreObjetsFinal);
 			}
-			
-			/* garantit que saveIterable(null) retourne null. */
-			assertNull(
-					"saveIterable(null) doit retourner null : "
-						, listVraimentNull1Persistant);
 			
 			/* garantit que saveIterable(null) ne stocke rien. */
 			assertTrue(NBRE_OBJETS_FINAL_DOIT
@@ -2396,12 +2483,8 @@ public class ContactSimpleDaoJPATest {
 
 		Long nombreObjetsInitial = 0L;
 		Long nombreObjetsFinal = 0L;
-		
-		final List<IContactSimple> listAvecNull1 = new ArrayList<IContactSimple>();
-		listAvecNull1.add(objetNull1);
-		listAvecNull1.add(objetNull2);
-		List<IContactSimple> listAvecNull1Persistant = null;
-		
+				
+		// ETAT INITIAL
 		/* récupération. */
 		final List<IContactSimple> objetInitiaux = dao.findAll();
 					
@@ -2410,15 +2493,27 @@ public class ContactSimpleDaoJPATest {
 		
 		/* AFFICHAGE A LA CONSOLE. */
 		if (AFFICHAGE_GENERAL && affichage) {
-			System.out.println("LISTE D'OBJETS AVANT SAVE(OBJETS NULL) : ");
+			System.out.println("LISTE D'OBJETS AVANT SAVEITERABLE(OBJETS NULL) : ");
 			System.out.println(dao.afficherListeObjetsMetier(objetInitiaux));
-			this.afficherNbreObjetsInitial(nombreObjetsInitial);
-			
+			this.afficherNbreObjetsInitial(nombreObjetsInitial);			
+		}
+
+		/* ************************* */
+		// CONDITIONS DE TEST
+		/* ************************* */				
+		final List<IContactSimple> listAvecNull1 = new ArrayList<IContactSimple>();
+		listAvecNull1.add(objetNull1);
+		listAvecNull1.add(objetNull2);
+		List<IContactSimple> listAvecNull1Persistant = null;
+
+		/* AFFICHAGE A LA CONSOLE. */
+		if (AFFICHAGE_GENERAL && affichage) {
 			System.out.println();
 			System.out.println(LISTE_OBJETS_METIER_A_CREER);
 			System.out.println("objetNull1 : " + objetNull1.toString());
 			System.out.println("objetNull2 : " + objetNull2.toString());
 		}
+
 		
 		try {
 			
@@ -2427,6 +2522,19 @@ public class ContactSimpleDaoJPATest {
 			listAvecNull1Persistant = (List<IContactSimple>) dao.saveIterable(listAvecNull1);
 			/* *********************************************** */
 			
+			/* *********** */
+			// ASSERTIONS
+			/* *********** */						
+			/* garantit que saveIterable(objets null) retourne une liste vide. */
+			if (listAvecNull1Persistant != null) {
+				
+				assertTrue(
+						"saveIterable(objets null) doit retourner une liste vide : "
+							, listAvecNull1Persistant.isEmpty());
+			}
+
+			
+			// ETAT FINAL			
 			/* récupération. */
 			final List<IContactSimple> objetsFinaux = dao.findAll();
 			
@@ -2436,7 +2544,7 @@ public class ContactSimpleDaoJPATest {
 			/* AFFICHAGE A LA CONSOLE. */
 			if (AFFICHAGE_GENERAL && affichage) {
 				System.out.println();
-				System.out.println("LISTE D'OBJETS APRES SAVE(OBJETS NULL) : ");
+				System.out.println("LISTE D'OBJETS APRES SAVEITERABLE(OBJETS NULL) : ");
 				System.out.println(dao.afficherListeObjetsMetier(objetsFinaux));
 				
 				System.out.println();
@@ -2450,16 +2558,7 @@ public class ContactSimpleDaoJPATest {
 					
 				this.afficherNbreObjetsFinal(nombreObjetsFinal);
 			}
-			
-			/* garantit que saveIterable(objets null) retourne une liste vide. */
-			if (listAvecNull1Persistant != null) {
-				
-				assertTrue(
-						"saveIterable(objets null) doit retourner unue liste vide : "
-							, listAvecNull1Persistant.isEmpty());
-			}
-			
-			
+						
 			/* garantit que saveIterable(objets null) ne stocke rien. */
 			assertTrue(NBRE_OBJETS_FINAL_DOIT
 					+ NBRE_INITIAL_PLUS_ZERO
@@ -2520,11 +2619,7 @@ public class ContactSimpleDaoJPATest {
 		Long nombreObjetsInitial = 0L;
 		Long nombreObjetsFinal = 0L;
 		
-		final List<IContactSimple> list1 = new ArrayList<IContactSimple>();
-		list1.add(objetACreer1);
-		list1.add(objetACreer2);
-		List<IContactSimple> list1Persistante = null;
-		
+		// ETAT INITIAL
 		/* récupération. */
 		final List<IContactSimple> objetInitiaux = dao.findAll();
 					
@@ -2533,15 +2628,27 @@ public class ContactSimpleDaoJPATest {
 		
 		/* AFFICHAGE A LA CONSOLE. */
 		if (AFFICHAGE_GENERAL && affichage) {
-			System.out.println("LISTE D'OBJETS AVANT SAVE(OBJETS CORRECTS) : ");
+			System.out.println("LISTE D'OBJETS AVANT SAVEITERABLE(OBJETS CORRECTS) : ");
 			System.out.println(dao.afficherListeObjetsMetier(objetInitiaux));
 			this.afficherNbreObjetsInitial(nombreObjetsInitial);
-			
+		}
+		
+		/* ************************* */
+		// CONDITIONS DE TEST
+		/* ************************* */				
+		final List<IContactSimple> list1 = new ArrayList<IContactSimple>();
+		list1.add(objetACreer1);
+		list1.add(objetACreer2);
+		List<IContactSimple> list1Persistante = null;
+		
+		/* AFFICHAGE A LA CONSOLE. */
+		if (AFFICHAGE_GENERAL && affichage) {
 			System.out.println();
 			System.out.println(LISTE_OBJETS_METIER_A_CREER);
 			System.out.println("objetACreer1 : " + objetACreer1.toString());
 			System.out.println("objetACreer2 : " + objetACreer2.toString());
 		}
+		
 		
 		try {
 			
@@ -2550,6 +2657,31 @@ public class ContactSimpleDaoJPATest {
 			list1Persistante = (List<IContactSimple>) dao.saveIterable(list1);
 			/* *********************************************** */
 			
+			/* AFFICHAGE A LA CONSOLE. */
+			if (AFFICHAGE_GENERAL && affichage) {
+				System.out.println();
+				if (list1Persistante != null) {
+					System.out.println(LISTE_OBJETS_PERSISTES);
+					System.out.println(this.afficherListeObjetsMetier(
+									list1Persistante));
+				} else {
+					System.out.println(LISTE_OBJETS_PERSISTES_NULL);
+				}
+			}
+			
+			/* *********** */
+			// ASSERTIONS
+			/* *********** */						
+			/* garantit que saveIterable(objets corrects) retourne une liste non vide. */
+			if (list1Persistante != null) {
+				
+				assertFalse(
+						"saveIterable(objets null) doit retourner une liste NON vide : "
+							, list1Persistante.isEmpty());
+			}
+			
+
+			// ETAT FINAL
 			/* récupération. */
 			final List<IContactSimple> objetsFinaux = dao.findAll();
 			
@@ -2559,30 +2691,14 @@ public class ContactSimpleDaoJPATest {
 			/* AFFICHAGE A LA CONSOLE. */
 			if (AFFICHAGE_GENERAL && affichage) {
 				System.out.println();
-				System.out.println("LISTE D'OBJETS APRES SAVE(OBJETS CORRECTS) : ");
+				System.out.println("LISTE D'OBJETS APRES SAVEITERABLE(OBJETS CORRECTS) : ");
 				System.out.println(dao.afficherListeObjetsMetier(objetsFinaux));
 				
-				System.out.println();
-				if (list1Persistante != null) {
-					System.out.println(LISTE_OBJETS_PERSISTES);
-					System.out.println(this.afficherListeObjetsMetier(
-									list1Persistante));
-				} else {
-					System.out.println(LISTE_OBJETS_PERSISTES_NULL);
-				}
+				
 					
 				this.afficherNbreObjetsFinal(nombreObjetsFinal);
 			}
-			
-			/* garantit que saveIterable(objets corrects) retourne une liste non vide. */
-			if (list1Persistante != null) {
-				
-				assertFalse(
-						"saveIterable(objets null) doit retourner une liste NON vide : "
-							, list1Persistante.isEmpty());
-			}
-			
-			
+						
 			/* garantit que saveIterable(objets corrects) stocke. */
 			assertTrue(NBRE_OBJETS_FINAL_DOIT
 					+ NBRE_INITIAL_PLUS_DEUX
@@ -2643,13 +2759,7 @@ public class ContactSimpleDaoJPATest {
 		Long nombreObjetsInitial = 0L;
 		Long nombreObjetsFinal = 0L;
 		
-		final List<IContactSimple> list1 = new ArrayList<IContactSimple>();
-		list1.add(objet1);
-		list1.add(objet1MemeInstance);
-		list1.add(objet2EqualsObj1);
-		list1.add(objet3EqualsObj1);
-		List<IContactSimple> list1Persistante = null;
-		
+		// ETAT INITIAL
 		/* récupération. */
 		final List<IContactSimple> objetInitiaux = dao.findAll();
 					
@@ -2658,10 +2768,23 @@ public class ContactSimpleDaoJPATest {
 		
 		/* AFFICHAGE A LA CONSOLE. */
 		if (AFFICHAGE_GENERAL && affichage) {
-			System.out.println("LISTE D'OBJETS AVANT SAVE(DOUBLONS) : ");
+			System.out.println("LISTE D'OBJETS AVANT SAVEITERABLE(DOUBLONS) : ");
 			System.out.println(dao.afficherListeObjetsMetier(objetInitiaux));
-			this.afficherNbreObjetsInitial(nombreObjetsInitial);
-			
+			this.afficherNbreObjetsInitial(nombreObjetsInitial);			
+		}
+
+		/* ************************* */
+		// CONDITIONS DE TEST
+		/* ************************* */				
+		final List<IContactSimple> list1 = new ArrayList<IContactSimple>();
+		list1.add(objet1);
+		list1.add(objet1MemeInstance);
+		list1.add(objet2EqualsObj1);
+		list1.add(objet3EqualsObj1);
+		List<IContactSimple> list1Persistante = null;
+
+		/* AFFICHAGE A LA CONSOLE. */
+		if (AFFICHAGE_GENERAL && affichage) {
 			System.out.println();
 			System.out.println(LISTE_OBJETS_METIER_A_CREER);
 			System.out.println(OBJET1 + objet1.toString());
@@ -2670,6 +2793,7 @@ public class ContactSimpleDaoJPATest {
 			System.out.println(OBJET3_EQUALS_OBJET1 + objet3EqualsObj1.toString());
 		}
 		
+		
 		try {
 			
 			/* *********************************************** */
@@ -2677,6 +2801,30 @@ public class ContactSimpleDaoJPATest {
 			list1Persistante = (List<IContactSimple>) dao.saveIterable(list1);
 			/* *********************************************** */
 			
+			/* AFFICHAGE A LA CONSOLE. */
+			if (AFFICHAGE_GENERAL && affichage) {
+				System.out.println();
+				if (list1Persistante != null) {
+					System.out.println(LISTE_OBJETS_PERSISTES);
+					System.out.println(this.afficherListeObjetsMetier(
+									list1Persistante));
+				} else {
+					System.out.println(LISTE_OBJETS_PERSISTES_NULL);
+				}
+			}
+			
+			/* *********** */
+			// ASSERTIONS
+			/* *********** */						
+			/* garantit que saveIterable(doublon) retourne une liste non vide. */
+			if (list1Persistante != null) {
+				
+				assertFalse(
+						"saveIterable(doublon) doit retourner une liste NON vide : "
+							, list1Persistante.isEmpty());
+			}
+
+			// ETAT FINAL
 			/* récupération. */
 			final List<IContactSimple> objetsFinaux = dao.findAll();
 			
@@ -2686,30 +2834,11 @@ public class ContactSimpleDaoJPATest {
 			/* AFFICHAGE A LA CONSOLE. */
 			if (AFFICHAGE_GENERAL && affichage) {
 				System.out.println();
-				System.out.println("LISTE D'OBJETS APRES SAVE(DOUBLONS) : ");
-				System.out.println(dao.afficherListeObjetsMetier(objetsFinaux));
-				
-				System.out.println();
-				if (list1Persistante != null) {
-					System.out.println(LISTE_OBJETS_PERSISTES);
-					System.out.println(this.afficherListeObjetsMetier(
-									list1Persistante));
-				} else {
-					System.out.println(LISTE_OBJETS_PERSISTES_NULL);
-				}
-					
+				System.out.println("LISTE D'OBJETS APRES SAVEITERABLE(DOUBLONS) : ");
+				System.out.println(dao.afficherListeObjetsMetier(objetsFinaux));					
 				this.afficherNbreObjetsFinal(nombreObjetsFinal);
 			}
-			
-			/* garantit que saveIterable(doublon) retourne une liste non vide. */
-			if (list1Persistante != null) {
-				
-				assertFalse(
-						"saveIterable(objets null) doit retourner une liste NON vide : "
-							, list1Persistante.isEmpty());
-			}
-			
-			
+						
 			/* garantit que saveIterable(doublon) stocke mais aucun doublon. */
 			assertTrue(NBRE_OBJETS_FINAL_DOIT
 					+ NBRE_INITIAL_PLUS_UN
@@ -2768,6 +2897,7 @@ public class ContactSimpleDaoJPATest {
 		Long nombreObjetsInitial = 0L;
 		Long nombreObjetsFinal = 0L;
 
+		// ETAT INITIAL
 		/* récupération. */
 		final List<IContactSimple> objetInitiaux = dao.findAll();
 		
@@ -2781,7 +2911,9 @@ public class ContactSimpleDaoJPATest {
 			this.afficherNbreObjetsInitial(nombreObjetsInitial);
 		}
 		
-		
+		/* ************************* */
+		// CONDITIONS DE TEST
+		/* ************************* */						
 		final IContactSimple objetARechercher1 = null;
 		IContactSimple objetPersisteTrouve1 = null;
 		
@@ -2810,7 +2942,16 @@ public class ContactSimpleDaoJPATest {
 					System.out.println(OBJET_PERSISTE_TROUVE_NULL);
 				}
 			}
-			
+
+			/* *********** */
+			// ASSERTIONS
+			/* *********** */						
+			/* garantit que retrieve(null) retourne null. */
+			assertNull(
+					"retrieve(null) doit retourner null : "
+						, objetPersisteTrouve1);
+
+			// ETAT FINAL
 			/* récupération. */
 			final List<IContactSimple> objetsFinaux = dao.findAll();
 			
@@ -2824,10 +2965,10 @@ public class ContactSimpleDaoJPATest {
 				this.afficherNbreObjetsFinal(nombreObjetsFinal);
 			}
 
-			/* garantit que retrieve(null) retourne null. */
-			assertNull(
-					"retrieve(null) doit retourner null : "
-						, objetPersisteTrouve1);
+			/* garantit que retrieve(null) ne change rien. */
+			assertTrue(NBRE_OBJETS_FINAL_DOIT
+					+ NBRE_INITIAL_PLUS_ZERO
+					, nombreObjetsFinal == nombreObjetsInitial + 0);
 			
 		} catch (AbstractDaoException e) {
 			
@@ -2883,6 +3024,7 @@ public class ContactSimpleDaoJPATest {
 		Long nombreObjetsInitial = 0L;
 		Long nombreObjetsFinal = 0L;
 
+		// ETAT INITIAL
 		/* récupération. */
 		final List<IContactSimple> objetInitiaux = dao.findAll();
 		
@@ -2895,8 +3037,10 @@ public class ContactSimpleDaoJPATest {
 			System.out.println(dao.afficherListeObjetsMetier(objetInitiaux));
 			this.afficherNbreObjetsInitial(nombreObjetsInitial);
 		}
-		
-		
+				
+		/* ************************* */
+		// CONDITIONS DE TEST
+		/* ************************* */								
 		final IContactSimple objetARechercher1 = objetNull1;
 		IContactSimple objetPersisteTrouve1 = null;
 		
@@ -2929,6 +3073,15 @@ public class ContactSimpleDaoJPATest {
 				}
 			}
 			
+			/* *********** */
+			// ASSERTIONS
+			/* *********** */						
+			/* garantit que retrieve(objet null) retourne null. */
+			assertNull(
+					"retrieve(objet null) doit retourner null : "
+						, objetPersisteTrouve1);
+			
+			// ETAT FINAL
 			/* récupération. */
 			final List<IContactSimple> objetsFinaux = dao.findAll();
 			
@@ -2942,11 +3095,11 @@ public class ContactSimpleDaoJPATest {
 				this.afficherNbreObjetsFinal(nombreObjetsFinal);
 			}
 
-			/* garantit que retrieve(objet null) retourne null. */
-			assertNull(
-					"retrieve(objet null) doit retourner null : "
-						, objetPersisteTrouve1);
-			
+			/* garantit que retrieve(objet null) ne change rien. */
+			assertTrue(NBRE_OBJETS_FINAL_DOIT
+					+ NBRE_INITIAL_PLUS_ZERO
+					, nombreObjetsFinal == nombreObjetsInitial + 0);
+
 		} catch (AbstractDaoException e) {
 			
 			System.out.println(TEST_RETRIEVE_OBJET_NULL);
@@ -3001,6 +3154,7 @@ public class ContactSimpleDaoJPATest {
 		Long nombreObjetsInitial = 0L;
 		Long nombreObjetsFinal = 0L;
 
+		// ETAT INITIAL
 		/* récupération. */
 		final List<IContactSimple> objetInitiaux = dao.findAll();
 		
@@ -3013,8 +3167,10 @@ public class ContactSimpleDaoJPATest {
 			System.out.println(dao.afficherListeObjetsMetier(objetInitiaux));
 			this.afficherNbreObjetsInitial(nombreObjetsInitial);
 		}
-		
-		
+						
+		/* ************************* */
+		// CONDITIONS DE TEST
+		/* ************************* */										
 		final IContactSimple objetARechercher1 = objetInexistant;
 		IContactSimple objetPersisteTrouve1 = null;
 		
@@ -3047,6 +3203,15 @@ public class ContactSimpleDaoJPATest {
 				}
 			}
 			
+			/* *********** */
+			// ASSERTIONS
+			/* *********** */						
+			/* garantit que retrieve(inexistant) retourne null. */
+			assertNull(
+					"retrieve(inexistant) doit retourner null : "
+						, objetPersisteTrouve1);
+
+			// ETAT FINAL
 			/* récupération. */
 			final List<IContactSimple> objetsFinaux = dao.findAll();
 			
@@ -3060,10 +3225,11 @@ public class ContactSimpleDaoJPATest {
 				this.afficherNbreObjetsFinal(nombreObjetsFinal);
 			}
 
-			/* garantit que retrieve(inexistant) retourne null. */
-			assertNull(
-					"retrieve(inexistant) doit retourner null : "
-						, objetPersisteTrouve1);
+			/* garantit que retrieve(inexistant) ne change rien. */
+			assertTrue(NBRE_OBJETS_FINAL_DOIT
+					+ NBRE_INITIAL_PLUS_ZERO
+					, nombreObjetsFinal == nombreObjetsInitial + 0);
+
 			
 		} catch (AbstractDaoException e) {
 			
@@ -3120,6 +3286,7 @@ public class ContactSimpleDaoJPATest {
 		Long nombreObjetsInitial = 0L;
 		Long nombreObjetsFinal = 0L;
 
+		// ETAT INITIAL
 		/* récupération. */
 		final List<IContactSimple> objetInitiaux = dao.findAll();
 		
@@ -3132,8 +3299,10 @@ public class ContactSimpleDaoJPATest {
 			System.out.println(dao.afficherListeObjetsMetier(objetInitiaux));
 			this.afficherNbreObjetsInitial(nombreObjetsInitial);
 		}
-		
-		
+				
+		/* ************************* */
+		// CONDITIONS DE TEST
+		/* ************************* */												
 		final IContactSimple objetARechercher1 = objetRemplirStockage1;
 		IContactSimple objetPersisteTrouve1 = null;
 		
@@ -3166,6 +3335,21 @@ public class ContactSimpleDaoJPATest {
 				}
 			}
 			
+			/* *********** */
+			// ASSERTIONS
+			/* *********** */						
+			/* garantit que retrieve(existant) retourne l'objet 
+			 * persistant récupéré dans le stockage. */
+			assertNotNull(
+					"retrieve(existant) doit retourner l'objet persisté : "
+						, objetPersisteTrouve1);
+			
+			assertEquals(
+					"l'objet persistant doit être equals à l'objet recherché : "
+						, objetARechercher1
+							, objetPersisteTrouve1);
+			
+			// ETAT FINAL
 			/* récupération. */
 			final List<IContactSimple> objetsFinaux = dao.findAll();
 			
@@ -3179,16 +3363,10 @@ public class ContactSimpleDaoJPATest {
 				this.afficherNbreObjetsFinal(nombreObjetsFinal);
 			}
 
-			/* garantit que retrieve(existant) retourne l'objet 
-			 * persistant récupéré dans le stockage. */
-			assertNotNull(
-					"retrieve(existant) doit retourner l'objet persisté : "
-						, objetPersisteTrouve1);
-			
-			assertEquals(
-					"l'objet persistant doit être equals à l'objet recherché : "
-						, objetARechercher1
-							, objetPersisteTrouve1);
+			/* garantit que retrieve(existant) ne change rien. */
+			assertTrue(NBRE_OBJETS_FINAL_DOIT
+					+ NBRE_INITIAL_PLUS_ZERO
+					, nombreObjetsFinal == nombreObjetsInitial + 0);
 			
 		} catch (AbstractDaoException e) {
 			
@@ -3244,6 +3422,7 @@ public class ContactSimpleDaoJPATest {
 		Long nombreObjetsInitial = 0L;
 		Long nombreObjetsFinal = 0L;
 
+		// ETAT INITIAL
 		/* récupération. */
 		final List<IContactSimple> objetInitiaux = dao.findAll();
 		
@@ -3257,7 +3436,9 @@ public class ContactSimpleDaoJPATest {
 			this.afficherNbreObjetsInitial(nombreObjetsInitial);
 		}
 		
-		
+		/* ************************* */
+		// CONDITIONS DE TEST
+		/* ************************* */														
 		final Long objetARechercher1Id = null;
 		IContactSimple objetPersisteTrouve1 = null;
 		
@@ -3286,7 +3467,16 @@ public class ContactSimpleDaoJPATest {
 					System.out.println(OBJET_PERSISTE_TROUVE_NULL);
 				}
 			}
-			
+
+			/* *********** */
+			// ASSERTIONS
+			/* *********** */						
+			/* garantit que findById(null) retourne null. */
+			assertNull(
+					"findById(null) doit retourner null : "
+						, objetPersisteTrouve1);
+
+			// ETAT FINAL
 			/* récupération. */
 			final List<IContactSimple> objetsFinaux = dao.findAll();
 			
@@ -3299,11 +3489,11 @@ public class ContactSimpleDaoJPATest {
 				System.out.println(dao.afficherListeObjetsMetier(objetsFinaux));
 				this.afficherNbreObjetsFinal(nombreObjetsFinal);
 			}
-
-			/* garantit que findById(null) retourne null. */
-			assertNull(
-					"findById(null) doit retourner null : "
-						, objetPersisteTrouve1);
+			
+			/* garantit que findById(null) ne change rien. */
+			assertTrue(NBRE_OBJETS_FINAL_DOIT
+					+ NBRE_INITIAL_PLUS_ZERO
+					, nombreObjetsFinal == nombreObjetsInitial + 0);
 			
 		} catch (AbstractDaoException e) {
 			
@@ -3359,6 +3549,7 @@ public class ContactSimpleDaoJPATest {
 		Long nombreObjetsInitial = 0L;
 		Long nombreObjetsFinal = 0L;
 
+		// ETAT INITIAL
 		/* récupération. */
 		final List<IContactSimple> objetInitiaux = dao.findAll();
 		
@@ -3372,7 +3563,9 @@ public class ContactSimpleDaoJPATest {
 			this.afficherNbreObjetsInitial(nombreObjetsInitial);
 		}
 		
-		
+		/* ************************* */
+		// CONDITIONS DE TEST
+		/* ************************* */																
 		final Long objetARechercher1Id = 17L;
 		IContactSimple objetPersisteTrouve1 = null;
 		
@@ -3401,6 +3594,15 @@ public class ContactSimpleDaoJPATest {
 				}
 			}
 			
+			/* *********** */
+			// ASSERTIONS
+			/* *********** */						
+			/* garantit que findById(inexistant) retourne null. */
+			assertNull(
+					"findById(inexistant) doit retourner null : "
+						, objetPersisteTrouve1);
+			
+			// ETAT FINAL
 			/* récupération. */
 			final List<IContactSimple> objetsFinaux = dao.findAll();
 			
@@ -3414,10 +3616,10 @@ public class ContactSimpleDaoJPATest {
 				this.afficherNbreObjetsFinal(nombreObjetsFinal);
 			}
 
-			/* garantit que findById(inexistant) retourne null. */
-			assertNull(
-					"findById(inexistant) doit retourner null : "
-						, objetPersisteTrouve1);
+			/* garantit que findById(inexistant) ne change rien. */
+			assertTrue(NBRE_OBJETS_FINAL_DOIT
+					+ NBRE_INITIAL_PLUS_ZERO
+					, nombreObjetsFinal == nombreObjetsInitial + 0);
 			
 		} catch (AbstractDaoException e) {
 			
@@ -3474,6 +3676,7 @@ public class ContactSimpleDaoJPATest {
 		Long nombreObjetsInitial = 0L;
 		Long nombreObjetsFinal = 0L;
 
+		// ETAT INITIAL
 		/* récupération. */
 		final List<IContactSimple> objetInitiaux = dao.findAll();
 		
@@ -3487,7 +3690,9 @@ public class ContactSimpleDaoJPATest {
 			this.afficherNbreObjetsInitial(nombreObjetsInitial);
 		}
 		
-		
+		/* ************************* */
+		// CONDITIONS DE TEST
+		/* ************************* */																		
 		final Long objetARechercher1Id = 3L;
 		IContactSimple objetPersisteTrouve1 = null;
 		
@@ -3516,6 +3721,16 @@ public class ContactSimpleDaoJPATest {
 				}
 			}
 			
+			/* *********** */
+			// ASSERTIONS
+			/* *********** */						
+			/* garantit que findById(existant) retourne l'objet 
+			 * persistant récupéré dans le stockage. */
+			assertNotNull(
+					"findById(existant) doit retourner l'objet persisté : "
+						, objetPersisteTrouve1);
+			
+			// ETAT FINAL
 			/* récupération. */
 			final List<IContactSimple> objetsFinaux = dao.findAll();
 			
@@ -3529,12 +3744,11 @@ public class ContactSimpleDaoJPATest {
 				this.afficherNbreObjetsFinal(nombreObjetsFinal);
 			}
 
-			/* garantit que findById(existant) retourne l'objet 
-			 * persistant récupéré dans le stockage. */
-			assertNotNull(
-					"findById(existant) doit retourner l'objet persisté : "
-						, objetPersisteTrouve1);
-						
+			/* garantit que findById(existant) ne change rien. */
+			assertTrue(NBRE_OBJETS_FINAL_DOIT
+					+ NBRE_INITIAL_PLUS_ZERO
+					, nombreObjetsFinal == nombreObjetsInitial + 0);
+			
 		} catch (AbstractDaoException e) {
 			
 			System.out.println(TEST_FINDBYID);
@@ -3589,6 +3803,7 @@ public class ContactSimpleDaoJPATest {
 		Long nombreObjetsInitial = 0L;
 		Long nombreObjetsFinal = 0L;
 
+		// ETAT INITIAL
 		/* récupération. */
 		final List<IContactSimple> objetInitiaux = dao.findAll();
 		
@@ -3602,7 +3817,9 @@ public class ContactSimpleDaoJPATest {
 			this.afficherNbreObjetsInitial(nombreObjetsInitial);
 		}
 		
-		
+		/* ************************* */
+		// CONDITIONS DE TEST
+		/* ************************* */																				
 		final IContactSimple objetARechercher1 = null;
 		Long objetPersisteTrouve1Id = null;
 		
@@ -3631,7 +3848,16 @@ public class ContactSimpleDaoJPATest {
 					System.out.println(OBJET_PERSISTE_TROUVE1_ID_NULL);
 				}
 			}
-			
+
+			/* *********** */
+			// ASSERTIONS
+			/* *********** */						
+			/* garantit que retrieveId(null) retourne null. */
+			assertNull(
+					"retrieveId(null) doit retourner null : "
+						, objetPersisteTrouve1Id);
+
+			// ETAT FINAL
 			/* récupération. */
 			final List<IContactSimple> objetsFinaux = dao.findAll();
 			
@@ -3645,11 +3871,11 @@ public class ContactSimpleDaoJPATest {
 				this.afficherNbreObjetsFinal(nombreObjetsFinal);
 			}
 
-			/* garantit que retrieveId(null) retourne null. */
-			assertNull(
-					"retrieveId(null) doit retourner null : "
-						, objetPersisteTrouve1Id);
-			
+			/* garantit que retrieveId(null) ne change rien. */
+			assertTrue(NBRE_OBJETS_FINAL_DOIT
+					+ NBRE_INITIAL_PLUS_ZERO
+					, nombreObjetsFinal == nombreObjetsInitial + 0);
+
 		} catch (AbstractDaoException e) {
 			
 			System.out.println(TEST_RETRIEVEID_NULL);
@@ -3704,6 +3930,7 @@ public class ContactSimpleDaoJPATest {
 		Long nombreObjetsInitial = 0L;
 		Long nombreObjetsFinal = 0L;
 
+		// ETAT INITIAL
 		/* récupération. */
 		final List<IContactSimple> objetInitiaux = dao.findAll();
 		
@@ -3717,7 +3944,9 @@ public class ContactSimpleDaoJPATest {
 			this.afficherNbreObjetsInitial(nombreObjetsInitial);
 		}
 		
-		
+		/* ************************* */
+		// CONDITIONS DE TEST
+		/* ************************* */																						
 		final IContactSimple objetARechercher1 = objetNull1;
 		Long objetPersisteTrouve1Id = null;
 		
@@ -3749,7 +3978,16 @@ public class ContactSimpleDaoJPATest {
 					System.out.println(OBJET_PERSISTE_TROUVE1_ID_NULL);
 				}
 			}
+
+			/* *********** */
+			// ASSERTIONS
+			/* *********** */						
+			/* garantit que retrieveId(objet null) retourne null. */
+			assertNull(
+					"retrieveId(objet null) doit retourner null : "
+						, objetPersisteTrouve1Id);
 			
+			// ETAT FINAL
 			/* récupération. */
 			final List<IContactSimple> objetsFinaux = dao.findAll();
 			
@@ -3763,10 +4001,10 @@ public class ContactSimpleDaoJPATest {
 				this.afficherNbreObjetsFinal(nombreObjetsFinal);
 			}
 
-			/* garantit que retrieveId(objet null) retourne null. */
-			assertNull(
-					"retrieveId(objet null) doit retourner null : "
-						, objetPersisteTrouve1Id);
+			/* garantit que retrieveId(objet null) ne change rien. */
+			assertTrue(NBRE_OBJETS_FINAL_DOIT
+					+ NBRE_INITIAL_PLUS_ZERO
+					, nombreObjetsFinal == nombreObjetsInitial + 0);
 			
 		} catch (AbstractDaoException e) {
 			
@@ -3822,6 +4060,7 @@ public class ContactSimpleDaoJPATest {
 		Long nombreObjetsInitial = 0L;
 		Long nombreObjetsFinal = 0L;
 
+		// ETAT INITIAL
 		/* récupération. */
 		final List<IContactSimple> objetInitiaux = dao.findAll();
 		
@@ -3835,7 +4074,9 @@ public class ContactSimpleDaoJPATest {
 			this.afficherNbreObjetsInitial(nombreObjetsInitial);
 		}
 		
-		
+		/* ************************* */
+		// CONDITIONS DE TEST
+		/* ************************* */																								
 		final IContactSimple objetARechercher1 = objetInexistant;
 		Long objetPersisteTrouve1Id = null;
 		
@@ -3867,7 +4108,16 @@ public class ContactSimpleDaoJPATest {
 					System.out.println(OBJET_PERSISTE_TROUVE1_ID_NULL);
 				}
 			}
-			
+
+			/* *********** */
+			// ASSERTIONS
+			/* *********** */						
+			/* garantit que retrieveId(inexistant) retourne null. */
+			assertNull(
+					"retrieveId(inexistant) doit retourner null : "
+						, objetPersisteTrouve1Id);
+
+			// ETAT FINAL
 			/* récupération. */
 			final List<IContactSimple> objetsFinaux = dao.findAll();
 			
@@ -3881,10 +4131,10 @@ public class ContactSimpleDaoJPATest {
 				this.afficherNbreObjetsFinal(nombreObjetsFinal);
 			}
 
-			/* garantit que retrieveId(inexistant) retourne null. */
-			assertNull(
-					"retrieveId(inexistant) doit retourner null : "
-						, objetPersisteTrouve1Id);
+			/* garantit que retrieveId(inexistant) ne change rien. */
+			assertTrue(NBRE_OBJETS_FINAL_DOIT
+					+ NBRE_INITIAL_PLUS_ZERO
+					, nombreObjetsFinal == nombreObjetsInitial + 0);
 			
 		} catch (AbstractDaoException e) {
 			
@@ -3941,6 +4191,7 @@ public class ContactSimpleDaoJPATest {
 		Long nombreObjetsInitial = 0L;
 		Long nombreObjetsFinal = 0L;
 
+		// ETAT INITIAL
 		/* récupération. */
 		final List<IContactSimple> objetInitiaux = dao.findAll();
 		
@@ -3954,7 +4205,9 @@ public class ContactSimpleDaoJPATest {
 			this.afficherNbreObjetsInitial(nombreObjetsInitial);
 		}
 		
-		
+		/* ************************* */
+		// CONDITIONS DE TEST
+		/* ************************* */																										
 		final IContactSimple objetARechercher1 = objetRemplirStockage1;
 		Long objetPersisteTrouve1Id = null;
 		
@@ -3986,7 +4239,17 @@ public class ContactSimpleDaoJPATest {
 					System.out.println(OBJET_PERSISTE_TROUVE1_ID_NULL);
 				}
 			}
-			
+
+			/* *********** */
+			// ASSERTIONS
+			/* *********** */						
+			/* garantit que retrieveId(existant) retourne l'objet 
+			 * persistant récupéré dans le stockage. */
+			assertNotNull(
+					"retrieveId(existant) doit retourner l'ID de l'objet persisté : "
+						, objetPersisteTrouve1Id);
+
+			// ETAT FINAL
 			/* récupération. */
 			final List<IContactSimple> objetsFinaux = dao.findAll();
 			
@@ -4000,11 +4263,11 @@ public class ContactSimpleDaoJPATest {
 				this.afficherNbreObjetsFinal(nombreObjetsFinal);
 			}
 
-			/* garantit que retrieveId(existant) retourne l'objet 
-			 * persistant récupéré dans le stockage. */
-			assertNotNull(
-					"retrieveId(existant) doit retourner l'ID de l'objet persisté : "
-						, objetPersisteTrouve1Id);
+			/* garantit que retrieveId(existant) ne change rien. */
+			assertTrue(NBRE_OBJETS_FINAL_DOIT
+					+ NBRE_INITIAL_PLUS_ZERO
+					, nombreObjetsFinal == nombreObjetsInitial + 0);
+
 			
 		} catch (AbstractDaoException e) {
 			
@@ -4133,8 +4396,8 @@ public class ContactSimpleDaoJPATest {
 
 		Long nombreObjetsInitial = 0L;
 		Long nombreObjetsFinal = 0L;
-		List<IContactSimple> resultat = null;
 
+		// ETAT INITIAL
 		/* récupération. */
 		final List<IContactSimple> objetInitiaux = dao.findAll();
 
@@ -4149,9 +4412,21 @@ public class ContactSimpleDaoJPATest {
 		}
 
 		/* ************************* */
+		// CONDITIONS DE TEST
+		/* ************************* */																										
+		/* ************************* */
 		// STARTPOSITION HORS DES CLOUS.
 		final int startPosition = 4;
 		final int maxResult = 3;
+		List<IContactSimple> resultat = null;
+		
+		/* AFFICHAGE A LA CONSOLE. */
+		if (AFFICHAGE_GENERAL && affichage) {
+			System.out.println();
+			System.out.println("INDEX (0-based) DE DEPART : " + startPosition);
+			System.out.println("NOMBRE DE RESULTATS MAXIMUM : " + maxResult);
+		}
+		
 		
 		try {
 
@@ -4167,11 +4442,15 @@ public class ContactSimpleDaoJPATest {
 				System.out.println(dao.afficherListeObjetsMetier(resultat));
 			}
 
+			/* *********** */
+			// ASSERTIONS
+			/* *********** */						
 			/* garantit que findAllMax(out) retourne null. */
 			assertNull(
 					"findAllMax(out) doit retourner null : "
 						, resultat);
 
+			// ETAT FINAL
 			/* récupération. */
 			final List<IContactSimple> objetsFinaux = dao.findAll();
 
@@ -4185,10 +4464,10 @@ public class ContactSimpleDaoJPATest {
 				this.afficherNbreObjetsFinal(nombreObjetsFinal);
 			}
 
-			assertEquals(
-					FINDALL_DOIT_RETOURNER_4_ENREGISTREMENTS
-						, Long.valueOf(4L)
-							, nombreObjetsFinal);
+			/* garantit que findAllMax(out) ne change rien. */
+			assertTrue(NBRE_OBJETS_FINAL_DOIT
+					+ NBRE_INITIAL_PLUS_ZERO
+					, nombreObjetsFinal == nombreObjetsInitial + 0);
 
 		} catch (AbstractDaoException e) {
 
@@ -4243,7 +4522,6 @@ public class ContactSimpleDaoJPATest {
 
 		Long nombreObjetsInitial = 0L;
 		Long nombreObjetsFinal = 0L;
-		List<IContactSimple> resultat = null;
 
 		/* récupération. */
 		final List<IContactSimple> objetInitiaux = dao.findAll();
@@ -4259,11 +4537,21 @@ public class ContactSimpleDaoJPATest {
 		}
 
 		/* ************************* */
+		// CONDITIONS DE TEST
+		/* ************************* */																										
+		/* ************************* */
 		// STARTPOSITION DANS LES CLOUS.
 		final int startPosition = 2;
 		final int maxResult = 7;
-				
+		List<IContactSimple> resultat = null;
 		
+		/* AFFICHAGE A LA CONSOLE. */
+		if (AFFICHAGE_GENERAL && affichage) {
+			System.out.println();
+			System.out.println("INDEX (0-based) DE DEPART : " + startPosition);
+			System.out.println("NOMBRE DE RESULTATS MAXIMUM : " + maxResult);
+		}
+
 		try {
 
 			/* ********************************************************* */
@@ -4278,6 +4566,9 @@ public class ContactSimpleDaoJPATest {
 				System.out.println(dao.afficherListeObjetsMetier(resultat));
 			}
 
+			/* *********** */
+			// ASSERTIONS
+			/* *********** */						
 			/* garantit que findAllMax() retourne 
 			 * la liste d'objets trouvés. */
 			assertNotNull(
@@ -4289,6 +4580,7 @@ public class ContactSimpleDaoJPATest {
 					, nombreObjetsInitial - startPosition 
 						, resultat.size());
 			
+			// ETAT FINAL
 			/* récupération. */
 			final List<IContactSimple> objetsFinaux = dao.findAll();
 
@@ -4302,10 +4594,10 @@ public class ContactSimpleDaoJPATest {
 				this.afficherNbreObjetsFinal(nombreObjetsFinal);
 			}
 
-			assertEquals(
-					FINDALL_DOIT_RETOURNER_4_ENREGISTREMENTS
-						, Long.valueOf(4L)
-							, nombreObjetsFinal);
+			/* garantit que findAllMax() ne change rien. */
+			assertTrue(NBRE_OBJETS_FINAL_DOIT
+					+ NBRE_INITIAL_PLUS_ZERO
+					, nombreObjetsFinal == nombreObjetsInitial + 0);
 
 		} catch (AbstractDaoException e) {
 
@@ -4317,7 +4609,7 @@ public class ContactSimpleDaoJPATest {
 	} // Fin de testFindAllMax().__________________________________________
 	
 	
-	
+
 	/**
 	 * Teste la méthode <b>findAllIterable(null)</b>.<br/>
 	 * <ul>

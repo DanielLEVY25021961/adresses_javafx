@@ -1104,6 +1104,11 @@ public class ContactSimpleDaoJPA implements IContactSimpleDAO {
 			final int pStartPosition, final int pMaxResult) 
 										throws AbstractDaoException {
 
+		/* retourne null si pId est en dehors des index de stockage. */
+		if (pStartPosition > this.count() - 1) {
+			return null;
+		}
+		
 		/* instancie un EntityManager. */
 		this.instancierEntityManager();
 
@@ -1135,7 +1140,7 @@ public class ContactSimpleDaoJPA implements IContactSimpleDAO {
 			
 			/* Exécute la javax.persistence.Query. */
 			resultatEntity = query.getResultList();
-			
+						
 			/* convertit la liste d'Entities en OBJETS METIER. */
 			resultat = this.convertirListEntitiesEnModel(resultatEntity);
 

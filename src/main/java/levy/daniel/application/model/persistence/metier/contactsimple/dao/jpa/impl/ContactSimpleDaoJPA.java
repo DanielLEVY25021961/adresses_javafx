@@ -162,17 +162,10 @@ public class ContactSimpleDaoJPA implements IContactSimpleDAO {
 	 * <b>créé</b> et <b>détruit</b> à chaque 
 	 * utilisation par un Thread</li>
 	 * </ul>
+	 * @throws AbstractDaoException 
 	 */
-	private void instancierEntityManager() {
-		
-		if (this.entityManagerFactory != null) {
-			/* récupère une instance d'EntityManager 
-			 * auprès de la Factory. */
-			this.entityManager 
-				= this.entityManagerFactory.createEntityManager();
-			
-		}
-		
+	private void instancierEntityManager() throws AbstractDaoException {
+		this.entityManager = JPAUtils.fournirEntityManager();
 	} // Fin de instancierEntityManager()._________________________________
 	
 	
@@ -405,8 +398,7 @@ public class ContactSimpleDaoJPA implements IContactSimpleDAO {
 			/* TRANSACTIONNEL. *****/
 			/* détruit l'entityManager. */
 			if (this.entityManager != null) {
-				this.entityManager.close();
-				
+				this.entityManager.close();			
 			}
 		}
 		
@@ -718,7 +710,9 @@ public class ContactSimpleDaoJPA implements IContactSimpleDAO {
 								if (transaction == null) {
 									/* LOG. */
 									if (LOG.isFatalEnabled()) {
-										LOG.fatal("Create - Transaction null");
+										LOG.fatal("saveIterable(Iterable) - Transaction null" 
+												+ "pour l'objet : " 
+													+ entity.toString());
 									}
 									return null;
 								}
@@ -730,14 +724,14 @@ public class ContactSimpleDaoJPA implements IContactSimpleDAO {
 								/* PERSISTE en base. */
 								this.entityManager.persist(entity);
 								
+								/* TRANSACTIONNEL. *****/
+								transaction.commit();
+								
 								/* conversion de l'ENTITY en OBJET METIER. */
 								objetPersistant 
 									= ContactSimpleConvertisseurMetierEntity
 									.convertirEntityJPAEnObjetMetier(entity);
-								
-								/* TRANSACTIONNEL. *****/
-								transaction.commit();
-								
+															
 							} catch (Exception e) {
 								
 								/* TRANSACTIONNEL. *****/
@@ -747,8 +741,8 @@ public class ContactSimpleDaoJPA implements IContactSimpleDAO {
 								
 								
 								/* LOG. */
-								if (LOG.isDebugEnabled()) {
-									LOG.debug(e.getMessage(), e);
+								if (LOG.isFatalEnabled()) {
+									LOG.fatal(e.getMessage(), e);
 								}
 								
 								/* Gestion de la DAO Exception. */
@@ -767,18 +761,20 @@ public class ContactSimpleDaoJPA implements IContactSimpleDAO {
 								
 							}						
 
-						}
+						} // Entity avec attributs obligatoires remplis.
 						
-					}					
-				}				
+					} // Entity non null._____________
+					
+				} // Entity persistante._________________
+				
 			} // Next._____________________________________
 
 		}
 		catch (Exception e) {
 
 			/* LOG. */
-			if (LOG.isDebugEnabled()) {
-				LOG.debug(e.getMessage(), e);
+			if (LOG.isFatalEnabled()) {
+				LOG.fatal(e.getMessage(), e);
 			}
 
 			/* Gestion de la DAO Exception. */
@@ -885,6 +881,15 @@ public class ContactSimpleDaoJPA implements IContactSimpleDAO {
 						CLASSE_CONTACTSIMPLE_DAO_JPA
 						, "Méthode retrieve(IContactSimple pObject)", e);
 		}
+//		finally {
+//			
+//			/* TRANSACTIONNEL. *****/
+//			/* détruit l'entityManager. */
+//			if (this.entityManager != null) {
+//				this.entityManager.close();
+//				
+//			}
+//		}
 				
 		return objetResultat;
 
@@ -922,8 +927,10 @@ public class ContactSimpleDaoJPA implements IContactSimpleDAO {
 
 		try {
 			
+			/* récupération de l'ENTITY. */
 			entity 
-				= this.entityManager.find(ContactSimpleEntityJPA.class, pId);
+				= this.entityManager.find(
+						ContactSimpleEntityJPA.class, pId);
 			
 			/* conversion de l'ENTITY en OBJET METIER. */
 			objetTrouve 
@@ -940,6 +947,15 @@ public class ContactSimpleDaoJPA implements IContactSimpleDAO {
 						, "Méthode findById(ID)", e);
 			
 		}
+//		finally {
+//			
+//			/* TRANSACTIONNEL. *****/
+//			/* détruit l'entityManager. */
+//			if (this.entityManager != null) {
+//				this.entityManager.close();
+//				
+//			}
+//		}
 		
 		return objetTrouve;
 				
@@ -1023,7 +1039,16 @@ public class ContactSimpleDaoJPA implements IContactSimpleDAO {
 						CLASSE_CONTACTSIMPLE_DAO_JPA
 						, "Méthode retrieveId(IContactSimple pObject)", e);
 		}
-		
+//		finally {
+//			
+//			/* TRANSACTIONNEL. *****/
+//			/* détruit l'entityManager. */
+//			if (this.entityManager != null) {
+//				this.entityManager.close();
+//				
+//			}
+//		}
+				
 		if (objetResultat != null) {
 			return objetResultat.getId();
 		}
@@ -1088,6 +1113,15 @@ public class ContactSimpleDaoJPA implements IContactSimpleDAO {
 						, "Méthode findAll()", e);
 			
 		}
+//		finally {
+//			
+//			/* TRANSACTIONNEL. *****/
+//			/* détruit l'entityManager. */
+//			if (this.entityManager != null) {
+//				this.entityManager.close();
+//				
+//			}
+//		}
 		
 		/* Retourne la liste résultat. */
 		return resultat;
@@ -1160,6 +1194,15 @@ public class ContactSimpleDaoJPA implements IContactSimpleDAO {
 								+ ", int pMaxResult)", e);
 			
 		}
+//		finally {
+//			
+//			/* TRANSACTIONNEL. *****/
+//			/* détruit l'entityManager. */
+//			if (this.entityManager != null) {
+//				this.entityManager.close();
+//				
+//			}
+//		}
 		
 		/* Retourne la liste résultat. */
 		return resultat;
@@ -1174,8 +1217,26 @@ public class ContactSimpleDaoJPA implements IContactSimpleDAO {
 	@Override
 	public Iterable<IContactSimple> findAllIterable(
 			final Iterable<Long> pIds) throws AbstractDaoException {
-		// TODO Auto-generated method stub
-		return null;
+		
+		/* retourne null si pIds == null. */
+		if (pIds == null) {
+			return null;
+		}
+
+		final List<IContactSimple> resultat 
+			= new ArrayList<IContactSimple>();
+
+		for (final Long id : pIds) {
+			
+			final IContactSimple objet = this.findById(id);
+			
+			if (objet != null) {
+				resultat.add(objet);
+			}
+		}
+		
+		return resultat;
+		
 	} // Fin de findAllIterable(...).______________________________________
 
 
@@ -1254,9 +1315,15 @@ public class ContactSimpleDaoJPA implements IContactSimpleDAO {
 		
 		try {
 			
+			/* TRANSACTIONNEL. ****/	
+			transaction.begin();
+
 			/* MODIFIE en base. */
 			this.entityManager.merge(entity);
 			
+			/* TRANSACTIONNEL. *****/
+			transaction.commit();
+
 			/* conversion de l'ENTITY en OBJET METIER. */
 			persistentObject 
 				= ContactSimpleConvertisseurMetierEntity
@@ -1282,6 +1349,15 @@ public class ContactSimpleDaoJPA implements IContactSimpleDAO {
 						, "Méthode update(IContactSimple Object)", e);
 						
 		}
+//		finally {
+//			
+//			/* TRANSACTIONNEL. *****/
+//			/* détruit l'entityManager. */
+//			if (this.entityManager != null) {
+//				this.entityManager.close();
+//				
+//			}
+//		}
 				
 		/* retourne l'Objet persistant modifié. */
 		return persistentObject;
@@ -1304,8 +1380,8 @@ public class ContactSimpleDaoJPA implements IContactSimpleDAO {
 			return null;
 		}
 
-		/* retourne null si pId est en dehors des indexes. */
-		if (pId > this.count() - 1) {
+		/* retourne null si pId est hors indexes. */
+		if (this.findById(pId) == null) {
 			return null;
 		}
 		
@@ -1328,12 +1404,8 @@ public class ContactSimpleDaoJPA implements IContactSimpleDAO {
 			return null;
 		}
 		
-		final IContactSimple objetPersistant = this.findById(pId);
-		
-		/* retourne null s'il n'y a pas d'objet persistant à pId. */
-		if (objetPersistant == null) {
-			return null;
-		}
+		/* récupère l'objet à modifier par sons index. */
+		final IContactSimple objetAModifier = this.findById(pId);
 		
 		/* TRANSACTIONNEL. ****/
 		/* instancie un EntityManager. */
@@ -1364,18 +1436,39 @@ public class ContactSimpleDaoJPA implements IContactSimpleDAO {
 			return null;
 		}
 
-		
-		/* conversion de l'OBJET METIER en ENTITY. */
-		final ContactSimpleEntityJPA entity = 
-				ContactSimpleConvertisseurMetierEntity
-					.convertirObjetMetierEnEntityJPA(pObjectModifie);
 
 		IContactSimple persistentObject = null;
 		
 		try {
 			
+			/* TRANSACTIONNEL. ****/	
+			transaction.begin();
+						
+			/* applique les modifications. */
+			objetAModifier.setPrenom(pObjectModifie.getPrenom());
+			objetAModifier.setNom(pObjectModifie.getNom());
+			objetAModifier.setRue(pObjectModifie.getRue());
+			objetAModifier.setRue2(pObjectModifie.getRue2());
+			objetAModifier.setCodePostal(pObjectModifie.getCodePostal());
+			objetAModifier.setVille(pObjectModifie.getVille());
+			objetAModifier.setPays(pObjectModifie.getPays());
+			objetAModifier.setTelephone(pObjectModifie.getTelephone());
+			objetAModifier.setMail(pObjectModifie.getMail());
+			objetAModifier.setDateNaissance(pObjectModifie.getDateNaissance());
+			
+			/* conversion de l'OBJET METIER en ENTITY. */
+			final ContactSimpleEntityJPA entity = 
+					ContactSimpleConvertisseurMetierEntity
+						.convertirObjetMetierEnEntityJPA(objetAModifier);
+
 			/* MODIFIE en base. */
 			this.entityManager.merge(entity);
+			
+			/* applique les modifications dans le stockage (si nécessaire). */
+			this.entityManager.flush();
+			
+			/* TRANSACTIONNEL. *****/
+			transaction.commit();
 			
 			/* conversion de l'ENTITY en OBJET METIER. */
 			persistentObject 
@@ -1403,6 +1496,15 @@ public class ContactSimpleDaoJPA implements IContactSimpleDAO {
 								+ ", IContactSimple Object)", e);
 						
 		}
+//		finally {
+//			
+//			/* TRANSACTIONNEL. *****/
+//			/* détruit l'entityManager. */
+//			if (this.entityManager != null) {
+//				this.entityManager.close();
+//				
+//			}
+//		}
 				
 		/* retourne l'Objet persistant modifié. */
 		return persistentObject;
@@ -1427,11 +1529,15 @@ public class ContactSimpleDaoJPA implements IContactSimpleDAO {
 			return false;
 		}
 		
+		/* récupère l'instance persistante. */
+		final IContactSimple persistanceInstance 
+			= this.retrieve(pObject);
+		
 		/* retourne false si pObject n'est pas persisté. */
-		if (!this.exists(pObject)) {
+		if (persistanceInstance == null) {
 			return false;
 		}
-		
+				
 		/* TRANSACTIONNEL. ****/
 		/* instancie un EntityManager. */
 		this.instancierEntityManager();
@@ -1462,41 +1568,27 @@ public class ContactSimpleDaoJPA implements IContactSimpleDAO {
 		}
 
 		boolean resultat = false;
-		
-		/* Vérifie qu'il existe une instance persistante. */
-		final IContactSimple persistanceInstance 
-			= this.retrieve(pObject);
-		
-		try {
-								
-			if (persistanceInstance != null) {
-				
-				/* TRANSACTIONNEL. ****/	
-				transaction.begin();
-
-				/* conversion de l'OBJET METIER en ENTITY. */
-				final ContactSimpleEntityJPA entity = 
-						ContactSimpleConvertisseurMetierEntity
-							.convertirObjetMetierEnEntityJPA(
-									persistanceInstance);
-
-				/* merge avant de pouvoir détruire. */
-				this.entityManager.merge(entity);
-				
-				/* ************ */
-				/* DESTRUCTION. */
-				this.entityManager.remove(entity);
-				
-				/* TRANSACTIONNEL. *****/
-				transaction.commit();
-				
-				resultat = true;
-				
-			}
-			else {
-				resultat = false;
-			}
 			
+		try {
+															
+			/* TRANSACTIONNEL. ****/	
+			transaction.begin();
+
+			/* récupération de l'ENTITY a détruire. */
+			final ContactSimpleEntityJPA entity 
+				= this.entityManager.find(
+						ContactSimpleEntityJPA.class
+							, persistanceInstance.getId());
+						
+			/* ************ */
+			/* DESTRUCTION. */
+			this.entityManager.remove(entity);
+			
+			/* TRANSACTIONNEL. *****/
+			transaction.commit();
+			
+			resultat = true;
+							
 		} catch (Exception e) {
 			
 			/* TRANSACTIONNEL. *****/
@@ -1516,6 +1608,15 @@ public class ContactSimpleDaoJPA implements IContactSimpleDAO {
 						, "Méthode delete(IContactSimple pObject)", e);
 									
 		}
+//		finally {
+//			
+//			/* TRANSACTIONNEL. *****/
+//			/* détruit l'entityManager. */
+//			if (this.entityManager != null) {
+//				this.entityManager.close();
+//				
+//			}
+//		}
 				
 		return resultat;
 										
@@ -1568,52 +1669,24 @@ public class ContactSimpleDaoJPA implements IContactSimpleDAO {
 			}
 			return;
 		}
-
-		ContactSimpleEntityJPA entity = null;
-
-		/* REQUETE HQL PARAMETREE. */
-		final String requeteString 
-		= SELECT_OBJET 
-		+ "where contactSimple.id = :pId";
-
-		/* Construction de la requête HQL. */
-		final Query requete 
-			= this.entityManager.createQuery(requeteString);
-
-		/* Passage des paramètres de la requête HQL. */
-		requete.setParameter("pId", pId);
-
-		try {
-			
-			/* Execution de la requete HQL. */
-			entity 
-				= (ContactSimpleEntityJPA) requete.getSingleResult();
-			
-		}
-		catch (NoResultException noResultExc) {
-			return;
-		}
-
 		
 		try {
-			
-			if (entity != null) {
-				
-				/* TRANSACTIONNEL. ****/	
-				transaction.begin();
+		
+			/* TRANSACTIONNEL. ****/	
+			transaction.begin();
 
-				
-				/* Merge avant destruction. */
-				this.entityManager.merge(entity);
-				
-				/* ************ */
-				/* DESTRUCTION. */
-				this.entityManager.remove(entity);
-				
-				/* TRANSACTIONNEL. *****/
-				transaction.commit();
-				
-			}
+			/* récupération de l'ENTITY a détruire. */
+			final ContactSimpleEntityJPA entity 
+				= this.entityManager.find(
+						ContactSimpleEntityJPA.class
+							, pId);
+						
+			/* ************ */
+			/* DESTRUCTION. */
+			this.entityManager.remove(entity);
+			
+			/* TRANSACTIONNEL. *****/
+			transaction.commit();
 
 		}
 		catch (Exception e) {
@@ -1633,6 +1706,15 @@ public class ContactSimpleDaoJPA implements IContactSimpleDAO {
 				.gererException(CLASSE_CONTACTSIMPLE_DAO_JPA
 						, "Méthode deleteById(Long pId)", e);
 		}
+//		finally {
+//			
+//			/* TRANSACTIONNEL. *****/
+//			/* détruit l'entityManager. */
+//			if (this.entityManager != null) {
+//				this.entityManager.close();
+//				
+//			}
+//		}
 		
 	} // Fin de deleteById(...).___________________________________________
 
@@ -1684,54 +1766,27 @@ public class ContactSimpleDaoJPA implements IContactSimpleDAO {
 			return false;
 		}
 
-		ContactSimpleEntityJPA entity = null;
-
-		/* REQUETE HQL PARAMETREE. */
-		final String requeteString 
-		= SELECT_OBJET 
-		+ "where contactSimple.id = :pId";
-
-		/* Construction de la requête HQL. */
-		final Query requete 
-			= this.entityManager.createQuery(requeteString);
-
-		/* Passage des paramètres de la requête HQL. */
-		requete.setParameter("pId", pId);
-
-		try {
-			
-			/* Execution de la requete HQL. */
-			entity 
-				= (ContactSimpleEntityJPA) requete.getSingleResult();
-			
-		}
-		catch (NoResultException noResultExc) {
-			return false;
-		}
-
 		
 		try {
+						
+			/* TRANSACTIONNEL. ****/	
+			transaction.begin();
+
+			/* récupération de l'ENTITY a détruire. */
+			final ContactSimpleEntityJPA entity 
+				= this.entityManager.find(
+						ContactSimpleEntityJPA.class
+							, pId);
 			
-			if (entity != null) {
+			/* ************ */
+			/* DESTRUCTION. */
+			this.entityManager.remove(entity);
+			
+			/* TRANSACTIONNEL. *****/
+			transaction.commit();
+			
+			return true;
 				
-				/* TRANSACTIONNEL. ****/	
-				transaction.begin();
-
-				
-				/* Merge avant destruction. */
-				this.entityManager.merge(entity);
-				
-				/* ************ */
-				/* DESTRUCTION. */
-				this.entityManager.remove(entity);
-				
-				/* TRANSACTIONNEL. *****/
-				transaction.commit();
-				
-				return true;
-				
-			}
-
 		}
 		catch (Exception e) {
 			
@@ -1750,6 +1805,15 @@ public class ContactSimpleDaoJPA implements IContactSimpleDAO {
 				.gererException(CLASSE_CONTACTSIMPLE_DAO_JPA
 						, "Méthode deleteById(Long pId)", e);
 		}
+//		finally {
+//			
+//			/* TRANSACTIONNEL. *****/
+//			/* détruit l'entityManager. */
+//			if (this.entityManager != null) {
+//				this.entityManager.close();
+//				
+//			}
+//		}
 		
 		return false;
 		
@@ -1831,6 +1895,15 @@ public class ContactSimpleDaoJPA implements IContactSimpleDAO {
 						, "Méthode deleteAll()", e);
 			
 		}
+//		finally {
+//			
+//			/* TRANSACTIONNEL. *****/
+//			/* détruit l'entityManager. */
+//			if (this.entityManager != null) {
+//				this.entityManager.close();
+//				
+//			}
+//		}
 		
 	} // Fin de deleteAll()._______________________________________________
 
@@ -1880,12 +1953,18 @@ public class ContactSimpleDaoJPA implements IContactSimpleDAO {
 		
 		try {
 			
+			/* TRANSACTIONNEL. ****/	
+			transaction.begin();
+			
 			/* Crée la requête javax.persistence.Query. */
 			final Query query 
 				= this.entityManager.createQuery(requeteString);
 			
 			/* EXECUTION DE LA REQUETE. */
 			query.executeUpdate();
+			
+			/* TRANSACTIONNEL. *****/
+			transaction.commit();
 			
 			resultat = true;
 			
@@ -1909,6 +1988,15 @@ public class ContactSimpleDaoJPA implements IContactSimpleDAO {
 						, "Méthode deleteAllBoolean()", e);
 			
 		}
+//		finally {
+//			
+//			/* TRANSACTIONNEL. *****/
+//			/* détruit l'entityManager. */
+//			if (this.entityManager != null) {
+//				this.entityManager.close();
+//				
+//			}
+//		}
 		
 		return resultat;
 		
@@ -1947,44 +2035,48 @@ public class ContactSimpleDaoJPA implements IContactSimpleDAO {
 		/* TRANSACTIONNEL. ****/
 		EntityTransaction transaction = null;
 		
-		if (this.entityManager != null) {
-			transaction = this.entityManager.getTransaction();
-		}
-		
-		if (transaction == null) {
-			/* LOG. */
-			if (LOG.isFatalEnabled()) {
-				LOG.fatal("Create - Transaction null");
-			}
-			return;
-		}
-
-		final Iterator<IContactSimple> itePersistants = pList.iterator();
-		final List<IContactSimple> listePersistants 
-			= new ArrayList<IContactSimple>();
-		
-		/* Récupération préalable des objets persistants en base. */
-		while (itePersistants.hasNext()) {
-			final IContactSimple objet = itePersistants.next();
-			final IContactSimple objetPersistant = this.retrieve(objet);
-			
-			if (objetPersistant != null) {
-				listePersistants.add(objetPersistant);
-			}
-		}
-		
-		
-		/* Itération uniquement sur la liste des Objets persistants. */
-		final Iterator<IContactSimple> ite = listePersistants.iterator();
+		final Iterator<IContactSimple> ite = pList.iterator();
 		
 		try {
 			
 			while (ite.hasNext()) {
 				
-				final IContactSimple objectPersistant = ite.next();
+				final IContactSimple objet = ite.next();
+				final IContactSimple objetPersistant = this.retrieve(objet);
 				
+				if (objetPersistant == null) {
+					continue;
+				}
+				
+				/* TRANSACTIONNEL. ****/
+				if (this.entityManager != null) {
+					transaction = this.entityManager.getTransaction();
+				}
+				
+				if (transaction == null) {
+					/* LOG. */
+					if (LOG.isFatalEnabled()) {
+						LOG.fatal("deleteIterable(Iterable) - Transaction null" 
+								+ " pour l'objet persistant : " 
+								+ objetPersistant.toString());
+					}
+					return;
+				}
+
+				transaction.begin();
+				
+				/* récupération de l'ENTITY a détruire. */
+				final ContactSimpleEntityJPA entity 
+					= this.entityManager.find(
+							ContactSimpleEntityJPA.class
+								, objetPersistant.getId());
+				
+				/* ************ */
 				/* DESTRUCTION. */
-				this.entityManager.remove(objectPersistant);
+				this.entityManager.remove(entity);
+				
+				/* TRANSACTIONNEL. *****/
+				transaction.commit();
 				
 			}
 			
@@ -2007,6 +2099,15 @@ public class ContactSimpleDaoJPA implements IContactSimpleDAO {
 					, "Méthode deleteIterable(Iterable)", e);
 			
 		}
+//		finally {
+//			
+//			/* TRANSACTIONNEL. *****/
+//			/* détruit l'entityManager. */
+//			if (this.entityManager != null) {
+//				this.entityManager.close();
+//				
+//			}
+//		}
 				
 	} // Fin de deleteIterable(...)._______________________________________
 
@@ -2019,8 +2120,110 @@ public class ContactSimpleDaoJPA implements IContactSimpleDAO {
 	public boolean deleteIterableBoolean(
 			final Iterable<IContactSimple> pList) 
 						throws AbstractDaoException {
-		// TODO Auto-generated method stub
-		return false;
+		
+		/* retourne false si pList == null. */
+		if (pList == null) {
+			return false;
+		}
+
+
+		/* TRANSACTIONNEL. ****/
+		/* instancie un EntityManager. */
+		this.instancierEntityManager();
+
+		/* Cas où this.entityManager == null. */
+		if (this.entityManager == null) {
+						
+			/* LOG. */
+			if (LOG.isFatalEnabled()) {
+				LOG.fatal(MESSAGE_ENTITYMANAGER_NULL);
+			}
+			return false;
+		}
+
+		/* TRANSACTIONNEL. ****/
+		EntityTransaction transaction = null;
+		
+		boolean resultat = false;
+		
+		final Iterator<IContactSimple> ite = pList.iterator();
+		
+		try {
+			
+			while (ite.hasNext()) {
+				
+				final IContactSimple objet = ite.next();
+				final IContactSimple objetPersistant = this.retrieve(objet);
+				
+				if (objetPersistant == null) {
+					continue;
+				}
+				
+				/* TRANSACTIONNEL. ****/
+				if (this.entityManager != null) {
+					transaction = this.entityManager.getTransaction();
+				}
+				
+				if (transaction == null) {
+					/* LOG. */
+					if (LOG.isFatalEnabled()) {
+						LOG.fatal("deleteIterableBoolean(Iterable) - Transaction null" 
+								+ " pour l'objet persistant : " 
+								+ objetPersistant.toString());
+					}
+					return false;
+				}
+
+				transaction.begin();
+				
+				/* récupération de l'ENTITY a détruire. */
+				final ContactSimpleEntityJPA entity 
+					= this.entityManager.find(
+							ContactSimpleEntityJPA.class
+								, objetPersistant.getId());
+				
+				/* ************ */
+				/* DESTRUCTION. */
+				this.entityManager.remove(entity);
+				
+				/* TRANSACTIONNEL. *****/
+				transaction.commit();
+				
+			}
+			
+			resultat = true;
+			
+		}
+		catch (Exception e) {
+			
+			/* TRANSACTIONNEL. *****/
+			if (transaction != null) {
+				transaction.rollback();
+			}
+					
+			/* LOG. */
+			if (LOG.isFatalEnabled()) {
+				LOG.fatal(e.getMessage(), e);
+			}
+			
+			/* Gestion de la DAO Exception. */
+			this.gestionnaireException.gererException(
+					CLASSE_CONTACTSIMPLE_DAO_JPA
+					, "Méthode deleteIterableBoolean(Iterable)", e);
+			
+		}
+//		finally {
+//			
+//			/* TRANSACTIONNEL. *****/
+//			/* détruit l'entityManager. */
+//			if (this.entityManager != null) {
+//				this.entityManager.close();
+//				
+//			}
+//		}
+		
+		return resultat;
+				
 	} // Fin de deleteIterableBoolean(...).________________________________
 
 
@@ -2103,6 +2306,15 @@ public class ContactSimpleDaoJPA implements IContactSimpleDAO {
 				.gererException(CLASSE_CONTACTSIMPLE_DAO_JPA
 						, "Méthode exists(IContactSimple pObject)", e);
 		}
+//		finally {
+//			
+//			/* TRANSACTIONNEL. *****/
+//			/* détruit l'entityManager. */
+//			if (this.entityManager != null) {
+//				this.entityManager.close();
+//				
+//			}
+//		}
 				
 		return resultat;
 		

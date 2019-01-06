@@ -331,7 +331,8 @@ public interface IContactSimpleDAO {
 	 *  d'ID pId dans le stockage.<br/>
 	 * <ul>
 	 * <li><b>pId doit correspondre à l'index (0-based) 
-	 * de l'objet métier à modifier</b>.</li>
+	 * de l'objet métier à modifier</b> pour un DAO non JPA
+	 * , à l'ID en base sinon.</li>
 	 * <li>pObjectModifie est un conteneur contenant les modifications 
 	 * à apporter à un objet persistant dans le stockage. 
 	 * Il n'a pas besoin d'avoir d'attribut id.</li>

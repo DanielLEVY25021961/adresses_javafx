@@ -291,7 +291,8 @@ public final class JPAUtils {
 		
 		synchronized(JPAUtils.class) {
 			
-			if (entityManagerFactory == null) {
+			if (entityManagerFactory == null 
+					|| !entityManagerFactory.isOpen()) {
 				
 				try {
 
@@ -336,16 +337,18 @@ public final class JPAUtils {
 		
 		synchronized(JPAUtils.class) {
 			
-			EntityManagerFactory emf = null;
-			
-			try {
-				emf = JPAUtils.getEntityManagerFactory();
-			} catch (Exception e) {
-				throw new DaoDoublonException("IMPOSSIBLE", e);
+			if (entityManagerFactory == null || !entityManagerFactory.isOpen()) {
+				
+				try {
+					entityManagerFactory = JPAUtils.getEntityManagerFactory();
+				} catch (Exception e) {
+					throw new DaoDoublonException("IMPOSSIBLE", e);
+				}
+				
 			}
-					
-			if (emf != null) {
-				return emf.createEntityManager();
+								
+			if (entityManagerFactory != null) {
+				return entityManagerFactory.createEntityManager();
 			}
 			
 			return null;
@@ -471,7 +474,6 @@ public final class JPAUtils {
 	
 	/**
 	 * <b>Ferme l'EntityManagerFactory</b>.<br/>
-	 * <br/>
 	 */
 	public static void close() {
 		
@@ -488,6 +490,23 @@ public final class JPAUtils {
 	} // Fin de close().___________________________________________________
 
 
+	
+	/**
+	 * met l'EntityManagerFactory à  null.<br/>
+	 */
+	public static void annulerEntityManagerFactory() {
+		
+		synchronized(JPAUtils.class) {
+			
+			if (entityManagerFactory != null) {
+				entityManagerFactory = null;
+			}
+			
+		} // Fin du bloc synchronized._____________________
+
+	} // Fin de annulerEntityManagerFactory()._____________________________
+	
+	
 	
 	/**
 	 * <b>Substitue</b> le contenu du 

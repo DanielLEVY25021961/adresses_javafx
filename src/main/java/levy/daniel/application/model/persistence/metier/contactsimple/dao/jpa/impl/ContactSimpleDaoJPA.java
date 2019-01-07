@@ -125,7 +125,6 @@ public class ContactSimpleDaoJPA implements IContactSimpleDAO {
 	
 
 	/**
-	 * SELECT_OBJET : String :<br/>
 	 * "select contactSimple from 
 	 * ContactSimpleEntityJPA as contactSimple ".<br/>
 	 */
@@ -134,19 +133,16 @@ public class ContactSimpleDaoJPA implements IContactSimpleDAO {
 				+ "ContactSimpleEntityJPA as contactSimple ";
 	
 	/**
-	 * entityManagerFactory : EntityManagerFactory :<br/>
 	 * EntityManagerFactory JPA.<br/>
 	 */
 	private transient EntityManagerFactory entityManagerFactory;
 	
 	/**
-	 * entityManager : EntityManager :<br/>
 	 * EntityManager JPA.<br/>
 	 */
 	private transient EntityManager entityManager;
 	
 	/**
-	 * gestionnaireException : GestionnaireDaoException :<br/>
 	 * Gestionnaire pour les Exceptions de DAO.<br/>
 	 */
 	private final transient GestionnaireDaoException gestionnaireException 
@@ -160,6 +156,7 @@ public class ContactSimpleDaoJPA implements IContactSimpleDAO {
 	private static final Log LOG 
 		= LogFactory.getLog(ContactSimpleDaoJPA.class);
 
+	
 	// *************************METHODES************************************/
 
 	
@@ -260,8 +257,6 @@ public class ContactSimpleDaoJPA implements IContactSimpleDAO {
 	
 	
 	/**
-	 * method convertirListModelEnEntities(
-	 * Iterable&lt;IContactSimple&gt; pList) :<br/>
 	 * convertit une Liste de ContactSimple (MODEL) en liste 
 	 * de ContactSimpleEntityJPA (Entities JPA).<br/>
 	 * <br/>
@@ -302,10 +297,10 @@ public class ContactSimpleDaoJPA implements IContactSimpleDAO {
 
 		
 	/**
-	 * method convertirListEntitiesEnModel(
-	 * List&lt;ContactSimpleEntityJPA&gt; pList) :<br/>
 	 * convertit une Liste de ContactSimpleEntityJPA (Entities JPA) 
 	 * en liste de ContactSimple (MODEL).<br/>
+	 * <br/>
+	 * - retourne null si pList == null.<br/>
 	 * <br/>
 	 *
 	 * @param pList : List&lt;ContactSimpleEntityJPA&gt;.<br/>

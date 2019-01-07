@@ -103,15 +103,27 @@ public class ContactSimpleDAOJPASpring implements IContactSimpleDAO {
 	 */
 	public static final String CLASSE_PERSONNEDAO_JPA_SPRING 
 		= "Classe ContactSimpleDAOJPASpring";
-
+	
 	/**
-	 * SAUT_LIGNE_PLATEFORME : char :<br/>
-	 * '\n'.<br/>
+	 * " - ".
 	 */
-	public static final char SAUT_LIGNE_JAVA = '\n';
-
+	public static final String SEPARATEUR_MOINS_AERE 
+		= " - ";
+	
 	/**
-	 * SELECT_OBJET : String :<br/>
+	 * saut de ligne de la plateforme.<br/>
+	 */
+	public static final String SAUT_LIGNE_PLATEFORME 
+		= System.getProperty("line.separator");
+	
+	/**
+	 * "this.entityManager est NULL dans le présent DAO".<br/>
+	 */
+	public static final String MESSAGE_ENTITYMANAGER_NULL 
+	= "this.entityManager est NULL dans le présent DAO";
+
+	
+	/**
 	 * "select contactSimple from 
 	 * ContactSimpleEntityJPA as contactSimple ".<br/>
 	 */
@@ -126,24 +138,18 @@ public class ContactSimpleDAOJPASpring implements IContactSimpleDAO {
 	private transient EntityManager entityManager;
 	
 	/**
-	 * gestionnaireException : GestionnaireDaoException :<br/>
 	 * Gestionnaire pour les Exceptions de DAO.<br/>
 	 */
 	private final transient GestionnaireDaoException gestionnaireException 
 		= new GestionnaireDaoException();
-	
-	/**
-	 * "this.entityManager est NULL dans le présent DAO".<br/>
-	 */
-	public static final String MESSAGE_ENTITYMANAGER_NULL 
-	= "this.entityManager est NULL dans le présent DAO";
 
 
 	/**
 	 * LOG : Log : 
 	 * Logger pour Log4j (utilisant commons-logging).
 	 */
-	private static final Log LOG = LogFactory.getLog(ContactSimpleDAOJPASpring.class);
+	private static final Log LOG 
+		= LogFactory.getLog(ContactSimpleDAOJPASpring.class);
 
 	
 	// *************************METHODES************************************/
@@ -1557,7 +1563,7 @@ public class ContactSimpleDAOJPASpring implements IContactSimpleDAO {
 		for (final IContactSimple objetMetier : pList) {
 			
 			stb.append(objetMetier.toString());
-			stb.append(SAUT_LIGNE_JAVA);
+			stb.append(SAUT_LIGNE_PLATEFORME);
 		}
 		
 		return stb.toString();

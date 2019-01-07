@@ -2,6 +2,8 @@ package levy.daniel.application.model.persistence.metier.contactsimple;
 
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Locale;
 
 import org.apache.commons.lang3.StringUtils;
@@ -56,7 +58,51 @@ public final class ContactSimpleConvertisseurMetierEntity {
 		super();
 	} // Fin de CONSTRUCTEUR D'ARITE NULLE.________________________________
 	
+	
+	
+	/**
+	 * <b>Crée un OBJET METIER à partir d'une EntityJPA</b>.<br/>
+	 * <ul>
+	 * <li>retourne un OBJET METIER avec toutes les valeurs 
+	 * à null si pObject == null.</li>
+	 * </ul>
+	 *
+	 * @param pEntityJPA : ContactSimpleEntityJPA.<br/>
+	 * 
+	 * @return : IContactSimple.<br/>
+	 */
+	public static IContactSimple creerObjetMetier(
+			final ContactSimpleEntityJPA pEntityJPA) {
 
+		synchronized (ContactSimpleConvertisseurMetierEntity.class) {
+			
+			final IContactSimple objet 
+				= new ContactSimple();
+			
+			if (pEntityJPA != null) {
+				
+				objet.setId(pEntityJPA.getId());
+				objet.setPrenom(pEntityJPA.getPrenom());
+				objet.setNom(pEntityJPA.getNom());
+				objet.setRue(pEntityJPA.getRue());
+				objet.setRue2(pEntityJPA.getRue2());
+				objet.setCodePostal(pEntityJPA.getCodePostal());
+				objet.setVille(pEntityJPA.getVille());
+				objet.setPays(pEntityJPA.getPays());
+				objet.setTelephone(pEntityJPA.getTelephone());
+				objet.setMail(pEntityJPA.getMail());
+				objet.setDateNaissance(pEntityJPA.getDateNaissance());
+				
+			}
+							
+			return objet;
+		
+		} // Fin de synchronized._______________________
+		
+	} // Fin de creerContactSimple(...).________________________________________
+	
+	
+	
 	
 	/**
 	 * <b>convertit une ENTITY JPA en OBJET METIER</b>.<br/>
@@ -75,13 +121,13 @@ public final class ContactSimpleConvertisseurMetierEntity {
 		
 		synchronized (ContactSimpleConvertisseurMetierEntity.class) {
 			
-			IContactSimple resultat = null;
+			IContactSimple objet = null;
 			
 			if (pEntity != null) {
 				
 				/* récupère les valeurs dans l'Entity. */
 				/* injecte les valeurs typées dans un OBJET METIER. */
-				resultat 
+				objet 
 					= new ContactSimple(
 							pEntity.getId()
 							, pEntity.getPrenom(), pEntity.getNom()
@@ -92,13 +138,110 @@ public final class ContactSimpleConvertisseurMetierEntity {
 							, pEntity.getDateNaissance());
 			}
 			
-			return resultat;
+			return objet;
 			
 		} // Fin de synchronized._______________________
 		
 	} // Fin de convertirEntityJPAEnObjetMetier(...).______________________
 	
 
+	
+	/**
+	 * convertit une Liste d'ENTITIES JPA 
+	 * en liste d'OBJETS METIER.<br/>
+	 * <br/>
+	 * - retourne null si pList == null.<br/>
+	 * <br/>
+	 *
+	 * @param pList : List&lt;ContactSimpleEntityJPA&gt;.<br/>
+	 * 
+	 * @return : List&lt;IContactSimple&gt;.<br/>
+	 */
+	public static List<IContactSimple> convertirListEntitiesJPAEnModel(
+			final List<ContactSimpleEntityJPA> pList) {
+		
+		synchronized (ContactSimpleConvertisseurMetierEntity.class) {
+			/* retourne null si pList == null. */
+			if (pList == null) {
+				return null;
+			}
+			
+			final List<IContactSimple> resultat 
+				= new ArrayList<IContactSimple>();
+			
+			for (final ContactSimpleEntityJPA entity : pList) {
+				
+				if (entity != null) {
+					
+					final IContactSimple objet 													
+						= new ContactSimple(
+								entity.getId()
+								, entity.getPrenom()
+								, entity.getNom()
+								, entity.getRue()
+								, entity.getRue2()
+								, entity.getCodePostal()
+								, entity.getVille()
+								, entity.getPays()
+								, entity.getTelephone()
+								, entity.getMail()
+								, entity.getDateNaissance());
+					
+					resultat.add(objet);
+					
+				}
+			}
+			
+			return resultat;
+			
+		} // Fin de synchronized.______________________
+		
+	} // Fin de convertirListEntitiesJPAEnModel(...).______________________
+	
+	
+		
+	/**
+	 * <b>crée une ENTITY JPA à partir d'un OBJET METIER</b>.<br/>
+	 * <ul>
+	 * <li>retourne une Entity JPA avec toutes les valeurs 
+	 * à null si pObject == null.</li>
+	 * </ul>
+	 *
+	 * @param pObject : IContactSimple.<br/>
+	 *  
+	 * @return : ContactSimpleEntityJPA.<br/>
+	 */
+	public static ContactSimpleEntityJPA creerEntityJPA(
+			final IContactSimple pObject) {
+		
+		synchronized (ContactSimpleConvertisseurMetierEntity.class) {
+			
+			final ContactSimpleEntityJPA entity 
+				= new ContactSimpleEntityJPA();
+			
+			if (pObject != null) {
+				
+				entity.setId(pObject.getId());
+				entity.setPrenom(pObject.getPrenom());
+				entity.setNom(pObject.getNom());
+				entity.setRue(pObject.getRue());
+				entity.setRue2(pObject.getRue2());
+				entity.setCodePostal(pObject.getCodePostal());
+				entity.setVille(pObject.getVille());
+				entity.setPays(pObject.getPays());
+				entity.setTelephone(pObject.getTelephone());
+				entity.setMail(pObject.getMail());
+				entity.setDateNaissance(pObject.getDateNaissance());
+				
+			}
+			
+			return entity;
+					
+		} // Fin de synchronized.______________________
+		
+	} // Fin de creerEntityJPA(...)._______________________________________
+
+	
 	
 	/**
 	 * <b>convertit un OBJET METIER en ENTITY JPA</b>.<br/>
@@ -141,6 +284,50 @@ public final class ContactSimpleConvertisseurMetierEntity {
 		
 	} // Fin de convertirObjetMetierEnEntityJPA(...).______________________
 	
+
+	
+	/**
+	 * convertit une Liste d'OBJETS METIER en liste 
+	 * d'ENTITIES JPA.<br/>
+	 * <br/>
+	 * - retourne null si pList == null.<br/>
+	 * <br/>
+	 *
+	 * @param pList : List&lt;IContactSimple&gt;
+	 * 
+	 * @return : List&lt;ContactSimpleEntityJPA&gt;.<br/>
+	 */
+	public static List<ContactSimpleEntityJPA> convertirListModelEnEntitiesJPA(
+			final Iterable<IContactSimple> pList) {
+		
+		synchronized (ContactSimpleConvertisseurMetierEntity.class) {
+			
+			/* retourne null si pList == null. */
+			if (pList == null) {
+				return null;
+			}
+			
+			final List<ContactSimpleEntityJPA> resultat 
+				= new ArrayList<ContactSimpleEntityJPA>();
+			
+			for (final IContactSimple objet : pList) {
+				
+				if (objet != null) {
+					
+					final ContactSimpleEntityJPA entity 
+						= new ContactSimpleEntityJPA(objet);
+					
+					resultat.add(entity);
+					
+				}
+			}
+			
+			return resultat;
+
+		} // Fin de synchronized._______________________
+		
+	} // Fin de convertirListModelEnEntitiesJPA(...).______________________
+
 	
 	
 	/**

@@ -12,6 +12,7 @@ import org.apache.commons.logging.LogFactory;
 
 import levy.daniel.application.IConstantesApplicatives;
 import levy.daniel.application.model.metier.contactsimple.IContactSimple;
+import levy.daniel.application.model.persistence.metier.contactsimple.ContactSimpleConvertisseurMetierEntity;
 
 
 /**
@@ -101,12 +102,13 @@ public class ListeContactSimplesEntityJAXB {
 		final List<ContactSimpleEntityJAXB> resultat 
 			= new ArrayList<ContactSimpleEntityJAXB>();
 		
-		for (final IContactSimple contactSimple : pList) {
+		for (final IContactSimple objet : pList) {
 			
-			if (contactSimple != null) {
+			if (objet != null) {
 				
 				final ContactSimpleEntityJAXB entityJAXB 
-					= new ContactSimpleEntityJAXB(contactSimple);
+					= ContactSimpleConvertisseurMetierEntity
+						.creerEntityJAXBAPartirObjetMetier(objet);
 				
 				resultat.add(entityJAXB);
 				

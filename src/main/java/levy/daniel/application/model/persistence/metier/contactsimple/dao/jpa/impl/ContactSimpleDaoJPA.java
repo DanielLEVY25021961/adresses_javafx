@@ -278,14 +278,15 @@ public class ContactSimpleDaoJPA implements IContactSimpleDAO {
 		final List<ContactSimpleEntityJPA> resultat 
 			= new ArrayList<ContactSimpleEntityJPA>();
 		
-		for (final IContactSimple contactSimple : pList) {
+		for (final IContactSimple objet : pList) {
 			
-			if (contactSimple != null) {
+			if (objet != null) {
 				
-				final ContactSimpleEntityJPA contactSimpleJAXB 
-					= new ContactSimpleEntityJPA(contactSimple);
+				final ContactSimpleEntityJPA entity 
+					= ContactSimpleConvertisseurMetierEntity
+						.convertirObjetMetierEnEntityJPA(objet);
 				
-				resultat.add(contactSimpleJAXB);
+				resultat.add(entity);
 				
 			}
 		}
@@ -429,8 +430,8 @@ public class ContactSimpleDaoJPA implements IContactSimpleDAO {
 			}
 									
 			/* LOG. */
-			if (LOG.isDebugEnabled()) {
-				LOG.debug(e.getMessage(), e);
+			if (LOG.isFatalEnabled()) {
+				LOG.fatal(e.getMessage(), e);
 			}
 			
 			/* Gestion de la DAO Exception. */
@@ -542,8 +543,8 @@ public class ContactSimpleDaoJPA implements IContactSimpleDAO {
 			}
 		
 			/* LOG. */
-			if (LOG.isDebugEnabled()) {
-				LOG.debug(e.getMessage(), e);
+			if (LOG.isFatalEnabled()) {
+				LOG.fatal(e.getMessage(), e);
 			}
 			
 			/* Gestion de la DAO Exception. */
@@ -656,8 +657,8 @@ public class ContactSimpleDaoJPA implements IContactSimpleDAO {
 			}
 									
 			/* LOG. */
-			if (LOG.isDebugEnabled()) {
-				LOG.debug(e.getMessage(), e);
+			if (LOG.isFatalEnabled()) {
+				LOG.fatal(e.getMessage(), e);
 			}
 			
 			/* Gestion de la DAO Exception. */
@@ -693,11 +694,11 @@ public class ContactSimpleDaoJPA implements IContactSimpleDAO {
 	 */
 	@Override
 	public Iterable<IContactSimple> saveIterable(
-			final Iterable<IContactSimple> pObjects) 
+			final Iterable<IContactSimple> pList) 
 									throws AbstractDaoException {
 
-		/* retourne null si pObjects == null. */
-		if (pObjects == null) {
+		/* retourne null si pList == null. */
+		if (pList == null) {
 			return null;
 		}
 
@@ -719,14 +720,17 @@ public class ContactSimpleDaoJPA implements IContactSimpleDAO {
 		/* TRANSACTIONNEL. ****/
 		EntityTransaction transaction = null;
 		
-		/* conversion des MODEL en ENTITIES. */
-		final List<ContactSimpleEntityJPA> listeEntities 
-			= this.convertirListModelEnEntities(pObjects);
-
 		
-		final List<IContactSimple> resultat = new ArrayList<IContactSimple>();
+		/* conversion de le liste de MODEL en liste d'ENTITIES. */
+		final List<ContactSimpleEntityJPA> listeEntities 
+			= ContactSimpleConvertisseurMetierEntity
+				.convertirListModelEnEntitiesJPA(pList);
+		
+		final List<IContactSimple> resultat 
+			= new ArrayList<IContactSimple>();
 
-		final Iterator<ContactSimpleEntityJPA> iteS = listeEntities.iterator();
+		final Iterator<ContactSimpleEntityJPA> iteS 
+			= listeEntities.iterator();
 
 		try {
 
@@ -741,7 +745,7 @@ public class ContactSimpleDaoJPA implements IContactSimpleDAO {
 					if (entity != null) {
 						
 						/* passe si les attributs obligatoires 
-						 * de pObject ne sont pas remplis.*/
+						 * de l'objet ne sont pas remplis.*/
 						if (entity.getPrenom() != null 
 								&& entity.getNom() != null 
 									&& entity.getDateNaissance() != null) {
@@ -918,15 +922,15 @@ public class ContactSimpleDaoJPA implements IContactSimpleDAO {
 		catch (Exception e) {
 			
 			/* LOG. */
-			if (LOG.isDebugEnabled()) {
-				LOG.debug(e.getMessage(), e);
+			if (LOG.isFatalEnabled()) {
+				LOG.fatal(e.getMessage(), e);
 			}
 			
 			/* Gestion de la DAO Exception. */
 			this.gestionnaireException
 				.gererException(
 						CLASSE_CONTACTSIMPLE_DAO_JPA
-						, "Méthode retrieve(IContactSimple pObject)", e);
+						, "Méthode retrieve(objet)", e);
 		}
 //		finally {
 //			
@@ -937,7 +941,8 @@ public class ContactSimpleDaoJPA implements IContactSimpleDAO {
 //				
 //			}
 //		}
-				
+		
+		/* retourne l'objet metier trouvé. */
 		return objetResultat;
 
 	} // Fin de retrieve(...)._____________________________________________
@@ -974,6 +979,7 @@ public class ContactSimpleDaoJPA implements IContactSimpleDAO {
 
 		try {
 			
+			/* ************************* */
 			/* récupération de l'ENTITY. */
 			entity 
 				= this.entityManager.find(
@@ -1004,6 +1010,7 @@ public class ContactSimpleDaoJPA implements IContactSimpleDAO {
 //			}
 //		}
 		
+		/* retourne l'objet metier trouvé. */
 		return objetTrouve;
 				
 	} // Fin de findById(...)._____________________________________________
@@ -1076,15 +1083,15 @@ public class ContactSimpleDaoJPA implements IContactSimpleDAO {
 		catch (Exception e) {
 			
 			/* LOG. */
-			if (LOG.isDebugEnabled()) {
-				LOG.debug(e.getMessage(), e);
+			if (LOG.isFatalEnabled()) {
+				LOG.fatal(e.getMessage(), e);
 			}
 			
 			/* Gestion de la DAO Exception. */
 			this.gestionnaireException
 				.gererException(
 						CLASSE_CONTACTSIMPLE_DAO_JPA
-						, "Méthode retrieveId(IContactSimple pObject)", e);
+						, "Méthode retrieveId(objet)", e);
 		}
 //		finally {
 //			
@@ -1095,7 +1102,8 @@ public class ContactSimpleDaoJPA implements IContactSimpleDAO {
 //				
 //			}
 //		}
-				
+		
+		/* retourne l'ID de l'objet metier trouvé. */
 		if (objetResultat != null) {
 			return objetResultat.getId();
 		}
@@ -1143,14 +1151,16 @@ public class ContactSimpleDaoJPA implements IContactSimpleDAO {
 			resultatEntity = query.getResultList();
 			
 			/* convertit la liste d'Entities en OBJETS METIER. */
-			resultat = this.convertirListEntitiesEnModel(resultatEntity);
+			resultat = ContactSimpleConvertisseurMetierEntity
+						.convertirListEntitiesJPAEnModel(
+								resultatEntity);
 
 		}
 		catch (Exception e) {
 			
 			/* LOG. */
-			if (LOG.isDebugEnabled()) {
-				LOG.debug(e.getMessage(), e);
+			if (LOG.isFatalEnabled()) {
+				LOG.fatal(e.getMessage(), e);
 			}
 			
 			/* Gestion de la DAO Exception. */
@@ -1223,14 +1233,16 @@ public class ContactSimpleDaoJPA implements IContactSimpleDAO {
 			resultatEntity = query.getResultList();
 						
 			/* convertit la liste d'Entities en OBJETS METIER. */
-			resultat = this.convertirListEntitiesEnModel(resultatEntity);
+			resultat 
+			= ContactSimpleConvertisseurMetierEntity
+				.convertirListEntitiesJPAEnModel(resultatEntity);
 
 		}
 		catch (Exception e) {
 			
 			/* LOG. */
-			if (LOG.isDebugEnabled()) {
-				LOG.debug(e.getMessage(), e);
+			if (LOG.isFatalEnabled()) {
+				LOG.fatal(e.getMessage(), e);
 			}
 			
 			/* Gestion de la DAO Exception. */
@@ -1282,6 +1294,7 @@ public class ContactSimpleDaoJPA implements IContactSimpleDAO {
 			}
 		}
 		
+		/* Retourne la liste résultat. */
 		return resultat;
 		
 	} // Fin de findAllIterable(...).______________________________________
@@ -1385,15 +1398,15 @@ public class ContactSimpleDaoJPA implements IContactSimpleDAO {
 			}
 		
 			/* LOG. */
-			if (LOG.isDebugEnabled()) {
-				LOG.debug(e.getMessage(), e);
+			if (LOG.isFatalEnabled()) {
+				LOG.fatal(e.getMessage(), e);
 			}
 			
 			/* Gestion de la DAO Exception. */
 			this.gestionnaireException
 				.gererException(
 						CLASSE_CONTACTSIMPLE_DAO_JPA
-						, "Méthode update(IContactSimple Object)", e);
+						, "Méthode update(objet)", e);
 						
 		}
 //		finally {
@@ -1531,16 +1544,15 @@ public class ContactSimpleDaoJPA implements IContactSimpleDAO {
 			}
 		
 			/* LOG. */
-			if (LOG.isDebugEnabled()) {
-				LOG.debug(e.getMessage(), e);
+			if (LOG.isFatalEnabled()) {
+				LOG.fatal(e.getMessage(), e);
 			}
 			
 			/* Gestion de la DAO Exception. */
 			this.gestionnaireException
 				.gererException(
 						CLASSE_CONTACTSIMPLE_DAO_JPA
-						, "Méthode updateById(Log pId"
-								+ ", IContactSimple Object)", e);
+						, "méthode updateById(Id, Object)", e);
 						
 		}
 //		finally {
@@ -1644,15 +1656,15 @@ public class ContactSimpleDaoJPA implements IContactSimpleDAO {
 			}
 		
 			/* LOG. */
-			if (LOG.isDebugEnabled()) {
-				LOG.debug(e.getMessage(), e);
+			if (LOG.isFatalEnabled()) {
+				LOG.fatal(e.getMessage(), e);
 			}
 			
 			/* Gestion de la DAO Exception. */
 			this.gestionnaireException
 				.gererException(
 						CLASSE_CONTACTSIMPLE_DAO_JPA
-						, "Méthode delete(IContactSimple pObject)", e);
+						, "Méthode delete(objet)", e);
 									
 		}
 //		finally {
@@ -1664,7 +1676,8 @@ public class ContactSimpleDaoJPA implements IContactSimpleDAO {
 //				
 //			}
 //		}
-				
+		
+		/* retourne le boolean resultat. */
 		return resultat;
 										
 	} // Fin de delete(...)._______________________________________________
@@ -1744,14 +1757,14 @@ public class ContactSimpleDaoJPA implements IContactSimpleDAO {
 			}
 		
 			/* LOG. */
-			if (LOG.isDebugEnabled()) {
-				LOG.debug(e.getMessage(), e);
+			if (LOG.isFatalEnabled()) {
+				LOG.fatal(e.getMessage(), e);
 			}
 
 			/* Gestion de la DAO Exception. */
 			this.gestionnaireException
 				.gererException(CLASSE_CONTACTSIMPLE_DAO_JPA
-						, "Méthode deleteById(Long pId)", e);
+						, "Méthode deleteById(ID)", e);
 		}
 //		finally {
 //			
@@ -1843,14 +1856,14 @@ public class ContactSimpleDaoJPA implements IContactSimpleDAO {
 			}
 		
 			/* LOG. */
-			if (LOG.isDebugEnabled()) {
-				LOG.debug(e.getMessage(), e);
+			if (LOG.isFatalEnabled()) {
+				LOG.fatal(e.getMessage(), e);
 			}
 
 			/* Gestion de la DAO Exception. */
 			this.gestionnaireException
 				.gererException(CLASSE_CONTACTSIMPLE_DAO_JPA
-						, "Méthode deleteById(Long pId)", e);
+						, "Méthode deleteByIdBoolean(ID)", e);
 		}
 //		finally {
 //			
@@ -1931,8 +1944,8 @@ public class ContactSimpleDaoJPA implements IContactSimpleDAO {
 			}
 		
 			/* LOG. */
-			if (LOG.isDebugEnabled()) {
-				LOG.debug(e.getMessage(), e);
+			if (LOG.isFatalEnabled()) {
+				LOG.fatal(e.getMessage(), e);
 			}
 			
 			/* Gestion de la DAO Exception. */
@@ -1990,7 +2003,6 @@ public class ContactSimpleDaoJPA implements IContactSimpleDAO {
 			}
 			return false;
 		}
-
 		
 		boolean resultat = false;
 		
@@ -2024,8 +2036,8 @@ public class ContactSimpleDaoJPA implements IContactSimpleDAO {
 			}
 					
 			/* LOG. */
-			if (LOG.isDebugEnabled()) {
-				LOG.debug(e.getMessage(), e);
+			if (LOG.isFatalEnabled()) {
+				LOG.fatal(e.getMessage(), e);
 			}
 			
 			/* Gestion de la DAO Exception. */
@@ -2045,6 +2057,7 @@ public class ContactSimpleDaoJPA implements IContactSimpleDAO {
 //			}
 //		}
 		
+		/* retourne le boolean resultat. */
 		return resultat;
 		
 	} // Fin de deleteAllBoolean().________________________________________
@@ -2063,7 +2076,6 @@ public class ContactSimpleDaoJPA implements IContactSimpleDAO {
 		if (pList == null) {
 			return;
 		}
-
 
 		/* TRANSACTIONNEL. ****/
 		/* instancie un EntityManager. */
@@ -2136,8 +2148,8 @@ public class ContactSimpleDaoJPA implements IContactSimpleDAO {
 			}
 					
 			/* LOG. */
-			if (LOG.isDebugEnabled()) {
-				LOG.debug(e.getMessage(), e);
+			if (LOG.isFatalEnabled()) {
+				LOG.fatal(e.getMessage(), e);
 			}
 			
 			/* Gestion de la DAO Exception. */
@@ -2172,7 +2184,6 @@ public class ContactSimpleDaoJPA implements IContactSimpleDAO {
 		if (pList == null) {
 			return false;
 		}
-
 
 		/* TRANSACTIONNEL. ****/
 		/* instancie un EntityManager. */
@@ -2269,6 +2280,7 @@ public class ContactSimpleDaoJPA implements IContactSimpleDAO {
 //			}
 //		}
 		
+		/* retourne le boolean resultat. */
 		return resultat;
 				
 	} // Fin de deleteIterableBoolean(...).________________________________
@@ -2344,14 +2356,14 @@ public class ContactSimpleDaoJPA implements IContactSimpleDAO {
 		catch (Exception e) {
 			
 			/* LOG. */
-			if (LOG.isDebugEnabled()) {
-				LOG.debug(e.getMessage(), e);
+			if (LOG.isFatalEnabled()) {
+				LOG.fatal(e.getMessage(), e);
 			}
 			
 			/* Gestion de la DAO Exception. */
 			this.gestionnaireException
 				.gererException(CLASSE_CONTACTSIMPLE_DAO_JPA
-						, "Méthode exists(IContactSimple pObject)", e);
+						, "Méthode exists(objet)", e);
 		}
 //		finally {
 //			
@@ -2362,7 +2374,8 @@ public class ContactSimpleDaoJPA implements IContactSimpleDAO {
 //				
 //			}
 //		}
-				
+		
+		/* retourne le boolean resultat. */
 		return resultat;
 		
 	} // Fin de exists(...)._______________________________________________
@@ -2421,6 +2434,11 @@ public class ContactSimpleDaoJPA implements IContactSimpleDAO {
 					throws AbstractDaoException {
 		
 		final List<IContactSimple> stockageList = this.findAll();
+		
+		/* ne fait rien si this.findAll() retourne null. */
+		if (stockageList == null) {
+			return;
+		}
 		
 		System.out.println(this.afficherListeObjetsMetier(stockageList));
 		

@@ -15,6 +15,7 @@ import org.springframework.stereotype.Repository;
 
 import levy.daniel.application.model.metier.contactsimple.IContactSimple;
 import levy.daniel.application.model.persistence.daoexceptions.GestionnaireDaoException;
+import levy.daniel.application.model.persistence.metier.contactsimple.ContactSimpleConvertisseurMetierEntity;
 import levy.daniel.application.model.persistence.metier.contactsimple.IContactSimpleDAO;
 import levy.daniel.application.model.persistence.metier.contactsimple.entities.jpa.ContactSimpleEntityJPA;
 
@@ -101,7 +102,7 @@ public class ContactSimpleDAOJPASpring implements IContactSimpleDAO {
 	/**
 	 * "Classe ContactSimpleDAOJPASpring".<br/>
 	 */
-	public static final String CLASSE_PERSONNEDAO_JPA_SPRING 
+	public static final String CLASSE_CONTACTSIMPLEDAO_JPA_SPRING 
 		= "Classe ContactSimpleDAOJPASpring";
 	
 	/**
@@ -178,6 +179,19 @@ public class ContactSimpleDAOJPASpring implements IContactSimpleDAO {
 		if (pObject == null) {
 			return null;
 		}
+		
+		/* retourne null si pObject est un doublon. */
+		if (this.exists(pObject)) {
+			return null;
+		}
+		
+		/* retourne null si les attributs obligatoires 
+		 * de pObject ne sont pas remplis.*/
+		if (pObject.getPrenom() == null 
+				|| pObject.getNom() == null 
+					|| pObject.getDateNaissance() == null) {
+			return null;
+		}
 
 		IContactSimple persistentObject = null;
 
@@ -198,15 +212,19 @@ public class ContactSimpleDAOJPASpring implements IContactSimpleDAO {
 
 		try {
 			
-			/* Obtention d'une Entity JPA à partir de l'objet métier. */
+			/* conversion de l'OBJET METIER en ENTITY. */
 			final ContactSimpleEntityJPA entity 
-				= new ContactSimpleEntityJPA(pObject);
+				= ContactSimpleConvertisseurMetierEntity
+						.convertirObjetMetierEnEntityJPA(pObject);
 
 			/* ***************** */
 			/* PERSISTE en base. */
 			this.entityManager.persist(entity);
 
-			persistentObject = entity;
+			/* conversion de l'ENTITY en OBJET METIER. */
+			persistentObject 
+				= ContactSimpleConvertisseurMetierEntity
+					.convertirEntityJPAEnObjetMetier(entity);
 
 		}
 		catch (Exception e) {
@@ -219,8 +237,8 @@ public class ContactSimpleDAOJPASpring implements IContactSimpleDAO {
 			/* Gestion de la DAO Exception. */
 			this.gestionnaireException
 				.gererException(
-						CLASSE_PERSONNEDAO_JPA_SPRING
-							, "Méthode create(IContactSimple pObject)", e);
+						CLASSE_CONTACTSIMPLEDAO_JPA_SPRING
+							, "méthode create(object)", e);
 
 		}
 
@@ -237,12 +255,30 @@ public class ContactSimpleDAOJPASpring implements IContactSimpleDAO {
 	@Override
 	public void persist(
 			final IContactSimple pObject) throws Exception {
-
+		
 		/* ne fait rien si pObject == null. */
 		if (pObject == null) {
 			return;
 		}
+		
+		/* ne fait rien si pObject est un doublon. */
+		if (this.exists(pObject)) {
+			return;
+		}
+		
+		if (this.existsId(pObject.getId())) {
+			return;
+		}
+		
+		/* ne fait rien si les attributs obligatoires 
+		 * de pObject ne sont pas remplis.*/
+		if (pObject.getPrenom() == null 
+				|| pObject.getNom() == null 
+					|| pObject.getDateNaissance() == null) {
+			return;
+		}
 
+		
 		/* Cas où this.entityManager == null. */
 		if (this.entityManager == null) {
 
@@ -253,18 +289,13 @@ public class ContactSimpleDAOJPASpring implements IContactSimpleDAO {
 			return;
 		}
 
-		/* ne fait rien si pObject est un doublon. */
-		if (this.exists(pObject)) {
-			return;
-		}
-
+		/* conversion de l'OBJET METIER en ENTITY. */
+		final ContactSimpleEntityJPA entity = 
+				ContactSimpleConvertisseurMetierEntity
+					.convertirObjetMetierEnEntityJPA(pObject);
 
 		try {
 			
-			/* Obtention d'une Entity JPA à partir de l'objet métier. */
-			final ContactSimpleEntityJPA entity 
-				= new ContactSimpleEntityJPA(pObject);
-
 			/* ***************** */
 			/* PERSISTE en base. */
 			this.entityManager.persist(entity);
@@ -280,8 +311,8 @@ public class ContactSimpleDAOJPASpring implements IContactSimpleDAO {
 			/* Gestion de la DAO Exception. */
 			this.gestionnaireException
 				.gererException(
-						CLASSE_PERSONNEDAO_JPA_SPRING
-							, "Méthode persist(IContactSimple Object)", e);
+						CLASSE_CONTACTSIMPLEDAO_JPA_SPRING
+							, "méthode persist(object)", e);
 
 		}
 
@@ -295,12 +326,25 @@ public class ContactSimpleDAOJPASpring implements IContactSimpleDAO {
 	@Override
 	public Long createReturnId(
 			final IContactSimple pObject) throws Exception {
-
+		
 		/* retourne null si pObject == null. */
 		if (pObject == null) {
 			return null;
 		}
-
+		
+		/* retourne null si pObject est un doublon. */
+		if (this.exists(pObject)) {
+			return null;
+		}
+		
+		/* retourne null si les attributs obligatoires 
+		 * de pObject ne sont pas remplis.*/
+		if (pObject.getPrenom() == null 
+				|| pObject.getNom() == null 
+					|| pObject.getDateNaissance() == null) {
+			return null;
+		}
+		
 		/* Cas où this.entityManager == null. */
 		if (this.entityManager == null) {
 
@@ -310,24 +354,48 @@ public class ContactSimpleDAOJPASpring implements IContactSimpleDAO {
 			}
 			return null;
 		}
+		
+		
+		/* conversion de l'OBJET METIER en ENTITY. */
+		final ContactSimpleEntityJPA entity = 
+				ContactSimpleConvertisseurMetierEntity
+					.convertirObjetMetierEnEntityJPA(pObject);
+		
+		IContactSimple persistentObject = null;
+		
+		try {
+			
+			/* ***************** */
+			/* PERSISTE en base. */
+			this.entityManager.persist(entity);
+			
+			/* conversion de l'ENTITY en OBJET METIER. */
+			persistentObject 
+				= ContactSimpleConvertisseurMetierEntity
+				.convertirEntityJPAEnObjetMetier(entity);
 
-		/* retourne null si pObject est un doublon. */
-		if (this.exists(pObject)) {
-			return null;
 		}
+		catch (Exception e) {
 
-		/* ******************************************************* */
-		/* Crée l'Objet en base ou jette une Exception. */
-		final IContactSimple objectPersistant 
-			= this.create(pObject);
+			/* LOG. */
+			if (LOG.isFatalEnabled()) {
+				LOG.fatal(e.getMessage(), e);
+			}
 
-		/* retourne null si l'objet pObject n'a pu être créé en base. */
-		if (objectPersistant == null) {
-			return null;
+			/* Gestion de la DAO Exception. */
+			this.gestionnaireException
+				.gererException(
+						CLASSE_CONTACTSIMPLEDAO_JPA_SPRING
+							, "méthode createReturnId(object)", e);
+
 		}
-
-		/* retourne l'Long de l'objet persistant. */
-		return objectPersistant.getId();	
+		
+		/* retourne l'ID de l'Objet persistant. */
+		if (persistentObject != null) {
+			return persistentObject.getId();
+		}
+		
+		return null;		
 
 	} // Fin de createReturnId(...)._______________________________________
 
@@ -340,7 +408,7 @@ public class ContactSimpleDAOJPASpring implements IContactSimpleDAO {
 	public Iterable<IContactSimple> saveIterable(
 			final Iterable<IContactSimple> pList) 
 					throws Exception {
-		
+
 		/* retourne null si pList == null. */
 		if (pList == null) {
 			return null;
@@ -355,62 +423,77 @@ public class ContactSimpleDAOJPASpring implements IContactSimpleDAO {
 			}
 			return null;
 		}
+		
+		/* conversion de le liste de MODEL en liste d'ENTITIES. */
+		final List<ContactSimpleEntityJPA> listeEntities 
+			= ContactSimpleConvertisseurMetierEntity
+				.convertirListModelEnEntitiesJPA(pList);
+		
+		final List<IContactSimple> resultat 
+			= new ArrayList<IContactSimple>();
 
-		final List<IContactSimple> resultat = new ArrayList<IContactSimple>();
-
-		final Iterator<IContactSimple> iteS = pList.iterator();
+		final Iterator<ContactSimpleEntityJPA> iteS 
+			= listeEntities.iterator();
 
 		try {
 
 			while (iteS.hasNext()) {
 
-				final IContactSimple objet = iteS.next();
+				final ContactSimpleEntityJPA entity = iteS.next();
 
 				/* Passe les doublons existants en base. */
-				if (!this.exists(objet)) {
+				if (!this.exists(entity)) {
 
 					/* passe un null dans le lot. */
-					if (objet != null) {
-
-						/* Obtention d'une Entity JPA à partir 
-						 * de l'objet métier. */
-						final ContactSimpleEntityJPA entity 
-							= new ContactSimpleEntityJPA(objet);
+					if (entity != null) {
 						
-						IContactSimple objectPersistant = null;
+						/* passe si les attributs obligatoires 
+						 * de l'objet ne sont pas remplis.*/
+						if (entity.getPrenom() != null 
+								&& entity.getNom() != null 
+									&& entity.getDateNaissance() != null) {
+							
+							IContactSimple objectPersistant = null;
 
-						try {
+							try {
 
-							/* ***************** */
-							/* PERSISTE en base. */
-							this.entityManager.persist(entity);
+								/* ***************** */
+								/* PERSISTE en base. */
+								this.entityManager.persist(entity);
 
-							objectPersistant = objet;
+								/* conversion de l'ENTITY en OBJET METIER. */
+								objectPersistant 
+									= ContactSimpleConvertisseurMetierEntity
+									.convertirEntityJPAEnObjetMetier(entity);
 
-						} catch (Exception e) {
+							} catch (Exception e) {
 
-							/* LOG. */
-							if (LOG.isFatalEnabled()) {
-								LOG.fatal(e.getMessage(), e);
+								/* LOG. */
+								if (LOG.isFatalEnabled()) {
+									LOG.fatal(e.getMessage(), e);
+								}
+
+								/* Gestion de la DAO Exception. */
+								this.gestionnaireException
+									.gererException(
+											CLASSE_CONTACTSIMPLEDAO_JPA_SPRING
+												, "Méthode saveIterable(lot)", e);
 							}
+							
+							/* ne sauvegarde pas un doublon 
+							 * présent dans le lot. */
+							if (objectPersistant != null) {
 
-							/* Gestion de la DAO Exception. */
-							this.gestionnaireException
-								.gererException(
-										CLASSE_PERSONNEDAO_JPA_SPRING
-											, "Méthode save(Iterable)", e);
-						}
-
-
-						/* ne sauvegarde pas un doublon 
-						 * présent dans le lot. */
-						if (objectPersistant != null) {
-
-							/* Ajoute à l'iterable resultat. */
-							resultat.add(objectPersistant);								
-						}						
-					}					
-				}				
+								/* Ajoute à l'iterable resultat. */
+								resultat.add(objectPersistant);								
+							}
+							
+						} // Entity avec attributs obligatoires remplis.
+						
+					} // Entity non null._____________
+					
+				} // Entity persistante._________________
+				
 			} // Next._____________________________________
 
 		}
@@ -424,15 +507,15 @@ public class ContactSimpleDAOJPASpring implements IContactSimpleDAO {
 			/* Gestion de la DAO Exception. */
 			this.gestionnaireException
 				.gererException(
-						CLASSE_PERSONNEDAO_JPA_SPRING
-							, "Méthode save(Iterable)", e);
+						CLASSE_CONTACTSIMPLEDAO_JPA_SPRING
+							, "Méthode saveIterable(lot)", e);
 
 		}
 
 		/* retourne l'iterable resultat. */
 		return resultat;
 
-	} // Fin de save(...)._________________________________________________
+	} // Fin de saveIterable(...)._________________________________________
 	
 	
 
@@ -461,50 +544,60 @@ public class ContactSimpleDAOJPASpring implements IContactSimpleDAO {
 			return null;
 		}
 
-		IContactSimple objectPersistant = null;
-
-		/* REQUETE HQL PARAMETREE. */
+		IContactSimple objetResultat = null;		
+		ContactSimpleEntityJPA entity = null;
+		
+		/* REQUETE HQL PARMETREE. */
 		final String requeteString 
 			= SELECT_OBJET
-				+ "where contactSimple.nom = :pNom" 
-					+ "and contactSimple.prenom = :pPrenom";
-
+				+ "where contactSimple.prenom = :pPrenom "
+				+ "and contactSimple.nom = :pNom "
+				+ "and contactSimple.dateNaissance = :pDateNaissance";
+		
 		/* Construction de la requête HQL. */
 		final Query requete 
 			= this.entityManager.createQuery(requeteString);
-
+		
 		/* Passage des paramètres de la requête HQL. */
+		requete.setParameter("pPrenom", pObject.getPrenom());
 		requete.setParameter("pNom", pObject.getNom());
-		requete.setParameter("pAnneesExperiences", pObject.getPrenom());
-
+		requete.setParameter("pDateNaissance", pObject.getDateNaissance());
+		
 		try {
-
+			
 			/* Execution de la requete HQL. */
-			objectPersistant 
-				= (IContactSimple) requete.getSingleResult();
-
+			entity 
+				= (ContactSimpleEntityJPA) requete.getSingleResult();
+			
+			/* conversion de l'ENTITY en OBJET METIER. */
+			objetResultat 
+				= ContactSimpleConvertisseurMetierEntity
+					.convertirEntityJPAEnObjetMetier(entity);
+			
 		}
 		catch (NoResultException noResultExc) {
-
-			/* retourne null si l'Objet métier n'existe pas en base. */
+			
+			/* retourne null si l'Objet métier n'existe pas 
+			 * dans le stockage. */
 			return null;
-
+			
 		}
 		catch (Exception e) {
-
+			
 			/* LOG. */
 			if (LOG.isFatalEnabled()) {
 				LOG.fatal(e.getMessage(), e);
 			}
-
+			
 			/* Gestion de la DAO Exception. */
 			this.gestionnaireException
 				.gererException(
-						CLASSE_PERSONNEDAO_JPA_SPRING
-						, "Méthode retrieve(IContactSimple pObject)", e);
+						CLASSE_CONTACTSIMPLEDAO_JPA_SPRING
+						, "Méthode retrieve(objet)", e);
 		}
-
-		return objectPersistant;
+		
+		/* retourne l'objet metier trouvé. */
+		return objetResultat;
 
 	} // Fin de retrieve(...)._____________________________________________
 
@@ -516,9 +609,7 @@ public class ContactSimpleDAOJPASpring implements IContactSimpleDAO {
 	@Override
 	public IContactSimple findById(
 			final Long pId) throws Exception {
-
-		IContactSimple objetTrouve = null;
-
+		
 		/* retourne null si pId == null. */
 		if (pId == null) {
 			return null;
@@ -526,7 +617,7 @@ public class ContactSimpleDAOJPASpring implements IContactSimpleDAO {
 
 		/* Cas où this.entityManager == null. */
 		if (this.entityManager == null) {
-
+						
 			/* LOG. */
 			if (LOG.isFatalEnabled()) {
 				LOG.fatal(MESSAGE_ENTITYMANAGER_NULL);
@@ -534,27 +625,36 @@ public class ContactSimpleDAOJPASpring implements IContactSimpleDAO {
 			return null;
 		}
 
+		IContactSimple objetTrouve = null;
+		ContactSimpleEntityJPA entity = null;
+
 		try {
-
-			/* ******************** */
-			// RECHERCHE EN BASE.
+			
+			/* ************************* */
+			/* récupération de l'ENTITY. */
+			entity 
+				= this.entityManager.find(
+						ContactSimpleEntityJPA.class, pId);
+			
+			/* conversion de l'ENTITY en OBJET METIER. */
 			objetTrouve 
-				= this.entityManager
-					.find(ContactSimpleEntityJPA.class, pId);
-
+				= ContactSimpleConvertisseurMetierEntity
+					.convertirEntityJPAEnObjetMetier(entity);
+			
 		}
 		catch (Exception e) {
-
+			
 			/* Gestion de la DAO Exception. */
 			this.gestionnaireException
 				.gererException(
-						CLASSE_PERSONNEDAO_JPA_SPRING
-						, "Méthode findById(Long)", e);
-
+						CLASSE_CONTACTSIMPLEDAO_JPA_SPRING
+						, "Méthode findById(ID)", e);
+			
 		}
-
+		
+		/* retourne l'objet metier trouvé. */
 		return objetTrouve;
-
+				
 	} // Fin de findById(...)._____________________________________________
 
 	
@@ -566,15 +666,79 @@ public class ContactSimpleDAOJPASpring implements IContactSimpleDAO {
 	public Long retrieveId(
 			final IContactSimple pObject) throws Exception {
 		
-		final IContactSimple object = this.retrieve(pObject);
-		
-		Long resultat = null;
-		
-		if (object != null) {
-			resultat = object.getId();
+		/* return null si pObject == null. */
+		if (pObject == null) {
+			return null;
 		}
 		
-		return resultat;
+		/* Cas où this.entityManager == null. */
+		if (this.entityManager == null) {
+						
+			/* LOG. */
+			if (LOG.isFatalEnabled()) {
+				LOG.fatal(MESSAGE_ENTITYMANAGER_NULL);
+			}
+			return null;
+		}
+		
+		IContactSimple objetResultat = null;		
+		ContactSimpleEntityJPA entity = null;
+		
+		/* REQUETE HQL PARMETREE. */
+		final String requeteString 
+			= SELECT_OBJET
+				+ "where contactSimple.prenom = :pPrenom "
+				+ "and contactSimple.nom = :pNom "
+				+ "and contactSimple.dateNaissance = :pDateNaissance";
+		
+		/* Construction de la requête HQL. */
+		final Query requete 
+			= this.entityManager.createQuery(requeteString);
+		
+		/* Passage des paramètres de la requête HQL. */
+		requete.setParameter("pPrenom", pObject.getPrenom());
+		requete.setParameter("pNom", pObject.getNom());
+		requete.setParameter("pDateNaissance", pObject.getDateNaissance());
+		
+		try {
+			
+			/* Execution de la requete HQL. */
+			entity 
+				= (ContactSimpleEntityJPA) requete.getSingleResult();
+			
+			/* conversion de l'ENTITY en OBJET METIER. */
+			objetResultat 
+				= ContactSimpleConvertisseurMetierEntity
+					.convertirEntityJPAEnObjetMetier(entity);
+			
+		}
+		catch (NoResultException noResultExc) {
+			
+			/* retourne null si l'Objet métier n'existe pas 
+			 * dans le stockage. */
+			return null;
+			
+		}
+		catch (Exception e) {
+			
+			/* LOG. */
+			if (LOG.isFatalEnabled()) {
+				LOG.fatal(e.getMessage(), e);
+			}
+			
+			/* Gestion de la DAO Exception. */
+			this.gestionnaireException
+				.gererException(
+						CLASSE_CONTACTSIMPLEDAO_JPA_SPRING
+						, "Méthode retrieveId(objet)", e);
+		}
+		
+		/* retourne l'ID de l'objet metier trouvé. */
+		if (objetResultat != null) {
+			return objetResultat.getId();
+		}
+		
+		return null;
 		
 	} // Fin de retrieveId(...).___________________________________________
 
@@ -585,51 +749,58 @@ public class ContactSimpleDAOJPASpring implements IContactSimpleDAO {
 	 */
 	@Override
 	public List<IContactSimple> findAll() throws Exception {
-
+		
 		/* Cas où this.entityManager == null. */
 		if (this.entityManager == null) {
-
+						
 			/* LOG. */
 			if (LOG.isFatalEnabled()) {
 				LOG.fatal(MESSAGE_ENTITYMANAGER_NULL);
 			}
 			return null;
 		}
-
+		
 		/* Création de la requête HQL sous forme de String. */
 		final String requeteString 
 			= "from ContactSimpleEntityJPA";
-
+		
+		List<ContactSimpleEntityJPA> resultatEntity = null;
+		
 		List<IContactSimple> resultat = null;
-
+		
 		try {
-
+			
 			/* Crée la requête javax.persistence.Query. */
 			final Query query 
 				= this.entityManager.createQuery(requeteString);
-
+			
 			/* Exécute la javax.persistence.Query. */
-			resultat = query.getResultList();
+			resultatEntity = query.getResultList();
+			
+			/* convertit la liste d'Entities en OBJETS METIER. */
+			resultat = ContactSimpleConvertisseurMetierEntity
+						.convertirListEntitiesJPAEnModel(
+								resultatEntity);
 
 		}
 		catch (Exception e) {
-
+			
 			/* LOG. */
 			if (LOG.isFatalEnabled()) {
 				LOG.fatal(e.getMessage(), e);
 			}
-
+			
 			/* Gestion de la DAO Exception. */
 			this.gestionnaireException
 				.gererException(
-						CLASSE_PERSONNEDAO_JPA_SPRING
-						, "Méthode findall()", e);
-
+						CLASSE_CONTACTSIMPLEDAO_JPA_SPRING
+						, "Méthode findAll()", e);
+			
 		}
-
+		
 		/* Retourne la liste résultat. */
 		return resultat;
-
+		
 	} // Fin de findAll()._________________________________________________
 
 
@@ -642,52 +813,65 @@ public class ContactSimpleDAOJPASpring implements IContactSimpleDAO {
 			final int pStartPosition
 				, final int pMaxResult) throws Exception {
 
-
+		/* retourne null si pId est en dehors des index de stockage. */
+		if (pStartPosition > this.count() - 1) {
+			return null;
+		}
+		
 		/* Cas où this.entityManager == null. */
 		if (this.entityManager == null) {
-
+						
 			/* LOG. */
 			if (LOG.isFatalEnabled()) {
 				LOG.fatal(MESSAGE_ENTITYMANAGER_NULL);
 			}
 			return null;
 		}
-
+		
 		/* Création de la requête HQL sous forme de String. */
 		final String requeteString 
 			= "from ContactSimpleEntityJPA";
-
+		
+		List<ContactSimpleEntityJPA> resultatEntity = null;
+		
 		List<IContactSimple> resultat = null;
-
+		
 		try {
-
+			
 			/* Crée la requête javax.persistence.Query. */
 			final Query query 
 				= this.entityManager.createQuery(requeteString)
-					.setFirstResult(pStartPosition).setMaxResults(pMaxResult);
-
+					.setFirstResult(pStartPosition)
+						.setMaxResults(pMaxResult);
+			
 			/* Exécute la javax.persistence.Query. */
-			resultat = query.getResultList();
+			resultatEntity = query.getResultList();
+						
+			/* convertit la liste d'Entities en OBJETS METIER. */
+			resultat 
+			= ContactSimpleConvertisseurMetierEntity
+				.convertirListEntitiesJPAEnModel(resultatEntity);
 
 		}
 		catch (Exception e) {
-
+			
 			/* LOG. */
 			if (LOG.isFatalEnabled()) {
 				LOG.fatal(e.getMessage(), e);
 			}
-
+			
 			/* Gestion de la DAO Exception. */
 			this.gestionnaireException
 				.gererException(
-						CLASSE_PERSONNEDAO_JPA_SPRING
-						, "Méthode findAllMax(...)", e);
-
+						CLASSE_CONTACTSIMPLEDAO_JPA_SPRING
+						, "Méthode findAllMax(int pStartPosition"
+								+ ", int pMaxResult)", e);
+			
 		}
-
+		
 		/* Retourne la liste résultat. */
 		return resultat;
-
+		
 	} // Fin de findAllMax(...).___________________________________________
 
 
@@ -698,41 +882,28 @@ public class ContactSimpleDAOJPASpring implements IContactSimpleDAO {
 	@Override
 	public Iterable<IContactSimple> findAllIterable(
 			final Iterable<Long> pIds) throws Exception {
-
+		
 		/* retourne null si pIds == null. */
 		if (pIds == null) {
 			return null;
 		}
 
-		/* Cas où this.entityManager == null. */
-		if (this.entityManager == null) {
+		final List<IContactSimple> resultat 
+			= new ArrayList<IContactSimple>();
 
-			/* LOG. */
-			if (LOG.isFatalEnabled()) {
-				LOG.fatal(MESSAGE_ENTITYMANAGER_NULL);
-			}
-			return null;
-		}
-
-		final List<IContactSimple> resultat = new ArrayList<IContactSimple>();		
-
-		final Iterator<Long> iteratorID = pIds.iterator();
-
-		while (iteratorID.hasNext()) {
-
-			final Long id = iteratorID.next();
+		for (final Long id : pIds) {
 			
-			/* Recherche en base sur Long. */
-			final IContactSimple objetEnBase = this.findById(id);
-
-			if (objetEnBase != null) {
-				resultat.add(objetEnBase);
-			}			
+			final IContactSimple objet = this.findById(id);
+			
+			if (objet != null) {
+				resultat.add(objet);
+			}
 		}
-
+		
+		/* Retourne la liste résultat. */
 		return resultat;
-
-	} // Fin de findAll(...).______________________________________________
+		
+	} // Fin de findAllIterable(...).______________________________________
 
 
 
@@ -745,62 +916,77 @@ public class ContactSimpleDAOJPASpring implements IContactSimpleDAO {
 	@Override
 	public IContactSimple update(
 			final IContactSimple pObject) throws Exception {
-
+		
 		/* retourne null si pObject == null. */
 		if (pObject == null) {
+			return null;
+		}
+		
+		/* retourne pObject si l'objet n'est pas 
+		 * déjà persistant en base. */
+		if (!this.existsId(pObject.getId())) {
+			return pObject;
+		}
+		
+		/* retourne null si pObject créerait un doublon. */
+		if (this.exists(pObject)) {
+			return null;
+		}
+		
+		/* retourne null si les attributs obligatoires 
+		 * de pObject ne sont pas remplis.*/
+		if (pObject.getPrenom() == null 
+				|| pObject.getNom() == null 
+					|| pObject.getDateNaissance() == null) {
 			return null;
 		}
 
 		/* Cas où this.entityManager == null. */
 		if (this.entityManager == null) {
-
+						
 			/* LOG. */
 			if (LOG.isFatalEnabled()) {
 				LOG.fatal(MESSAGE_ENTITYMANAGER_NULL);
 			}
 			return null;
-		} // Fin de this.entityManager == null.____________
-
-
-		/* retourne pObject si l'objet n'est pas 
-		 * déjà persistant en base. */
-		if (!this.exists(pObject)) {
-			return pObject;
 		}
+				
+		/* conversion de l'OBJET METIER en ENTITY. */
+		final ContactSimpleEntityJPA entity = 
+				ContactSimpleConvertisseurMetierEntity
+					.convertirObjetMetierEnEntityJPA(pObject);
 
 		IContactSimple persistentObject = null;
-
+		
 		try {
-
-			/* Obtention d'une Entity JPA à partir de l'objet métier. */
-			final ContactSimpleEntityJPA entity 
-				= new ContactSimpleEntityJPA(pObject);
 			
-			/* **************** */
 			/* MODIFIE en base. */
 			this.entityManager.merge(entity);
 
-			persistentObject = pObject;
-
+			/* conversion de l'ENTITY en OBJET METIER. */
+			persistentObject 
+				= ContactSimpleConvertisseurMetierEntity
+					.convertirEntityJPAEnObjetMetier(entity);
+			
 		}
 		catch (Exception e) {
-
+		
 			/* LOG. */
 			if (LOG.isFatalEnabled()) {
 				LOG.fatal(e.getMessage(), e);
 			}
-
+			
 			/* Gestion de la DAO Exception. */
 			this.gestionnaireException
 				.gererException(
-						CLASSE_PERSONNEDAO_JPA_SPRING
-						, "Méthode update(IContactSimple Object)", e);
-
+						CLASSE_CONTACTSIMPLEDAO_JPA_SPRING
+						, "Méthode update(objet)", e);
+						
 		}
-
+				
 		/* retourne l'Objet persistant modifié. */
 		return persistentObject;
-
+		
 	} // Fin de update(...)._______________________________________________
 
 
@@ -812,9 +998,14 @@ public class ContactSimpleDAOJPASpring implements IContactSimpleDAO {
 	public IContactSimple updateById(
 			final Long pId, final IContactSimple pObjectModifie) 
 												throws Exception {
-
+		
 		/* retourne null si pId == null. */
 		if (pId == null) {
+			return null;
+		}
+
+		/* retourne null si pId est hors indexes. */
+		if (this.findById(pId) == null) {
 			return null;
 		}
 		
@@ -822,60 +1013,82 @@ public class ContactSimpleDAOJPASpring implements IContactSimpleDAO {
 		if (pObjectModifie == null) {
 			return null;
 		}
-
+		
+		/* retourne null si l'objet modifie pObjectModifie 
+		 * créerait un doublon dans le stockage. */
+		if (this.exists(pObjectModifie)) {
+			return null;
+		}
+		
+		/* retourne null si les attributs obligatoires 
+		 * de pObject ne sont pas remplis.*/
+		if (pObjectModifie.getPrenom() == null 
+				|| pObjectModifie.getNom() == null 
+					|| pObjectModifie.getDateNaissance() == null) {
+			return null;
+		}
+		
+		/* récupère l'objet à modifier par sons index. */
+		final IContactSimple objetAModifier = this.findById(pId);
+		
 		/* Cas où this.entityManager == null. */
 		if (this.entityManager == null) {
-
+						
 			/* LOG. */
 			if (LOG.isFatalEnabled()) {
 				LOG.fatal(MESSAGE_ENTITYMANAGER_NULL);
 			}
 			return null;
 		}
-
-		/* récupération de l'objet persistant à modifier. */
-		final IContactSimple objectPersistant = this.findById(pId);
-		
-		/* retourne null s'il n'y a pas d'objet persistant à pId. */
-		if (objectPersistant == null) {
-			return null;
-		}
-
+				
 		IContactSimple persistentObject = null;
 		
 		try {
 			
-			final Long id = objectPersistant.getId();
+			/* applique les modifications. */
+			objetAModifier.setPrenom(pObjectModifie.getPrenom());
+			objetAModifier.setNom(pObjectModifie.getNom());
+			objetAModifier.setRue(pObjectModifie.getRue());
+			objetAModifier.setRue2(pObjectModifie.getRue2());
+			objetAModifier.setCodePostal(pObjectModifie.getCodePostal());
+			objetAModifier.setVille(pObjectModifie.getVille());
+			objetAModifier.setPays(pObjectModifie.getPays());
+			objetAModifier.setTelephone(pObjectModifie.getTelephone());
+			objetAModifier.setMail(pObjectModifie.getMail());
+			objetAModifier.setDateNaissance(pObjectModifie.getDateNaissance());
 			
-			/* Obtention d'une Entity JPA à partir de l'objet métier. */
-			final ContactSimpleEntityJPA entity 
-				= new ContactSimpleEntityJPA(pObjectModifie);
-			
-			/* Passage de l'ID à l'entity contenant les modifications. */
-			entity.setId(id);
-			
-			/* **************** */
+			/* conversion de l'OBJET METIER en ENTITY. */
+			final ContactSimpleEntityJPA entity = 
+					ContactSimpleConvertisseurMetierEntity
+						.convertirObjetMetierEnEntityJPA(objetAModifier);
+
 			/* MODIFIE en base. */
 			this.entityManager.merge(entity);
-
-			persistentObject = pObjectModifie;
 			
-		} catch (Exception e) {
-
+			/* applique les modifications dans le stockage (si nécessaire). */
+			this.entityManager.flush();
+			
+			/* conversion de l'ENTITY en OBJET METIER. */
+			persistentObject 
+				= ContactSimpleConvertisseurMetierEntity
+					.convertirEntityJPAEnObjetMetier(entity);
+			
+		}
+		catch (Exception e) {
+			
 			/* LOG. */
 			if (LOG.isFatalEnabled()) {
 				LOG.fatal(e.getMessage(), e);
 			}
-
+			
 			/* Gestion de la DAO Exception. */
 			this.gestionnaireException
 				.gererException(
-						CLASSE_PERSONNEDAO_JPA_SPRING
-						, "Méthode update(Long pId"
-								+ ", IContactSimple Object)", e);
-			
+						CLASSE_CONTACTSIMPLEDAO_JPA_SPRING
+						, "méthode updateById(Id, Object)", e);
+						
 		}
-
+				
 		/* retourne l'Objet persistant modifié. */
 		return persistentObject;
 		
@@ -892,64 +1105,65 @@ public class ContactSimpleDAOJPASpring implements IContactSimpleDAO {
 	@Override
 	public boolean delete(
 			final IContactSimple pObject) throws Exception {
-
+		
 		/* retourne false si pObject == null. */
 		if (pObject == null) {
 			return false;
 		}
-
+		
+		/* récupère l'instance persistante. */
+		final IContactSimple persistanceInstance 
+			= this.retrieve(pObject);
+		
+		/* retourne false si pObject n'est pas persisté. */
+		if (persistanceInstance == null) {
+			return false;
+		}
+				
 		/* Cas où this.entityManager == null. */
 		if (this.entityManager == null) {
-
+						
 			/* LOG. */
 			if (LOG.isFatalEnabled()) {
 				LOG.fatal(MESSAGE_ENTITYMANAGER_NULL);
 			}
 			return false;
 		}
-
-		/* Vérifie qu'il existe une instance persistante. */
-		final IContactSimple objectPersistant = this.retrieve(pObject);
-		
-		/* retourne false si pObject n'est pas persisté. */
-		if (objectPersistant == null) {
-			return false;
-		}
-
+				
 		boolean resultat = false;
-		
+			
 		try {
 
-			/* Obtention d'une Entity JPA à partir de l'objet métier. */
+			/* récupération de l'ENTITY a détruire. */
 			final ContactSimpleEntityJPA entity 
-				= new ContactSimpleEntityJPA(objectPersistant);
-
-			/* merge avant de pouvoir détruire. */
-			this.entityManager.merge(entity);
-
+				= this.entityManager.find(
+						ContactSimpleEntityJPA.class
+							, persistanceInstance.getId());
+						
 			/* ************ */
 			/* DESTRUCTION. */
 			this.entityManager.remove(entity);
-
+			
 			resultat = true;
-
+							
 		} catch (Exception e) {
-
+		
 			/* LOG. */
 			if (LOG.isFatalEnabled()) {
 				LOG.fatal(e.getMessage(), e);
 			}
-
+			
 			/* Gestion de la DAO Exception. */
 			this.gestionnaireException
 				.gererException(
-						CLASSE_PERSONNEDAO_JPA_SPRING
-						, "Méthode delete(IContactSimple pObject)", e);
-
+						CLASSE_CONTACTSIMPLEDAO_JPA_SPRING
+						, "Méthode delete(objet)", e);
+									
 		}
-
+		
+		/* retourne le boolean resultat. */
 		return resultat;
-
+										
 	} // Fin de delete(...)._______________________________________________
 
 
@@ -960,66 +1174,42 @@ public class ContactSimpleDAOJPASpring implements IContactSimpleDAO {
 	@Override
 	public void deleteById(
 			final Long pId) throws Exception {
-
+		
 		/* ne fait rien si pId == null. */
 		if (pId == null) {
 			return;
 		}
-
+		
+		/* ne fait rien si pId est hors indexes. */
+		if (this.findById(pId) == null) {
+			return;
+		}
+		
 		/* Cas où this.entityManager == null. */
 		if (this.entityManager == null) {
-
+						
 			/* LOG. */
 			if (LOG.isFatalEnabled()) {
 				LOG.fatal(MESSAGE_ENTITYMANAGER_NULL);
 			}
 			return;
 		}
-
-		IContactSimple objectPersistant = null;
-
-		/* REQUETE HQL PARAMETREE. */
-		final String requeteString 
-		= SELECT_OBJET 
-		+ "where contactSimple.id = :pId";
-
-		/* Construction de la requête HQL. */
-		final Query requete 
-			= this.entityManager.createQuery(requeteString);
-
-		/* Passage des paramètres de la requête HQL. */
-		requete.setParameter("pId", pId);
-
+						
 		try {
+		
+			/* récupération de l'ENTITY a détruire. */
+			final ContactSimpleEntityJPA entity 
+				= this.entityManager.find(
+						ContactSimpleEntityJPA.class
+							, pId);
+						
+			/* ************ */
+			/* DESTRUCTION. */
+			this.entityManager.remove(entity);
 			
-			/* Execution de la requete HQL. */
-			objectPersistant 
-			= (IContactSimple) requete.getSingleResult();
-		}
-		catch (NoResultException noResultExc) {
-			objectPersistant = null;
-		}
-
-		try {
-
-			if (objectPersistant != null) {
-
-				/* Obtention d'une Entity JPA à partir de l'objet métier. */
-				final ContactSimpleEntityJPA entity 
-					= new ContactSimpleEntityJPA(objectPersistant);
-
-				/* Merge avant destruction. */
-				this.entityManager.merge(entity);
-
-				/* ************ */
-				/* DESTRUCTION. */
-				this.entityManager.remove(entity);
-
-			}
-
 		}
 		catch (Exception e) {
-
+		
 			/* LOG. */
 			if (LOG.isFatalEnabled()) {
 				LOG.fatal(e.getMessage(), e);
@@ -1027,11 +1217,10 @@ public class ContactSimpleDAOJPASpring implements IContactSimpleDAO {
 
 			/* Gestion de la DAO Exception. */
 			this.gestionnaireException
-				.gererException(
-						CLASSE_PERSONNEDAO_JPA_SPRING
-						, "Méthode deleteById(Long pId)", e);
+				.gererException(CLASSE_CONTACTSIMPLEDAO_JPA_SPRING
+						, "Méthode deleteById(ID)", e);
 		}
-
+		
 	} // Fin de deleteById(...).___________________________________________
 
 
@@ -1042,72 +1231,44 @@ public class ContactSimpleDAOJPASpring implements IContactSimpleDAO {
 	@Override
 	public boolean deleteByIdBoolean(
 			final Long pId) throws Exception {
-
+		
 		/* retourne false si pId == null. */
 		if (pId == null) {
 			return false;
 		}
-
+		
+		/* retourne false si pId est hors indexes. */
+		if (this.findById(pId) == null) {
+			return false;
+		}
+		
 		/* Cas où this.entityManager == null. */
 		if (this.entityManager == null) {
-
+						
 			/* LOG. */
 			if (LOG.isFatalEnabled()) {
 				LOG.fatal(MESSAGE_ENTITYMANAGER_NULL);
 			}
 			return false;
 		}
-
-		boolean resultat = false;
-
-		IContactSimple objectPersistant = null;
-
-		/* REQUETE HQL PARAMETREE. */
-		final String requeteString 
-		= SELECT_OBJET 
-			+ "where contactSimple.id = :pId";
-
-		/* Construction de la requête HQL. */
-		final Query requete 
-			= this.entityManager.createQuery(requeteString);
-
-		/* Passage des paramètres de la requête HQL. */
-		requete.setParameter("pId", pId);
-
+				
 		try {
+						
+			/* récupération de l'ENTITY a détruire. */
+			final ContactSimpleEntityJPA entity 
+				= this.entityManager.find(
+						ContactSimpleEntityJPA.class
+							, pId);
 			
-			/* Execution de la requete HQL. */
-			objectPersistant 
-			= (IContactSimple) requete.getSingleResult();
-			
-		}
-		catch (NoResultException noResultExc) {
-			objectPersistant = null;
-			resultat = false;
-		}
-
-		try {
-
-			if (objectPersistant != null) {
-
-				/* Obtention d'une Entity JPA à 
-				 * partir de l'objet métier. */
-				final ContactSimpleEntityJPA entity 
-					= new ContactSimpleEntityJPA(objectPersistant);
-
-				/* Merge avant destruction. */
-				this.entityManager.merge(entity);
-
-				/* ************ */
-				/* DESTRUCTION. */
-				this.entityManager.remove(entity);
-
-				resultat = true;
-			}
-
+			/* ************ */
+			/* DESTRUCTION. */
+			this.entityManager.remove(entity);
+						
+			return true;
+				
 		}
 		catch (Exception e) {
-
+			
 			/* LOG. */
 			if (LOG.isFatalEnabled()) {
 				LOG.fatal(e.getMessage(), e);
@@ -1115,12 +1276,12 @@ public class ContactSimpleDAOJPASpring implements IContactSimpleDAO {
 
 			/* Gestion de la DAO Exception. */
 			this.gestionnaireException
-				.gererException(CLASSE_PERSONNEDAO_JPA_SPRING
-						, "Méthode deleteByIdBoolean(Long pId)", e);
+				.gererException(CLASSE_CONTACTSIMPLEDAO_JPA_SPRING
+						, "Méthode deleteByIdBoolean(ID)", e);
 		}
-
-		return resultat;
-
+		
+		return false;
+		
 	} // Fin de deleteByIdBoolean(...).____________________________________
 
 
@@ -1133,7 +1294,7 @@ public class ContactSimpleDAOJPASpring implements IContactSimpleDAO {
 
 		/* Cas où this.entityManager == null. */
 		if (this.entityManager == null) {
-
+						
 			/* LOG. */
 			if (LOG.isFatalEnabled()) {
 				LOG.fatal(MESSAGE_ENTITYMANAGER_NULL);
@@ -1141,36 +1302,35 @@ public class ContactSimpleDAOJPASpring implements IContactSimpleDAO {
 			return;
 		}
 
-
 		/* Création de la requête HQL sous forme de String. */
 		final String requeteString 
 			= "delete from ContactSimpleEntityJPA";
 
 		try {
-
+			
 			/* Crée la requête javax.persistence.Query. */
 			final Query query 
 				= this.entityManager.createQuery(requeteString);
-
+			
 			/* EXECUTION DE LA REQUETE. */
 			query.executeUpdate();
-
+			
 		}
 		catch (Exception e) {
-
+		
 			/* LOG. */
 			if (LOG.isFatalEnabled()) {
 				LOG.fatal(e.getMessage(), e);
 			}
-
+			
 			/* Gestion de la DAO Exception. */
 			this.gestionnaireException
 				.gererException(
-						CLASSE_PERSONNEDAO_JPA_SPRING
+						CLASSE_CONTACTSIMPLEDAO_JPA_SPRING
 						, "Méthode deleteAll()", e);
-
+			
 		}
-
+		
 	} // Fin de deleteAll()._______________________________________________
 
 
@@ -1183,7 +1343,7 @@ public class ContactSimpleDAOJPASpring implements IContactSimpleDAO {
 
 		/* Cas où this.entityManager == null. */
 		if (this.entityManager == null) {
-
+						
 			/* LOG. */
 			if (LOG.isFatalEnabled()) {
 				LOG.fatal(MESSAGE_ENTITYMANAGER_NULL);
@@ -1192,40 +1352,41 @@ public class ContactSimpleDAOJPASpring implements IContactSimpleDAO {
 		}
 
 		boolean resultat = false;
-
+		
 		/* Création de la requête HQL sous forme de String. */
 		final String requeteString 
 			= "delete from ContactSimpleEntityJPA";
-
+		
 		try {
-
+			
 			/* Crée la requête javax.persistence.Query. */
 			final Query query 
 				= this.entityManager.createQuery(requeteString);
-
+			
 			/* EXECUTION DE LA REQUETE. */
 			query.executeUpdate();
-
+			
 			resultat = true;
-
+			
 		}
 		catch (Exception e) {
-
+					
 			/* LOG. */
 			if (LOG.isFatalEnabled()) {
 				LOG.fatal(e.getMessage(), e);
 			}
-
+			
 			/* Gestion de la DAO Exception. */
 			this.gestionnaireException
 				.gererException(
-						CLASSE_PERSONNEDAO_JPA_SPRING
+						CLASSE_CONTACTSIMPLEDAO_JPA_SPRING
 						, "Méthode deleteAllBoolean()", e);
-
+			
 		}
-
+		
+		/* retourne le boolean resultat. */
 		return resultat;
-
+		
 	} // Fin de deleteAll()._______________________________________________
 
 
@@ -1236,7 +1397,7 @@ public class ContactSimpleDAOJPASpring implements IContactSimpleDAO {
 	@Override
 	public void deleteIterable(
 			final Iterable<IContactSimple> pList) throws Exception {
-
+		
 		/* ne fait rien si pList == null. */
 		if (pList == null) {
 			return;
@@ -1244,70 +1405,54 @@ public class ContactSimpleDAOJPASpring implements IContactSimpleDAO {
 
 		/* Cas où this.entityManager == null. */
 		if (this.entityManager == null) {
-
+						
 			/* LOG. */
 			if (LOG.isFatalEnabled()) {
 				LOG.fatal(MESSAGE_ENTITYMANAGER_NULL);
 			}
 			return;
 		}
-
-		final Iterator<IContactSimple> itePersistants = pList.iterator();
-		final List<IContactSimple> listePersistants 
-			= new ArrayList<IContactSimple>();
-
-		/* Récupération préalable des objets persistants en base. */
-		while (itePersistants.hasNext()) {
-			
-			final IContactSimple objet = itePersistants.next();
-			
-			/* récupère l'objet persistant dans le stockage. */
-			final IContactSimple objectPersistant = this.retrieve(objet);
-
-			if (objectPersistant != null) {
-				listePersistants.add(objectPersistant);
-			}
-		}
-
-
-		/* Itération uniquement sur la liste des Objets persistants. */
-		final Iterator<IContactSimple> ite = listePersistants.iterator();
-
+		
+		final Iterator<IContactSimple> ite = pList.iterator();
+		
 		try {
-
+			
 			while (ite.hasNext()) {
-
-				final IContactSimple objectPersistant = ite.next();
 				
-				/* Obtention d'une Entity JPA à 
-				 * partir de l'objet métier. */
+				final IContactSimple objet = ite.next();
+				final IContactSimple objetPersistant = this.retrieve(objet);
+				
+				if (objetPersistant == null) {
+					continue;
+				}
+								
+				/* récupération de l'ENTITY a détruire. */
 				final ContactSimpleEntityJPA entity 
-					= new ContactSimpleEntityJPA(objectPersistant);
+					= this.entityManager.find(
+							ContactSimpleEntityJPA.class
+								, objetPersistant.getId());
 				
-				/* Merge avant destruction. */
-				this.entityManager.merge(entity);
-
 				/* ************ */
 				/* DESTRUCTION. */
 				this.entityManager.remove(entity);
-
+				
 			}
-
+			
 		}
 		catch (Exception e) {
-
+					
 			/* LOG. */
 			if (LOG.isFatalEnabled()) {
 				LOG.fatal(e.getMessage(), e);
 			}
-
+			
 			/* Gestion de la DAO Exception. */
 			this.gestionnaireException.gererException(
-					CLASSE_PERSONNEDAO_JPA_SPRING
+					CLASSE_CONTACTSIMPLEDAO_JPA_SPRING
 					, "Méthode deleteIterable(Iterable)", e);
-
+			
 		}
-
+				
 	} // Fin de deleteIterable(...)._______________________________________
 
 	
@@ -1318,7 +1463,7 @@ public class ContactSimpleDAOJPASpring implements IContactSimpleDAO {
 	@Override
 	public boolean deleteIterableBoolean(
 			final Iterable<IContactSimple> pList) throws Exception {
-
+		
 		/* retourne false si pList == null. */
 		if (pList == null) {
 			return false;
@@ -1326,7 +1471,7 @@ public class ContactSimpleDAOJPASpring implements IContactSimpleDAO {
 
 		/* Cas où this.entityManager == null. */
 		if (this.entityManager == null) {
-
+						
 			/* LOG. */
 			if (LOG.isFatalEnabled()) {
 				LOG.fatal(MESSAGE_ENTITYMANAGER_NULL);
@@ -1334,68 +1479,53 @@ public class ContactSimpleDAOJPASpring implements IContactSimpleDAO {
 			return false;
 		}
 
-		final Iterator<IContactSimple> itePersistants = pList.iterator();
-		final List<IContactSimple> listePersistants 
-			= new ArrayList<IContactSimple>();
-
-		/* Récupération préalable des objets persistants en base. */
-		while (itePersistants.hasNext()) {
-			
-			final IContactSimple objet = itePersistants.next();
-			
-			/* récupère l'objet persistant dans le stockage. */
-			final IContactSimple objectPersistant = this.retrieve(objet);
-
-			if (objectPersistant != null) {
-				listePersistants.add(objectPersistant);
-			}
-		}
-
-
 		boolean resultat = false;
 		
-		/* Itération uniquement sur la liste des Objets persistants. */
-		final Iterator<IContactSimple> ite = listePersistants.iterator();
-
+		final Iterator<IContactSimple> ite = pList.iterator();
+		
 		try {
-
+			
 			while (ite.hasNext()) {
-
-				final IContactSimple objectPersistant = ite.next();
 				
-				/* Obtention d'une Entity JPA à 
-				 * partir de l'objet métier. */
+				final IContactSimple objet = ite.next();
+				final IContactSimple objetPersistant = this.retrieve(objet);
+				
+				if (objetPersistant == null) {
+					continue;
+				}
+				
+				/* récupération de l'ENTITY a détruire. */
 				final ContactSimpleEntityJPA entity 
-					= new ContactSimpleEntityJPA(objectPersistant);
+					= this.entityManager.find(
+							ContactSimpleEntityJPA.class
+								, objetPersistant.getId());
 				
-				/* Merge avant destruction. */
-				this.entityManager.merge(entity);
-
 				/* ************ */
 				/* DESTRUCTION. */
 				this.entityManager.remove(entity);
-
+				
 			}
 			
 			resultat = true;
-
+			
 		}
 		catch (Exception e) {
-
+			
 			/* LOG. */
 			if (LOG.isFatalEnabled()) {
 				LOG.fatal(e.getMessage(), e);
 			}
-
+			
 			/* Gestion de la DAO Exception. */
 			this.gestionnaireException.gererException(
-					CLASSE_PERSONNEDAO_JPA_SPRING
+					CLASSE_CONTACTSIMPLEDAO_JPA_SPRING
 					, "Méthode deleteIterableBoolean(Iterable)", e);
-
+			
 		}
 		
+		/* retourne le boolean resultat. */
 		return resultat;
-
+				
 	} // Fin de deleteIterableBoolean(...).________________________________
 
 
@@ -1409,72 +1539,75 @@ public class ContactSimpleDAOJPASpring implements IContactSimpleDAO {
 	@Override
 	public boolean exists(
 			final IContactSimple pObject) throws Exception {
-
+		
 		/* retourne false si pObject == null. */
 		if (pObject == null) {
 			return false;
 		}
-
+		
 		/* Cas où this.entityManager == null. */
 		if (this.entityManager == null) {
-
+						
 			/* LOG. */
 			if (LOG.isFatalEnabled()) {
 				LOG.fatal(MESSAGE_ENTITYMANAGER_NULL);
 			}
 			return false;
 		}
-		
-		boolean resultat = false;		
-		IContactSimple objectPersistant = null;
 
-		/* REQUETE HQL PARAMETREE. */
+		boolean resultat = false;		
+		IContactSimple objetResultat = null;
+		
+		/* REQUETE HQL PARMETREE. */
 		final String requeteString 
 			= SELECT_OBJET
-				+ "where contactSimple.nom = :pNom "
-				+ "and contactSimple.prenom = :pPrenom";
-
+				+ "where contactSimple.prenom = :pPrenom "
+				+ "and contactSimple.nom = :pNom "
+				+ "and contactSimple.dateNaissance = :pDateNaissance";
+		
 		/* Construction de la requête HQL. */
 		final Query requete 
 			= this.entityManager.createQuery(requeteString);
-
+		
 		/* Passage des paramètres de la requête HQL. */
-		requete.setParameter("pNom", pObject.getNom());
 		requete.setParameter("pPrenom", pObject.getPrenom());
-
+		requete.setParameter("pNom", pObject.getNom());
+		requete.setParameter("pDateNaissance", pObject.getDateNaissance());
+		
 		try {
-
+			
 			/* Execution de la requete HQL. */
-			objectPersistant 
+			objetResultat 
 			= (IContactSimple) requete.getSingleResult();
-
+			
 			/* retourne true si l'objet existe en base. */
-			if (objectPersistant != null) {
+			if (objetResultat != null) {
 				resultat = true;
 			}
-
+			
 		}
 		catch (NoResultException noResultExc) {
-
+			
 			/* retourne false si l'Objet métier n'existe pas en base. */
 			return false;
-
+			
 		}
 		catch (Exception e) {
-
+			
 			/* LOG. */
 			if (LOG.isFatalEnabled()) {
 				LOG.fatal(e.getMessage(), e);
 			}
-
+			
 			/* Gestion de la DAO Exception. */
 			this.gestionnaireException
-				.gererException(CLASSE_PERSONNEDAO_JPA_SPRING
-						, "Méthode exists(IContactSimple pObject)", e);
+				.gererException(CLASSE_CONTACTSIMPLEDAO_JPA_SPRING
+						, "Méthode exists(objet)", e);
 		}
-
+		
+		/* retourne le boolean resultat. */
 		return resultat;
-
+		
 	} // Fin de exists(...)._______________________________________________
 
 
@@ -1485,20 +1618,20 @@ public class ContactSimpleDAOJPASpring implements IContactSimpleDAO {
 	@Override
 	public boolean existsId(
 			final Long pId) throws Exception {
-
-		/* retourne false si pId == null. */
+		
+		/* retourne false si pId == null . */
 		if (pId == null) {
 			return false;
 		}
-
+		
 		/* retourne true si l'objet métier existe en base. */
 		if (this.findById(pId) != null) {
 			return true;
 		}
-
+		
 		return false;
-
-	} // Fin de exists(Long...).___________________________________________
+		
+	} // Fin de existsId(...)._____________________________________________
 
 
 
@@ -1507,19 +1640,18 @@ public class ContactSimpleDAOJPASpring implements IContactSimpleDAO {
 	 */
 	@Override
 	public Long count() throws Exception {
-
-		/* Récupère la liste d'Objets métier de Type paramétré IContactSimple. */
+		
+		/* Récupère la liste d'Objets métier de Type paramétré T. */
 		final List<IContactSimple> listObjects = this.findAll();
-
+		
 		if (listObjects != null) {
-
+			
 			/* Retourne la taille de la liste. */
 			return Long.valueOf(listObjects.size()) ;
 		}
-
-		/* retourne 0L si this.findAll() retourne null. */
-		return 0L;
-
+		
+		return null;
+		
 	} // Fin de count().___________________________________________________
 
 	
@@ -1530,17 +1662,14 @@ public class ContactSimpleDAOJPASpring implements IContactSimpleDAO {
 	@Override
 	public void ecrireStockageDansConsole() throws Exception {
 		
-		/* récupération de tous les objets métier dans le stockage. */
-		final List<IContactSimple> contenuStockage = this.findAll();
+		final List<IContactSimple> stockageList = this.findAll();
 		
-		/* ne fait rien si findAll() retourne null. */
-		if (contenuStockage == null) {
+		/* ne fait rien si this.findAll() retourne null. */
+		if (stockageList == null) {
 			return;
 		}
 		
-		for (final IContactSimple objet : contenuStockage) {
-			System.out.println(objet.toString());
-		}
+		System.out.println(this.afficherListeObjetsMetier(stockageList));
 		
 	} // Fin de ecrireStockageDansConsole()._______________________________
 
@@ -1558,12 +1687,13 @@ public class ContactSimpleDAOJPASpring implements IContactSimpleDAO {
 			return null;
 		}
 		
-		final StringBuilder stb =new StringBuilder();
+		final StringBuffer stb = new StringBuffer();
 		
-		for (final IContactSimple objetMetier : pList) {
+		for (final IContactSimple contactSimple : pList) {
 			
-			stb.append(objetMetier.toString());
+			stb.append(contactSimple.toString());
 			stb.append(SAUT_LIGNE_PLATEFORME);
+			
 		}
 		
 		return stb.toString();

@@ -20,6 +20,7 @@ import levy.daniel.application.model.metier.contactsimple.IContactSimple;
 import levy.daniel.application.model.metier.contactsimple.impl.ContactSimple;
 import levy.daniel.application.model.persistence.daoexceptions.AbstractDaoException;
 import levy.daniel.application.model.persistence.daoexceptions.technical.impl.DaoJAXBException;
+import levy.daniel.application.model.persistence.metier.contactsimple.ContactSimpleConvertisseurMetierEntity;
 import levy.daniel.application.model.persistence.metier.contactsimple.IContactSimpleDAO;
 import levy.daniel.application.model.persistence.metier.contactsimple.entities.jaxb.ContactSimpleEntityJAXB;
 import levy.daniel.application.model.persistence.metier.contactsimple.entities.jaxb.ListeContactSimplesEntityJAXB;
@@ -259,7 +260,7 @@ public class ContactSimpleDaoJAXB implements IContactSimpleDAO {
 	 * 
 	 * @return : IContactSimple.<br/>
 	 */
-	private IContactSimple creerObjetMetier(
+	private IContactSimple creerObjetMetierAPartirEntityJAXB(
 			final ContactSimpleEntityJAXB pEntityJAXB) {
 		
 		/* retourne null si pEntityJAXB == null. */
@@ -267,7 +268,7 @@ public class ContactSimpleDaoJAXB implements IContactSimpleDAO {
 			return null;
 		}
 		
-		final IContactSimple contactSimple 
+		final IContactSimple objet 
 			= new ContactSimple(pEntityJAXB.getId()
 					, pEntityJAXB.getPrenom()
 					, pEntityJAXB.getNom()
@@ -280,9 +281,9 @@ public class ContactSimpleDaoJAXB implements IContactSimpleDAO {
 					, pEntityJAXB.getMail()
 					, pEntityJAXB.getDateNaissance());
 		
-		return contactSimple;
+		return objet;
 		
-	} // Fin de creerObjetMetier(...)._____________________________________
+	} // Fin de creerObjetMetierAPartirEntityJAXB(...).____________________
 	
 	
 	
@@ -297,7 +298,7 @@ public class ContactSimpleDaoJAXB implements IContactSimpleDAO {
 	 * 
 	 * @return : List&lt;ContactSimpleEntityJAXB&gt;.<br/>
 	 */
-	private List<ContactSimpleEntityJAXB> convertirListModelEnEntities(
+	private List<ContactSimpleEntityJAXB> convertirListModelEnEntitiesJAXB(
 			final List<IContactSimple> pList) {
 		
 		/* retourne null si pList == null. */
@@ -308,21 +309,22 @@ public class ContactSimpleDaoJAXB implements IContactSimpleDAO {
 		final List<ContactSimpleEntityJAXB> resultat 
 			= new ArrayList<ContactSimpleEntityJAXB>();
 		
-		for (final IContactSimple contactSimple : pList) {
+		for (final IContactSimple objet : pList) {
 			
-			if (contactSimple != null) {
+			if (objet != null) {
 				
-				final ContactSimpleEntityJAXB contactSimpleJAXB 
-					= new ContactSimpleEntityJAXB(contactSimple);
+				final ContactSimpleEntityJAXB entity 
+					= ContactSimpleConvertisseurMetierEntity
+						.creerEntityJAXBAPartirObjetMetier(objet);
 				
-				resultat.add(contactSimpleJAXB);
+				resultat.add(entity);
 				
 			}
 		}
 		
 		return resultat;
 		
-	} // Fin de convertirListModelEnEntities(...)._________________________
+	} // Fin de convertirListModelEnEntitiesJAXB(...)._____________________
 	
 
 		
@@ -335,7 +337,7 @@ public class ContactSimpleDaoJAXB implements IContactSimpleDAO {
 	 * 
 	 * @return : List&lt;IContactSimple&gt;.<br/>
 	 */
-	private List<IContactSimple> convertirListEntitiesEnModel(
+	private List<IContactSimple> convertirListEntitiesJAXBEnModel(
 			final List<ContactSimpleEntityJAXB> pList) {
 		
 		/* retourne null si pList == null. */
@@ -346,39 +348,43 @@ public class ContactSimpleDaoJAXB implements IContactSimpleDAO {
 		final List<IContactSimple> resultat 
 			= new ArrayList<IContactSimple>();
 		
-		for (final ContactSimpleEntityJAXB contactSimple : pList) {
+		for (final ContactSimpleEntityJAXB entity : pList) {
 			
-			if (contactSimple != null) {
+			if (entity != null) {
 				
-				final IContactSimple contactSimpleModel 
-					= this.creerObjetMetier(contactSimple);
+				final IContactSimple objet 
+					= this.creerObjetMetierAPartirEntityJAXB(
+							entity);
 				
-				resultat.add(contactSimpleModel);
+				resultat.add(objet);
 				
 			}
 		}
 		
 		return resultat;
 		
-	} // Fin de convertirListEntitiesEnModel(...)._________________________
+	} // Fin de convertirListEntitiesJAXBEnModel(...)._____________________
 	
 	
 	
 	/**
 	 * <b>Instancie une Entity JAXB ListeContactSimplesEntityJAXB 
 	 * <i>(équivalent d'une table SGBDR)</i> à partir 
-	 * d'une Liste d'OBJETS METIER List&lt;IContactSimple&gt; pList</b>.<br/>
+	 * d'une Liste d'OBJETS METIER 
+	 * List&lt;IContactSimple&gt; pList</b>.<br/>
 	 * <ul>
 	 * <li>retourne null si pList == null.</li>
 	 * </ul>
 	 *
-	 * @param pList : List&lt;IContactSimple&gt; : Liste d'OBJETS METIER
+	 * @param pList : List&lt;IContactSimple&gt; : 
+	 * Liste d'OBJETS METIER
 	 * à transformer en Entity JAXB en vue de la sérialization.<br/>
 	 * 
-	 * @return : ListeContactSimplesEntityJAXB : Entity JAXB serializable 
+	 * @return : ListeContactSimplesEntityJAXB : 
+	 * Entity JAXB serializable 
 	 * sous forme de fichier XML.<br/>
 	 */
-	private ListeContactSimplesEntityJAXB creerEntityJAXB(
+	private ListeContactSimplesEntityJAXB creerEntityJAXBList(
 			final List<IContactSimple> pList) {
 		
 		/* retourne null si pList == null. */
@@ -387,14 +393,14 @@ public class ContactSimpleDaoJAXB implements IContactSimpleDAO {
 		}
 		
 		final List<ContactSimpleEntityJAXB> liste 
-			= this.convertirListModelEnEntities(pList);
+			= this.convertirListModelEnEntitiesJAXB(pList);
 	
-		final ListeContactSimplesEntityJAXB contacts 
+		final ListeContactSimplesEntityJAXB listEntityJAXB 
 			= new ListeContactSimplesEntityJAXB(liste);
 		
-		return contacts;
+		return listEntityJAXB;
 		
-	} // Fin de creerEntityJAXB(...).______________________________________
+	} // Fin de creerEntityJAXBList(...).__________________________________
 
 
 
@@ -1534,7 +1540,7 @@ public class ContactSimpleDaoJAXB implements IContactSimpleDAO {
 		}
 		
 		final ListeContactSimplesEntityJAXB contacts 
-			= this.creerEntityJAXB(pList);
+			= this.creerEntityJAXBList(pList);
 		
 		this.enregistrer(contacts, pFile);
 		
@@ -1624,7 +1630,7 @@ public class ContactSimpleDaoJAXB implements IContactSimpleDAO {
 		}
 		
 		final List<ContactSimpleEntityJAXB> contactsContactSimpleJAXB 
-			= this.convertirListModelEnEntities(pList);
+			= this.convertirListModelEnEntitiesJAXB(pList);
 		
 		final ListeContactSimplesEntityJAXB contactsJAXB 
 			= new ListeContactSimplesEntityJAXB(contactsContactSimpleJAXB);
@@ -1726,7 +1732,7 @@ public class ContactSimpleDaoJAXB implements IContactSimpleDAO {
 			= contacts.getListeContactSimples();
 		
 		final List<IContactSimple> resultat 
-			= this.convertirListEntitiesEnModel(listeEntities);
+			= this.convertirListEntitiesJAXBEnModel(listeEntities);
 		
 		return resultat;
 		

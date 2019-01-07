@@ -222,51 +222,6 @@ public class ContactSimpleEntityJAXB implements IContactSimple {
 		
 	} // Fin de CONSTRUCTEUR COMPLET BASE._________________________________
 
-
-	
-	 /**
-	 * CONSTRUCTEUR TRANSFORMATEUR.<br/>
-	 * <br/>
-	 *
-	 * @param pContactSimple : IContactSimple.<br/>
-	 */
-	public ContactSimpleEntityJAXB(
-			final IContactSimple pContactSimple) {
-		
-		super();
-		
-		if (pContactSimple != null) {
-			
-			this.id = pContactSimple.getId();
-			this.prenom = pContactSimple.getPrenom();
-			this.nom = pContactSimple.getNom();
-			this.rue = pContactSimple.getRue();
-			this.rue2 = pContactSimple.getRue2();
-			this.codePostal = pContactSimple.getCodePostal();
-			this.ville = pContactSimple.getVille();
-			this.pays = pContactSimple.getPays();
-			this.telephone = pContactSimple.getTelephone();
-			this.mail = pContactSimple.getMail();
-			this.dateNaissance = pContactSimple.getDateNaissance();
-			
-		} else {
-			
-			this.id = null;
-			this.prenom = null;
-			this.nom = null;
-			this.rue = null;
-			this.rue2 = null;
-			this.codePostal = null;
-			this.ville = null;
-			this.pays = null;
-			this.telephone = null;
-			this.mail = null;
-			this.dateNaissance =null;
-			
-		}
-				
-	} // Fin de CONSTRUCTEUR TRANSFORMATEUR._______________________________
-
 	
 	
 	/**

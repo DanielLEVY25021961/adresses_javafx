@@ -25,8 +25,6 @@ import levy.daniel.application.model.persistence.daoexceptions.AbstractDaoExcept
 import levy.daniel.application.model.persistence.metier.JPAUtils;
 import levy.daniel.application.model.persistence.metier.contactsimple.IContactSimpleDAO;
 import levy.daniel.application.model.persistence.metier.contactsimple.InitialiseurDeData;
-import levy.daniel.application.model.persistence.metier.contactsimple.entities.jaxb.ContactSimpleEntityJAXB;
-import levy.daniel.application.model.persistence.metier.contactsimple.entities.jaxb.ListeContactSimplesEntityJAXB;
 
 /**
  * CLASSE ContactSimpleDaoJPATest :<br/>
@@ -8038,75 +8036,6 @@ public class ContactSimpleDaoJPATest {
 						, nombreObjetsInitial);
 		
 	} // Fin de testCount()._______________________________________________
-
-	
-	
-	/**
-	 * <b>convertit une Liste d'Objets Metier en liste 
-	 * d'Entities</b>.<br/>
-	 *
-	 * @param pList : List&lt;IContactSimple&gt;
-	 * 
-	 * @return : List&lt;ContactSimpleEntityJAXB&gt;.<br/>
-	 */
-	private List<ContactSimpleEntityJAXB> convertirListModelEnEntities(
-			final List<IContactSimple> pList) {
-		
-		if (pList == null) {
-			return null;
-		}
-		
-		final List<ContactSimpleEntityJAXB> resultat 
-			= new ArrayList<ContactSimpleEntityJAXB>();
-		
-		for (final IContactSimple contactSimple : pList) {
-			
-			if (contactSimple != null) {
-				
-				final ContactSimpleEntityJAXB contactSimpleJAXB 
-					= new ContactSimpleEntityJAXB(contactSimple);
-				
-				resultat.add(contactSimpleJAXB);
-				
-			}
-		}
-		
-		return resultat;
-		
-	} // Fin de convertirListModelEnEntities(...)._________________________
-	
-
-
-	/**
-	 * <b>Instancie une Entity JAXB ListeContactSimplesEntityJAXB à partir 
-	 * d'une Liste de MODEL List&lt;IContactSimple&gt; pList</b>.<br/>
-	 * <ul>
-	 * <li>retourne null si pList == null.</li>
-	 * </ul>
-	 *
-	 * @param pList : List&lt;IContactSimple&gt; : Liste de MODEL 
-	 * à transformer en Entities JAXB en vue de la sérialization.<br/>
-	 * 
-	 * @return : ListeContactSimplesEntityJAXB : Entity serializable 
-	 * sous forme de fichier XML.<br/>
-	 */
-	private ListeContactSimplesEntityJAXB creerEntityJAXB(
-			final List<IContactSimple> pList) {
-		
-		/* retourne null si pList == null. */
-		if (pList == null) {
-			return null;
-		}
-		
-		final List<ContactSimpleEntityJAXB> liste 
-			= this.convertirListModelEnEntities(pList);
-	
-		final ListeContactSimplesEntityJAXB contacts 
-			= new ListeContactSimplesEntityJAXB(liste);
-		
-		return contacts;
-		
-	} // Fin de creerEntityJAXB(...).______________________________________
 	
 	
 	

@@ -12,6 +12,8 @@ import org.apache.commons.logging.LogFactory;
 
 import levy.daniel.application.model.metier.contactsimple.IContactSimple;
 import levy.daniel.application.model.metier.contactsimple.impl.ContactSimple;
+import levy.daniel.application.model.persistence.metier.contactsimple.entities.jaxb.ContactSimpleEntityJAXB;
+import levy.daniel.application.model.persistence.metier.contactsimple.entities.jaxb.ListeContactSimplesEntityJAXB;
 import levy.daniel.application.model.persistence.metier.contactsimple.entities.jpa.ContactSimpleEntityJPA;
 
 /**
@@ -71,7 +73,7 @@ public final class ContactSimpleConvertisseurMetierEntity {
 	 * 
 	 * @return : IContactSimple.<br/>
 	 */
-	public static IContactSimple creerObjetMetier(
+	public static IContactSimple creerObjetMetierAPartirEntityJPA(
 			final ContactSimpleEntityJPA pEntityJPA) {
 
 		synchronized (ContactSimpleConvertisseurMetierEntity.class) {
@@ -99,7 +101,7 @@ public final class ContactSimpleConvertisseurMetierEntity {
 		
 		} // Fin de synchronized._______________________
 		
-	} // Fin de creerContactSimple(...).________________________________________
+	} // Fin de creerObjetMetierAPartirEntityJPA(...)._____________________
 	
 	
 	
@@ -174,18 +176,7 @@ public final class ContactSimpleConvertisseurMetierEntity {
 				if (entity != null) {
 					
 					final IContactSimple objet 													
-						= new ContactSimple(
-								entity.getId()
-								, entity.getPrenom()
-								, entity.getNom()
-								, entity.getRue()
-								, entity.getRue2()
-								, entity.getCodePostal()
-								, entity.getVille()
-								, entity.getPays()
-								, entity.getTelephone()
-								, entity.getMail()
-								, entity.getDateNaissance());
+						= convertirEntityJPAEnObjetMetier(entity);
 					
 					resultat.add(objet);
 					
@@ -315,7 +306,7 @@ public final class ContactSimpleConvertisseurMetierEntity {
 				if (objet != null) {
 					
 					final ContactSimpleEntityJPA entity 
-						= new ContactSimpleEntityJPA(objet);
+						= convertirObjetMetierEnEntityJPA(objet);
 					
 					resultat.add(entity);
 					
@@ -327,6 +318,259 @@ public final class ContactSimpleConvertisseurMetierEntity {
 		} // Fin de synchronized._______________________
 		
 	} // Fin de convertirListModelEnEntitiesJPA(...).______________________
+	
+	
+	
+	/**
+	 * <b>Crée un OBJET METIER à partir d'une EntityJAXB</b>.<br/>
+	 * <ul>
+	 * <li>retourne un OBJET METIER avec toutes les valeurs 
+	 * à null si pObject == null.</li>
+	 * </ul>
+	 *
+	 * @param pEntityJAXB : ContactSimpleEntityJAXB.<br/>
+	 * 
+	 * @return : IContactSimple.<br/>
+	 */
+	public static IContactSimple creerObjetMetierAPartirEntityJAXB(
+			final ContactSimpleEntityJAXB pEntityJAXB) {
+		
+		synchronized (ContactSimpleConvertisseurMetierEntity.class) {
+			
+			final IContactSimple objet 
+				= new ContactSimple();
+			
+			if (pEntityJAXB != null) {
+				
+				objet.setId(pEntityJAXB.getId());
+				objet.setPrenom(pEntityJAXB.getPrenom());
+				objet.setNom(pEntityJAXB.getNom());
+				objet.setRue(pEntityJAXB.getRue());
+				objet.setRue2(pEntityJAXB.getRue2());
+				objet.setCodePostal(pEntityJAXB.getCodePostal());
+				objet.setVille(pEntityJAXB.getVille());
+				objet.setPays(pEntityJAXB.getPays());
+				objet.setTelephone(pEntityJAXB.getTelephone());
+				objet.setMail(pEntityJAXB.getMail());
+				objet.setDateNaissance(pEntityJAXB.getDateNaissance());
+				
+			}
+			
+			return objet;
+			
+		} // Fin de synchronized._______________________
+				
+	} // Fin de creerObjetMetierAPartirEntityJAXB(...).____________________
+	
+
+	
+	/**
+	 * <b>Crée une ENTITY JAXB à partir d'un OBJET METIER</b>.<br/>
+	 * <ul>
+	 * <li>retourne null si pObject == null.</li>
+	 * <li>récupère les valeurs dans le pObject.</li>
+	 * <li>injecte les valeurs de l'OBJET METIER dans une ENTITY JAXB.</li>
+	 * </ul>
+	 *
+	 * @param pObject : IContactSimple.<br/>
+	 * 
+	 * @return : ContactSimpleEntityJAXB.<br/>
+	 */
+	public static ContactSimpleEntityJAXB creerEntityJAXBAPartirObjetMetier(
+											final IContactSimple pObject) {
+		
+		synchronized (ContactSimpleConvertisseurMetierEntity.class) {
+
+			ContactSimpleEntityJAXB entity = null;
+
+			if (pObject != null) {
+
+				entity = new ContactSimpleEntityJAXB(
+						pObject.getId()
+						, pObject.getPrenom(), pObject.getNom(),
+						pObject.getRue(), pObject.getRue2()
+						, pObject.getCodePostal(), pObject.getVille()
+						, pObject.getPays()
+						, pObject.getTelephone(), pObject.getMail()
+						, pObject.getDateNaissance());
+
+			}
+
+			return entity;
+
+		} // Fin de synchronized._______________________
+		
+	} // Fin de creerEntityJAXBAPartirObjetMetier(...).____________________
+	
+	
+	
+	/**
+	 * <b>convertit une ENTITY JAXB en OBJET METIER</b>.<br/>
+	 * <ul>
+	 * <li>retourne null si pEntity == null.</li>
+	 * <li>récupère les valeurs dans le pEntity.</li>
+	 * <li>injecte les valeurs de l'ENTITY dans un OBJET METIER.</li>
+	 * </ul>
+	 *
+	 * @param pEntity : ContactSimpleEntityJPA.<br/>
+	 * 
+	 * @return : IContactSimple : Objet métier.<br/>
+	 */
+	public static IContactSimple convertirEntityJAXBEnObjetMetier(
+			final ContactSimpleEntityJAXB pEntity) {
+		
+		synchronized (ContactSimpleConvertisseurMetierEntity.class) {
+			
+			IContactSimple objet = null;
+			
+			if (pEntity != null) {
+				
+				/* récupère les valeurs dans l'Entity. */
+				/* injecte les valeurs typées dans un OBJET METIER. */
+				objet 
+					= new ContactSimple(
+							pEntity.getId()
+							, pEntity.getPrenom(), pEntity.getNom()
+							, pEntity.getRue(), pEntity.getRue2()
+							, pEntity.getCodePostal(), pEntity.getVille()
+							, pEntity.getPays()
+							, pEntity.getTelephone(), pEntity.getMail()
+							, pEntity.getDateNaissance());
+			}
+			
+			return objet;
+						
+		} // Fin de synchronized._______________________
+		
+	} // Fin de creerObjetMetierAPartirEntityJAXB(...).____________________
+	
+	
+	
+	/**
+	 * <b>convertit une Liste d'OBJETS METIER en liste 
+	 * d'Entities JAXB</b>.<br/>
+	 * <br/>
+	 * retourne null si pList == null.<br/>
+	 * <br/>
+	 *
+	 * @param pList : List&lt;IContactSimple&gt;
+	 * 
+	 * @return : List&lt;ContactSimpleEntityJAXB&gt;.<br/>
+	 */
+	public static List<ContactSimpleEntityJAXB> convertirListModelEnEntitiesJAXB(
+			final List<IContactSimple> pList) {
+
+		synchronized (ContactSimpleConvertisseurMetierEntity.class) {
+			
+			/* retourne null si pList == null. */
+			if (pList == null) {
+				return null;
+			}
+			
+			final List<ContactSimpleEntityJAXB> resultat 
+				= new ArrayList<ContactSimpleEntityJAXB>();
+			
+			for (final IContactSimple objet : pList) {
+				
+				if (objet != null) {
+					
+					final ContactSimpleEntityJAXB entity 
+						= creerEntityJAXBAPartirObjetMetier(objet);
+					
+					resultat.add(entity);
+					
+				}
+			}
+			
+			return resultat;
+			
+		} // Fin de synchronized._______________________
+		
+	} // Fin de convertirListModelEnEntitiesJAXB(...)._____________________
+	
+
+		
+	/**
+	 * <b>convertit une Liste d'Entities JAXB 
+	 * en liste d'OBJETS METIER</b>.<br/>
+	 * <br/>
+	 *
+	 * @param pList : List&lt;ContactSimpleEntityJAXB&gt;.<br/>
+	 * 
+	 * @return : List&lt;IContactSimple&gt;.<br/>
+	 */
+	public static List<IContactSimple> convertirListEntitiesJAXBEnModel(
+			final List<ContactSimpleEntityJAXB> pList) {
+		
+		synchronized (ContactSimpleConvertisseurMetierEntity.class) {
+			
+			/* retourne null si pList == null. */
+			if (pList == null) {
+				return null;
+			}
+			
+			final List<IContactSimple> resultat 
+				= new ArrayList<IContactSimple>();
+			
+			for (final ContactSimpleEntityJAXB entity : pList) {
+				
+				if (entity != null) {
+					
+					final IContactSimple objet 
+						= creerObjetMetierAPartirEntityJAXB(
+								entity);
+					
+					resultat.add(objet);
+					
+				}
+			}
+			
+			return resultat;
+			
+		} // Fin de synchronized._______________________
+		
+	} // Fin de convertirListEntitiesJAXBEnModel(...)._____________________
+	
+	
+	
+	/**
+	 * <b>Instancie une Entity JAXB ListeContactSimplesEntityJAXB 
+	 * <i>(équivalent d'une table SGBDR)</i> à partir 
+	 * d'une Liste d'OBJETS METIER 
+	 * List&lt;IContactSimple&gt; pList</b>.<br/>
+	 * <ul>
+	 * <li>retourne null si pList == null.</li>
+	 * </ul>
+	 *
+	 * @param pList : List&lt;IContactSimple&gt; : 
+	 * Liste d'OBJETS METIER
+	 * à transformer en Entity JAXB en vue de la sérialization.<br/>
+	 * 
+	 * @return : ListeContactSimplesEntityJAXB : 
+	 * Entity JAXB serializable 
+	 * sous forme de fichier XML.<br/>
+	 */
+	public static ListeContactSimplesEntityJAXB creerEntityJAXBList(
+			final List<IContactSimple> pList) {
+
+		synchronized (ContactSimpleConvertisseurMetierEntity.class) {
+			
+			/* retourne null si pList == null. */
+			if (pList == null) {
+				return null;
+			}
+			
+			final List<ContactSimpleEntityJAXB> liste 
+				= convertirListModelEnEntitiesJAXB(pList);
+		
+			final ListeContactSimplesEntityJAXB listEntityJAXB 
+				= new ListeContactSimplesEntityJAXB(liste);
+			
+			return listEntityJAXB;
+			
+		} // Fin de synchronized._______________________
+		
+	} // Fin de creerEntityJAXBList(...).__________________________________
 
 	
 	

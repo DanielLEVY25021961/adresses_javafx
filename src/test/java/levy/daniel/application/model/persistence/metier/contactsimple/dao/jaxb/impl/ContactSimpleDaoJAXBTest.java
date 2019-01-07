@@ -22,6 +22,7 @@ import org.junit.Test;
 import levy.daniel.application.model.metier.contactsimple.IContactSimple;
 import levy.daniel.application.model.metier.contactsimple.impl.ContactSimple;
 import levy.daniel.application.model.persistence.daoexceptions.AbstractDaoException;
+import levy.daniel.application.model.persistence.metier.contactsimple.ContactSimpleConvertisseurMetierEntity;
 import levy.daniel.application.model.persistence.metier.contactsimple.IContactSimpleDAO;
 import levy.daniel.application.model.persistence.metier.contactsimple.InitialiseurDeData;
 import levy.daniel.application.model.persistence.metier.contactsimple.entities.jaxb.ContactSimpleEntityJAXB;
@@ -8060,14 +8061,15 @@ public class ContactSimpleDaoJAXBTest {
 		final List<ContactSimpleEntityJAXB> resultat 
 			= new ArrayList<ContactSimpleEntityJAXB>();
 		
-		for (final IContactSimple contactSimple : pList) {
+		for (final IContactSimple objet : pList) {
 			
-			if (contactSimple != null) {
+			if (objet != null) {
 				
-				final ContactSimpleEntityJAXB contactSimpleJAXB 
-					= new ContactSimpleEntityJAXB(contactSimple);
+				final ContactSimpleEntityJAXB entity 
+					= ContactSimpleConvertisseurMetierEntity
+						.creerEntityJAXBAPartirObjetMetier(objet);
 				
-				resultat.add(contactSimpleJAXB);
+				resultat.add(entity);
 				
 			}
 		}

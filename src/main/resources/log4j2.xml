@@ -1,5 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<!-- ******************************************************************** -->
+<!-- hiérarchie des niveaux : OFF>FATAL>ERROR>WARN>INFO>DEBUG>TRACE>ALL   -->
+<!-- ******************************************************************** -->
+
 <Configuration name="DEV" status="ERROR">
  
 
@@ -101,7 +105,7 @@
 	
 	    <!-- Log JDBC bind parameters -->
 <!-- 	    <Logger name="org.hibernate.type.descriptor.sql" level="trace" additivity="false"> -->
-	    <Logger name="org.hibernate.type.descriptor.sql" level="trace" additivity="false">
+	    <Logger name="org.hibernate.type.descriptor.sql" level="debug" additivity="false">
 	      <AppenderRef ref="Console" />
 	      <AppenderRef ref="RollingFile" />
 <!-- 	      <AppenderRef ref="File" /> -->

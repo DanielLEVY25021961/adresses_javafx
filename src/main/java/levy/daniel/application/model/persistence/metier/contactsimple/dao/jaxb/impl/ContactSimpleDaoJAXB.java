@@ -26,9 +26,61 @@ import levy.daniel.application.model.persistence.metier.contactsimple.entities.j
 
 
 /**
- * CLASSE ContactSimpleDaoJAXB :<br/>
- * DAO JAXB pour les ContactSimple.<br/>
+ * CLASSE <b>ContactSimpleDaoJAXB</b> :<br/>
+ * DAO (Data Access Object) JAXB <i>CONCRET</i> 
+ * pour les ContactSimple.<br/>
+ * 
+ * <p>
+ * <span style="text-decoration: underline;">CONCEPT 
+ * CONCERNE PAR CE DAO</span>
+ * </p>
+ * 
+ * <p>
+ * <b>{@link IContactSimple}</b> modélise un <i>concept</i> de <b>Contact</b> 
+ * (Personne avec des coordonnées) avec un nom, un prénom et des coordonnées
+ * <i>simples</i>.<br/>
+ * Un ContactSimple ne possède qu'une seule adresse, 
+ * un seul numéro de téléphone, et un seul mail.
+ * </p>
+ * 
+ * <p>
+ * <span style="text-decoration: underline;">DESCRIPTION DE 
+ * DAO</span>
+ * </p>
+ * <ul>
+ * <li>DAO <b>CONCRET</b> pour les <b>{@link IContactSimple}</b>.</li>
+ * <li>
+ * Implémente l'interface <b>IContactSimpleDAO</b>.
+ * </li>
+ * <li>
+ * DAO pour serializer des ENTITIES JAXB {@link ContactSimpleEntityJAXB} 
+ * lors de l'utilisation de JAXB
+ * pour la persistence dans un contexte <i>AVEC ou SANS</i> SPRING.
+ * </li>
+ * </ul>
+ * 
+ * <p>
+ * <span style="text-decoration: underline;">IMPLEMENTATION DES DAO</span>
+ * </p>
+ * <ul>
+ * <li>
+ * <img src="../../../../../../../../../../../../../../../javadoc/images/implementation_ContactSimple_DAO_JAXB.png" 
+ * alt="implémentation des DAOs ContactSimple JAXB" border="1" align="center" />
+ * </li>
+ * </ul>
+ * 
+ * <p>
+ * <span style="text-decoration: underline;">UTILISATION DES DAO</span>
+ * </p>
+ * <ul>
+ * <li>
+ * <img src="../../../../../../../../../../../../javadoc/images/utilisation_ContactSimple_DAO_JAXB.png" 
+ * alt="utilisation des DAOs ContactSimple JAXB" border="1" align="center" />
+ * </li>
+ * </ul>
+ * 
  * <br/>
+
  *
  * - Exemple d'utilisation :<br/>
  *<br/>

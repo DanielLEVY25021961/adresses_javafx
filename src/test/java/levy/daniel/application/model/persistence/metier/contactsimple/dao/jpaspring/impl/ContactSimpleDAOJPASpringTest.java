@@ -23,6 +23,7 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.context.ApplicationContext;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.test.context.junit4.SpringRunner;
 
@@ -70,6 +71,11 @@ public class ContactSimpleDAOJPASpringTest {
 
 	// ************************ATTRIBUTS************************************/
 
+	/**
+	 * Contexte SPRING pour les tests.<br/>
+	 */
+	private static transient ApplicationContext contexteSpring = null;
+	
 	/**
 	 * DAO.<br/>
 	 * Instancié dans avantTests() ou injecté par Spring.
@@ -8421,6 +8427,7 @@ public class ContactSimpleDAOJPASpringTest {
    public static void avantTests() throws Exception {
 		
 		/**/
+		contexteSpring = null;
 		
 	} // Fin de avantTests().______________________________________________
 

@@ -24,9 +24,13 @@ import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.context.ApplicationContext;
+import org.springframework.context.annotation.AnnotationConfigApplicationContext;
 import org.springframework.context.annotation.ComponentScan;
-import org.springframework.test.context.junit4.SpringRunner;
+import org.springframework.context.annotation.EnableAspectJAutoProxy;
+import org.springframework.test.context.ContextConfiguration;
+import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
+import levy.daniel.application.ConfigurationSpringFrameworkAnnotation;
 import levy.daniel.application.model.metier.contactsimple.IContactSimple;
 import levy.daniel.application.model.metier.contactsimple.impl.ContactSimple;
 import levy.daniel.application.model.persistence.daoexceptions.AbstractDaoException;
@@ -37,7 +41,7 @@ import levy.daniel.application.model.persistence.metier.contactsimple.Initialise
 /**
  * CLASSE ContactSimpleDAOJPASpringTest :<br/>
  * Test JUnit de la classe ContactSimpleDaoJPASpring.<br/>
- * TEST DE DAO.<br/>
+ * TEST DE DAO SPRING.<br/>
  * <br/>
  *
  * - Exemple d'utilisation :<br/>
@@ -63,9 +67,12 @@ import levy.daniel.application.model.persistence.metier.contactsimple.Initialise
  * @since 8 janv. 2019
  *
  */
-@RunWith(SpringRunner.class)
+//@RunWith(SpringRunner.class)
+@RunWith(SpringJUnit4ClassRunner.class)
 //@DataJpaTest
+@EnableAspectJAutoProxy
 @ComponentScan("levy.daniel.application")
+@ContextConfiguration({"classpath:**ConfigurationSpringFrameworkAnnotation"})
 @PersistenceContext(name="META-INF/persistence-test.xml")
 public class ContactSimpleDAOJPASpringTest {
 
@@ -82,7 +89,7 @@ public class ContactSimpleDAOJPASpringTest {
 	 */
 	@Autowired(required=true)
     @Qualifier("ContactSimpleDAOJPASpring")
-	private static transient IContactSimpleDAO dao;
+	private transient IContactSimpleDAO dao;
 
 	/**
 	 * boolean qui spécifie si le DAO testé est de type JPA 
@@ -992,8 +999,8 @@ public class ContactSimpleDAOJPASpringTest {
 			System.out.println("********** CLASSE ContactSimpleDaoJPASpringTest - méthode testCreateNull() ********** ");
 		}
 
-		/* dao NON INJECTE. */
-		if (dao == null) {
+		/* this.dao NON INJECTE. */
+		if (this.dao == null) {
 			
 			/* AFFICHAGE A LA CONSOLE. */
 			if (AFFICHAGE_GENERAL && affichage) {
@@ -1003,7 +1010,7 @@ public class ContactSimpleDAOJPASpringTest {
 			
 			return;
 			
-		} // Fin de dao NON INJECTE._____________________
+		} // Fin de this.dao NON INJECTE._____________________
 
 		
 		/* Vide le stockage. */
@@ -1014,15 +1021,15 @@ public class ContactSimpleDAOJPASpringTest {
 		
 		// ETAT INITIAL
 		/* récupération. */
-		final List<IContactSimple> objetInitiaux = dao.findAll();
+		final List<IContactSimple> objetInitiaux = this.dao.findAll();
 
 		/* Compte du nombre d'Objets initialement dans le stockage. */
-		nombreObjetsInitial = dao.count();
+		nombreObjetsInitial = this.dao.count();
 
 		/* AFFICHAGE A LA CONSOLE. */
 		if (AFFICHAGE_GENERAL && affichage) {
 			System.out.println("LISTE D'OBJETS AVANT CREATE(NULL) : ");
-			System.out.println(dao.afficherListeObjetsMetier(objetInitiaux));
+			System.out.println(this.dao.afficherListeObjetsMetier(objetInitiaux));
 			this.afficherNbreObjetsInitial(nombreObjetsInitial);
 		}
 
@@ -1042,11 +1049,11 @@ public class ContactSimpleDAOJPASpringTest {
 			
 			/* *********************************************** */
 			/* ********************* CREATION **************** */
-			objetVraimentNull1Persistant = dao.create(objetVraimentNull1);
+			objetVraimentNull1Persistant = this.dao.create(objetVraimentNull1);
 			/* *********************************************** */
 			
 			/* Calcul du nombre d'objets dans le stockage après le traitement. */
-			nombreObjetsFinal = dao.count();
+			nombreObjetsFinal = this.dao.count();
 			
 			/* AFFICHAGE A LA CONSOLE. */
 			if (AFFICHAGE_GENERAL && affichage) {
@@ -1099,8 +1106,8 @@ public class ContactSimpleDAOJPASpringTest {
 			System.out.println("********** CLASSE ContactSimpleDaoJPASpringTest - méthode testCreateObjetNull() ********** ");
 		}
 
-		/* dao NON INJECTE. */
-		if (dao == null) {
+		/* this.dao NON INJECTE. */
+		if (this.dao == null) {
 			
 			/* AFFICHAGE A LA CONSOLE. */
 			if (AFFICHAGE_GENERAL && affichage) {
@@ -1110,7 +1117,7 @@ public class ContactSimpleDAOJPASpringTest {
 			
 			return;
 			
-		} // Fin de dao NON INJECTE._____________________
+		} // Fin de this.dao NON INJECTE._____________________
 
 		
 		/* Vide le stockage. */
@@ -1121,15 +1128,15 @@ public class ContactSimpleDAOJPASpringTest {
 		
 		// ETAT INITIAL
 		/* récupération. */
-		final List<IContactSimple> objetInitiaux = dao.findAll();
+		final List<IContactSimple> objetInitiaux = this.dao.findAll();
 
 		/* Compte du nombre d'Objets initialement dans le stockage. */
-		nombreObjetsInitial = dao.count();
+		nombreObjetsInitial = this.dao.count();
 
 		/* AFFICHAGE A LA CONSOLE. */
 		if (AFFICHAGE_GENERAL && affichage) {
 			System.out.println("LISTE D'OBJETS AVANT CREATE( OBJET NULL) : ");
-			System.out.println(dao.afficherListeObjetsMetier(objetInitiaux));
+			System.out.println(this.dao.afficherListeObjetsMetier(objetInitiaux));
 			this.afficherNbreObjetsInitial(nombreObjetsInitial);
 		}
 
@@ -1142,12 +1149,12 @@ public class ContactSimpleDAOJPASpringTest {
 			
 			/* *********************************************** */
 			/* ********************* CREATION **************** */
-			objetNull1Persistant = dao.create(objetNull1);
-			objetNull2Persistant = dao.create(objetNull2);
+			objetNull1Persistant = this.dao.create(objetNull1);
+			objetNull2Persistant = this.dao.create(objetNull2);
 			/* *********************************************** */
 			
 			/* Calcul du nombre d'objets dans le stockage après le traitement. */
-			nombreObjetsFinal = dao.count();
+			nombreObjetsFinal = this.dao.count();
 			
 			/* AFFICHAGE A LA CONSOLE. */
 			if (AFFICHAGE_GENERAL && affichage) {
@@ -1208,7 +1215,7 @@ public class ContactSimpleDAOJPASpringTest {
 				
 		// **********************************
 		// AFFICHAGE DANS LE TEST ou NON
-		final boolean affichage = false;
+		final boolean affichage = true;
 		// **********************************
 		
 		/* AFFICHAGE A LA CONSOLE. */
@@ -1216,8 +1223,8 @@ public class ContactSimpleDAOJPASpringTest {
 			System.out.println("********** CLASSE ContactSimpleDaoJPASpringTest - méthode testCreate() ********** ");
 		}
 
-		/* dao NON INJECTE. */
-		if (dao == null) {
+		/* this.dao NON INJECTE. */
+		if (this.dao == null) {
 			
 			/* AFFICHAGE A LA CONSOLE. */
 			if (AFFICHAGE_GENERAL && affichage) {
@@ -1227,7 +1234,7 @@ public class ContactSimpleDAOJPASpringTest {
 			
 			return;
 			
-		} // Fin de dao NON INJECTE._____________________
+		} // Fin de this.dao NON INJECTE._____________________
 
 		
 		/* vide et remplit le stockage. */
@@ -1238,14 +1245,14 @@ public class ContactSimpleDAOJPASpringTest {
 
 		// ETAT INITIAL
 		/* récupération. */
-		final List<IContactSimple> objetInitiaux = dao.findAll();
+		final List<IContactSimple> objetInitiaux = this.dao.findAll();
 		
 		/* Compte du nombre d'Objets initialement dans le stockage. */
-		nombreObjetsInitial = dao.count();
+		nombreObjetsInitial = this.dao.count();
 		
 		if (AFFICHAGE_GENERAL && affichage) {
 			System.out.println("LISTE D'OBJETS AVANT CREATE : ");
-			System.out.println(dao.afficherListeObjetsMetier(objetInitiaux));
+			System.out.println(this.dao.afficherListeObjetsMetier(objetInitiaux));
 			this.afficherNbreObjetsInitial(nombreObjetsInitial);
 		}
 		
@@ -1253,7 +1260,7 @@ public class ContactSimpleDAOJPASpringTest {
 			
 			/* ********************************************************* */
 			/* ***********************CREATION************************** */		
-			final IContactSimple objetPersiste1 = dao.create(objetACreer1);
+			final IContactSimple objetPersiste1 = this.dao.create(objetACreer1);
 			/* ********************************************************* */
 			
 			/* AFFICHAGE A LA CONSOLE. */
@@ -1268,15 +1275,15 @@ public class ContactSimpleDAOJPASpringTest {
 						, objetPersiste1);
 			
 			/* récupération. */
-			final List<IContactSimple> objetsFinaux = dao.findAll();
+			final List<IContactSimple> objetsFinaux = this.dao.findAll();
 			
 			/* Calcul du nombre d'objets dans le stockage après le traitement. */
-			nombreObjetsFinal = dao.count();
+			nombreObjetsFinal = this.dao.count();
 			
 			if (AFFICHAGE_GENERAL && affichage) {
 				System.out.println();
 				System.out.println(LISTE_OBJETS_APRES_CREATE);
-				System.out.println(dao.afficherListeObjetsMetier(objetsFinaux));
+				System.out.println(this.dao.afficherListeObjetsMetier(objetsFinaux));
 				this.afficherNbreObjetsFinal(nombreObjetsFinal);
 			}
 						
@@ -1319,8 +1326,8 @@ public class ContactSimpleDAOJPASpringTest {
 			System.out.println("********** CLASSE ContactSimpleDaoJPASpringTest - méthode testCreateDoublon() ********** ");
 		}
 
-		/* dao NON INJECTE. */
-		if (dao == null) {
+		/* this.dao NON INJECTE. */
+		if (this.dao == null) {
 			
 			/* AFFICHAGE A LA CONSOLE. */
 			if (AFFICHAGE_GENERAL && affichage) {
@@ -1330,7 +1337,7 @@ public class ContactSimpleDAOJPASpringTest {
 			
 			return;
 			
-		} // Fin de dao NON INJECTE._____________________
+		} // Fin de this.dao NON INJECTE._____________________
 
 		/* Vide le stockage. */
 		this.viderStockage();
@@ -1345,14 +1352,14 @@ public class ContactSimpleDAOJPASpringTest {
 		
 		// ETAT INITIAL
 		/* récupération. */
-		final List<IContactSimple> objetInitiaux = dao.findAll();
+		final List<IContactSimple> objetInitiaux = this.dao.findAll();
 		
 		/* Compte du nombre d'Objets initialement dans le stockage. */
-		nombreObjetsInitial = dao.count();
+		nombreObjetsInitial = this.dao.count();
 		
 		if (AFFICHAGE_GENERAL && affichage) {
 			System.out.println("LISTE D'OBJETS AVANT CREATE DOUBLON : ");
-			System.out.println(dao.afficherListeObjetsMetier(objetInitiaux));
+			System.out.println(this.dao.afficherListeObjetsMetier(objetInitiaux));
 			this.afficherNbreObjetsInitial(nombreObjetsInitial);
 			
 			System.out.println();
@@ -1367,10 +1374,10 @@ public class ContactSimpleDAOJPASpringTest {
 			
 			/* ********************************************************* */
 			/* ***********************CREATION************************** */		
-			objet1Persistant = dao.create(objet1);
-			objet1MemeInstancePersistant = dao.create(objet1MemeInstance);
-			objet2EqualsObjet1Persistant = dao.create(objet2EqualsObj1);
-			objet3EqualsObjet1Persistant = dao.create(objet3EqualsObj1);
+			objet1Persistant = this.dao.create(objet1);
+			objet1MemeInstancePersistant = this.dao.create(objet1MemeInstance);
+			objet2EqualsObjet1Persistant = this.dao.create(objet2EqualsObj1);
+			objet3EqualsObjet1Persistant = this.dao.create(objet3EqualsObj1);
 			/* ********************************************************* */
 			
 			/* AFFICHAGE A LA CONSOLE. */
@@ -1425,15 +1432,15 @@ public class ContactSimpleDAOJPASpringTest {
 						, objet3EqualsObjet1Persistant);
 			
 			/* récupération. */
-			final List<IContactSimple> objetsFinaux = dao.findAll();
+			final List<IContactSimple> objetsFinaux = this.dao.findAll();
 			
 			/* Calcul du nombre d'objets dans le stockage après le traitement. */
-			nombreObjetsFinal = dao.count();
+			nombreObjetsFinal = this.dao.count();
 			
 			if (AFFICHAGE_GENERAL && affichage) {
 				System.out.println();
 				System.out.println(LISTE_OBJETS_APRES_CREATE);
-				System.out.println(dao.afficherListeObjetsMetier(objetsFinaux));
+				System.out.println(this.dao.afficherListeObjetsMetier(objetsFinaux));
 				this.afficherNbreObjetsFinal(nombreObjetsFinal);
 			}
 						
@@ -1477,8 +1484,8 @@ public class ContactSimpleDAOJPASpringTest {
 			System.out.println("********** CLASSE ContactSimpleDaoJPASpringTest - méthode testPersistNull() ********** ");
 		}
 
-		/* dao NON INJECTE. */
-		if (dao == null) {
+		/* this.dao NON INJECTE. */
+		if (this.dao == null) {
 			
 			/* AFFICHAGE A LA CONSOLE. */
 			if (AFFICHAGE_GENERAL && affichage) {
@@ -1488,7 +1495,7 @@ public class ContactSimpleDAOJPASpringTest {
 			
 			return;
 			
-		} // Fin de dao NON INJECTE._____________________
+		} // Fin de this.dao NON INJECTE._____________________
 
 		
 		/* Vide le stockage. */
@@ -1500,7 +1507,7 @@ public class ContactSimpleDAOJPASpringTest {
 		final IContactSimple objetVraimentNull1 = null;
 						
 		/* Compte du nombre d'Objets initialement dans le stockage. */
-		nombreObjetsInitial = dao.count();
+		nombreObjetsInitial = this.dao.count();
 		
 		/* AFFICHAGE A LA CONSOLE. */
 		if (AFFICHAGE_GENERAL && affichage) {
@@ -1511,11 +1518,11 @@ public class ContactSimpleDAOJPASpringTest {
 			
 			/* *********************************************** */
 			/* ********************* CREATION **************** */
-			dao.persist(objetVraimentNull1);
+			this.dao.persist(objetVraimentNull1);
 			/* *********************************************** */
 			
 			/* Calcul du nombre d'objets dans le stockage après le traitement. */
-			nombreObjetsFinal = dao.count();
+			nombreObjetsFinal = this.dao.count();
 			
 			/* AFFICHAGE A LA CONSOLE. */
 			if (AFFICHAGE_GENERAL && affichage) {
@@ -1561,8 +1568,8 @@ public class ContactSimpleDAOJPASpringTest {
 			System.out.println("********** CLASSE ContactSimpleDaoJPASpringTest - méthode testPersistObjetNull() ********** ");
 		}
 
-		/* dao NON INJECTE. */
-		if (dao == null) {
+		/* this.dao NON INJECTE. */
+		if (this.dao == null) {
 			
 			/* AFFICHAGE A LA CONSOLE. */
 			if (AFFICHAGE_GENERAL && affichage) {
@@ -1572,7 +1579,7 @@ public class ContactSimpleDAOJPASpringTest {
 			
 			return;
 			
-		} // Fin de dao NON INJECTE._____________________
+		} // Fin de this.dao NON INJECTE._____________________
 
 		
 		/* Vide le stockage. */
@@ -1582,7 +1589,7 @@ public class ContactSimpleDAOJPASpringTest {
 		Long nombreObjetsFinal = 0L;
 		
 		/* Compte du nombre d'Objets initialement dans le stockage. */
-		nombreObjetsInitial = dao.count();
+		nombreObjetsInitial = this.dao.count();
 		
 		/* AFFICHAGE A LA CONSOLE. */
 		if (AFFICHAGE_GENERAL && affichage) {
@@ -1593,12 +1600,12 @@ public class ContactSimpleDAOJPASpringTest {
 			
 			/* *********************************************** */
 			/* ********************* CREATION **************** */
-			dao.persist(objetNull1);
-			dao.persist(objetNull2);
+			this.dao.persist(objetNull1);
+			this.dao.persist(objetNull2);
 			/* *********************************************** */
 			
 			/* Calcul du nombre d'objets dans le stockage après le traitement. */
-			nombreObjetsFinal = dao.count();
+			nombreObjetsFinal = this.dao.count();
 			
 			/* AFFICHAGE A LA CONSOLE. */
 			if (AFFICHAGE_GENERAL && affichage) {
@@ -1650,8 +1657,8 @@ public class ContactSimpleDAOJPASpringTest {
 			System.out.println("********** CLASSE ContactSimpleDaoJPASpringTest - méthode testPersist() ********** ");
 		}
 
-		/* dao NON INJECTE. */
-		if (dao == null) {
+		/* this.dao NON INJECTE. */
+		if (this.dao == null) {
 			
 			/* AFFICHAGE A LA CONSOLE. */
 			if (AFFICHAGE_GENERAL && affichage) {
@@ -1661,7 +1668,7 @@ public class ContactSimpleDAOJPASpringTest {
 			
 			return;
 			
-		} // Fin de dao NON INJECTE._____________________
+		} // Fin de this.dao NON INJECTE._____________________
 
 		
 		/* vide et remplit le stockage. */
@@ -1672,14 +1679,14 @@ public class ContactSimpleDAOJPASpringTest {
 
 		// ETAT INITIAL
 		/* récupération. */
-		final List<IContactSimple> objetInitiaux = dao.findAll();
+		final List<IContactSimple> objetInitiaux = this.dao.findAll();
 		
 		/* Compte du nombre d'Objets initialement dans le stockage. */
-		nombreObjetsInitial = dao.count();
+		nombreObjetsInitial = this.dao.count();
 		
 		if (AFFICHAGE_GENERAL && affichage) {
 			System.out.println("LISTE D'OBJETS AVANT PERSIST : ");
-			System.out.println(dao.afficherListeObjetsMetier(objetInitiaux));
+			System.out.println(this.dao.afficherListeObjetsMetier(objetInitiaux));
 			this.afficherNbreObjetsInitial(nombreObjetsInitial);
 		}
 		
@@ -1698,20 +1705,20 @@ public class ContactSimpleDAOJPASpringTest {
 			
 			/* ********************************************************* */
 			/* ***********************CREATION************************** */		
-			dao.persist(objetAPersister);
+			this.dao.persist(objetAPersister);
 			/* ********************************************************* */
 			
 			// ETAT FINAL
 			/* récupération. */
-			final List<IContactSimple> objetsFinaux = dao.findAll();
+			final List<IContactSimple> objetsFinaux = this.dao.findAll();
 			
 			/* Calcul du nombre d'objets dans le stockage après le traitement. */
-			nombreObjetsFinal = dao.count();
+			nombreObjetsFinal = this.dao.count();
 			
 			if (AFFICHAGE_GENERAL && affichage) {
 				System.out.println();
 				System.out.println("LISTE D'OBJETS APRES PERSIST : ");
-				System.out.println(dao.afficherListeObjetsMetier(objetsFinaux));
+				System.out.println(this.dao.afficherListeObjetsMetier(objetsFinaux));
 				this.afficherNbreObjetsFinal(nombreObjetsFinal);
 			}
 						
@@ -1753,8 +1760,8 @@ public class ContactSimpleDAOJPASpringTest {
 			System.out.println("********** CLASSE ContactSimpleDaoJPASpringTest - méthode testPersistDoublon() ********** ");
 		}
 
-		/* dao NON INJECTE. */
-		if (dao == null) {
+		/* this.dao NON INJECTE. */
+		if (this.dao == null) {
 			
 			/* AFFICHAGE A LA CONSOLE. */
 			if (AFFICHAGE_GENERAL && affichage) {
@@ -1764,7 +1771,7 @@ public class ContactSimpleDAOJPASpringTest {
 			
 			return;
 			
-		} // Fin de dao NON INJECTE._____________________
+		} // Fin de this.dao NON INJECTE._____________________
 
 		/* Vide le stockage. */
 		this.viderStockage();
@@ -1775,14 +1782,14 @@ public class ContactSimpleDAOJPASpringTest {
 		
 		// ETAT INITIAL
 		/* récupération. */
-		final List<IContactSimple> objetInitiaux = dao.findAll();
+		final List<IContactSimple> objetInitiaux = this.dao.findAll();
 		
 		/* Compte du nombre d'Objets initialement dans le stockage. */
-		nombreObjetsInitial = dao.count();
+		nombreObjetsInitial = this.dao.count();
 		
 		if (AFFICHAGE_GENERAL && affichage) {
 			System.out.println("LISTE D'OBJETS AVANT PERSIST DOUBLON : ");
-			System.out.println(dao.afficherListeObjetsMetier(objetInitiaux));
+			System.out.println(this.dao.afficherListeObjetsMetier(objetInitiaux));
 			this.afficherNbreObjetsInitial(nombreObjetsInitial);
 		}
 		
@@ -1804,23 +1811,23 @@ public class ContactSimpleDAOJPASpringTest {
 			
 			/* ********************************************************* */
 			/* ***********************CREATION************************** */		
-			dao.persist(objet1);
-			dao.persist(objet1MemeInstance);
-			dao.persist(objet2EqualsObj1);
-			dao.persist(objet3EqualsObj1);
+			this.dao.persist(objet1);
+			this.dao.persist(objet1MemeInstance);
+			this.dao.persist(objet2EqualsObj1);
+			this.dao.persist(objet3EqualsObj1);
 			/* ********************************************************* */
 			
 			// ETAT FINAL
 			/* récupération. */
-			final List<IContactSimple> objetsFinaux = dao.findAll();
+			final List<IContactSimple> objetsFinaux = this.dao.findAll();
 			
 			/* Calcul du nombre d'objets dans le stockage après le traitement. */
-			nombreObjetsFinal = dao.count();
+			nombreObjetsFinal = this.dao.count();
 			
 			if (AFFICHAGE_GENERAL && affichage) {
 				System.out.println();
 				System.out.println("LISTE D'OBJETS APRES PERSIST : ");
-				System.out.println(dao.afficherListeObjetsMetier(objetsFinaux));
+				System.out.println(this.dao.afficherListeObjetsMetier(objetsFinaux));
 				this.afficherNbreObjetsFinal(nombreObjetsFinal);
 			}
 						
@@ -1865,8 +1872,8 @@ public class ContactSimpleDAOJPASpringTest {
 			System.out.println("********** CLASSE ContactSimpleDaoJPASpringTest - méthode testCreateReturnIdNull() ********** ");
 		}
 
-		/* dao NON INJECTE. */
-		if (dao == null) {
+		/* this.dao NON INJECTE. */
+		if (this.dao == null) {
 			
 			/* AFFICHAGE A LA CONSOLE. */
 			if (AFFICHAGE_GENERAL && affichage) {
@@ -1876,7 +1883,7 @@ public class ContactSimpleDAOJPASpringTest {
 			
 			return;
 			
-		} // Fin de dao NON INJECTE._____________________
+		} // Fin de this.dao NON INJECTE._____________________
 
 		
 		/* Vide le stockage. */
@@ -1888,7 +1895,7 @@ public class ContactSimpleDAOJPASpringTest {
 		
 		//ETAT INITIAL
 		/* Compte du nombre d'Objets initialement dans le stockage. */
-		nombreObjetsInitial = dao.count();
+		nombreObjetsInitial = this.dao.count();
 		
 		/* AFFICHAGE A LA CONSOLE. */
 		if (AFFICHAGE_GENERAL && affichage) {
@@ -1906,7 +1913,7 @@ public class ContactSimpleDAOJPASpringTest {
 			
 			/* *********************************************** */
 			/* ********************* CREATION **************** */
-			objetVraimentNull1PersistantId = dao.createReturnId(objetVraimentNull1);
+			objetVraimentNull1PersistantId = this.dao.createReturnId(objetVraimentNull1);
 			/* *********************************************** */
 
 			/* *********** */
@@ -1919,7 +1926,7 @@ public class ContactSimpleDAOJPASpringTest {
 			
 			// ETAT FINAL
 			/* Calcul du nombre d'objets dans le stockage après le traitement. */
-			nombreObjetsFinal = dao.count();
+			nombreObjetsFinal = this.dao.count();
 			
 			/* AFFICHAGE A LA CONSOLE. */
 			if (AFFICHAGE_GENERAL && affichage) {
@@ -1966,8 +1973,8 @@ public class ContactSimpleDAOJPASpringTest {
 			System.out.println("********** CLASSE ContactSimpleDaoJPASpringTest - méthode testCreateReturnIdObjetNull() ********** ");
 		}
 
-		/* dao NON INJECTE. */
-		if (dao == null) {
+		/* this.dao NON INJECTE. */
+		if (this.dao == null) {
 			
 			/* AFFICHAGE A LA CONSOLE. */
 			if (AFFICHAGE_GENERAL && affichage) {
@@ -1977,7 +1984,7 @@ public class ContactSimpleDAOJPASpringTest {
 			
 			return;
 			
-		} // Fin de dao NON INJECTE._____________________
+		} // Fin de this.dao NON INJECTE._____________________
 
 		
 		/* Vide le stockage. */
@@ -1988,7 +1995,7 @@ public class ContactSimpleDAOJPASpringTest {
 		
 		// ETAT INITIAL				
 		/* Compte du nombre d'Objets initialement dans le stockage. */
-		nombreObjetsInitial = dao.count();
+		nombreObjetsInitial = this.dao.count();
 		
 		/* AFFICHAGE A LA CONSOLE. */
 		if (AFFICHAGE_GENERAL && affichage) {
@@ -2006,8 +2013,8 @@ public class ContactSimpleDAOJPASpringTest {
 			
 			/* *********************************************** */
 			/* ********************* CREATION **************** */
-			objetNull1PersistantId = dao.createReturnId(objetNull1);
-			objetNull2PersistantId = dao.createReturnId(objetNull2);
+			objetNull1PersistantId = this.dao.createReturnId(objetNull1);
+			objetNull2PersistantId = this.dao.createReturnId(objetNull2);
 			/* *********************************************** */
 			
 			/* *********** */
@@ -2020,7 +2027,7 @@ public class ContactSimpleDAOJPASpringTest {
 
 			// ETAT FINAL
 			/* Calcul du nombre d'objets dans le stockage après le traitement. */
-			nombreObjetsFinal = dao.count();
+			nombreObjetsFinal = this.dao.count();
 			
 			/* AFFICHAGE A LA CONSOLE. */
 			if (AFFICHAGE_GENERAL && affichage) {
@@ -2085,8 +2092,8 @@ public class ContactSimpleDAOJPASpringTest {
 			System.out.println("********** CLASSE ContactSimpleDaoJPASpringTest - méthode testCreateReturnId() ********** ");
 		}
 
-		/* dao NON INJECTE. */
-		if (dao == null) {
+		/* this.dao NON INJECTE. */
+		if (this.dao == null) {
 			
 			/* AFFICHAGE A LA CONSOLE. */
 			if (AFFICHAGE_GENERAL && affichage) {
@@ -2096,7 +2103,7 @@ public class ContactSimpleDAOJPASpringTest {
 			
 			return;
 			
-		} // Fin de dao NON INJECTE._____________________
+		} // Fin de this.dao NON INJECTE._____________________
 
 		
 		/* vide et remplit le stockage. */
@@ -2107,14 +2114,14 @@ public class ContactSimpleDAOJPASpringTest {
 
 		// ETAT INITIAL
 		/* récupération. */
-		final List<IContactSimple> objetInitiaux = dao.findAll();
+		final List<IContactSimple> objetInitiaux = this.dao.findAll();
 		
 		/* Compte du nombre d'Objets initialement dans le stockage. */
-		nombreObjetsInitial = dao.count();
+		nombreObjetsInitial = this.dao.count();
 		
 		if (AFFICHAGE_GENERAL && affichage) {
 			System.out.println("LISTE D'OBJETS AVANT CREATERETURNID(objet correct) : ");
-			System.out.println(dao.afficherListeObjetsMetier(objetInitiaux));
+			System.out.println(this.dao.afficherListeObjetsMetier(objetInitiaux));
 			this.afficherNbreObjetsInitial(nombreObjetsInitial);
 		}
 		
@@ -2134,7 +2141,7 @@ public class ContactSimpleDAOJPASpringTest {
 			
 			/* ********************************************************* */
 			/* ***********************CREATION************************** */		
-			final Long objetPersiste1Id = dao.createReturnId(objetAStocker);
+			final Long objetPersiste1Id = this.dao.createReturnId(objetAStocker);
 			/* ********************************************************* */
 			
 			/* AFFICHAGE A LA CONSOLE. */
@@ -2154,15 +2161,15 @@ public class ContactSimpleDAOJPASpringTest {
 
 			// ETAT FINAL
 			/* récupération. */
-			final List<IContactSimple> objetsFinaux = dao.findAll();
+			final List<IContactSimple> objetsFinaux = this.dao.findAll();
 			
 			/* Calcul du nombre d'objets dans le stockage après le traitement. */
-			nombreObjetsFinal = dao.count();
+			nombreObjetsFinal = this.dao.count();
 			
 			if (AFFICHAGE_GENERAL && affichage) {
 				System.out.println();
 				System.out.println("LISTE D'OBJETS APRES CREATERETURNID(objet correct) : ");
-				System.out.println(dao.afficherListeObjetsMetier(objetsFinaux));
+				System.out.println(this.dao.afficherListeObjetsMetier(objetsFinaux));
 				this.afficherNbreObjetsFinal(nombreObjetsFinal);
 			}
 						
@@ -2205,8 +2212,8 @@ public class ContactSimpleDAOJPASpringTest {
 			System.out.println("********** CLASSE ContactSimpleDaoJPASpringTest - méthode testCreateReturnIdDoublon() ********** ");
 		}
 
-		/* dao NON INJECTE. */
-		if (dao == null) {
+		/* this.dao NON INJECTE. */
+		if (this.dao == null) {
 			
 			/* AFFICHAGE A LA CONSOLE. */
 			if (AFFICHAGE_GENERAL && affichage) {
@@ -2216,7 +2223,7 @@ public class ContactSimpleDAOJPASpringTest {
 			
 			return;
 			
-		} // Fin de dao NON INJECTE._____________________
+		} // Fin de this.dao NON INJECTE._____________________
 
 		/* Vide le stockage. */
 		this.viderStockage();
@@ -2226,15 +2233,15 @@ public class ContactSimpleDAOJPASpringTest {
 		
 		// ETAT INITIAL
 		/* récupération. */
-		final List<IContactSimple> objetInitiaux = dao.findAll();
+		final List<IContactSimple> objetInitiaux = this.dao.findAll();
 		
 		/* Compte du nombre d'Objets initialement dans le stockage. */
-		nombreObjetsInitial = dao.count();
+		nombreObjetsInitial = this.dao.count();
 		
 		/* AFFICHAGE A LA CONSOLE. */
 		if (AFFICHAGE_GENERAL && affichage) {
 			System.out.println("LISTE D'OBJETS AVANT CREATERETURNID DOUBLON : ");
-			System.out.println(dao.afficherListeObjetsMetier(objetInitiaux));
+			System.out.println(this.dao.afficherListeObjetsMetier(objetInitiaux));
 			this.afficherNbreObjetsInitial(nombreObjetsInitial);			
 		}
 
@@ -2261,10 +2268,10 @@ public class ContactSimpleDAOJPASpringTest {
 			
 			/* ********************************************************* */
 			/* ***********************CREATION************************** */		
-			objet1PersistantId = dao.createReturnId(objet1);
-			objet1MemeInstancePersistantId = dao.createReturnId(objet1MemeInstance);
-			objet2EqualsObjet1PersistantId = dao.createReturnId(objet2EqualsObj1);
-			objet3EqualsObjet1PersistantId = dao.createReturnId(objet3EqualsObj1);
+			objet1PersistantId = this.dao.createReturnId(objet1);
+			objet1MemeInstancePersistantId = this.dao.createReturnId(objet1MemeInstance);
+			objet2EqualsObjet1PersistantId = this.dao.createReturnId(objet2EqualsObj1);
+			objet3EqualsObjet1PersistantId = this.dao.createReturnId(objet3EqualsObj1);
 			/* ********************************************************* */
 			
 			/* AFFICHAGE A LA CONSOLE. */
@@ -2323,15 +2330,15 @@ public class ContactSimpleDAOJPASpringTest {
 
 			// ETAT FINAL
 			/* récupération. */
-			final List<IContactSimple> objetsFinaux = dao.findAll();
+			final List<IContactSimple> objetsFinaux = this.dao.findAll();
 			
 			/* Calcul du nombre d'objets dans le stockage après le traitement. */
-			nombreObjetsFinal = dao.count();
+			nombreObjetsFinal = this.dao.count();
 			
 			if (AFFICHAGE_GENERAL && affichage) {
 				System.out.println();
 				System.out.println("LISTE D'OBJETS APRES CREATERETURNID DOUBLON : ");
-				System.out.println(dao.afficherListeObjetsMetier(objetsFinaux));
+				System.out.println(this.dao.afficherListeObjetsMetier(objetsFinaux));
 				this.afficherNbreObjetsFinal(nombreObjetsFinal);
 			}
 						
@@ -2376,8 +2383,8 @@ public class ContactSimpleDAOJPASpringTest {
 			System.out.println("********** CLASSE ContactSimpleDaoJPASpringTest - méthode testSaveIterableNull() ********** ");
 		}
 
-		/* dao NON INJECTE. */
-		if (dao == null) {
+		/* this.dao NON INJECTE. */
+		if (this.dao == null) {
 			
 			/* AFFICHAGE A LA CONSOLE. */
 			if (AFFICHAGE_GENERAL && affichage) {
@@ -2387,7 +2394,7 @@ public class ContactSimpleDAOJPASpringTest {
 			
 			return;
 			
-		} // Fin de dao NON INJECTE._____________________
+		} // Fin de this.dao NON INJECTE._____________________
 
 		
 		/* Vide le stockage. */
@@ -2398,15 +2405,15 @@ public class ContactSimpleDAOJPASpringTest {
 		
 		// ETAT INITIAL
 		/* récupération. */
-		final List<IContactSimple> objetInitiaux = dao.findAll();
+		final List<IContactSimple> objetInitiaux = this.dao.findAll();
 					
 		/* Compte du nombre d'Objets initialement dans le stockage. */
-		nombreObjetsInitial = dao.count();
+		nombreObjetsInitial = this.dao.count();
 		
 		/* AFFICHAGE A LA CONSOLE. */
 		if (AFFICHAGE_GENERAL && affichage) {
 			System.out.println("LISTE D'OBJETS AVANT SAVEITERABLE(NULL) : ");
-			System.out.println(dao.afficherListeObjetsMetier(objetInitiaux));
+			System.out.println(this.dao.afficherListeObjetsMetier(objetInitiaux));
 			this.afficherNbreObjetsInitial(nombreObjetsInitial);			
 		}
 
@@ -2421,7 +2428,7 @@ public class ContactSimpleDAOJPASpringTest {
 			
 			/* *********************************************** */
 			/* ********************* CREATION **************** */
-			listVraimentNull1Persistant = (List<IContactSimple>) dao.saveIterable(listVraimentNull1);
+			listVraimentNull1Persistant = (List<IContactSimple>) this.dao.saveIterable(listVraimentNull1);
 			/* *********************************************** */
 			
 			/* *********** */
@@ -2435,15 +2442,15 @@ public class ContactSimpleDAOJPASpringTest {
 
 			// ETAT FINAL
 			/* récupération. */
-			final List<IContactSimple> objetsFinaux = dao.findAll();
+			final List<IContactSimple> objetsFinaux = this.dao.findAll();
 			
 			/* Calcul du nombre d'objets dans le stockage après le traitement. */
-			nombreObjetsFinal = dao.count();
+			nombreObjetsFinal = this.dao.count();
 			
 			/* AFFICHAGE A LA CONSOLE. */
 			if (AFFICHAGE_GENERAL && affichage) {
 				System.out.println("LISTE D'OBJETS APRES SAVEITERABLE(NULL) : ");
-				System.out.println(dao.afficherListeObjetsMetier(objetsFinaux));
+				System.out.println(this.dao.afficherListeObjetsMetier(objetsFinaux));
 				
 				System.out.println();
 				if (listVraimentNull1Persistant != null) {
@@ -2496,8 +2503,8 @@ public class ContactSimpleDAOJPASpringTest {
 			System.out.println("********** CLASSE ContactSimpleDaoJPASpringTest - méthode testSaveIterableObjetsNull() ********** ");
 		}
 
-		/* dao NON INJECTE. */
-		if (dao == null) {
+		/* this.dao NON INJECTE. */
+		if (this.dao == null) {
 			
 			/* AFFICHAGE A LA CONSOLE. */
 			if (AFFICHAGE_GENERAL && affichage) {
@@ -2507,7 +2514,7 @@ public class ContactSimpleDAOJPASpringTest {
 			
 			return;
 			
-		} // Fin de dao NON INJECTE._____________________
+		} // Fin de this.dao NON INJECTE._____________________
 
 		
 		/* Vide le stockage. */
@@ -2518,15 +2525,15 @@ public class ContactSimpleDAOJPASpringTest {
 				
 		// ETAT INITIAL
 		/* récupération. */
-		final List<IContactSimple> objetInitiaux = dao.findAll();
+		final List<IContactSimple> objetInitiaux = this.dao.findAll();
 					
 		/* Compte du nombre d'Objets initialement dans le stockage. */
-		nombreObjetsInitial = dao.count();
+		nombreObjetsInitial = this.dao.count();
 		
 		/* AFFICHAGE A LA CONSOLE. */
 		if (AFFICHAGE_GENERAL && affichage) {
 			System.out.println("LISTE D'OBJETS AVANT SAVEITERABLE(OBJETS NULL) : ");
-			System.out.println(dao.afficherListeObjetsMetier(objetInitiaux));
+			System.out.println(this.dao.afficherListeObjetsMetier(objetInitiaux));
 			this.afficherNbreObjetsInitial(nombreObjetsInitial);			
 		}
 
@@ -2551,7 +2558,7 @@ public class ContactSimpleDAOJPASpringTest {
 			
 			/* *********************************************** */
 			/* ********************* CREATION **************** */
-			listAvecNull1Persistant = (List<IContactSimple>) dao.saveIterable(listAvecNull1);
+			listAvecNull1Persistant = (List<IContactSimple>) this.dao.saveIterable(listAvecNull1);
 			/* *********************************************** */
 			
 			/* *********** */
@@ -2568,16 +2575,16 @@ public class ContactSimpleDAOJPASpringTest {
 			
 			// ETAT FINAL			
 			/* récupération. */
-			final List<IContactSimple> objetsFinaux = dao.findAll();
+			final List<IContactSimple> objetsFinaux = this.dao.findAll();
 			
 			/* Calcul du nombre d'objets dans le stockage après le traitement. */
-			nombreObjetsFinal = dao.count();
+			nombreObjetsFinal = this.dao.count();
 			
 			/* AFFICHAGE A LA CONSOLE. */
 			if (AFFICHAGE_GENERAL && affichage) {
 				System.out.println();
 				System.out.println("LISTE D'OBJETS APRES SAVEITERABLE(OBJETS NULL) : ");
-				System.out.println(dao.afficherListeObjetsMetier(objetsFinaux));
+				System.out.println(this.dao.afficherListeObjetsMetier(objetsFinaux));
 				
 				System.out.println();
 				if (listAvecNull1Persistant != null) {
@@ -2631,8 +2638,8 @@ public class ContactSimpleDAOJPASpringTest {
 			System.out.println("********** CLASSE ContactSimpleDaoJPASpringTest - méthode testSaveIterable() ********** ");
 		}
 
-		/* dao NON INJECTE. */
-		if (dao == null) {
+		/* this.dao NON INJECTE. */
+		if (this.dao == null) {
 			
 			/* AFFICHAGE A LA CONSOLE. */
 			if (AFFICHAGE_GENERAL && affichage) {
@@ -2642,7 +2649,7 @@ public class ContactSimpleDAOJPASpringTest {
 			
 			return;
 			
-		} // Fin de dao NON INJECTE._____________________
+		} // Fin de this.dao NON INJECTE._____________________
 
 		
 		/* Vide le stockage. */
@@ -2653,15 +2660,15 @@ public class ContactSimpleDAOJPASpringTest {
 		
 		// ETAT INITIAL
 		/* récupération. */
-		final List<IContactSimple> objetInitiaux = dao.findAll();
+		final List<IContactSimple> objetInitiaux = this.dao.findAll();
 					
 		/* Compte du nombre d'Objets initialement dans le stockage. */
-		nombreObjetsInitial = dao.count();
+		nombreObjetsInitial = this.dao.count();
 		
 		/* AFFICHAGE A LA CONSOLE. */
 		if (AFFICHAGE_GENERAL && affichage) {
 			System.out.println("LISTE D'OBJETS AVANT SAVEITERABLE(OBJETS CORRECTS) : ");
-			System.out.println(dao.afficherListeObjetsMetier(objetInitiaux));
+			System.out.println(this.dao.afficherListeObjetsMetier(objetInitiaux));
 			this.afficherNbreObjetsInitial(nombreObjetsInitial);
 		}
 		
@@ -2686,7 +2693,7 @@ public class ContactSimpleDAOJPASpringTest {
 			
 			/* *********************************************** */
 			/* ********************* CREATION **************** */
-			list1Persistante = (List<IContactSimple>) dao.saveIterable(list1);
+			list1Persistante = (List<IContactSimple>) this.dao.saveIterable(list1);
 			/* *********************************************** */
 			
 			/* AFFICHAGE A LA CONSOLE. */
@@ -2715,16 +2722,16 @@ public class ContactSimpleDAOJPASpringTest {
 
 			// ETAT FINAL
 			/* récupération. */
-			final List<IContactSimple> objetsFinaux = dao.findAll();
+			final List<IContactSimple> objetsFinaux = this.dao.findAll();
 			
 			/* Calcul du nombre d'objets dans le stockage après le traitement. */
-			nombreObjetsFinal = dao.count();
+			nombreObjetsFinal = this.dao.count();
 			
 			/* AFFICHAGE A LA CONSOLE. */
 			if (AFFICHAGE_GENERAL && affichage) {
 				System.out.println();
 				System.out.println("LISTE D'OBJETS APRES SAVEITERABLE(OBJETS CORRECTS) : ");
-				System.out.println(dao.afficherListeObjetsMetier(objetsFinaux));
+				System.out.println(this.dao.afficherListeObjetsMetier(objetsFinaux));
 				
 				
 					
@@ -2771,8 +2778,8 @@ public class ContactSimpleDAOJPASpringTest {
 			System.out.println("********** CLASSE ContactSimpleDaoJPASpringTest - méthode testSaveIterableDoublon() ********** ");
 		}
 
-		/* dao NON INJECTE. */
-		if (dao == null) {
+		/* this.dao NON INJECTE. */
+		if (this.dao == null) {
 			
 			/* AFFICHAGE A LA CONSOLE. */
 			if (AFFICHAGE_GENERAL && affichage) {
@@ -2782,7 +2789,7 @@ public class ContactSimpleDAOJPASpringTest {
 			
 			return;
 			
-		} // Fin de dao NON INJECTE._____________________
+		} // Fin de this.dao NON INJECTE._____________________
 
 		
 		/* Vide le stockage. */
@@ -2793,15 +2800,15 @@ public class ContactSimpleDAOJPASpringTest {
 		
 		// ETAT INITIAL
 		/* récupération. */
-		final List<IContactSimple> objetInitiaux = dao.findAll();
+		final List<IContactSimple> objetInitiaux = this.dao.findAll();
 					
 		/* Compte du nombre d'Objets initialement dans le stockage. */
-		nombreObjetsInitial = dao.count();
+		nombreObjetsInitial = this.dao.count();
 		
 		/* AFFICHAGE A LA CONSOLE. */
 		if (AFFICHAGE_GENERAL && affichage) {
 			System.out.println("LISTE D'OBJETS AVANT SAVEITERABLE(DOUBLONS) : ");
-			System.out.println(dao.afficherListeObjetsMetier(objetInitiaux));
+			System.out.println(this.dao.afficherListeObjetsMetier(objetInitiaux));
 			this.afficherNbreObjetsInitial(nombreObjetsInitial);			
 		}
 
@@ -2830,7 +2837,7 @@ public class ContactSimpleDAOJPASpringTest {
 			
 			/* *********************************************** */
 			/* ********************* CREATION **************** */
-			list1Persistante = (List<IContactSimple>) dao.saveIterable(list1);
+			list1Persistante = (List<IContactSimple>) this.dao.saveIterable(list1);
 			/* *********************************************** */
 			
 			/* AFFICHAGE A LA CONSOLE. */
@@ -2858,16 +2865,16 @@ public class ContactSimpleDAOJPASpringTest {
 
 			// ETAT FINAL
 			/* récupération. */
-			final List<IContactSimple> objetsFinaux = dao.findAll();
+			final List<IContactSimple> objetsFinaux = this.dao.findAll();
 			
 			/* Calcul du nombre d'objets dans le stockage après le traitement. */
-			nombreObjetsFinal = dao.count();
+			nombreObjetsFinal = this.dao.count();
 			
 			/* AFFICHAGE A LA CONSOLE. */
 			if (AFFICHAGE_GENERAL && affichage) {
 				System.out.println();
 				System.out.println("LISTE D'OBJETS APRES SAVEITERABLE(DOUBLONS) : ");
-				System.out.println(dao.afficherListeObjetsMetier(objetsFinaux));					
+				System.out.println(this.dao.afficherListeObjetsMetier(objetsFinaux));					
 				this.afficherNbreObjetsFinal(nombreObjetsFinal);
 			}
 						
@@ -2909,8 +2916,8 @@ public class ContactSimpleDAOJPASpringTest {
 			System.out.println("********** CLASSE ContactSimpleDaoJPASpringTest - méthode testRetrieveNull() ********** ");
 		}
 		
-		/* dao NON INJECTE. */
-		if (dao == null) {
+		/* this.dao NON INJECTE. */
+		if (this.dao == null) {
 			
 			/* AFFICHAGE A LA CONSOLE. */
 			if (AFFICHAGE_GENERAL && affichage) {
@@ -2920,7 +2927,7 @@ public class ContactSimpleDAOJPASpringTest {
 			
 			return;
 			
-		} // Fin de dao NON INJECTE._____________________
+		} // Fin de this.dao NON INJECTE._____________________
 		
 		
 		/* vide et remplit le stockage. */
@@ -2931,15 +2938,15 @@ public class ContactSimpleDAOJPASpringTest {
 
 		// ETAT INITIAL
 		/* récupération. */
-		final List<IContactSimple> objetInitiaux = dao.findAll();
+		final List<IContactSimple> objetInitiaux = this.dao.findAll();
 		
 		/* Compte du nombre d'Objets initialement dans le stockage. */
-		nombreObjetsInitial = dao.count();
+		nombreObjetsInitial = this.dao.count();
 		
 		/* AFFICHAGE A LA CONSOLE. */
 		if (AFFICHAGE_GENERAL && affichage) {
 			System.out.println("LISTE D'OBJETS AVANT RETRIEVE(NULL) : ");
-			System.out.println(dao.afficherListeObjetsMetier(objetInitiaux));
+			System.out.println(this.dao.afficherListeObjetsMetier(objetInitiaux));
 			this.afficherNbreObjetsInitial(nombreObjetsInitial);
 		}
 		
@@ -2962,7 +2969,7 @@ public class ContactSimpleDAOJPASpringTest {
 			
 			/* ********************************************************* */
 			/* ***********************RETRIEVE************************** */		
-			objetPersisteTrouve1 = dao.retrieve(objetARechercher1);
+			objetPersisteTrouve1 = this.dao.retrieve(objetARechercher1);
 			/* ********************************************************* */
 
 			if (AFFICHAGE_GENERAL && affichage) {
@@ -2985,15 +2992,15 @@ public class ContactSimpleDAOJPASpringTest {
 
 			// ETAT FINAL
 			/* récupération. */
-			final List<IContactSimple> objetsFinaux = dao.findAll();
+			final List<IContactSimple> objetsFinaux = this.dao.findAll();
 			
 			/* Calcul du nombre d'objets dans le stockage après le traitement. */
-			nombreObjetsFinal = dao.count();
+			nombreObjetsFinal = this.dao.count();
 			
 			if (AFFICHAGE_GENERAL && affichage) {
 				System.out.println();
 				System.out.println("LISTE D'OBJETS APRES RETRIEVE(NULL) : ");
-				System.out.println(dao.afficherListeObjetsMetier(objetsFinaux));
+				System.out.println(this.dao.afficherListeObjetsMetier(objetsFinaux));
 				this.afficherNbreObjetsFinal(nombreObjetsFinal);
 			}
 
@@ -3036,8 +3043,8 @@ public class ContactSimpleDAOJPASpringTest {
 			System.out.println("********** CLASSE ContactSimpleDaoJPASpringTest - méthode testRetrieveObjetNull() ********** ");
 		}
 		
-		/* dao NON INJECTE. */
-		if (dao == null) {
+		/* this.dao NON INJECTE. */
+		if (this.dao == null) {
 			
 			/* AFFICHAGE A LA CONSOLE. */
 			if (AFFICHAGE_GENERAL && affichage) {
@@ -3047,7 +3054,7 @@ public class ContactSimpleDAOJPASpringTest {
 			
 			return;
 			
-		} // Fin de dao NON INJECTE._____________________
+		} // Fin de this.dao NON INJECTE._____________________
 		
 		
 		/* vide et remplit le stockage. */
@@ -3058,15 +3065,15 @@ public class ContactSimpleDAOJPASpringTest {
 
 		// ETAT INITIAL
 		/* récupération. */
-		final List<IContactSimple> objetInitiaux = dao.findAll();
+		final List<IContactSimple> objetInitiaux = this.dao.findAll();
 		
 		/* Compte du nombre d'Objets initialement dans le stockage. */
-		nombreObjetsInitial = dao.count();
+		nombreObjetsInitial = this.dao.count();
 		
 		/* AFFICHAGE A LA CONSOLE. */
 		if (AFFICHAGE_GENERAL && affichage) {
 			System.out.println("LISTE D'OBJETS AVANT RETRIEVE(OBJET NULL) : ");
-			System.out.println(dao.afficherListeObjetsMetier(objetInitiaux));
+			System.out.println(this.dao.afficherListeObjetsMetier(objetInitiaux));
 			this.afficherNbreObjetsInitial(nombreObjetsInitial);
 		}
 				
@@ -3092,7 +3099,7 @@ public class ContactSimpleDAOJPASpringTest {
 			
 			/* ********************************************************* */
 			/* ***********************RETRIEVE************************** */		
-			objetPersisteTrouve1 = dao.retrieve(objetARechercher1);
+			objetPersisteTrouve1 = this.dao.retrieve(objetARechercher1);
 			/* ********************************************************* */
 
 			if (AFFICHAGE_GENERAL && affichage) {
@@ -3115,15 +3122,15 @@ public class ContactSimpleDAOJPASpringTest {
 			
 			// ETAT FINAL
 			/* récupération. */
-			final List<IContactSimple> objetsFinaux = dao.findAll();
+			final List<IContactSimple> objetsFinaux = this.dao.findAll();
 			
 			/* Calcul du nombre d'objets dans le stockage après le traitement. */
-			nombreObjetsFinal = dao.count();
+			nombreObjetsFinal = this.dao.count();
 			
 			if (AFFICHAGE_GENERAL && affichage) {
 				System.out.println();
 				System.out.println("LISTE D'OBJETS APRES RETRIEVE(OBJET NULL) : ");
-				System.out.println(dao.afficherListeObjetsMetier(objetsFinaux));
+				System.out.println(this.dao.afficherListeObjetsMetier(objetsFinaux));
 				this.afficherNbreObjetsFinal(nombreObjetsFinal);
 			}
 
@@ -3166,8 +3173,8 @@ public class ContactSimpleDAOJPASpringTest {
 			System.out.println("********** CLASSE ContactSimpleDaoJPASpringTest - méthode testRetrieveInexistant() ********** ");
 		}
 		
-		/* dao NON INJECTE. */
-		if (dao == null) {
+		/* this.dao NON INJECTE. */
+		if (this.dao == null) {
 			
 			/* AFFICHAGE A LA CONSOLE. */
 			if (AFFICHAGE_GENERAL && affichage) {
@@ -3177,7 +3184,7 @@ public class ContactSimpleDAOJPASpringTest {
 			
 			return;
 			
-		} // Fin de dao NON INJECTE._____________________
+		} // Fin de this.dao NON INJECTE._____________________
 		
 		
 		/* vide et remplit le stockage. */
@@ -3188,15 +3195,15 @@ public class ContactSimpleDAOJPASpringTest {
 
 		// ETAT INITIAL
 		/* récupération. */
-		final List<IContactSimple> objetInitiaux = dao.findAll();
+		final List<IContactSimple> objetInitiaux = this.dao.findAll();
 		
 		/* Compte du nombre d'Objets initialement dans le stockage. */
-		nombreObjetsInitial = dao.count();
+		nombreObjetsInitial = this.dao.count();
 		
 		/* AFFICHAGE A LA CONSOLE. */
 		if (AFFICHAGE_GENERAL && affichage) {
 			System.out.println("LISTE D'OBJETS AVANT RETRIEVE(INEXISTANT) : ");
-			System.out.println(dao.afficherListeObjetsMetier(objetInitiaux));
+			System.out.println(this.dao.afficherListeObjetsMetier(objetInitiaux));
 			this.afficherNbreObjetsInitial(nombreObjetsInitial);
 		}
 						
@@ -3222,7 +3229,7 @@ public class ContactSimpleDAOJPASpringTest {
 			
 			/* ********************************************************* */
 			/* ***********************RETRIEVE************************** */		
-			objetPersisteTrouve1 = dao.retrieve(objetARechercher1);
+			objetPersisteTrouve1 = this.dao.retrieve(objetARechercher1);
 			/* ********************************************************* */
 
 			if (AFFICHAGE_GENERAL && affichage) {
@@ -3245,15 +3252,15 @@ public class ContactSimpleDAOJPASpringTest {
 
 			// ETAT FINAL
 			/* récupération. */
-			final List<IContactSimple> objetsFinaux = dao.findAll();
+			final List<IContactSimple> objetsFinaux = this.dao.findAll();
 			
 			/* Calcul du nombre d'objets dans le stockage après le traitement. */
-			nombreObjetsFinal = dao.count();
+			nombreObjetsFinal = this.dao.count();
 			
 			if (AFFICHAGE_GENERAL && affichage) {
 				System.out.println();
 				System.out.println("LISTE D'OBJETS APRES RETRIEVE(INEXISTANT) : ");
-				System.out.println(dao.afficherListeObjetsMetier(objetsFinaux));
+				System.out.println(this.dao.afficherListeObjetsMetier(objetsFinaux));
 				this.afficherNbreObjetsFinal(nombreObjetsFinal);
 			}
 
@@ -3298,8 +3305,8 @@ public class ContactSimpleDAOJPASpringTest {
 			System.out.println("********** CLASSE ContactSimpleDaoJPASpringTest - méthode testRetrieve() ********** ");
 		}
 		
-		/* dao NON INJECTE. */
-		if (dao == null) {
+		/* this.dao NON INJECTE. */
+		if (this.dao == null) {
 			
 			/* AFFICHAGE A LA CONSOLE. */
 			if (AFFICHAGE_GENERAL && affichage) {
@@ -3309,7 +3316,7 @@ public class ContactSimpleDAOJPASpringTest {
 			
 			return;
 			
-		} // Fin de dao NON INJECTE._____________________
+		} // Fin de this.dao NON INJECTE._____________________
 		
 		
 		/* vide et remplit le stockage. */
@@ -3320,15 +3327,15 @@ public class ContactSimpleDAOJPASpringTest {
 
 		// ETAT INITIAL
 		/* récupération. */
-		final List<IContactSimple> objetInitiaux = dao.findAll();
+		final List<IContactSimple> objetInitiaux = this.dao.findAll();
 		
 		/* Compte du nombre d'Objets initialement dans le stockage. */
-		nombreObjetsInitial = dao.count();
+		nombreObjetsInitial = this.dao.count();
 		
 		/* AFFICHAGE A LA CONSOLE. */
 		if (AFFICHAGE_GENERAL && affichage) {
 			System.out.println("LISTE D'OBJETS AVANT RETRIEVE(EXISTANT) : ");
-			System.out.println(dao.afficherListeObjetsMetier(objetInitiaux));
+			System.out.println(this.dao.afficherListeObjetsMetier(objetInitiaux));
 			this.afficherNbreObjetsInitial(nombreObjetsInitial);
 		}
 				
@@ -3354,7 +3361,7 @@ public class ContactSimpleDAOJPASpringTest {
 			
 			/* ********************************************************* */
 			/* ***********************RETRIEVE************************** */		
-			objetPersisteTrouve1 = dao.retrieve(objetARechercher1);
+			objetPersisteTrouve1 = this.dao.retrieve(objetARechercher1);
 			/* ********************************************************* */
 
 			if (AFFICHAGE_GENERAL && affichage) {
@@ -3383,15 +3390,15 @@ public class ContactSimpleDAOJPASpringTest {
 			
 			// ETAT FINAL
 			/* récupération. */
-			final List<IContactSimple> objetsFinaux = dao.findAll();
+			final List<IContactSimple> objetsFinaux = this.dao.findAll();
 			
 			/* Calcul du nombre d'objets dans le stockage après le traitement. */
-			nombreObjetsFinal = dao.count();
+			nombreObjetsFinal = this.dao.count();
 			
 			if (AFFICHAGE_GENERAL && affichage) {
 				System.out.println();
 				System.out.println("LISTE D'OBJETS APRES RETRIEVE(EXISTANT) : ");
-				System.out.println(dao.afficherListeObjetsMetier(objetsFinaux));
+				System.out.println(this.dao.afficherListeObjetsMetier(objetsFinaux));
 				this.afficherNbreObjetsFinal(nombreObjetsFinal);
 			}
 
@@ -3434,8 +3441,8 @@ public class ContactSimpleDAOJPASpringTest {
 			System.out.println("********** CLASSE ContactSimpleDaoJPASpringTest - méthode testFindByIdNull() ********** ");
 		}
 		
-		/* dao NON INJECTE. */
-		if (dao == null) {
+		/* this.dao NON INJECTE. */
+		if (this.dao == null) {
 			
 			/* AFFICHAGE A LA CONSOLE. */
 			if (AFFICHAGE_GENERAL && affichage) {
@@ -3445,7 +3452,7 @@ public class ContactSimpleDAOJPASpringTest {
 			
 			return;
 			
-		} // Fin de dao NON INJECTE._____________________
+		} // Fin de this.dao NON INJECTE._____________________
 		
 		
 		/* vide et remplit le stockage. */
@@ -3456,15 +3463,15 @@ public class ContactSimpleDAOJPASpringTest {
 
 		// ETAT INITIAL
 		/* récupération. */
-		final List<IContactSimple> objetInitiaux = dao.findAll();
+		final List<IContactSimple> objetInitiaux = this.dao.findAll();
 		
 		/* Compte du nombre d'Objets initialement dans le stockage. */
-		nombreObjetsInitial = dao.count();
+		nombreObjetsInitial = this.dao.count();
 		
 		/* AFFICHAGE A LA CONSOLE. */
 		if (AFFICHAGE_GENERAL && affichage) {
 			System.out.println("LISTE D'OBJETS AVANT FINDBYID(NULL) : ");
-			System.out.println(dao.afficherListeObjetsMetier(objetInitiaux));
+			System.out.println(this.dao.afficherListeObjetsMetier(objetInitiaux));
 			this.afficherNbreObjetsInitial(nombreObjetsInitial);
 		}
 		
@@ -3487,7 +3494,7 @@ public class ContactSimpleDAOJPASpringTest {
 			
 			/* ********************************************************* */
 			/* ***********************FINDBYID************************** */		
-			objetPersisteTrouve1 = dao.findById(objetARechercher1Id);
+			objetPersisteTrouve1 = this.dao.findById(objetARechercher1Id);
 			/* ********************************************************* */
 
 			if (AFFICHAGE_GENERAL && affichage) {
@@ -3510,15 +3517,15 @@ public class ContactSimpleDAOJPASpringTest {
 
 			// ETAT FINAL
 			/* récupération. */
-			final List<IContactSimple> objetsFinaux = dao.findAll();
+			final List<IContactSimple> objetsFinaux = this.dao.findAll();
 			
 			/* Calcul du nombre d'objets dans le stockage après le traitement. */
-			nombreObjetsFinal = dao.count();
+			nombreObjetsFinal = this.dao.count();
 			
 			if (AFFICHAGE_GENERAL && affichage) {
 				System.out.println();
 				System.out.println("LISTE D'OBJETS APRES FINDBYID(NULL) : ");
-				System.out.println(dao.afficherListeObjetsMetier(objetsFinaux));
+				System.out.println(this.dao.afficherListeObjetsMetier(objetsFinaux));
 				this.afficherNbreObjetsFinal(nombreObjetsFinal);
 			}
 			
@@ -3561,8 +3568,8 @@ public class ContactSimpleDAOJPASpringTest {
 			System.out.println("********** CLASSE ContactSimpleDaoJPASpringTest - méthode testFindByIdInexistant() ********** ");
 		}
 		
-		/* dao NON INJECTE. */
-		if (dao == null) {
+		/* this.dao NON INJECTE. */
+		if (this.dao == null) {
 			
 			/* AFFICHAGE A LA CONSOLE. */
 			if (AFFICHAGE_GENERAL && affichage) {
@@ -3572,7 +3579,7 @@ public class ContactSimpleDAOJPASpringTest {
 			
 			return;
 			
-		} // Fin de dao NON INJECTE._____________________
+		} // Fin de this.dao NON INJECTE._____________________
 		
 		
 		/* vide et remplit le stockage. */
@@ -3583,15 +3590,15 @@ public class ContactSimpleDAOJPASpringTest {
 
 		// ETAT INITIAL
 		/* récupération. */
-		final List<IContactSimple> objetInitiaux = dao.findAll();
+		final List<IContactSimple> objetInitiaux = this.dao.findAll();
 		
 		/* Compte du nombre d'Objets initialement dans le stockage. */
-		nombreObjetsInitial = dao.count();
+		nombreObjetsInitial = this.dao.count();
 		
 		/* AFFICHAGE A LA CONSOLE. */
 		if (AFFICHAGE_GENERAL && affichage) {
 			System.out.println("LISTE D'OBJETS AVANT FINDBYID(INEXISTANT) : ");
-			System.out.println(dao.afficherListeObjetsMetier(objetInitiaux));
+			System.out.println(this.dao.afficherListeObjetsMetier(objetInitiaux));
 			this.afficherNbreObjetsInitial(nombreObjetsInitial);
 		}
 		
@@ -3613,7 +3620,7 @@ public class ContactSimpleDAOJPASpringTest {
 			
 			/* ********************************************************* */
 			/* ***********************FINDBYID************************** */		
-			objetPersisteTrouve1 = dao.findById(objetARechercher1Id);
+			objetPersisteTrouve1 = this.dao.findById(objetARechercher1Id);
 			/* ********************************************************* */
 
 			if (AFFICHAGE_GENERAL && affichage) {
@@ -3636,15 +3643,15 @@ public class ContactSimpleDAOJPASpringTest {
 			
 			// ETAT FINAL
 			/* récupération. */
-			final List<IContactSimple> objetsFinaux = dao.findAll();
+			final List<IContactSimple> objetsFinaux = this.dao.findAll();
 			
 			/* Calcul du nombre d'objets dans le stockage après le traitement. */
-			nombreObjetsFinal = dao.count();
+			nombreObjetsFinal = this.dao.count();
 			
 			if (AFFICHAGE_GENERAL && affichage) {
 				System.out.println();
 				System.out.println("LISTE D'OBJETS APRES FINDBYID(INEXISTANT) : ");
-				System.out.println(dao.afficherListeObjetsMetier(objetsFinaux));
+				System.out.println(this.dao.afficherListeObjetsMetier(objetsFinaux));
 				this.afficherNbreObjetsFinal(nombreObjetsFinal);
 			}
 
@@ -3688,8 +3695,8 @@ public class ContactSimpleDAOJPASpringTest {
 			System.out.println("********** CLASSE ContactSimpleDaoJPASpringTest - méthode testFindById() ********** ");
 		}
 		
-		/* dao NON INJECTE. */
-		if (dao == null) {
+		/* this.dao NON INJECTE. */
+		if (this.dao == null) {
 			
 			/* AFFICHAGE A LA CONSOLE. */
 			if (AFFICHAGE_GENERAL && affichage) {
@@ -3699,7 +3706,7 @@ public class ContactSimpleDAOJPASpringTest {
 			
 			return;
 			
-		} // Fin de dao NON INJECTE._____________________
+		} // Fin de this.dao NON INJECTE._____________________
 		
 		
 		/* vide et remplit le stockage. */
@@ -3710,15 +3717,15 @@ public class ContactSimpleDAOJPASpringTest {
 
 		// ETAT INITIAL
 		/* récupération. */
-		final List<IContactSimple> objetInitiaux = dao.findAll();
+		final List<IContactSimple> objetInitiaux = this.dao.findAll();
 		
 		/* Compte du nombre d'Objets initialement dans le stockage. */
-		nombreObjetsInitial = dao.count();
+		nombreObjetsInitial = this.dao.count();
 		
 		/* AFFICHAGE A LA CONSOLE. */
 		if (AFFICHAGE_GENERAL && affichage) {
 			System.out.println("LISTE D'OBJETS AVANT FINDBYID(EXISTANT) : ");
-			System.out.println(dao.afficherListeObjetsMetier(objetInitiaux));
+			System.out.println(this.dao.afficherListeObjetsMetier(objetInitiaux));
 			this.afficherNbreObjetsInitial(nombreObjetsInitial);
 		}
 		
@@ -3740,7 +3747,7 @@ public class ContactSimpleDAOJPASpringTest {
 			
 			/* ********************************************************* */
 			/* ***********************FINDBYID************************** */		
-			objetPersisteTrouve1 = dao.findById(objetARechercher1Id);
+			objetPersisteTrouve1 = this.dao.findById(objetARechercher1Id);
 			/* ********************************************************* */
 
 			if (AFFICHAGE_GENERAL && affichage) {
@@ -3764,15 +3771,15 @@ public class ContactSimpleDAOJPASpringTest {
 			
 			// ETAT FINAL
 			/* récupération. */
-			final List<IContactSimple> objetsFinaux = dao.findAll();
+			final List<IContactSimple> objetsFinaux = this.dao.findAll();
 			
 			/* Calcul du nombre d'objets dans le stockage après le traitement. */
-			nombreObjetsFinal = dao.count();
+			nombreObjetsFinal = this.dao.count();
 			
 			if (AFFICHAGE_GENERAL && affichage) {
 				System.out.println();
 				System.out.println("LISTE D'OBJETS APRES FINDBYID(EXISTANT) : ");
-				System.out.println(dao.afficherListeObjetsMetier(objetsFinaux));
+				System.out.println(this.dao.afficherListeObjetsMetier(objetsFinaux));
 				this.afficherNbreObjetsFinal(nombreObjetsFinal);
 			}
 
@@ -3815,8 +3822,8 @@ public class ContactSimpleDAOJPASpringTest {
 			System.out.println("********** CLASSE ContactSimpleDaoJPASpringTest - méthode testRetrieveIdNull() ********** ");
 		}
 		
-		/* dao NON INJECTE. */
-		if (dao == null) {
+		/* this.dao NON INJECTE. */
+		if (this.dao == null) {
 			
 			/* AFFICHAGE A LA CONSOLE. */
 			if (AFFICHAGE_GENERAL && affichage) {
@@ -3826,7 +3833,7 @@ public class ContactSimpleDAOJPASpringTest {
 			
 			return;
 			
-		} // Fin de dao NON INJECTE._____________________
+		} // Fin de this.dao NON INJECTE._____________________
 		
 		
 		/* vide et remplit le stockage. */
@@ -3837,15 +3844,15 @@ public class ContactSimpleDAOJPASpringTest {
 
 		// ETAT INITIAL
 		/* récupération. */
-		final List<IContactSimple> objetInitiaux = dao.findAll();
+		final List<IContactSimple> objetInitiaux = this.dao.findAll();
 		
 		/* Compte du nombre d'Objets initialement dans le stockage. */
-		nombreObjetsInitial = dao.count();
+		nombreObjetsInitial = this.dao.count();
 		
 		/* AFFICHAGE A LA CONSOLE. */
 		if (AFFICHAGE_GENERAL && affichage) {
 			System.out.println("LISTE D'OBJETS AVANT RETRIEVEID(NULL) : ");
-			System.out.println(dao.afficherListeObjetsMetier(objetInitiaux));
+			System.out.println(this.dao.afficherListeObjetsMetier(objetInitiaux));
 			this.afficherNbreObjetsInitial(nombreObjetsInitial);
 		}
 		
@@ -3868,7 +3875,7 @@ public class ContactSimpleDAOJPASpringTest {
 			
 			/* ********************************************************* */
 			/* ***********************RETRIVEID************************** */		
-			objetPersisteTrouve1Id = dao.retrieveId(objetARechercher1);
+			objetPersisteTrouve1Id = this.dao.retrieveId(objetARechercher1);
 			/* ********************************************************* */
 
 			if (AFFICHAGE_GENERAL && affichage) {
@@ -3891,15 +3898,15 @@ public class ContactSimpleDAOJPASpringTest {
 
 			// ETAT FINAL
 			/* récupération. */
-			final List<IContactSimple> objetsFinaux = dao.findAll();
+			final List<IContactSimple> objetsFinaux = this.dao.findAll();
 			
 			/* Calcul du nombre d'objets dans le stockage après le traitement. */
-			nombreObjetsFinal = dao.count();
+			nombreObjetsFinal = this.dao.count();
 			
 			if (AFFICHAGE_GENERAL && affichage) {
 				System.out.println();
 				System.out.println("LISTE D'OBJETS APRES RETRIEVEID(NULL) : ");
-				System.out.println(dao.afficherListeObjetsMetier(objetsFinaux));
+				System.out.println(this.dao.afficherListeObjetsMetier(objetsFinaux));
 				this.afficherNbreObjetsFinal(nombreObjetsFinal);
 			}
 
@@ -3942,8 +3949,8 @@ public class ContactSimpleDAOJPASpringTest {
 			System.out.println("********** CLASSE ContactSimpleDaoJPASpringTest - méthode testRetrieveIdObjetNull() ********** ");
 		}
 		
-		/* dao NON INJECTE. */
-		if (dao == null) {
+		/* this.dao NON INJECTE. */
+		if (this.dao == null) {
 			
 			/* AFFICHAGE A LA CONSOLE. */
 			if (AFFICHAGE_GENERAL && affichage) {
@@ -3953,7 +3960,7 @@ public class ContactSimpleDAOJPASpringTest {
 			
 			return;
 			
-		} // Fin de dao NON INJECTE._____________________
+		} // Fin de this.dao NON INJECTE._____________________
 		
 		
 		/* vide et remplit le stockage. */
@@ -3964,15 +3971,15 @@ public class ContactSimpleDAOJPASpringTest {
 
 		// ETAT INITIAL
 		/* récupération. */
-		final List<IContactSimple> objetInitiaux = dao.findAll();
+		final List<IContactSimple> objetInitiaux = this.dao.findAll();
 		
 		/* Compte du nombre d'Objets initialement dans le stockage. */
-		nombreObjetsInitial = dao.count();
+		nombreObjetsInitial = this.dao.count();
 		
 		/* AFFICHAGE A LA CONSOLE. */
 		if (AFFICHAGE_GENERAL && affichage) {
 			System.out.println("LISTE D'OBJETS AVANT RETRIEVEID(OBJET NULL) : ");
-			System.out.println(dao.afficherListeObjetsMetier(objetInitiaux));
+			System.out.println(this.dao.afficherListeObjetsMetier(objetInitiaux));
 			this.afficherNbreObjetsInitial(nombreObjetsInitial);
 		}
 		
@@ -3998,7 +4005,7 @@ public class ContactSimpleDAOJPASpringTest {
 			
 			/* ********************************************************* */
 			/* ***********************RETRIVEID************************** */		
-			objetPersisteTrouve1Id = dao.retrieveId(objetARechercher1);
+			objetPersisteTrouve1Id = this.dao.retrieveId(objetARechercher1);
 			/* ********************************************************* */
 
 			if (AFFICHAGE_GENERAL && affichage) {
@@ -4021,15 +4028,15 @@ public class ContactSimpleDAOJPASpringTest {
 			
 			// ETAT FINAL
 			/* récupération. */
-			final List<IContactSimple> objetsFinaux = dao.findAll();
+			final List<IContactSimple> objetsFinaux = this.dao.findAll();
 			
 			/* Calcul du nombre d'objets dans le stockage après le traitement. */
-			nombreObjetsFinal = dao.count();
+			nombreObjetsFinal = this.dao.count();
 			
 			if (AFFICHAGE_GENERAL && affichage) {
 				System.out.println();
 				System.out.println("LISTE D'OBJETS APRES RETRIEVEID(OBJET NULL) : ");
-				System.out.println(dao.afficherListeObjetsMetier(objetsFinaux));
+				System.out.println(this.dao.afficherListeObjetsMetier(objetsFinaux));
 				this.afficherNbreObjetsFinal(nombreObjetsFinal);
 			}
 
@@ -4072,8 +4079,8 @@ public class ContactSimpleDAOJPASpringTest {
 			System.out.println("********** CLASSE ContactSimpleDaoJPASpringTest - méthode testRetrieveIdInexistant() ********** ");
 		}
 		
-		/* dao NON INJECTE. */
-		if (dao == null) {
+		/* this.dao NON INJECTE. */
+		if (this.dao == null) {
 			
 			/* AFFICHAGE A LA CONSOLE. */
 			if (AFFICHAGE_GENERAL && affichage) {
@@ -4083,7 +4090,7 @@ public class ContactSimpleDAOJPASpringTest {
 			
 			return;
 			
-		} // Fin de dao NON INJECTE._____________________
+		} // Fin de this.dao NON INJECTE._____________________
 		
 		
 		/* vide et remplit le stockage. */
@@ -4094,15 +4101,15 @@ public class ContactSimpleDAOJPASpringTest {
 
 		// ETAT INITIAL
 		/* récupération. */
-		final List<IContactSimple> objetInitiaux = dao.findAll();
+		final List<IContactSimple> objetInitiaux = this.dao.findAll();
 		
 		/* Compte du nombre d'Objets initialement dans le stockage. */
-		nombreObjetsInitial = dao.count();
+		nombreObjetsInitial = this.dao.count();
 		
 		/* AFFICHAGE A LA CONSOLE. */
 		if (AFFICHAGE_GENERAL && affichage) {
 			System.out.println("LISTE D'OBJETS AVANT RETRIEVEID(INEXISTANT) : ");
-			System.out.println(dao.afficherListeObjetsMetier(objetInitiaux));
+			System.out.println(this.dao.afficherListeObjetsMetier(objetInitiaux));
 			this.afficherNbreObjetsInitial(nombreObjetsInitial);
 		}
 		
@@ -4128,7 +4135,7 @@ public class ContactSimpleDAOJPASpringTest {
 			
 			/* ********************************************************* */
 			/* ***********************RETRIVEID************************** */		
-			objetPersisteTrouve1Id = dao.retrieveId(objetARechercher1);
+			objetPersisteTrouve1Id = this.dao.retrieveId(objetARechercher1);
 			/* ********************************************************* */
 
 			if (AFFICHAGE_GENERAL && affichage) {
@@ -4151,15 +4158,15 @@ public class ContactSimpleDAOJPASpringTest {
 
 			// ETAT FINAL
 			/* récupération. */
-			final List<IContactSimple> objetsFinaux = dao.findAll();
+			final List<IContactSimple> objetsFinaux = this.dao.findAll();
 			
 			/* Calcul du nombre d'objets dans le stockage après le traitement. */
-			nombreObjetsFinal = dao.count();
+			nombreObjetsFinal = this.dao.count();
 			
 			if (AFFICHAGE_GENERAL && affichage) {
 				System.out.println();
 				System.out.println("LISTE D'OBJETS APRES RETRIEVEID(INEXISTANT) : ");
-				System.out.println(dao.afficherListeObjetsMetier(objetsFinaux));
+				System.out.println(this.dao.afficherListeObjetsMetier(objetsFinaux));
 				this.afficherNbreObjetsFinal(nombreObjetsFinal);
 			}
 
@@ -4203,8 +4210,8 @@ public class ContactSimpleDAOJPASpringTest {
 			System.out.println("********** CLASSE ContactSimpleDaoJPASpringTest - méthode testRetrieveId() ********** ");
 		}
 		
-		/* dao NON INJECTE. */
-		if (dao == null) {
+		/* this.dao NON INJECTE. */
+		if (this.dao == null) {
 			
 			/* AFFICHAGE A LA CONSOLE. */
 			if (AFFICHAGE_GENERAL && affichage) {
@@ -4214,7 +4221,7 @@ public class ContactSimpleDAOJPASpringTest {
 			
 			return;
 			
-		} // Fin de dao NON INJECTE._____________________
+		} // Fin de this.dao NON INJECTE._____________________
 		
 		
 		/* vide et remplit le stockage. */
@@ -4225,15 +4232,15 @@ public class ContactSimpleDAOJPASpringTest {
 
 		// ETAT INITIAL
 		/* récupération. */
-		final List<IContactSimple> objetInitiaux = dao.findAll();
+		final List<IContactSimple> objetInitiaux = this.dao.findAll();
 		
 		/* Compte du nombre d'Objets initialement dans le stockage. */
-		nombreObjetsInitial = dao.count();
+		nombreObjetsInitial = this.dao.count();
 		
 		/* AFFICHAGE A LA CONSOLE. */
 		if (AFFICHAGE_GENERAL && affichage) {
 			System.out.println("LISTE D'OBJETS AVANT RETRIEVEID(EXISTANT) : ");
-			System.out.println(dao.afficherListeObjetsMetier(objetInitiaux));
+			System.out.println(this.dao.afficherListeObjetsMetier(objetInitiaux));
 			this.afficherNbreObjetsInitial(nombreObjetsInitial);
 		}
 		
@@ -4259,7 +4266,7 @@ public class ContactSimpleDAOJPASpringTest {
 			
 			/* ********************************************************* */
 			/* ***********************RETRIVEID************************** */		
-			objetPersisteTrouve1Id = dao.retrieveId(objetARechercher1);
+			objetPersisteTrouve1Id = this.dao.retrieveId(objetARechercher1);
 			/* ********************************************************* */
 
 			if (AFFICHAGE_GENERAL && affichage) {
@@ -4283,15 +4290,15 @@ public class ContactSimpleDAOJPASpringTest {
 
 			// ETAT FINAL
 			/* récupération. */
-			final List<IContactSimple> objetsFinaux = dao.findAll();
+			final List<IContactSimple> objetsFinaux = this.dao.findAll();
 			
 			/* Calcul du nombre d'objets dans le stockage après le traitement. */
-			nombreObjetsFinal = dao.count();
+			nombreObjetsFinal = this.dao.count();
 			
 			if (AFFICHAGE_GENERAL && affichage) {
 				System.out.println();
 				System.out.println("LISTE D'OBJETS APRES RETRIEVEID(EXISTANT) : ");
-				System.out.println(dao.afficherListeObjetsMetier(objetsFinaux));
+				System.out.println(this.dao.afficherListeObjetsMetier(objetsFinaux));
 				this.afficherNbreObjetsFinal(nombreObjetsFinal);
 			}
 
@@ -4335,8 +4342,8 @@ public class ContactSimpleDAOJPASpringTest {
 			System.out.println("********** CLASSE ContactSimpleDaoJPASpringTest - méthode testFindAll() ********** ");
 		}
 		
-		/* dao NON INJECTE. */
-		if (dao == null) {
+		/* this.dao NON INJECTE. */
+		if (this.dao == null) {
 			
 			/* AFFICHAGE A LA CONSOLE. */
 			if (AFFICHAGE_GENERAL && affichage) {
@@ -4346,7 +4353,7 @@ public class ContactSimpleDAOJPASpringTest {
 			
 			return;
 			
-		} // Fin de dao NON INJECTE._____________________
+		} // Fin de this.dao NON INJECTE._____________________
 		
 		
 		/* vide et remplit le stockage. */
@@ -4358,16 +4365,16 @@ public class ContactSimpleDAOJPASpringTest {
 			
 			/* ********************************************************* */
 			/* ***********************RETRIVEID************************** */		
-			stockageList = dao.findAll();
+			stockageList = this.dao.findAll();
 			/* ********************************************************* */
 
 			/* Calcul du nombre d'objets dans le stockage après le traitement. */
-			final Long nombreObjetsFinal = dao.count();
+			final Long nombreObjetsFinal = this.dao.count();
 			
 			if (AFFICHAGE_GENERAL && affichage) {
 				System.out.println();
 				System.out.println("LISTE D'OBJETS APRES FINDALL() : ");
-				System.out.println(dao.afficherListeObjetsMetier(stockageList));
+				System.out.println(this.dao.afficherListeObjetsMetier(stockageList));
 				this.afficherNbreObjetsFinal(nombreObjetsFinal);
 			}
 
@@ -4409,8 +4416,8 @@ public class ContactSimpleDAOJPASpringTest {
 			System.out.println("********** CLASSE ContactSimpleDaoJPASpringTest - méthode testFindAllMaxOut() ********** ");
 		}
 		
-		/* dao NON INJECTE. */
-		if (dao == null) {
+		/* this.dao NON INJECTE. */
+		if (this.dao == null) {
 			
 			/* AFFICHAGE A LA CONSOLE. */
 			if (AFFICHAGE_GENERAL && affichage) {
@@ -4420,7 +4427,7 @@ public class ContactSimpleDAOJPASpringTest {
 			
 			return;
 			
-		} // Fin de dao NON INJECTE._____________________
+		} // Fin de this.dao NON INJECTE._____________________
 		
 		
 		/* vide et remplit le stockage. */
@@ -4431,15 +4438,15 @@ public class ContactSimpleDAOJPASpringTest {
 
 		// ETAT INITIAL
 		/* récupération. */
-		final List<IContactSimple> objetInitiaux = dao.findAll();
+		final List<IContactSimple> objetInitiaux = this.dao.findAll();
 
 		/* Compte du nombre d'Objets initialement dans le stockage. */
-		nombreObjetsInitial = dao.count();
+		nombreObjetsInitial = this.dao.count();
 
 		/* AFFICHAGE A LA CONSOLE. */
 		if (AFFICHAGE_GENERAL && affichage) {
 			System.out.println("LISTE D'OBJETS AVANT FINDALLMAX(OUT) : ");
-			System.out.println(dao.afficherListeObjetsMetier(objetInitiaux));
+			System.out.println(this.dao.afficherListeObjetsMetier(objetInitiaux));
 			this.afficherNbreObjetsInitial(nombreObjetsInitial);
 		}
 
@@ -4464,14 +4471,14 @@ public class ContactSimpleDAOJPASpringTest {
 
 			/* ********************************************************* */
 			/* *********************FINDALLMAX************************** */
-			resultat = dao.findAllMax(startPosition, maxResult);
+			resultat = this.dao.findAllMax(startPosition, maxResult);
 			/* ********************************************************* */
 
 			/* AFFICHAGE A LA CONSOLE. */
 			if (AFFICHAGE_GENERAL && affichage) {
 				System.out.println();
 				System.out.println(OBJETS_TROUVES);
-				System.out.println(dao.afficherListeObjetsMetier(resultat));
+				System.out.println(this.dao.afficherListeObjetsMetier(resultat));
 			}
 
 			/* *********** */
@@ -4484,15 +4491,15 @@ public class ContactSimpleDAOJPASpringTest {
 
 			// ETAT FINAL
 			/* récupération. */
-			final List<IContactSimple> objetsFinaux = dao.findAll();
+			final List<IContactSimple> objetsFinaux = this.dao.findAll();
 
 			/* Calcul du nombre d'objets dans le stockage après le traitement. */
-			nombreObjetsFinal = dao.count();
+			nombreObjetsFinal = this.dao.count();
 
 			if (AFFICHAGE_GENERAL && affichage) {
 				System.out.println();
 				System.out.println("LISTE D'OBJETS APRES FINDALLMAX(OUT) : ");
-				System.out.println(dao.afficherListeObjetsMetier(objetsFinaux));
+				System.out.println(this.dao.afficherListeObjetsMetier(objetsFinaux));
 				this.afficherNbreObjetsFinal(nombreObjetsFinal);
 			}
 
@@ -4536,8 +4543,8 @@ public class ContactSimpleDAOJPASpringTest {
 			System.out.println("********** CLASSE ContactSimpleDaoJPASpringTest - méthode testFindAllMax() ********** ");
 		}
 
-		/* dao NON INJECTE. */
-		if (dao == null) {
+		/* this.dao NON INJECTE. */
+		if (this.dao == null) {
 
 			/* AFFICHAGE A LA CONSOLE. */
 			if (AFFICHAGE_GENERAL && affichage) {
@@ -4547,7 +4554,7 @@ public class ContactSimpleDAOJPASpringTest {
 
 			return;
 
-		} // Fin de dao NON INJECTE._____________________
+		} // Fin de this.dao NON INJECTE._____________________
 
 		/* vide et remplit le stockage. */
 		this.remplirStockage(false);
@@ -4557,15 +4564,15 @@ public class ContactSimpleDAOJPASpringTest {
 
 		// ETAT INITIAL
 		/* récupération. */
-		final List<IContactSimple> objetInitiaux = dao.findAll();
+		final List<IContactSimple> objetInitiaux = this.dao.findAll();
 
 		/* Compte du nombre d'Objets initialement dans le stockage. */
-		nombreObjetsInitial = dao.count();
+		nombreObjetsInitial = this.dao.count();
 
 		/* AFFICHAGE A LA CONSOLE. */
 		if (AFFICHAGE_GENERAL && affichage) {
 			System.out.println("LISTE D'OBJETS AVANT FINDALLMAX() : ");
-			System.out.println(dao.afficherListeObjetsMetier(objetInitiaux));
+			System.out.println(this.dao.afficherListeObjetsMetier(objetInitiaux));
 			this.afficherNbreObjetsInitial(nombreObjetsInitial);
 		}
 
@@ -4589,14 +4596,14 @@ public class ContactSimpleDAOJPASpringTest {
 
 			/* ********************************************************* */
 			/* *********************FINDALLMAX************************** */
-			resultat = dao.findAllMax(startPosition, maxResult);
+			resultat = this.dao.findAllMax(startPosition, maxResult);
 			/* ********************************************************* */
 
 			/* AFFICHAGE A LA CONSOLE. */
 			if (AFFICHAGE_GENERAL && affichage) {
 				System.out.println();
 				System.out.println(OBJETS_TROUVES);
-				System.out.println(dao.afficherListeObjetsMetier(resultat));
+				System.out.println(this.dao.afficherListeObjetsMetier(resultat));
 			}
 
 			/* *********** */
@@ -4615,15 +4622,15 @@ public class ContactSimpleDAOJPASpringTest {
 			
 			// ETAT FINAL
 			/* récupération. */
-			final List<IContactSimple> objetsFinaux = dao.findAll();
+			final List<IContactSimple> objetsFinaux = this.dao.findAll();
 
 			/* Calcul du nombre d'objets dans le stockage après le traitement. */
-			nombreObjetsFinal = dao.count();
+			nombreObjetsFinal = this.dao.count();
 
 			if (AFFICHAGE_GENERAL && affichage) {
 				System.out.println();
 				System.out.println("LISTE D'OBJETS APRES FINDALLMAX() : ");
-				System.out.println(dao.afficherListeObjetsMetier(objetsFinaux));
+				System.out.println(this.dao.afficherListeObjetsMetier(objetsFinaux));
 				this.afficherNbreObjetsFinal(nombreObjetsFinal);
 			}
 
@@ -4665,8 +4672,8 @@ public class ContactSimpleDAOJPASpringTest {
 			System.out.println("********** CLASSE ContactSimpleDaoJPASpringTest - méthode testFindAllIterableNull() ********** ");
 		}
 
-		/* dao NON INJECTE. */
-		if (dao == null) {
+		/* this.dao NON INJECTE. */
+		if (this.dao == null) {
 
 			/* AFFICHAGE A LA CONSOLE. */
 			if (AFFICHAGE_GENERAL && affichage) {
@@ -4676,7 +4683,7 @@ public class ContactSimpleDAOJPASpringTest {
 
 			return;
 
-		} // Fin de dao NON INJECTE._____________________
+		} // Fin de this.dao NON INJECTE._____________________
 
 		/* vide et remplit le stockage. */
 		this.remplirStockage(false);
@@ -4686,15 +4693,15 @@ public class ContactSimpleDAOJPASpringTest {
 
 		// ETAT INITIAL
 		/* récupération. */
-		final List<IContactSimple> objetInitiaux = dao.findAll();
+		final List<IContactSimple> objetInitiaux = this.dao.findAll();
 
 		/* Compte du nombre d'Objets initialement dans le stockage. */
-		nombreObjetsInitial = dao.count();
+		nombreObjetsInitial = this.dao.count();
 
 		/* AFFICHAGE A LA CONSOLE. */
 		if (AFFICHAGE_GENERAL && affichage) {
 			System.out.println("LISTE D'OBJETS AVANT FINDALLITERABLE(NULL) : ");
-			System.out.println(dao.afficherListeObjetsMetier(objetInitiaux));
+			System.out.println(this.dao.afficherListeObjetsMetier(objetInitiaux));
 			this.afficherNbreObjetsInitial(nombreObjetsInitial);
 		}
 
@@ -4716,14 +4723,14 @@ public class ContactSimpleDAOJPASpringTest {
 
 			/* ********************************************************* */
 			/* ********************FINDALLITERABLE********************** */
-			resultat = (List<IContactSimple>) dao.findAllIterable(ids);
+			resultat = (List<IContactSimple>) this.dao.findAllIterable(ids);
 			/* ********************************************************* */
 			
 			/* AFFICHAGE A LA CONSOLE. */
 			if (AFFICHAGE_GENERAL && affichage) {
 				System.out.println();
 				if (resultat != null) {
-					System.out.println(OBJETS_TROUVES + dao.afficherListeObjetsMetier(resultat));
+					System.out.println(OBJETS_TROUVES + this.dao.afficherListeObjetsMetier(resultat));
 				} else {
 					System.out.println("OBJETS TROUVES : NULL");
 				}				
@@ -4739,15 +4746,15 @@ public class ContactSimpleDAOJPASpringTest {
 			
 			// ETAT FINAL		
 			/* récupération. */
-			final List<IContactSimple> objetsFinaux = dao.findAll();
+			final List<IContactSimple> objetsFinaux = this.dao.findAll();
 
 			/* Calcul du nombre d'objets dans le stockage après le traitement. */
-			nombreObjetsFinal = dao.count();
+			nombreObjetsFinal = this.dao.count();
 
 			if (AFFICHAGE_GENERAL && affichage) {
 				System.out.println();
 				System.out.println("LISTE D'OBJETS APRES FINDALLITERABLE(NULL) : ");
-				System.out.println(dao.afficherListeObjetsMetier(objetsFinaux));
+				System.out.println(this.dao.afficherListeObjetsMetier(objetsFinaux));
 				this.afficherNbreObjetsFinal(nombreObjetsFinal);
 			}
 
@@ -4789,8 +4796,8 @@ public class ContactSimpleDAOJPASpringTest {
 			System.out.println("********** CLASSE ContactSimpleDaoJPASpringTest - méthode testFindAllIterableOut() ********** ");
 		}
 
-		/* dao NON INJECTE. */
-		if (dao == null) {
+		/* this.dao NON INJECTE. */
+		if (this.dao == null) {
 
 			/* AFFICHAGE A LA CONSOLE. */
 			if (AFFICHAGE_GENERAL && affichage) {
@@ -4800,7 +4807,7 @@ public class ContactSimpleDAOJPASpringTest {
 
 			return;
 
-		} // Fin de dao NON INJECTE._____________________
+		} // Fin de this.dao NON INJECTE._____________________
 
 		/* vide et remplit le stockage. */
 		this.remplirStockage(false);
@@ -4810,15 +4817,15 @@ public class ContactSimpleDAOJPASpringTest {
 
 		// ETAT INITIAL
 		/* récupération. */
-		final List<IContactSimple> objetInitiaux = dao.findAll();
+		final List<IContactSimple> objetInitiaux = this.dao.findAll();
 
 		/* Compte du nombre d'Objets initialement dans le stockage. */
-		nombreObjetsInitial = dao.count();
+		nombreObjetsInitial = this.dao.count();
 
 		/* AFFICHAGE A LA CONSOLE. */
 		if (AFFICHAGE_GENERAL && affichage) {
 			System.out.println("LISTE D'OBJETS AVANT FINDALLITERABLE(OUT) : ");
-			System.out.println(dao.afficherListeObjetsMetier(objetInitiaux));
+			System.out.println(this.dao.afficherListeObjetsMetier(objetInitiaux));
 			this.afficherNbreObjetsInitial(nombreObjetsInitial);
 		}
 
@@ -4846,7 +4853,7 @@ public class ContactSimpleDAOJPASpringTest {
 
 			/* ********************************************************* */
 			/* ********************FINDALLITERABLE********************** */
-			resultat = (List<IContactSimple>) dao.findAllIterable(ids);
+			resultat = (List<IContactSimple>) this.dao.findAllIterable(ids);
 			/* ********************************************************* */
 			
 			/* AFFICHAGE A LA CONSOLE. */
@@ -4854,7 +4861,7 @@ public class ContactSimpleDAOJPASpringTest {
 				System.out.println();
 				if (resultat != null) {
 					System.out.println(OBJETS_TROUVES);
-					System.out.println(dao.afficherListeObjetsMetier(resultat));
+					System.out.println(this.dao.afficherListeObjetsMetier(resultat));
 				} else {
 					System.out.println("OBJETS TROUVES : NULL");
 				}				
@@ -4872,15 +4879,15 @@ public class ContactSimpleDAOJPASpringTest {
 			
 			// ETAT FINAL
 			/* récupération. */
-			final List<IContactSimple> objetsFinaux = dao.findAll();
+			final List<IContactSimple> objetsFinaux = this.dao.findAll();
 
 			/* Calcul du nombre d'objets dans le stockage après le traitement. */
-			nombreObjetsFinal = dao.count();
+			nombreObjetsFinal = this.dao.count();
 
 			if (AFFICHAGE_GENERAL && affichage) {
 				System.out.println();
 				System.out.println("LISTE D'OBJETS APRES FINDALLITERABLE(OUT) : ");
-				System.out.println(dao.afficherListeObjetsMetier(objetsFinaux));
+				System.out.println(this.dao.afficherListeObjetsMetier(objetsFinaux));
 				this.afficherNbreObjetsFinal(nombreObjetsFinal);
 			}
 
@@ -4922,8 +4929,8 @@ public class ContactSimpleDAOJPASpringTest {
 			System.out.println("********** CLASSE ContactSimpleDaoJPASpringTest - méthode testFindAllIterable() ********** ");
 		}
 
-		/* dao NON INJECTE. */
-		if (dao == null) {
+		/* this.dao NON INJECTE. */
+		if (this.dao == null) {
 
 			/* AFFICHAGE A LA CONSOLE. */
 			if (AFFICHAGE_GENERAL && affichage) {
@@ -4933,7 +4940,7 @@ public class ContactSimpleDAOJPASpringTest {
 
 			return;
 
-		} // Fin de dao NON INJECTE._____________________
+		} // Fin de this.dao NON INJECTE._____________________
 
 		/* vide et remplit le stockage. */
 		this.remplirStockage(false);
@@ -4943,15 +4950,15 @@ public class ContactSimpleDAOJPASpringTest {
 		
 		// ETAT INITIAL
 		/* récupération. */
-		final List<IContactSimple> objetInitiaux = dao.findAll();
+		final List<IContactSimple> objetInitiaux = this.dao.findAll();
 
 		/* Compte du nombre d'Objets initialement dans le stockage. */
-		nombreObjetsInitial = dao.count();
+		nombreObjetsInitial = this.dao.count();
 
 		/* AFFICHAGE A LA CONSOLE. */
 		if (AFFICHAGE_GENERAL && affichage) {
 			System.out.println("LISTE D'OBJETS AVANT FINDALLITERABLE() : ");
-			System.out.println(dao.afficherListeObjetsMetier(objetInitiaux));
+			System.out.println(this.dao.afficherListeObjetsMetier(objetInitiaux));
 			this.afficherNbreObjetsInitial(nombreObjetsInitial);
 		}
 
@@ -4981,7 +4988,7 @@ public class ContactSimpleDAOJPASpringTest {
 
 			/* ********************************************************* */
 			/* ********************FINDALLITERABLE********************** */
-			resultat = (List<IContactSimple>) dao.findAllIterable(ids);
+			resultat = (List<IContactSimple>) this.dao.findAllIterable(ids);
 			/* ********************************************************* */
 			
 			/* AFFICHAGE A LA CONSOLE. */
@@ -4989,7 +4996,7 @@ public class ContactSimpleDAOJPASpringTest {
 				System.out.println();
 				if (resultat != null) {
 					System.out.println(OBJETS_TROUVES);
-					System.out.println(dao.afficherListeObjetsMetier(resultat));
+					System.out.println(this.dao.afficherListeObjetsMetier(resultat));
 				} else {
 					System.out.println("OBJETS TROUVES : NULL");
 				}				
@@ -5007,15 +5014,15 @@ public class ContactSimpleDAOJPASpringTest {
 			
 			// ETAT FINAL
 			/* récupération. */
-			final List<IContactSimple> objetsFinaux = dao.findAll();
+			final List<IContactSimple> objetsFinaux = this.dao.findAll();
 
 			/* Calcul du nombre d'objets dans le stockage après le traitement. */
-			nombreObjetsFinal = dao.count();
+			nombreObjetsFinal = this.dao.count();
 
 			if (AFFICHAGE_GENERAL && affichage) {
 				System.out.println();
 				System.out.println("LISTE D'OBJETS APRES FINDALLITERABLE() : ");
-				System.out.println(dao.afficherListeObjetsMetier(objetsFinaux));
+				System.out.println(this.dao.afficherListeObjetsMetier(objetsFinaux));
 				this.afficherNbreObjetsFinal(nombreObjetsFinal);
 			}
 
@@ -5057,8 +5064,8 @@ public class ContactSimpleDAOJPASpringTest {
 			System.out.println("********** CLASSE ContactSimpleDaoJPASpringTest - méthode testUpdateNull() ********** ");
 		}
 
-		/* dao NON INJECTE. */
-		if (dao == null) {
+		/* this.dao NON INJECTE. */
+		if (this.dao == null) {
 
 			/* AFFICHAGE A LA CONSOLE. */
 			if (AFFICHAGE_GENERAL && affichage) {
@@ -5068,7 +5075,7 @@ public class ContactSimpleDAOJPASpringTest {
 
 			return;
 
-		} // Fin de dao NON INJECTE._____________________
+		} // Fin de this.dao NON INJECTE._____________________
 
 		/* vide et remplit le stockage. */
 		this.remplirStockage(false);
@@ -5078,15 +5085,15 @@ public class ContactSimpleDAOJPASpringTest {
 		
 		// ETAT INITIAL
 		/* récupération. */
-		final List<IContactSimple> objetInitiaux = dao.findAll();
+		final List<IContactSimple> objetInitiaux = this.dao.findAll();
 
 		/* Compte du nombre d'Objets initialement dans le stockage. */
-		nombreObjetsInitial = dao.count();
+		nombreObjetsInitial = this.dao.count();
 
 		/* AFFICHAGE A LA CONSOLE. */
 		if (AFFICHAGE_GENERAL && affichage) {
 			System.out.println("LISTE D'OBJETS AVANT TESTUPDATE(NULL) : ");
-			System.out.println(dao.afficherListeObjetsMetier(objetInitiaux));
+			System.out.println(this.dao.afficherListeObjetsMetier(objetInitiaux));
 			this.afficherNbreObjetsInitial(nombreObjetsInitial);
 		}
 
@@ -5107,7 +5114,7 @@ public class ContactSimpleDAOJPASpringTest {
 
 			/* ********************************************************* */
 			/* ***********************UPDATE**************************** */
-			resultat = dao.update(objetAModifier);
+			resultat = this.dao.update(objetAModifier);
 			/* ********************************************************* */
 			
 			/* AFFICHAGE A LA CONSOLE. */
@@ -5132,15 +5139,15 @@ public class ContactSimpleDAOJPASpringTest {
 			
 			// ETAT FINAL
 			/* récupération. */
-			final List<IContactSimple> objetsFinaux = dao.findAll();
+			final List<IContactSimple> objetsFinaux = this.dao.findAll();
 
 			/* Calcul du nombre d'objets dans le stockage après le traitement. */
-			nombreObjetsFinal = dao.count();
+			nombreObjetsFinal = this.dao.count();
 
 			if (AFFICHAGE_GENERAL && affichage) {
 				System.out.println();
 				System.out.println("LISTE D'OBJETS APRES TESTUPDATE(NULL) : ");
-				System.out.println(dao.afficherListeObjetsMetier(objetsFinaux));
+				System.out.println(this.dao.afficherListeObjetsMetier(objetsFinaux));
 				this.afficherNbreObjetsFinal(nombreObjetsFinal);
 			}
 
@@ -5185,8 +5192,8 @@ public class ContactSimpleDAOJPASpringTest {
 			System.out.println("********** CLASSE ContactSimpleDaoJPASpringTest - méthode testUpdateInexistant() ********** ");
 		}
 
-		/* dao NON INJECTE. */
-		if (dao == null) {
+		/* this.dao NON INJECTE. */
+		if (this.dao == null) {
 
 			/* AFFICHAGE A LA CONSOLE. */
 			if (AFFICHAGE_GENERAL && affichage) {
@@ -5196,7 +5203,7 @@ public class ContactSimpleDAOJPASpringTest {
 
 			return;
 
-		} // Fin de dao NON INJECTE._____________________
+		} // Fin de this.dao NON INJECTE._____________________
 		
 		/* vide et remplit le stockage. */
 		this.remplirStockage(false);
@@ -5206,15 +5213,15 @@ public class ContactSimpleDAOJPASpringTest {
 
 		// ETAT INITIAL	
 		/* récupération. */
-		final List<IContactSimple> objetInitiaux = dao.findAll();
+		final List<IContactSimple> objetInitiaux = this.dao.findAll();
 
 		/* Compte du nombre d'Objets initialement dans le stockage. */
-		nombreObjetsInitial = dao.count();
+		nombreObjetsInitial = this.dao.count();
 
 		/* AFFICHAGE A LA CONSOLE. */
 		if (AFFICHAGE_GENERAL && affichage) {
 			System.out.println("LISTE D'OBJETS AVANT TESTUPDATE(INEXISTANT) : ");
-			System.out.println(dao.afficherListeObjetsMetier(objetInitiaux));
+			System.out.println(this.dao.afficherListeObjetsMetier(objetInitiaux));
 			this.afficherNbreObjetsInitial(nombreObjetsInitial);
 		}
 
@@ -5235,7 +5242,7 @@ public class ContactSimpleDAOJPASpringTest {
 
 			/* ********************************************************* */
 			/* ***********************UPDATE**************************** */
-			resultat = dao.update(objetAModifier);
+			resultat = this.dao.update(objetAModifier);
 			/* ********************************************************* */
 			
 			/* AFFICHAGE A LA CONSOLE. */
@@ -5272,15 +5279,15 @@ public class ContactSimpleDAOJPASpringTest {
 			
 			// ETAT FINAL
 			/* récupération. */
-			final List<IContactSimple> objetsFinaux = dao.findAll();
+			final List<IContactSimple> objetsFinaux = this.dao.findAll();
 
 			/* Calcul du nombre d'objets dans le stockage après le traitement. */
-			nombreObjetsFinal = dao.count();
+			nombreObjetsFinal = this.dao.count();
 
 			if (AFFICHAGE_GENERAL && affichage) {
 				System.out.println();
 				System.out.println("LISTE D'OBJETS APRES TESTUPDATE(INEXISTANT) : ");
-				System.out.println(dao.afficherListeObjetsMetier(objetsFinaux));
+				System.out.println(this.dao.afficherListeObjetsMetier(objetsFinaux));
 				this.afficherNbreObjetsFinal(nombreObjetsFinal);
 			}
 
@@ -5322,8 +5329,8 @@ public class ContactSimpleDAOJPASpringTest {
 			System.out.println("********** CLASSE ContactSimpleDaoJPASpringTest - méthode testUpdateDoublon() ********** ");
 		}
 
-		/* dao NON INJECTE. */
-		if (dao == null) {
+		/* this.dao NON INJECTE. */
+		if (this.dao == null) {
 
 			/* AFFICHAGE A LA CONSOLE. */
 			if (AFFICHAGE_GENERAL && affichage) {
@@ -5333,7 +5340,7 @@ public class ContactSimpleDAOJPASpringTest {
 
 			return;
 
-		} // Fin de dao NON INJECTE._____________________
+		} // Fin de this.dao NON INJECTE._____________________
 		
 		/* vide et remplit le stockage. */
 		this.remplirStockage(false);
@@ -5343,15 +5350,15 @@ public class ContactSimpleDAOJPASpringTest {
 
 		// ETAT INITIAL		
 		/* récupération. */
-		final List<IContactSimple> objetInitiaux = dao.findAll();
+		final List<IContactSimple> objetInitiaux = this.dao.findAll();
 
 		/* Compte du nombre d'Objets initialement dans le stockage. */
-		nombreObjetsInitial = dao.count();
+		nombreObjetsInitial = this.dao.count();
 
 		/* AFFICHAGE A LA CONSOLE. */
 		if (AFFICHAGE_GENERAL && affichage) {
 			System.out.println("LISTE D'OBJETS AVANT TESTUPDATE(DOUBLON) : ");
-			System.out.println(dao.afficherListeObjetsMetier(objetInitiaux));
+			System.out.println(this.dao.afficherListeObjetsMetier(objetInitiaux));
 			this.afficherNbreObjetsInitial(nombreObjetsInitial);
 		}
 
@@ -5369,7 +5376,7 @@ public class ContactSimpleDAOJPASpringTest {
 		}
 		
 		/* modifier et créer un doublon. */			
-		objetAModifierPersistant = dao.retrieve(objetAModifier);
+		objetAModifierPersistant = this.dao.retrieve(objetAModifier);
 		
 		if (objetAModifierPersistant != null) {
 			
@@ -5389,7 +5396,7 @@ public class ContactSimpleDAOJPASpringTest {
 
 			/* ********************************************************* */
 			/* ***********************UPDATE**************************** */
-			resultat = dao.update(objetAModifierPersistant);
+			resultat = this.dao.update(objetAModifierPersistant);
 			/* ********************************************************* */
 			
 			/* AFFICHAGE A LA CONSOLE. */
@@ -5414,15 +5421,15 @@ public class ContactSimpleDAOJPASpringTest {
 			
 			// ETAT FINAL
 			/* récupération. */
-			final List<IContactSimple> objetsFinaux = dao.findAll();
+			final List<IContactSimple> objetsFinaux = this.dao.findAll();
 
 			/* Calcul du nombre d'objets dans le stockage après le traitement. */
-			nombreObjetsFinal = dao.count();
+			nombreObjetsFinal = this.dao.count();
 
 			if (AFFICHAGE_GENERAL && affichage) {
 				System.out.println();
 				System.out.println("LISTE D'OBJETS APRES TESTUPDATE(DOUBLON) : ");
-				System.out.println(dao.afficherListeObjetsMetier(objetsFinaux));
+				System.out.println(this.dao.afficherListeObjetsMetier(objetsFinaux));
 				this.afficherNbreObjetsFinal(nombreObjetsFinal);
 			}
 
@@ -5467,8 +5474,8 @@ public class ContactSimpleDAOJPASpringTest {
 			System.out.println("********** CLASSE ContactSimpleDaoJPASpringTest - méthode testUpdate() ********** ");
 		}
 
-		/* dao NON INJECTE. */
-		if (dao == null) {
+		/* this.dao NON INJECTE. */
+		if (this.dao == null) {
 
 			/* AFFICHAGE A LA CONSOLE. */
 			if (AFFICHAGE_GENERAL && affichage) {
@@ -5478,7 +5485,7 @@ public class ContactSimpleDAOJPASpringTest {
 
 			return;
 
-		} // Fin de dao NON INJECTE._____________________
+		} // Fin de this.dao NON INJECTE._____________________
 		
 		/* vide et remplit le stockage. */
 		this.remplirStockage(false);
@@ -5488,15 +5495,15 @@ public class ContactSimpleDAOJPASpringTest {
 		
 		// ETAT INITIAL
 		/* récupération. */
-		final List<IContactSimple> objetInitiaux = dao.findAll();
+		final List<IContactSimple> objetInitiaux = this.dao.findAll();
 
 		/* Compte du nombre d'Objets initialement dans le stockage. */
-		nombreObjetsInitial = dao.count();
+		nombreObjetsInitial = this.dao.count();
 
 		/* AFFICHAGE A LA CONSOLE. */
 		if (AFFICHAGE_GENERAL && affichage) {
 			System.out.println("LISTE D'OBJETS AVANT TESTUPDATE() : ");
-			System.out.println(dao.afficherListeObjetsMetier(objetInitiaux));
+			System.out.println(this.dao.afficherListeObjetsMetier(objetInitiaux));
 			this.afficherNbreObjetsInitial(nombreObjetsInitial);
 		}
 
@@ -5514,7 +5521,7 @@ public class ContactSimpleDAOJPASpringTest {
 		}
 		
 		/* modifier SANS créer un doublon. */			
-		objetAModifierPersistant = dao.retrieve(objetAModifier);
+		objetAModifierPersistant = this.dao.retrieve(objetAModifier);
 		
 		if (objetAModifierPersistant != null) {
 			
@@ -5534,7 +5541,7 @@ public class ContactSimpleDAOJPASpringTest {
 
 			/* ********************************************************* */
 			/* ***********************UPDATE**************************** */
-			resultat = dao.update(objetAModifierPersistant);
+			resultat = this.dao.update(objetAModifierPersistant);
 			/* ********************************************************* */
 			
 			/* AFFICHAGE A LA CONSOLE. */
@@ -5571,15 +5578,15 @@ public class ContactSimpleDAOJPASpringTest {
 			
 			// ETAT FINAL
 			/* récupération. */
-			final List<IContactSimple> objetsFinaux = dao.findAll();
+			final List<IContactSimple> objetsFinaux = this.dao.findAll();
 
 			/* Calcul du nombre d'objets dans le stockage après le traitement. */
-			nombreObjetsFinal = dao.count();
+			nombreObjetsFinal = this.dao.count();
 
 			if (AFFICHAGE_GENERAL && affichage) {
 				System.out.println();
 				System.out.println("LISTE D'OBJETS APRES TESTUPDATE() : ");
-				System.out.println(dao.afficherListeObjetsMetier(objetsFinaux));
+				System.out.println(this.dao.afficherListeObjetsMetier(objetsFinaux));
 				this.afficherNbreObjetsFinal(nombreObjetsFinal);
 			}
 
@@ -5621,8 +5628,8 @@ public class ContactSimpleDAOJPASpringTest {
 			System.out.println("********** CLASSE ContactSimpleDaoJPASpringTest - méthode testUpdateIdNull() ********** ");
 		}
 
-		/* dao NON INJECTE. */
-		if (dao == null) {
+		/* this.dao NON INJECTE. */
+		if (this.dao == null) {
 
 			/* AFFICHAGE A LA CONSOLE. */
 			if (AFFICHAGE_GENERAL && affichage) {
@@ -5632,7 +5639,7 @@ public class ContactSimpleDAOJPASpringTest {
 
 			return;
 
-		} // Fin de dao NON INJECTE._____________________
+		} // Fin de this.dao NON INJECTE._____________________
 		
 		/* vide et remplit le stockage. */
 		this.remplirStockage(false);
@@ -5642,15 +5649,15 @@ public class ContactSimpleDAOJPASpringTest {
 
 		// ETAT INITIAL
 		/* récupération. */
-		final List<IContactSimple> objetInitiaux = dao.findAll();
+		final List<IContactSimple> objetInitiaux = this.dao.findAll();
 
 		/* Compte du nombre d'Objets initialement dans le stockage. */
-		nombreObjetsInitial = dao.count();
+		nombreObjetsInitial = this.dao.count();
 
 		/* AFFICHAGE A LA CONSOLE. */
 		if (AFFICHAGE_GENERAL && affichage) {
 			System.out.println("LISTE D'OBJETS AVANT TESTUPDATEID(NULL) : ");
-			System.out.println(dao.afficherListeObjetsMetier(objetInitiaux));
+			System.out.println(this.dao.afficherListeObjetsMetier(objetInitiaux));
 			this.afficherNbreObjetsInitial(nombreObjetsInitial);
 		}
 
@@ -5658,7 +5665,7 @@ public class ContactSimpleDAOJPASpringTest {
 		// CONDITIONS DE TEST
 		/* ************************* */
 		final Long idObjetAModifier = null;
-		final IContactSimple objetAModifier = dao.findById(idObjetAModifier);
+		final IContactSimple objetAModifier = this.dao.findById(idObjetAModifier);
 		final IContactSimple objetModifie = objetModifieCorrect;
 		IContactSimple resultat = null;
 
@@ -5679,7 +5686,7 @@ public class ContactSimpleDAOJPASpringTest {
 
 			/* ********************************************************* */
 			/* **********************UPDATEID*************************** */
-			resultat = dao.updateById(idObjetAModifier, objetModifie);
+			resultat = this.dao.updateById(idObjetAModifier, objetModifie);
 			/* ********************************************************* */
 			
 			/* AFFICHAGE A LA CONSOLE. */
@@ -5704,15 +5711,15 @@ public class ContactSimpleDAOJPASpringTest {
 			
 			// ETAT FINAL
 			/* récupération. */
-			final List<IContactSimple> objetsFinaux = dao.findAll();
+			final List<IContactSimple> objetsFinaux = this.dao.findAll();
 
 			/* Calcul du nombre d'objets dans le stockage après le traitement. */
-			nombreObjetsFinal = dao.count();
+			nombreObjetsFinal = this.dao.count();
 
 			if (AFFICHAGE_GENERAL && affichage) {
 				System.out.println();
 				System.out.println("LISTE D'OBJETS APRES TESTUPDATEID(NULL) : ");
-				System.out.println(dao.afficherListeObjetsMetier(objetsFinaux));
+				System.out.println(this.dao.afficherListeObjetsMetier(objetsFinaux));
 				this.afficherNbreObjetsFinal(nombreObjetsFinal);
 			}
 
@@ -5754,8 +5761,8 @@ public class ContactSimpleDAOJPASpringTest {
 			System.out.println("********** CLASSE ContactSimpleDaoJPASpringTest - méthode testUpdateIdInexistant() ********** ");
 		}
 
-		/* dao NON INJECTE. */
-		if (dao == null) {
+		/* this.dao NON INJECTE. */
+		if (this.dao == null) {
 
 			/* AFFICHAGE A LA CONSOLE. */
 			if (AFFICHAGE_GENERAL && affichage) {
@@ -5765,7 +5772,7 @@ public class ContactSimpleDAOJPASpringTest {
 
 			return;
 
-		} // Fin de dao NON INJECTE._____________________
+		} // Fin de this.dao NON INJECTE._____________________
 		
 		/* vide et remplit le stockage. */
 		this.remplirStockage(false);
@@ -5775,15 +5782,15 @@ public class ContactSimpleDAOJPASpringTest {
 	
 		// ETAT INITIAL
 		/* récupération. */
-		final List<IContactSimple> objetInitiaux = dao.findAll();
+		final List<IContactSimple> objetInitiaux = this.dao.findAll();
 
 		/* Compte du nombre d'Objets initialement dans le stockage. */
-		nombreObjetsInitial = dao.count();
+		nombreObjetsInitial = this.dao.count();
 
 		/* AFFICHAGE A LA CONSOLE. */
 		if (AFFICHAGE_GENERAL && affichage) {
 			System.out.println("LISTE D'OBJETS AVANT TESTUPDATEID(INEXISTANT) : ");
-			System.out.println(dao.afficherListeObjetsMetier(objetInitiaux));
+			System.out.println(this.dao.afficherListeObjetsMetier(objetInitiaux));
 			this.afficherNbreObjetsInitial(nombreObjetsInitial);
 		}
 
@@ -5792,7 +5799,7 @@ public class ContactSimpleDAOJPASpringTest {
 		/* ************************* */
 		/* ID inexistant. */
 		final Long idObjetAModifier = 17L;
-		final IContactSimple objetAModifier = dao.findById(idObjetAModifier);
+		final IContactSimple objetAModifier = this.dao.findById(idObjetAModifier);
 		final IContactSimple objetModifie = objetModifieCorrect;
 		IContactSimple resultat = null;
 		
@@ -5813,7 +5820,7 @@ public class ContactSimpleDAOJPASpringTest {
 
 			/* ********************************************************* */
 			/* **********************UPDATEID*************************** */
-			resultat = dao.updateById(idObjetAModifier, objetModifie);
+			resultat = this.dao.updateById(idObjetAModifier, objetModifie);
 			/* ********************************************************* */
 			
 			/* AFFICHAGE A LA CONSOLE. */
@@ -5838,15 +5845,15 @@ public class ContactSimpleDAOJPASpringTest {
 			
 			// ETAT FINAL
 			/* récupération. */
-			final List<IContactSimple> objetsFinaux = dao.findAll();
+			final List<IContactSimple> objetsFinaux = this.dao.findAll();
 
 			/* Calcul du nombre d'objets dans le stockage après le traitement. */
-			nombreObjetsFinal = dao.count();
+			nombreObjetsFinal = this.dao.count();
 
 			if (AFFICHAGE_GENERAL && affichage) {
 				System.out.println();
 				System.out.println("LISTE D'OBJETS APRES TESTUPDATEID(INEXISTANT) : ");
-				System.out.println(dao.afficherListeObjetsMetier(objetsFinaux));
+				System.out.println(this.dao.afficherListeObjetsMetier(objetsFinaux));
 				this.afficherNbreObjetsFinal(nombreObjetsFinal);
 			}
 
@@ -5888,8 +5895,8 @@ public class ContactSimpleDAOJPASpringTest {
 			System.out.println("********** CLASSE ContactSimpleDaoJPASpringTest - méthode testUpdateIdDoublon() ********** ");
 		}
 
-		/* dao NON INJECTE. */
-		if (dao == null) {
+		/* this.dao NON INJECTE. */
+		if (this.dao == null) {
 
 			/* AFFICHAGE A LA CONSOLE. */
 			if (AFFICHAGE_GENERAL && affichage) {
@@ -5899,7 +5906,7 @@ public class ContactSimpleDAOJPASpringTest {
 
 			return;
 
-		} // Fin de dao NON INJECTE._____________________
+		} // Fin de this.dao NON INJECTE._____________________
 		
 		/* vide et remplit le stockage. */
 		this.remplirStockage(false);
@@ -5909,15 +5916,15 @@ public class ContactSimpleDAOJPASpringTest {
 
 		// ETAT INITIAL
 		/* récupération. */
-		final List<IContactSimple> objetInitiaux = dao.findAll();
+		final List<IContactSimple> objetInitiaux = this.dao.findAll();
 
 		/* Compte du nombre d'Objets initialement dans le stockage. */
-		nombreObjetsInitial = dao.count();
+		nombreObjetsInitial = this.dao.count();
 
 		/* AFFICHAGE A LA CONSOLE. */
 		if (AFFICHAGE_GENERAL && affichage) {
 			System.out.println("LISTE D'OBJETS AVANT TESTUPDATEID(DOUBLON) : ");
-			System.out.println(dao.afficherListeObjetsMetier(objetInitiaux));
+			System.out.println(this.dao.afficherListeObjetsMetier(objetInitiaux));
 			this.afficherNbreObjetsInitial(nombreObjetsInitial);
 		}
 
@@ -5925,7 +5932,7 @@ public class ContactSimpleDAOJPASpringTest {
 		// CONDITIONS DE TEST
 		/* ************************* */
 		final Long idObjetAModifier = 2L;
-		final IContactSimple objetAModifier = dao.findById(idObjetAModifier);
+		final IContactSimple objetAModifier = this.dao.findById(idObjetAModifier);
 		final IContactSimple objetModifie = objetModifieDoublon;
 		IContactSimple resultat = null;
 		
@@ -5946,7 +5953,7 @@ public class ContactSimpleDAOJPASpringTest {
 
 			/* ********************************************************* */
 			/* **********************UPDATEID*************************** */
-			resultat = dao.updateById(idObjetAModifier, objetModifie);
+			resultat = this.dao.updateById(idObjetAModifier, objetModifie);
 			/* ********************************************************* */
 			
 			/* AFFICHAGE A LA CONSOLE. */
@@ -5971,15 +5978,15 @@ public class ContactSimpleDAOJPASpringTest {
 			
 			// ETAT FINAL
 			/* récupération. */
-			final List<IContactSimple> objetsFinaux = dao.findAll();
+			final List<IContactSimple> objetsFinaux = this.dao.findAll();
 
 			/* Calcul du nombre d'objets dans le stockage après le traitement. */
-			nombreObjetsFinal = dao.count();
+			nombreObjetsFinal = this.dao.count();
 
 			if (AFFICHAGE_GENERAL && affichage) {
 				System.out.println();
 				System.out.println("LISTE D'OBJETS APRES TESTUPDATEID(DOUBLON) : ");
-				System.out.println(dao.afficherListeObjetsMetier(objetsFinaux));
+				System.out.println(this.dao.afficherListeObjetsMetier(objetsFinaux));
 				this.afficherNbreObjetsFinal(nombreObjetsFinal);
 			}
 
@@ -6023,8 +6030,8 @@ public class ContactSimpleDAOJPASpringTest {
 			System.out.println("********** CLASSE ContactSimpleDaoJPASpringTest - méthode testUpdateId() ********** ");
 		}
 
-		/* dao NON INJECTE. */
-		if (dao == null) {
+		/* this.dao NON INJECTE. */
+		if (this.dao == null) {
 
 			/* AFFICHAGE A LA CONSOLE. */
 			if (AFFICHAGE_GENERAL && affichage) {
@@ -6034,7 +6041,7 @@ public class ContactSimpleDAOJPASpringTest {
 
 			return;
 
-		} // Fin de dao NON INJECTE._____________________
+		} // Fin de this.dao NON INJECTE._____________________
 		
 		/* vide et remplit le stockage. */
 		this.remplirStockage(false);
@@ -6044,15 +6051,15 @@ public class ContactSimpleDAOJPASpringTest {
 		
 		// ETAT INITIAL
 		/* récupération. */
-		final List<IContactSimple> objetInitiaux = dao.findAll();
+		final List<IContactSimple> objetInitiaux = this.dao.findAll();
 
 		/* Compte du nombre d'Objets initialement dans le stockage. */
-		nombreObjetsInitial = dao.count();
+		nombreObjetsInitial = this.dao.count();
 
 		/* AFFICHAGE A LA CONSOLE. */
 		if (AFFICHAGE_GENERAL && affichage) {
 			System.out.println("LISTE D'OBJETS AVANT TESTUPDATEID() : ");
-			System.out.println(dao.afficherListeObjetsMetier(objetInitiaux));
+			System.out.println(this.dao.afficherListeObjetsMetier(objetInitiaux));
 			this.afficherNbreObjetsInitial(nombreObjetsInitial);
 		}
 
@@ -6065,7 +6072,7 @@ public class ContactSimpleDAOJPASpringTest {
 		} else {
 			idObjetAModifier = 0L;
 		}		
-		final IContactSimple objetAModifier = dao.findById(idObjetAModifier);
+		final IContactSimple objetAModifier = this.dao.findById(idObjetAModifier);
 		final IContactSimple objetModifie = objetModifieCorrect;
 		IContactSimple resultat = null;
 
@@ -6086,7 +6093,7 @@ public class ContactSimpleDAOJPASpringTest {
 
 			/* ********************************************************* */
 			/* **********************UPDATEID*************************** */
-			resultat = dao.updateById(idObjetAModifier, objetModifie);
+			resultat = this.dao.updateById(idObjetAModifier, objetModifie);
 			/* ********************************************************* */
 			
 			/* AFFICHAGE A LA CONSOLE. */
@@ -6120,20 +6127,20 @@ public class ContactSimpleDAOJPASpringTest {
 			assertEquals(
 					"ID de l'objet modifié doit valoir pId : "
 						, idObjetAModifier
-							, dao.retrieveId(resultat));
+							, this.dao.retrieveId(resultat));
 			
 			
 			// ETAT FINAL
 			/* récupération. */
-			final List<IContactSimple> objetsFinaux = dao.findAll();
+			final List<IContactSimple> objetsFinaux = this.dao.findAll();
 
 			/* Calcul du nombre d'objets dans le stockage après le traitement. */
-			nombreObjetsFinal = dao.count();
+			nombreObjetsFinal = this.dao.count();
 
 			if (AFFICHAGE_GENERAL && affichage) {
 				System.out.println();
 				System.out.println("LISTE D'OBJETS APRES TESTUPDATEID(DOUBLON) : ");
-				System.out.println(dao.afficherListeObjetsMetier(objetsFinaux));
+				System.out.println(this.dao.afficherListeObjetsMetier(objetsFinaux));
 				this.afficherNbreObjetsFinal(nombreObjetsFinal);
 			}
 
@@ -6175,8 +6182,8 @@ public class ContactSimpleDAOJPASpringTest {
 			System.out.println("********** CLASSE ContactSimpleDaoJPASpringTest - méthode testDeleteNull() ********** ");
 		}
 
-		/* dao NON INJECTE. */
-		if (dao == null) {
+		/* this.dao NON INJECTE. */
+		if (this.dao == null) {
 
 			/* AFFICHAGE A LA CONSOLE. */
 			if (AFFICHAGE_GENERAL && affichage) {
@@ -6186,7 +6193,7 @@ public class ContactSimpleDAOJPASpringTest {
 
 			return;
 
-		} // Fin de dao NON INJECTE._____________________
+		} // Fin de this.dao NON INJECTE._____________________
 
 		/* vide et remplit le stockage. */
 		this.remplirStockage(false);
@@ -6196,15 +6203,15 @@ public class ContactSimpleDAOJPASpringTest {
 		
 		// ETAT INITIAL
 		/* récupération. */
-		final List<IContactSimple> objetInitiaux = dao.findAll();
+		final List<IContactSimple> objetInitiaux = this.dao.findAll();
 
 		/* Compte du nombre d'Objets initialement dans le stockage. */
-		nombreObjetsInitial = dao.count();
+		nombreObjetsInitial = this.dao.count();
 
 		/* AFFICHAGE A LA CONSOLE. */
 		if (AFFICHAGE_GENERAL && affichage) {
 			System.out.println("LISTE D'OBJETS AVANT TESTDELETE(NULL) : ");
-			System.out.println(dao.afficherListeObjetsMetier(objetInitiaux));
+			System.out.println(this.dao.afficherListeObjetsMetier(objetInitiaux));
 			this.afficherNbreObjetsInitial(nombreObjetsInitial);
 		}
 
@@ -6225,7 +6232,7 @@ public class ContactSimpleDAOJPASpringTest {
 
 			/* ********************************************************* */
 			/* ***********************DELETE**************************** */
-			resultat = dao.delete(objetADeleter);
+			resultat = this.dao.delete(objetADeleter);
 			/* ********************************************************* */
 			
 			/* AFFICHAGE A LA CONSOLE. */
@@ -6246,15 +6253,15 @@ public class ContactSimpleDAOJPASpringTest {
 			
 			// ETAT FINAL
 			/* récupération. */
-			final List<IContactSimple> objetsFinaux = dao.findAll();
+			final List<IContactSimple> objetsFinaux = this.dao.findAll();
 
 			/* Calcul du nombre d'objets dans le stockage après le traitement. */
-			nombreObjetsFinal = dao.count();
+			nombreObjetsFinal = this.dao.count();
 
 			if (AFFICHAGE_GENERAL && affichage) {
 				System.out.println();
 				System.out.println("LISTE D'OBJETS APRES TESTDELETE(NULL) : ");
-				System.out.println(dao.afficherListeObjetsMetier(objetsFinaux));
+				System.out.println(this.dao.afficherListeObjetsMetier(objetsFinaux));
 				this.afficherNbreObjetsFinal(nombreObjetsFinal);
 			}
 
@@ -6296,8 +6303,8 @@ public class ContactSimpleDAOJPASpringTest {
 			System.out.println("********** CLASSE ContactSimpleDaoJPASpringTest - méthode testDeleteInexistant() ********** ");
 		}
 
-		/* dao NON INJECTE. */
-		if (dao == null) {
+		/* this.dao NON INJECTE. */
+		if (this.dao == null) {
 
 			/* AFFICHAGE A LA CONSOLE. */
 			if (AFFICHAGE_GENERAL && affichage) {
@@ -6307,7 +6314,7 @@ public class ContactSimpleDAOJPASpringTest {
 
 			return;
 
-		} // Fin de dao NON INJECTE._____________________
+		} // Fin de this.dao NON INJECTE._____________________
 
 		/* vide et remplit le stockage. */
 		this.remplirStockage(false);
@@ -6317,15 +6324,15 @@ public class ContactSimpleDAOJPASpringTest {
 				
 		// ETAT INITIAL
 		/* récupération. */
-		final List<IContactSimple> objetInitiaux = dao.findAll();
+		final List<IContactSimple> objetInitiaux = this.dao.findAll();
 
 		/* Compte du nombre d'Objets initialement dans le stockage. */
-		nombreObjetsInitial = dao.count();
+		nombreObjetsInitial = this.dao.count();
 
 		/* AFFICHAGE A LA CONSOLE. */
 		if (AFFICHAGE_GENERAL && affichage) {
 			System.out.println("LISTE D'OBJETS AVANT TESTDELETE(INEXISTANT) : ");
-			System.out.println(dao.afficherListeObjetsMetier(objetInitiaux));
+			System.out.println(this.dao.afficherListeObjetsMetier(objetInitiaux));
 			this.afficherNbreObjetsInitial(nombreObjetsInitial);
 		}
 
@@ -6346,7 +6353,7 @@ public class ContactSimpleDAOJPASpringTest {
 
 			/* ********************************************************* */
 			/* ***********************DELETE**************************** */
-			resultat = dao.delete(objetADeleter);
+			resultat = this.dao.delete(objetADeleter);
 			/* ********************************************************* */
 			
 			/* AFFICHAGE A LA CONSOLE. */
@@ -6367,15 +6374,15 @@ public class ContactSimpleDAOJPASpringTest {
 			
 			// ETAT FINAL
 			/* récupération. */
-			final List<IContactSimple> objetsFinaux = dao.findAll();
+			final List<IContactSimple> objetsFinaux = this.dao.findAll();
 
 			/* Calcul du nombre d'objets dans le stockage après le traitement. */
-			nombreObjetsFinal = dao.count();
+			nombreObjetsFinal = this.dao.count();
 
 			if (AFFICHAGE_GENERAL && affichage) {
 				System.out.println();
 				System.out.println("LISTE D'OBJETS APRES TESTDELETE(INEXISTANT) : ");
-				System.out.println(dao.afficherListeObjetsMetier(objetsFinaux));
+				System.out.println(this.dao.afficherListeObjetsMetier(objetsFinaux));
 				this.afficherNbreObjetsFinal(nombreObjetsFinal);
 			}
 
@@ -6418,8 +6425,8 @@ public class ContactSimpleDAOJPASpringTest {
 			System.out.println("********** CLASSE ContactSimpleDaoJPASpringTest - méthode testDelete() ********** ");
 		}
 
-		/* dao NON INJECTE. */
-		if (dao == null) {
+		/* this.dao NON INJECTE. */
+		if (this.dao == null) {
 
 			/* AFFICHAGE A LA CONSOLE. */
 			if (AFFICHAGE_GENERAL && affichage) {
@@ -6429,7 +6436,7 @@ public class ContactSimpleDAOJPASpringTest {
 
 			return;
 
-		} // Fin de dao NON INJECTE._____________________
+		} // Fin de this.dao NON INJECTE._____________________
 
 		/* vide et remplit le stockage. */
 		this.remplirStockage(false);
@@ -6439,15 +6446,15 @@ public class ContactSimpleDAOJPASpringTest {
 				
 		// ETAT INITIAL
 		/* récupération. */
-		final List<IContactSimple> objetInitiaux = dao.findAll();
+		final List<IContactSimple> objetInitiaux = this.dao.findAll();
 
 		/* Compte du nombre d'Objets initialement dans le stockage. */
-		nombreObjetsInitial = dao.count();
+		nombreObjetsInitial = this.dao.count();
 
 		/* AFFICHAGE A LA CONSOLE. */
 		if (AFFICHAGE_GENERAL && affichage) {
 			System.out.println("LISTE D'OBJETS AVANT TESTDELETE() : ");
-			System.out.println(dao.afficherListeObjetsMetier(objetInitiaux));
+			System.out.println(this.dao.afficherListeObjetsMetier(objetInitiaux));
 			this.afficherNbreObjetsInitial(nombreObjetsInitial);
 		}
 
@@ -6468,7 +6475,7 @@ public class ContactSimpleDAOJPASpringTest {
 
 			/* ********************************************************* */
 			/* ***********************DELETE**************************** */
-			resultat = dao.delete(objetADeleter);
+			resultat = this.dao.delete(objetADeleter);
 			/* ********************************************************* */
 			
 			/* AFFICHAGE A LA CONSOLE. */
@@ -6489,15 +6496,15 @@ public class ContactSimpleDAOJPASpringTest {
 			
 			// ETAT FINAL
 			/* récupération. */
-			final List<IContactSimple> objetsFinaux = dao.findAll();
+			final List<IContactSimple> objetsFinaux = this.dao.findAll();
 
 			/* Calcul du nombre d'objets dans le stockage après le traitement. */
-			nombreObjetsFinal = dao.count();
+			nombreObjetsFinal = this.dao.count();
 
 			if (AFFICHAGE_GENERAL && affichage) {
 				System.out.println();
 				System.out.println("LISTE D'OBJETS APRES TESTDELETE() : ");
-				System.out.println(dao.afficherListeObjetsMetier(objetsFinaux));
+				System.out.println(this.dao.afficherListeObjetsMetier(objetsFinaux));
 				this.afficherNbreObjetsFinal(nombreObjetsFinal);
 			}
 
@@ -6541,8 +6548,8 @@ public class ContactSimpleDAOJPASpringTest {
 			System.out.println("********** CLASSE ContactSimpleDaoJPASpringTest - méthode testDeleteByIdNull() ********** ");
 		}
 
-		/* dao NON INJECTE. */
-		if (dao == null) {
+		/* this.dao NON INJECTE. */
+		if (this.dao == null) {
 
 			/* AFFICHAGE A LA CONSOLE. */
 			if (AFFICHAGE_GENERAL && affichage) {
@@ -6552,7 +6559,7 @@ public class ContactSimpleDAOJPASpringTest {
 
 			return;
 
-		} // Fin de dao NON INJECTE._____________________
+		} // Fin de this.dao NON INJECTE._____________________
 		
 		/* vide et remplit le stockage. */
 		this.remplirStockage(false);
@@ -6562,15 +6569,15 @@ public class ContactSimpleDAOJPASpringTest {
 
 		// ETAT INITIAL
 		/* récupération. */
-		final List<IContactSimple> objetInitiaux = dao.findAll();
+		final List<IContactSimple> objetInitiaux = this.dao.findAll();
 
 		/* Compte du nombre d'Objets initialement dans le stockage. */
-		nombreObjetsInitial = dao.count();
+		nombreObjetsInitial = this.dao.count();
 
 		/* AFFICHAGE A LA CONSOLE. */
 		if (AFFICHAGE_GENERAL && affichage) {
 			System.out.println("LISTE D'OBJETS AVANT TESTDELETEBYID(NULL) : ");
-			System.out.println(dao.afficherListeObjetsMetier(objetInitiaux));
+			System.out.println(this.dao.afficherListeObjetsMetier(objetInitiaux));
 			this.afficherNbreObjetsInitial(nombreObjetsInitial);
 		}
 		
@@ -6579,7 +6586,7 @@ public class ContactSimpleDAOJPASpringTest {
 		/* ************************* */
 		final Long idObjetADeleter = null;
 		
-		final IContactSimple objetADeleter = dao.findById(idObjetADeleter);
+		final IContactSimple objetADeleter = this.dao.findById(idObjetADeleter);
 		
 		/* AFFICHAGE A LA CONSOLE. */
 		if (AFFICHAGE_GENERAL && affichage) {
@@ -6600,21 +6607,21 @@ public class ContactSimpleDAOJPASpringTest {
 
 			/* ********************************************************* */
 			/* *********************DELETEBYID************************** */
-			dao.deleteById(idObjetADeleter);
+			this.dao.deleteById(idObjetADeleter);
 			/* ********************************************************* */
 			
 			
 			// ETAT FINAL
 			/* récupération. */
-			final List<IContactSimple> objetsFinaux = dao.findAll();
+			final List<IContactSimple> objetsFinaux = this.dao.findAll();
 
 			/* Calcul du nombre d'objets dans le stockage après le traitement. */
-			nombreObjetsFinal = dao.count();
+			nombreObjetsFinal = this.dao.count();
 
 			if (AFFICHAGE_GENERAL && affichage) {
 				System.out.println();
 				System.out.println("LISTE D'OBJETS APRES TESTDELETEBYID(NULL) : ");
-				System.out.println(dao.afficherListeObjetsMetier(objetsFinaux));
+				System.out.println(this.dao.afficherListeObjetsMetier(objetsFinaux));
 				this.afficherNbreObjetsFinal(nombreObjetsFinal);
 			}
 
@@ -6656,8 +6663,8 @@ public class ContactSimpleDAOJPASpringTest {
 			System.out.println("********** CLASSE ContactSimpleDaoJPASpringTest - méthode testDeleteByIdInexistant() ********** ");
 		}
 
-		/* dao NON INJECTE. */
-		if (dao == null) {
+		/* this.dao NON INJECTE. */
+		if (this.dao == null) {
 
 			/* AFFICHAGE A LA CONSOLE. */
 			if (AFFICHAGE_GENERAL && affichage) {
@@ -6667,7 +6674,7 @@ public class ContactSimpleDAOJPASpringTest {
 
 			return;
 
-		} // Fin de dao NON INJECTE._____________________
+		} // Fin de this.dao NON INJECTE._____________________
 		
 		/* vide et remplit le stockage. */
 		this.remplirStockage(false);
@@ -6677,15 +6684,15 @@ public class ContactSimpleDAOJPASpringTest {
 
 		// ETAT INITIAL
 		/* récupération. */
-		final List<IContactSimple> objetInitiaux = dao.findAll();
+		final List<IContactSimple> objetInitiaux = this.dao.findAll();
 
 		/* Compte du nombre d'Objets initialement dans le stockage. */
-		nombreObjetsInitial = dao.count();
+		nombreObjetsInitial = this.dao.count();
 
 		/* AFFICHAGE A LA CONSOLE. */
 		if (AFFICHAGE_GENERAL && affichage) {
 			System.out.println("LISTE D'OBJETS AVANT TESTDELETEBYID(INEXISTANT) : ");
-			System.out.println(dao.afficherListeObjetsMetier(objetInitiaux));
+			System.out.println(this.dao.afficherListeObjetsMetier(objetInitiaux));
 			this.afficherNbreObjetsInitial(nombreObjetsInitial);
 		}
 		
@@ -6694,7 +6701,7 @@ public class ContactSimpleDAOJPASpringTest {
 		/* ************************* */
 		final Long idObjetADeleter = 17L;
 		
-		final IContactSimple objetADeleter = dao.findById(idObjetADeleter);
+		final IContactSimple objetADeleter = this.dao.findById(idObjetADeleter);
 		
 		/* AFFICHAGE A LA CONSOLE. */
 		if (AFFICHAGE_GENERAL && affichage) {
@@ -6715,21 +6722,21 @@ public class ContactSimpleDAOJPASpringTest {
 
 			/* ********************************************************* */
 			/* *********************DELETEBYID************************** */
-			dao.deleteById(idObjetADeleter);
+			this.dao.deleteById(idObjetADeleter);
 			/* ********************************************************* */
 			
 			
 			// ETAT FINAL
 			/* récupération. */
-			final List<IContactSimple> objetsFinaux = dao.findAll();
+			final List<IContactSimple> objetsFinaux = this.dao.findAll();
 
 			/* Calcul du nombre d'objets dans le stockage après le traitement. */
-			nombreObjetsFinal = dao.count();
+			nombreObjetsFinal = this.dao.count();
 
 			if (AFFICHAGE_GENERAL && affichage) {
 				System.out.println();
 				System.out.println("LISTE D'OBJETS APRES TESTDELETEBYID(INEXISTANT) : ");
-				System.out.println(dao.afficherListeObjetsMetier(objetsFinaux));
+				System.out.println(this.dao.afficherListeObjetsMetier(objetsFinaux));
 				this.afficherNbreObjetsFinal(nombreObjetsFinal);
 			}
 
@@ -6771,8 +6778,8 @@ public class ContactSimpleDAOJPASpringTest {
 			System.out.println("********** CLASSE ContactSimpleDaoJPASpringTest - méthode testDeleteById() ********** ");
 		}
 
-		/* dao NON INJECTE. */
-		if (dao == null) {
+		/* this.dao NON INJECTE. */
+		if (this.dao == null) {
 
 			/* AFFICHAGE A LA CONSOLE. */
 			if (AFFICHAGE_GENERAL && affichage) {
@@ -6782,7 +6789,7 @@ public class ContactSimpleDAOJPASpringTest {
 
 			return;
 
-		} // Fin de dao NON INJECTE._____________________
+		} // Fin de this.dao NON INJECTE._____________________
 		
 		/* vide et remplit le stockage. */
 		this.remplirStockage(false);
@@ -6792,15 +6799,15 @@ public class ContactSimpleDAOJPASpringTest {
 
 		// ETAT INITIAL
 		/* récupération. */
-		final List<IContactSimple> objetInitiaux = dao.findAll();
+		final List<IContactSimple> objetInitiaux = this.dao.findAll();
 
 		/* Compte du nombre d'Objets initialement dans le stockage. */
-		nombreObjetsInitial = dao.count();
+		nombreObjetsInitial = this.dao.count();
 
 		/* AFFICHAGE A LA CONSOLE. */
 		if (AFFICHAGE_GENERAL && affichage) {
 			System.out.println("LISTE D'OBJETS AVANT TESTDELETEBYID() : ");
-			System.out.println(dao.afficherListeObjetsMetier(objetInitiaux));
+			System.out.println(this.dao.afficherListeObjetsMetier(objetInitiaux));
 			this.afficherNbreObjetsInitial(nombreObjetsInitial);
 		}
 		
@@ -6814,7 +6821,7 @@ public class ContactSimpleDAOJPASpringTest {
 			idObjetADeleter = 0L;
 		}
 		
-		final IContactSimple objetADeleter = dao.findById(idObjetADeleter);
+		final IContactSimple objetADeleter = this.dao.findById(idObjetADeleter);
 		
 		/* AFFICHAGE A LA CONSOLE. */
 		if (AFFICHAGE_GENERAL && affichage) {
@@ -6835,21 +6842,21 @@ public class ContactSimpleDAOJPASpringTest {
 
 			/* ********************************************************* */
 			/* *********************DELETEBYID************************** */
-			dao.deleteById(idObjetADeleter);
+			this.dao.deleteById(idObjetADeleter);
 			/* ********************************************************* */
 			
 			
 			// ETAT FINAL
 			/* récupération. */
-			final List<IContactSimple> objetsFinaux = dao.findAll();
+			final List<IContactSimple> objetsFinaux = this.dao.findAll();
 
 			/* Calcul du nombre d'objets dans le stockage après le traitement. */
-			nombreObjetsFinal = dao.count();
+			nombreObjetsFinal = this.dao.count();
 
 			if (AFFICHAGE_GENERAL && affichage) {
 				System.out.println();
 				System.out.println("LISTE D'OBJETS APRES TESTDELETEBYID() : ");
-				System.out.println(dao.afficherListeObjetsMetier(objetsFinaux));
+				System.out.println(this.dao.afficherListeObjetsMetier(objetsFinaux));
 				this.afficherNbreObjetsFinal(nombreObjetsFinal);
 			}
 
@@ -6893,8 +6900,8 @@ public class ContactSimpleDAOJPASpringTest {
 			System.out.println("********** CLASSE ContactSimpleDaoJPASpringTest - méthode testDeleteByIdBooleanNull() ********** ");
 		}
 
-		/* dao NON INJECTE. */
-		if (dao == null) {
+		/* this.dao NON INJECTE. */
+		if (this.dao == null) {
 
 			/* AFFICHAGE A LA CONSOLE. */
 			if (AFFICHAGE_GENERAL && affichage) {
@@ -6904,7 +6911,7 @@ public class ContactSimpleDAOJPASpringTest {
 
 			return;
 
-		} // Fin de dao NON INJECTE._____________________
+		} // Fin de this.dao NON INJECTE._____________________
 		
 		/* vide et remplit le stockage. */
 		this.remplirStockage(false);
@@ -6914,15 +6921,15 @@ public class ContactSimpleDAOJPASpringTest {
 		
 		// ETAT INITIAL
 		/* récupération. */
-		final List<IContactSimple> objetInitiaux = dao.findAll();
+		final List<IContactSimple> objetInitiaux = this.dao.findAll();
 
 		/* Compte du nombre d'Objets initialement dans le stockage. */
-		nombreObjetsInitial = dao.count();
+		nombreObjetsInitial = this.dao.count();
 
 		/* AFFICHAGE A LA CONSOLE. */
 		if (AFFICHAGE_GENERAL && affichage) {
 			System.out.println("LISTE D'OBJETS AVANT TESTDELETEBYIDBOOLEAN(NULL) : ");
-			System.out.println(dao.afficherListeObjetsMetier(objetInitiaux));
+			System.out.println(this.dao.afficherListeObjetsMetier(objetInitiaux));
 			this.afficherNbreObjetsInitial(nombreObjetsInitial);
 		}
 		
@@ -6931,7 +6938,7 @@ public class ContactSimpleDAOJPASpringTest {
 		/* ************************* */
 		final Long idObjetADeleter = null;
 		boolean resultat = false;
-		final IContactSimple objetADeleter = dao.findById(idObjetADeleter);
+		final IContactSimple objetADeleter = this.dao.findById(idObjetADeleter);
 		
 		/* AFFICHAGE A LA CONSOLE. */
 		if (AFFICHAGE_GENERAL && affichage) {
@@ -6952,7 +6959,7 @@ public class ContactSimpleDAOJPASpringTest {
 
 			/* ********************************************************* */
 			/* ***************DELETEBYIDBOOLEAN************************* */
-			resultat = dao.deleteByIdBoolean(idObjetADeleter);
+			resultat = this.dao.deleteByIdBoolean(idObjetADeleter);
 			/* ********************************************************* */
 						
 			/* AFFICHAGE A LA CONSOLE. */
@@ -6973,15 +6980,15 @@ public class ContactSimpleDAOJPASpringTest {
 			
 			// ETAT FINAL
 			/* récupération. */
-			final List<IContactSimple> objetsFinaux = dao.findAll();
+			final List<IContactSimple> objetsFinaux = this.dao.findAll();
 
 			/* Calcul du nombre d'objets dans le stockage après le traitement. */
-			nombreObjetsFinal = dao.count();
+			nombreObjetsFinal = this.dao.count();
 
 			if (AFFICHAGE_GENERAL && affichage) {
 				System.out.println();
 				System.out.println("LISTE D'OBJETS APRES TESTDELETEBYIDBOOLEAN(NULL) : ");
-				System.out.println(dao.afficherListeObjetsMetier(objetsFinaux));
+				System.out.println(this.dao.afficherListeObjetsMetier(objetsFinaux));
 				this.afficherNbreObjetsFinal(nombreObjetsFinal);
 			}
 
@@ -7024,8 +7031,8 @@ public class ContactSimpleDAOJPASpringTest {
 			System.out.println("********** CLASSE ContactSimpleDaoJPASpringTest - méthode testDeleteByIdBooleanInexistant() ********** ");
 		}
 
-		/* dao NON INJECTE. */
-		if (dao == null) {
+		/* this.dao NON INJECTE. */
+		if (this.dao == null) {
 
 			/* AFFICHAGE A LA CONSOLE. */
 			if (AFFICHAGE_GENERAL && affichage) {
@@ -7035,7 +7042,7 @@ public class ContactSimpleDAOJPASpringTest {
 
 			return;
 
-		} // Fin de dao NON INJECTE._____________________
+		} // Fin de this.dao NON INJECTE._____________________
 		
 		/* vide et remplit le stockage. */
 		this.remplirStockage(false);
@@ -7045,15 +7052,15 @@ public class ContactSimpleDAOJPASpringTest {
 
 		// ETAT INITIAL
 		/* récupération. */
-		final List<IContactSimple> objetInitiaux = dao.findAll();
+		final List<IContactSimple> objetInitiaux = this.dao.findAll();
 
 		/* Compte du nombre d'Objets initialement dans le stockage. */
-		nombreObjetsInitial = dao.count();
+		nombreObjetsInitial = this.dao.count();
 
 		/* AFFICHAGE A LA CONSOLE. */
 		if (AFFICHAGE_GENERAL && affichage) {
 			System.out.println("LISTE D'OBJETS AVANT TESTDELETEBYIDBOOLEAN(INEXISTANT) : ");
-			System.out.println(dao.afficherListeObjetsMetier(objetInitiaux));
+			System.out.println(this.dao.afficherListeObjetsMetier(objetInitiaux));
 			this.afficherNbreObjetsInitial(nombreObjetsInitial);
 		}
 		
@@ -7061,7 +7068,7 @@ public class ContactSimpleDAOJPASpringTest {
 		// CONDITIONS DE TEST
 		/* ************************* */
 		final Long idObjetADeleter = 17L;	
-		final IContactSimple objetADeleter = dao.findById(idObjetADeleter);
+		final IContactSimple objetADeleter = this.dao.findById(idObjetADeleter);
 		boolean resultat = false;
 		
 
@@ -7084,7 +7091,7 @@ public class ContactSimpleDAOJPASpringTest {
 
 			/* ********************************************************* */
 			/* ***************DELETEBYIDBOOLEAN************************* */
-			resultat = dao.deleteByIdBoolean(idObjetADeleter);
+			resultat = this.dao.deleteByIdBoolean(idObjetADeleter);
 			/* ********************************************************* */
 						
 			/* AFFICHAGE A LA CONSOLE. */
@@ -7105,15 +7112,15 @@ public class ContactSimpleDAOJPASpringTest {
 			
 			// ETAT FINAL
 			/* récupération. */
-			final List<IContactSimple> objetsFinaux = dao.findAll();
+			final List<IContactSimple> objetsFinaux = this.dao.findAll();
 
 			/* Calcul du nombre d'objets dans le stockage après le traitement. */
-			nombreObjetsFinal = dao.count();
+			nombreObjetsFinal = this.dao.count();
 
 			if (AFFICHAGE_GENERAL && affichage) {
 				System.out.println();
 				System.out.println("LISTE D'OBJETS APRES TESTDELETEBYIDBOOLEAN(INEXISTANT) : ");
-				System.out.println(dao.afficherListeObjetsMetier(objetsFinaux));
+				System.out.println(this.dao.afficherListeObjetsMetier(objetsFinaux));
 				this.afficherNbreObjetsFinal(nombreObjetsFinal);
 			}
 
@@ -7156,8 +7163,8 @@ public class ContactSimpleDAOJPASpringTest {
 			System.out.println("********** CLASSE ContactSimpleDaoJPASpringTest - méthode testDeleteByIdBoolean() ********** ");
 		}
 
-		/* dao NON INJECTE. */
-		if (dao == null) {
+		/* this.dao NON INJECTE. */
+		if (this.dao == null) {
 
 			/* AFFICHAGE A LA CONSOLE. */
 			if (AFFICHAGE_GENERAL && affichage) {
@@ -7167,7 +7174,7 @@ public class ContactSimpleDAOJPASpringTest {
 
 			return;
 
-		} // Fin de dao NON INJECTE._____________________
+		} // Fin de this.dao NON INJECTE._____________________
 		
 		/* vide et remplit le stockage. */
 		this.remplirStockage(false);
@@ -7177,15 +7184,15 @@ public class ContactSimpleDAOJPASpringTest {
 
 		// ETAT INITIAL
 		/* récupération. */
-		final List<IContactSimple> objetInitiaux = dao.findAll();
+		final List<IContactSimple> objetInitiaux = this.dao.findAll();
 
 		/* Compte du nombre d'Objets initialement dans le stockage. */
-		nombreObjetsInitial = dao.count();
+		nombreObjetsInitial = this.dao.count();
 
 		/* AFFICHAGE A LA CONSOLE. */
 		if (AFFICHAGE_GENERAL && affichage) {
 			System.out.println("LISTE D'OBJETS AVANT TESTDELETEBYIDBOOLEAN() : ");
-			System.out.println(dao.afficherListeObjetsMetier(objetInitiaux));
+			System.out.println(this.dao.afficherListeObjetsMetier(objetInitiaux));
 			this.afficherNbreObjetsInitial(nombreObjetsInitial);
 		}
 		
@@ -7198,7 +7205,7 @@ public class ContactSimpleDAOJPASpringTest {
 		} else {
 			idObjetADeleter = 0L;
 		}	
-		final IContactSimple objetADeleter = dao.findById(idObjetADeleter);
+		final IContactSimple objetADeleter = this.dao.findById(idObjetADeleter);
 		boolean resultat = false;
 		
 		/* AFFICHAGE A LA CONSOLE. */
@@ -7220,7 +7227,7 @@ public class ContactSimpleDAOJPASpringTest {
 
 			/* ********************************************************* */
 			/* ***************DELETEBYIDBOOLEAN************************* */
-			resultat = dao.deleteByIdBoolean(idObjetADeleter);
+			resultat = this.dao.deleteByIdBoolean(idObjetADeleter);
 			/* ********************************************************* */
 									
 			/* AFFICHAGE A LA CONSOLE. */
@@ -7240,15 +7247,15 @@ public class ContactSimpleDAOJPASpringTest {
 			
 			// ETAT FINAL
 			/* récupération. */
-			final List<IContactSimple> objetsFinaux = dao.findAll();
+			final List<IContactSimple> objetsFinaux = this.dao.findAll();
 
 			/* Calcul du nombre d'objets dans le stockage après le traitement. */
-			nombreObjetsFinal = dao.count();
+			nombreObjetsFinal = this.dao.count();
 
 			if (AFFICHAGE_GENERAL && affichage) {
 				System.out.println();
 				System.out.println("LISTE D'OBJETS APRES TESTDELETEBYIDBOOLEAN() : ");
-				System.out.println(dao.afficherListeObjetsMetier(objetsFinaux));
+				System.out.println(this.dao.afficherListeObjetsMetier(objetsFinaux));
 				this.afficherNbreObjetsFinal(nombreObjetsFinal);
 			}
 
@@ -7292,8 +7299,8 @@ public class ContactSimpleDAOJPASpringTest {
 			System.out.println("********** CLASSE ContactSimpleDaoJPASpringTest - méthode testDeleteAll() ********** ");
 		}
 
-		/* dao NON INJECTE. */
-		if (dao == null) {
+		/* this.dao NON INJECTE. */
+		if (this.dao == null) {
 
 			/* AFFICHAGE A LA CONSOLE. */
 			if (AFFICHAGE_GENERAL && affichage) {
@@ -7303,7 +7310,7 @@ public class ContactSimpleDAOJPASpringTest {
 
 			return;
 
-		} // Fin de dao NON INJECTE._____________________
+		} // Fin de this.dao NON INJECTE._____________________
 
 		/* vide et remplit le stockage. */
 		this.remplirStockage(false);
@@ -7313,15 +7320,15 @@ public class ContactSimpleDAOJPASpringTest {
 
 		// ETAT INITIAL
 		/* récupération. */
-		final List<IContactSimple> objetInitiaux = dao.findAll();
+		final List<IContactSimple> objetInitiaux = this.dao.findAll();
 
 		/* Compte du nombre d'Objets initialement dans le stockage. */
-		nombreObjetsInitial = dao.count();
+		nombreObjetsInitial = this.dao.count();
 
 		/* AFFICHAGE A LA CONSOLE. */
 		if (AFFICHAGE_GENERAL && affichage) {
 			System.out.println("LISTE D'OBJETS AVANT TESTDELETEALL() : ");
-			System.out.println(dao.afficherListeObjetsMetier(objetInitiaux));
+			System.out.println(this.dao.afficherListeObjetsMetier(objetInitiaux));
 			this.afficherNbreObjetsInitial(nombreObjetsInitial);
 		}
 		
@@ -7330,21 +7337,21 @@ public class ContactSimpleDAOJPASpringTest {
 
 			/* ********************************************************* */
 			/* *********************DELETEBYID************************** */
-			dao.deleteAll();
+			this.dao.deleteAll();
 			/* ********************************************************* */
 			
 			
 			// ETAT FINAL
 			/* récupération. */
-			final List<IContactSimple> objetsFinaux = dao.findAll();
+			final List<IContactSimple> objetsFinaux = this.dao.findAll();
 
 			/* Calcul du nombre d'objets dans le stockage après le traitement. */
-			nombreObjetsFinal = dao.count();
+			nombreObjetsFinal = this.dao.count();
 
 			if (AFFICHAGE_GENERAL && affichage) {
 				System.out.println();
 				System.out.println("LISTE D'OBJETS APRES TESTDELETEALL() : ");
-				System.out.println(dao.afficherListeObjetsMetier(objetsFinaux));
+				System.out.println(this.dao.afficherListeObjetsMetier(objetsFinaux));
 				this.afficherNbreObjetsFinal(nombreObjetsFinal);
 			}
 
@@ -7389,8 +7396,8 @@ public class ContactSimpleDAOJPASpringTest {
 			System.out.println("********** CLASSE ContactSimpleDaoJPASpringTest - méthode testDeleteAllBoolean() ********** ");
 		}
 
-		/* dao NON INJECTE. */
-		if (dao == null) {
+		/* this.dao NON INJECTE. */
+		if (this.dao == null) {
 
 			/* AFFICHAGE A LA CONSOLE. */
 			if (AFFICHAGE_GENERAL && affichage) {
@@ -7400,7 +7407,7 @@ public class ContactSimpleDAOJPASpringTest {
 
 			return;
 
-		} // Fin de dao NON INJECTE._____________________
+		} // Fin de this.dao NON INJECTE._____________________
 
 		/* vide et remplit le stockage. */
 		this.remplirStockage(false);
@@ -7410,15 +7417,15 @@ public class ContactSimpleDAOJPASpringTest {
 
 		// ETAT INITIAL
 		/* récupération. */
-		final List<IContactSimple> objetInitiaux = dao.findAll();
+		final List<IContactSimple> objetInitiaux = this.dao.findAll();
 
 		/* Compte du nombre d'Objets initialement dans le stockage. */
-		nombreObjetsInitial = dao.count();
+		nombreObjetsInitial = this.dao.count();
 
 		/* AFFICHAGE A LA CONSOLE. */
 		if (AFFICHAGE_GENERAL && affichage) {
 			System.out.println("LISTE D'OBJETS AVANT TESTDELETEALLBOOLEAN() : ");
-			System.out.println(dao.afficherListeObjetsMetier(objetInitiaux));
+			System.out.println(this.dao.afficherListeObjetsMetier(objetInitiaux));
 			this.afficherNbreObjetsInitial(nombreObjetsInitial);
 		}
 		
@@ -7429,7 +7436,7 @@ public class ContactSimpleDAOJPASpringTest {
 
 			/* ********************************************************* */
 			/* *********************DELETEBYID************************** */
-			resultat = dao.deleteAllBoolean();
+			resultat = this.dao.deleteAllBoolean();
 			/* ********************************************************* */
 						
 			/* AFFICHAGE A LA CONSOLE. */
@@ -7448,15 +7455,15 @@ public class ContactSimpleDAOJPASpringTest {
 			
 			// ETAT FINAL
 			/* récupération. */
-			final List<IContactSimple> objetsFinaux = dao.findAll();
+			final List<IContactSimple> objetsFinaux = this.dao.findAll();
 
 			/* Calcul du nombre d'objets dans le stockage après le traitement. */
-			nombreObjetsFinal = dao.count();
+			nombreObjetsFinal = this.dao.count();
 
 			if (AFFICHAGE_GENERAL && affichage) {
 				System.out.println();
 				System.out.println("LISTE D'OBJETS APRES TESTDELETEALLBOOLEAN() : ");
-				System.out.println(dao.afficherListeObjetsMetier(objetsFinaux));
+				System.out.println(this.dao.afficherListeObjetsMetier(objetsFinaux));
 				this.afficherNbreObjetsFinal(nombreObjetsFinal);
 			}
 
@@ -7500,8 +7507,8 @@ public class ContactSimpleDAOJPASpringTest {
 			System.out.println("********** CLASSE ContactSimpleDaoJPASpringTest - méthode testDeleteIterable() ********** ");
 		}
 
-		/* dao NON INJECTE. */
-		if (dao == null) {
+		/* this.dao NON INJECTE. */
+		if (this.dao == null) {
 
 			/* AFFICHAGE A LA CONSOLE. */
 			if (AFFICHAGE_GENERAL && affichage) {
@@ -7511,7 +7518,7 @@ public class ContactSimpleDAOJPASpringTest {
 
 			return;
 
-		} // Fin de dao NON INJECTE._____________________
+		} // Fin de this.dao NON INJECTE._____________________
 
 		/* vide et remplit le stockage. */
 		this.remplirStockage(false);
@@ -7521,15 +7528,15 @@ public class ContactSimpleDAOJPASpringTest {
 	
 		// ETAT INITIAL
 		/* récupération. */
-		final List<IContactSimple> objetInitiaux = dao.findAll();
+		final List<IContactSimple> objetInitiaux = this.dao.findAll();
 
 		/* Compte du nombre d'Objets initialement dans le stockage. */
-		nombreObjetsInitial = dao.count();
+		nombreObjetsInitial = this.dao.count();
 
 		/* AFFICHAGE A LA CONSOLE. */
 		if (AFFICHAGE_GENERAL && affichage) {
 			System.out.println("LISTE D'OBJETS AVANT DELETEITERABLE() : ");
-			System.out.println(dao.afficherListeObjetsMetier(objetInitiaux));
+			System.out.println(this.dao.afficherListeObjetsMetier(objetInitiaux));
 			this.afficherNbreObjetsInitial(nombreObjetsInitial);
 		}
 
@@ -7556,21 +7563,21 @@ public class ContactSimpleDAOJPASpringTest {
 
 			/* ********************************************************* */
 			/* *********************DELETEITERABLE********************* */
-			dao.deleteIterable(list1);
+			this.dao.deleteIterable(list1);
 			/* ********************************************************* */
 			
 			
 			// ETAT FINAL
 			/* récupération. */
-			final List<IContactSimple> objetsFinaux = dao.findAll();
+			final List<IContactSimple> objetsFinaux = this.dao.findAll();
 
 			/* Calcul du nombre d'objets dans le stockage après le traitement. */
-			nombreObjetsFinal = dao.count();
+			nombreObjetsFinal = this.dao.count();
 
 			if (AFFICHAGE_GENERAL && affichage) {
 				System.out.println();
 				System.out.println("LISTE D'OBJETS APRES DELETEITERABLE() : ");
-				System.out.println(dao.afficherListeObjetsMetier(objetsFinaux));
+				System.out.println(this.dao.afficherListeObjetsMetier(objetsFinaux));
 				this.afficherNbreObjetsFinal(nombreObjetsFinal);
 			}
 
@@ -7615,8 +7622,8 @@ public class ContactSimpleDAOJPASpringTest {
 			System.out.println("********** CLASSE ContactSimpleDaoJPASpringTest - méthode testDeleteIterableBoolean() ********** ");
 		}
 
-		/* dao NON INJECTE. */
-		if (dao == null) {
+		/* this.dao NON INJECTE. */
+		if (this.dao == null) {
 
 			/* AFFICHAGE A LA CONSOLE. */
 			if (AFFICHAGE_GENERAL && affichage) {
@@ -7626,7 +7633,7 @@ public class ContactSimpleDAOJPASpringTest {
 
 			return;
 
-		} // Fin de dao NON INJECTE._____________________
+		} // Fin de this.dao NON INJECTE._____________________
 
 		/* vide et remplit le stockage. */
 		this.remplirStockage(false);
@@ -7636,15 +7643,15 @@ public class ContactSimpleDAOJPASpringTest {
 
 		// ETAT INITIAL
 		/* récupération. */
-		final List<IContactSimple> objetInitiaux = dao.findAll();
+		final List<IContactSimple> objetInitiaux = this.dao.findAll();
 
 		/* Compte du nombre d'Objets initialement dans le stockage. */
-		nombreObjetsInitial = dao.count();
+		nombreObjetsInitial = this.dao.count();
 
 		/* AFFICHAGE A LA CONSOLE. */
 		if (AFFICHAGE_GENERAL && affichage) {
 			System.out.println("LISTE D'OBJETS AVANT DELETEITERABLEBOOLEAN() : ");
-			System.out.println(dao.afficherListeObjetsMetier(objetInitiaux));
+			System.out.println(this.dao.afficherListeObjetsMetier(objetInitiaux));
 			this.afficherNbreObjetsInitial(nombreObjetsInitial);
 		}
 
@@ -7672,7 +7679,7 @@ public class ContactSimpleDAOJPASpringTest {
 
 			/* ********************************************************* */
 			/* *****************DELETEITERABLEBOOLEAN******************* */
-			resultat = dao.deleteIterableBoolean(list1);
+			resultat = this.dao.deleteIterableBoolean(list1);
 			/* ********************************************************* */
 			
 			/* AFFICHAGE A LA CONSOLE. */
@@ -7691,16 +7698,16 @@ public class ContactSimpleDAOJPASpringTest {
 
 			// ETAT FINAL
 			/* récupération. */
-			final List<IContactSimple> objetsFinaux = dao.findAll();
+			final List<IContactSimple> objetsFinaux = this.dao.findAll();
 
 			/* Calcul du nombre d'objets dans le stockage après le traitement. */
-			nombreObjetsFinal = dao.count();
+			nombreObjetsFinal = this.dao.count();
 
 			/* AFFICHAGE A LA CONSOLE. */
 			if (AFFICHAGE_GENERAL && affichage) {
 				System.out.println();
 				System.out.println("LISTE D'OBJETS APRES DELETEITERABLEBOOLEAN() : ");
-				System.out.println(dao.afficherListeObjetsMetier(objetsFinaux));
+				System.out.println(this.dao.afficherListeObjetsMetier(objetsFinaux));
 				this.afficherNbreObjetsFinal(nombreObjetsFinal);
 			}
 
@@ -7745,8 +7752,8 @@ public class ContactSimpleDAOJPASpringTest {
 			System.out.println("********** CLASSE ContactSimpleDaoJPASpringTest - méthode testExists() ********** ");
 		}
 
-		/* dao NON INJECTE. */
-		if (dao == null) {
+		/* this.dao NON INJECTE. */
+		if (this.dao == null) {
 
 			/* AFFICHAGE A LA CONSOLE. */
 			if (AFFICHAGE_GENERAL && affichage) {
@@ -7756,7 +7763,7 @@ public class ContactSimpleDAOJPASpringTest {
 
 			return;
 
-		} // Fin de dao NON INJECTE._____________________
+		} // Fin de this.dao NON INJECTE._____________________
 
 		/* vide et remplit le stockage. */
 		this.remplirStockage(false);
@@ -7770,15 +7777,15 @@ public class ContactSimpleDAOJPASpringTest {
 		
 		// ETAT INITIAL
 		/* récupération. */
-		final List<IContactSimple> objetInitiaux = dao.findAll();
+		final List<IContactSimple> objetInitiaux = this.dao.findAll();
 
 		/* Compte du nombre d'Objets initialement dans le stockage. */
-		nombreObjetsInitial = dao.count();
+		nombreObjetsInitial = this.dao.count();
 
 		/* AFFICHAGE A LA CONSOLE. */
 		if (AFFICHAGE_GENERAL && affichage) {
 			System.out.println("LISTE D'OBJETS AVANT EXISTS() : ");
-			System.out.println(dao.afficherListeObjetsMetier(objetInitiaux));
+			System.out.println(this.dao.afficherListeObjetsMetier(objetInitiaux));
 			this.afficherNbreObjetsInitial(nombreObjetsInitial);
 		}
 		
@@ -7803,8 +7810,8 @@ public class ContactSimpleDAOJPASpringTest {
 
 			/* ********************************************************* */
 			/* ************************EXISTS*************************** */
-			resultatExistant = dao.exists(objetExistantTest);
-			resultatInexistant = dao.exists(objetInexistantTest);
+			resultatExistant = this.dao.exists(objetExistantTest);
+			resultatInexistant = this.dao.exists(objetInexistantTest);
 			/* ********************************************************* */
 			
 			/* AFFICHAGE A LA CONSOLE. */
@@ -7830,16 +7837,16 @@ public class ContactSimpleDAOJPASpringTest {
 			
 			// ETAT FINAL
 			/* récupération. */
-			final List<IContactSimple> objetsFinaux = dao.findAll();
+			final List<IContactSimple> objetsFinaux = this.dao.findAll();
 
 			/* Calcul du nombre d'objets dans le stockage après le traitement. */
-			nombreObjetsFinal = dao.count();
+			nombreObjetsFinal = this.dao.count();
 
 			/* AFFICHAGE A LA CONSOLE. */
 			if (AFFICHAGE_GENERAL && affichage) {
 				System.out.println();
 				System.out.println("LISTE D'OBJETS APRES EXISTS() : ");
-				System.out.println(dao.afficherListeObjetsMetier(objetsFinaux));
+				System.out.println(this.dao.afficherListeObjetsMetier(objetsFinaux));
 				this.afficherNbreObjetsFinal(nombreObjetsFinal);
 			}
 
@@ -7883,8 +7890,8 @@ public class ContactSimpleDAOJPASpringTest {
 			System.out.println("********** CLASSE ContactSimpleDaoJPASpringTest - méthode testExistsId() ********** ");
 		}
 
-		/* dao NON INJECTE. */
-		if (dao == null) {
+		/* this.dao NON INJECTE. */
+		if (this.dao == null) {
 
 			/* AFFICHAGE A LA CONSOLE. */
 			if (AFFICHAGE_GENERAL && affichage) {
@@ -7894,7 +7901,7 @@ public class ContactSimpleDAOJPASpringTest {
 
 			return;
 
-		} // Fin de dao NON INJECTE._____________________
+		} // Fin de this.dao NON INJECTE._____________________
 
 		/* vide et remplit le stockage. */
 		this.remplirStockage(false);
@@ -7904,15 +7911,15 @@ public class ContactSimpleDAOJPASpringTest {
 
 		// ETAT INITIAL
 		/* récupération. */
-		final List<IContactSimple> objetInitiaux = dao.findAll();
+		final List<IContactSimple> objetInitiaux = this.dao.findAll();
 
 		/* Compte du nombre d'Objets initialement dans le stockage. */
-		nombreObjetsInitial = dao.count();
+		nombreObjetsInitial = this.dao.count();
 
 		/* AFFICHAGE A LA CONSOLE. */
 		if (AFFICHAGE_GENERAL && affichage) {
 			System.out.println("LISTE D'OBJETS AVANT EXISTS_ID() : ");
-			System.out.println(dao.afficherListeObjetsMetier(objetInitiaux));
+			System.out.println(this.dao.afficherListeObjetsMetier(objetInitiaux));
 			this.afficherNbreObjetsInitial(nombreObjetsInitial);
 		}
 		
@@ -7944,8 +7951,8 @@ public class ContactSimpleDAOJPASpringTest {
 
 			/* ********************************************************* */
 			/* ************************EXISTS_ID*************************** */
-			resultatExistant = dao.existsId(objetExistantTestId);
-			resultatInexistant = dao.existsId(objetInexistantTestId);
+			resultatExistant = this.dao.existsId(objetExistantTestId);
+			resultatInexistant = this.dao.existsId(objetInexistantTestId);
 			/* ********************************************************* */
 			
 			/* AFFICHAGE A LA CONSOLE. */
@@ -7971,16 +7978,16 @@ public class ContactSimpleDAOJPASpringTest {
 			
 			// ETAT FINAL
 			/* récupération. */
-			final List<IContactSimple> objetsFinaux = dao.findAll();
+			final List<IContactSimple> objetsFinaux = this.dao.findAll();
 
 			/* Calcul du nombre d'objets dans le stockage après le traitement. */
-			nombreObjetsFinal = dao.count();
+			nombreObjetsFinal = this.dao.count();
 
 			/* AFFICHAGE A LA CONSOLE. */
 			if (AFFICHAGE_GENERAL && affichage) {
 				System.out.println();
 				System.out.println("LISTE D'OBJETS APRES EXISTS_ID() : ");
-				System.out.println(dao.afficherListeObjetsMetier(objetsFinaux));
+				System.out.println(this.dao.afficherListeObjetsMetier(objetsFinaux));
 				this.afficherNbreObjetsFinal(nombreObjetsFinal);
 			}
 
@@ -8024,8 +8031,8 @@ public class ContactSimpleDAOJPASpringTest {
 			System.out.println("********** CLASSE ContactSimpleDaoJPASpringTest - méthode testCount() ********** ");
 		}
 
-		/* dao NON INJECTE. */
-		if (dao == null) {
+		/* this.dao NON INJECTE. */
+		if (this.dao == null) {
 
 			/* AFFICHAGE A LA CONSOLE. */
 			if (AFFICHAGE_GENERAL && affichage) {
@@ -8035,7 +8042,7 @@ public class ContactSimpleDAOJPASpringTest {
 
 			return;
 
-		} // Fin de dao NON INJECTE._____________________
+		} // Fin de this.dao NON INJECTE._____________________
 
 		/* vide et remplit le stockage. */
 		this.remplirStockage(false);
@@ -8044,15 +8051,15 @@ public class ContactSimpleDAOJPASpringTest {
 		
 		// ETAT INITIAL
 		/* récupération. */
-		final List<IContactSimple> objetInitiaux = dao.findAll();
+		final List<IContactSimple> objetInitiaux = this.dao.findAll();
 
 		/* Compte du nombre d'Objets initialement dans le stockage. */
-		nombreObjetsInitial = dao.count();
+		nombreObjetsInitial = this.dao.count();
 
 		/* AFFICHAGE A LA CONSOLE. */
 		if (AFFICHAGE_GENERAL && affichage) {
 			System.out.println("LISTE D'OBJETS DANS LE STOCKAGE : ");
-			System.out.println(dao.afficherListeObjetsMetier(objetInitiaux));
+			System.out.println(this.dao.afficherListeObjetsMetier(objetInitiaux));
 			this.afficherNbreObjetsInitial(nombreObjetsInitial);
 		}
 		
@@ -8110,7 +8117,7 @@ public class ContactSimpleDAOJPASpringTest {
 		
 		// ETAT INITIAL
 		/* Compte du nombre d'Objets initialement dans le stockage. */
-		nombreObjetsinitial = dao.count();
+		nombreObjetsinitial = this.dao.count();
 
 		/* AFFICHAGE A LA CONSOLE. */
 		if (AFFICHAGE_GENERAL && pAffichage) {
@@ -8132,10 +8139,10 @@ public class ContactSimpleDAOJPASpringTest {
 			
 			/* *********************************************** */
 			/* ********************* CREATION **************** */
-			lotPersistant = (List<IContactSimple>) dao.saveIterable(lot);
+			lotPersistant = (List<IContactSimple>) this.dao.saveIterable(lot);
 			/* *********************************************** */
 			
-			nombreObjetsFinal = dao.count();
+			nombreObjetsFinal = this.dao.count();
 			
 			/* garantit que save(Lot pObjects) 
 			 * insère des objets dans le stockage.*/
@@ -8156,7 +8163,7 @@ public class ContactSimpleDAOJPASpringTest {
 			System.out.println("remplirTable(boolean)");
 			System.out.println("NOMBRE D'OBJETS PERSISTES APRES save(Lot) : " + nombreObjetsFinal);
 			System.out.println("LOT D'ENREGISTREMENTS dans le stockage APRES remplirTable(boolean) : ");
-			System.out.println(dao.afficherListeObjetsMetier(lotPersistant));
+			System.out.println(this.dao.afficherListeObjetsMetier(lotPersistant));
 			System.out.println(TIRETS);
 			System.out.println();
 
@@ -8173,9 +8180,9 @@ public class ContactSimpleDAOJPASpringTest {
 	 */
 	private void viderStockage() throws Exception {
 		
-		dao.deleteAll();
+		this.dao.deleteAll();
 		
-		final Long nbreObjetsFinal = dao.count();
+		final Long nbreObjetsFinal = this.dao.count();
 		
 		assertEquals("Le stockage doit être vide : "
 				, Long.valueOf(0L), nbreObjetsFinal);
@@ -8309,7 +8316,7 @@ public class ContactSimpleDAOJPASpringTest {
 			
 	/**
 	 * Affiche à la console de
-	 * <b>"DAO NON INSTANCIE - dao est NULL"</b>.<br/>
+	 * <b>"DAO NON INSTANCIE - this.dao est NULL"</b>.<br/>
 	 * <br/>
 	 */
 	private void afficherDAONonInstancie() {
@@ -8317,7 +8324,7 @@ public class ContactSimpleDAOJPASpringTest {
 		System.out.println();
 		System.out.println(TIRETS);
 		System.out.println("DAO NON INSTANCIE "
-				+ "- dao est NULL");
+				+ "- this.dao est NULL");
 		System.out.println(TIRETS);
 		System.out.println();
 		
@@ -8420,17 +8427,62 @@ public class ContactSimpleDAOJPASpringTest {
 	 * <li>instructions exécutées <b>avant l'ensemble des tests</b> 
 	 * de la classe JUnit.</li>
 	 * <li><b>A REMPLIR A LA MAIN</b></li>
+	 * <li>instancie le contexte Spring déclaré par Annotations.</li>
 	 * </ul>
 	 * @throws Exception 
 	 */
 	@BeforeClass
    public static void avantTests() throws Exception {
 		
-		/**/
-		contexteSpring = null;
+		/* instancie le contexte Spring déclaré par Annotations. */
+//		instancierContexteSpringParAnnotations();
+		
+		/* affiche les beans contenus dans le contexte SPRING. */
+		afficherContexte();
 		
 	} // Fin de avantTests().______________________________________________
 
-	
 
+	
+	/**
+	 * <b>instancie le contexte Spring déclaré par Annotations</b>.<br/>
+	 */
+	private static void instancierContexteSpringParAnnotations() {
+		
+		contexteSpring 
+			= new AnnotationConfigApplicationContext(
+					ConfigurationSpringFrameworkAnnotation.class);
+		
+	} // Fin de instancierContexteSpringParAnnotations().__________________
+
+	
+	
+	/**
+	 * <b>affiche les beans contenus dans le contexte SPRING</b>.<br/>
+	 */
+	private static void afficherContexte() {
+		
+		String[] beansTableau = null;
+		
+		if (contexteSpring != null) {
+			beansTableau = contexteSpring.getBeanDefinitionNames();
+		} else {
+			final String message = "LE CONTEXTE N'A PU ETRE INSTANCIE";
+			if (LOG.isFatalEnabled()) {
+				LOG.fatal(message);
+			}
+		}
+		
+		if (beansTableau != null) {
+			System.out.println("CONTENU DU CONTEXTE (contexteSpring.getBeanDefinitionNames()) : ");
+			
+			for (int i = 0; i < beansTableau.length; i++) {
+				System.out.println(beansTableau[i].toString());
+			}
+		}
+		
+	} // Fin de afficherContexte().________________________________________
+	
+	
+	
 } // FIN DE LA CLASSE ContactSimpleDAOJPASpringTest.-------------------------

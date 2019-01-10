@@ -76,12 +76,23 @@
 		<!-- ========================================================= -->
 		<!--                     hsqldb 2.4.0 - [sa,    ]              -->
 		<!-- ========================================================= -->
-	<!-- en mode SERVEUR -->
+		<!-- en mode SERVEUR -->
 <!-- 		<property name="hibernate.connection.url" value="jdbc:hsqldb:hsql://localhost/base-adresses_javafx" /> >-->
-    <!-- en mode FILE -->
+    	<!-- en mode FILE -->
 <!--        <property name="hibernate.connection.url" value="jdbc:hsqldb:file:D:/Donnees/eclipse/eclipseworkspace_oxygen/adresses_javafx/data/base-adresses_javafx-hsqldb/base-adresses_javafx" /> -->
-    <!-- en mode MEMORY -->
-	   <property name="hibernate.connection.url" value="jdbc:hsqldb:mem:base-adresses_javafx" />    
+    	<!-- en mode MEMORY -->
+<!-- 	   <property name="hibernate.connection.url" value="jdbc:hsqldb:mem:base-adresses_javafx" />     -->
+
+		<!-- ========================================================= -->
+		<!--                     	H2 1.4.197 - [sa, sa]              -->
+		<!-- ========================================================= -->
+		<!-- en mode FILE -->
+		<!-- chemin relatif (marche dans Eclipse) -->
+<!-- 		<property name="hibernate.connection.url" value="jdbc:h2:file:./data/base-adresses_javafx-h2/base-adresses_javafx" />  -->
+		<!-- chemin absolu (marche dans la console H2) -->
+<!-- 		<property name="hibernate.connection.url" value="jdbc:h2:file:D:/Donnees/eclipse/eclipseworkspace_oxygen/adresses_javafx/data/base-adresses_javafx-h2/base-adresses_javafx" /> -->
+   		<!-- en mode MEMORY -->
+	    <property name="hibernate.connection.url" value="jdbc:h2:mem:base-adresses_javafx" />    
 	
 					
 
@@ -106,8 +117,14 @@
  		<!-- ========================================================= -->
 		<!--                     hsqldb 2.4.0  [sa,   ]                -->
 		<!-- ========================================================= -->	
+<!--     	<property name="hibernate.connection.username" value="sa" /> -->
+<!--     	<property name="hibernate.connection.password" value="" />	 -->
+    	
+		<!-- ========================================================= -->
+		<!--                     	H2 1.4.197 - [sa, sa]              -->
+		<!-- ========================================================= -->
     	<property name="hibernate.connection.username" value="sa" />
-    	<property name="hibernate.connection.password" value="" />	
+    	<property name="hibernate.connection.password" value="sa" />	
 
 
 		
@@ -127,8 +144,12 @@
 		<!-- ========================================================= -->
 		<!--                     hsqldb 2.4.0 - [sa,    ]              -->
 		<!-- ========================================================= -->
-		<property name="javax.persistence.jdbc.driver" value="org.hsqldb.jdbcDriver" />
+<!-- 		<property name="javax.persistence.jdbc.driver" value="org.hsqldb.jdbcDriver" /> -->
 
+		<!-- ========================================================= -->
+		<!--                     	H2 1.4.197 - [sa, sa]              -->
+		<!-- ========================================================= -->
+		<property name="javax.persistence.jdbc.driver" value="org.h2.Driver" />
 
 		
 						<!-- **************************** -->
@@ -149,16 +170,21 @@
 			<!-- ========================================================= -->
 		    <!--                     hsqldb 2.4.0 - [sa,    ]              -->
 		    <!-- ========================================================= -->
-			<property name="hibernate.dialect" value="org.hibernate.dialect.HSQLDialect" />
+<!-- 			<property name="hibernate.dialect" value="org.hibernate.dialect.HSQLDialect" /> -->
 			
+			<!-- ========================================================= -->
+			<!--                     	H2 1.4.197 - [sa, sa]              -->
+			<!-- ========================================================= -->
+			<property name="hibernate.dialect" value="org.hibernate.dialect.H2Dialect" />
+
 
 		 			<!-- ************************** -->
 					<!-- pour voir les requetes SQL -->
 					<!-- ************************** -->
 
         	<!-- Montrer toutes les réquêtes générées -->
-	        <property name="hibernate.show_sql" value="true" />
-<!--      	    <property name="hibernate.show_sql" value="false" /> -->
+<!-- 	        <property name="hibernate.show_sql" value="true" /> -->
+     	    <property name="hibernate.show_sql" value="false" />
 	        
 	        <!-- Formater le SQL de sortie -->
 			<property name="hibernate.format_sql" value="true" />

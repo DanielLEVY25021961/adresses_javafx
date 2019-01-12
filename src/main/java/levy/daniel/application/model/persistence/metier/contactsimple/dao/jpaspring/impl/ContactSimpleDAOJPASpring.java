@@ -6,6 +6,8 @@ import java.util.List;
 
 import javax.persistence.EntityManager;
 import javax.persistence.NoResultException;
+import javax.persistence.PersistenceContext;
+import javax.persistence.PersistenceContextType;
 import javax.persistence.Query;
 
 import org.apache.commons.logging.Log;
@@ -134,8 +136,7 @@ public class ContactSimpleDAOJPASpring implements IContactSimpleDAO {
 	/**
 	 * JPA EntityManager <b>injecté par SPRING</b>.<br/>
 	 */
-//	@PersistenceContext(type = PersistenceContextType.TRANSACTION, unitName = "persistence_unit_base-adresses_javafx")
-//	@PersistenceContext()
+	@PersistenceContext(type = PersistenceContextType.TRANSACTION, unitName = "persistence_unit_base-adresses_javafx")
 	private transient EntityManager entityManager;
 	
 	/**

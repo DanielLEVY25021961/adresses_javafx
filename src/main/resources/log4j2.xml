@@ -84,7 +84,7 @@
 	    
 	    
 	    <Logger name="org.springframework" 
-			level="all" additivity="false">
+			level="fatal" additivity="false">
 	      <AppenderRef ref="Console" />
 	      <AppenderRef ref="RollingFile" />
 	    </Logger>

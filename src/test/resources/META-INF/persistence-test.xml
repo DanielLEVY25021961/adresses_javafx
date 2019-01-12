@@ -9,7 +9,6 @@
 	version="2.1">
 
 
-
 	<!-- ============================================================== -->
 	<!-- 			name = nom de l'unité de persistence 				-->
 	<!-- ************************************************************** -->
@@ -49,6 +48,7 @@
 		<!-- 		PERMET LA RECHERCHE DES CLASSES ANNOTEES 			-->
 		<!--  SANS ETRE OBLIGE DE LES LISTER DANS LE persistence.xml 	-->		
 		<exclude-unlisted-classes>false</exclude-unlisted-classes>
+
 
 
 			<!-- ================================================== -->
@@ -272,7 +272,7 @@
 
 			
 		</properties>
-
+		
 	</persistence-unit>
 
 </persistence>

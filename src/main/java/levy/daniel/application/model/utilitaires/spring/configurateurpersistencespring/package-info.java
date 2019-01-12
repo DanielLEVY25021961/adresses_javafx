@@ -1,7 +1,8 @@
 /**
- * class package-info :<br/>
+ * CLASSE package-info :<br/>
  * ce package contient tous les utilitaires 
- * pour la <b>gestion des dates</b> en Java.<br/>
+ * pour la <b>configuration de la persistence JPA SPRING</b> 
+ * en Java.<br/>
  * <br/>
  *
  * - Exemple d'utilisation :<br/>
@@ -16,7 +17,7 @@
  *
  * @author dan Lévy
  * @version 1.0
- * @since 18 mai 2018
+ * @since 12 janv. 2019
  *
  */
-package levy.daniel.application.model.utilitaires.date;
+package levy.daniel.application.model.utilitaires.spring.configurateurpersistencespring;

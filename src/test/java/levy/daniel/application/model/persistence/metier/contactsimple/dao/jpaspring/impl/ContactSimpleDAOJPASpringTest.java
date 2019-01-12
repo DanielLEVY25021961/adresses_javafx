@@ -13,7 +13,7 @@ import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-import javax.persistence.PersistenceContext;
+import javax.persistence.EntityManagerFactory;
 
 import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.logging.Log;
@@ -21,22 +21,22 @@ import org.apache.commons.logging.LogFactory;
 import org.junit.BeforeClass;
 import org.junit.Test;
 import org.junit.runner.RunWith;
+import org.springframework.beans.BeansException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.annotation.AnnotationConfigApplicationContext;
-import org.springframework.context.annotation.ComponentScan;
-import org.springframework.context.annotation.EnableAspectJAutoProxy;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
+import org.springframework.transaction.annotation.Transactional;
 
 import levy.daniel.application.ConfigurationSpringFrameworkAnnotation;
 import levy.daniel.application.model.metier.contactsimple.IContactSimple;
 import levy.daniel.application.model.metier.contactsimple.impl.ContactSimple;
 import levy.daniel.application.model.persistence.daoexceptions.AbstractDaoException;
-import levy.daniel.application.model.persistence.metier.JPAUtils;
 import levy.daniel.application.model.persistence.metier.contactsimple.IContactSimpleDAO;
 import levy.daniel.application.model.persistence.metier.contactsimple.InitialiseurDeData;
+import levy.daniel.application.model.utilitaires.spring.afficheurcontexte.AfficheurContexteSpring;
 
 /**
  * CLASSE ContactSimpleDAOJPASpringTest :<br/>
@@ -67,21 +67,23 @@ import levy.daniel.application.model.persistence.metier.contactsimple.Initialise
  * @since 8 janv. 2019
  *
  */
-//@RunWith(SpringRunner.class)
 @RunWith(SpringJUnit4ClassRunner.class)
-//@DataJpaTest
-@EnableAspectJAutoProxy
-@ComponentScan("levy.daniel.application")
-@ContextConfiguration({"classpath:**ConfigurationSpringFrameworkAnnotation"})
-@PersistenceContext(name="META-INF/persistence-test.xml")
+@Transactional
+@ContextConfiguration(classes= {ConfigurationSpringFrameworkAnnotation.class})
 public class ContactSimpleDAOJPASpringTest {
 
 	// ************************ATTRIBUTS************************************/
 
 	/**
+	 * "Classe ContactSimpleDAOJPASpringTest".
+	 */
+	public static final String CLASSE_CONTACTSIMPLE_DAOJPASPRING_TEST 
+		= "Classe ContactSimpleDAOJPASpringTest";
+	
+	/**
 	 * Contexte SPRING pour les tests.<br/>
 	 */
-	private static transient ApplicationContext contexteSpring = null;
+	private static transient ApplicationContext contexteSpring;
 	
 	/**
 	 * DAO.<br/>
@@ -8095,7 +8097,8 @@ public class ContactSimpleDAOJPASpringTest {
 	
 		/* annule l'entityManagerFactory pour forcer 
 		 * la re-création des tables à chaque appel. */
-		JPAUtils.annulerEntityManagerFactory();
+//		JPAUtils.annulerEntityManagerFactory();
+		instancierContexteSpringParAnnotations();
 		
 		
 		Long nombreObjetsinitial = 0L;
@@ -8435,7 +8438,7 @@ public class ContactSimpleDAOJPASpringTest {
    public static void avantTests() throws Exception {
 		
 		/* instancie le contexte Spring déclaré par Annotations. */
-//		instancierContexteSpringParAnnotations();
+		instancierContexteSpringParAnnotations();
 		
 		/* affiche les beans contenus dans le contexte SPRING. */
 		afficherContexte();
@@ -8455,9 +8458,32 @@ public class ContactSimpleDAOJPASpringTest {
 		
 	} // Fin de instancierContexteSpringParAnnotations().__________________
 
+
+	
+	/**
+	 * <b>affiche les propriétés lues par le EMFactory</b>.<br/>
+	 * <br/>
+	 * - ne fait rien si pEntityManagerFactory == null.<br/>
+	 * <br/>
+	 *
+	 * @param pEntityManagerFactory : EntityManagerFactory.<br/>
+	 */
+	private static void afficherEMFactory(
+			final EntityManagerFactory pEntityManagerFactory) {
+		
+		/* ne fait rien si pEntityManagerFactory == null. */
+		final String propsDansEntityManagerFactory 
+		= AfficheurContexteSpring
+			.afficherPrincipalesProperties(pEntityManagerFactory);
+	
+		System.out.println(propsDansEntityManagerFactory);
+	
+	} // Fin de afficherEMFactory(...).____________________________________
+	
 	
 	
 	/**
+	 * <b>affiche les propriétés lues par le EMFactory</b>.<br/>
 	 * <b>affiche les beans contenus dans le contexte SPRING</b>.<br/>
 	 */
 	private static void afficherContexte() {
@@ -8465,9 +8491,38 @@ public class ContactSimpleDAOJPASpringTest {
 		String[] beansTableau = null;
 		
 		if (contexteSpring != null) {
+			
+			EntityManagerFactory entityManagerFactory = null;
+			
+			try {
+				entityManagerFactory 
+					= (EntityManagerFactory) 
+							contexteSpring.getBean(
+									"entityManagerFactory"
+									, javax.persistence.EntityManagerFactory.class);
+			} catch (BeansException e) {
+				e.printStackTrace();
+			}
+			
+			if (entityManagerFactory != null) {
+				
+				System.out.println("Proprietes du Bean EntityManagerFactory : " + entityManagerFactory.getClass());
+				System.out.println("Bean EntityManagerFactory instance de javax.persistence.EntityManagerFactory : " + (entityManagerFactory instanceof javax.persistence.EntityManagerFactory));
+				
+				/* affiche les propriétés lues par le EMFactory. */
+				afficherEMFactory(entityManagerFactory);
+			}
+			
+			
 			beansTableau = contexteSpring.getBeanDefinitionNames();
+			
 		} else {
-			final String message = "LE CONTEXTE N'A PU ETRE INSTANCIE";
+			
+			final String message 
+				= CLASSE_CONTACTSIMPLE_DAOJPASPRING_TEST 
+					+ " - METHODE avantTests() - " 
+						+ "LE CONTEXTE N'A PU ETRE INSTANCIE";
+			
 			if (LOG.isFatalEnabled()) {
 				LOG.fatal(message);
 			}

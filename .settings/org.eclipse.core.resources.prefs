@@ -1,6 +1,7 @@
 eclipse.preferences.version=1
 encoding//src/main/java=UTF-8
 encoding//src/main/resources=UTF-8
+encoding//src/main/resources/configurations_bases_jpa/configuration_H2_memory.properties=UTF-8
 encoding//src/test/java=UTF-8
 encoding//src/test/java/levy/daniel/application/model/persistence/metier/contactsimple/dao/jaxb/impl/ContactSimpleDaoJAXBTest.java=UTF-8
 encoding//src/test/resources=UTF-8

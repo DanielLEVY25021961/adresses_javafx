@@ -1,36 +1,37 @@
 package levy.daniel.application;
 
-import java.util.Properties;
-
-import javax.persistence.EntityManagerFactory;
-import javax.sql.DataSource;
-
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.springframework.context.annotation.Bean;
-import org.springframework.context.annotation.ComponentScan;
-import org.springframework.context.annotation.ComponentScans;
-import org.springframework.context.annotation.Configuration;
-import org.springframework.context.annotation.EnableAspectJAutoProxy;
-import org.springframework.dao.annotation.PersistenceExceptionTranslationPostProcessor;
-import org.springframework.jdbc.datasource.DriverManagerDataSource;
-import org.springframework.orm.jpa.JpaTransactionManager;
 import org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean;
-import org.springframework.transaction.PlatformTransactionManager;
-import org.springframework.transaction.annotation.EnableTransactionManagement;
 
 import levy.daniel.application.model.persistence.metier.contactsimple.IContactSimpleDAO;
 import levy.daniel.application.model.persistence.metier.contactsimple.dao.jpaspring.impl.ContactSimpleDAOJPASpring;
 
 /**
  * CLASSE ConfigurationSpringFrameworkAnnotation :<br/>
+ * Classe <b>annotée Configuration</b> chargée de configurer 
+ * le Contexte SPRING FRAMEWORK.<br/>
  * <ul>
+ * <li>appelée par <code>ApplicationContext contexteSpring 
+ * = new AnnotationConfigApplicationContext(
+ * ConfigurationSpringFrameworkAnnotation.class);</code></li>
  * <li>l'annotation <b>Configuration</b>
  * (org.springframework.context.annotation.Configuration) précise qu'il s'agit
  * d'une classe de CONFIGURATION SPRING.</li>
+ * <li>l'annotation <b>Import</b>
+ * (org.springframework.context.annotation.Import) permet de séparer
+ * la configuration entre plusieurs classes de Config.</li>
+ * <li>l'annotation <b>EnableAspectJAutoProxy</b>
+ * (org.springframework.context.annotation.EnableAspectJAutoProxy) 
+ * permet .</li>
+ * <li>l'annotation <b>EnableTransactionManagement</b>
+ * (org.springframework.transaction.annotation.EnableTransactionManagement) 
+ * permet d'imposer à SPRING de gérer les transactions.</li>
  * <li>l'annotation <b>ComponentScan</b>
  * (org.springframework.context.annotation.ComponentScan) permet de préciser un
- * tableau de PACKAGES (sous forme de String) à scanner.</li>
+ * tableau de PACKAGES (sous forme de String) à scanner dans lequel SPRING 
+ * doit découvrir les classes annotées.</li>
  * </ul>
  *
  * - Exemple d'utilisation :<br/>
@@ -48,10 +49,11 @@ import levy.daniel.application.model.persistence.metier.contactsimple.dao.jpaspr
  * @since 10 janv. 2019
  *
  */
-@Configuration
-@EnableAspectJAutoProxy
-@EnableTransactionManagement
-@ComponentScans({@ComponentScan("levy.daniel.application")})
+//@Configuration(value="ConfigurationSpringFrameworkAnnotation")
+//@Import({levy.daniel.application.model.utilitaires.spring.configurateurpersistencespring.ConfigurateurJPAH2Memory.class})
+//@EnableAspectJAutoProxy
+//@EnableTransactionManagement
+//@ComponentScans({@ComponentScan("levy.daniel.application")})
 public class ConfigurationSpringFrameworkAnnotation {
 
 	// ************************ATTRIBUTS************************************/
@@ -73,18 +75,27 @@ public class ConfigurationSpringFrameworkAnnotation {
 	} // Fin de CONSTRUCTEUR D'ARITE NULLE.________________________________
 
 	
-	
-	
+		
 	/**
-	 * .<br/>
-	 * <br/>
+	 * <b>configure un bean pour le DAO ContactSimpleDAOJPASpring 
+	 * et l'injecte dans le contexte SPRING</b>.<br/>
+	 * <ul>
+	 * <li>nomme le bean "ContactSimpleDAOJPASpring" 
+	 * (au lieu de "contactSimpleDAOJPASpring" provenant 
+	 * du nom de la méthode) dans le contexte SPRING
+	 * grâce au paramètre value.</li>
+	 * <li>le nom choisi correspond au nom donné au DAO 
+	 * (via l'annotation Repository).
+	 *  Ce nom pourra être utilisé comme Qualifier 
+	 *  lors de l'injection du DAO</li>
+	 * </ul>
 	 *
-	 * @return : ContactSimpleDAOJPASpring : .<br/>
+	 * @return : ContactSimpleDAOJPASpring : IContactSimpleDAO.<br/>
 	 */
 	@Bean(value = "ContactSimpleDAOJPASpring")
 	public IContactSimpleDAO contactSimpleDAOJPASpring() {
 		return new ContactSimpleDAOJPASpring();
-	}
+	} // Fin de contactSimpleDAOJPASpring()._______________________________
 
 	
 	
@@ -145,19 +156,19 @@ public class ConfigurationSpringFrameworkAnnotation {
 	 *
 	 * @return : DataSource : .<br/>
 	 */
-	@Bean
-	public DataSource dataSource() {
-
-		final DriverManagerDataSource dataSource 
-			= new DriverManagerDataSource();
-
-		dataSource.setDriverClassName("org.h2.Driver");
-		dataSource.setUrl("jdbc:h2:mem:base-adresses_javafx");
-		dataSource.setUsername("sa");
-		dataSource.setPassword("sa");
-
-		return dataSource;
-	}
+//	@Bean
+//	public DataSource dataSource() {
+//
+//		final DriverManagerDataSource dataSource 
+//			= new DriverManagerDataSource();
+//
+//		dataSource.setDriverClassName("org.h2.Driver");
+//		dataSource.setUrl("jdbc:h2:mem:base-adresses_javafx");
+//		dataSource.setUsername("sa");
+//		dataSource.setPassword("sa");
+//
+//		return dataSource;
+//	}
 
 	
 	
@@ -168,17 +179,17 @@ public class ConfigurationSpringFrameworkAnnotation {
 	 * @param pEntityManagerFactory
 	 * @return : PlatformTransactionManager : .<br/>
 	 */
-	@Bean
-	public PlatformTransactionManager transactionManager(
-			final EntityManagerFactory pEntityManagerFactory) {
-
-		final JpaTransactionManager transactionManager 
-			= new JpaTransactionManager();
-
-		transactionManager.setEntityManagerFactory(pEntityManagerFactory);
-
-		return transactionManager;
-	}
+//	@Bean
+//	public PlatformTransactionManager transactionManager(
+//			final EntityManagerFactory pEntityManagerFactory) {
+//
+//		final JpaTransactionManager transactionManager 
+//			= new JpaTransactionManager();
+//
+//		transactionManager.setEntityManagerFactory(pEntityManagerFactory);
+//
+//		return transactionManager;
+//	}
 
 	
 	
@@ -188,10 +199,10 @@ public class ConfigurationSpringFrameworkAnnotation {
 	 *
 	 * @return : PersistenceExceptionTranslationPostProcessor : .<br/>
 	 */
-	@Bean
-	public PersistenceExceptionTranslationPostProcessor exceptionTranslation() {
-		return new PersistenceExceptionTranslationPostProcessor();
-	}
+//	@Bean
+//	public PersistenceExceptionTranslationPostProcessor exceptionTranslation() {
+//		return new PersistenceExceptionTranslationPostProcessor();
+//	}
 
 	
 	
@@ -201,13 +212,13 @@ public class ConfigurationSpringFrameworkAnnotation {
 	 *
 	 * @return : Properties : .<br/>
 	 */
-	public Properties additionalProperties() {
-		Properties properties = new Properties();
-		properties.setProperty("hibernate.hbm2ddl.auto", "create");
-		properties.setProperty("hibernate.dialect", "org.hibernate.dialect.H2Dialect");
-
-		return properties;
-	}
+//	public Properties additionalProperties() {
+//		Properties properties = new Properties();
+//		properties.setProperty("hibernate.hbm2ddl.auto", "create");
+//		properties.setProperty("hibernate.dialect", "org.hibernate.dialect.H2Dialect");
+//
+//		return properties;
+//	}
 	
 	
 

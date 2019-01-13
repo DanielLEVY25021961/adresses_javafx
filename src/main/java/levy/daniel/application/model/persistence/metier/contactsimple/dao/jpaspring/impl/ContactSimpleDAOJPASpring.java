@@ -95,7 +95,7 @@ import levy.daniel.application.model.persistence.metier.contactsimple.entities.j
  * @since 11 nov. 2018
  *
  */
-@Repository("ContactSimpleDAOJPASpring")
+@Repository(value="ContactSimpleDAOJPASpring")
 public class ContactSimpleDAOJPASpring implements IContactSimpleDAO {
 	
 	// ************************ATTRIBUTS************************************/

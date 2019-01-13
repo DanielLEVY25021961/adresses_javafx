@@ -8449,6 +8449,11 @@ public class ContactSimpleDAOJPASpringTest {
 	
 	/**
 	 * <b>instancie le contexte Spring déclaré par Annotations</b>.<br/>
+	 * <ul>
+	 * <li>utilise <code>contexteSpring 
+	 * = new AnnotationConfigApplicationContext(
+	 * ConfigurationSpringFrameworkAnnotation.class);</code></li>
+	 * </ul>
 	 */
 	private static void instancierContexteSpringParAnnotations() {
 		

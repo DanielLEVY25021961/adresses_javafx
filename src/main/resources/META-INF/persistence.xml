@@ -208,15 +208,14 @@
 			<property name="cache.provider_class" value="org.hibernate.cache.NoCacheProvider" />	
 
 
-
 		<!-- ******************************************************** -->
 		<!--        ACTIVATION DU CACHE DE SECOND NIVEAU              -->
 		<!--           Easy Hibernate Cache (EhCache)                 -->
 		<!-- (classe EhCacheProvider contenue dans ehcache-1.3.0.jar) -->
 		<!-- ******************************************************** -->		
-<!-- 		<property name="hibernate.cache.provider_class" value="net.sf.ehcache.hibernate.EhCacheProvider" /> -->
-<!-- 		<property name="hibernate.cache.use_second_level_cache" value="true" /> -->
-<!-- 		<property name="hibernate.cache.use_query_cache" value="true" /> -->
+<!-- 		<property name="cache.provider_class" value="net.sf.ehcache.hibernate.EhCacheProvider" /> -->
+<!-- 		<property name="cache.use_second_level_cache" value="true" /> -->
+<!-- 		<property name="cache.use_query_cache" value="true" /> -->
 <!-- 		<property name="net.sf.ehcache.configurationResourcename" value="ehcache.xml" /> -->
 
 

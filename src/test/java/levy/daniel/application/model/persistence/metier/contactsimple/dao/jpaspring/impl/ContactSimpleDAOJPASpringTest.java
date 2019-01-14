@@ -30,13 +30,13 @@ import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.transaction.annotation.Transactional;
 
-import levy.daniel.application.ConfigurationSpringFrameworkAnnotation;
 import levy.daniel.application.model.metier.contactsimple.IContactSimple;
 import levy.daniel.application.model.metier.contactsimple.impl.ContactSimple;
 import levy.daniel.application.model.persistence.daoexceptions.AbstractDaoException;
 import levy.daniel.application.model.persistence.metier.contactsimple.IContactSimpleDAO;
 import levy.daniel.application.model.persistence.metier.contactsimple.InitialiseurDeData;
 import levy.daniel.application.model.utilitaires.spring.afficheurcontexte.AfficheurContexteSpring;
+import levy.daniel.application.model.utilitaires.spring.configurateurspring.ConfigurateurSpringFrmkAnnotationJPAH2File;
 
 /**
  * CLASSE ContactSimpleDAOJPASpringTest :<br/>
@@ -69,7 +69,7 @@ import levy.daniel.application.model.utilitaires.spring.afficheurcontexte.Affich
  */
 @RunWith(SpringJUnit4ClassRunner.class)
 @Transactional
-@ContextConfiguration(classes= {ConfigurationSpringFrameworkAnnotation.class})
+@ContextConfiguration(classes= {ConfigurateurSpringFrmkAnnotationJPAH2File.class})
 public class ContactSimpleDAOJPASpringTest {
 
 	// ************************ATTRIBUTS************************************/
@@ -2632,7 +2632,7 @@ public class ContactSimpleDAOJPASpringTest {
 				
 		// **********************************
 		// AFFICHAGE DANS LE TEST ou NON
-		final boolean affichage = false;
+		final boolean affichage = true;
 		// **********************************
 
 		/* AFFICHAGE A LA CONSOLE. */
@@ -8459,7 +8459,7 @@ public class ContactSimpleDAOJPASpringTest {
 		
 		contexteSpring 
 			= new AnnotationConfigApplicationContext(
-					ConfigurationSpringFrameworkAnnotation.class);
+					ConfigurateurSpringFrmkAnnotationJPAH2File.class);
 		
 	} // Fin de instancierContexteSpringParAnnotations().__________________
 

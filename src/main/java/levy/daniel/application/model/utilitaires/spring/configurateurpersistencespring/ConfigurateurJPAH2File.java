@@ -1,10 +1,13 @@
 package levy.daniel.application.model.utilitaires.spring.configurateurpersistencespring;
 
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.Properties;
 
 import javax.persistence.EntityManagerFactory;
 import javax.sql.DataSource;
 
+import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -204,9 +207,18 @@ public class ConfigurateurJPAH2File {
 			= this.environmentSpring.getProperty(
 				"javax.persistence.jdbc.connexion.url");
 		if (url != null) {
-			System.out.println("URL dans FILE : " + url);
 			
-			dataSource.setUrl(url);
+			System.out.println("URL LUE : " + url);
+			final String prefixe = "jdbc:h2:file:";
+			final String cheminBase = StringUtils.difference(prefixe, url);
+			System.out.println("CHEMINBASE : " + cheminBase);
+			final Path cheminBasePath = Paths.get(cheminBase).toAbsolutePath().normalize();
+			System.out.println("CHEMINBASE NORMALISE : " + cheminBasePath);
+			final String urlNormalisee = prefixe + cheminBasePath.toString();
+			System.out.println(urlNormalisee);
+			
+//			System.out.println("URL dans dataSource() du CONFIGURATEUR FILE : " + urlPath.toString());
+			dataSource.setUrl(urlNormalisee);
 		}
 		
 		

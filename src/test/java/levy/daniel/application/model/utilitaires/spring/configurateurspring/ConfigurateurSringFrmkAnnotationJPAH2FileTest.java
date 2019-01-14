@@ -105,6 +105,7 @@ public class ConfigurateurSringFrmkAnnotationJPAH2FileTest {
 
 		/* AFFICHAGE A LA CONSOLE. */
 		if (AFFICHAGE_GENERAL && affichage) {
+			System.out.println("DANS testConfig() FILE AFFICHERCONTEXTE");
 			afficherContexte();
 		}
 		
@@ -156,6 +157,16 @@ public class ConfigurateurSringFrmkAnnotationJPAH2FileTest {
 		contexteSpring 
 			= new AnnotationConfigApplicationContext(
 					ConfigurateurSpringFrmkAnnotationJPAH2File.class);
+		
+		EntityManagerFactory emf = (EntityManagerFactory) contexteSpring.getBean("entityManagerFactory");
+		
+		final String urlConnexion = (String) emf.getProperties().get("hibernate.connection.url");
+		
+		System.out.println();
+		System.out.println("--------------------------------");
+		System.out.println("URL DE CONNEXION DANS ENTITYMANAGERFACTORY : " + urlConnexion);
+		System.out.println("--------------------------------");
+		System.out.println();
 		
 	} // Fin de instancierContexteSpringParAnnotations().__________________
 

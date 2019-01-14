@@ -92,7 +92,9 @@ public class ConfigurateurJPAH2File {
 	 */
 	public ConfigurateurJPAH2File() {
 		super();
-		System.out.println("CONSTRUCTEUR ConfigurateurJPAH2File");
+		System.out.println();
+		System.out.println("********* DANS LE CONSTRUCTEUR ConfigurateurJPAH2File***************");
+		System.out.println();
 	} // Fin de CONSTRUCTEUR D'ARITE NULLE.________________________________
 	
 
@@ -144,7 +146,7 @@ public class ConfigurateurJPAH2File {
 
 		/* passe la DataSource à l'EntityManagerFactory. */
 		entityManagerFactory.setDataSource(this.dataSource());
-
+		
 		/* scanne le package de persistence 
 		 * pour trouver les classes annotées. */
 		entityManagerFactory.setPackagesToScan(
@@ -154,6 +156,10 @@ public class ConfigurateurJPAH2File {
 		 * (Dialecte Hibernate, stratégie de création de tables, ...). */
 		entityManagerFactory.setJpaProperties(additionalProperties());
 
+		System.out.println();
+		System.out.println("********* DANS EntityManagerFactory de ConfigurateurJPAH2File JUSTE AVANT LE RETOUR***************");
+		System.out.println();
+		
 		return entityManagerFactory;
 		
 	} // Fin de entityManagerFactory().____________________________________
@@ -208,16 +214,21 @@ public class ConfigurateurJPAH2File {
 				"javax.persistence.jdbc.connexion.url");
 		if (url != null) {
 			
-			System.out.println("URL LUE : " + url);
+			System.out.println();
+			System.out.println("************* DANS dataSource() du ConfigurateurJPAH2File AVANT dataSource.setUrl(urlNormalisee)******************");
+			System.out.println("URL LUE DANS LE PROPERTIES : " + url);
 			final String prefixe = "jdbc:h2:file:";
 			final String cheminBase = StringUtils.difference(prefixe, url);
 			System.out.println("CHEMINBASE : " + cheminBase);
 			final Path cheminBasePath = Paths.get(cheminBase).toAbsolutePath().normalize();
 			System.out.println("CHEMINBASE NORMALISE : " + cheminBasePath);
 			final String urlNormalisee = prefixe + cheminBasePath.toString();
-			System.out.println(urlNormalisee);
+			System.out.println("URL NORMALISEE A INJECTER DANS LA DATASOURCE : " + urlNormalisee);
 			
-//			System.out.println("URL dans dataSource() du CONFIGURATEUR FILE : " + urlPath.toString());
+			if (this.environmentSpring.containsProperty("javax.persistence.jdbc.connexion.url")) {
+				System.out.println("URL CONTENU DANS LE PROPERTIES : " + this.environmentSpring.getProperty("javax.persistence.jdbc.connexion.url"));
+			}
+			System.out.println();
 			dataSource.setUrl(urlNormalisee);
 		}
 		
@@ -282,7 +293,7 @@ public class ConfigurateurJPAH2File {
 	 */
 	public Properties additionalProperties() {
 		
-		Properties properties = new Properties();
+		final Properties properties = new Properties();
 		
 		/* lit le DIALECTE HIBERNATE de la BASE dans le properties 
 		 * et l'injecte dans les propriétés additionnelles. */

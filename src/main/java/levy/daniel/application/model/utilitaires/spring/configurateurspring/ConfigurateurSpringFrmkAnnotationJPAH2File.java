@@ -63,7 +63,7 @@ import levy.daniel.application.model.persistence.metier.contactsimple.dao.jpaspr
  *
  */
 @Configuration(value="ConfigurateurSpringFrmkAnnotationJPAH2File")
-@Import({levy.daniel.application.model.utilitaires.spring.configurateurpersistencespring.ConfigurateurJPAH2File.class})
+@Import(value={levy.daniel.application.model.utilitaires.spring.configurateurpersistencespring.ConfigurateurJPAH2File.class})
 @EnableAspectJAutoProxy
 @EnableTransactionManagement
 @ComponentScans({@ComponentScan("levy.daniel.application")})
@@ -109,6 +109,8 @@ public class ConfigurateurSpringFrmkAnnotationJPAH2File {
 	 */
 	@Bean(value = "ContactSimpleDAOJPASpring")
 	public IContactSimpleDAO contactSimpleDAOJPASpring() {
+		System.out.println();
+		System.out.println("********* CLASSE ConfigurateurSpringFrmkAnnotationJPAH2File - j'instancie LE BEAN DAO contactSimpleDAOJPASpring *********");
 		return new ContactSimpleDAOJPASpring();
 	} // Fin de contactSimpleDAOJPASpring()._______________________________
 

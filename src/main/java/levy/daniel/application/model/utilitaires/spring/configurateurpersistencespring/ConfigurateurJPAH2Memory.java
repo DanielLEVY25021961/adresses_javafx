@@ -258,7 +258,7 @@ public class ConfigurateurJPAH2Memory {
 	 */
 	public Properties additionalProperties() {
 		
-		Properties properties = new Properties();
+		final Properties properties = new Properties();
 		
 		/* lit le DIALECTE HIBERNATE de la BASE dans le properties 
 		 * et l'injecte dans les propriétés additionnelles. */

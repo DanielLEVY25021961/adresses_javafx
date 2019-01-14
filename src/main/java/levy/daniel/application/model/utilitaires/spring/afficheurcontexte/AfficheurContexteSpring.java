@@ -35,7 +35,7 @@ import org.apache.commons.logging.LogFactory;
  * @since 12 janv. 2019
  *
  */
-public class AfficheurContexteSpring {
+public final class AfficheurContexteSpring {
 
 	// ************************ATTRIBUTS************************************/
 	
@@ -259,25 +259,25 @@ public class AfficheurContexteSpring {
 			final String projet
 				= getProperty(PROPERTY_REP_PROJET, pEntityManagerFactory);
 			
-			stb.append("Persistence-Unit : ");
+			stb.append("Persistence-Unit (hibernate.ejb.persistenceUnitName) : ");
 			stb.append(persistenceUnit);
 			stb.append(SAUT_LIGNE_PLATEFORME);
-			stb.append("Transaction Type : ");
+			stb.append("Transaction Type (hibernate.transaction.coordinator_class) : ");
 			stb.append(transactionType);
 			stb.append(SAUT_LIGNE_PLATEFORME);
-			stb.append("URL De connexion à la base : ");
+			stb.append("URL De connexion à la base (hibernate.connection.url) : ");
 			stb.append(url);
 			stb.append(SAUT_LIGNE_PLATEFORME);
-			stb.append("Login : ");
+			stb.append("Login (hibernate.connection.username) : ");
 			stb.append(login);
 			stb.append(SAUT_LIGNE_PLATEFORME);
-			stb.append("Mdp : ");
+			stb.append("Mdp (hibernate.connection.password) : ");
 			stb.append(mdp);
 			stb.append(SAUT_LIGNE_PLATEFORME);
-			stb.append("Driver : ");
+			stb.append("Driver (javax.persistence.jdbc.driver) : ");
 			stb.append(driver);
 			stb.append(SAUT_LIGNE_PLATEFORME);
-			stb.append("Dialecte : ");
+			stb.append("Dialecte (hibernate.dialect) : ");
 			stb.append(dialecte);
 			stb.append(SAUT_LIGNE_PLATEFORME);
 			stb.append("Show SQL : ");

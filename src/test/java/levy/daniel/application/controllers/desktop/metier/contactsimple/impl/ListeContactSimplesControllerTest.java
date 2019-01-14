@@ -56,6 +56,10 @@ public class ListeContactSimplesControllerTest {
 	 */
 	public static final Boolean AFFICHAGE_GENERAL = true;
 
+	/**
+	 * "unused".<br/>
+	 */
+	public static final String UNUSED = "unused";
 	
 	/**
 	 * NOMBRE_INITIAL_ZERO : String :<br/>
@@ -245,7 +249,7 @@ public class ListeContactSimplesControllerTest {
 	 * <li>L'ajout dans la liste du CONTROLLER se passe bien.</li>
 	 * </ul>
 	 */
-	@SuppressWarnings("unused") 
+	@SuppressWarnings(UNUSED) 
 	@Test
 	public void testAjouterContactSimpleAList() {
 		
@@ -314,7 +318,7 @@ public class ListeContactSimplesControllerTest {
 	 * <li>le retrait dans la liste du CONTROLLER se passe bien.</li>
 	 * </ul>
 	 */
-	@SuppressWarnings("unused")
+	@SuppressWarnings(UNUSED)
 	@Test
 	public void testRetirerContactSimpleAList() {
 		
@@ -385,7 +389,7 @@ public class ListeContactSimplesControllerTest {
 	 * <li>L'ajout dans la liste du CONTROLLER se passe bien.</li>
 	 * </ul>
 	 */
-	@SuppressWarnings("unused")
+	@SuppressWarnings(UNUSED)
 	@Test
 	public void testAjouterListeContactSimplesAList() {
 		
@@ -446,7 +450,7 @@ public class ListeContactSimplesControllerTest {
 	 * <li>le retrait dans la liste du CONTROLLER se passe bien.</li>
 	 * </ul>
 	 */
-	@SuppressWarnings("unused")
+	@SuppressWarnings(UNUSED)
 	@Test
 	public void testRetirerListeContactSimplesAList() {
 		

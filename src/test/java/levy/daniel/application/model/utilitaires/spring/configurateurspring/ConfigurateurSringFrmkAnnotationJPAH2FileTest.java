@@ -158,7 +158,8 @@ public class ConfigurateurSringFrmkAnnotationJPAH2FileTest {
 			= new AnnotationConfigApplicationContext(
 					ConfigurateurSpringFrmkAnnotationJPAH2File.class);
 		
-		EntityManagerFactory emf = (EntityManagerFactory) contexteSpring.getBean("entityManagerFactory");
+		final EntityManagerFactory emf 
+			= (EntityManagerFactory) contexteSpring.getBean("entityManagerFactory");
 		
 		final String urlConnexion = (String) emf.getProperties().get("hibernate.connection.url");
 		
@@ -211,7 +212,7 @@ public class ConfigurateurSringFrmkAnnotationJPAH2FileTest {
 					= (EntityManagerFactory) 
 							contexteSpring.getBean(
 									"entityManagerFactory"
-									, javax.persistence.EntityManagerFactory.class);
+									, EntityManagerFactory.class);
 			} catch (BeansException e) {
 				e.printStackTrace();
 			}
@@ -219,7 +220,7 @@ public class ConfigurateurSringFrmkAnnotationJPAH2FileTest {
 			if (entityManagerFactory != null) {
 				
 				System.out.println("Proprietes du Bean EntityManagerFactory : " + entityManagerFactory.getClass());
-				System.out.println("Bean EntityManagerFactory instance de javax.persistence.EntityManagerFactory : " + (entityManagerFactory instanceof javax.persistence.EntityManagerFactory));
+				System.out.println("Bean EntityManagerFactory instance de javax.persistence.EntityManagerFactory : " + (entityManagerFactory instanceof EntityManagerFactory));
 				System.out.println();
 				
 				/* affiche les propriétés lues par le EMFactory. */
@@ -246,7 +247,7 @@ public class ConfigurateurSringFrmkAnnotationJPAH2FileTest {
 			System.out.println("***** CONTENU DU CONTEXTE (contexteSpring.getBeanDefinitionNames()) : ");
 			
 			for (int i = 0; i < beansTableau.length; i++) {
-				System.out.println(beansTableau[i].toString());
+				System.out.println(beansTableau[i]);
 			}
 		}
 		

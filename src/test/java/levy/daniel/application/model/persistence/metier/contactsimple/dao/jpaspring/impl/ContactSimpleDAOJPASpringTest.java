@@ -10,6 +10,7 @@ import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -26,6 +27,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.annotation.AnnotationConfigApplicationContext;
+import org.springframework.jdbc.datasource.DriverManagerDataSource;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.transaction.annotation.Transactional;
@@ -93,6 +95,16 @@ public class ContactSimpleDAOJPASpringTest {
     @Qualifier("ContactSimpleDAOJPASpring")
 	private transient IContactSimpleDAO dao;
 
+	/**
+	 * .<br/>
+	 */
+	private static transient EntityManagerFactory emf;
+	
+	/**
+	 * .<br/>
+	 */
+	private static transient DriverManagerDataSource dataSource;
+	
 	/**
 	 * boolean qui spécifie si le DAO testé est de type JPA 
 	 * (utilise Hibernate et merge()) ou pas (JAXB, ...).<br/>
@@ -8461,6 +8473,23 @@ public class ContactSimpleDAOJPASpringTest {
 			= new AnnotationConfigApplicationContext(
 					ConfigurateurSpringFrmkAnnotationJPAH2File.class);
 		
+		System.out.println();
+		System.out.println("*************** instancierContexteSpringParAnnotations() DANS LE TEST JUNIT ****************************");
+		
+		emf = contexteSpring.getBean("entityManagerFactory", EntityManagerFactory.class);
+		
+		dataSource = contexteSpring.getBean("dataSource", DriverManagerDataSource.class);
+		
+		System.out.println("CLASSE ContactSimpleDAOJPASpringTest - METHODE instancierContexteSpringParAnnotations() - URL dans la DATASOURCE : " + dataSource.getUrl());
+		
+		final Map<String, Object> propsEmf = emf.getProperties();
+		
+		final String connexionUrl = (String) propsEmf.get("hibernate.connection.url");
+		
+		System.out.println("CLASSE ContactSimpleDAOJPASpringTest - METHODE instancierContexteSpringParAnnotations() - hibernate.connection.url DANS ENTITY MANAGERFACTORY : " + connexionUrl);
+		
+		System.out.println();
+		
 	} // Fin de instancierContexteSpringParAnnotations().__________________
 
 
@@ -8504,16 +8533,20 @@ public class ContactSimpleDAOJPASpringTest {
 					= (EntityManagerFactory) 
 							contexteSpring.getBean(
 									"entityManagerFactory"
-									, javax.persistence.EntityManagerFactory.class);
+									, EntityManagerFactory.class);
 			} catch (BeansException e) {
 				e.printStackTrace();
 			}
 			
 			if (entityManagerFactory != null) {
 				
+				System.out.println();
+				System.out.println("*********** DANS CLASSE DE TEST - afficherContexte() *****************************");
 				System.out.println("Proprietes du Bean EntityManagerFactory : " + entityManagerFactory.getClass());
-				System.out.println("Bean EntityManagerFactory instance de javax.persistence.EntityManagerFactory : " + (entityManagerFactory instanceof javax.persistence.EntityManagerFactory));
-				
+				System.out.println("Bean EntityManagerFactory instance de javax.persistence.EntityManagerFactory : " + (entityManagerFactory instanceof EntityManagerFactory));
+				System.out.println();
+				System.out.println("DANS CLASSE DE TEST - afficherContexte() - PROPRIETES DANS LE BEAN EntityManagerFactory : ");
+				System.out.println();
 				/* affiche les propriétés lues par le EMFactory. */
 				afficherEMFactory(entityManagerFactory);
 			}
@@ -8534,10 +8567,13 @@ public class ContactSimpleDAOJPASpringTest {
 		}
 		
 		if (beansTableau != null) {
+			
+			System.out.println();
+			System.out.println("*********** DANS CLASSE DE TEST - afficherContexte() *****************************");
 			System.out.println("CONTENU DU CONTEXTE (contexteSpring.getBeanDefinitionNames()) : ");
 			
 			for (int i = 0; i < beansTableau.length; i++) {
-				System.out.println(beansTableau[i].toString());
+				System.out.println(beansTableau[i]);
 			}
 		}
 		

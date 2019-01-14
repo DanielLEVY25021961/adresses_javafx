@@ -97,7 +97,9 @@
 
 		<!--            Version du POOL DE CONNEXION c3p0               -->
 		<c3p0.version>0.9.5.2</c3p0.version>
-
+		<!--            Version du POOL DE CONNEXION dbcp2              -->
+		<commons-dbcp2.version>2.5.0</commons-dbcp2.version>
+		
 		<!--                    Version de JSTL                         -->
 		<jstl.version>1.2</jstl.version>
 		<!--                Version des Taglibs JSTL                    -->
@@ -568,6 +570,14 @@
 <!-- 		    <scope>compile</scope> -->
 <!-- 		</dependency> -->
 		
+		<!-- https://mvnrepository.com/artifact/org.apache.commons/commons-dbcp2 -->
+		<dependency>
+		    <groupId>org.apache.commons</groupId>
+		    <artifactId>commons-dbcp2</artifactId>
+		    <version>${commons-dbcp2.version}</version>
+		    <scope>compile</scope>
+		</dependency>
+
 
 		<!-- ====================================================== -->
 		<!--        DEPENDANCES POUR Bases de Données               -->
@@ -605,7 +615,7 @@
 			<groupId>com.h2database</groupId>
 			<artifactId>h2</artifactId>
 			<version>${h2.version}</version>
-			<scope>test</scope>
+			<scope>runtime</scope>
 		</dependency>
 
 	</dependencies>

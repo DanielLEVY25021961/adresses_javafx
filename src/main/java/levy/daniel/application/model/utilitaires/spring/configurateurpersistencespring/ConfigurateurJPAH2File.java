@@ -2,6 +2,8 @@ package levy.daniel.application.model.utilitaires.spring.configurateurpersistenc
 
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.sql.Driver;
+import java.sql.DriverManager;
 import java.util.Properties;
 
 import javax.persistence.EntityManagerFactory;
@@ -19,7 +21,7 @@ import org.springframework.context.annotation.PropertySource;
 import org.springframework.context.annotation.PropertySources;
 import org.springframework.core.env.Environment;
 import org.springframework.dao.annotation.PersistenceExceptionTranslationPostProcessor;
-import org.springframework.jdbc.datasource.DriverManagerDataSource;
+import org.springframework.jdbc.datasource.SimpleDriverDataSource;
 import org.springframework.orm.jpa.JpaTransactionManager;
 import org.springframework.orm.jpa.JpaVendorAdapter;
 import org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean;
@@ -156,10 +158,6 @@ public class ConfigurateurJPAH2File {
 		 * (Dialecte Hibernate, stratégie de création de tables, ...). */
 		entityManagerFactory.setJpaProperties(additionalProperties());
 
-		System.out.println();
-		System.out.println("********* DANS EntityManagerFactory de ConfigurateurJPAH2File JUSTE AVANT LE RETOUR***************");
-		System.out.println();
-		
 		return entityManagerFactory;
 		
 	} // Fin de entityManagerFactory().____________________________________
@@ -204,9 +202,12 @@ public class ConfigurateurJPAH2File {
 	@Bean
 	public DataSource dataSource() {
 
-		final DriverManagerDataSource dataSource 
-			= new DriverManagerDataSource();
-
+//		final DriverManagerDataSource dataSource 
+//			= new DriverManagerDataSource();
+		
+		final SimpleDriverDataSource dataSource 
+			= new SimpleDriverDataSource();
+		
 		/* lit l'URL de la BASE dans le properties 
 		 * et l'injecte dans la DataSource. */
 		final String url 
@@ -222,7 +223,7 @@ public class ConfigurateurJPAH2File {
 			System.out.println("CHEMINBASE : " + cheminBase);
 			final Path cheminBasePath = Paths.get(cheminBase).toAbsolutePath().normalize();
 			System.out.println("CHEMINBASE NORMALISE : " + cheminBasePath);
-			final String urlNormalisee = prefixe + cheminBasePath.toString();
+			final String urlNormalisee = prefixe + cheminBasePath.toString() + ";DB_CLOSE_ON_EXIT=FALSE";
 			System.out.println("URL NORMALISEE A INJECTER DANS LA DATASOURCE : " + urlNormalisee);
 			
 			if (this.environmentSpring.containsProperty("javax.persistence.jdbc.connexion.url")) {
@@ -232,12 +233,24 @@ public class ConfigurateurJPAH2File {
 			dataSource.setUrl(urlNormalisee);
 		}
 		
+		Driver driverH2 = null;
+		
+		try {
+			
+			driverH2 = (Driver) Class.forName("org.h2.Driver").newInstance();
+			DriverManager.registerDriver(driverH2);
+			
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		
 		
 		/* lit le DRIVER de la BASE dans le properties 
 		 * et l'injecte dans la DataSource. */
-		dataSource.setDriverClassName(
-				this.environmentSpring.getProperty(
-						"javax.persistence.jdbc.driver"));
+		dataSource.setDriver(driverH2);
+//		dataSource.setDriverClassName(
+//				this.environmentSpring.getProperty(
+//						"javax.persistence.jdbc.driver"));
 		
 		/* lit le [Login + Mdp] à la base dans le properties 
 		 * et l'injecte dans le DataSource. */
@@ -294,6 +307,20 @@ public class ConfigurateurJPAH2File {
 	public Properties additionalProperties() {
 		
 		final Properties properties = new Properties();
+		
+		final String url 
+		= this.environmentSpring.getProperty(
+			"javax.persistence.jdbc.connexion.url");
+		
+		final String prefixe = "jdbc:h2:file:";
+		final String cheminBase = StringUtils.difference(prefixe, url);
+		
+		final Path cheminBasePath = Paths.get(cheminBase).toAbsolutePath().normalize();
+		
+		final String urlNormalisee = prefixe + cheminBasePath.toString() + ";DB_CLOSE_ON_EXIT=FALSE";
+		
+		properties.setProperty("hibernate.connection.url"
+				, urlNormalisee);
 		
 		/* lit le DIALECTE HIBERNATE de la BASE dans le properties 
 		 * et l'injecte dans les propriétés additionnelles. */
@@ -483,6 +510,6 @@ public class ConfigurateurJPAH2File {
 		return new PersistenceExceptionTranslationPostProcessor();
 	} // Fin de exceptionTranslation().____________________________________
 	
-	
+
 	
 } // FIN DE LA CLASSE ConfigurateurJPAH2File.--------------------------------

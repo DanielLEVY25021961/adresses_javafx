@@ -10,7 +10,6 @@ import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -19,6 +18,7 @@ import javax.persistence.EntityManagerFactory;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
+import org.junit.AfterClass;
 import org.junit.BeforeClass;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -86,6 +86,13 @@ public class ContactSimpleDAOJPASpringTest {
 	 * Contexte SPRING pour les tests.<br/>
 	 */
 	private static transient ApplicationContext contexteSpring;
+	
+	/**
+	 * .
+	 */
+	@Autowired(required=true)
+	@Qualifier("ConfigurateurSpringFrmkAnnotationJPAH2File")
+	private static transient Class<?> classeConfiguration;
 	
 	/**
 	 * DAO.<br/>
@@ -1237,6 +1244,7 @@ public class ContactSimpleDAOJPASpringTest {
 			System.out.println("********** CLASSE ContactSimpleDaoJPASpringTest - méthode testCreate() ********** ");
 		}
 
+		
 		/* this.dao NON INJECTE. */
 		if (this.dao == null) {
 			
@@ -1250,6 +1258,8 @@ public class ContactSimpleDAOJPASpringTest {
 			
 		} // Fin de this.dao NON INJECTE._____________________
 
+		
+		afficherContexte();
 		
 		/* vide et remplit le stockage. */
 		this.remplirStockage(false);
@@ -1313,7 +1323,7 @@ public class ContactSimpleDAOJPASpringTest {
 			this.afficherAbstractDaoException(e);			
 			e.printStackTrace();
 		}
-				
+		
 	} // Fin de testCreate().______________________________________________
 	
 
@@ -8110,7 +8120,7 @@ public class ContactSimpleDAOJPASpringTest {
 		/* annule l'entityManagerFactory pour forcer 
 		 * la re-création des tables à chaque appel. */
 //		JPAUtils.annulerEntityManagerFactory();
-		instancierContexteSpringParAnnotations();
+//		instancierContexteSpringParAnnotations();
 		
 		
 		Long nombreObjetsinitial = 0L;
@@ -8437,23 +8447,23 @@ public class ContactSimpleDAOJPASpringTest {
 	
 	
 	/**
-	 * method avantTests() :<br/>
 	 * <ul>
 	 * <li>instructions exécutées <b>avant l'ensemble des tests</b> 
 	 * de la classe JUnit.</li>
 	 * <li><b>A REMPLIR A LA MAIN</b></li>
 	 * <li>instancie le contexte Spring déclaré par Annotations.</li>
 	 * </ul>
+	 * 
 	 * @throws Exception 
 	 */
 	@BeforeClass
    public static void avantTests() throws Exception {
 		
 		/* instancie le contexte Spring déclaré par Annotations. */
-		instancierContexteSpringParAnnotations();
+//		instancierContexteSpringParAnnotations();
 		
 		/* affiche les beans contenus dans le contexte SPRING. */
-		afficherContexte();
+//		afficherContexte();
 		
 	} // Fin de avantTests().______________________________________________
 
@@ -8469,30 +8479,67 @@ public class ContactSimpleDAOJPASpringTest {
 	 */
 	private static void instancierContexteSpringParAnnotations() {
 		
-		contexteSpring 
-			= new AnnotationConfigApplicationContext(
-					ConfigurateurSpringFrmkAnnotationJPAH2File.class);
-		
-		System.out.println();
-		System.out.println("*************** instancierContexteSpringParAnnotations() DANS LE TEST JUNIT ****************************");
-		
-		emf = contexteSpring.getBean("entityManagerFactory", EntityManagerFactory.class);
-		
-		dataSource = contexteSpring.getBean("dataSource", DriverManagerDataSource.class);
-		
-		System.out.println("CLASSE ContactSimpleDAOJPASpringTest - METHODE instancierContexteSpringParAnnotations() - URL dans la DATASOURCE : " + dataSource.getUrl());
-		
-		final Map<String, Object> propsEmf = emf.getProperties();
-		
-		final String connexionUrl = (String) propsEmf.get("hibernate.connection.url");
-		
-		System.out.println("CLASSE ContactSimpleDAOJPASpringTest - METHODE instancierContexteSpringParAnnotations() - hibernate.connection.url DANS ENTITY MANAGERFACTORY : " + connexionUrl);
-		
-		System.out.println();
+		if (contexteSpring == null) {
+			
+			System.out.println();
+			System.out.println("*************** instancierContexteSpringParAnnotations() DANS LE TEST JUNIT ****************************");
+			System.out.println("*****************INSTANCIATION DU CONTEXTE SPRING ******************************************************");
+			
+			try {
+				contexteSpring = AnnotationConfigApplicationContext.class.newInstance();
+			} catch (InstantiationException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			} catch (IllegalAccessException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+			
+//			contexteSpring 
+//				= new AnnotationConfigApplicationContext(
+//						ConfigurateurSpringFrmkAnnotationJPAH2File.class);
+			
+//			contexteSpring 
+//			= new AnnotationConfigApplicationContext(
+//					classeConfiguration);
+			
+			
+			
+		}
 		
 	} // Fin de instancierContexteSpringParAnnotations().__________________
 
 
+
+	/**
+	 * <ul>
+	 * <li>instructions exécutées <b>APRES l'ensemble des tests</b> 
+	 * de la classe JUnit.</li>
+	 * <li><b>A REMPLIR A LA MAIN</b></li>
+	 * <li>clôt le contexte Spring déclaré par Annotations.</li>
+	 * </ul>
+	 *
+	 * @throws Exception
+	 */
+	@AfterClass
+	public static void apresTests() throws Exception {
+		
+		if (contexteSpring != null) {
+			
+			System.out.println();
+			System.out.println("*************** apresTest() DANS LE TEST JUNIT ****************************");
+			System.out.println("*****************CLOTURE DU CONTEXTE SPRING ******************************************************");
+			
+			final AnnotationConfigApplicationContext context 
+				= (AnnotationConfigApplicationContext) contexteSpring;
+						
+			context.close();
+			
+		}
+		
+	} // Fin de apresTests().______________________________________________
+	
+	
 	
 	/**
 	 * <b>affiche les propriétés lues par le EMFactory</b>.<br/>

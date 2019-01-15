@@ -90,9 +90,9 @@
 		<!-- chemin relatif (marche dans Eclipse) -->
 <!-- 		<property name="hibernate.connection.url" value="jdbc:h2:file:./data/base-adresses_javafx-h2/base-adresses_javafx" />  -->
 		<!-- chemin absolu (marche dans la console H2) -->
-<!-- 		<property name="hibernate.connection.url" value="jdbc:h2:file:D:/Donnees/eclipse/eclipseworkspace/adresses_javafx/data/base-adresses_javafx-h2/base-adresses_javafx" /> -->
+		<property name="hibernate.connection.url" value="jdbc:h2:file:D:/Donnees/eclipse/eclipseworkspace/adresses_javafx/data/base-adresses_javafx-h2/base-adresses_javafx" />
    		<!-- en mode MEMORY -->
-	    <property name="hibernate.connection.url" value="jdbc:h2:mem:base-adresses_javafx" />    
+<!-- 	    <property name="hibernate.connection.url" value="jdbc:h2:mem:base-adresses_javafx" />     -->
 	
 					
 

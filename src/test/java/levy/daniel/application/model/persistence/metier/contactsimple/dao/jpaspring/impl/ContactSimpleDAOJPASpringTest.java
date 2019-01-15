@@ -19,14 +19,14 @@ import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.junit.AfterClass;
+import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.BeansException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
-import org.springframework.context.ApplicationContext;
-import org.springframework.context.annotation.AnnotationConfigApplicationContext;
+import org.springframework.context.support.GenericApplicationContext;
 import org.springframework.jdbc.datasource.DriverManagerDataSource;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
@@ -83,16 +83,21 @@ public class ContactSimpleDAOJPASpringTest {
 		= "Classe ContactSimpleDAOJPASpringTest";
 	
 	/**
-	 * Contexte SPRING pour les tests.<br/>
+	 * Contexte SPRING injecté par SPRING dès que 
+	 * la configuration est terminée.<br/>
+	 * <ul>
+	 * <li><b>injecté via son SETTER</b>.</li>
+	 * <li>injecté <i>après</i> avantTests() (BeforeClass) 
+	 * et après le Constructeur du Test.</li>
+	 * <li>injecté <i>avant</i> avantChaqueTest() (Before).</li>
+	 * </ul>
 	 */
-	private static transient ApplicationContext contexteSpring;
+    private GenericApplicationContext contextInjectable;	
 	
 	/**
-	 * .
+	 * Contexte SPRING pour les tests.<br/>
 	 */
-	@Autowired(required=true)
-	@Qualifier("ConfigurateurSpringFrmkAnnotationJPAH2File")
-	private static transient Class<?> classeConfiguration;
+	private static transient GenericApplicationContext contexteSpring;
 	
 	/**
 	 * DAO.<br/>
@@ -993,6 +998,12 @@ public class ContactSimpleDAOJPASpringTest {
 	 */
 	public ContactSimpleDAOJPASpringTest() {
 		super();
+		
+		System.out.println();
+		contexteSpring = this.contextInjectable;
+		System.out.println("DANS LE CONSTRUCTEUR DU TEST");
+		System.out.println("CONTEXTE SPRING : " + contexteSpring);
+		
 	} // Fin du CONSTRUCTEUR D'ARITE NULLE.________________________________
 	
 
@@ -8217,6 +8228,44 @@ public class ContactSimpleDAOJPASpringTest {
 
 	
 	/**
+	 * Getter .<br/>
+	 *
+	 * @return this.contextInjectable : GenericApplicationContext.<br/>
+	 */
+	public GenericApplicationContext getContextInjectable() {
+		return this.contextInjectable;
+	}
+
+
+
+	/**
+	* .<br/>
+	*
+	* @param pContextInjectable : GenericApplicationContext : 
+	* valeur à passer à this.contextInjectable.<br/>
+	*/
+	@Autowired
+	public void setContextInjectable(
+			final GenericApplicationContext pContextInjectable) {
+		
+		System.out.println();
+		System.out.println("****************INJECTION DU CONTEXTE DANS LE SETTER setContextInjectable(...)**************");
+		System.out.println(pContextInjectable);
+		System.out.println();
+		
+		this.contextInjectable = pContextInjectable;
+		
+		/* instancie le contexteSpring STATIC la première fois. */
+		if (contexteSpring == null) {
+			contexteSpring = this.contextInjectable;
+		}
+		
+
+	}
+
+
+
+	/**
 	 * <ul>
 	 * Affiche à la console :
 	 * <li>Le nombre d'objets pNbreObjetsInitial initialement 
@@ -8450,8 +8499,8 @@ public class ContactSimpleDAOJPASpringTest {
 	 * <ul>
 	 * <li>instructions exécutées <b>avant l'ensemble des tests</b> 
 	 * de la classe JUnit.</li>
+	 * <li>exécuté <i>avant</i> le Constructeur de la classe.</li>
 	 * <li><b>A REMPLIR A LA MAIN</b></li>
-	 * <li>instancie le contexte Spring déclaré par Annotations.</li>
 	 * </ul>
 	 * 
 	 * @throws Exception 
@@ -8459,62 +8508,40 @@ public class ContactSimpleDAOJPASpringTest {
 	@BeforeClass
    public static void avantTests() throws Exception {
 		
-		/* instancie le contexte Spring déclaré par Annotations. */
-//		instancierContexteSpringParAnnotations();
-		
-		/* affiche les beans contenus dans le contexte SPRING. */
-//		afficherContexte();
+		System.out.println();
+		System.out.println("AVANT TOUS LES TESTS (AVANT CLASSE)");
+		System.out.println("CONTEXTE SPRING : " + contexteSpring);
 		
 	} // Fin de avantTests().______________________________________________
 
 
 	
 	/**
-	 * <b>instancie le contexte Spring déclaré par Annotations</b>.<br/>
 	 * <ul>
-	 * <li>utilise <code>contexteSpring 
-	 * = new AnnotationConfigApplicationContext(
-	 * ConfigurationSpringFrameworkAnnotation.class);</code></li>
+	 * <li>instructions exécutées <b>avant CHAQUE test</b> 
+	 * de la classe JUnit.</li>
+	 * <li><b>A REMPLIR A LA MAIN</b></li>
 	 * </ul>
+	 * 
+	 * @throws Exception
 	 */
-	private static void instancierContexteSpringParAnnotations() {
+	@Before
+	public void avantChaqueTest() throws Exception {
 		
-		if (contexteSpring == null) {
-			
-			System.out.println();
-			System.out.println("*************** instancierContexteSpringParAnnotations() DANS LE TEST JUNIT ****************************");
-			System.out.println("*****************INSTANCIATION DU CONTEXTE SPRING ******************************************************");
-			
-			try {
-				contexteSpring = AnnotationConfigApplicationContext.class.newInstance();
-			} catch (InstantiationException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			} catch (IllegalAccessException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
-			
-//			contexteSpring 
-//				= new AnnotationConfigApplicationContext(
-//						ConfigurateurSpringFrmkAnnotationJPAH2File.class);
-			
-//			contexteSpring 
-//			= new AnnotationConfigApplicationContext(
-//					classeConfiguration);
-			
-			
-			
-		}
+		System.out.println();		
+		System.out.println("AVANT CHAQUE TEST");
+		System.out.println("CONTEXTE SPRING : " + contexteSpring);
+		System.out.println();
 		
-	} // Fin de instancierContexteSpringParAnnotations().__________________
-
-
+	} // Fin de avantChaqueTest()._________________________________________
+	
+	
 
 	/**
 	 * <ul>
 	 * <li>instructions exécutées <b>APRES l'ensemble des tests</b> 
 	 * de la classe JUnit.</li>
+	 * <li>executé lors de la fermeture de la classe.</li>
 	 * <li><b>A REMPLIR A LA MAIN</b></li>
 	 * <li>clôt le contexte Spring déclaré par Annotations.</li>
 	 * </ul>
@@ -8530,10 +8557,8 @@ public class ContactSimpleDAOJPASpringTest {
 			System.out.println("*************** apresTest() DANS LE TEST JUNIT ****************************");
 			System.out.println("*****************CLOTURE DU CONTEXTE SPRING ******************************************************");
 			
-			final AnnotationConfigApplicationContext context 
-				= (AnnotationConfigApplicationContext) contexteSpring;
-						
-			context.close();
+			/* clôt le contexte Spring déclaré par Annotations. */
+			contexteSpring.close();
 			
 		}
 		
@@ -8553,9 +8578,17 @@ public class ContactSimpleDAOJPASpringTest {
 			final EntityManagerFactory pEntityManagerFactory) {
 		
 		/* ne fait rien si pEntityManagerFactory == null. */
+		if (pEntityManagerFactory == null) {
+			return;
+		}
+				
 		final String propsDansEntityManagerFactory 
 		= AfficheurContexteSpring
 			.afficherPrincipalesProperties(pEntityManagerFactory);
+		
+//		final String propsDansEntityManagerFactory 
+//		= AfficheurContexteSpring
+//			.afficherProperties(pEntityManagerFactory);
 	
 		System.out.println(propsDansEntityManagerFactory);
 	

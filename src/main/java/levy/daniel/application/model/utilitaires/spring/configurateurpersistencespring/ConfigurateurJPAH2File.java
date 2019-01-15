@@ -202,56 +202,53 @@ public class ConfigurateurJPAH2File {
 	@Bean
 	public DataSource dataSource() {
 
-//		final DriverManagerDataSource dataSource 
-//			= new DriverManagerDataSource();
-		
 		final SimpleDriverDataSource dataSource 
 			= new SimpleDriverDataSource();
 		
+		// URL
 		/* lit l'URL de la BASE dans le properties 
 		 * et l'injecte dans la DataSource. */
 		final String url 
 			= this.environmentSpring.getProperty(
 				"javax.persistence.jdbc.connexion.url");
+		
 		if (url != null) {
 			
-			System.out.println();
-			System.out.println("************* DANS dataSource() du ConfigurateurJPAH2File AVANT dataSource.setUrl(urlNormalisee)******************");
-			System.out.println("URL LUE DANS LE PROPERTIES : " + url);
-			final String prefixe = "jdbc:h2:file:";
-			final String cheminBase = StringUtils.difference(prefixe, url);
-			System.out.println("CHEMINBASE : " + cheminBase);
-			final Path cheminBasePath = Paths.get(cheminBase).toAbsolutePath().normalize();
-			System.out.println("CHEMINBASE NORMALISE : " + cheminBasePath);
-			final String urlNormalisee = prefixe + cheminBasePath.toString() + ";DB_CLOSE_ON_EXIT=FALSE";
-			System.out.println("URL NORMALISEE A INJECTER DANS LA DATASOURCE : " + urlNormalisee);
+			final String urlNormalisee = this.normaliserURLFile(url);
 			
-			if (this.environmentSpring.containsProperty("javax.persistence.jdbc.connexion.url")) {
-				System.out.println("URL CONTENU DANS LE PROPERTIES : " + this.environmentSpring.getProperty("javax.persistence.jdbc.connexion.url"));
-			}
-			System.out.println();
 			dataSource.setUrl(urlNormalisee);
 		}
 		
+		// DRIVER
 		Driver driverH2 = null;
+		String driverString = null;
+		
+		driverString 
+			= this.environmentSpring.getProperty(
+				"javax.persistence.jdbc.driver");
+		
+		if (driverString == null) {
+			driverString = "org.h2.Driver";
+		}
 		
 		try {
 			
-			driverH2 = (Driver) Class.forName("org.h2.Driver").newInstance();
+			driverH2 = (Driver) Class.forName(driverString).newInstance();
 			DriverManager.registerDriver(driverH2);
 			
 		} catch (Exception e) {
-			e.printStackTrace();
+			
+			final String message 
+				= "méthode dataSource() - impossible de charger le DRIVER H2";
+			
+			if (LOG.isFatalEnabled()) {
+				LOG.fatal(message, e);
+			}
 		}
 		
-		
-		/* lit le DRIVER de la BASE dans le properties 
-		 * et l'injecte dans la DataSource. */
 		dataSource.setDriver(driverH2);
-//		dataSource.setDriverClassName(
-//				this.environmentSpring.getProperty(
-//						"javax.persistence.jdbc.driver"));
-		
+
+		// LOGIN + MDP
 		/* lit le [Login + Mdp] à la base dans le properties 
 		 * et l'injecte dans le DataSource. */
 		dataSource.setUsername(
@@ -260,7 +257,7 @@ public class ConfigurateurJPAH2File {
 		dataSource.setPassword(
 				this.environmentSpring.getProperty(
 						"javax.persistence.jdbc.connection.password"));
-
+		
 		return dataSource;
 		
 	} // Fin de dataSource().______________________________________________
@@ -308,19 +305,19 @@ public class ConfigurateurJPAH2File {
 		
 		final Properties properties = new Properties();
 		
-		final String url 
-		= this.environmentSpring.getProperty(
-			"javax.persistence.jdbc.connexion.url");
-		
-		final String prefixe = "jdbc:h2:file:";
-		final String cheminBase = StringUtils.difference(prefixe, url);
-		
-		final Path cheminBasePath = Paths.get(cheminBase).toAbsolutePath().normalize();
-		
-		final String urlNormalisee = prefixe + cheminBasePath.toString() + ";DB_CLOSE_ON_EXIT=FALSE";
-		
-		properties.setProperty("hibernate.connection.url"
-				, urlNormalisee);
+//		final String url 
+//		= this.environmentSpring.getProperty(
+//			"javax.persistence.jdbc.connexion.url");
+//		
+//		final String prefixe = "jdbc:h2:file:";
+//		final String cheminBase = StringUtils.difference(prefixe, url);
+//		
+//		final Path cheminBasePath = Paths.get(cheminBase).toAbsolutePath().normalize();
+//		
+//		final String urlNormalisee = prefixe + cheminBasePath.toString() + ";DB_CLOSE_ON_EXIT=FALSE";
+//		
+//		properties.setProperty("hibernate.connection.url"
+//				, urlNormalisee);
 		
 		/* lit le DIALECTE HIBERNATE de la BASE dans le properties 
 		 * et l'injecte dans les propriétés additionnelles. */
@@ -511,5 +508,43 @@ public class ConfigurateurJPAH2File {
 	} // Fin de exceptionTranslation().____________________________________
 	
 
+	
+	/**
+	 * transforme unr URL pour base en MODE FILE contenant 
+	 * un chemin relatif lue dans un properties en URL 
+	 * acceptable pour la DataSource.<br/>
+	 * Par exemple :
+	 * <ul>
+	 * <li>jdbc:h2:file:./data/base-adresses_javafx-h2/base-adresses_javafx</li>
+	 * devient
+	 * <li>jdbc:h2:file:D:\Donnees\eclipse\eclipseworkspace\adresses_javafx\
+	 * data\base-adresses_javafx-h2\base-adresses_javafx;DB_CLOSE_ON_EXIT=FALSE</li>
+	 * </ul>
+	 *
+	 * @param pUrlFile : String : 
+	 * contenu relatif dans un properties.<br/>
+	 * 
+	 * @return : String : URL acceptable.<br/>
+	 */
+	private String normaliserURLFile(
+			final String pUrlFile) {
+		
+		final String prefixe = "jdbc:h2:file:";
+		
+		final String cheminBase 
+			= StringUtils.difference(prefixe, pUrlFile);
+		
+		final Path cheminBasePath 
+			= Paths.get(cheminBase).toAbsolutePath().normalize();
+		
+		final String urlNormalisee 
+			= prefixe + cheminBasePath.toString() 
+				+ ";DB_CLOSE_ON_EXIT=FALSE";
+		
+		return urlNormalisee;
+		
+	} // Fin de normaliserURLFile(...).____________________________________
+	
+	
 	
 } // FIN DE LA CLASSE ConfigurateurJPAH2File.--------------------------------

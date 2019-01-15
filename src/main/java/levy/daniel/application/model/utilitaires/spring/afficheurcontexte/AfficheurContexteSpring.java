@@ -320,7 +320,7 @@ public final class AfficheurContexteSpring {
 			stb.append("Pays : ");
 			stb.append(userCountry);
 			stb.append(SAUT_LIGNE_PLATEFORME);
-			stb.append("Encodage du persistence.xml : ");
+			stb.append("Encodage des fichiers : ");
 			stb.append(encoding);
 			stb.append(SAUT_LIGNE_PLATEFORME);
 			stb.append("Répertoire du projet Java : ");

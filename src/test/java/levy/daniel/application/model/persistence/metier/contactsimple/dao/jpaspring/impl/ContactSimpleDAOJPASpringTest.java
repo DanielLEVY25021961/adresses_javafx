@@ -997,10 +997,10 @@ public class ContactSimpleDAOJPASpringTest {
 	 * CONSTRUCTEUR D'ARITE NULLE.<br/>
 	 */
 	public ContactSimpleDAOJPASpringTest() {
+		
 		super();
 		
 		System.out.println();
-		contexteSpring = this.contextInjectable;
 		System.out.println("DANS LE CONSTRUCTEUR DU TEST");
 		System.out.println("CONTEXTE SPRING : " + contexteSpring);
 		

@@ -107,7 +107,8 @@ public class ConfigurateurJPAH2File {
 	 * <ul>
 	 * <li><b>fabrique l'EntityManagerFactory</b> en lisant 
 	 * les valeurs de configuration de la base directement 
-	 * dans la présente classe (pas dans un META-INF/persistence.xml)</li>
+	 * dans la présente classe 
+	 * <i>(pas dans un META-INF/persistence.xml)</i>.</li>
 	 * <li><b>fixe le nom de l'unité de persistence</b> avec 
 	 * la valeur lue dans le fichier properties.</li>
 	 * <li>stipule que l'ORM est <b>HIBERNATE</b>.</li>
@@ -130,30 +131,57 @@ public class ConfigurateurJPAH2File {
 	@Bean
 	public LocalContainerEntityManagerFactoryBean entityManagerFactory() 
 			throws Exception {
-
+		 
 		final LocalContainerEntityManagerFactoryBean entityManagerFactory 
 			= new LocalContainerEntityManagerFactoryBean();
-
+		
+		// PERSISTENCE UNIT
 		/*
 		 * fixe le nom de l'unité de persistence avec 
 		 * la valeur lue dans le fichier properties.
 		 */
-		entityManagerFactory.setPersistenceUnitName(
-				this.environmentSpring.getProperty(
-						"javax.persistence.jdbc.persistence-unit.name"));
-
+		final String persistenceUnitName 
+			= this.environmentSpring.getProperty(
+				"javax.persistence.jdbc.persistence-unit.name");
+		
+		if (persistenceUnitName != null) {
+			
+			entityManagerFactory
+				.setPersistenceUnitName(persistenceUnitName);
+			
+		} else {
+			
+			final String message 
+				= "ConfigurateurJPAH2File "
+						+ "- entityManagerFactory "
+						+ "- IMPOSSIBLE DE LIRE LE NOM DE "
+						+ "L'UNITE DE PERSISTENCE";
+			
+			if (LOG.isFatalEnabled()) {
+				LOG.fatal(message);
+			}
+		}
+		
+				
+		// JPAVENDORADAPTER
 		/* stipule que l'ORM est HIBERNATE. */
 		entityManagerFactory.setJpaVendorAdapter(
 				this.vendorAdapterHibernate());
 
+		
+		// DATASOURCE
 		/* passe la DataSource à l'EntityManagerFactory. */
 		entityManagerFactory.setDataSource(this.dataSource());
+	
 		
+		// PACKAGES SCANNES
 		/* scanne le package de persistence 
 		 * pour trouver les classes annotées. */
 		entityManagerFactory.setPackagesToScan(
 				new String[] {"levy.daniel.application.model.persistence"});
 
+		
+		// PROPRIETES SPECIFIQUES ORM HIBERNATE
 		/* ajoute des propriétés additionnelles à l'EntityManagerFactory 
 		 * (Dialecte Hibernate, stratégie de création de tables, ...). */
 		entityManagerFactory.setJpaProperties(additionalProperties());
@@ -167,7 +195,7 @@ public class ConfigurateurJPAH2File {
 	/**
 	 * <b>fournit un Bean précisant que l'ORM est HIBERNATE</b>.<br/>
 	 *
-	 * @return : JpaVendorAdapter.<br/>
+	 * @return : JpaVendorAdapter : HibernateJpaVendorAdapter.<br/>
 	 */
 	@Bean
 	public JpaVendorAdapter vendorAdapterHibernate() {
@@ -218,6 +246,7 @@ public class ConfigurateurJPAH2File {
 			
 			dataSource.setUrl(urlNormalisee);
 		}
+
 		
 		// DRIVER
 		Driver driverH2 = null;
@@ -248,16 +277,30 @@ public class ConfigurateurJPAH2File {
 		
 		dataSource.setDriver(driverH2);
 
+		
 		// LOGIN + MDP
 		/* lit le [Login + Mdp] à la base dans le properties 
 		 * et l'injecte dans le DataSource. */
-		dataSource.setUsername(
-				this.environmentSpring.getProperty(
-						"javax.persistence.jdbc.connection.username"));
-		dataSource.setPassword(
-				this.environmentSpring.getProperty(
-						"javax.persistence.jdbc.connection.password"));
+		final String userName 
+			= this.environmentSpring.getProperty(
+				"javax.persistence.jdbc.connection.username");
 		
+		if (userName != null) {
+			dataSource.setUsername(userName);
+		} else {
+			dataSource.setUsername("sa");
+		}
+		
+		final String password 
+			= this.environmentSpring.getProperty(
+				"javax.persistence.jdbc.connection.password");
+		
+		if (password != null) {
+			dataSource.setPassword(password);
+		} else {
+			dataSource.setPassword("sa");
+		}
+			
 		return dataSource;
 		
 	} // Fin de dataSource().______________________________________________
@@ -305,19 +348,7 @@ public class ConfigurateurJPAH2File {
 		
 		final Properties properties = new Properties();
 		
-//		final String url 
-//		= this.environmentSpring.getProperty(
-//			"javax.persistence.jdbc.connexion.url");
-//		
-//		final String prefixe = "jdbc:h2:file:";
-//		final String cheminBase = StringUtils.difference(prefixe, url);
-//		
-//		final Path cheminBasePath = Paths.get(cheminBase).toAbsolutePath().normalize();
-//		
-//		final String urlNormalisee = prefixe + cheminBasePath.toString() + ";DB_CLOSE_ON_EXIT=FALSE";
-//		
-//		properties.setProperty("hibernate.connection.url"
-//				, urlNormalisee);
+
 		
 		/* lit le DIALECTE HIBERNATE de la BASE dans le properties 
 		 * et l'injecte dans les propriétés additionnelles. */

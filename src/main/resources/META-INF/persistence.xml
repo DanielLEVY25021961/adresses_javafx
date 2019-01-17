@@ -92,8 +92,8 @@
 		<!-- chemin absolu (marche dans la console H2) -->
 <!-- 		<property name="hibernate.connection.url" value="jdbc:h2:file:D:/Donnees/eclipse/eclipseworkspace/adresses_javafx/data/base-adresses_javafx-h2/base-adresses_javafx" /> -->
    		<!-- en mode MEMORY -->
-	    <property name="hibernate.connection.url" value="jdbc:h2:mem:base-adresses_javafx" />    
-	
+<!-- 	    <property name="hibernate.connection.url" value="jdbc:h2:mem:base-adresses_javafx" />     -->
+		<property name="javax.persistence.jdbc.url" value="jdbc:h2:mem:base-adresses_javafx" />
 					
 
 					<!-- ********************************** -->
@@ -123,8 +123,10 @@
 		<!-- ========================================================= -->
 		<!--                     	H2 1.4.197 - [sa, sa]              -->
 		<!-- ========================================================= -->
-    	<property name="hibernate.connection.username" value="sa" />
-    	<property name="hibernate.connection.password" value="sa" />	
+<!--     	<property name="hibernate.connection.username" value="sa" /> -->
+<!--     	<property name="hibernate.connection.password" value="sa" />	 -->
+    	<property name="javax.persistence.jdbc.user" value="sa" />
+    	<property name="javax.persistence.jdbc.password" value="sa" />	
 
 
 		

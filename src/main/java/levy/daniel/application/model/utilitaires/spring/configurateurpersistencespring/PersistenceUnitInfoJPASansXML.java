@@ -326,7 +326,15 @@ public class PersistenceUnitInfoJPASansXML implements PersistenceUnitInfo {
 		this.jtaDataSource = pJtaDataSource;
 		this.nonJtaDataSource = pNonJtaDataSource;
 		this.mappingFileNames = pMappingFileNames;
-		this.jarFileUrls = pJarFileUrls;
+		
+		if (pJarFileUrls == null) {
+			this.jarFileUrls = Collections.emptyList(); 
+		} else {
+			this.jarFileUrls = pJarFileUrls;
+		}
+		
+
+		
 		this.persistenceUnitRootUrl = pPersistenceUnitRootUrl;
 		this.managedClassNames = pManagedClassNames;
 		this.excludeUnlistedClasses = pExcludeUnlistedClasses;
@@ -341,6 +349,96 @@ public class PersistenceUnitInfoJPASansXML implements PersistenceUnitInfo {
 
 
 	
+	/**
+	 * {@inheritDoc}
+	 */
+	@Override
+	public String toString() {
+		StringBuilder builder = new StringBuilder();
+		builder.append("PersistenceUnitInfoJPASansXML [");
+		if (this.persistenceUnitName != null) {
+			builder.append("persistenceUnitName=");
+			builder.append(this.persistenceUnitName);
+			builder.append(", ");
+		}
+		if (this.persistenceProviderClassName != null) {
+			builder.append("persistenceProviderClassName=");
+			builder.append(this.persistenceProviderClassName);
+			builder.append(", ");
+		}
+		if (this.transactionType != null) {
+			builder.append("transactionType=");
+			builder.append(this.transactionType);
+			builder.append(", ");
+		}
+		if (this.jtaDataSource != null) {
+			builder.append("jtaDataSource=");
+			builder.append(this.jtaDataSource);
+			builder.append(", ");
+		}
+		if (this.nonJtaDataSource != null) {
+			builder.append("nonJtaDataSource=");
+			builder.append(this.nonJtaDataSource);
+			builder.append(", ");
+		}
+		if (this.mappingFileNames != null) {
+			builder.append("mappingFileNames=");
+			builder.append(this.mappingFileNames);
+			builder.append(", ");
+		}
+		if (this.jarFileUrls != null) {
+			builder.append("jarFileUrls=");
+			builder.append(this.jarFileUrls);
+			builder.append(", ");
+		}
+		if (this.persistenceUnitRootUrl != null) {
+			builder.append("persistenceUnitRootUrl=");
+			builder.append(this.persistenceUnitRootUrl);
+			builder.append(", ");
+		}
+		if (this.managedClassNames != null) {
+			builder.append("managedClassNames=");
+			builder.append(this.managedClassNames);
+			builder.append(", ");
+		}
+		builder.append("excludeUnlistedClasses=");
+		builder.append(this.excludeUnlistedClasses);
+		builder.append(", ");
+		if (this.sharedCacheMode != null) {
+			builder.append("sharedCacheMode=");
+			builder.append(this.sharedCacheMode);
+			builder.append(", ");
+		}
+		if (this.validationMode != null) {
+			builder.append("validationMode=");
+			builder.append(this.validationMode);
+			builder.append(", ");
+		}
+		if (this.properties != null) {
+			builder.append("properties=");
+			builder.append(this.properties);
+			builder.append(", ");
+		}
+		if (this.persistenceXMLSchemaVersion != null) {
+			builder.append("persistenceXMLSchemaVersion=");
+			builder.append(this.persistenceXMLSchemaVersion);
+			builder.append(", ");
+		}
+		if (this.classLoader != null) {
+			builder.append("classLoader=");
+			builder.append(this.classLoader);
+			builder.append(", ");
+		}
+		if (this.newTempClassLoader != null) {
+			builder.append("newTempClassLoader=");
+			builder.append(this.newTempClassLoader);
+		}
+		builder.append("]");
+		return builder.toString();
+	}
+
+
+
 	/**
 	 * {@inheritDoc}
 	 */
@@ -394,20 +492,10 @@ public class PersistenceUnitInfoJPASansXML implements PersistenceUnitInfo {
 
 	/**
 	 * {@inheritDoc}
-	 * <br/>
-	 * - retourne RESOURCE_LOCAL (Standalone) 
-	 * si this.transactionType == null.<br/>
 	 */
 	@Override
 	public PersistenceUnitTransactionType getTransactionType() {
-		
-		if (this.transactionType == null) {
-			this.transactionType 
-				= PersistenceUnitTransactionType.RESOURCE_LOCAL;
-		}
-		
-		return this.transactionType;
-		
+		return this.transactionType;		
 	} // Fin de getTransactionType().______________________________________
 
 	

@@ -217,7 +217,8 @@ public class ConfigurateurJPAH2File {
 					, nonJtaDataSource
 					, propsAdditionnelles);
 		
-
+		System.out.println("PERSISTENCEUNITINFO DANS ConfigurateurJPASansXML : " + persistenceUnitInfo.toString());
+		
 		final Map<String, Object> configuration	
 			= new HashMap<String, Object>();
 				

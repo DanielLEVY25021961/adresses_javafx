@@ -16,7 +16,7 @@ import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
 /**
- * CLASSE PersistenceUnitInfoJPAH2File :<br/>
+ * CLASSE PersistenceUnitInfoJPASansXML :<br/>
  * .<br/>
  * <br/>
  *
@@ -35,7 +35,7 @@ import org.apache.commons.logging.LogFactory;
  * @since 15 janv. 2019
  *
  */
-public class PersistenceUnitInfoJPAH2File implements PersistenceUnitInfo {
+public class PersistenceUnitInfoJPASansXML implements PersistenceUnitInfo {
 
 	// ************************ATTRIBUTS************************************/
 
@@ -193,7 +193,7 @@ public class PersistenceUnitInfoJPAH2File implements PersistenceUnitInfo {
 	 */
 	@SuppressWarnings("unused")
 	private static final Log LOG 
-		= LogFactory.getLog(PersistenceUnitInfoJPAH2File.class);
+		= LogFactory.getLog(PersistenceUnitInfoJPASansXML.class);
 	
 
 	// *************************METHODES************************************/
@@ -221,20 +221,20 @@ public class PersistenceUnitInfoJPAH2File implements PersistenceUnitInfo {
 	 * à l'ORM, à SPRING, à H2, ...</b> 
 	 * comme par exemple le dialecte HIBERNATE.
 	 */
-	public PersistenceUnitInfoJPAH2File(
+	public PersistenceUnitInfoJPASansXML(
 			final String pPersistenceUnitName
 			, final String pPersistenceProviderClassName
 			, final PersistenceUnitTransactionType pTransactionType
-			, DataSource pJtaDataSource
-			, DataSource pNonJtaDataSource
+			, final DataSource pJtaDataSource
+			, final DataSource pNonJtaDataSource
 			, final Properties pProperties) {
 		
         this(
         		pPersistenceUnitName
         		, pPersistenceProviderClassName
         		, pTransactionType
-        		, pJtaDataSource = (pTransactionType.equals(PersistenceUnitTransactionType.JTA)) ? pJtaDataSource : null
-        		, pNonJtaDataSource = (pTransactionType.equals(PersistenceUnitTransactionType.RESOURCE_LOCAL)) ? pNonJtaDataSource : null
+        		, pJtaDataSource
+        		, pNonJtaDataSource
         		, null
         		, null
         		, null
@@ -300,7 +300,7 @@ public class PersistenceUnitInfoJPAH2File implements PersistenceUnitInfo {
 	 * ClassLoader utilisé temporairement 
 	 * par l'ORM pour charger les Entities JPA, ....
 	 */
-	public PersistenceUnitInfoJPAH2File(
+	public PersistenceUnitInfoJPASansXML(
 			final String pPersistenceUnitName
 			, final String pPersistenceProviderClassName
 			, final PersistenceUnitTransactionType pTransactionType
@@ -780,7 +780,7 @@ public class PersistenceUnitInfoJPAH2File implements PersistenceUnitInfo {
 	* valeur à passer à this.persistenceXMLSchemaVersion.<br/>
 	*/
 	public void setPersistenceXMLSchemaVersion(
-			String pPersistenceXMLSchemaVersion) {
+			final String pPersistenceXMLSchemaVersion) {
 		this.persistenceXMLSchemaVersion = pPersistenceXMLSchemaVersion;
 	} // Fin de setPersistenceXMLSchemaVersion(...)._______________________
 

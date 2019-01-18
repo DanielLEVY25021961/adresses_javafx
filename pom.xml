@@ -611,12 +611,12 @@
 		<!-- ====================================================== -->
 		<!-- c3p0 -->
 		<!-- https://mvnrepository.com/artifact/com.mchange/c3p0 	-->
-<!-- 		<dependency> -->
-<!-- 		    <groupId>com.mchange</groupId> -->
-<!-- 		    <artifactId>c3p0</artifactId> -->
-<!-- 		    <version>${c3p0.version}</version> -->
-<!-- 		    <scope>compile</scope> -->
-<!-- 		</dependency> -->
+		<dependency>
+		    <groupId>com.mchange</groupId>
+		    <artifactId>c3p0</artifactId>
+		    <version>${c3p0.version}</version>
+		    <scope>compile</scope>
+		</dependency>
 		
 		<!-- https://mvnrepository.com/artifact/org.apache.commons/commons-dbcp2 -->
 		<dependency>

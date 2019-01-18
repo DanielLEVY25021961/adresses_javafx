@@ -4,14 +4,20 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.sql.Driver;
 import java.sql.DriverManager;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.Properties;
 
 import javax.persistence.EntityManagerFactory;
+import javax.persistence.spi.PersistenceProvider;
+import javax.persistence.spi.PersistenceUnitInfo;
+import javax.persistence.spi.PersistenceUnitTransactionType;
 import javax.sql.DataSource;
 
 import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
+import org.hibernate.jpa.HibernatePersistenceProvider;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
@@ -24,7 +30,6 @@ import org.springframework.dao.annotation.PersistenceExceptionTranslationPostPro
 import org.springframework.jdbc.datasource.SimpleDriverDataSource;
 import org.springframework.orm.jpa.JpaTransactionManager;
 import org.springframework.orm.jpa.JpaVendorAdapter;
-import org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean;
 import org.springframework.orm.jpa.vendor.HibernateJpaVendorAdapter;
 import org.springframework.transaction.PlatformTransactionManager;
 import org.springframework.transaction.annotation.EnableTransactionManagement;
@@ -123,17 +128,19 @@ public class ConfigurateurJPAH2File {
 	 * le bean s'appellerait "toto" dans le contexte.</li>
 	 * </ul>
 	 *
-	 * @return : LocalContainerEntityManagerFactoryBean : 
+	 * @return : EntityManagerFactory : 
 	 * Proxy du EntityManagerFactory.<br/>
 	 * 
 	 * @throws Exception 
 	 */
 	@Bean
-	public LocalContainerEntityManagerFactoryBean entityManagerFactory() 
+	public EntityManagerFactory entityManagerFactory() 
 			throws Exception {
 		 
-		final LocalContainerEntityManagerFactoryBean entityManagerFactory 
-			= new LocalContainerEntityManagerFactoryBean();
+//		final LocalContainerEntityManagerFactoryBean entityManagerFactory 
+//			= new LocalContainerEntityManagerFactoryBean();
+		
+		EntityManagerFactory entityManagerFactory = null;
 		
 		// PERSISTENCE UNIT
 		/*
@@ -143,49 +150,129 @@ public class ConfigurateurJPAH2File {
 		final String persistenceUnitName 
 			= this.environmentSpring.getProperty(
 				"javax.persistence.jdbc.persistence-unit.name");
+
 		
-		if (persistenceUnitName != null) {
+		// JPAVENDORADAPTER
+		/* stipule que l'ORM est HIBERNATE. */
+		final String persistenceProviderClassName 
+			= this.vendorAdapterHibernate().getClass().getName();
+
+		
+		// TYPE DE TRANSACTION
+		final String transactionTypeString 
+			= this.environmentSpring.getProperty(
+				"javax.persistence.jdbc.persistence-unit.transaction-type");
+				
+		PersistenceUnitTransactionType transactionType = null;
+		
+		if (transactionTypeString == null) {
+			transactionType = null;
+		} else if ("RESOURCE_LOCAL".equalsIgnoreCase(transactionTypeString)) {
+			transactionType = PersistenceUnitTransactionType.RESOURCE_LOCAL;
+		} else if ("JTA".equalsIgnoreCase(transactionTypeString)) {
+			transactionType = PersistenceUnitTransactionType.JTA;
+		} else {
+			transactionType = null;
+		}
+		
+		
+		// DATASOURCE
+		DataSource jtaDataSource = null;
+		DataSource nonJtaDataSource = null;
+		
+		if (transactionType == null) {
 			
-			entityManagerFactory
-				.setPersistenceUnitName(persistenceUnitName);
+			jtaDataSource = null;
+			nonJtaDataSource = this.dataSource();
+			
+		} else if (transactionType.equals(PersistenceUnitTransactionType.RESOURCE_LOCAL)) {
+			
+			jtaDataSource = null;
+			nonJtaDataSource = this.dataSource();
+			
+		} else if (transactionType.equals(PersistenceUnitTransactionType.JTA)) {
+			
+			jtaDataSource = this.dataSource();
+			nonJtaDataSource = null;
 			
 		} else {
 			
-			final String message 
-				= "ConfigurateurJPAH2File "
-						+ "- entityManagerFactory "
-						+ "- IMPOSSIBLE DE LIRE LE NOM DE "
-						+ "L'UNITE DE PERSISTENCE";
+			jtaDataSource = null;
+			nonJtaDataSource = null;
 			
-			if (LOG.isFatalEnabled()) {
-				LOG.fatal(message);
-			}
 		}
 		
+		// PROPRIETES ADDITIONNELLES
+		final Properties propsAdditionnelles 
+			= this.additionalProperties();
+		
+		
+		// INSTANCIATION D'UN PersistenceUnitInfo
+		final PersistenceUnitInfo persistenceUnitInfo 
+			= new PersistenceUnitInfoJPASansXML(
+					persistenceUnitName
+					, persistenceProviderClassName
+					, transactionType
+					, jtaDataSource
+					, nonJtaDataSource
+					, propsAdditionnelles);
+		
+
+		final Map<String, Object> configuration	
+			= new HashMap<String, Object>();
 				
-		// JPAVENDORADAPTER
-		/* stipule que l'ORM est HIBERNATE. */
-		entityManagerFactory.setJpaVendorAdapter(
-				this.vendorAdapterHibernate());
+		final PersistenceProvider persistenceProvider 
+		= new HibernatePersistenceProvider();
+		
+		entityManagerFactory = 
+				persistenceProvider
+					.createContainerEntityManagerFactory(
+							persistenceUnitInfo, configuration);
+		
+		
+//		if (persistenceUnitName != null) {
+//			
+//			entityManagerFactory
+//				.setPersistenceUnitName(persistenceUnitName);
+//			
+//		} else {
+//			
+//			final String message 
+//				= "ConfigurateurJPAH2File "
+//						+ "- entityManagerFactory "
+//						+ "- IMPOSSIBLE DE LIRE LE NOM DE "
+//						+ "L'UNITE DE PERSISTENCE";
+//			
+//			if (LOG.isFatalEnabled()) {
+//				LOG.fatal(message);
+//			}
+//		}
+//		
+//				
+//		// JPAVENDORADAPTER
+//		/* stipule que l'ORM est HIBERNATE. */
+//		entityManagerFactory.setJpaVendorAdapter(
+//				this.vendorAdapterHibernate());
+//
+//		
+//		// DATASOURCE
+//		/* passe la DataSource à l'EntityManagerFactory. */
+//		entityManagerFactory.setDataSource(this.dataSource());
+//	
+//		
+//		// PACKAGES SCANNES
+//		/* scanne le package de persistence 
+//		 * pour trouver les classes annotées. */
+//		entityManagerFactory.setPackagesToScan(
+//				new String[] {"levy.daniel.application.model.persistence"});
+//
+//		
+//		// PROPRIETES SPECIFIQUES ORM HIBERNATE
+//		/* ajoute des propriétés additionnelles à l'EntityManagerFactory 
+//		 * (Dialecte Hibernate, stratégie de création de tables, ...). */
+//		entityManagerFactory.setJpaProperties(additionalProperties());
 
 		
-		// DATASOURCE
-		/* passe la DataSource à l'EntityManagerFactory. */
-		entityManagerFactory.setDataSource(this.dataSource());
-	
-		
-		// PACKAGES SCANNES
-		/* scanne le package de persistence 
-		 * pour trouver les classes annotées. */
-		entityManagerFactory.setPackagesToScan(
-				new String[] {"levy.daniel.application.model.persistence"});
-
-		
-		// PROPRIETES SPECIFIQUES ORM HIBERNATE
-		/* ajoute des propriétés additionnelles à l'EntityManagerFactory 
-		 * (Dialecte Hibernate, stratégie de création de tables, ...). */
-		entityManagerFactory.setJpaProperties(additionalProperties());
-
 		return entityManagerFactory;
 		
 	} // Fin de entityManagerFactory().____________________________________
@@ -347,9 +434,7 @@ public class ConfigurateurJPAH2File {
 	public Properties additionalProperties() {
 		
 		final Properties properties = new Properties();
-		
-
-		
+				
 		/* lit le DIALECTE HIBERNATE de la BASE dans le properties 
 		 * et l'injecte dans les propriétés additionnelles. */
 		properties.setProperty("hibernate.dialect"
@@ -446,6 +531,23 @@ public class ConfigurateurJPAH2File {
 			}
 			
 		}
+		
+		// POOL DE CONNEXION C3P0
+		properties.setProperty("hibernate.c3p0.min_size"
+				, this.environmentSpring.getProperty(
+						"spring.jpa.properties.hibernate.c3p0.min_size"));
+		properties.setProperty("hibernate.c3p0.max_size"
+				, this.environmentSpring.getProperty(
+						"spring.jpa.properties.hibernate.c3p0.max_size"));
+		properties.setProperty("hibernate.c3p0.timeout"
+				, this.environmentSpring.getProperty(
+						"spring.jpa.properties.hibernate.c3p0.timeout"));
+		properties.setProperty("hibernate.c3p0.max_statements"
+				, this.environmentSpring.getProperty(
+						"spring.jpa.properties.hibernate.c3p0.max_statements"));
+		properties.setProperty("hibernate.c3p0.idle_test_period"
+				, this.environmentSpring.getProperty(
+						"spring.jpa.properties.hibernate.c3p0.idle_test_period"));
 			
 		/* INTERRUPTEUR GENERAL SPRING DE LA GENERATION DES TABLES : 
 		 * lit la valeur de spring.jpa.generate-ddl 

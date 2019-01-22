@@ -14,6 +14,7 @@ import javax.sql.DataSource;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
+import org.springframework.jdbc.datasource.SimpleDriverDataSource;
 
 /**
  * CLASSE PersistenceUnitInfoJPASansXML :<br/>
@@ -40,7 +41,28 @@ public class PersistenceUnitInfoJPASansXML implements PersistenceUnitInfo {
 	// ************************ATTRIBUTS************************************/
 
 	/**
+	 * ';'.<br/>
+	 */
+	public static final char POINT_VIRGULE = ';';
+	
+	/**
+	 * ", ".<br/>
+	 */
+	public static final String VIRGULE_ESPACE = ", ";
+	
+	/**
+	 * "null".<br/>
+	 */
+	public static final String NULL = "null";
+
+	
+	/**
 	 * nom de l'unité de persistance.
+	 * <ul>
+	 * <li>correspond à l'élément 
+	 * <code>persistence-unit.name</code> dans un persistence.xml 
+	 * préconisé par JPA.</li>
+	 * </ul>
 	 */
 	private String persistenceUnitName;
 	
@@ -201,6 +223,20 @@ public class PersistenceUnitInfoJPASansXML implements PersistenceUnitInfo {
 	
 	
 	 /**
+	 * CONSTRUCTEUR D'ARITE NULLE.<br/>
+	 */
+	public PersistenceUnitInfoJPASansXML() {
+		
+		this(null, null, null, null, null
+				, null, null, null, null
+					, false, null, null
+					, null, null, null, null);
+		
+	} // Fin de CONSTRUCTEUR D'ARITE NULLE.________________________________
+	
+	
+	
+	 /**
 	 * CONSTRUCTEUR MALIN.
 	 * 
 	 * @param pPersistenceUnitName : String : 
@@ -215,6 +251,10 @@ public class PersistenceUnitInfoJPASansXML implements PersistenceUnitInfo {
 	 * @param pNonJtaDataSource : DataSource : 
 	 * DataSource de l'application Standalone 
 	 * en cas de transactions RESOURCE_LOCAL (pas de TOMCAT).
+	 * @param pManagedClassNames : List&lt;String&gt; : 
+	 * liste des <b>noms</b> des 
+	 * classes Entities JPA mappées pour management 
+	 * par JPA dans un persistence.xml. 
 	 * @param pProperties : Properties : 
 	 * <b>propriétés de <b>connexion à la base</b> 
 	 * éventuellement spécifiques 
@@ -227,6 +267,7 @@ public class PersistenceUnitInfoJPASansXML implements PersistenceUnitInfo {
 			, final PersistenceUnitTransactionType pTransactionType
 			, final DataSource pJtaDataSource
 			, final DataSource pNonJtaDataSource
+			, final List<String> pManagedClassNames
 			, final Properties pProperties) {
 		
         this(
@@ -238,7 +279,7 @@ public class PersistenceUnitInfoJPASansXML implements PersistenceUnitInfo {
         		, null
         		, null
         		, null
-        		, null
+        		, pManagedClassNames
         		, false
         		, null
         		, null
@@ -253,6 +294,17 @@ public class PersistenceUnitInfoJPASansXML implements PersistenceUnitInfo {
 	
 	 /**
 	 * CONSTRUCTEUR COMPLET.<br/>
+	 * <ul>
+	 * <li>this.jarFileUrls == liste vide si pJarFileUrls == null.<br/></li>
+	 * <li>this.sharedCacheMode = UNSPECIFIED 
+	* si pSharedCacheMode == null.</li>
+	* <li>this.validationMode == AUTO si pValidationMode == null.</li>
+	* <li>this.persistenceXMLSchemaVersion == JPA_VERSION si 
+	* pPersistenceXMLSchemaVersion == null.</li>
+	* <li>this.classLoader = 
+	* Thread.currentThread().getContextClassLoader() 
+	* si pClassLoader == null.</li>
+	 * </ul>
 	 * 
 	 * @param pPersistenceUnitName : String : 
 	 * nom de l'unité de persistance.
@@ -332,17 +384,38 @@ public class PersistenceUnitInfoJPASansXML implements PersistenceUnitInfo {
 		} else {
 			this.jarFileUrls = pJarFileUrls;
 		}
-		
-
-		
+				
 		this.persistenceUnitRootUrl = pPersistenceUnitRootUrl;
 		this.managedClassNames = pManagedClassNames;
 		this.excludeUnlistedClasses = pExcludeUnlistedClasses;
-		this.sharedCacheMode = pSharedCacheMode;
-		this.validationMode = pValidationMode;
+		
+		if (pSharedCacheMode == null) {
+			this.sharedCacheMode = SharedCacheMode.UNSPECIFIED;
+		} else {
+			this.sharedCacheMode = pSharedCacheMode;
+		}
+		
+		if (pValidationMode == null) {
+			this.validationMode = ValidationMode.AUTO;
+		} else {
+			this.validationMode = pValidationMode;
+		}
+
 		this.properties = pProperties;
-		this.persistenceXMLSchemaVersion = pPersistenceXMLSchemaVersion;
-		this.classLoader = pClassLoader;
+		
+		if (pPersistenceXMLSchemaVersion == null) {
+			this.persistenceXMLSchemaVersion = JPA_VERSION;
+		} else {
+			this.persistenceXMLSchemaVersion = pPersistenceXMLSchemaVersion;
+		}
+
+		if (pClassLoader == null) {
+			this.classLoader 
+				= Thread.currentThread().getContextClassLoader();
+		} else {
+			this.classLoader = pClassLoader;
+		}
+
 		this.newTempClassLoader = pNewTempClassLoader;
 		
 	} // Fin de CONSTRUCTEUR COMPLET.______________________________________
@@ -354,93 +427,227 @@ public class PersistenceUnitInfoJPASansXML implements PersistenceUnitInfo {
 	 */
 	@Override
 	public String toString() {
-		StringBuilder builder = new StringBuilder();
+		
+		final StringBuilder builder = new StringBuilder();
+		
 		builder.append("PersistenceUnitInfoJPASansXML [");
-		if (this.persistenceUnitName != null) {
-			builder.append("persistenceUnitName=");
+		
+		builder.append("persistenceUnitName=");
+		if (this.persistenceUnitName != null) {		
 			builder.append(this.persistenceUnitName);
-			builder.append(", ");
+		} else {
+			builder.append(NULL);
 		}
+		
+		builder.append(VIRGULE_ESPACE);
+		
+		builder.append("persistenceProviderClassName=");
 		if (this.persistenceProviderClassName != null) {
-			builder.append("persistenceProviderClassName=");
 			builder.append(this.persistenceProviderClassName);
-			builder.append(", ");
+		} else {
+			builder.append(NULL);
 		}
-		if (this.transactionType != null) {
-			builder.append("transactionType=");
+		
+		builder.append(VIRGULE_ESPACE);
+		
+		builder.append("transactionType=");
+		if (this.transactionType != null) {			
 			builder.append(this.transactionType);
-			builder.append(", ");
+		} else {
+			builder.append(NULL);
 		}
-		if (this.jtaDataSource != null) {
-			builder.append("jtaDataSource=");
+		
+		builder.append(VIRGULE_ESPACE);
+		
+		builder.append("jtaDataSource=");
+		if (this.jtaDataSource != null) {			
 			builder.append(this.jtaDataSource);
-			builder.append(", ");
+		} else {
+			builder.append(NULL);
 		}
-		if (this.nonJtaDataSource != null) {
-			builder.append("nonJtaDataSource=");
+		
+		builder.append(VIRGULE_ESPACE);
+		
+		builder.append("nonJtaDataSource=");
+		if (this.nonJtaDataSource != null) {			
 			builder.append(this.nonJtaDataSource);
-			builder.append(", ");
+			builder.append(this.afficherDataSource((SimpleDriverDataSource) this.nonJtaDataSource));
+		} else {
+			builder.append(NULL);
 		}
-		if (this.mappingFileNames != null) {
-			builder.append("mappingFileNames=");
+		
+		builder.append(VIRGULE_ESPACE);
+				
+		builder.append("mappingFileNames=");
+		if (this.mappingFileNames != null) {			
 			builder.append(this.mappingFileNames);
-			builder.append(", ");
+		} else {
+			builder.append(NULL);
 		}
-		if (this.jarFileUrls != null) {
-			builder.append("jarFileUrls=");
+		
+		builder.append(VIRGULE_ESPACE);
+		
+		builder.append("jarFileUrls=");
+		if (this.jarFileUrls != null) {			
 			builder.append(this.jarFileUrls);
-			builder.append(", ");
+		} else {
+			builder.append(NULL);
 		}
-		if (this.persistenceUnitRootUrl != null) {
-			builder.append("persistenceUnitRootUrl=");
+		
+		builder.append(VIRGULE_ESPACE);
+		
+		builder.append("persistenceUnitRootUrl=");
+		if (this.persistenceUnitRootUrl != null) {			
 			builder.append(this.persistenceUnitRootUrl);
-			builder.append(", ");
+		} else {
+			builder.append(NULL);
 		}
-		if (this.managedClassNames != null) {
-			builder.append("managedClassNames=");
+		
+		builder.append(VIRGULE_ESPACE);
+
+		builder.append("managedClassNames=");
+		if (this.managedClassNames != null) {			
 			builder.append(this.managedClassNames);
-			builder.append(", ");
+		} else {
+			builder.append(NULL);
 		}
+		
+		builder.append(VIRGULE_ESPACE);
+
+		
 		builder.append("excludeUnlistedClasses=");
 		builder.append(this.excludeUnlistedClasses);
-		builder.append(", ");
-		if (this.sharedCacheMode != null) {
-			builder.append("sharedCacheMode=");
+		
+		builder.append(VIRGULE_ESPACE);
+		
+		builder.append("sharedCacheMode=");
+		if (this.sharedCacheMode != null) {			
 			builder.append(this.sharedCacheMode);
-			builder.append(", ");
+		} else {
+			builder.append(NULL);
 		}
-		if (this.validationMode != null) {
-			builder.append("validationMode=");
+		
+		builder.append(VIRGULE_ESPACE);
+		
+		builder.append("validationMode=");
+		if (this.validationMode != null) {			
 			builder.append(this.validationMode);
-			builder.append(", ");
+		} else {
+			builder.append(NULL);
 		}
-		if (this.properties != null) {
-			builder.append("properties=");
+		
+		builder.append(VIRGULE_ESPACE);
+		
+		builder.append("properties=");
+		if (this.properties != null) {			
 			builder.append(this.properties);
-			builder.append(", ");
+		} else {
+			builder.append(NULL);
 		}
-		if (this.persistenceXMLSchemaVersion != null) {
-			builder.append("persistenceXMLSchemaVersion=");
+		
+		builder.append(VIRGULE_ESPACE);
+
+		builder.append("persistenceXMLSchemaVersion=");
+		if (this.persistenceXMLSchemaVersion != null) {			
 			builder.append(this.persistenceXMLSchemaVersion);
-			builder.append(", ");
+		} else {
+			builder.append(NULL);
 		}
-		if (this.classLoader != null) {
-			builder.append("classLoader=");
+		
+		builder.append(VIRGULE_ESPACE);
+
+		builder.append("classLoader=");
+		if (this.classLoader != null) {			
 			builder.append(this.classLoader);
-			builder.append(", ");
+		} else {
+			builder.append(NULL);
 		}
-		if (this.newTempClassLoader != null) {
-			builder.append("newTempClassLoader=");
+		
+		builder.append(VIRGULE_ESPACE);
+
+		builder.append("newTempClassLoader=");
+		if (this.newTempClassLoader != null) {			
 			builder.append(this.newTempClassLoader);
+		} else {
+			builder.append(NULL);
 		}
-		builder.append("]");
+		
+		builder.append(']');
+		
 		return builder.toString();
-	}
+		
+	} // Fin de toString().________________________________________________
 
 
+	
+	/**
+	 * affiche les propriétés d'une SimpleDriverDataSource.<br/>
+	 *
+	 * @param pDataSource : SimpleDriverDataSource.<br/>
+	 * 
+	 * @return : String : affichage.<br/>
+	 */
+	public String afficherDataSource(
+			final SimpleDriverDataSource pDataSource) {
+		
+		final StringBuilder builder = new StringBuilder();
 
+		final String url = pDataSource.getUrl();
+		final String driver = pDataSource.getDriver().toString();
+		final String login = pDataSource.getUsername();
+		final String password = pDataSource.getPassword();
+
+		builder.append(" - DataSource [");
+		
+		builder.append("URL = ");
+		if (url != null) {
+			builder.append(url);
+		} else {
+			builder.append(NULL);
+		}
+		
+		builder.append(VIRGULE_ESPACE);
+		
+		builder.append("DRIVER = ");
+		if (driver != null) {
+			builder.append(driver);
+		} else {
+			builder.append(NULL);
+		}
+		
+		builder.append(VIRGULE_ESPACE);
+		
+		builder.append("LOGIN = ");
+		if (login != null) {
+			builder.append(login);
+		} else {
+			builder.append(NULL);
+		}
+		
+		builder.append(VIRGULE_ESPACE);
+		
+		builder.append("MDP = ");
+		if (password != null) {
+			builder.append(password);
+		} else {
+			builder.append(NULL);
+		}
+		
+		builder.append(']');
+		
+		return builder.toString();
+		
+	} // Fin de afficherDataSource(...).___________________________________
+	
+	
+	
 	/**
 	 * {@inheritDoc}
+	 * <ul>
+	 * <li>correspond à l'élément 
+	 * <code>persistence-unit.name</code> dans un persistence.xml 
+	 * préconisé par JPA.</li>
+	 * </ul>
 	 */
 	@Override
 	public String getPersistenceUnitName() {
@@ -451,6 +658,11 @@ public class PersistenceUnitInfoJPASansXML implements PersistenceUnitInfo {
 
 	/**
 	* Setter du nom de l'unité de persistance.
+	* <ul>
+	* <li>correspond à l'élément 
+	* <code>persistence-unit.name</code> dans un persistence.xml 
+	* préconisé par JPA.</li>
+	* </ul>
 	*
 	* @param pPersistenceUnitName : String : 
 	* valeur à passer à this.persistenceUnitName.<br/>
@@ -602,18 +814,10 @@ public class PersistenceUnitInfoJPASansXML implements PersistenceUnitInfo {
 
 	/**
 	 * {@inheritDoc}
-	 * <br/>
-	 * - retourne une liste vide si this.jarFileUrls == null.<br/>
 	 */
 	@Override
-	public List<URL> getJarFileUrls() {
-		
-		if (this.jarFileUrls == null) {
-			this.jarFileUrls = Collections.emptyList(); 
-		}
-		
-		return this.jarFileUrls;
-		
+	public List<URL> getJarFileUrls() {		
+		return this.jarFileUrls;		
 	} // Fin de getJarFileUrls().__________________________________________
 
 	
@@ -622,13 +826,22 @@ public class PersistenceUnitInfoJPASansXML implements PersistenceUnitInfo {
 	* setter de la liste des URL des jar que l'ORM doit inspecter.<br/>
 	* chaque URL Correspond au <code>jar-file</code> element 
 	* dans un persistence.xml.
+	* <ul>
+	* <li>this.jarFileUrls == liste vide si pJarFileUrls == null.<br/></li>
+	* </ul>
 	*
 	* @param pJarFileUrls : List&lt;URL&gt; : 
 	* valeur à passer à this.jarFileUrls.<br/>
 	*/
 	public void setJarFileUrls(
 			final List<URL> pJarFileUrls) {
-		this.jarFileUrls = pJarFileUrls;
+		
+		if (pJarFileUrls == null) {
+			this.jarFileUrls = Collections.emptyList(); 
+		} else {
+			this.jarFileUrls = pJarFileUrls;
+		}
+		
 	} // Fin de setJarFileUrls(...)._______________________________________
 
 
@@ -738,18 +951,10 @@ public class PersistenceUnitInfoJPASansXML implements PersistenceUnitInfo {
 
 	/**
 	 * {@inheritDoc}
-	 * <br/>
-	 * - retourne UNSPECIFIED si this.sharedCacheMode == null.<br/>
 	 */
 	@Override
-	public SharedCacheMode getSharedCacheMode() {
-		
-		if (this.sharedCacheMode == null) {
-			this.sharedCacheMode = SharedCacheMode.UNSPECIFIED;
-		}
-		
-		return this.sharedCacheMode;
-		
+	public SharedCacheMode getSharedCacheMode() {		
+		return this.sharedCacheMode;		
 	} // Fin de getSharedCacheMode().______________________________________
 
 	
@@ -759,6 +964,8 @@ public class PersistenceUnitInfoJPASansXML implements PersistenceUnitInfo {
 	* <ul>
 	* <li>correspond au <code>shared-cache-mode</code> 
 	* element dans un persistence.xml</li>
+	* <li>this.sharedCacheMode = UNSPECIFIED 
+	* si pSharedCacheMode == null.</li>
 	* </ul>
 	*
 	* @param pSharedCacheMode : SharedCacheMode : 
@@ -766,25 +973,23 @@ public class PersistenceUnitInfoJPASansXML implements PersistenceUnitInfo {
 	*/
 	public void setSharedCacheMode(
 			final SharedCacheMode pSharedCacheMode) {
-		this.sharedCacheMode = pSharedCacheMode;
+		
+		if (pSharedCacheMode == null) {
+			this.sharedCacheMode = SharedCacheMode.UNSPECIFIED;
+		} else {
+			this.sharedCacheMode = pSharedCacheMode;
+		}
+				
 	} // Fin de setSharedCacheMode(...).___________________________________
 
 
 
 	/**
 	 * {@inheritDoc}
-	 * <br/>
-	 * - retourne AUTO si this.validationMode == null.<br/>
 	 */
 	@Override
-	public ValidationMode getValidationMode() {
-		
-		if (this.validationMode == null) {
-			this.validationMode = ValidationMode.AUTO;
-		}
-		
-		return this.validationMode;
-		
+	public ValidationMode getValidationMode() {		
+		return this.validationMode;		
 	} // Fin de getValidationMode()._______________________________________
 
 
@@ -794,6 +999,7 @@ public class PersistenceUnitInfoJPASansXML implements PersistenceUnitInfo {
 	* <ul>
 	* <li>correspond au <code>validation-mode</code> element 
 	* dans un persistence.xml</li>
+	* <li>this.validationMode == AUTO si pValidationMode == null.</li>
 	* </ul>
 	*
 	* @param pValidationMode : ValidationMode : 
@@ -801,7 +1007,13 @@ public class PersistenceUnitInfoJPASansXML implements PersistenceUnitInfo {
 	*/
 	public void setValidationMode(
 			final ValidationMode pValidationMode) {
-		this.validationMode = pValidationMode;
+		
+		if (pValidationMode == null) {
+			this.validationMode = ValidationMode.AUTO;
+		} else {
+			this.validationMode = pValidationMode;
+		}
+				
 	} // Fin de setValidationMode(...).____________________________________
 
 
@@ -844,32 +1056,33 @@ public class PersistenceUnitInfoJPASansXML implements PersistenceUnitInfo {
 
 	/**
 	 * {@inheritDoc}
-	 * <br/>
-	 * - retourne JPA_VERSION si 
-	 * this.persistenceXMLSchemaVersion == null.<br/>
 	 */
 	@Override
 	public String getPersistenceXMLSchemaVersion() {
-		
-		if (this.persistenceXMLSchemaVersion == null) {
-			this.persistenceXMLSchemaVersion = JPA_VERSION;
-		}
-		
-		return this.persistenceXMLSchemaVersion;
-		
+		return this.persistenceXMLSchemaVersion;		
 	} // Fin de getPersistenceXMLSchemaVersion().__________________________
 	
 	
 
 	/**
 	* setter de la version de JPA utilisée dans le persistence.xml.
+	* <ul>
+	* <li>this.persistenceXMLSchemaVersion == JPA_VERSION si 
+	* pPersistenceXMLSchemaVersion == null.</li>
+	* </ul>
 	*
 	* @param pPersistenceXMLSchemaVersion : String : 
 	* valeur à passer à this.persistenceXMLSchemaVersion.<br/>
 	*/
 	public void setPersistenceXMLSchemaVersion(
 			final String pPersistenceXMLSchemaVersion) {
-		this.persistenceXMLSchemaVersion = pPersistenceXMLSchemaVersion;
+		
+		if (pPersistenceXMLSchemaVersion == null) {
+			this.persistenceXMLSchemaVersion = JPA_VERSION;
+		} else {
+			this.persistenceXMLSchemaVersion = pPersistenceXMLSchemaVersion;
+		}
+		
 	} // Fin de setPersistenceXMLSchemaVersion(...)._______________________
 
 
@@ -878,15 +1091,8 @@ public class PersistenceUnitInfoJPASansXML implements PersistenceUnitInfo {
 	 * {@inheritDoc}
 	 */
 	@Override
-	public ClassLoader getClassLoader() {
-		
-		if (this.classLoader == null) {
-			this.classLoader 
-				= Thread.currentThread().getContextClassLoader();
-		}
-		
-		return this.classLoader;
-		
+	public ClassLoader getClassLoader() {		
+		return this.classLoader;		
 	} // Fin de getClassLoader().__________________________________________
 
 		
@@ -894,13 +1100,25 @@ public class PersistenceUnitInfoJPASansXML implements PersistenceUnitInfo {
 	/**
 	* Setter du ClassLoader utilisé par l'ORM 
 	* pour charger les Entities JPA, ....
+	* <ul>
+	* <li>this.classLoader = 
+	* Thread.currentThread().getContextClassLoader() 
+	* si pClassLoader == null.</li>
+	* </ul>
 	*
 	* @param pClassLoader : ClassLoader : 
 	* valeur à passer à this.classLoader.<br/>
 	*/
 	public final void setClassLoader(
 			final ClassLoader pClassLoader) {
-		this.classLoader = pClassLoader;
+		
+		if (pClassLoader == null) {
+			this.classLoader 
+				= Thread.currentThread().getContextClassLoader();
+		} else {
+			this.classLoader = pClassLoader;
+		}
+		
 	} // Fin de setClassLoader(...)._______________________________________
 
 

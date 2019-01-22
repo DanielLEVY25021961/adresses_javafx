@@ -4,12 +4,12 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.sql.Driver;
 import java.sql.DriverManager;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Properties;
 
 import javax.persistence.EntityManagerFactory;
-import javax.persistence.spi.PersistenceProvider;
 import javax.persistence.spi.PersistenceUnitInfo;
 import javax.persistence.spi.PersistenceUnitTransactionType;
 import javax.sql.DataSource;
@@ -18,6 +18,8 @@ import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.hibernate.jpa.HibernatePersistenceProvider;
+import org.hibernate.jpa.boot.spi.Bootstrap;
+import org.hibernate.jpa.boot.spi.EntityManagerFactoryBuilder;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
@@ -30,9 +32,14 @@ import org.springframework.dao.annotation.PersistenceExceptionTranslationPostPro
 import org.springframework.jdbc.datasource.SimpleDriverDataSource;
 import org.springframework.orm.jpa.JpaTransactionManager;
 import org.springframework.orm.jpa.JpaVendorAdapter;
+import org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean;
+import org.springframework.orm.jpa.persistenceunit.DefaultPersistenceUnitManager;
+import org.springframework.orm.jpa.vendor.Database;
 import org.springframework.orm.jpa.vendor.HibernateJpaVendorAdapter;
 import org.springframework.transaction.PlatformTransactionManager;
 import org.springframework.transaction.annotation.EnableTransactionManagement;
+
+
 
 /**
  * CLASSE ConfigurateurJPAH2File :<br/>
@@ -84,6 +91,14 @@ public class ConfigurateurJPAH2File {
 	private transient Environment environmentSpring;
 	
 	/**
+	 * conteneur pour les valeurs lues dans le properties 
+	 * de configuration indiqué dans l'annotation 
+	 * PropertySource au dessus de la présente classe.
+	 */
+	public PersistenceUnitInfoJPASansXML persistenceUnitInfoJPASansXML 
+		= new PersistenceUnitInfoJPASansXML();
+	
+	/**
 	 * LOG : Log : 
 	 * Logger pour Log4j (utilisant commons-logging).
 	 */
@@ -107,7 +122,9 @@ public class ConfigurateurJPAH2File {
 
 		
 	/**
-	 * <b>fournit un bean <i>javax.persistence.EntityManagerFactory</i> 
+	 * <b>fournit un bean <i>org.springframework.orm.
+	 * jpa.LocalContainerEntityManagerFactoryBean</i> 
+	 * équivalent à <i>javax.persistence.EntityManagerFactory</i> 
 	 * au CONTEXTE SPRING pour l'injection</b>.<br/>
 	 * <ul>
 	 * <li><b>fabrique l'EntityManagerFactory</b> en lisant 
@@ -128,20 +145,19 @@ public class ConfigurateurJPAH2File {
 	 * le bean s'appellerait "toto" dans le contexte.</li>
 	 * </ul>
 	 *
-	 * @return : EntityManagerFactory : 
+	 * @return : LocalContainerEntityManagerFactoryBean : 
 	 * Proxy du EntityManagerFactory.<br/>
 	 * 
 	 * @throws Exception 
 	 */
-	@Bean
-	public EntityManagerFactory entityManagerFactory() 
+//	@Bean
+	public EntityManagerFactory entityManagerFactoryInfo() 
 			throws Exception {
-		 
-//		final LocalContainerEntityManagerFactoryBean entityManagerFactory 
-//			= new LocalContainerEntityManagerFactoryBean();
-		
-		EntityManagerFactory entityManagerFactory = null;
-		
+		 		
+		final LocalContainerEntityManagerFactoryBean entityManagerFactory 
+			= new LocalContainerEntityManagerFactoryBean();
+	
+				
 		// PERSISTENCE UNIT
 		/*
 		 * fixe le nom de l'unité de persistence avec 
@@ -150,146 +166,93 @@ public class ConfigurateurJPAH2File {
 		final String persistenceUnitName 
 			= this.environmentSpring.getProperty(
 				"javax.persistence.jdbc.persistence-unit.name");
-
 		
+		if (persistenceUnitName != null) {
+			
+			entityManagerFactory
+				.setPersistenceUnitName(persistenceUnitName);
+			
+		} else {
+			
+			final String message 
+				= "ConfigurateurJPAH2File "
+						+ "- entityManagerFactory "
+						+ "- IMPOSSIBLE DE LIRE LE NOM DE "
+						+ "L'UNITE DE PERSISTENCE";
+			
+			if (LOG.isFatalEnabled()) {
+				LOG.fatal(message);
+			}
+		}
+		
+						
 		// JPAVENDORADAPTER
 		/* stipule que l'ORM est HIBERNATE. */
-		final String persistenceProviderClassName 
-			= this.vendorAdapterHibernate().getClass().getName();
+		entityManagerFactory.setJpaVendorAdapter(
+				this.vendorAdapterHibernate());
 
-		
-		// TYPE DE TRANSACTION
-		final String transactionTypeString 
-			= this.environmentSpring.getProperty(
-				"javax.persistence.jdbc.persistence-unit.transaction-type");
-				
-		PersistenceUnitTransactionType transactionType = null;
-		
-		if (transactionTypeString == null) {
-			transactionType = null;
-		} else if ("RESOURCE_LOCAL".equalsIgnoreCase(transactionTypeString)) {
-			transactionType = PersistenceUnitTransactionType.RESOURCE_LOCAL;
-		} else if ("JTA".equalsIgnoreCase(transactionTypeString)) {
-			transactionType = PersistenceUnitTransactionType.JTA;
-		} else {
-			transactionType = null;
-		}
-		
 		
 		// DATASOURCE
-		DataSource jtaDataSource = null;
-		DataSource nonJtaDataSource = null;
-		
-		if (transactionType == null) {
-			
-			jtaDataSource = null;
-			nonJtaDataSource = this.dataSource();
-			
-		} else if (transactionType.equals(PersistenceUnitTransactionType.RESOURCE_LOCAL)) {
-			
-			jtaDataSource = null;
-			nonJtaDataSource = this.dataSource();
-			
-		} else if (transactionType.equals(PersistenceUnitTransactionType.JTA)) {
-			
-			jtaDataSource = this.dataSource();
-			nonJtaDataSource = null;
-			
-		} else {
-			
-			jtaDataSource = null;
-			nonJtaDataSource = null;
-			
-		}
-		
-		// PROPRIETES ADDITIONNELLES
-		final Properties propsAdditionnelles 
-			= this.additionalProperties();
-		
-		
-		// INSTANCIATION D'UN PersistenceUnitInfo
-		final PersistenceUnitInfo persistenceUnitInfo 
-			= new PersistenceUnitInfoJPASansXML(
-					persistenceUnitName
-					, persistenceProviderClassName
-					, transactionType
-					, jtaDataSource
-					, nonJtaDataSource
-					, propsAdditionnelles);
-		
-		System.out.println("PERSISTENCEUNITINFO DANS ConfigurateurJPASansXML : " + persistenceUnitInfo.toString());
-		
-		final Map<String, Object> configuration	
-			= new HashMap<String, Object>();
-				
-		final PersistenceProvider persistenceProvider 
-		= new HibernatePersistenceProvider();
-		
-		entityManagerFactory = 
-				persistenceProvider
-					.createContainerEntityManagerFactory(
-							persistenceUnitInfo, configuration);
-		
-		
-//		if (persistenceUnitName != null) {
-//			
-//			entityManagerFactory
-//				.setPersistenceUnitName(persistenceUnitName);
-//			
-//		} else {
-//			
-//			final String message 
-//				= "ConfigurateurJPAH2File "
-//						+ "- entityManagerFactory "
-//						+ "- IMPOSSIBLE DE LIRE LE NOM DE "
-//						+ "L'UNITE DE PERSISTENCE";
-//			
-//			if (LOG.isFatalEnabled()) {
-//				LOG.fatal(message);
-//			}
-//		}
-//		
-//				
-//		// JPAVENDORADAPTER
-//		/* stipule que l'ORM est HIBERNATE. */
-//		entityManagerFactory.setJpaVendorAdapter(
-//				this.vendorAdapterHibernate());
-//
-//		
-//		// DATASOURCE
-//		/* passe la DataSource à l'EntityManagerFactory. */
-//		entityManagerFactory.setDataSource(this.dataSource());
-//	
-//		
-//		// PACKAGES SCANNES
-//		/* scanne le package de persistence 
-//		 * pour trouver les classes annotées. */
-//		entityManagerFactory.setPackagesToScan(
-//				new String[] {"levy.daniel.application.model.persistence"});
-//
-//		
-//		// PROPRIETES SPECIFIQUES ORM HIBERNATE
-//		/* ajoute des propriétés additionnelles à l'EntityManagerFactory 
-//		 * (Dialecte Hibernate, stratégie de création de tables, ...). */
-//		entityManagerFactory.setJpaProperties(additionalProperties());
+		/* passe la DataSource à l'EntityManagerFactory. */
+		entityManagerFactory.setDataSource(this.dataSource());		
 
 		
-		return entityManagerFactory;
+		// PACKAGES SCANNES
+		/* scanne le package de persistence 
+		 * pour trouver les classes annotées. */
+		entityManagerFactory.setPackagesToScan(
+				new String[] {"levy.daniel.application.model.persistence"});
+
+		
+		// PROPRIETES SPECIFIQUES ORM HIBERNATE
+		/* ajoute des propriétés additionnelles à l'EntityManagerFactory 
+		 * (Dialecte Hibernate, stratégie de création de tables, ...). */
+		entityManagerFactory.setJpaProperties(additionalProperties());
+		
+		entityManagerFactory.afterPropertiesSet();
+		
+		return entityManagerFactory.getObject();
 		
 	} // Fin de entityManagerFactory().____________________________________
+	
 
+	/**
+	 * .<br/>
+	 * <br/>
+	 * : void :  .<br/>
+	 */
+	public void essai() {
+		
+		final LocalContainerEntityManagerFactoryBean entityManagerFactory 
+		= new LocalContainerEntityManagerFactoryBean();
+		
+		final DefaultPersistenceUnitManager persistenceUnitManager = new DefaultPersistenceUnitManager();
+		
+		persistenceUnitManager.setDefaultPersistenceUnitName("toto");
+		persistenceUnitManager.setDefaultDataSource(this.dataSource());
+		
+		entityManagerFactory.getPersistenceUnitInfo();
+		
+	}
+	
 	
 	
 	/**
 	 * <b>fournit un Bean précisant que l'ORM est HIBERNATE</b>.<br/>
 	 *
-	 * @return : JpaVendorAdapter : HibernateJpaVendorAdapter.<br/>
+	 * @return : JpaVendorAdapter : 
+	 * org.springframework.orm.jpa.vendor.HibernateJpaVendorAdapter.<br/>
 	 */
 	@Bean
 	public JpaVendorAdapter vendorAdapterHibernate() {
 		
-		final JpaVendorAdapter vendorAdapter 
-      		= new HibernateJpaVendorAdapter();
+//		final JpaVendorAdapter vendorAdapter 
+//      		= new HibernateJpaVendorAdapter();
+		
+		final HibernateJpaVendorAdapter vendorAdapter 
+  			= new HibernateJpaVendorAdapter();
+		
+		vendorAdapter.setDatabase(Database.H2);
 		
 		return vendorAdapter;
 		
@@ -318,8 +281,10 @@ public class ConfigurateurJPAH2File {
 	@Bean
 	public DataSource dataSource() {
 
+		/* DriverManagerDataSource */
 		final SimpleDriverDataSource dataSource 
 			= new SimpleDriverDataSource();
+		
 		
 		// URL
 		/* lit l'URL de la BASE dans le properties 
@@ -364,7 +329,6 @@ public class ConfigurateurJPAH2File {
 		}
 		
 		dataSource.setDriver(driverH2);
-
 		
 		// LOGIN + MDP
 		/* lit le [Login + Mdp] à la base dans le properties 
@@ -418,6 +382,9 @@ public class ConfigurateurJPAH2File {
 	 * <li>UTILISER UN CACHE DE 2nd NIVEAU : 
 	 * lit la valeur de cache.provider_class dans le properties 
 	 * et l'injecte dans les propriétés additionnelles.</li>
+	 * <li>POOL de CONNEXION C3P0 : 
+	 * lit les éventuelles valeurs liées au POOL C3P0 dans le properties 
+	 * et l'injecte dans les propriétés additionnelles.</li>
 	 * <li>INTERRUPTEUR GENERAL SPRING DE LA GENERATION DES TABLES : 
 	 * lit la valeur de spring.jpa.generate-ddl 
 	 * dans le properties et l'injecte 
@@ -435,7 +402,7 @@ public class ConfigurateurJPAH2File {
 	public Properties additionalProperties() {
 		
 		final Properties properties = new Properties();
-				
+		
 		/* lit le DIALECTE HIBERNATE de la BASE dans le properties 
 		 * et l'injecte dans les propriétés additionnelles. */
 		properties.setProperty("hibernate.dialect"
@@ -637,11 +604,26 @@ public class ConfigurateurJPAH2File {
 	 * @return : PersistenceExceptionTranslationPostProcessor.<br/>
 	 */
 	@Bean
-	public PersistenceExceptionTranslationPostProcessor exceptionTranslation() {
+	public PersistenceExceptionTranslationPostProcessor 
+						persistenceExceptionTranslationPostProcessor() {
 		return new PersistenceExceptionTranslationPostProcessor();
-	} // Fin de exceptionTranslation().____________________________________
+	} // Fin de persistenceExceptionTranslationPostProcessor().____________
 	
 
+	
+	/**
+	 * <b>fournit un PersistenceAnnotationBeanPostProcessor
+	 * au CONTEXTE SPRING</b> pour la découverte des annotations JPA.<br/>
+	 *
+	 * @return : PersistenceAnnotationBeanPostProcessor.<br/>
+	 */
+//	@Bean
+//	public PersistenceAnnotationBeanPostProcessor 
+//						persistenceAnnotationBeanPostProcessor() {
+//		return new PersistenceAnnotationBeanPostProcessor();
+//	} // Fin de persistenceAnnotationBeanPostProcessor().__________________
+
+	
 	
 	/**
 	 * transforme unr URL pour base en MODE FILE contenant 
@@ -678,7 +660,433 @@ public class ConfigurateurJPAH2File {
 		return urlNormalisee;
 		
 	} // Fin de normaliserURLFile(...).____________________________________
+
+
+
+	
+	/**
+	 * .<br/>
+	 * <br/>
+	 *
+	 * @return EntityManagerFactory
+	 * 
+	 * @throws Exception
+	 */
+	@Bean
+	public EntityManagerFactory entityManagerFactory() 
+			throws Exception {
+		
+		EntityManagerFactory entityManagerFactory = null;
+		
+		// PERSISTENCE UNIT
+		/*
+		 * fixe le nom de l'unité de persistence avec 
+		 * la valeur lue dans le fichier properties.
+		 */
+		final String persistenceUnitName 
+			= this.environmentSpring.getProperty(
+				"javax.persistence.jdbc.persistence-unit.name");
+
+		
+		// JPAVENDORADAPTER
+		/* stipule que l'ORM est HIBERNATE. */
+		final String persistenceProviderClassName 
+			= this.vendorAdapterHibernate().getClass().getName();
+
+		
+		// TYPE DE TRANSACTION
+		final String transactionTypeString 
+			= this.environmentSpring.getProperty(
+				"javax.persistence.jdbc.persistence-unit.transaction-type");
+				
+		PersistenceUnitTransactionType transactionType = null;
+		
+		if (transactionTypeString == null) {
+			transactionType = null;
+		} else if ("RESOURCE_LOCAL".equalsIgnoreCase(transactionTypeString)) {
+			transactionType = PersistenceUnitTransactionType.RESOURCE_LOCAL;
+		} else if ("JTA".equalsIgnoreCase(transactionTypeString)) {
+			transactionType = PersistenceUnitTransactionType.JTA;
+		} else {
+			transactionType = null;
+		}
+		
+		
+		// DATASOURCE
+		DataSource jtaDataSource = null;
+		DataSource nonJtaDataSource = null;
+		
+		if (transactionType == null) {
+			
+			jtaDataSource = null;
+			nonJtaDataSource = this.dataSource();
+			
+		} else if (transactionType
+				.equals(PersistenceUnitTransactionType.RESOURCE_LOCAL)) {
+			
+			jtaDataSource = null;
+			nonJtaDataSource = this.dataSource();
+			
+		} else if (transactionType
+				.equals(PersistenceUnitTransactionType.JTA)) {
+			
+			jtaDataSource = this.dataSource();
+			nonJtaDataSource = null;
+			
+		} else {
+			
+			jtaDataSource = null;
+			nonJtaDataSource = null;
+			
+		}
+		
+		
+		// PROPRIETES ADDITIONNELLES
+		final Properties propsAdditionnelles 
+			= this.additionalProperties();
+		
+		final ArrayList<String > managedClassNames 
+			= new ArrayList<String>();
+		
+		managedClassNames.add("levy.daniel.application.model.persistence.metier.contactsimple.entities.jpa.ContactSimpleEntityJPA");
+		
+		// INSTANCIATION D'UN PersistenceUnitInfo
+//		final PersistenceUnitInfo persistenceUnitInfo 
+//			= new PersistenceUnitInfoJPASansXML(
+//					persistenceUnitName
+//					, persistenceProviderClassName
+//					, transactionType
+//					, jtaDataSource
+//					, nonJtaDataSource
+//					, managedClassNames
+//					, propsAdditionnelles);
+		
+//		MutablePersistenceUnitInfo mutablePersistenceUnitInfo 
+//			= new MutablePersistenceUnitInfoJPASpringSansXML(
+//				persistenceUnitName
+//				, persistenceProviderClassName
+//				, transactionType
+//				, jtaDataSource
+//				, nonJtaDataSource
+//				, managedClassNames
+//				, propsAdditionnelles);
+		
+		MutablePersistenceUnitInfoJPASpringSansXML mutablePersistenceUnitInfo 
+		= new MutablePersistenceUnitInfoJPASpringSansXML(
+			persistenceUnitName
+			, persistenceProviderClassName
+			, transactionType
+			, jtaDataSource
+			, nonJtaDataSource
+			, managedClassNames
+			, propsAdditionnelles);
+		
+//		mutablePersistenceUnitInfo.addMappingFileName("model.persistence.metier.contactsimple.entities.jpa.ContactSimpleEntityJPA");
+		
+//		mutablePersistenceUnitInfo.setPersistenceUnitName(persistenceUnitName);
+//		mutablePersistenceUnitInfo.setPersistenceProviderClassName(persistenceProviderClassName);
+//		mutablePersistenceUnitInfo.setTransactionType(transactionType);
+//		mutablePersistenceUnitInfo.setJtaDataSource(null);
+//		mutablePersistenceUnitInfo.setNonJtaDataSource(nonJtaDataSource);
+//		mutablePersistenceUnitInfo.addManagedClassName("ContactSimpleEntityJPA");
+//		mutablePersistenceUnitInfo.setProperties(propsAdditionnelles);
+
+		
+			
+		System.out.println("PERSISTENCEUNITINFO DANS ConfigurateurJPASansXML : " + mutablePersistenceUnitInfo.toString());
+		
+		final Map<String, Object> configuration	
+			= new HashMap<String, Object>();
+		
+		configuration.put("javax.persistence.jdbc.url", "jdbc:h2:file:./data/base-adresses_javafx-h2/base-adresses_javafx");
+		configuration.put("javax.persistence.jdbc.driver", "org.h2.Driver");
+		configuration.put("javax.persistence.jdbc.user", "sa");
+		configuration.put("javax.persistence.jdbc.password", "sa");
+		
+//		configuration.put("javax.persistence.jdbc.persistence-unit.name", "toto");
+//		configuration.put("javax.persistence.provider", "org.hibernate.ejb.HibernatePersistence");
+//		configuration.put("javax.persistence.transactionType", "RESOURCE_LOCAL");
+//		configuration.put("hibernate.connection.username", "sa");
+//		configuration.put("hibernate.connection.password", "sa");
+//		configuration.put("hibernate.connection.driver_class", "org.h2.Driver");			
+//		configuration.put("hibernate.connection.url", "jdbc:h2:file:./data/base-adresses_javafx-h2/base-adresses_javafx");
+//		configuration.put("hibernate.dialect", "org.hibernate.dialect.H2Dialect");
+//		configuration.put("hibernate.hbm2ddl.auto", "create");
+//		configuration.put("hibernate.show_sql", "true");
+//		configuration.put("hibernate.format_sql", "true");	
+		
+//		final PersistenceUnitInfoDescriptor persistenceUnitInfoDescriptor 
+//			= new PersistenceUnitInfoDescriptor(mutablePersistenceUnitInfo);
+//				
+//		final EntityManagerFactoryBuilderImpl entityManagerFactoryBuilderImpl 
+//			= new EntityManagerFactoryBuilderImpl(
+//					persistenceUnitInfoDescriptor, configuration);
+//		
+//		entityManagerFactory = entityManagerFactoryBuilderImpl.build();
+		
+		final EntityManagerFactoryBuilder entityManagerFactoryBuilder 
+			= Bootstrap.getEntityManagerFactoryBuilder(
+					mutablePersistenceUnitInfo, configuration);
+		
+		entityManagerFactory = entityManagerFactoryBuilder.build();
+		
+		return entityManagerFactory;
+					
+	}
+	
+
+	
+	/**
+	 * .<br/>
+	 * <br/>
+	 *
+	 * @return EntityManagerFactory
+	 * 
+	 * @throws Exception
+	 */
+	public EntityManagerFactory entityManagerFactoryInfo2() 
+			throws Exception {
+		
+		EntityManagerFactory entityManagerFactory = null;
+		
+		// PERSISTENCE UNIT
+		/*
+		 * fixe le nom de l'unité de persistence avec 
+		 * la valeur lue dans le fichier properties.
+		 */
+		final String persistenceUnitName 
+			= this.environmentSpring.getProperty(
+				"javax.persistence.jdbc.persistence-unit.name");
+
+		
+		// JPAVENDORADAPTER
+		/* stipule que l'ORM est HIBERNATE. */
+		final String persistenceProviderClassName 
+			= this.vendorAdapterHibernate().getClass().getName();
+
+		
+		// TYPE DE TRANSACTION
+		final String transactionTypeString 
+			= this.environmentSpring.getProperty(
+				"javax.persistence.jdbc.persistence-unit.transaction-type");
+				
+		PersistenceUnitTransactionType transactionType = null;
+		
+		if (transactionTypeString == null) {
+			transactionType = null;
+		} else if ("RESOURCE_LOCAL".equalsIgnoreCase(transactionTypeString)) {
+			transactionType = PersistenceUnitTransactionType.RESOURCE_LOCAL;
+		} else if ("JTA".equalsIgnoreCase(transactionTypeString)) {
+			transactionType = PersistenceUnitTransactionType.JTA;
+		} else {
+			transactionType = null;
+		}
+		
+		
+		// DATASOURCE
+		DataSource jtaDataSource = null;
+		DataSource nonJtaDataSource = null;
+		
+		if (transactionType == null) {
+			
+			jtaDataSource = null;
+			nonJtaDataSource = this.dataSource();
+			
+		} else if (transactionType
+				.equals(PersistenceUnitTransactionType.RESOURCE_LOCAL)) {
+			
+			jtaDataSource = null;
+			nonJtaDataSource = this.dataSource();
+			
+		} else if (transactionType
+				.equals(PersistenceUnitTransactionType.JTA)) {
+			
+			jtaDataSource = this.dataSource();
+			nonJtaDataSource = null;
+			
+		} else {
+			
+			jtaDataSource = null;
+			nonJtaDataSource = null;
+			
+		}
+		
+		
+		// PROPRIETES ADDITIONNELLES
+		final Properties propsAdditionnelles 
+			= this.additionalProperties();
+		
+		final ArrayList<String > managedClassNames 
+			= new ArrayList<String>();
+		
+		managedClassNames.add("ContactSimpleEntityJPA");
+		
+		// INSTANCIATION D'UN PersistenceUnitInfo
+		final PersistenceUnitInfo persistenceUnitInfo 
+			= new PersistenceUnitInfoJPASansXML(
+					persistenceUnitName
+					, persistenceProviderClassName
+					, transactionType
+					, jtaDataSource
+					, nonJtaDataSource
+					, managedClassNames
+					, propsAdditionnelles);
+		
+		System.out.println("PERSISTENCEUNITINFO DANS ConfigurateurJPASansXML : " + persistenceUnitInfo.toString());
+		
+		final Map<String, Object> properties	
+			= new HashMap<String, Object>();
+		
+		entityManagerFactory 
+		= new HibernatePersistenceProvider().createContainerEntityManagerFactory(
+				persistenceUnitInfo, properties);
+		
+		
+		
+		return entityManagerFactory;
+		
+	}
+
 	
 	
+	/**
+	 * .<br/>
+	 * <br/>
+	 *
+	 * @return EntityManagerFactory
+	 * @throws Exception : EntityManagerFactory :  .<br/>
+	 */
+//	@Bean
+	public EntityManagerFactory entityManagerFactoryInfo3() 
+			throws Exception {
+		
+		EntityManagerFactory entityManagerFactory = null;
+		
+		// PERSISTENCE UNIT
+		/*
+		 * fixe le nom de l'unité de persistence avec 
+		 * la valeur lue dans le fichier properties.
+		 */
+		final String persistenceUnitName 
+			= this.environmentSpring.getProperty(
+				"javax.persistence.jdbc.persistence-unit.name");
+
+		
+		// JPAVENDORADAPTER
+		/* stipule que l'ORM est HIBERNATE. */
+		final String persistenceProviderClassName 
+			= this.vendorAdapterHibernate().getClass().getName();
+
+		
+		// TYPE DE TRANSACTION
+		final String transactionTypeString 
+			= this.environmentSpring.getProperty(
+				"javax.persistence.jdbc.persistence-unit.transaction-type");
+				
+		PersistenceUnitTransactionType transactionType = null;
+		
+		if (transactionTypeString == null) {
+			transactionType = null;
+		} else if ("RESOURCE_LOCAL".equalsIgnoreCase(transactionTypeString)) {
+			transactionType = PersistenceUnitTransactionType.RESOURCE_LOCAL;
+		} else if ("JTA".equalsIgnoreCase(transactionTypeString)) {
+			transactionType = PersistenceUnitTransactionType.JTA;
+		} else {
+			transactionType = null;
+		}
+		
+		
+		// DATASOURCE
+		DataSource jtaDataSource = null;
+		DataSource nonJtaDataSource = null;
+		
+		if (transactionType == null) {
+			
+			jtaDataSource = null;
+			nonJtaDataSource = this.dataSource();
+			
+		} else if (transactionType
+				.equals(PersistenceUnitTransactionType.RESOURCE_LOCAL)) {
+			
+			jtaDataSource = null;
+			nonJtaDataSource = this.dataSource();
+			
+		} else if (transactionType
+				.equals(PersistenceUnitTransactionType.JTA)) {
+			
+			jtaDataSource = this.dataSource();
+			nonJtaDataSource = null;
+			
+		} else {
+			
+			jtaDataSource = null;
+			nonJtaDataSource = null;
+			
+		}
+		
+		
+		// PROPRIETES ADDITIONNELLES
+		final Properties propsAdditionnelles 
+			= this.additionalProperties();
+		
+		final ArrayList<String > managedClassNames 
+			= new ArrayList<String>();
+		
+		managedClassNames.add("ContactSimpleEntityJPA");
+		
+		// INSTANCIATION D'UN PersistenceUnitInfo
+		final PersistenceUnitInfo persistenceUnitInfo 
+			= new PersistenceUnitInfoJPASansXML(
+					persistenceUnitName
+					, persistenceProviderClassName
+					, transactionType
+					, jtaDataSource
+					, nonJtaDataSource
+					, managedClassNames
+					, propsAdditionnelles);
+		
+		System.out.println("PERSISTENCEUNITINFO DANS ConfigurateurJPASansXML : " + persistenceUnitInfo.toString());
+		
+		final Map<String, Object> properties	
+			= new HashMap<String, Object>();
+		
+		/* org.hibernate.internal.SessionFactoryImpl */
+		entityManagerFactory 
+		= new HibernatePersistenceProvider().createContainerEntityManagerFactory(
+				persistenceUnitInfo, properties);
+		
+		
+		System.out.println(entityManagerFactory.toString());
+		
+		return entityManagerFactory;
+		
+	}
+
+	
+
+	
+//	public EntityManager createEntityManager() {
+//		
+//		Properties properties = new Properties();
+//		properties.put("javax.persistence.provider", "org.hibernate.ejb.HibernatePersistence");
+//		properties.put("javax.persistence.transactionType", "RESOURCE_LOCAL");
+//		properties.put("hibernate.connection.username", "sa");
+//		properties.put("hibernate.connection.password" ,"");
+//		properties.put("hibernate.connection.driver_class","org.hsqldb.jdbcDriver");			
+//		properties.put("hibernate.connection.url", "jdbc:hsqldb:." );
+//		properties.put("hibernate.dialect" ,"org.hibernate.dialect.HSQLDialect");
+//		properties.put("hibernate.hbm2ddl.auto","create-drop");
+//		properties.put("hibernate.show_sql","true");
+//		properties.put("hibernate.format_sql" ,"true");	
+//		//
+//		Ejb3Configuration cfg = new Ejb3Configuration();
+//		
+//		cfg.addProperties(properties);
+//		cfg.addAnnotatedClass(City.class);
+//		cfg.addAnnotatedClass(LocalCustomer.class);
+//		//
+//		EntityManagerFactory factory = cfg.buildEntityManagerFactory();
+//		return factory.createEntityManager();
+//	}
 	
 } // FIN DE LA CLASSE ConfigurateurJPAH2File.--------------------------------

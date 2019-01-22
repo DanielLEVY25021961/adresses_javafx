@@ -8582,13 +8582,13 @@ public class ContactSimpleDAOJPASpringTest {
 			return;
 		}
 				
-		final String propsDansEntityManagerFactory 
-		= AfficheurContexteSpring
-			.afficherPrincipalesProperties(pEntityManagerFactory);
-		
 //		final String propsDansEntityManagerFactory 
 //		= AfficheurContexteSpring
-//			.afficherProperties(pEntityManagerFactory);
+//			.afficherPrincipalesProperties(pEntityManagerFactory);
+		
+		final String propsDansEntityManagerFactory 
+		= AfficheurContexteSpring
+			.afficherProperties(pEntityManagerFactory);
 	
 		System.out.println(propsDansEntityManagerFactory);
 	

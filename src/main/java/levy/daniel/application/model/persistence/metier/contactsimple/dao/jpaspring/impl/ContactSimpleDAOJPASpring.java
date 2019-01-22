@@ -136,7 +136,8 @@ public class ContactSimpleDAOJPASpring implements IContactSimpleDAO {
 	/**
 	 * JPA EntityManager <b>injecté par SPRING</b>.<br/>
 	 */
-	@PersistenceContext(type = PersistenceContextType.TRANSACTION, unitName = "persistence_unit_base-adresses_javafx")
+//	@PersistenceContext(type = PersistenceContextType.TRANSACTION, unitName = "persistence_unit_base-adresses_javafx")
+	@PersistenceContext(type = PersistenceContextType.TRANSACTION)
 	private transient EntityManager entityManager;
 	
 	/**

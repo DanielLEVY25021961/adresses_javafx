@@ -58,22 +58,22 @@ public final class AfficheurContexteSpring {
 		= "hibernate.transaction.coordinator_class";
 
 	/**
-	 * "hibernate.connection.url".<br/>
+	 * "javax.persistence.jdbc.url".<br/>
 	 */
-	public static final String PROPERTY_HIBERNATE_CONNECTION_URL 
-		= "hibernate.connection.url";
+	public static final String PROPERTY_JPA_CONNECTION_URL 
+		= "javax.persistence.jdbc.url";
 	
 	/**
-	 * "hibernate.connection.username".<br/>
+	 * "javax.persistence.jdbc.user".<br/>
 	 */
-	public static final String PROPERTY_HIBERNATE_CONNECTION_USERNAME 
-		= "hibernate.connection.username";
+	public static final String PROPERTY_JPA_CONNECTION_USERNAME 
+		= "javax.persistence.jdbc.user";
 	
 	/**
-	 * "hibernate.connection.password".<br/>
+	 * "javax.persistence.jdbc.password".<br/>
 	 */
-	public static final String PROPERTY_HIBERNATE_CONNECTION_PASSWORD 
-		= "hibernate.connection.password";
+	public static final String PROPERTY_JPA_CONNECTION_PASSWORD 
+		= "javax.persistence.jdbc.password";
 	
 	/**
 	 * "javax.persistence.jdbc.driver".<br/>
@@ -219,11 +219,11 @@ public final class AfficheurContexteSpring {
 			final String transactionType 
 				= getProperty(PROPERTY_TRANSACTION_TYPE, pEntityManagerFactory);
 			final String url 
-				= getProperty(PROPERTY_HIBERNATE_CONNECTION_URL, pEntityManagerFactory);
+				= getProperty(PROPERTY_JPA_CONNECTION_URL, pEntityManagerFactory);
 			final String login
-				= getProperty(PROPERTY_HIBERNATE_CONNECTION_USERNAME, pEntityManagerFactory);
+				= getProperty(PROPERTY_JPA_CONNECTION_USERNAME, pEntityManagerFactory);
 			final String mdp
-				= getProperty(PROPERTY_HIBERNATE_CONNECTION_PASSWORD, pEntityManagerFactory);
+				= getProperty(PROPERTY_JPA_CONNECTION_PASSWORD, pEntityManagerFactory);
 			final String driver
 				= getProperty(PROPERTY_DRIVER, pEntityManagerFactory);
 			final String dialecte
@@ -265,13 +265,13 @@ public final class AfficheurContexteSpring {
 			stb.append("Transaction Type (hibernate.transaction.coordinator_class) : ");
 			stb.append(transactionType);
 			stb.append(SAUT_LIGNE_PLATEFORME);
-			stb.append("URL De connexion à la base (hibernate.connection.url) : ");
+			stb.append("URL De connexion à la base (javax.persistence.jdbc.url) : ");
 			stb.append(url);
 			stb.append(SAUT_LIGNE_PLATEFORME);
-			stb.append("Login (hibernate.connection.username) : ");
+			stb.append("Login (javax.persistence.jdbc.user) : ");
 			stb.append(login);
 			stb.append(SAUT_LIGNE_PLATEFORME);
-			stb.append("Mdp (hibernate.connection.password) : ");
+			stb.append("Mdp (javax.persistence.jdbc.password) : ");
 			stb.append(mdp);
 			stb.append(SAUT_LIGNE_PLATEFORME);
 			stb.append("Driver (javax.persistence.jdbc.driver) : ");

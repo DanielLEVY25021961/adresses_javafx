@@ -109,8 +109,19 @@ public class LecteurPropertiesSpringTest {
 		if (AFFICHAGE_GENERAL && affichage) {
 			System.out.println("********** CLASSE LecteurPropertiesSpringTest - méthode testLireProperties() ********** ");
 		}
-		
-		System.out.println("NOM DE L'UNITE DE PERSISTENCE DANS LE CONTENEUR LecteurPropertiesSpring : " + this.lecteurPropertiesSpring.getPersistenceUnitName());
+
+		/* AFFICHAGE A LA CONSOLE. */
+		if (AFFICHAGE_GENERAL && affichage) {
+			
+			System.out.println(
+					"NOM DE L'UNITE DE PERSISTENCE DANS LE CONTENEUR LecteurPropertiesSpring : " 
+					+ this.lecteurPropertiesSpring.getPersistenceUnitName());
+			
+			System.out.println(
+					"TYPE DE TRANSACTION DANS LE CONTENEUR LecteurPropertiesSpring : " 
+					+ this.lecteurPropertiesSpring.getTransactionType());
+		}
+			
 
 	} // Fin de testLireProperties().________________________________________
 

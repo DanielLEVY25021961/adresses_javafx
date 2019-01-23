@@ -6,3 +6,5 @@
 
 
 DOC OFFICIELLE SPRING : https://docs.spring.io/spring/docs/5.1.4.RELEASE/spring-framework-reference/
+
+DOC OFFICIELLE JPA : https://docs.oracle.com/javaee/7/tutorial/persistence-intro003.htm

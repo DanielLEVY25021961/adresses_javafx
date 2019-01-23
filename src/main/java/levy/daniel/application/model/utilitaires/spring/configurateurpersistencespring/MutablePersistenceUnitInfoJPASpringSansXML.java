@@ -88,7 +88,10 @@ public class MutablePersistenceUnitInfoJPASpringSansXML
 	 * <li>JTA pour une application WEB dans laquelle 
 	 * le conteneur de Servlet (TOMCAT) gère les transactions.</li>
 	 * <li>Ne pas utiliser ce tag pour une application gérée par SPRING 
-	* (qui gère lui même les transactions)</li>
+	 * (qui gère lui même les transactions)</li>
+	 * <li>correspond à l'élément 
+	 * <code>persistence-unit.transaction-type</code> 
+	 * dans un persistence.xml préconisé par JPA.</li>
 	 * </ul>
 	 */
 	@Nullable
@@ -139,7 +142,7 @@ public class MutablePersistenceUnitInfoJPASpringSansXML
 	private URL persistenceUnitRootUrl;
 	
 	/**
-	 * liste des <b>noms</b> des 
+	 * liste des <b>noms qualifiés</b> des 
 	 * classes Entities JPA mappées pour management 
 	 * par JPA dans un persistence.xml.<br/>
 	 * <ul>
@@ -739,7 +742,10 @@ public class MutablePersistenceUnitInfoJPASpringSansXML
 	* le conteneur de Servlet (TOMCAT) gère les transactions.</li>
 	* <li>Ne pas utiliser ce tag pour une application gérée par SPRING 
 	* (qui gère lui même les transactions)</li>
-	* </ul>.
+	* <li>correspond à l'élément 
+	* <code>persistence-unit.transaction-type</code> 
+	* dans un persistence.xml préconisé par JPA.</li>
+	* </ul>
 	*
 	* @param pTransactionType : PersistenceUnitTransactionType : 
 	* valeur à passer à this.transactionType.<br/>
@@ -939,7 +945,7 @@ public class MutablePersistenceUnitInfoJPASpringSansXML
 	
 	
 	/**
-	* setter de la liste des <b>noms</b> des 
+	* setter de la liste des <b>noms qualifiés</b> des 
 	* classes Entities JPA mappées pour management 
 	* par JPA dans un persistence.xml.<br/>
 	* <ul>

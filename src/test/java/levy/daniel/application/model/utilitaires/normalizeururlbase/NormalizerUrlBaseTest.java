@@ -8,6 +8,10 @@ import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.junit.Test;
 
+import levy.daniel.application.model.utilitaires.normalizerurlbase.EnumModesBase;
+import levy.daniel.application.model.utilitaires.normalizerurlbase.NormalizerUrlBase;
+import levy.daniel.application.model.utilitaires.normalizerurlbase.UrlEncapsulation;
+
 /**
  * CLASSE NormalizerUrlBaseTest :<br/>
  * Test JUnit de la classe NormalizerUrlBase.<br/>
@@ -121,9 +125,10 @@ public class NormalizerUrlBaseTest {
 
 	
 	/**
-	 * .<br/>
-	 * <br/>
-	 * : void :  .<br/>
+	 * teste la méthode creerUrlEncapsulation(URL, BD).<br/>
+	 * <ul>
+	 * <li>garantit le bon fonctionnement en mode FILE.</li>
+	 * </ul>
 	 */
 	@SuppressWarnings(UNUSED)
 	@Test
@@ -131,7 +136,7 @@ public class NormalizerUrlBaseTest {
 		
 		// **********************************
 		// AFFICHAGE DANS LE TEST ou NON
-		final boolean affichage = false;
+		final boolean affichage = true;
 		// **********************************
 		
 		/* AFFICHAGE A LA CONSOLE. */
@@ -140,7 +145,7 @@ public class NormalizerUrlBaseTest {
 		}
 
 		final UrlEncapsulation urlFile1 
-			= NormalizerUrlBase.creerUrlEncapsulationModeFile(URL_FILE1, BD);
+			= NormalizerUrlBase.creerUrlEncapsulation(URL_FILE1, BD);
 		
 		/* AFFICHAGE A LA CONSOLE. */
 		if (AFFICHAGE_GENERAL && affichage) {
@@ -155,7 +160,7 @@ public class NormalizerUrlBaseTest {
 				, urlFile1.isCheminRelatif());
 		
 		final UrlEncapsulation urlFile2 
-		= NormalizerUrlBase.creerUrlEncapsulationModeFile(URL_FILE2, BD);
+		= NormalizerUrlBase.creerUrlEncapsulation(URL_FILE2, BD);
 	
 		/* AFFICHAGE A LA CONSOLE. */
 		if (AFFICHAGE_GENERAL && affichage) {
@@ -170,9 +175,63 @@ public class NormalizerUrlBaseTest {
 				, urlFile2.isCheminRelatif());
 		
 	} // Fin de testCreerUrlEncapsulationModeFile()._______________________
-	
 
 	
+	
+	/**
+	 * teste la méthode creerUrlEncapsulation(URL, BD).<br/>
+	 * <ul>
+	 * <li>garantit le bon fonctionnement en mode SERVEUR.</li>
+	 * </ul>
+	 */
+	@SuppressWarnings(UNUSED)
+	@Test
+	public void testCreerUrlEncapsulationModeServeur() {
+		
+		// **********************************
+		// AFFICHAGE DANS LE TEST ou NON
+		final boolean affichage = false;
+		// **********************************
+		
+		/* AFFICHAGE A LA CONSOLE. */
+		if (AFFICHAGE_GENERAL && affichage) {
+		System.out.println("********** CLASSE NormalizerUrlBaseTest - méthode testCreerUrlEncapsulationModeServeur() ********** ");
+		}
+		
+		final UrlEncapsulation urlServeur1 
+			= NormalizerUrlBase.creerUrlEncapsulation(URL_SERVEUR1, BD);
+		
+		/* AFFICHAGE A LA CONSOLE. */
+		if (AFFICHAGE_GENERAL && affichage) {
+			System.out.println(urlServeur1.toString());
+		}
+
+		assertEquals("le mode doit être SERVEUR : "
+				, EnumModesBase.SERVEUR
+					, urlServeur1.getMode());
+		
+		final UrlEncapsulation urlServeur2 
+			= NormalizerUrlBase.creerUrlEncapsulation(URL_SERVEUR2, BD);
+	
+		/* AFFICHAGE A LA CONSOLE. */
+		if (AFFICHAGE_GENERAL && affichage) {
+			System.out.println(urlServeur2.toString());
+		}
+	
+		assertEquals("le mode doit être SERVEUR : "
+				, EnumModesBase.SERVEUR
+					, urlServeur2.getMode());
+		
+	} // Fin de testCreerUrlEncapsulationModeServeur().____________________
+	
+
+
+	/**
+	 * teste la méthode creerUrlEncapsulation(URL, BD).<br/>
+	 * <ul>
+	 * <li>garantit le bon fonctionnement en mode MEMOIRE.</li>
+	 * </ul>
+	 */
 	@SuppressWarnings(UNUSED)
 	@Test
 	public void testCreerUrlEncapsulationModeMem() {
@@ -188,7 +247,7 @@ public class NormalizerUrlBaseTest {
 		}
 		
 		final UrlEncapsulation urlMem1 
-			= NormalizerUrlBase.creerUrlEncapsulationModeMemoire(URL_MEM1, BD);
+			= NormalizerUrlBase.creerUrlEncapsulation(URL_MEM1, BD);
 		
 		/* AFFICHAGE A LA CONSOLE. */
 		if (AFFICHAGE_GENERAL && affichage) {
@@ -200,7 +259,7 @@ public class NormalizerUrlBaseTest {
 					, urlMem1.getMode());
 		
 		final UrlEncapsulation urlMem2 
-			= NormalizerUrlBase.creerUrlEncapsulationModeMemoire(URL_MEM2, BD);
+			= NormalizerUrlBase.creerUrlEncapsulation(URL_MEM2, BD);
 	
 		/* AFFICHAGE A LA CONSOLE. */
 		if (AFFICHAGE_GENERAL && affichage) {
@@ -295,7 +354,6 @@ public class NormalizerUrlBaseTest {
 					, modeServeur2);
 
 	} // Fin de testDeterminerMode().______________________________________
-
 
 	
 	

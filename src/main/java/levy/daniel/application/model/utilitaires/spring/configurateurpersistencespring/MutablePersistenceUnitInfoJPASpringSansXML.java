@@ -75,7 +75,12 @@ public class MutablePersistenceUnitInfoJPASpringSansXML
 	/**
 	 * nom qualifié de l'ORM (HIBERNATE).<br/>
 	 * Par exemple : 
-	 * org.hibernate.jpa.HibernatePersistenceProvider.class.getName().
+	 * org.springframework.orm.jpa.vendor.HibernateJpaVendorAdapter
+	 * .class.getName().
+	 * <ul>
+	 * <li>correspond à l'élément <code>provider</code> 
+	 * dans un persistence.xml préconisé par JPA.</li>
+	 * </ul>
 	 */
 	@Nullable
 	private String persistenceProviderClassName;
@@ -688,6 +693,7 @@ public class MutablePersistenceUnitInfoJPASpringSansXML
 	@Override
 	public void setPersistenceUnitName(
 			@Nullable final String pPersistenceUnitName) {
+		super.setPersistenceUnitName(pPersistenceUnitName);
 		this.persistenceUnitName = pPersistenceUnitName;
 	} // Fin de setPersistenceUnitName(...)._______________________________
 
@@ -697,7 +703,12 @@ public class MutablePersistenceUnitInfoJPASpringSansXML
 	 * <br/>
 	 * - nom qualifié de l'ORM (HIBERNATE).<br/>
 	 * Par exemple : 
-	 * org.hibernate.jpa.HibernatePersistenceProvider.class.getName().
+	 * org.springframework.orm.jpa.vendor.HibernateJpaVendorAdapter
+	 * .class.getName().
+	 * <ul>
+	 * <li>correspond à l'élément <code>provider</code> 
+	 * dans un persistence.xml préconisé par JPA.</li>
+	 * </ul>
 	 */
 	@Nullable
 	@Override
@@ -710,7 +721,12 @@ public class MutablePersistenceUnitInfoJPASpringSansXML
 	/**
 	* setter du nom qualifié de l'ORM (HIBERNATE).<br/>
 	 * Par exemple : 
-	 * org.hibernate.jpa.HibernatePersistenceProvider.class.getName().
+	 * org.springframework.orm.jpa.vendor.HibernateJpaVendorAdapter
+	 * .class.getName().
+	 * <ul>
+	 * <li>correspond à l'élément <code>provider</code> 
+	 * dans un persistence.xml préconisé par JPA.</li>
+	 * </ul>
 	*
 	* @param pPersistenceProviderClassName : String : 
 	* valeur à passer à this.persistenceProviderClassName.<br/>
@@ -718,6 +734,7 @@ public class MutablePersistenceUnitInfoJPASpringSansXML
 	@Override
 	public void setPersistenceProviderClassName(
 			@Nullable final String pPersistenceProviderClassName) {
+		super.setPersistenceProviderClassName(pPersistenceProviderClassName);
 		this.persistenceProviderClassName = pPersistenceProviderClassName;
 	} // Fin de setPersistenceProviderClassName(...).______________________
 
@@ -753,6 +770,7 @@ public class MutablePersistenceUnitInfoJPASpringSansXML
 	@Override
 	public void setTransactionType(
 			final PersistenceUnitTransactionType pTransactionType) {
+		super.setTransactionType(pTransactionType);
 		this.transactionType = pTransactionType;
 	} // Fin de setTransactionType(...).___________________________________
 

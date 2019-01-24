@@ -626,7 +626,7 @@ public class ConfigurateurJPAH2File {
 	
 	
 	/**
-	 * transforme unr URL pour base en MODE FILE contenant 
+	 * transforme une URL pour base en MODE FILE contenant 
 	 * un chemin relatif lue dans un properties en URL 
 	 * acceptable pour la DataSource.<br/>
 	 * Par exemple :

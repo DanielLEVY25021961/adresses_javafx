@@ -70,6 +70,10 @@ public class PersistenceUnitInfoJPASansXML implements PersistenceUnitInfo {
 	 * nom qualifié de l'ORM (HIBERNATE).<br/>
 	 * Par exemple : 
 	 * org.hibernate.jpa.HibernatePersistenceProvider.class.getName().
+	 * <ul>
+	 * <li>correspond à l'élément <code>provider</code> 
+	 * dans un persistence.xml préconisé par JPA.</li>
+	 * </ul>
 	 */
 	private String persistenceProviderClassName;
 
@@ -682,6 +686,10 @@ public class PersistenceUnitInfoJPASansXML implements PersistenceUnitInfo {
 	 * - nom qualifié de l'ORM (HIBERNATE).<br/>
 	 * Par exemple : 
 	 * org.hibernate.jpa.HibernatePersistenceProvider.class.getName().
+	 * <ul>
+	 * <li>correspond à l'élément <code>provider</code> 
+	 * dans un persistence.xml préconisé par JPA.</li>
+	 * </ul>
 	 */
 	@Override
 	public String getPersistenceProviderClassName() {
@@ -694,6 +702,10 @@ public class PersistenceUnitInfoJPASansXML implements PersistenceUnitInfo {
 	* setter du nom qualifié de l'ORM (HIBERNATE).<br/>
 	 * Par exemple : 
 	 * org.hibernate.jpa.HibernatePersistenceProvider.class.getName().
+	 * <ul>
+	 * <li>correspond à l'élément <code>provider</code> 
+	 * dans un persistence.xml préconisé par JPA.</li>
+	 * </ul>
 	*
 	* @param pPersistenceProviderClassName : String : 
 	* valeur à passer à this.persistenceProviderClassName.<br/>

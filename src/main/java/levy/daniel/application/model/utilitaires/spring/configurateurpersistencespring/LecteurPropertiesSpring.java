@@ -1,7 +1,11 @@
 package levy.daniel.application.model.utilitaires.spring.configurateurpersistencespring;
 
+import java.nio.file.Path;
+import java.nio.file.Paths;
+
 import javax.persistence.spi.PersistenceUnitTransactionType;
 
+import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -10,6 +14,7 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.PropertySource;
 import org.springframework.context.annotation.PropertySources;
 import org.springframework.core.env.Environment;
+import org.springframework.orm.jpa.vendor.HibernateJpaVendorAdapter;
 
 /**
  * CLASSE LecteurPropertiesSpring :<br/>
@@ -53,8 +58,14 @@ public class LecteurPropertiesSpring {
 	 * "Méthode lireTransactionType()".
 	 */
 	public static final String METHODE_LIRE_TRANSACTION_TYPE 
-	= "Méthode lireTransactionType()";
+		= "Méthode lireTransactionType()";
 
+	/**
+	 * "Méthode lireUrl()".
+	 */
+	public static final String METHODE_LIRE_URL 
+		= "Méthode lireUrl()";
+	
 	/**
 	 * ';'.<br/>
 	 */
@@ -99,6 +110,11 @@ public class LecteurPropertiesSpring {
 		= new PersistenceUnitInfoJPASansXML();
 
 	/**
+	 * URL de la BASE.
+	 */
+	private String url;
+	
+	/**
 	 * "javax.persistence.jdbc.persistence-unit.name".
 	 */
 	public static final String PERSISTENCE_UNIT_NAME_KEY 
@@ -107,8 +123,14 @@ public class LecteurPropertiesSpring {
 	/**
 	 * javax.persistence.jdbc.persistence-unit.transaction-type.
 	 */
-	public static final String TRANSACTION_TYPE 
+	public static final String TRANSACTION_TYPE_KEY 
 		= "javax.persistence.jdbc.persistence-unit.transaction-type";
+	
+	/**
+	 * "javax.persistence.jdbc.connexion.url".
+	 */
+	public static final String URL_KEY 
+		= "javax.persistence.jdbc.connexion.url";
 	
 	/**
 	 * LOG : Log : 
@@ -169,9 +191,10 @@ public class LecteurPropertiesSpring {
 	 * <code>this.environmentSpring</code> par SPRING 
 	 * dans la présente classe.</li>
 	 * <ul>
-	 * <li>lit le nom de l'unité de persistence (persistenceUnitName) </li>
-	 * <li></li>
-	 * <li></li>
+	 * <li>lit le nom de l'unité de persistence (persistenceUnitName).</li>
+	 * <li>lit le type de transaction (transactionType).</li>
+	 * <li>passe HIBERNATE pour SPRING comme PersistenceProvider.</li>
+	 * <li>lit l'URL de la base (url).</li>
 	 * <li></li>
 	 * <li></li>
 	 * <li></li>
@@ -187,11 +210,18 @@ public class LecteurPropertiesSpring {
 		this.persistenceUnitInfoJPASansXML
 			.setPersistenceUnitName(this.lirePersistenceUnitName());
 		
-		/* transactionType*/
+		/* transactionType. */
 		this.persistenceUnitInfoJPASansXML
 			.setTransactionType(this.lireTransactionType());
 		
-	}
+		/* persistenceProvider. */
+		this.persistenceUnitInfoJPASansXML
+			.setPersistenceProviderClassName(this.lirePersistenceProvider());
+		
+		/* URL. */
+		this.lireUrl();
+		
+	} // Fin de lireProperties().__________________________________________
 	
 
 	
@@ -255,7 +285,7 @@ public class LecteurPropertiesSpring {
 			
 			transactionTypeString 
 				= this.environmentSpring.getProperty(
-						TRANSACTION_TYPE);
+						TRANSACTION_TYPE_KEY);
 			
 			if ("JTA".equalsIgnoreCase(transactionTypeString)) {
 				transactionType 
@@ -286,6 +316,104 @@ public class LecteurPropertiesSpring {
 		
 	} // Fin de lireTransactionType()._____________________________________
 	
+
+	
+	/**
+	 * <b>retourne toujours le JpaVendorAdapter HIBERNATE pour SPRING : 
+	 * org.springframework.orm.jpa.vendor.HibernateJpaVendorAdapter</b>.<br/>
+	 * <ul>
+	 * <li>valeur non lue dans le properties de configuration SPRING</li>
+	 * <li>un persistence.xml ne comporte pas obligatoirement 
+	 * l'élément <code>provider</code> si on 
+	 * veut le rendre indépendant de l'ORM.</li>
+	 * </ul>
+	 *
+	 * @return : String : 
+	 * org.springframework.orm.jpa.vendor.HibernateJpaVendorAdapter.<br/>
+	 */
+	private String lirePersistenceProvider() {
+		return HibernateJpaVendorAdapter.class.getName();
+	} // Fin de lirePersistenceProvider()._________________________________
+	
+	
+	
+	/**
+	 * <b>lit la valeur de URL dans le properties</b><br/>
+	 * injecte la valeur lue dans <code>this.url</code><br/>
+	 * <ul>
+	 * <li>correspond à l'élément property nommé
+	 * <code>javax.persistence.jdbc.url</code> dans un persistence.xml 
+	 * préconisé par JPA.</li>
+	 * </ul>
+	 *
+	 * @return : String : URL de la base.<br/>
+	 */
+	private String lireUrl() {
+				
+		if (this.environmentSpring != null) {
+			
+			this.url 
+				= this.environmentSpring.getProperty(
+					URL_KEY);
+			
+		} else {
+			
+			final String message 
+				= CLASSE_LECTEUR_PROPERTIES_SPRING 
+				+ TIRET_ESPACE
+				+ METHODE_LIRE_URL
+				+ TIRET_ESPACE
+				+ "environmentSpring NON INJECTE !!!";
+			
+			if (LOG.isFatalEnabled()) {
+				LOG.fatal(message);
+			}
+		}
+		
+		return this.url;
+		
+	} // Fin de lireUrl()._________________________________________________	
+
+	
+	
+	/**
+	 * transforme une URL pour base en MODE FILE contenant 
+	 * un chemin relatif lue dans un properties en URL 
+	 * acceptable pour la DataSource.<br/>
+	 * Par exemple :
+	 * <ul>
+	 * <li>jdbc:h2:file:
+	 * ./data/base-adresses_javafx-h2/base-adresses_javafx</li>
+	 * devient
+	 * <li>jdbc:h2:file:D:\Donnees\eclipse\eclipseworkspace\adresses_javafx\
+	 * data\base-adresses_javafx-h2\base-adresses_javafx;DB_CLOSE_ON_EXIT=FALSE</li>
+	 * </ul>
+	 *
+	 * @param pUrlFile : String : 
+	 * contenu relatif dans un properties.<br/>
+	 * 
+	 * @return : String : URL acceptable.<br/>
+	 */
+	private String normaliserURLFile(
+			final String pUrlFile) {
+		
+		final String motifRegexFile = "^jdbc:.+:file:";
+		
+		final String prefixe = "jdbc:h2:file:";
+		
+		final String cheminBase 
+			= StringUtils.difference(prefixe, pUrlFile);
+		
+		final Path cheminBasePath 
+			= Paths.get(cheminBase).toAbsolutePath().normalize();
+		
+		final String urlNormalisee 
+			= prefixe + cheminBasePath.toString() 
+				+ ";DB_CLOSE_ON_EXIT=FALSE";
+		
+		return urlNormalisee;
+		
+	} // Fin de normaliserURLFile(...).____________________________________
 	
 	
 	/**
@@ -408,6 +536,53 @@ public class LecteurPropertiesSpring {
 	public PersistenceUnitTransactionType getTransactionType() {
 		return this.persistenceUnitInfoJPASansXML.getTransactionType();
 	} // Fin de getTransactionType().______________________________________
+	
+
+	
+	/**
+	 * retourne le nom qualifié de l'ORM (HIBERNATE) pour SPRING : 
+	 * <i>org.springframework.orm.jpa.vendor.HibernateJpaVendorAdapter</i>.<br/>
+	 * <ul>
+	 * <li>non lu dans le properties SPRING.</li>
+	 * <li>clé : <code>provider</code> 
+	 * dans un persistence.xml préconisé par JPA</li>
+	 * <li>clé : <code>????</code> 
+	 * dans un EntityManagerFactory créé par 
+	 * le PersistenceProvider HIBERNATE</li>
+	 * </ul>
+	 *
+	 * @return : String : 
+	 * org.springframework.orm.jpa.vendor.HibernateJpaVendorAdapter.<br/>
+	 */
+	public String getPersistenceProviderClassName() {
+		return this.persistenceUnitInfoJPASansXML
+				.getPersistenceProviderClassName();
+	} // Fin de getPersistenceProviderClassName()._________________________
+
+	
+	
+	/**
+	 * <b>retourne l'URL de la Base 
+	 * stocké dans l'objet DataSource du conteneur 
+	 * <code>this.persistenceUnitInfoJPASansXML</code></b> 
+	 * après lecture du properties 
+	 * de configuration indiqué dans l'annotation 
+	 * PropertySource au dessus de la présente classe<br/>
+	 * <ul>
+	 * <li>clé : 
+	 * <code>javax.persistence.jdbc.connexion.url</code> 
+	 * dans le fichier properties SPRING</li>
+	 * <li>clé : property nommée <code>javax.persistence.jdbc.url</code> 
+	 * dans un persistence.xml préconisé par JPA</li>
+	 * <li>clé : <code>javax.persistence.jdbc.url</code> 
+	 * dans un EntityManagerFactory créé par le PersistenceProvider HIBERNATE</li>
+	 * </ul>
+	 *
+	 * @return : String : this.url.<br/>
+	 */
+	public String getUrl() {
+		return this.url;
+	} // Fin de getUrl().__________________________________________________
 	
 	
 	

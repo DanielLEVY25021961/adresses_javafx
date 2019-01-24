@@ -1,6 +1,8 @@
 package levy.daniel.application.model.utilitaires.normalizeururlbase;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertTrue;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
@@ -127,10 +129,91 @@ public class NormalizerUrlBaseTest {
 	@Test
 	public void testCreerUrlEncapsulationModeFile() {
 		
-		NormalizerUrlBase.creerUrlEncapsulationModeFile(URL_FILE1, BD);
-	}
+		// **********************************
+		// AFFICHAGE DANS LE TEST ou NON
+		final boolean affichage = false;
+		// **********************************
+		
+		/* AFFICHAGE A LA CONSOLE. */
+		if (AFFICHAGE_GENERAL && affichage) {
+		System.out.println("********** CLASSE NormalizerUrlBaseTest - méthode testCreerUrlEncapsulationModeFile() ********** ");
+		}
+
+		final UrlEncapsulation urlFile1 
+			= NormalizerUrlBase.creerUrlEncapsulationModeFile(URL_FILE1, BD);
+		
+		/* AFFICHAGE A LA CONSOLE. */
+		if (AFFICHAGE_GENERAL && affichage) {
+			System.out.println(urlFile1.toString());
+		}
+		
+		assertEquals("le mode doit être FILE : "
+				, EnumModesBase.FILE
+					, urlFile1.getMode());
+		
+		assertFalse("le chemin dans URL_FILE1 ne doit pas être relatif : "
+				, urlFile1.isCheminRelatif());
+		
+		final UrlEncapsulation urlFile2 
+		= NormalizerUrlBase.creerUrlEncapsulationModeFile(URL_FILE2, BD);
 	
+		/* AFFICHAGE A LA CONSOLE. */
+		if (AFFICHAGE_GENERAL && affichage) {
+			System.out.println(urlFile2.toString());
+		}
+		
+		assertEquals("le mode doit être FILE : "
+				, EnumModesBase.FILE
+					, urlFile2.getMode());
+		
+		assertTrue("le chemin dans URL_FILE2 doit être relatif : "
+				, urlFile2.isCheminRelatif());
+		
+	} // Fin de testCreerUrlEncapsulationModeFile()._______________________
 	
+
+	
+	@SuppressWarnings(UNUSED)
+	@Test
+	public void testCreerUrlEncapsulationModeMem() {
+		
+		// **********************************
+		// AFFICHAGE DANS LE TEST ou NON
+		final boolean affichage = false;
+		// **********************************
+		
+		/* AFFICHAGE A LA CONSOLE. */
+		if (AFFICHAGE_GENERAL && affichage) {
+		System.out.println("********** CLASSE NormalizerUrlBaseTest - méthode testCreerUrlEncapsulationModeMem() ********** ");
+		}
+		
+		final UrlEncapsulation urlMem1 
+			= NormalizerUrlBase.creerUrlEncapsulationModeMemoire(URL_MEM1, BD);
+		
+		/* AFFICHAGE A LA CONSOLE. */
+		if (AFFICHAGE_GENERAL && affichage) {
+			System.out.println(urlMem1.toString());
+		}
+
+		assertEquals("le mode doit être MEMOIRE : "
+				, EnumModesBase.MEMOIRE
+					, urlMem1.getMode());
+		
+		final UrlEncapsulation urlMem2 
+			= NormalizerUrlBase.creerUrlEncapsulationModeMemoire(URL_MEM2, BD);
+	
+		/* AFFICHAGE A LA CONSOLE. */
+		if (AFFICHAGE_GENERAL && affichage) {
+			System.out.println(urlMem2.toString());
+		}
+	
+		assertEquals("le mode doit être MEMOIRE : "
+				, EnumModesBase.MEMOIRE
+					, urlMem2.getMode());
+		
+	} // Fin de testCreerUrlEncapsulationModeMem().________________________
+	
+
 	
 	/**
 	 * teste la méthode determinerMode(String pUrl).<br/>

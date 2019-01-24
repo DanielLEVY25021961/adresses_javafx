@@ -29,7 +29,7 @@ import org.apache.commons.logging.LogFactory;
  * @since 24 janv. 2019
  *
  */
-public class NormalizerUrlBase {
+public final class NormalizerUrlBase {
 
 	// ************************ATTRIBUTS************************************/
 
@@ -169,8 +169,77 @@ public class NormalizerUrlBase {
 			
 		} // Fin de synchronized.________________________________
 		
-	}
+	} // Fin de creerUrlEncapsulationModeFile(...).________________________
 	
+	
+	
+	public static UrlEncapsulation creerUrlEncapsulationModeMemoire(
+			final String pUrl, final String pBase) {
+		
+		synchronized (NormalizerUrlBase.class) {
+						
+			/* retourne null si pUrl est blank. */
+			if (StringUtils.isBlank(pUrl)) {
+				return null;
+			}
+			
+			/* retourne null si pBase est blank. */
+			if (StringUtils.isBlank(pBase)) {
+				return null;
+			}
+			
+			final String motifRegexMem 
+				= "^(jdbc:(.+):mem:)(" + pBase + ")$";
+			
+			final Pattern patternMem = Pattern.compile(motifRegexMem);
+			
+			final Matcher matcherMem = patternMem.matcher(pUrl);
+			
+			if (matcherMem.matches()) {
+				
+				final String urlFournie = matcherMem.group(0);
+				final String prefixeUrl = matcherMem.group(1);
+				final String marqueBd = matcherMem.group(2);
+				final String finUrlFournie = matcherMem.group(3);
+				
+				final boolean cheminRelatif = false;
+				final String cheminRelatifUrl = null;
+				final String cheminNormaliseUrl = matcherMem.group(3);
+								
+				final String commandesSupplementaires = null;
+				
+				final String urlNormalisee 
+					= normaliserUrlFile(
+							prefixeUrl
+								, cheminNormaliseUrl
+									, commandesSupplementaires);
+				
+				final UrlEncapsulation urlEncapsulation 
+					= new UrlEncapsulation(
+							urlFournie
+							, prefixeUrl
+							, marqueBd
+							, EnumModesBase.MEMOIRE
+							, finUrlFournie
+							, cheminRelatif
+							, cheminRelatifUrl
+							, cheminNormaliseUrl
+							, null
+							, null
+							, pBase
+							, commandesSupplementaires
+							, urlNormalisee);
+				
+				return urlEncapsulation;
+				
+			} 
+			
+			return null;
+					
+		} // Fin de synchronized.________________________________
+			
+	} // Fin de creerUrlEncapsulationModeMemoire(...)._____________________
+
 	
 	
 	/**

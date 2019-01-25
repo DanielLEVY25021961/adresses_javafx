@@ -377,7 +377,7 @@ public class PersistenceUnitInfoJPASansXML implements PersistenceUnitInfo {
 			, final ClassLoader pClassLoader
 			, final ClassLoader pNewTempClassLoader) {
 		
-		super();
+		super();	
 		
 		this.persistenceUnitName = pPersistenceUnitName;
 		this.persistenceProviderClassName = pPersistenceProviderClassName;

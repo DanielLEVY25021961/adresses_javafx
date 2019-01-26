@@ -19,6 +19,7 @@ import org.springframework.lang.Nullable;
 import org.springframework.orm.jpa.persistenceunit.DefaultPersistenceUnitManager;
 import org.springframework.orm.jpa.persistenceunit.MutablePersistenceUnitInfo;
 import org.springframework.orm.jpa.persistenceunit.SmartPersistenceUnitInfo;
+import org.springframework.util.ClassUtils;
 
 /**
  * CLASSE MutablePersistenceUnitInfoJPASpringSansXML :<br/>
@@ -117,16 +118,17 @@ public class MutablePersistenceUnitInfoJPASpringSansXML
 	private DataSource nonJtaDataSource;
 
 	/**
-	 * liste des <b>noms qualifiés</b> des 
-	 * classes Entities JPA mappées pour management 
+	 * liste des <b>noms qualifiés des 
+	 * fichiers de Mapping (orm.xml)</b> des Entities JPA 
+	 * mappées pour management 
 	 * par JPA dans un persistence.xml.<br/>
-	 * Par exemple : <code>levy.daniel.application.model.
-	 * persistence.metier.contactsimple.entities.jpa.
-	 * ContactSimpleEntityJPA</code><br/>
 	 * <ul>
+	 * <li>optionnel si on utilise les annotations 
+	 * sur les classes Entities.</li>
 	 * <li>Correspond au <code>mapping-file</code> element 
 	 * dans un persistence.xml.</li>
-	 * <li>Sans Objet lorsque l'on utilise des Entities JPA 
+	 * <li>un orm.xml prévaut toujours sur les annotations 
+	 * lorsque l'on utilise des Entities JPA 
 	 * <b>annotées</b>.</li>
 	 * </ul>
 	 */
@@ -153,16 +155,19 @@ public class MutablePersistenceUnitInfoJPASpringSansXML
 	 * <ul>
 	 * <li>Correspond au <code>class</code> element 
 	 * dans un persistence.xml.</li>
+	 * <li>par exemple : <br/>
+	 * <i>"levy.daniel.application.model.persistence.metier
+	 * .contactsimple.entities.jpa.ContactSimpleEntityJPA"</i></li>
 	 * <li>Sans Objet lorsque l'on utilise des Entities JPA 
-	 * <b>annotées</b>.</li>
+	 * <b>annotées</b> découvertes par JPA.</li>
 	 * </ul>
 	 */
-	private List<String> managedClassNames = new LinkedList<>();
+	private List<String> managedClassNames = new LinkedList<String>();
 
 	/**
 	 * .
 	 */
-	private final List<String> managedPackages = new LinkedList<>();
+	private List<String> managedPackages = new LinkedList<String>();
 	
 	/**
 	 * boolean qui stipule que l'ORM ne doit manager 
@@ -210,7 +215,7 @@ public class MutablePersistenceUnitInfoJPASpringSansXML
 	 * (driver de connexion à la base) sont des Property...</li>
 	 * </ul>
 	 */
-	private Properties properties;
+	private Properties properties = new Properties();
 
 	/**
 	 * version de JPA utilisée dans le persistence.xml (2.1, 3.0, ...).
@@ -249,6 +254,20 @@ public class MutablePersistenceUnitInfoJPASpringSansXML
 		= LogFactory.getLog(MutablePersistenceUnitInfoJPASpringSansXML.class);
 
 	// *************************METHODES************************************/
+	
+	
+	
+	 /**
+	 * CONSTRUCTEUR D'ARITE NULLE.<br/>
+	 */
+	public MutablePersistenceUnitInfoJPASpringSansXML() {
+		
+		this(null
+				, null, null, null, null
+				, null, null, null, null, null, false
+				, null, null, null, null, null, null, null);
+		
+	} // Fin de CONSTRUCTEUR D'ARITE NULLE.________________________________
 	
 	
 	
@@ -296,10 +315,12 @@ public class MutablePersistenceUnitInfoJPASpringSansXML
        		, null
        		, null
        		, pManagedClassNames
+       		, null
        		, false
        		, null
        		, null
        		, pProperties
+       		, null
        		, null
        		, null
        		, null);
@@ -347,6 +368,7 @@ public class MutablePersistenceUnitInfoJPASpringSansXML
 	 * liste des <b>noms</b> des 
 	 * classes Entities JPA mappées pour management 
 	 * par JPA dans un persistence.xml.
+	 * @param pManagedPackages :  List&lt;String&gt; :
 	 * @param pExcludeUnlistedClasses : boolean : 
 	 * boolean qui stipule que l'ORM ne doit manager 
 	 * que les classes Entities JPA listées dans le persistence.xml 
@@ -362,6 +384,7 @@ public class MutablePersistenceUnitInfoJPASpringSansXML
 	 * comme par exemple le dialecte HIBERNATE.
 	 * @param pPersistenceXMLSchemaVersion : String : 
 	 * version de JPA utilisée dans le persistence.xml (2.1, 3.0, ...).
+	 * @param pPersistenceProviderPackageName : String : 
 	 * @param pClassLoader : ClassLoader : 
 	 * ClassLoader utilisé par l'ORM pour charger les Entities JPA, ....
 	 * @param pNewTempClassLoader : ClassLoader : 
@@ -378,62 +401,117 @@ public class MutablePersistenceUnitInfoJPASpringSansXML
 			, final List<URL> pJarFileUrls
 			, final URL pPersistenceUnitRootUrl
 			, final List<String> pManagedClassNames
+			, final List<String> pManagedPackages
 			, final boolean pExcludeUnlistedClasses
 			, final SharedCacheMode pSharedCacheMode
 			, final ValidationMode pValidationMode
 			, final Properties pProperties
 			, final String pPersistenceXMLSchemaVersion
+			, final String pPersistenceProviderPackageName
 			, final ClassLoader pClassLoader
 			, final ClassLoader pNewTempClassLoader) {
 		
 		super();
 		
 		this.persistenceUnitName = pPersistenceUnitName;
+		super.setPersistenceUnitName(this.persistenceUnitName);
+		
 		this.persistenceProviderClassName = pPersistenceProviderClassName;
+		super.setPersistenceProviderClassName(this.persistenceProviderClassName);
+		
 		this.transactionType = pTransactionType;
+		super.setTransactionType(this.transactionType);
+		
 		this.jtaDataSource = pJtaDataSource;
+		super.setJtaDataSource(this.jtaDataSource);
+		
 		this.nonJtaDataSource = pNonJtaDataSource;
+		super.setNonJtaDataSource(this.nonJtaDataSource);
 		
 		if (pMappingFileNames == null) {
 			this.mappingFileNames = new LinkedList<>();
 		} else {
 			this.mappingFileNames = pMappingFileNames;
+			for (final String mappingFileName : this.mappingFileNames) {
+				super.addMappingFileName(mappingFileName);
+			}
 		}
 		
-		
+				
 		if (pJarFileUrls == null) {
 			this.jarFileUrls = Collections.emptyList(); 
 		} else {
 			this.jarFileUrls = pJarFileUrls;
+			for (final URL jarFileUrl : this.jarFileUrls) {
+				super.addJarFileUrl(jarFileUrl);
+			}
 		}
 				
 		this.persistenceUnitRootUrl = pPersistenceUnitRootUrl;
-		this.managedClassNames = pManagedClassNames;
+		super.setPersistenceUnitRootUrl(this.persistenceUnitRootUrl);
+		
+		if (pManagedClassNames == null) {
+			this.managedClassNames = new LinkedList<String>();
+		} else {
+			this.managedClassNames = pManagedClassNames;
+			for (final String managedClassName : this.managedClassNames) {
+				super.addManagedClassName(managedClassName);
+			}
+		}
+		
+		if (pManagedPackages == null) {
+			this.managedPackages = new LinkedList<String>();
+		} else {
+			this.managedPackages = pManagedPackages;
+			for (final String managedPackage : this.managedPackages) {
+				super.addManagedPackage(managedPackage);
+			}
+		}
+		
 		this.excludeUnlistedClasses = pExcludeUnlistedClasses;
+		super.setExcludeUnlistedClasses(this.excludeUnlistedClasses);
 		
 		if (pSharedCacheMode == null) {
 			this.sharedCacheMode = SharedCacheMode.UNSPECIFIED;
 		} else {
 			this.sharedCacheMode = pSharedCacheMode;
 		}
+		super.setSharedCacheMode(this.sharedCacheMode);
 		
 		if (pValidationMode == null) {
 			this.validationMode = ValidationMode.AUTO;
 		} else {
 			this.validationMode = pValidationMode;
 		}
+		super.setValidationMode(this.validationMode);
 
-		this.properties = pProperties;
+		if (pProperties == null) {
+			this.properties = new Properties();
+		} else {
+			this.properties = pProperties;
+		}		
+		super.setProperties(this.properties);
 		
 		if (pPersistenceXMLSchemaVersion == null) {
 			this.persistenceXMLSchemaVersion = JPA_VERSION;
 		} else {
-			this.persistenceXMLSchemaVersion = pPersistenceXMLSchemaVersion;
+			this.persistenceXMLSchemaVersion 
+				= pPersistenceXMLSchemaVersion;
 		}
+		super.setPersistenceXMLSchemaVersion(
+				this.persistenceXMLSchemaVersion);
 
+		this.persistenceProviderPackageName 
+			= pPersistenceProviderPackageName;
+		super.setPersistenceProviderPackageName(
+				this.persistenceProviderPackageName);
+		
+		
 		if (pClassLoader == null) {
+			
 			this.classLoader 
-				= Thread.currentThread().getContextClassLoader();
+				= ClassUtils.getDefaultClassLoader();
+			
 		} else {
 			this.classLoader = pClassLoader;
 		}
@@ -798,6 +876,7 @@ public class MutablePersistenceUnitInfoJPASpringSansXML
 	public void setJtaDataSource(
 			@Nullable final DataSource pJtaDataSource) {
 		this.jtaDataSource = pJtaDataSource;
+		super.setJtaDataSource(this.jtaDataSource);
 	} // Fin de setJtaDataSource(...)._____________________________________
 
 
@@ -824,6 +903,7 @@ public class MutablePersistenceUnitInfoJPASpringSansXML
 	public void setNonJtaDataSource(
 			@Nullable final DataSource pNonJtaDataSource) {
 		this.nonJtaDataSource = pNonJtaDataSource;
+		super.setNonJtaDataSource(this.nonJtaDataSource);
 	} // Fin de setNonJtaDataSource(...).__________________________________
 	
 
@@ -835,6 +915,7 @@ public class MutablePersistenceUnitInfoJPASpringSansXML
 	public void addMappingFileName(
 			final String pMappingFileName) {
 		this.mappingFileNames.add(pMappingFileName);
+		super.addMappingFileName(pMappingFileName);
 	} // Fin de addMappingFileName(...).___________________________________
 
 
@@ -850,15 +931,19 @@ public class MutablePersistenceUnitInfoJPASpringSansXML
 	
 	
 	/**
-	* setter de la liste des <b>noms qualifiés</b> des 
-	 * classes Entities JPA mappées pour management 
-	 * par JPA dans un persistence.xml.<br/>
-	 * <ul>
-	 * <li>Correspond au <code>mapping-file</code> element 
-	 * dans un persistence.xml.</li>
-	 * <li>Sans Objet lorsque l'on utilise des Entities JPA 
-	 * <b>annotées</b>.</li>
-	 * </ul>
+	* setter de la liste des <b>noms qualifiés des 
+	* fichiers de Mapping (orm.xml)</b> des Entities JPA 
+	* mappées pour management 
+	* par JPA dans un persistence.xml.<br/>
+	* <ul>
+	* <li>optionnel si on utilise les annotations 
+	* sur les classes Entities.</li>
+	* <li>Correspond au <code>mapping-file</code> element 
+	* dans un persistence.xml.</li>
+	* <li>un orm.xml prévaut toujours sur les annotations 
+	* lorsque l'on utilise des Entities JPA 
+	* <b>annotées</b>.</li>
+	* </ul>
 	*
 	* @param pMappingFileNames : List&lt;String&gt; : 
 	* valeur à passer à this.mappingFileNames.<br/>
@@ -866,6 +951,9 @@ public class MutablePersistenceUnitInfoJPASpringSansXML
 	public void setMappingFileNames(
 			final List<String> pMappingFileNames) {
 		this.mappingFileNames = pMappingFileNames;
+		for (final String mappingFileName : this.mappingFileNames) {
+			super.addMappingFileName(mappingFileName);
+		}
 	} // Fin de setMappingFileNames(...).__________________________________
 
 
@@ -877,6 +965,7 @@ public class MutablePersistenceUnitInfoJPASpringSansXML
 	public void addJarFileUrl(
 			final URL pJarFileUrl) {
 		this.jarFileUrls.add(pJarFileUrl);
+		super.addJarFileUrl(pJarFileUrl);
 	} // Fin de  addJarFileUrl(...)._______________________________________
 	
 
@@ -908,9 +997,15 @@ public class MutablePersistenceUnitInfoJPASpringSansXML
 		if (pJarFileUrls == null) {
 			this.jarFileUrls = Collections.emptyList(); 
 		} else {
+			
 			this.jarFileUrls = pJarFileUrls;
+			
+			for (final URL jarFileUrl : this.jarFileUrls) {
+				super.addJarFileUrl(jarFileUrl);
+			}
+			
 		}
-		
+				
 	} // Fin de setJarFileUrls(...)._______________________________________
 
 
@@ -937,6 +1032,7 @@ public class MutablePersistenceUnitInfoJPASpringSansXML
 	public void setPersistenceUnitRootUrl(
 			@Nullable final URL pPersistenceUnitRootUrl) {
 		this.persistenceUnitRootUrl = pPersistenceUnitRootUrl;
+		super.setPersistenceUnitRootUrl(this.persistenceUnitRootUrl);
 	} // Fin de setPersistenceUnitRootUrl(...).____________________________
 	
 
@@ -948,6 +1044,7 @@ public class MutablePersistenceUnitInfoJPASpringSansXML
 	public void addManagedClassName(
 			final String pManagedClassName) {
 		this.managedClassNames.add(pManagedClassName);
+		super.addManagedClassName(pManagedClassName);
 	} // Fin de addManagedClassName(...).__________________________________
 
 
@@ -969,8 +1066,11 @@ public class MutablePersistenceUnitInfoJPASpringSansXML
 	* <ul>
 	* <li>Correspond au <code>class</code> element 
 	* dans un persistence.xml.</li>
+	* <li>par exemple : <br/>
+	* <i>"levy.daniel.application.model.persistence.metier
+	* .contactsimple.entities.jpa.ContactSimpleEntityJPA"</i></li>
 	* <li>Sans Objet lorsque l'on utilise des Entities JPA 
-	* <b>annotées</b>.</li>
+	* <b>annotées</b> découvertes par JPA.</li>
 	* </ul>
 	*
 	* @param pManagedClassNames : List&lt;String&gt; : 
@@ -978,7 +1078,16 @@ public class MutablePersistenceUnitInfoJPASpringSansXML
 	*/
 	public void setManagedClassNames(
 			final List<String> pManagedClassNames) {
-		this.managedClassNames = pManagedClassNames;
+		
+		if (pManagedClassNames == null) {
+			this.managedClassNames = new LinkedList<String>();
+		} else {
+			this.managedClassNames = pManagedClassNames;
+			for (final String managedClassName : this.managedClassNames) {
+				super.addManagedClassName(managedClassName);
+			}
+		}
+		
 	} // Fin de setManagedClassNames(...)._________________________________
 
 		
@@ -996,6 +1105,7 @@ public class MutablePersistenceUnitInfoJPASpringSansXML
 	public void addManagedPackage(
 			final String pPackageName) {
 		this.managedPackages.add(pPackageName);
+		super.addManagedPackage(pPackageName);
 	} // Fin de addManagedPackage(...).____________________________________
 
 	
@@ -1007,6 +1117,28 @@ public class MutablePersistenceUnitInfoJPASpringSansXML
 	public List<String> getManagedPackages() {
 		return this.managedPackages;
 	} // Fin de getManagedPackages().______________________________________
+
+
+	
+	/**
+	* .
+	*
+	* @param pManagedPackages : List&lt;String&gt; : 
+	* valeur à passer à this.managedPackages.<br/>
+	*/
+	public final void setManagedPackages(
+			final List<String> pManagedPackages) {
+		
+		if (pManagedPackages == null) {
+			this.managedPackages = new LinkedList<String>();
+		} else {
+			this.managedPackages = pManagedPackages;
+			for (final String managedPackage : this.managedPackages) {
+				super.addManagedPackage(managedPackage);
+			}
+		}
+		
+	} // Fin de setManagedPackages(...).___________________________________
 
 
 
@@ -1055,6 +1187,7 @@ public class MutablePersistenceUnitInfoJPASpringSansXML
 	public void setExcludeUnlistedClasses(
 			final boolean pExcludeUnlistedClasses) {
 		this.excludeUnlistedClasses = pExcludeUnlistedClasses;
+		super.setExcludeUnlistedClasses(this.excludeUnlistedClasses);
 	} // Fin de setExcludeUnlistedClasses(...).____________________________
 
 
@@ -1090,6 +1223,7 @@ public class MutablePersistenceUnitInfoJPASpringSansXML
 		} else {
 			this.sharedCacheMode = pSharedCacheMode;
 		}
+		super.setSharedCacheMode(this.sharedCacheMode);
 				
 	} // Fin de setSharedCacheMode(...).___________________________________
 
@@ -1125,6 +1259,7 @@ public class MutablePersistenceUnitInfoJPASpringSansXML
 		} else {
 			this.validationMode = pValidationMode;
 		}
+		super.setValidationMode(this.validationMode);
 				
 	} // Fin de setValidationMode(...).____________________________________
 
@@ -1137,9 +1272,8 @@ public class MutablePersistenceUnitInfoJPASpringSansXML
 	public void addProperty(
 			final String pName, final String pValue) {
 		
-		if (this.properties != null) {
-			this.properties.setProperty(pName, pValue);
-		}
+		this.properties.setProperty(pName, pValue);
+		super.addProperty(pName, pValue);
 		
 	} // Fin de addProperty(...).__________________________________________
 
@@ -1177,7 +1311,14 @@ public class MutablePersistenceUnitInfoJPASpringSansXML
 	@Override
 	public void setProperties(
 			final Properties pProperties) {
-		this.properties = pProperties;
+		
+		if (pProperties == null) {
+			this.properties = new Properties();
+		} else {
+			this.properties = pProperties;
+		}		
+		super.setProperties(this.properties);
+		
 	} // Fin de setProperties(...).________________________________________
 
 
@@ -1209,8 +1350,11 @@ public class MutablePersistenceUnitInfoJPASpringSansXML
 		if (pPersistenceXMLSchemaVersion == null) {
 			this.persistenceXMLSchemaVersion = JPA_VERSION;
 		} else {
-			this.persistenceXMLSchemaVersion = pPersistenceXMLSchemaVersion;
+			this.persistenceXMLSchemaVersion 
+				= pPersistenceXMLSchemaVersion;
 		}
+		super.setPersistenceXMLSchemaVersion(
+				this.persistenceXMLSchemaVersion);
 		
 	} // Fin de setPersistenceXMLSchemaVersion(...)._______________________
 
@@ -1233,7 +1377,13 @@ public class MutablePersistenceUnitInfoJPASpringSansXML
 	@Override
 	public void setPersistenceProviderPackageName(
 			@Nullable final String pPersistenceProviderPackageName) {
-		this.persistenceProviderPackageName = pPersistenceProviderPackageName;
+		
+		this.persistenceProviderPackageName 
+				= pPersistenceProviderPackageName;
+		
+		super.setPersistenceProviderPackageName(
+				this.persistenceProviderPackageName);
+		
 	} // Fin de setPersistenceProviderPackageName(...).____________________
 
 
@@ -1265,8 +1415,11 @@ public class MutablePersistenceUnitInfoJPASpringSansXML
 			final ClassLoader pClassLoader) {
 		
 		if (pClassLoader == null) {
+			
+			/* Thread.currentThread().getContextClassLoader();*/
 			this.classLoader 
-				= Thread.currentThread().getContextClassLoader();
+				= ClassUtils.getDefaultClassLoader();
+			
 		} else {
 			this.classLoader = pClassLoader;
 		}

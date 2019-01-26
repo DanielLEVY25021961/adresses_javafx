@@ -1,7 +1,13 @@
 package levy.daniel.application.model.utilitaires.spring.configurateurpersistencespring;
 
+import java.net.URL;
 import java.sql.Driver;
+import java.util.LinkedList;
+import java.util.List;
+import java.util.Properties;
 
+import javax.persistence.SharedCacheMode;
+import javax.persistence.ValidationMode;
 import javax.persistence.spi.PersistenceUnitTransactionType;
 
 import org.apache.commons.logging.Log;
@@ -85,7 +91,72 @@ public class LecteurPropertiesSpring {
 	 */
 	public static final String METHODE_LIRE_PASSWORD 
 		= "Méthode lirePassword()";
+	
+	/**
+	 * "Méthode lireDialect()".
+	 */
+	public static final String METHODE_LIRE_DIALECT 
+		= "Méthode lireDialect()";
 
+	/**
+	 * "Méthode lireShowSql()".
+	 */
+	public static final String METHODE_LIRE_SHOWSQL 
+		= "Méthode lireShowSql()";
+	
+	/**
+	 * "Méthode lireFormatSql()".
+	 */
+	public static final String METHODE_LIRE_FORMATSQL 
+		= "Méthode lireFormatSql()";
+	
+	/**
+	 * "Méthode lireUseSqlComments".
+	 */
+	public static final String METHODE_LIRE_USESQLCOMMENTS 
+		= "Méthode lireUseSqlComments";
+	
+	/**
+	 * "Méthode lireGenerateStatistics()".
+	 */
+	public static final String METHODE_LIRE_GENERATESTATISTICS 
+		= "Méthode lireGenerateStatistics()";
+	
+	/**
+	 * "Méthode lireNoCacheProviderClass()".
+	 */
+	public static final String METHODE_LIRE_NOCACHEPROVIDERCLASS 
+		= "Méthode lireNoCacheProviderClass()";
+	
+	/**
+	 * "Méthode lireCacheProviderClass()".
+	 */
+	public static final String METHODE_LIRE_CACHEPROVIDERCLASS 
+		= "Méthode lireCacheProviderClass()";
+	
+	/**
+	 * "Méthode lireCacheUseSecondLevelCache()".
+	 */
+	public static final String METHODE_LIRE_CACHEUSESECONDLEVELCACHE 
+		= "Méthode lireCacheUseSecondLevelCache()";
+	
+	/**
+	 * "Méthode lireCacheUseQueryCache()".
+	 */
+	public static final String METHODE_LIRE_CACHEUSEQUERYCACHE 
+		= "Méthode lireCacheUseQueryCache()";
+	
+	/**
+	 * "Méthode lireResourceCache()".
+	 */
+	public static final String METHODE_LIRE_RESOURCECACHE 
+		= "Méthode lireResourceCache()";
+	
+	/**
+	 * "environmentSpring NON INJECTE !!!".
+	 */
+	public static final String ENVT_SPRING_NON_INJECTE 
+		= "environmentSpring NON INJECTE !!!";
 	
 	/**
 	 * ';'.<br/>
@@ -109,6 +180,7 @@ public class LecteurPropertiesSpring {
 	
 	/**
 	 * saut de ligne de la plateforme.<br/>
+	 * System.getProperty("line.separator")
 	 */
 	public static final String SAUT_LIGNE_PLATEFORME 
 		= System.getProperty("line.separator");
@@ -127,17 +199,23 @@ public class LecteurPropertiesSpring {
 	
 	/**
 	 * conteneur de type 
-	 * <code>javax.persistence.spi.PersistenceUnitInfo</code> 
+	 * <code>org.springframework.orm.jpa.persistenceunit.MutablePersistenceUnitInfo</code> 
 	 * pour les valeurs lues dans le properties 
 	 * de configuration indiqué dans l'annotation 
 	 * PropertySource au dessus de la présente classe.
 	 */
-	public PersistenceUnitInfoJPASansXML persistenceUnitInfoJPASansXML 
-		= new PersistenceUnitInfoJPASansXML();
+	public MutablePersistenceUnitInfoJPASpringSansXML persistenceUnitInfoJPASansXML 
+		= new MutablePersistenceUnitInfoJPASpringSansXML();
 
 	/**
 	 * URL de la BASE.
 	 * <ul>
+	 * <li>stocké dans l'objet <b>DataSource</b> 
+	 * (this.jtaDataSource ou this.nonJtaDataSource) du conteneur 
+	 * <code>this.persistenceUnitInfoJPASansXML</code></b> 
+	 * après lecture du properties 
+	 * de configuration indiqué dans l'annotation 
+	 * PropertySource au dessus de la présente classe.</li>
 	 * <li>clé : 
 	 * <code>javax.persistence.jdbc.connexion.url</code> 
 	 * dans le fichier properties SPRING</li>
@@ -153,6 +231,12 @@ public class LecteurPropertiesSpring {
 	/**
 	 * DRIVER de la BASE.
 	 * <ul>
+	 * <li>stocké dans l'objet <b>DataSource</b> 
+	 * (this.jtaDataSource ou this.nonJtaDataSource) du conteneur 
+	 * <code>this.persistenceUnitInfoJPASansXML</code></b> 
+	 * après lecture du properties 
+	 * de configuration indiqué dans l'annotation 
+	 * PropertySource au dessus de la présente classe.</li>
 	 * <li>clé : 
 	 * <code>javax.persistence.jdbc.driver</code> 
 	 * dans le fichier properties SPRING</li>
@@ -168,6 +252,12 @@ public class LecteurPropertiesSpring {
 	/**
 	 * LOGIN de la BASE.
 	 * <ul>
+	 * <li>stocké dans l'objet <b>DataSource</b> 
+	 * (this.jtaDataSource ou this.nonJtaDataSource) du conteneur 
+	 * <code>this.persistenceUnitInfoJPASansXML</code></b> 
+	 * après lecture du properties 
+	 * de configuration indiqué dans l'annotation 
+	 * PropertySource au dessus de la présente classe.</li>
 	 * <li>clé : 
 	 * <code>javax.persistence.jdbc.connection.username</code> 
 	 * dans le fichier properties SPRING</li>
@@ -183,6 +273,12 @@ public class LecteurPropertiesSpring {
 	/**
 	 * MOT DE PASSE de la BASE.
 	 * <ul>
+	 * <li>stocké dans l'objet <b>DataSource</b> 
+	 * (this.jtaDataSource ou this.nonJtaDataSource) du conteneur 
+	 * <code>this.persistenceUnitInfoJPASansXML</code></b> 
+	 * après lecture du properties 
+	 * de configuration indiqué dans l'annotation 
+	 * PropertySource au dessus de la présente classe.</li>
 	 * <li>clé : 
 	 * <code>javax.persistence.jdbc.connection.password</code> 
 	 * dans le fichier properties SPRING</li>
@@ -227,6 +323,510 @@ public class LecteurPropertiesSpring {
 	 * </ul>
 	 */
 	private SimpleDriverDataSource nonJtaDataSource;
+
+	/**
+	 * liste des <b>noms qualifiés des 
+	 * fichiers de Mapping (orm.xml)</b> des Entities JPA 
+	 * mappées pour management 
+	 * par JPA dans un persistence.xml.<br/>
+	 * <ul>
+	 * <li>valeur non lue dans le properties de configuration SPRING</li>
+	 * <li>optionnel si on utilise les annotations 
+	 * sur les classes Entities.</li>
+	 * <li>Correspond au <code>mapping-file</code> element 
+	 * dans un persistence.xml.</li>
+	 * <li>un orm.xml prévaut toujours sur les annotations 
+	 * lorsque l'on utilise des Entities JPA 
+	 * <b>annotées</b>.</li>
+	 * </ul>
+	 */
+	private List<String> mappingFileNames = new LinkedList<String>();
+	
+	/**
+	 * liste des URL des jar que l'ORM doit inspecter.<br/>
+	 * chaque URL Correspond au <code>jar-file</code> element 
+	 * dans un persistence.xml.<br/>
+	 * <ul>
+	 * <li>valeur non lue dans le properties de configuration SPRING</li>
+	 * </ul>
+	 */
+	private List<URL> jarFileUrls = new LinkedList<URL>();
+	
+	/**
+	 * URL référençant un jar ou un répertoire <b>racine</b> 
+	 * de l'unité de persistence.
+	 * <ul>
+	 * <li>valeur non lue dans le properties de configuration SPRING</li>
+	 * </ul>
+	 */
+	private URL persistenceUnitRootUrl;
+	
+	/**
+	 * liste des <b>noms qualifiés</b> des 
+	 * classes Entities JPA mappées pour management 
+	 * par JPA dans un persistence.xml.<br/>
+	 * <ul>
+	 * <li>valeur non lue dans le properties de configuration SPRING</li>
+	 * <li>Correspond au <code>class</code> element 
+	 * dans un persistence.xml.</li>
+	 * <li>par exemple : <br/>
+	 * <i>"levy.daniel.application.model.persistence.metier
+	 * .contactsimple.entities.jpa.ContactSimpleEntityJPA"</i></li>
+	 * <li>Sans Objet lorsque l'on utilise des Entities JPA 
+	 * <b>annotées</b> découvertes par JPA.</li>
+	 * </ul>
+	 */
+	private List<String> managedClassNames = new LinkedList<String>();
+	
+	/**
+	 * liste des <b>noms qualifiés</b> des 
+	 * packages d'Entities JPA mappées pour management 
+	 * par JPA dans un persistence.xml.<br/>
+	 * <ul>
+	 * <li>valeur non lue dans le properties de configuration SPRING</li>
+	 * <li>INUTILISE.</li>
+	 * </ul>
+	 */
+	private List<String> managedPackages = new LinkedList<String>();
+	
+	/**
+	 * boolean qui stipule que l'ORM ne doit manager 
+	 * que les classes Entities JPA listées dans le persistence.xml 
+	 * si il est à true.<br/>
+	 * <ul>
+	 * <li>valeur non lue dans le properties de configuration SPRING</li>
+	 * <li>correspond au <code>exclude-unlisted-classes</code> 
+	 * element dans un persistence.xml</li>
+	 * <li>toujours false si on utilise les classes annotées. </li>
+	 * </ul>
+	 */
+	private boolean excludeUnlistedClasses;
+	
+	/**
+	 * mode d'utilisation du cache de 2nd niveau par l'ORM.
+	 * <ul>
+	 * <li>valeur non lue dans le properties de configuration SPRING</li>
+	 * <li>correspond au <code>shared-cache-mode</code> 
+	 * element dans un persistence.xml</li>
+	 * <li><code>javax.persistence.sharedCache.mode</code> 
+	* dans l'EntityManagerFactory.</li>
+	 * </ul>
+	 */
+	private SharedCacheMode sharedCacheMode = SharedCacheMode.UNSPECIFIED;
+	
+	/**
+	 * mode de validation utilisé par l'ORM.
+	 * <ul>
+	 * <li>valeur non lue dans le properties de configuration SPRING</li>
+	 * <li>correspond au <code>validation-mode</code> element 
+	 * dans un persistence.xml</li>
+	 * </ul>
+	 */
+	private ValidationMode validationMode = ValidationMode.AUTO;
+	
+	/**
+	 * "2.1"
+	 */
+	public static final String JPA_VERSION = "2.1";
+
+	/**
+	 * version de JPA utilisée dans le persistence.xml (2.1, 3.0, ...).
+	 * <ul>
+	 * <li>valeur non lue dans le properties de configuration SPRING</li>
+	 * <li>correspond à l'attribut <code>version</code> de l'element
+	 * racine <code>persistence</code> 
+	 * dans un persistence.xml</li>
+	 * </ul>
+	 */
+	private String persistenceXMLSchemaVersion = JPA_VERSION;
+
+	/**
+	 * nom qualifié du package du PROVIDER de persistence (Hibernate).
+	 * <ul>
+	 * <li>valeur non lue dans le properties de configuration SPRING</li>
+	 * </ul>
+	 */
+	private String persistenceProviderPackageName;
+	
+	/**
+	 * DIALECTE utilisé par le PROVIDER pour la BASE.<br/>
+	 * par exemple : "org.hibernate.dialect.H2Dialect" 
+	 * pour un PROVIDER HIBERNATE et une base H2.
+	 * <ul>
+	 * <li>stocké dans l'objet <b>properties</b> du conteneur 
+	 * <code>this.persistenceUnitInfoJPASansXML</code></b> 
+	 * après lecture du properties 
+	 * de configuration indiqué dans l'annotation 
+	 * PropertySource au dessus de la présente classe.</li>
+	 * <li>clé : 
+	 * <code>spring.jpa.properties.hibernate.dialect</code> 
+	 * dans le fichier properties SPRING</li>
+	 * <li>clé : property nommée <code>hibernate.dialect</code> 
+	 * dans un persistence.xml préconisé par JPA</li>
+	 * <li>clé : <code>hibernate.dialect</code> 
+	 * dans un EntityManagerFactory créé par le 
+	 * PersistenceProvider HIBERNATE</li>
+	 * </ul>
+	 */
+	private String dialect;
+
+	/**
+	 * boolean (sous forme String) qui stipule si le PROVIDER 
+	 * doit afficher les requêtes SQL.<br/>
+	 * <ul>
+	 * <li>stocké dans l'objet <b>properties</b> du conteneur 
+	 * <code>this.persistenceUnitInfoJPASansXML</code></b> 
+	 * après lecture du properties 
+	 * de configuration indiqué dans l'annotation 
+	 * PropertySource au dessus de la présente classe.</li>
+	 * <li>clé : 
+	 * <code>spring.jpa.properties.hibernate.show_sql</code> 
+	 * dans le fichier properties SPRING</li>
+	 * <li>clé : property nommée <code>hibernate.show_sql</code> 
+	 * dans un persistence.xml préconisé par JPA</li>
+	 * <li>clé : <code>hibernate.show_sql</code> 
+	 * dans un EntityManagerFactory créé par le 
+	 * PersistenceProvider HIBERNATE</li>
+	 * </ul>
+	 */
+	private String showSql;
+
+	/**
+	 * boolean (sous forme String) qui stipule si le PROVIDER 
+	 * doit formater les requêtes SQL.<br/>
+	 * <ul>
+	 * <li>stocké dans l'objet <b>properties</b> du conteneur 
+	 * <code>this.persistenceUnitInfoJPASansXML</code></b> 
+	 * après lecture du properties 
+	 * de configuration indiqué dans l'annotation 
+	 * PropertySource au dessus de la présente classe.</li>
+	 * <li>clé : 
+	 * <code>spring.jpa.properties.hibernate.format_sql</code> 
+	 * dans le fichier properties SPRING</li>
+	 * <li>clé : property nommée <code>hibernate.format_sql</code> 
+	 * dans un persistence.xml préconisé par JPA</li>
+	 * <li>clé : <code>hibernate.format_sql</code> 
+	 * dans un EntityManagerFactory créé par le 
+	 * PersistenceProvider HIBERNATE</li>
+	 * </ul>
+	 */
+	private String formatSql;
+	
+	/**
+	 * boolean (sous forme String) qui stipule si le PROVIDER 
+	 * doit commenter les requêtes SQL.<br/>
+	 * <ul>
+	 * <li>stocké dans l'objet <b>properties</b> du conteneur 
+	 * <code>this.persistenceUnitInfoJPASansXML</code></b> 
+	 * après lecture du properties 
+	 * de configuration indiqué dans l'annotation 
+	 * PropertySource au dessus de la présente classe.</li>
+	 * <li>clé : 
+	 * <code>spring.jpa.properties.hibernate.use_sql_comments</code> 
+	 * dans le fichier properties SPRING</li>
+	 * <li>clé : property nommée <code>hibernate.use_sql_comments</code> 
+	 * dans un persistence.xml préconisé par JPA</li>
+	 * <li>clé : <code>hibernate.use_sql_comments</code> 
+	 * dans un EntityManagerFactory créé par le 
+	 * PersistenceProvider HIBERNATE</li>
+	 * </ul>
+	 */
+	private String useSqlComments;
+
+	/**
+	 * boolean (sous forme String) qui stipule si le PROVIDER 
+	 * doit générer des statistiques.<br/>
+	 * <ul>
+	 * <li>stocké dans l'objet <b>properties</b> du conteneur 
+	 * <code>this.persistenceUnitInfoJPASansXML</code></b> 
+	 * après lecture du properties 
+	 * de configuration indiqué dans l'annotation 
+	 * PropertySource au dessus de la présente classe.</li>
+	 * <li>clé : 
+	 * <code>spring.jpa.properties.hibernate.generate_statistics</code> 
+	 * dans le fichier properties SPRING</li>
+	 * <li>clé : property nommée <code>hibernate.generate_statistics</code> 
+	 * dans un persistence.xml préconisé par JPA</li>
+	 * <li>clé : <code>hibernate.generate_statistics</code> 
+	 * dans un EntityManagerFactory créé par le 
+	 * PersistenceProvider HIBERNATE</li>
+	 * </ul>
+	 */
+	private String generateSatistics;
+	
+	/**
+	 * <b>nom qualifié de la classe de non-cache de 2nd niveau.</b>.
+	 * <ul>
+	 * <li>stocké dans l'objet <b>properties</b> du conteneur 
+	 * <code>this.persistenceUnitInfoJPASansXML</code></b> 
+	 * après lecture du properties 
+	 * de configuration indiqué dans l'annotation 
+	 * PropertySource au dessus de la présente classe.</li>
+	 * <li>clé : 
+	 * <code>spring.jpa.properties.cache.NoCacheProvider</code> 
+	 * dans le fichier properties SPRING</li>
+	 * <li>clé : property nommée <code>cache.provider_class</code> 
+	 * dans un persistence.xml préconisé par JPA</li>
+	 * <li>clé : <code>cache.provider_class</code> 
+	 * dans un EntityManagerFactory créé par le 
+	 * PersistenceProvider HIBERNATE</li>
+	 * </ul>
+	 */
+	private String noCacheProviderClass;
+	
+	/**
+	 * <b>nom qualifié de la classe de cache de 2nd niveau.</b>.
+	 * <ul>
+	 * <li>stocké dans l'objet <b>properties</b> du conteneur 
+	 * <code>this.persistenceUnitInfoJPASansXML</code></b> 
+	 * après lecture du properties 
+	 * de configuration indiqué dans l'annotation 
+	 * PropertySource au dessus de la présente classe.</li>
+	 * <li>clé : 
+	 * <code>spring.jpa.properties.cache.provider_class</code> 
+	 * dans le fichier properties SPRING</li>
+	 * <li>clé : property nommée <code>cache.provider_class</code> 
+	 * dans un persistence.xml préconisé par JPA</li>
+	 * <li>clé : <code>cache.provider_class</code> 
+	 * dans un EntityManagerFactory créé par le 
+	 * PersistenceProvider HIBERNATE</li>
+	 * </ul>
+	 */
+	private String cacheProviderClass;
+	
+	/**
+	 * boolean (sous forme String) qui stipule si le PROVIDER 
+	 * doit utiliser le cache de second niveau.<br/>
+	 * <ul>
+	 * <li>stocké dans l'objet <b>properties</b> du conteneur 
+	 * <code>this.persistenceUnitInfoJPASansXML</code></b> 
+	 * après lecture du properties 
+	 * de configuration indiqué dans l'annotation 
+	 * PropertySource au dessus de la présente classe.</li>
+	 * <li>clé : 
+	 * <code>spring.jpa.properties.cache.use_second_level_cache</code> 
+	 * dans le fichier properties SPRING</li>
+	 * <li>clé : property nommée <code>cache.use_second_level_cache</code> 
+	 * dans un persistence.xml préconisé par JPA</li>
+	 * <li>clé : <code>cache.use_second_level_cache</code> 
+	 * dans un EntityManagerFactory créé par le 
+	 * PersistenceProvider HIBERNATE</li>
+	 * </ul>
+	 */
+	private String cacheUseSecondLevelCache;
+	
+	/**
+	 * boolean (sous forme String) qui stipule si le PROVIDER 
+	 * doit utiliser le cache de requête de second niveau.<br/>
+	 * <ul>
+	 * <li>stocké dans l'objet <b>properties</b> du conteneur 
+	 * <code>this.persistenceUnitInfoJPASansXML</code></b> 
+	 * après lecture du properties 
+	 * de configuration indiqué dans l'annotation 
+	 * PropertySource au dessus de la présente classe.</li>
+	 * <li>clé : 
+	 * <code>spring.jpa.properties.cache.use_query_cache</code> 
+	 * dans le fichier properties SPRING</li>
+	 * <li>clé : property nommée <code>cache.use_query_cache</code> 
+	 * dans un persistence.xml préconisé par JPA</li>
+	 * <li>clé : <code>cache.use_query_cache</code> 
+	 * dans un EntityManagerFactory créé par le 
+	 * PersistenceProvider HIBERNATE</li>
+	 * </ul>
+	 */
+	private String cacheUseQueryCache;
+	
+	/**
+	 * chemin qualifié du fichier déclaratif du cache de 2nd niveau (ehcache.xml).
+	 * <ul>
+	 * <li>stocké dans l'objet <b>properties</b> du conteneur 
+	 * <code>this.persistenceUnitInfoJPASansXML</code></b> 
+	 * après lecture du properties 
+	 * de configuration indiqué dans l'annotation 
+	 * PropertySource au dessus de la présente classe.</li>
+	 * <li>clé : 
+	 * <code>net.sf.ehcache.configurationResourcename</code> 
+	 * dans le fichier properties SPRING</li>
+	 * <li>clé : property nommée <code>net.sf.ehcache.configurationResourcename</code> 
+	 * dans un persistence.xml préconisé par JPA</li>
+	 * <li>clé : <code>net.sf.ehcache.configurationResourcename</code> 
+	 * dans un EntityManagerFactory créé par le 
+	 * PersistenceProvider HIBERNATE</li>
+	 * </ul>
+	 */
+	private String resourceCache;
+
+	/**
+	 * Taille minimale du pool de connexion.
+	 * <ul>
+	 * <li>stocké dans l'objet <b>properties</b> du conteneur 
+	 * <code>this.persistenceUnitInfoJPASansXML</code></b> 
+	 * après lecture du properties 
+	 * de configuration indiqué dans l'annotation 
+	 * PropertySource au dessus de la présente classe.</li>
+	 * <li>clé : 
+	 * <code>spring.jpa.properties.hibernate.c3p0.min_size</code> 
+	 * dans le fichier properties SPRING</li>
+	 * <li>clé : property nommée <code>hibernate.c3p0.min_size</code> 
+	 * dans un persistence.xml préconisé par JPA</li>
+	 * <li>clé : <code>hibernate.c3p0.min_size</code> 
+	 * dans un EntityManagerFactory créé par le 
+	 * PersistenceProvider HIBERNATE</li>
+	 * </ul>
+	 */
+	private String poolMinSize;
+	
+	/**
+	 * Taille maximale du pool de connexion.
+	 * <ul>
+	 * <li>stocké dans l'objet <b>properties</b> du conteneur 
+	 * <code>this.persistenceUnitInfoJPASansXML</code></b> 
+	 * après lecture du properties 
+	 * de configuration indiqué dans l'annotation 
+	 * PropertySource au dessus de la présente classe.</li>
+	 * <li>clé : 
+	 * <code>spring.jpa.properties.hibernate.c3p0.max_size</code> 
+	 * dans le fichier properties SPRING</li>
+	 * <li>clé : property nommée <code>hibernate.c3p0.max_size</code> 
+	 * dans un persistence.xml préconisé par JPA</li>
+	 * <li>clé : <code>hibernate.c3p0.max_size</code> 
+	 * dans un EntityManagerFactory créé par le 
+	 * PersistenceProvider HIBERNATE</li>
+	 * </ul>
+	 */
+	private String poolMaxSize;
+	
+	/**
+	 * Timeout du pool de connexion.
+	 * <ul>
+	 * <li>stocké dans l'objet <b>properties</b> du conteneur 
+	 * <code>this.persistenceUnitInfoJPASansXML</code></b> 
+	 * après lecture du properties 
+	 * de configuration indiqué dans l'annotation 
+	 * PropertySource au dessus de la présente classe.</li>
+	 * <li>clé : 
+	 * <code>spring.jpa.properties.hibernate.c3p0.timeout</code> 
+	 * dans le fichier properties SPRING</li>
+	 * <li>clé : property nommée <code>hibernate.c3p0.timeout</code> 
+	 * dans un persistence.xml préconisé par JPA</li>
+	 * <li>clé : <code>hibernate.c3p0.timeout</code> 
+	 * dans un EntityManagerFactory créé par le 
+	 * PersistenceProvider HIBERNATE</li>
+	 * </ul>
+	 */
+	private String poolTimeOut;
+	
+	/**
+	 * ??? du pool de connexion.
+	 * <ul>
+	 * <li>stocké dans l'objet <b>properties</b> du conteneur 
+	 * <code>this.persistenceUnitInfoJPASansXML</code></b> 
+	 * après lecture du properties 
+	 * de configuration indiqué dans l'annotation 
+	 * PropertySource au dessus de la présente classe.</li>
+	 * <li>clé : 
+	 * <code>spring.jpa.properties.hibernate.c3p0.max_statements</code> 
+	 * dans le fichier properties SPRING</li>
+	 * <li>clé : property nommée <code>hibernate.c3p0.max_statements</code> 
+	 * dans un persistence.xml préconisé par JPA</li>
+	 * <li>clé : <code>hibernate.c3p0.max_statements</code> 
+	 * dans un EntityManagerFactory créé par le 
+	 * PersistenceProvider HIBERNATE</li>
+	 * </ul>
+	 */
+	private String poolMaxStatements;
+	
+	/**
+	 * ??? du pool de connexion.
+	 * <ul>
+	 * <li>stocké dans l'objet <b>properties</b> du conteneur 
+	 * <code>this.persistenceUnitInfoJPASansXML</code></b> 
+	 * après lecture du properties 
+	 * de configuration indiqué dans l'annotation 
+	 * PropertySource au dessus de la présente classe.</li>
+	 * <li>clé : 
+	 * <code>spring.jpa.properties.hibernate.c3p0.idle_test_period</code> 
+	 * dans le fichier properties SPRING</li>
+	 * <li>clé : property nommée <code>hibernate.c3p0.idle_test_period</code> 
+	 * dans un persistence.xml préconisé par JPA</li>
+	 * <li>clé : <code>hibernate.c3p0.idle_test_period</code> 
+	 * dans un EntityManagerFactory créé par le 
+	 * PersistenceProvider HIBERNATE</li>
+	 * </ul>
+	 */
+	private String poolIdleTestPeriod;
+	
+	/**
+	 * boolean (sous forme String) qui stipule si SPRING 
+	 * doit générer le schéma de création de tables.<br/>
+	 * Interrupteur général exclusif à SPRING.<br/>
+	 * <ul>
+	 * <li>stocké dans l'objet <b>properties</b> du conteneur 
+	 * <code>this.persistenceUnitInfoJPASansXML</code></b> 
+	 * après lecture du properties 
+	 * de configuration indiqué dans l'annotation 
+	 * PropertySource au dessus de la présente classe.</li>
+	 * <li>clé : 
+	 * <code>spring.jpa.generate-ddl</code> 
+	 * dans le fichier properties SPRING</li>
+	 * </ul>
+	 */
+	private String generateDdl;
+	
+	/**
+	 * valeur qui stipule si le PROVIDER 
+	 * doit générer le schéma de création de tables.<br/>
+	 * <ul>
+	 * <li>stocké dans l'objet <b>properties</b> du conteneur 
+	 * <code>this.persistenceUnitInfoJPASansXML</code></b> 
+	 * après lecture du properties 
+	 * de configuration indiqué dans l'annotation 
+	 * PropertySource au dessus de la présente classe.</li>
+	 * <li>clé : 
+	 * <code>spring.jpa.properties.hibernate.ddl-auto</code> 
+	 * dans le fichier properties SPRING</li>
+	 * <li>clé : property nommée <code>hibernate.hbm2ddl.auto</code> 
+	 * dans un persistence.xml préconisé par JPA</li>
+	 * <li>clé : <code>hibernate.hbm2ddl.auto</code> 
+	 * dans un EntityManagerFactory créé par le 
+	 * PersistenceProvider HIBERNATE</li>
+	 * </ul>
+	 */
+	private String ddlAuto;
+	
+	/**
+	 * boolean (sous forme String) qui stipule si SPRING 
+	 * doit autoriser la console pour une base H2.<br/>
+	 * Interrupteur général exclusif à SPRING.<br/>
+	 * <ul>
+	 * <li>stocké dans l'objet <b>properties</b> du conteneur 
+	 * <code>this.persistenceUnitInfoJPASansXML</code></b> 
+	 * après lecture du properties 
+	 * de configuration indiqué dans l'annotation 
+	 * PropertySource au dessus de la présente classe.</li>
+	 * <li>clé : 
+	 * <code>spring.h2.console.enabled</code> 
+	 * dans le fichier properties SPRING</li>
+	 * </ul>
+	 */
+	private String springH2ConsoleEnabled;
+	
+	/**
+	 * valeur qui stipule pour SPRING 
+	 * le chemin de la console pour une base H2.<br/>
+	 * exclusif à SPRING.<br/>
+	 * <ul>
+	 * <li>stocké dans l'objet <b>properties</b> du conteneur 
+	 * <code>this.persistenceUnitInfoJPASansXML</code></b> 
+	 * après lecture du properties 
+	 * de configuration indiqué dans l'annotation 
+	 * PropertySource au dessus de la présente classe.</li>
+	 * <li>clé : 
+	 * <code>spring.h2.console.path</code> 
+	 * dans le fichier properties SPRING</li>
+	 * </ul>
+	 */
+	private String springH2ConsolePath;
 	
 	/**
 	 * "javax.persistence.jdbc.persistence-unit.name".
@@ -263,6 +863,66 @@ public class LecteurPropertiesSpring {
 	 */
 	public static final String PASSWORD_KEY 
 		= "javax.persistence.jdbc.connection.password";
+	
+	/**
+	 * "spring.jpa.properties.hibernate.dialect".
+	 */
+	public static final String DIALECT_KEY 
+		= "spring.jpa.properties.hibernate.dialect";
+
+	/**
+	 * "spring.jpa.properties.hibernate.show_sql".
+	 */
+	public static final String SHOWSQL_KEY 
+		= "spring.jpa.properties.hibernate.show_sql";
+	
+	/**
+	 * "spring.jpa.properties.hibernate.format_sql".
+	 */
+	public static final String FORMATSQL_KEY 
+		= "spring.jpa.properties.hibernate.format_sql";
+
+	/**
+	 * "spring.jpa.properties.hibernate.use_sql_comments".
+	 */
+	public static final String USESQLCOMMENTS_KEY 
+		= "spring.jpa.properties.hibernate.use_sql_comments";
+	
+	/**
+	 * "spring.jpa.properties.hibernate.generate_statistics".
+	 */
+	public static final String GENERATESTATISTICS_KEY 
+		= "spring.jpa.properties.hibernate.generate_statistics";
+	
+	/**
+	 * "spring.jpa.properties.cache.NoCacheProvider".
+	 */
+	public static final String NOCACHEPROVIDERCLASS_KEY 
+		= "spring.jpa.properties.cache.NoCacheProvider";
+	
+	/**
+	 * "spring.jpa.properties.cache.provider_class".
+	 */
+	public static final String CACHEPROVIDERCLASS_KEY 
+		= "spring.jpa.properties.cache.provider_class";
+	
+	/**
+	 * "spring.jpa.properties.cache.use_second_level_cache".
+	 */
+	public static final String CACHEUSESECONDLEVELCACHE_KEY 
+		= "spring.jpa.properties.cache.use_second_level_cache";
+	
+	/**
+	 * "spring.jpa.properties.cache.use_query_cache".
+	 */
+	public static final String CACHEUSEQUERYCACHE_KEY 
+		= "spring.jpa.properties.cache.use_query_cache";
+	
+	/**
+	 * "net.sf.ehcache.configurationResourcename".
+	 */
+	public static final String RESOURCECACHE_KEY 
+		= "net.sf.ehcache.configurationResourcename";
 	
 	/**
 	 * LOG : Log : 
@@ -326,16 +986,60 @@ public class LecteurPropertiesSpring {
 	 * <li>lit le nom de l'unité de persistence (persistenceUnitName).</li>
 	 * <li>lit le type de transaction (transactionType).</li>
 	 * <li>passe HIBERNATE pour SPRING comme PersistenceProvider.</li>
+	 * 
 	 * <li>lit l'URL de la base (url).</li>
 	 * <li>lit le DRIVER de la Base (driver).</li>
 	 * <li>lit le LOGIN de la Base (userName).</li>
 	 * <li>lit le PASSWORD de la Base (password).</li>
 	 * <li>ALIMENTE jtaDataSource et nonJtaDataSource.</li>
-	 * <li></li>
-	 * <li></li>
-	 * <li></li>
-	 * <li></li>
-	 * <li></li>
+	 * 
+	 * <li>passe une liste vide au CONTENEUR 
+	 * <code>this.persistenceUnitInfoJPASansXML</code> 
+	 * pour mapping-files.</li>
+	 * <li>passe une liste vide au CONTENEUR 
+	 * <code>this.persistenceUnitInfoJPASansXML</code> 
+	 * pour jarFileUrls.</li>
+	 * <li>passe null au CONTENEUR 
+	 * <code>this.persistenceUnitInfoJPASansXML</code> 
+	 * pour persistenceUnitRootUrl.</li>
+	 * <li>passe une liste vide au CONTENEUR 
+	 * <code>this.persistenceUnitInfoJPASansXML</code> 
+	 * pour managedClassNames.</li>
+	 * <li>passe une liste vide au CONTENEUR 
+	 * <code>this.persistenceUnitInfoJPASansXML</code> 
+	 * pour managedPackages.</li>
+	 * <li>passe false au CONTENEUR 
+	 * <code>this.persistenceUnitInfoJPASansXML</code> 
+	 * pour excludeUnlistedClasses.</li>
+	 * <li>passe UNSPECIFIED au CONTENEUR 
+	 * <code>this.persistenceUnitInfoJPASansXML</code> 
+	 * pour sharedCacheMode.</li>
+	 * <li>passe AUTO au CONTENEUR 
+	 * <code>this.persistenceUnitInfoJPASansXML</code> 
+	 * pour validationMode.</li>
+	 *<li>passe 2.1 au CONTENEUR 
+	 * <code>this.persistenceUnitInfoJPASansXML</code> 
+	 * pour persistenceXMLSchemaVersion.</li>
+	 * <li>passe null au CONTENEUR 
+	 * <code>this.persistenceUnitInfoJPASansXML</code> 
+	 * pour persistenceProviderPackageName.</li>
+	 * 
+	 * 
+	 * <li>lit le DIALECTE de la base (dialect).</li>
+	 * <li>lit le SHOW_SQL (showSql).</li>
+	 * <li>lit le FORMAT_SQL (formatSql).</li>
+	 * <li>lit le USE_SQL_COMMENTS (useSqlComments).</li>
+	 * <li>lit le GENERATE_STATISTICS (generateStatistics).</li>
+	 * <li>lit le NO_CACHE_PROVIDER_CLASS (noCacheProviderClass).</li>
+	 * <li>lit le CACHE_PROVIDER_CLASS (cacheProviderClass).</li>
+	 * <li>lit le CACHE-USE_SECOND_LEVEL_CACHE (cacheUseSecondLevelCache).</li>
+	 * <li>lit le CACHE-USE_QUERY_CACHE (cacheUseQueryCache).</li>
+	 * <li>lit le RESOURCE_CACHE (resourceCache).</li>
+	 * <li>lit les valeurs du Pool de connexion.</li>
+	 * <li>lit l'interrupteur generateDdl.</li>
+	 * <li>lit le DDL-AUTO (ddlAuto).</li>
+	 * <li>lit le springH2ConsoleEnabled.</li>
+	 * <li>lit le springH2ConsolePath.</li>
 	 * </ul>
 	 * </ul>
 	 */
@@ -368,6 +1072,102 @@ public class LecteurPropertiesSpring {
 		/* jtaDataSource et nonJtaDataSource. */
 		this.determinerTypeDataSource();
 		
+		/* mapping-files. */
+		this.persistenceUnitInfoJPASansXML
+			.setMappingFileNames(this.mappingFileNames);
+		
+		/* jarFileUrls. */
+		this.persistenceUnitInfoJPASansXML
+			.setJarFileUrls(this.jarFileUrls);
+		
+		/* persistenceUnitRootUrl. */
+		this.persistenceUnitInfoJPASansXML
+			.setPersistenceUnitRootUrl(this.persistenceUnitRootUrl);
+		
+		/* managedClassNames. */
+		this.persistenceUnitInfoJPASansXML
+			.setManagedClassNames(this.managedClassNames);
+		
+		/* managedPackages. */
+		this.persistenceUnitInfoJPASansXML
+			.setManagedPackages(this.managedPackages);
+		
+		/* excludeUnlistedClasses. */
+		this.persistenceUnitInfoJPASansXML
+			.setExcludeUnlistedClasses(this.excludeUnlistedClasses);
+		
+		/* sharedCacheMode. */
+		this.persistenceUnitInfoJPASansXML
+			.setSharedCacheMode(this.sharedCacheMode);
+		
+		/* validationMode. */
+		this.persistenceUnitInfoJPASansXML
+			.setValidationMode(this.validationMode);
+		
+		/* persistenceXMLSchemaVersion. */
+		this.persistenceUnitInfoJPASansXML
+			.setPersistenceXMLSchemaVersion(
+					this.persistenceXMLSchemaVersion);
+
+		/* persistenceProviderPackageName. */
+		this.persistenceUnitInfoJPASansXML
+			.setPersistenceProviderPackageName(
+					this.persistenceProviderPackageName);
+		
+		
+		
+		this.persistenceUnitInfoJPASansXML
+			.setProperties(new Properties());
+		
+		/* dialect. */
+		this.lireDialect();
+		
+		/* showSql. */
+		this.lireShowSql();
+		
+		/* formatSql. */
+		this.lireFormatSql();
+		
+		/* useSqlComments. */
+		this.lireUseSqlComments();
+		
+		/* generateStatistics. */
+		this.lireGenerateStatistics();
+		
+		/* noCacheProviderClass. */
+		this.lireNoCacheProviderClass();
+		
+		/* cacheProviderClass. */
+		this.lireCacheProviderClass();
+		
+		/* cacheUseSecondLevelCache. */
+		this.lireCacheUseSecondLevelCache();
+		
+		/* cacheUseQueryCache. */
+		this.lireCacheUseQueryCache();
+		
+		/* resourceCache. */
+		this.lireResourceCache();
+		
+		/* pool. */
+		this.lirePoolMinSize();
+		this.lirePoolMaxSize();
+		this.lirePoolTimeOut();
+		this.lirePoolMaxStatements();
+		this.lirePoolIdleTestPeriod();
+		
+		/* generateDdl. */
+		this.lireGenerateDdl();
+		
+		/* ddlAuto. */
+		this.lireDdlAuto();
+		
+		/* springH2ConsoleEnabled. */
+		this.lireSpringH2ConsoleEnabled();
+		
+		/* springH2ConsolePath. */
+		this.lireSpringH2ConsolePath();
+		
 	} // Fin de lireProperties().__________________________________________
 	
 
@@ -399,7 +1199,7 @@ public class LecteurPropertiesSpring {
 				+ TIRET_ESPACE
 				+ METHODE_LIRE_PERSISTENCE_UNIT_NAME
 				+ TIRET_ESPACE
-				+ "environmentSpring NON INJECTE !!!";
+				+ ENVT_SPRING_NON_INJECTE;
 			
 			if (LOG.isFatalEnabled()) {
 				LOG.fatal(message);
@@ -452,7 +1252,7 @@ public class LecteurPropertiesSpring {
 				+ TIRET_ESPACE
 				+ METHODE_LIRE_TRANSACTION_TYPE
 				+ TIRET_ESPACE
-				+ "environmentSpring NON INJECTE !!!";
+				+ ENVT_SPRING_NON_INJECTE;
 			
 			if (LOG.isFatalEnabled()) {
 				LOG.fatal(message);
@@ -525,7 +1325,7 @@ public class LecteurPropertiesSpring {
 				+ TIRET_ESPACE
 				+ METHODE_LIRE_URL
 				+ TIRET_ESPACE
-				+ "environmentSpring NON INJECTE !!!";
+				+ ENVT_SPRING_NON_INJECTE;
 			
 			if (LOG.isFatalEnabled()) {
 				LOG.fatal(message);
@@ -588,7 +1388,7 @@ public class LecteurPropertiesSpring {
 				+ TIRET_ESPACE
 				+ METHODE_LIRE_DRIVER
 				+ TIRET_ESPACE
-				+ "environmentSpring NON INJECTE !!!";
+				+ ENVT_SPRING_NON_INJECTE;
 			
 			if (LOG.isFatalEnabled()) {
 				LOG.fatal(message);
@@ -627,7 +1427,7 @@ public class LecteurPropertiesSpring {
 				+ TIRET_ESPACE
 				+ METHODE_LIRE_USERNAME
 				+ TIRET_ESPACE
-				+ "environmentSpring NON INJECTE !!!";
+				+ ENVT_SPRING_NON_INJECTE;
 			
 			if (LOG.isFatalEnabled()) {
 				LOG.fatal(message);
@@ -666,7 +1466,7 @@ public class LecteurPropertiesSpring {
 				+ TIRET_ESPACE
 				+ METHODE_LIRE_PASSWORD
 				+ TIRET_ESPACE
-				+ "environmentSpring NON INJECTE !!!";
+				+ ENVT_SPRING_NON_INJECTE;
 			
 			if (LOG.isFatalEnabled()) {
 				LOG.fatal(message);
@@ -686,6 +1486,8 @@ public class LecteurPropertiesSpring {
 	 * <ul>
 	 * <li>alimente <code>this.jtaDataSource</code> 
 	 * et <code>this.nonJtaDataSource</code>.</li>
+	 * <li>injecte les jtaDataSource et nonJtaDataSource 
+	 * dans le conteneur <code>this.persistenceUnitInfoJPASansXML</code>.</li>
 	 * <li>retourne une nonJtaDataSource alimentée en 
 	 * [driver, URL, userName, password] 
 	 * si transactionType == null.</li>
@@ -712,6 +1514,14 @@ public class LecteurPropertiesSpring {
 						, this.url
 						, this.userName, this.password);
 			
+			/* injecte les jtaDataSource et nonJtaDataSource 
+			 * dans le conteneur this.persistenceUnitInfoJPASansXML. */
+			this.persistenceUnitInfoJPASansXML
+				.setJtaDataSource(this.jtaDataSource);
+			
+			this.persistenceUnitInfoJPASansXML
+				.setNonJtaDataSource(this.nonJtaDataSource);
+			
 			return this.nonJtaDataSource;
 			
 		} else if (this.getTransactionType()
@@ -724,6 +1534,14 @@ public class LecteurPropertiesSpring {
 					, this.userName, this.password);
 			
 			this.nonJtaDataSource = null;
+			
+			/* injecte les jtaDataSource et nonJtaDataSource 
+			 * dans le conteneur this.persistenceUnitInfoJPASansXML. */
+			this.persistenceUnitInfoJPASansXML
+				.setJtaDataSource(this.jtaDataSource);
+			
+			this.persistenceUnitInfoJPASansXML
+				.setNonJtaDataSource(this.nonJtaDataSource);
 			
 			return this.jtaDataSource;
 			
@@ -738,17 +1556,1000 @@ public class LecteurPropertiesSpring {
 						, this.url
 						, this.userName, this.password);
 			
+			/* injecte les jtaDataSource et nonJtaDataSource 
+			 * dans le conteneur this.persistenceUnitInfoJPASansXML. */
+			this.persistenceUnitInfoJPASansXML
+				.setJtaDataSource(this.jtaDataSource);
+			
+			this.persistenceUnitInfoJPASansXML
+				.setNonJtaDataSource(this.nonJtaDataSource);
+			
 			return this.nonJtaDataSource;
 		}
 		
 		this.jtaDataSource = null;
 		this.nonJtaDataSource = null;
 		
+		/* injecte les jtaDataSource et nonJtaDataSource 
+		 * dans le conteneur this.persistenceUnitInfoJPASansXML. */
+		this.persistenceUnitInfoJPASansXML
+			.setJtaDataSource(this.jtaDataSource);
+		
+		this.persistenceUnitInfoJPASansXML
+			.setNonJtaDataSource(this.nonJtaDataSource);
+		
 		return null;
 		
 	} // Fin de determinerTypeDataSource().________________________________
 	
 
+	
+	/**
+	 * <b>lit la valeur du DIALECTE de BD dans le properties</b>.<br/>
+	 * injecte la valeur lue dans <code>this.dialect</code>.<br/>
+	 * <ul>
+	 * <li>ajoute la valeur lue dans la propriété correspondante 
+	 * du Property du CONTENEUR 
+	 * <code>persistenceUnitInfoJPASansXML</code>.</li>
+	 * <li>correspond à l'élément property nommé
+	 * <code>hibernate.dialect</code> (pour un provider HIBERNATE) 
+	 * dans un persistence.xml préconisé par JPA.</li>
+	 * </ul>
+	 *
+	 * @return : String : this.userName.<br/>
+	 */
+	private String lireDialect() {
+		
+		if (this.environmentSpring != null) {
+			
+			this.dialect 
+				= this.environmentSpring.getProperty(
+						DIALECT_KEY);
+			
+			/* ajout de la valeur dans le Property. */
+			this.persistenceUnitInfoJPASansXML
+				.addProperty("hibernate.dialect", this.dialect);
+			
+		} else {
+			
+			final String message 
+				= CLASSE_LECTEUR_PROPERTIES_SPRING 
+				+ TIRET_ESPACE
+				+ METHODE_LIRE_DIALECT
+				+ TIRET_ESPACE
+				+ ENVT_SPRING_NON_INJECTE;
+			
+			if (LOG.isFatalEnabled()) {
+				LOG.fatal(message);
+			}
+		}
+		
+		return this.dialect;
+		
+	} // Fin de lireDialect().____________________________________________
+	
+	
+	
+	/**
+	 * <b>lit la valeur SHOW_SQL dans le properties</b>.<br/>
+	 * injecte la valeur lue dans <code>this.showSql</code>.<br/>
+	 * <ul>
+	 * <li>ajoute la valeur lue dans la propriété correspondante 
+	 * du Property du CONTENEUR 
+	 * <code>persistenceUnitInfoJPASansXML</code>.</li>
+	 * <li>correspond à l'élément property nommé
+	 * <code>hibernate.show_sql</code> (pour un provider HIBERNATE) 
+	 * dans un persistence.xml préconisé par JPA.</li>
+	 * </ul>
+	 *
+	 * @return : String : this.showSql.<br/>
+	 */
+	private String lireShowSql() {
+		
+		if (this.environmentSpring != null) {
+			
+			this.showSql 
+				= this.environmentSpring.getProperty(
+						SHOWSQL_KEY);
+			
+			/* ajout de la valeur dans le Property. */
+			this.persistenceUnitInfoJPASansXML
+				.addProperty("hibernate.show_sql", this.showSql);
+			
+		} else {
+			
+			final String message 
+				= CLASSE_LECTEUR_PROPERTIES_SPRING 
+				+ TIRET_ESPACE
+				+ METHODE_LIRE_SHOWSQL
+				+ TIRET_ESPACE
+				+ ENVT_SPRING_NON_INJECTE;
+			
+			if (LOG.isFatalEnabled()) {
+				LOG.fatal(message);
+			}
+		}
+		
+		return this.showSql;
+		
+	} // Fin de lireShowSql()._____________________________________________
+	
+	
+	
+	/**
+	 * <b>lit la valeur FORMAT_SQL dans le properties</b>.<br/>
+	 * injecte la valeur lue dans <code>this.formatSql</code>.<br/>
+	 * <ul>
+	 * <li>ajoute la valeur lue dans la propriété correspondante 
+	 * du Property du CONTENEUR 
+	 * <code>persistenceUnitInfoJPASansXML</code>.</li>
+	 * <li>correspond à l'élément property nommé
+	 * <code>hibernate.format_sql</code> (pour un provider HIBERNATE) 
+	 * dans un persistence.xml préconisé par JPA.</li>
+	 * </ul>
+	 *
+	 * @return : String : this.showSql.<br/>
+	 */
+	private String lireFormatSql() {
+		
+		if (this.environmentSpring != null) {
+			
+			this.formatSql 
+				= this.environmentSpring.getProperty(
+						FORMATSQL_KEY);
+			
+			/* ajout de la valeur dans le Property. */
+			this.persistenceUnitInfoJPASansXML
+				.addProperty("hibernate.format_sql", this.formatSql);
+			
+		} else {
+			
+			final String message 
+				= CLASSE_LECTEUR_PROPERTIES_SPRING 
+				+ TIRET_ESPACE
+				+ METHODE_LIRE_FORMATSQL
+				+ TIRET_ESPACE
+				+ ENVT_SPRING_NON_INJECTE;
+			
+			if (LOG.isFatalEnabled()) {
+				LOG.fatal(message);
+			}
+		}
+		
+		return this.formatSql;
+		
+	} // Fin de lireFormatSql().___________________________________________
+	
+
+	
+	/**
+	 * <b>lit la valeur USE_SQL_COMMENTS dans le properties</b>.<br/>
+	 * injecte la valeur lue dans <code>this.useSqlComments</code>.<br/>
+	 * <ul>
+	 * <li>ajoute la valeur lue dans la propriété correspondante 
+	 * du Property du CONTENEUR 
+	 * <code>persistenceUnitInfoJPASansXML</code>.</li>
+	 * <li>correspond à l'élément property nommé
+	 * <code>hibernate.use_sql_comments</code> (pour un provider HIBERNATE) 
+	 * dans un persistence.xml préconisé par JPA.</li>
+	 * </ul>
+	 *
+	 * @return : String : this.useSqlComments.<br/>
+	 */
+	private String lireUseSqlComments() {
+		
+		if (this.environmentSpring != null) {
+			
+			this.useSqlComments 
+				= this.environmentSpring.getProperty(
+						USESQLCOMMENTS_KEY);
+			
+			/* ajout de la valeur dans le Property. */
+			this.persistenceUnitInfoJPASansXML
+				.addProperty("hibernate.use_sql_comments"
+							, this.useSqlComments);
+			
+		} else {
+			
+			final String message 
+				= CLASSE_LECTEUR_PROPERTIES_SPRING 
+				+ TIRET_ESPACE
+				+ METHODE_LIRE_USESQLCOMMENTS
+				+ TIRET_ESPACE
+				+ ENVT_SPRING_NON_INJECTE;
+			
+			if (LOG.isFatalEnabled()) {
+				LOG.fatal(message);
+			}
+		}
+		
+		return this.useSqlComments;
+
+	} // Fin de lireUseSqlComments().______________________________________
+	
+
+	
+	/**
+	 * <b>lit la valeur GENERATE_STATISTICS dans le properties</b>.<br/>
+	 * injecte la valeur lue dans <code>this.generateSatistics</code>.<br/>
+	 * <ul>
+	 * <li>ajoute la valeur lue dans la propriété correspondante 
+	 * du Property du CONTENEUR 
+	 * <code>persistenceUnitInfoJPASansXML</code>.</li>
+	 * <li>correspond à l'élément property nommé
+	 * <code>hibernate.generate_statistics</code> (pour un provider HIBERNATE) 
+	 * dans un persistence.xml préconisé par JPA.</li>
+	 * </ul>
+	 *
+	 * @return : String : this.generateSatistics.<br/>
+	 */
+	private String lireGenerateStatistics() {
+		
+		if (this.environmentSpring != null) {
+			
+			this.generateSatistics 
+				= this.environmentSpring.getProperty(
+						GENERATESTATISTICS_KEY);
+			
+			/* ajout de la valeur dans le Property. */
+			this.persistenceUnitInfoJPASansXML
+				.addProperty("hibernate.generate_statistics"
+							, this.generateSatistics);
+			
+		} else {
+			
+			final String message 
+				= CLASSE_LECTEUR_PROPERTIES_SPRING 
+				+ TIRET_ESPACE
+				+ METHODE_LIRE_GENERATESTATISTICS
+				+ TIRET_ESPACE
+				+ ENVT_SPRING_NON_INJECTE;
+			
+			if (LOG.isFatalEnabled()) {
+				LOG.fatal(message);
+			}
+		}
+		
+		return this.generateSatistics;
+
+	} // Fin de lireGenerateStatistics().__________________________________
+	
+
+	
+	/**
+	 * <b>lit la valeur CACHE-PROVIDER_CLASS 
+	 * en cas d'<b>absence</b> de cache de 2nd niveau 
+	 * dans le properties</b>.<br/>
+	 * injecte la valeur lue dans <code>this.noCacheProviderClass</code>.<br/>
+	 * <ul>
+	 * <li>ajoute la valeur lue dans la propriété correspondante 
+	 * du Property du CONTENEUR 
+	 * <code>persistenceUnitInfoJPASansXML</code>.</li>
+	 * <li>correspond à l'élément property nommé
+	 * <code>cache.provider_class</code> (pour un provider HIBERNATE) 
+	 * dans un persistence.xml préconisé par JPA.</li>
+	 * </ul>
+	 *
+	 * @return : String : this.noCacheProviderClass.<br/>
+	 */
+	private String lireNoCacheProviderClass() {
+		
+		if (this.environmentSpring != null) {
+			
+			this.noCacheProviderClass 
+				= this.environmentSpring.getProperty(
+						NOCACHEPROVIDERCLASS_KEY);
+			
+			/* ajout de la valeur dans le Property. */
+			if (this.noCacheProviderClass != null) {
+				
+				this.persistenceUnitInfoJPASansXML
+				.addProperty("cache.provider_class"
+							, this.noCacheProviderClass);
+				
+			}
+						
+		} else {
+			
+			final String message 
+				= CLASSE_LECTEUR_PROPERTIES_SPRING 
+				+ TIRET_ESPACE
+				+ METHODE_LIRE_NOCACHEPROVIDERCLASS
+				+ TIRET_ESPACE
+				+ ENVT_SPRING_NON_INJECTE;
+			
+			if (LOG.isFatalEnabled()) {
+				LOG.fatal(message);
+			}
+		}
+		
+		return this.noCacheProviderClass;
+
+	} // Fin de lireNoCacheProviderClass().________________________________
+	
+
+	
+	/**
+	 * <b>lit la valeur CACHE-PROVIDER_CLASS 
+	 * en cas de <b>présence</b> de cache de 2nd niveau 
+	 * dans le properties</b>.<br/>
+	 * injecte la valeur lue dans <code>this.cacheProviderClass</code>.<br/>
+	 * <ul>
+	 * <li>ajoute la valeur lue dans la propriété correspondante 
+	 * du Property du CONTENEUR 
+	 * <code>persistenceUnitInfoJPASansXML</code>.</li>
+	 * <li>correspond à l'élément property nommé
+	 * <code>cache.provider_class</code> (pour un provider HIBERNATE) 
+	 * dans un persistence.xml préconisé par JPA.</li>
+	 * </ul>
+	 *
+	 * @return : String : this.cacheProviderClass.<br/>
+	 */
+	private String lireCacheProviderClass() {
+		
+		if (this.environmentSpring != null) {
+			
+			this.cacheProviderClass 
+				= this.environmentSpring.getProperty(
+						CACHEPROVIDERCLASS_KEY);
+			
+			/* ajout de la valeur dans le Property. */
+			if (this.cacheProviderClass != null) {
+				
+				this.persistenceUnitInfoJPASansXML
+					.addProperty("cache.provider_class"
+							, this.cacheProviderClass);
+				
+			}
+						
+		} else {
+			
+			final String message 
+				= CLASSE_LECTEUR_PROPERTIES_SPRING 
+				+ TIRET_ESPACE
+				+ METHODE_LIRE_CACHEPROVIDERCLASS
+				+ TIRET_ESPACE
+				+ ENVT_SPRING_NON_INJECTE;
+			
+			if (LOG.isFatalEnabled()) {
+				LOG.fatal(message);
+			}
+		}
+		
+		return this.cacheProviderClass;
+
+	} // Fin de lireCacheProviderClass().__________________________________
+
+	
+	
+	/**
+	 * <b>lit la valeur CACHE-USE_SECOND_LEVEL_CACHE 
+	 * en cas de <b>présence</b> de cache de 2nd niveau 
+	 * dans le properties</b>.<br/>
+	 * injecte la valeur lue dans 
+	 * <code>this.cacheUseSecondLevelCache</code>.<br/>
+	 * <ul>
+	 * <li>ajoute la valeur lue dans la propriété correspondante 
+	 * du Property du CONTENEUR 
+	 * <code>persistenceUnitInfoJPASansXML</code>.</li>
+	 * <li>correspond à l'élément property nommé
+	 * <code>cache.use_second_level_cache</code> (pour un provider HIBERNATE) 
+	 * dans un persistence.xml préconisé par JPA.</li>
+	 * </ul>
+	 *
+	 * @return : String : this.cacheUseSecondLevelCache.<br/>
+	 */
+	private String lireCacheUseSecondLevelCache() {
+		
+		if (this.environmentSpring != null) {
+			
+			this.cacheUseSecondLevelCache
+				= this.environmentSpring.getProperty(
+						CACHEUSESECONDLEVELCACHE_KEY);
+			
+			/* ajout de la valeur dans le Property. */
+			if (this.cacheProviderClass != null) {
+				
+				this.persistenceUnitInfoJPASansXML
+					.addProperty("cache.use_second_level_cache"
+							, this.cacheUseSecondLevelCache);
+				
+			}
+						
+		} else {
+			
+			final String message 
+				= CLASSE_LECTEUR_PROPERTIES_SPRING 
+				+ TIRET_ESPACE
+				+ METHODE_LIRE_CACHEUSESECONDLEVELCACHE
+				+ TIRET_ESPACE
+				+ ENVT_SPRING_NON_INJECTE;
+			
+			if (LOG.isFatalEnabled()) {
+				LOG.fatal(message);
+			}
+		}
+		
+		return this.cacheUseSecondLevelCache;
+
+	} // Fin de lireCacheUseSecondLevelCache().____________________________
+
+	
+	
+	/**
+	 * <b>lit la valeur CACHE-USE_QUERY_CACHE 
+	 * en cas de <b>présence</b> de cache de 2nd niveau 
+	 * dans le properties</b>.<br/>
+	 * injecte la valeur lue dans 
+	 * <code>this.cacheUseQueryCache</code>.<br/>
+	 * <ul>
+	 * <li>ajoute la valeur lue dans la propriété correspondante 
+	 * du Property du CONTENEUR 
+	 * <code>persistenceUnitInfoJPASansXML</code>.</li>
+	 * <li>correspond à l'élément property nommé
+	 * <code>cache.use_query_cache</code> (pour un provider HIBERNATE) 
+	 * dans un persistence.xml préconisé par JPA.</li>
+	 * </ul>
+	 *
+	 * @return : String : this.cacheUseQueryCache.<br/>
+	 */
+	private String lireCacheUseQueryCache() {
+		
+		if (this.environmentSpring != null) {
+			
+			this.cacheUseQueryCache
+				= this.environmentSpring.getProperty(
+						CACHEUSEQUERYCACHE_KEY);
+			
+			/* ajout de la valeur dans le Property. */
+			if (this.cacheProviderClass != null) {
+				
+				this.persistenceUnitInfoJPASansXML
+					.addProperty("cache.use_query_cache"
+							, this.cacheUseQueryCache);
+				
+			}
+						
+		} else {
+			
+			final String message 
+				= CLASSE_LECTEUR_PROPERTIES_SPRING 
+				+ TIRET_ESPACE
+				+ METHODE_LIRE_CACHEUSEQUERYCACHE
+				+ TIRET_ESPACE
+				+ ENVT_SPRING_NON_INJECTE;
+			
+			if (LOG.isFatalEnabled()) {
+				LOG.fatal(message);
+			}
+		}
+		
+		return this.cacheUseQueryCache;
+
+	} // Fin de lireCacheUseQueryCache().__________________________________
+
+	
+	
+	/**
+	 * <b>lit la valeur RESOURCE_CACHE 
+	 * en cas de <b>présence</b> de cache de 2nd niveau 
+	 * dans le properties</b>.<br/>
+	 * injecte la valeur lue dans 
+	 * <code>this.resourceCache</code>.<br/>
+	 * <ul>
+	 * <li>ajoute la valeur lue dans la propriété correspondante 
+	 * du Property du CONTENEUR 
+	 * <code>persistenceUnitInfoJPASansXML</code>.</li>
+	 * <li>correspond à l'élément property nommé
+	 * <code>net.sf.ehcache.configurationResourcename</code> 
+	 * (pour un provider HIBERNATE) 
+	 * dans un persistence.xml préconisé par JPA.</li>
+	 * </ul>
+	 *
+	 * @return : String : this.resourceCache.<br/>
+	 */
+	private String lireResourceCache() {
+		
+		if (this.environmentSpring != null) {
+			
+			this.resourceCache
+				= this.environmentSpring.getProperty(
+						RESOURCECACHE_KEY);
+			
+			/* ajout de la valeur dans le Property. */
+			if (this.cacheProviderClass != null) {
+				
+				this.persistenceUnitInfoJPASansXML
+					.addProperty("net.sf.ehcache.configurationResourcename"
+							, this.resourceCache);
+				
+			}
+						
+		} else {
+			
+			final String message 
+				= CLASSE_LECTEUR_PROPERTIES_SPRING 
+				+ TIRET_ESPACE
+				+ METHODE_LIRE_RESOURCECACHE
+				+ TIRET_ESPACE
+				+ ENVT_SPRING_NON_INJECTE;
+			
+			if (LOG.isFatalEnabled()) {
+				LOG.fatal(message);
+			}
+		}
+		
+		return this.resourceCache;
+
+	} // Fin de lireResourceCache()._______________________________________
+	
+
+	
+	/**
+	 * <b>lit la valeur du poolMinSize dans le properties</b>.<br/>
+	 * injecte la valeur lue dans <code>this.poolMinSize</code>.<br/>
+	 * <ul>
+	 * <li>ajoute la valeur lue dans la propriété correspondante 
+	 * du Property du CONTENEUR 
+	 * <code>persistenceUnitInfoJPASansXML</code>.</li>
+	 * <li>correspond à l'élément property nommé
+	 * <code>hibernate.c3p0.min_size</code> 
+	 * (pour un provider HIBERNATE) 
+	 * dans un persistence.xml préconisé par JPA.</li>
+	 * </ul>
+	 *
+	 * @return : String : this.poolMinSize.<br/>
+	 */
+	private String lirePoolMinSize() {
+		
+		if (this.environmentSpring != null) {
+			
+			this.poolMinSize 
+				= this.environmentSpring.getProperty(
+						"spring.jpa.properties.hibernate.c3p0.min_size");
+			
+			/* ajout de la valeur dans le Property. */
+			if (this.poolMinSize != null) {
+				
+				this.persistenceUnitInfoJPASansXML
+					.addProperty("hibernate.c3p0.min_size"
+							, this.poolMinSize);
+				
+			}
+			
+		} else {
+			
+			final String message 
+				= CLASSE_LECTEUR_PROPERTIES_SPRING 
+				+ TIRET_ESPACE
+				+ "Méthode lirePoolMinSize()"
+				+ TIRET_ESPACE
+				+ ENVT_SPRING_NON_INJECTE;
+			
+			if (LOG.isFatalEnabled()) {
+				LOG.fatal(message);
+			}
+		}
+		
+		return this.poolMinSize;
+		
+	} // Fin de lirePoolMinSize()._________________________________________
+	
+
+	
+	/**
+	 * <b>lit la valeur du poolMaxSize dans le properties</b>.<br/>
+	 * injecte la valeur lue dans <code>this.poolMaxSize</code>.<br/>
+	 * <ul>
+	 * <li>ajoute la valeur lue dans la propriété correspondante 
+	 * du Property du CONTENEUR 
+	 * <code>persistenceUnitInfoJPASansXML</code>.</li>
+	 * <li>correspond à l'élément property nommé
+	 * <code>hibernate.c3p0.max_size</code> 
+	 * (pour un provider HIBERNATE) 
+	 * dans un persistence.xml préconisé par JPA.</li>
+	 * </ul>
+	 *
+	 * @return : String : this.poolMaxSize.<br/>
+	 */
+	private String lirePoolMaxSize() {
+		
+		if (this.environmentSpring != null) {
+			
+			this.poolMaxSize 
+				= this.environmentSpring.getProperty(
+						"spring.jpa.properties.hibernate.c3p0.max_size");
+			
+			/* ajout de la valeur dans le Property. */
+			if (this.poolMaxSize != null) {
+				
+				this.persistenceUnitInfoJPASansXML
+					.addProperty("hibernate.c3p0.max_size"
+							, this.poolMaxSize);
+				
+			}
+			
+		} else {
+			
+			final String message 
+				= CLASSE_LECTEUR_PROPERTIES_SPRING 
+				+ TIRET_ESPACE
+				+ "Méthode lirePoolMaxSize()"
+				+ TIRET_ESPACE
+				+ ENVT_SPRING_NON_INJECTE;
+			
+			if (LOG.isFatalEnabled()) {
+				LOG.fatal(message);
+			}
+		}
+		
+		return this.poolMaxSize;
+		
+	} // Fin de lirePoolMaxSize()._________________________________________
+	
+
+	
+	/**
+	 * <b>lit la valeur du poolTimeOut dans le properties</b>.<br/>
+	 * injecte la valeur lue dans <code>this.poolTimeOut</code>.<br/>
+	 * <ul>
+	 * <li>ajoute la valeur lue dans la propriété correspondante 
+	 * du Property du CONTENEUR 
+	 * <code>persistenceUnitInfoJPASansXML</code>.</li>
+	 * <li>correspond à l'élément property nommé
+	 * <code>hibernate.c3p0.timeout</code> 
+	 * (pour un provider HIBERNATE) 
+	 * dans un persistence.xml préconisé par JPA.</li>
+	 * </ul>
+	 *
+	 * @return : String : this.poolTimeOut.<br/>
+	 */
+	private String lirePoolTimeOut() {
+		
+		if (this.environmentSpring != null) {
+			
+			this.poolTimeOut 
+				= this.environmentSpring.getProperty(
+						"spring.jpa.properties.hibernate.c3p0.timeout");
+			
+			/* ajout de la valeur dans le Property. */
+			if (this.poolTimeOut != null) {
+				
+				this.persistenceUnitInfoJPASansXML
+					.addProperty("hibernate.c3p0.timeout"
+							, this.poolTimeOut);
+				
+			}
+			
+		} else {
+			
+			final String message 
+				= CLASSE_LECTEUR_PROPERTIES_SPRING 
+				+ TIRET_ESPACE
+				+ "Méthode lirePoolTimeOut()"
+				+ TIRET_ESPACE
+				+ ENVT_SPRING_NON_INJECTE;
+			
+			if (LOG.isFatalEnabled()) {
+				LOG.fatal(message);
+			}
+		}
+		
+		return this.poolTimeOut;
+		
+	} // Fin de lirePoolTimeOut()._________________________________________
+	
+
+	
+	/**
+	 * <b>lit la valeur du poolMaxStatements dans le properties</b>.<br/>
+	 * injecte la valeur lue dans <code>this.poolMaxStatements</code>.<br/>
+	 * <ul>
+	 * <li>ajoute la valeur lue dans la propriété correspondante 
+	 * du Property du CONTENEUR 
+	 * <code>persistenceUnitInfoJPASansXML</code>.</li>
+	 * <li>correspond à l'élément property nommé
+	 * <code>hibernate.c3p0.max_statements</code> 
+	 * (pour un provider HIBERNATE) 
+	 * dans un persistence.xml préconisé par JPA.</li>
+	 * </ul>
+	 *
+	 * @return : String : this.poolMaxStatements.<br/>
+	 */
+	private String lirePoolMaxStatements() {
+		
+		if (this.environmentSpring != null) {
+			
+			this.poolMaxStatements 
+				= this.environmentSpring.getProperty(
+						"spring.jpa.properties.hibernate.c3p0.max_statements");
+			
+			/* ajout de la valeur dans le Property. */
+			if (this.poolMaxStatements != null) {
+				
+				this.persistenceUnitInfoJPASansXML
+					.addProperty("hibernate.c3p0.max_statements"
+							, this.poolMaxStatements);
+				
+			}
+			
+		} else {
+			
+			final String message 
+				= CLASSE_LECTEUR_PROPERTIES_SPRING 
+				+ TIRET_ESPACE
+				+ "Méthode lirePoolMaxStatements()"
+				+ TIRET_ESPACE
+				+ ENVT_SPRING_NON_INJECTE;
+			
+			if (LOG.isFatalEnabled()) {
+				LOG.fatal(message);
+			}
+		}
+		
+		return this.poolMaxStatements;
+		
+	} // Fin de lirePoolMaxStatements().___________________________________
+	
+
+	
+	/**
+	 * <b>lit la valeur du poolIdleTestPeriod dans le properties</b>.<br/>
+	 * injecte la valeur lue dans <code>this.poolIdleTestPeriod</code>.<br/>
+	 * <ul>
+	 * <li>ajoute la valeur lue dans la propriété correspondante 
+	 * du Property du CONTENEUR 
+	 * <code>persistenceUnitInfoJPASansXML</code>.</li>
+	 * <li>correspond à l'élément property nommé
+	 * <code>hibernate.c3p0.idle_test_period</code> 
+	 * (pour un provider HIBERNATE) 
+	 * dans un persistence.xml préconisé par JPA.</li>
+	 * </ul>
+	 *
+	 * @return : String : this.poolIdleTestPeriod.<br/>
+	 */
+	private String lirePoolIdleTestPeriod() {
+		
+		if (this.environmentSpring != null) {
+			
+			this.poolIdleTestPeriod 
+				= this.environmentSpring.getProperty(
+						"spring.jpa.properties.hibernate.c3p0.idle_test_period");
+			
+			/* ajout de la valeur dans le Property. */
+			if (this.poolIdleTestPeriod != null) {
+				
+				this.persistenceUnitInfoJPASansXML
+					.addProperty("hibernate.c3p0.idle_test_period"
+							, this.poolIdleTestPeriod);
+				
+			}
+			
+		} else {
+			
+			final String message 
+				= CLASSE_LECTEUR_PROPERTIES_SPRING 
+				+ TIRET_ESPACE
+				+ "Méthode lirePoolIdleTestPeriod()"
+				+ TIRET_ESPACE
+				+ ENVT_SPRING_NON_INJECTE;
+			
+			if (LOG.isFatalEnabled()) {
+				LOG.fatal(message);
+			}
+		}
+		
+		return this.poolIdleTestPeriod;
+		
+	} // Fin de lirePoolIdleTestPeriod().__________________________________
+	
+	
+	
+	/**
+	 * <b>lit la valeur SPRING generate-ddl dans le properties</b>.<br/>
+	 * injecte la valeur lue dans <code>this.generateDdl</code>.<br/>
+	 * <ul>
+	 * <li>ajoute la valeur lue dans la propriété correspondante 
+	 * du Property du CONTENEUR 
+	 * <code>persistenceUnitInfoJPASansXML</code>.</li>
+	 * <li>correspond à l'élément property nommé
+	 * <code>spring.jpa.generate-ddl</code> (pour un provider HIBERNATE) 
+	 * dans un fichier de configuration SPRING.</li>
+	 * </ul>
+	 *
+	 * @return : String : this.generateDdl.<br/>
+	 */
+	private String lireGenerateDdl() {
+		
+		if (this.environmentSpring != null) {
+			
+			this.generateDdl 
+				= this.environmentSpring.getProperty(
+						"spring.jpa.generate-ddl");
+			
+			/* ajout de la valeur dans le Property. */
+			if (this.generateDdl != null) {
+				
+				this.persistenceUnitInfoJPASansXML
+					.addProperty("spring.jpa.generate-ddl"
+						, this.generateDdl);
+				
+			}
+						
+		} else {
+			
+			final String message 
+				= CLASSE_LECTEUR_PROPERTIES_SPRING 
+				+ TIRET_ESPACE
+				+ "Méthode lireGenerateDdl()"
+				+ TIRET_ESPACE
+				+ ENVT_SPRING_NON_INJECTE;
+			
+			if (LOG.isFatalEnabled()) {
+				LOG.fatal(message);
+			}
+		}
+		
+		return this.generateDdl;
+		
+	} // Fin de lireGenerateDdl()._________________________________________
+	
+	
+	
+	/**
+	 * <b>lit la valeur ddl-auto dans le properties</b>.<br/>
+	 * injecte la valeur lue dans <code>this.ddlAuto</code>.<br/>
+	 * <ul>
+	 * <li>ajoute la valeur lue dans la propriété correspondante 
+	 * du Property du CONTENEUR 
+	 * <code>persistenceUnitInfoJPASansXML</code>.</li>
+	 * <li>correspond à l'élément property nommé
+	 * <code>hibernate.hbm2ddl.auto</code> (pour un provider HIBERNATE) 
+	 * dans un persistence.xml préconisé par JPA.</li>
+	 * </ul>
+	 *
+	 * @return : String : this.ddlAuto.<br/>
+	 */
+	private String lireDdlAuto() {
+		
+		if (this.environmentSpring != null) {
+			
+			this.ddlAuto 
+				= this.environmentSpring.getProperty(
+						"spring.jpa.properties.hibernate.ddl-auto");
+			
+			/* ajout de la valeur dans le Property. */
+			if (this.ddlAuto != null) {
+				
+				this.persistenceUnitInfoJPASansXML
+					.addProperty("hibernate.hbm2ddl.auto"
+						, this.ddlAuto);
+				
+			}
+						
+		} else {
+			
+			final String message 
+				= CLASSE_LECTEUR_PROPERTIES_SPRING 
+				+ TIRET_ESPACE
+				+ "Méthode lireDdlAuto()"
+				+ TIRET_ESPACE
+				+ ENVT_SPRING_NON_INJECTE;
+			
+			if (LOG.isFatalEnabled()) {
+				LOG.fatal(message);
+			}
+		}
+		
+		return this.ddlAuto;
+		
+	} // Fin de lireDdlAuto()._____________________________________________
+	
+	
+	
+	/**
+	 * <b>lit la valeur SPRING springH2ConsoleEnabled 
+	 * dans le properties</b>.<br/>
+	 * injecte la valeur lue dans <code>this.springH2ConsoleEnabled</code>.<br/>
+	 * <ul>
+	 * <li>ajoute la valeur lue dans la propriété correspondante 
+	 * du Property du CONTENEUR 
+	 * <code>persistenceUnitInfoJPASansXML</code>.</li>
+	 * <li>correspond à l'élément property nommé
+	 * <code>spring.h2.console.enabled</code> 
+	 * dans un fichier de configuration SPRING.</li>
+	 * </ul>
+	 *
+	 * @return : String : this.springH2ConsoleEnabled.<br/>
+	 */
+	private String lireSpringH2ConsoleEnabled() {
+		
+		if (this.environmentSpring != null) {
+			
+			this.springH2ConsoleEnabled 
+				= this.environmentSpring.getProperty(
+						"spring.h2.console.enabled");
+			
+			/* ajout de la valeur dans le Property. */
+			if (this.springH2ConsoleEnabled != null) {
+				
+				this.persistenceUnitInfoJPASansXML
+					.addProperty("spring.h2.console.enabled"
+						, this.springH2ConsoleEnabled);
+				
+			}
+						
+		} else {
+			
+			final String message 
+				= CLASSE_LECTEUR_PROPERTIES_SPRING 
+				+ TIRET_ESPACE
+				+ "Méthode lireSpringH2ConsoleEnabled()"
+				+ TIRET_ESPACE
+				+ ENVT_SPRING_NON_INJECTE;
+			
+			if (LOG.isFatalEnabled()) {
+				LOG.fatal(message);
+			}
+		}
+		
+		return this.springH2ConsoleEnabled;
+		
+	} // Fin de lireSpringH2ConsoleEnabled().______________________________
+	
+	
+	
+	/**
+	 * <b>lit la valeur SPRING springH2ConsolePath 
+	 * dans le properties</b>.<br/>
+	 * injecte la valeur lue dans <code>this.springH2ConsolePath</code>.<br/>
+	 * <ul>
+	 * <li>ajoute la valeur lue dans la propriété correspondante 
+	 * du Property du CONTENEUR 
+	 * <code>persistenceUnitInfoJPASansXML</code>.</li>
+	 * <li>correspond à l'élément property nommé
+	 * <code>spring.h2.console.path</code> 
+	 * dans un fichier de configuration SPRING.</li>
+	 * </ul>
+	 *
+	 * @return : String : this.springH2ConsolePath.<br/>
+	 */
+	private String lireSpringH2ConsolePath() {
+		
+		if (this.environmentSpring != null) {
+			
+			this.springH2ConsolePath 
+				= this.environmentSpring.getProperty(
+						"spring.h2.console.path");
+			
+			/* ajout de la valeur dans le Property. */
+			if (this.springH2ConsolePath != null) {
+				
+				this.persistenceUnitInfoJPASansXML
+					.addProperty("spring.h2.console.path"
+						, this.springH2ConsolePath);
+				
+			}
+						
+		} else {
+			
+			final String message 
+				= CLASSE_LECTEUR_PROPERTIES_SPRING 
+				+ TIRET_ESPACE
+				+ "Méthode lireSpringH2ConsolePath()"
+				+ TIRET_ESPACE
+				+ ENVT_SPRING_NON_INJECTE;
+			
+			if (LOG.isFatalEnabled()) {
+				LOG.fatal(message);
+			}
+		}
+		
+		return this.springH2ConsolePath;
+		
+	} // Fin de lireSpringH2ConsolePath()._________________________________
+	
+	
 	
 	/**
 	 * <b>fournit une String pour l'affichage 
@@ -799,6 +2600,39 @@ public class LecteurPropertiesSpring {
 		
 	} // Fin de afficherDataSource(...).___________________________________
 	
+
+	
+	/**
+	 * Fabrique une String à partir d'une List&lt;String&gt;.<br/>
+	 * <br/>
+	 * - Retourne null si pListe est null.<br/>
+	 * <br/>
+	 *
+	 * @param pListe : List&lt;String&gt; : liste de lignes.
+	 * 
+	 * @return : String : Pour affichage à la console.<br/>
+	 */
+	public final String afficherListeString(
+			final List<String> pListe) {
+		
+		/* Retourne null si pListe est null. */
+		if (pListe == null) {
+			return null;
+		}
+		
+		final StringBuilder stb = new StringBuilder();
+		
+		for (final String ligne : pListe) {
+			
+			stb.append(ligne);
+			stb.append(SAUT_LIGNE_PLATEFORME);
+			
+		}
+		
+		return stb.toString();
+			
+	} // Fin de afficherListeString(...).__________________________________
+	
 	
 	
 	/**
@@ -842,16 +2676,17 @@ public class LecteurPropertiesSpring {
 
 	/**
 	 * Getter du conteneur de type 
-	 * <code>javax.persistence.spi.PersistenceUnitInfo</code> 
+	 * <code>org.springframework.orm.jpa.persistenceunit.MutablePersistenceUnitInfo</code> 
 	 * <b><code>this.persistenceUnitInfoJPASansXML</code></b>
 	 * pour les valeurs lues dans le properties 
 	 * de configuration indiqué dans l'annotation 
 	 * PropertySource au dessus de la présente classe.
 	 *
 	 * @return this.persistenceUnitInfoJPASansXML : 
-	 * PersistenceUnitInfoJPASansXML.<br/>
+	 * MutablePersistenceUnitInfoJPASpringSansXML.<br/>
 	 */
-	public final PersistenceUnitInfoJPASansXML getPersistenceUnitInfoJPASansXML() {
+	public final MutablePersistenceUnitInfoJPASpringSansXML 
+								getPersistenceUnitInfoJPASansXML() {
 		return this.persistenceUnitInfoJPASansXML;
 	} // Fin de getPersistenceUnitInfoJPASansXML().________________________
 
@@ -859,17 +2694,19 @@ public class LecteurPropertiesSpring {
 	
 	/**
 	* Setter du conteneur de type 
-	* <code>javax.persistence.spi.PersistenceUnitInfo</code> 
+	* <code>org.springframework.orm.jpa.persistenceunit.MutablePersistenceUnitInfo</code> 
 	* <b><code>this.persistenceUnitInfoJPASansXML</code></b>
 	* pour les valeurs lues dans le properties 
 	* de configuration indiqué dans l'annotation 
 	* PropertySource au dessus de la présente classe.
 	*
-	* @param pPersistenceUnitInfoJPASansXML : PersistenceUnitInfoJPASansXML : 
+	* @param pPersistenceUnitInfoJPASansXML : 
+	* MutablePersistenceUnitInfoJPASpringSansXML : 
 	* valeur à passer à this.persistenceUnitInfoJPASansXML.<br/>
 	*/
 	public final void setPersistenceUnitInfoJPASansXML(
-			final PersistenceUnitInfoJPASansXML pPersistenceUnitInfoJPASansXML) {
+			final MutablePersistenceUnitInfoJPASpringSansXML 
+								pPersistenceUnitInfoJPASansXML) {
 		this.persistenceUnitInfoJPASansXML = pPersistenceUnitInfoJPASansXML;
 	} // Fin de setPersistenceUnitInfoJPASansXML(...)._____________________
 	
@@ -892,7 +2729,7 @@ public class LecteurPropertiesSpring {
 	 *
 	 * @return : String : nom de l'unité de persistence.<br/>
 	 */
-	public String getPersistenceUnitName() {
+	public final String getPersistenceUnitName() {
 		return this.persistenceUnitInfoJPASansXML.getPersistenceUnitName();
 	} // Fin de getPersistenceUnitName().__________________________________
 
@@ -918,7 +2755,7 @@ public class LecteurPropertiesSpring {
 	 * @return : PersistenceUnitTransactionType : 
 	 * type de transaction.<br/>
 	 */
-	public PersistenceUnitTransactionType getTransactionType() {
+	public final PersistenceUnitTransactionType getTransactionType() {
 		return this.persistenceUnitInfoJPASansXML.getTransactionType();
 	} // Fin de getTransactionType().______________________________________
 	
@@ -939,7 +2776,7 @@ public class LecteurPropertiesSpring {
 	 * @return : String : 
 	 * org.springframework.orm.jpa.vendor.HibernateJpaVendorAdapter.<br/>
 	 */
-	public String getPersistenceProviderClassName() {
+	public final String getPersistenceProviderClassName() {
 		return this.persistenceUnitInfoJPASansXML
 				.getPersistenceProviderClassName();
 	} // Fin de getPersistenceProviderClassName()._________________________
@@ -948,11 +2785,11 @@ public class LecteurPropertiesSpring {
 	
 	/**
 	 * <b>retourne l'URL de la Base 
-	 * stocké dans l'objet DataSource du conteneur 
+	 * stocké dans l'objet <b>DataSource</b> du conteneur 
 	 * <code>this.persistenceUnitInfoJPASansXML</code></b> 
 	 * après lecture du properties 
 	 * de configuration indiqué dans l'annotation 
-	 * PropertySource au dessus de la présente classe<br/>
+	 * PropertySource au dessus de la présente classe.<br/>
 	 * <ul>
 	 * <li>clé : 
 	 * <code>javax.persistence.jdbc.connexion.url</code> 
@@ -963,10 +2800,42 @@ public class LecteurPropertiesSpring {
 	 * dans un EntityManagerFactory créé par le PersistenceProvider HIBERNATE</li>
 	 * </ul>
 	 *
-	 * @return : String : this.url.<br/>
+	 * @return : String : url dans DataSource.<br/>
 	 */
-	public String getUrl() {
-		return this.url;
+	public final String getUrl() {
+		
+		SimpleDriverDataSource jtaDataSourceLocal = null;
+		SimpleDriverDataSource nonJtaDataSourceLocal = null;
+		
+		if (this.getTransactionType() == null) {
+			
+			nonJtaDataSourceLocal 
+				= (SimpleDriverDataSource) 
+				this.persistenceUnitInfoJPASansXML.getNonJtaDataSource();
+						
+			return nonJtaDataSourceLocal.getUrl();
+			
+		} else if (this.getTransactionType()
+				.equals(PersistenceUnitTransactionType.JTA)) {
+			
+			jtaDataSourceLocal 
+				= (SimpleDriverDataSource) 
+				this.persistenceUnitInfoJPASansXML.getJtaDataSource();
+						
+			return jtaDataSourceLocal.getUrl();
+			
+		} else if (this.getTransactionType()
+				.equals(PersistenceUnitTransactionType.RESOURCE_LOCAL)) {
+			
+			nonJtaDataSourceLocal 
+			= (SimpleDriverDataSource) 
+			this.persistenceUnitInfoJPASansXML.getNonJtaDataSource();
+					
+			return nonJtaDataSourceLocal.getUrl();
+		}
+		
+		return null;
+		
 	} // Fin de getUrl().__________________________________________________
 
 	
@@ -989,10 +2858,42 @@ public class LecteurPropertiesSpring {
 	 * PersistenceProvider HIBERNATE</li>
 	 * </ul>
 	 *
-	 * @return : this.driver : java.sql.Driver.<br/>
+	 * @return : this.driver : java.sql.Driver dans DataSource.<br/>
 	 */
-	public Driver getDriver() {
-		return this.driver;
+	public final Driver getDriver() {
+		
+		SimpleDriverDataSource jtaDataSourceLocal = null;
+		SimpleDriverDataSource nonJtaDataSourceLocal = null;
+		
+		if (this.getTransactionType() == null) {
+			
+			nonJtaDataSourceLocal 
+				= (SimpleDriverDataSource) 
+				this.persistenceUnitInfoJPASansXML.getNonJtaDataSource();
+						
+			return nonJtaDataSourceLocal.getDriver();
+			
+		} else if (this.getTransactionType()
+				.equals(PersistenceUnitTransactionType.JTA)) {
+			
+			jtaDataSourceLocal 
+				= (SimpleDriverDataSource) 
+				this.persistenceUnitInfoJPASansXML.getJtaDataSource();
+						
+			return jtaDataSourceLocal.getDriver();
+			
+		} else if (this.getTransactionType()
+				.equals(PersistenceUnitTransactionType.RESOURCE_LOCAL)) {
+			
+			nonJtaDataSourceLocal 
+			= (SimpleDriverDataSource) 
+			this.persistenceUnitInfoJPASansXML.getNonJtaDataSource();
+					
+			return nonJtaDataSourceLocal.getDriver();
+		}
+		
+		return null;
+		
 	} // Fin de getDriver()._______________________________________________
 	
 	
@@ -1015,10 +2916,42 @@ public class LecteurPropertiesSpring {
 	 * PersistenceProvider HIBERNATE</li>
 	 * </ul>
 	 *
-	 * @return : String : this.userName.<br/>
+	 * @return : String : userName  dans DataSource.<br/>
 	 */
-	public String getUserName() {
-		return this.userName;
+	public final String getUserName() {
+		
+		SimpleDriverDataSource jtaDataSourceLocal = null;
+		SimpleDriverDataSource nonJtaDataSourceLocal = null;
+		
+		if (this.getTransactionType() == null) {
+			
+			nonJtaDataSourceLocal 
+				= (SimpleDriverDataSource) 
+				this.persistenceUnitInfoJPASansXML.getNonJtaDataSource();
+						
+			return nonJtaDataSourceLocal.getUsername();
+			
+		} else if (this.getTransactionType()
+				.equals(PersistenceUnitTransactionType.JTA)) {
+			
+			jtaDataSourceLocal 
+				= (SimpleDriverDataSource) 
+				this.persistenceUnitInfoJPASansXML.getJtaDataSource();
+					
+			return jtaDataSourceLocal.getUsername();
+			
+		} else if (this.getTransactionType()
+				.equals(PersistenceUnitTransactionType.RESOURCE_LOCAL)) {
+			
+			nonJtaDataSourceLocal 
+			= (SimpleDriverDataSource) 
+			this.persistenceUnitInfoJPASansXML.getNonJtaDataSource();
+					
+			return nonJtaDataSourceLocal.getUsername();
+		}
+		
+		return null;
+		
 	} // Fin de getUserName()._____________________________________________
 	
 	
@@ -1041,10 +2974,42 @@ public class LecteurPropertiesSpring {
 	 * PersistenceProvider HIBERNATE</li>
 	 * </ul>
 	 *
-	 * @return : String : this.password.<br/>
+	 * @return : String : password dans DataSource.<br/>
 	 */
-	public String getPassword() {
-		return this.password;
+	public final String getPassword() {
+		
+		SimpleDriverDataSource jtaDataSourceLocal = null;
+		SimpleDriverDataSource nonJtaDataSourceLocal = null;
+		
+		if (this.getTransactionType() == null) {
+			
+			nonJtaDataSourceLocal 
+				= (SimpleDriverDataSource) 
+				this.persistenceUnitInfoJPASansXML.getNonJtaDataSource();
+						
+			return nonJtaDataSourceLocal.getPassword();
+			
+		} else if (this.getTransactionType()
+				.equals(PersistenceUnitTransactionType.JTA)) {
+			
+			jtaDataSourceLocal 
+				= (SimpleDriverDataSource) 
+				this.persistenceUnitInfoJPASansXML.getJtaDataSource();
+					
+			return jtaDataSourceLocal.getPassword();
+			
+		} else if (this.getTransactionType()
+				.equals(PersistenceUnitTransactionType.RESOURCE_LOCAL)) {
+			
+			nonJtaDataSourceLocal 
+			= (SimpleDriverDataSource) 
+			this.persistenceUnitInfoJPASansXML.getNonJtaDataSource();
+					
+			return nonJtaDataSourceLocal.getPassword();
+		}
+		
+		return null;
+		
 	} // Fin de getPassword()._____________________________________________
 	
 
@@ -1066,10 +3031,13 @@ public class LecteurPropertiesSpring {
 	 * PersistenceProvider HIBERNATE</li>
 	 * </ul>
 	 *
-	 * @return : SimpleDriverDataSource : this.jtaDataSource.<br/>
+	 * @return : SimpleDriverDataSource : jtaDataSource.<br/>
 	 */
-	public SimpleDriverDataSource getJtaDataSource() {
-		return this.jtaDataSource;
+	public final SimpleDriverDataSource getJtaDataSource() {
+		
+		return (SimpleDriverDataSource) 
+				this.persistenceUnitInfoJPASansXML.getJtaDataSource();	
+
 	} // Fin de getJtaDataSource().________________________________________
 	
 
@@ -1092,12 +3060,1020 @@ public class LecteurPropertiesSpring {
 	 * PersistenceProvider HIBERNATE</li>
 	 * </ul>
 	 *
-	 * @return : SimpleDriverDataSource : this.nonJtaDataSource.<br/>
+	 * @return : SimpleDriverDataSource : nonJtaDataSource.<br/>
 	 */
-	public SimpleDriverDataSource getNonJtaDataSource() {
-		return this.nonJtaDataSource;
+	public final SimpleDriverDataSource getNonJtaDataSource() {
+		
+		return (SimpleDriverDataSource) 
+			this.persistenceUnitInfoJPASansXML.getNonJtaDataSource();	
+
 	} // Fin de getNonJtaDataSource()._____________________________________
 
+
+	
+	/**
+	 * Getter de la liste des <b>noms qualifiés des 
+	 * fichiers de Mapping (orm.xml)</b> des Entities JPA 
+	 * mappées pour management 
+	 * par JPA dans un persistence.xml.<br/>
+	 * <ul>
+	 * <li>valeur non lue dans le properties de configuration SPRING</li>
+	 * <li>optionnel si on utilise les annotations 
+	 * sur les classes Entities.</li>
+	 * <li>Correspond au <code>mapping-file</code> element 
+	 * dans un persistence.xml.</li>
+	 * <li>un orm.xml prévaut toujours sur les annotations 
+	 * lorsque l'on utilise des Entities JPA 
+	 * <b>annotées</b>.</li>
+	 * </ul>
+	 *
+	 * @return mappingFileNames : List&lt;String&gt;.<br/>
+	 */
+	public final List<String> getMappingFileNames() {
+		return this.persistenceUnitInfoJPASansXML.getMappingFileNames();
+	} // Fin de getMappingFileNames()._____________________________________
+
+
+	
+	/**
+	* Setter de la liste des <b>noms qualifiés des 
+	* fichiers de Mapping (orm.xml)</b> des Entities JPA 
+	* mappées pour management 
+	* par JPA dans un persistence.xml.<br/>
+	* <ul>
+	* <li>valeur non lue dans le properties de configuration SPRING</li>
+	* <li>injecte la valeur dans le CONTENEUR 
+	* <code>this.persistenceUnitInfoJPASansXML</code>.</li>
+	* <li>optionnel si on utilise les annotations 
+	* sur les classes Entities.</li>
+	* <li>Correspond au <code>mapping-file</code> element 
+	* dans un persistence.xml.</li>
+	* <li>un orm.xml prévaut toujours sur les annotations 
+	* lorsque l'on utilise des Entities JPA 
+	* <b>annotées</b>.</li>
+	* </ul>
+	*
+	* @param pMappingFileNames : List<String> : 
+	* valeur à passer à this.mappingFileNames.<br/>
+	*/
+	public final void setMappingFileNames(
+			List<String> pMappingFileNames) {
+		
+		this.mappingFileNames = pMappingFileNames;
+		
+		this.persistenceUnitInfoJPASansXML
+			.setMappingFileNames(this.mappingFileNames);
+		
+	} // Fin de setMappingFileNames(...).__________________________________
+
+
+	
+	/**
+	 * Getter de la liste des URL des jar que l'ORM doit inspecter.<br/>
+	 * chaque URL Correspond au <code>jar-file</code> element 
+	 * dans un persistence.xml.<br/>
+	 * <ul>
+	 * <li>valeur non lue dans le properties de configuration SPRING</li>
+	 * </ul>
+	 *
+	 * @return jarFileUrls : List&lt;URL&gt;.<br/>
+	 */
+	public final List<URL> getJarFileUrls() {
+		return this.persistenceUnitInfoJPASansXML.getJarFileUrls();
+	} // Fin de getJarFileUrls().__________________________________________
+
+
+	
+	/**
+	* Setter de la liste des URL des jar que l'ORM doit inspecter.<br/>
+	* chaque URL Correspond au <code>jar-file</code> element 
+	* dans un persistence.xml.<br/>
+	* <ul>
+	* <li>injecte la valeur dans le CONTENEUR 
+	* <code>this.persistenceUnitInfoJPASansXML</code>.</li>
+	* <li>valeur non lue dans le properties de configuration SPRING</li>
+	* </ul>
+	*
+	* @param pJarFileUrls : List&lt;URL&gt; : 
+	* valeur à passer à this.jarFileUrls.<br/>
+	*/
+	public final void setJarFileUrls(
+			final List<URL> pJarFileUrls) {
+		
+		this.jarFileUrls = pJarFileUrls;
+		
+		this.persistenceUnitInfoJPASansXML
+			.setJarFileUrls(this.jarFileUrls);
+		
+	} // Fin de setJarFileUrls(...)._______________________________________
+
+
+	
+	/**
+	 * Getter de l'URL référençant un jar ou un répertoire <b>racine</b> 
+	 * de l'unité de persistence.
+	 * <ul>
+	 * <li>valeur non lue dans le properties de configuration SPRING</li>
+	 * </ul>
+	 *
+	 * @return persistenceUnitRootUrl : URL.<br/>
+	 */
+	public final URL getPersistenceUnitRootUrl() {
+		return this.persistenceUnitInfoJPASansXML
+					.getPersistenceUnitRootUrl();
+	} // Fin de getPersistenceUnitRootUrl()._______________________________
+
+
+	
+	/**
+	* Setter de l'URL référençant un jar ou un répertoire <b>racine</b> 
+	* de l'unité de persistence.
+	* <ul>
+	* <li>injecte la valeur dans le CONTENEUR 
+	* <code>this.persistenceUnitInfoJPASansXML</code>.</li>
+	* <li>valeur non lue dans le properties de configuration SPRING</li>
+	* </ul>
+	*
+	* @param pPersistenceUnitRootUrl : URL : 
+	* valeur à passer à this.persistenceUnitRootUrl.<br/>
+	*/
+	public final void setPersistenceUnitRootUrl(
+			final URL pPersistenceUnitRootUrl) {
+		
+		this.persistenceUnitRootUrl = pPersistenceUnitRootUrl;
+		
+		this.persistenceUnitInfoJPASansXML
+			.setPersistenceUnitRootUrl(this.persistenceUnitRootUrl);
+		
+	} // Fin de setPersistenceUnitRootUrl(...).____________________________
+
+
+	
+	/**
+	 * Getter de la liste des <b>noms qualifiés</b> des 
+	 * classes Entities JPA mappées pour management 
+	 * par JPA dans un persistence.xml.<br/>
+	 * <ul>
+	 * <li>valeur non lue dans le properties de configuration SPRING</li>
+	 * <li>Correspond au <code>class</code> element 
+	 * dans un persistence.xml.</li>
+	 * <li>par exemple : <br/>
+	 * <i>"levy.daniel.application.model.persistence.metier
+	 * .contactsimple.entities.jpa.ContactSimpleEntityJPA"</i></li>
+	 * <li>Sans Objet lorsque l'on utilise des Entities JPA 
+	 * <b>annotées</b> découvertes par JPA.</li>
+	 * </ul>
+	 *
+	 * @return managedClassNames : List&lt;String&gt;.<br/>
+	 */
+	public final List<String> getManagedClassNames() {
+		return this.persistenceUnitInfoJPASansXML.getManagedClassNames();
+	} // Fin de getManagedClassNames().____________________________________
+
+
+	
+	/**
+	* Setter de la liste des <b>noms qualifiés</b> des 
+	* classes Entities JPA mappées pour management 
+	* par JPA dans un persistence.xml.<br/>
+	* <ul>
+	* <li>injecte la valeur dans le CONTENEUR 
+	* <code>this.persistenceUnitInfoJPASansXML</code>.</li>
+	* <li>valeur non lue dans le properties de configuration SPRING</li>
+	* <li>Correspond au <code>class</code> element 
+	* dans un persistence.xml.</li>
+	* <li>par exemple : <br/>
+	* <i>"levy.daniel.application.model.persistence.metier
+	* .contactsimple.entities.jpa.ContactSimpleEntityJPA"</i></li>
+	* <li>Sans Objet lorsque l'on utilise des Entities JPA 
+	* <b>annotées</b> découvertes par JPA.</li>
+	* </ul>
+	*
+	* @param pManagedClassNames : List&lt;String&gt; : 
+	* valeur à passer à this.managedClassNames.<br/>
+	*/
+	public final void setManagedClassNames(
+			final List<String> pManagedClassNames) {
+		
+		this.managedClassNames = pManagedClassNames;
+		
+		this.persistenceUnitInfoJPASansXML
+			.setManagedClassNames(this.managedClassNames);
+		
+	} // Fin de setManagedClassNames(...)._________________________________
+
+
+	
+	/**
+	 * Getter de la liste des <b>noms qualifiés</b> des 
+	 * packages d'Entities JPA mappées pour management 
+	 * par JPA dans un persistence.xml.<br/>
+	 * <ul>
+	 * <li>valeur non lue dans le properties de configuration SPRING</li>
+	 * <li>INUTILISE.</li>
+	 * </ul>
+	 *
+	 * @return managedPackages : List&lt;String&gt;.<br/>
+	 */
+	public final List<String> getManagedPackages() {
+		return this.persistenceUnitInfoJPASansXML.getManagedPackages();
+	} // Fin de getManagedPackages().______________________________________
+
+
+	
+	/**
+	* Setter de la liste des <b>noms qualifiés</b> des 
+	* packages d'Entities JPA mappées pour management 
+	* par JPA dans un persistence.xml.<br/>
+	* <ul>
+	* <li>injecte la valeur dans le CONTENEUR 
+	* <code>this.persistenceUnitInfoJPASansXML</code>.</li>
+	* <li>valeur non lue dans le properties de configuration SPRING</li>
+	* <li>INUTILISE.</li>
+	* </ul>
+	*
+	* @param pManagedPackages : List&lt;String&gt; : 
+	* valeur à passer à this.managedPackages.<br/>
+	*/
+	public final void setManagedPackages(
+			final List<String> pManagedPackages) {
+		
+		this.managedPackages = pManagedPackages;
+		
+		this.persistenceUnitInfoJPASansXML
+			.setManagedPackages(this.managedPackages);
+		
+	} // Fin de setManagedPackages(...).___________________________________
+
+
+	
+	/**
+	 * Getter du boolean qui stipule que l'ORM ne doit manager 
+	 * que les classes Entities JPA listées dans le persistence.xml 
+	 * si il est à true.<br/>
+	 * <ul>
+	 * <li>valeur non lue dans le properties de configuration SPRING</li>
+	 * <li>correspond au <code>exclude-unlisted-classes</code> 
+	 * element dans un persistence.xml</li>
+	 * <li>toujours false si on utilise les classes annotées. </li>
+	 * </ul>
+	 *
+	 * @return excludeUnlistedClasses : boolean.<br/>
+	 */
+	public final boolean isExcludeUnlistedClasses() {
+		return this.persistenceUnitInfoJPASansXML
+							.isExcludeUnlistedClasses();
+	} // Fin de isExcludeUnlistedClasses().________________________________
+
+
+	
+	/**
+	* Setter du boolean qui stipule que l'ORM ne doit manager 
+	* que les classes Entities JPA listées dans le persistence.xml 
+	* si il est à true.<br/>
+	* <ul>
+	* <li>injecte la valeur dans le CONTENEUR 
+	* <code>this.persistenceUnitInfoJPASansXML</code>.</li>
+	* <li>valeur non lue dans le properties de configuration SPRING</li>
+	* <li>correspond au <code>exclude-unlisted-classes</code> 
+	* element dans un persistence.xml</li>
+	* <li>toujours false si on utilise les classes annotées. </li>
+	* </ul>
+	*
+	* @param pExcludeUnlistedClasses : boolean : 
+	* valeur à passer à this.excludeUnlistedClasses.<br/>
+	*/
+	public final void setExcludeUnlistedClasses(
+			final boolean pExcludeUnlistedClasses) {
+		
+		this.excludeUnlistedClasses = pExcludeUnlistedClasses;
+		
+		this.persistenceUnitInfoJPASansXML
+			.setExcludeUnlistedClasses(this.excludeUnlistedClasses);
+		
+	} // Fin de setExcludeUnlistedClasses(...).____________________________
+
+
+	
+	/**
+	 * Getter du mode d'utilisation du cache de 2nd niveau par l'ORM.
+	 * <ul>
+	 * <li>valeur non lue dans le properties de configuration SPRING</li>
+	 * <li>correspond au <code>shared-cache-mode</code> 
+	 * element dans un persistence.xml</li>
+	 * <li><code>javax.persistence.sharedCache.mode</code> 
+	* dans l'EntityManagerFactory.</li>
+	 * </ul>
+	 *
+	 * @return sharedCacheMode : SharedCacheMode.<br/>
+	 */
+	public final SharedCacheMode getSharedCacheMode() {
+		return this.persistenceUnitInfoJPASansXML.getSharedCacheMode();
+	} // Fin de getSharedCacheMode().______________________________________
+
+
+	
+	/**
+	* Setter du mode d'utilisation du cache de 2nd niveau par l'ORM.
+	* <ul>
+	* <li>injecte la valeur dans le CONTENEUR 
+	* <code>this.persistenceUnitInfoJPASansXML</code>.</li>
+	* <li>valeur non lue dans le properties de configuration SPRING</li>
+	* <li>correspond au <code>shared-cache-mode</code> 
+	* element dans un persistence.xml</li>
+	* <li><code>javax.persistence.sharedCache.mode</code> 
+	* dans l'EntityManagerFactory.</li>
+	* </ul>
+	*
+	* @param pSharedCacheMode : SharedCacheMode : 
+	* valeur à passer à this.sharedCacheMode.<br/>
+	*/
+	public final void setSharedCacheMode(
+			final SharedCacheMode pSharedCacheMode) {
+		
+		this.sharedCacheMode = pSharedCacheMode;
+		
+		this.persistenceUnitInfoJPASansXML
+			.setSharedCacheMode(this.sharedCacheMode);
+		
+	} // Fin de setSharedCacheMode(...).___________________________________
+
+
+	
+	/**
+	 * Getter du mode de validation utilisé par l'ORM.
+	 * <ul>
+	 * <li>valeur non lue dans le properties de configuration SPRING</li>
+	 * <li>correspond au <code>validation-mode</code> element 
+	 * dans un persistence.xml</li>
+	 * </ul>
+	 *
+	 * @return validationMode : ValidationMode.<br/>
+	 */
+	public final ValidationMode getValidationMode() {
+		return this.persistenceUnitInfoJPASansXML.getValidationMode();
+	} // Fin de getValidationMode()._______________________________________
+
+
+	
+	/**
+	* Setter du mode de validation utilisé par l'ORM.
+	* <ul>
+	* <li>injecte la valeur dans le CONTENEUR 
+	* <code>this.persistenceUnitInfoJPASansXML</code>.</li>
+	* <li>valeur non lue dans le properties de configuration SPRING</li>
+	* <li>correspond au <code>validation-mode</code> element 
+	* dans un persistence.xml</li>
+	* </ul>
+	*
+	* @param pValidationMode : ValidationMode : 
+	* valeur à passer à this.validationMode.<br/>
+	*/
+	public final void setValidationMode(
+			final ValidationMode pValidationMode) {
+		
+		this.validationMode = pValidationMode;
+		
+		this.persistenceUnitInfoJPASansXML
+			.setValidationMode(this.validationMode);
+		
+	} // Fin de setValidationMode(...).____________________________________
+
+
+	
+	/**
+	 * Getter de la version de JPA.
+	 * <ul>
+	 * <li>valeur non lue dans le properties de configuration SPRING</li>
+	 * <li>correspond à l'attribut <code>version</code> de l'element
+	 * racine <code>persistence</code> 
+	 * dans un persistence.xml</li>
+	 * </ul>
+	 *
+	 * @return persistenceXMLSchemaVersion : String.<br/>
+	 */
+	public final String getPersistenceXMLSchemaVersion() {
+		return this.persistenceUnitInfoJPASansXML
+				.getPersistenceXMLSchemaVersion();
+	} // Fin de getPersistenceXMLSchemaVersion().__________________________
+
+
+	
+	/**
+	* Setter de la version de JPA.
+	* <ul>
+	* <li>injecte la valeur dans le CONTENEUR 
+	* <code>this.persistenceUnitInfoJPASansXML</code>.</li>
+	* <li>valeur non lue dans le properties de configuration SPRING</li>
+	* <li>correspond à l'attribut <code>version</code> de l'element
+	 * racine <code>persistence</code> 
+	 * dans un persistence.xml</li>
+	* </ul>
+	*
+	* @param pPersistenceXMLSchemaVersion : String : 
+	* valeur à passer à this.persistenceXMLSchemaVersion.<br/>
+	*/
+	public final void setPersistenceXMLSchemaVersion(
+			final String pPersistenceXMLSchemaVersion) {
+		
+		this.persistenceXMLSchemaVersion = pPersistenceXMLSchemaVersion;
+		
+		this.persistenceUnitInfoJPASansXML
+			.setPersistenceXMLSchemaVersion(
+					this.persistenceXMLSchemaVersion);
+		
+	} // Fin de setPersistenceXMLSchemaVersion(...)._______________________
+
+
+	
+	/**
+	 * Getter du nom qualifié du package du PROVIDER 
+	 * de persistence (Hibernate).
+	 * <ul>
+	 * <li>valeur non lue dans le properties de configuration SPRING</li>
+	 * </ul>
+	 *
+	 * @return persistenceProviderPackageName : String.<br/>
+	 */
+	public final String getPersistenceProviderPackageName() {
+		return this.persistenceUnitInfoJPASansXML
+				.getPersistenceProviderPackageName();
+	} // Fin de getPersistenceProviderPackageName()._______________________
+
+
+	
+	/**
+	* Setter du nom qualifié du package du PROVIDER 
+	* de persistence (Hibernate).
+	* <ul>
+	* <li>injecte la valeur dans le CONTENEUR 
+	* <code>this.persistenceUnitInfoJPASansXML</code>.</li>
+	* <li>valeur non lue dans le properties de configuration SPRING</li>
+	* </ul>
+	*
+	* @param pPersistenceProviderPackageName : String : 
+	* valeur à passer à this.persistenceProviderPackageName.<br/>
+	*/
+	public final void setPersistenceProviderPackageName(
+			final String pPersistenceProviderPackageName) {
+		
+		this.persistenceProviderPackageName 
+			= pPersistenceProviderPackageName;
+		
+		this.persistenceUnitInfoJPASansXML
+			.setPersistenceProviderPackageName(
+					this.persistenceProviderPackageName);
+		
+	} // Fin de setPersistenceProviderPackageName(...).____________________
+
+
+	
+	/**
+	 * <b>retourne le DIALECTE de la Base 
+	 * stocké dans l'objet <b>properties</b> du conteneur 
+	 * <code>this.persistenceUnitInfoJPASansXML</code></b> 
+	 * après lecture du properties 
+	 * de configuration indiqué dans l'annotation 
+	 * PropertySource au dessus de la présente classe.<br/>
+	 * <ul>
+	 * <li>clé : 
+	 * <code>spring.jpa.properties.hibernate.dialect</code> 
+	 * dans le fichier properties SPRING</li>
+	 * <li>clé : property nommée <code>hibernate.dialect</code> 
+	 * dans un persistence.xml préconisé par JPA</li>
+	 * <li>clé : <code>hibernate.dialect</code> 
+	 * dans un EntityManagerFactory créé par le 
+	 * PersistenceProvider HIBERNATE</li>
+	 * </ul>
+	 *
+	 * @return String : dialect dans le Properties du CONTENEUR.<br/>
+	 */
+	public final String getDialect() {
+		return this.persistenceUnitInfoJPASansXML
+					.getProperties().getProperty("hibernate.dialect");
+	} // Fin de getDialect().______________________________________________
+
+
+	
+	/**
+	 * <b>retourne le SHOW_SQL 
+	 * stocké dans l'objet <b>properties</b> du conteneur 
+	 * <code>this.persistenceUnitInfoJPASansXML</code></b> 
+	 * après lecture du properties 
+	 * de configuration indiqué dans l'annotation 
+	 * PropertySource au dessus de la présente classe.<br/>
+	 * <ul>
+	 * <li>clé : 
+	 * <code>spring.jpa.properties.hibernate.show_sql</code> 
+	 * dans le fichier properties SPRING</li>
+	 * <li>clé : property nommée <code>hibernate.show_sql</code> 
+	 * dans un persistence.xml préconisé par JPA</li>
+	 * <li>clé : <code>hibernate.show_sql</code> 
+	 * dans un EntityManagerFactory créé par le 
+	 * PersistenceProvider HIBERNATE</li>
+	 * </ul>
+	 *
+	 * @return String : showSql dans le Properties du CONTENEUR.<br/>
+	 */
+	public final String getShowSql() {
+		return this.persistenceUnitInfoJPASansXML
+				.getProperties().getProperty("hibernate.show_sql");
+	} // Fin de getShowSql().______________________________________________
+
+
+	
+	/**
+	 * <b>retourne le FORMAT_SQL 
+	 * stocké dans l'objet <b>properties</b> du conteneur 
+	 * <code>this.persistenceUnitInfoJPASansXML</code></b> 
+	 * après lecture du properties 
+	 * de configuration indiqué dans l'annotation 
+	 * PropertySource au dessus de la présente classe.<br/>
+	 * <ul>
+	 * <li>clé : 
+	 * <code>spring.jpa.properties.hibernate.format_sql</code> 
+	 * dans le fichier properties SPRING</li>
+	 * <li>clé : property nommée <code>hibernate.format_sql</code> 
+	 * dans un persistence.xml préconisé par JPA</li>
+	 * <li>clé : <code>hibernate.format_sql</code> 
+	 * dans un EntityManagerFactory créé par le 
+	 * PersistenceProvider HIBERNATE</li>
+	 * </ul>
+	 *
+	 * @return String : formatSql dans le Properties du CONTENEUR.<br/>
+	 */
+	public final String getFormatSql() {
+		return this.persistenceUnitInfoJPASansXML
+				.getProperties().getProperty("hibernate.format_sql");
+	} // Fin de getFormatSql().____________________________________________
+
+
+	
+	/**
+	 * <b>retourne le USE_SQL_COMMENTS 
+	 * stocké dans l'objet <b>properties</b> du conteneur 
+	 * <code>this.persistenceUnitInfoJPASansXML</code></b> 
+	 * après lecture du properties 
+	 * de configuration indiqué dans l'annotation 
+	 * PropertySource au dessus de la présente classe.<br/>
+	 * <ul>
+	 * <li>clé : 
+	 * <code>spring.jpa.properties.hibernate.use_sql_comments</code> 
+	 * dans le fichier properties SPRING</li>
+	 * <li>clé : property nommée <code>hibernate.use_sql_comments</code> 
+	 * dans un persistence.xml préconisé par JPA</li>
+	 * <li>clé : <code>hibernate.use_sql_comments</code> 
+	 * dans un EntityManagerFactory créé par le 
+	 * PersistenceProvider HIBERNATE</li>
+	 * </ul>
+	 * 
+	 * @return String : useSqlComments dans le Properties du CONTENEUR.<br/>
+	 */
+	public final String getUseSqlComments() {
+		return this.persistenceUnitInfoJPASansXML
+				.getProperties()
+					.getProperty("hibernate.use_sql_comments");
+	} // Fin de getUseSqlComments()._______________________________________
+
+
+	
+	/**
+	 * <b>retourne le GENERATE_STATISTICS 
+	 * stocké dans l'objet <b>properties</b> du conteneur 
+	 * <code>this.persistenceUnitInfoJPASansXML</code></b> 
+	 * après lecture du properties 
+	 * de configuration indiqué dans l'annotation 
+	 * PropertySource au dessus de la présente classe.<br/>
+	 * <ul>
+	 * <li>clé : 
+	 * <code>spring.jpa.properties.hibernate.generate_statistics</code> 
+	 * dans le fichier properties SPRING</li>
+	 * <li>clé : property nommée <code>hibernate.generate_statistics</code> 
+	 * dans un persistence.xml préconisé par JPA</li>
+	 * <li>clé : <code>hibernate.generate_statistics</code> 
+	 * dans un EntityManagerFactory créé par le 
+	 * PersistenceProvider HIBERNATE</li>
+	 * </ul>
+	 *
+	 * @return String : 
+	 * generateSatistics dans le Properties du CONTENEUR.<br/>
+	 */
+	public final String getGenerateSatistics() {
+		return this.persistenceUnitInfoJPASansXML
+				.getProperties()
+					.getProperty("hibernate.generate_statistics");
+	} // Fin de getGenerateSatistics().____________________________________
+
+
+	
+	/**
+	 * <b>retourne le NO_CACHE_PROVIDER_CLASS 
+	 * stocké dans l'objet <b>properties</b> du conteneur 
+	 * <code>this.persistenceUnitInfoJPASansXML</code></b> 
+	 * après lecture du properties 
+	 * de configuration indiqué dans l'annotation 
+	 * PropertySource au dessus de la présente classe.<br/>
+	 * <ul>
+	 * <li>clé : 
+	 * <code>spring.jpa.properties.cache.NoCacheProvider</code> 
+	 * dans le fichier properties SPRING</li>
+	 * <li>clé : property nommée <code>cache.provider_class</code> 
+	 * dans un persistence.xml préconisé par JPA</li>
+	 * <li>clé : <code>cache.provider_class</code> 
+	 * dans un EntityManagerFactory créé par le 
+	 * PersistenceProvider HIBERNATE</li>
+	 * </ul>
+	 *
+	 * @return String : 
+	 * noCacheProviderClass dans le Properties du CONTENEUR.<br/>
+	 */
+	public final String getNoCacheProviderClass() {
+		
+		if (this.noCacheProviderClass != null) {
+			return this.persistenceUnitInfoJPASansXML
+					.getProperties()
+						.getProperty("cache.provider_class");
+		}
+		
+		return null;
+		
+	} // Fin de getNoCacheProviderClass()._________________________________
+
+
+	
+	/**
+	 * <b>retourne le CACHE_PROVIDER_CLASS 
+	 * stocké dans l'objet <b>properties</b> du conteneur 
+	 * <code>this.persistenceUnitInfoJPASansXML</code></b> 
+	 * après lecture du properties 
+	 * de configuration indiqué dans l'annotation 
+	 * PropertySource au dessus de la présente classe.<br/>
+	 * <ul>
+	 * <li>clé : 
+	 * <code>spring.jpa.properties.cache.provider_class</code> 
+	 * dans le fichier properties SPRING</li>
+	 * <li>clé : property nommée <code>cache.provider_class</code> 
+	 * dans un persistence.xml préconisé par JPA</li>
+	 * <li>clé : <code>cache.provider_class</code> 
+	 * dans un EntityManagerFactory créé par le 
+	 * PersistenceProvider HIBERNATE</li>
+	 * </ul>
+	 *
+	 * @return String : 
+	 * cacheProviderClass dans le Properties du CONTENEUR.<br/>
+	 */
+	public final String getCacheProviderClass() {
+		
+		if (this.cacheProviderClass != null) {
+			return this.persistenceUnitInfoJPASansXML
+					.getProperties()
+						.getProperty("cache.provider_class");
+		}
+		
+		return null;
+		
+	} // Fin de getCacheProviderClass().___________________________________
+
+
+	
+	/**
+	 * <b>retourne le CACHE-USE_SECOND_LEVEL_CACHE 
+	 * stocké dans l'objet <b>properties</b> du conteneur 
+	 * <code>this.persistenceUnitInfoJPASansXML</code></b> 
+	 * après lecture du properties 
+	 * de configuration indiqué dans l'annotation 
+	 * PropertySource au dessus de la présente classe.<br/>
+	 * <ul>
+	 * <li>clé : 
+	 * <code>spring.jpa.properties.cache.use_second_level_cache</code> 
+	 * dans le fichier properties SPRING</li>
+	 * <li>clé : property nommée <code>cache.use_second_level_cache</code> 
+	 * dans un persistence.xml préconisé par JPA</li>
+	 * <li>clé : <code>cache.use_second_level_cache</code> 
+	 * dans un EntityManagerFactory créé par le 
+	 * PersistenceProvider HIBERNATE</li>
+	 * </ul>
+	 *
+	 * @return String : 
+	 * cacheUseSecondLevelCache dans le Properties du CONTENEUR.<br/>
+	 */
+	public final String getCacheUseSecondLevelCache() {
+		return this.persistenceUnitInfoJPASansXML
+				.getProperties()
+					.getProperty("cache.use_second_level_cache");
+	} // Fin de getCacheUseSecondLevelCache()._____________________________
+
+
+	
+	/**
+	 * <b>retourne le CACHE-USE_QUERY_CACHE 
+	 * stocké dans l'objet <b>properties</b> du conteneur 
+	 * <code>this.persistenceUnitInfoJPASansXML</code></b> 
+	 * après lecture du properties 
+	 * de configuration indiqué dans l'annotation 
+	 * PropertySource au dessus de la présente classe.<br/>
+	 * <ul>
+	 * <li>clé : 
+	 * <code>spring.jpa.properties.cache.use_query_cache</code> 
+	 * dans le fichier properties SPRING</li>
+	 * <li>clé : property nommée <code>cache.use_query_cache</code> 
+	 * dans un persistence.xml préconisé par JPA</li>
+	 * <li>clé : <code>cache.use_query_cache</code> 
+	 * dans un EntityManagerFactory créé par le 
+	 * PersistenceProvider HIBERNATE</li>
+	 * </ul>
+	 *
+	 * @return String : 
+	 * cacheUseSecondLevelCache dans le Properties du CONTENEUR.<br/>
+	 */
+	public final String getCacheUseQueryCache() {
+		return this.persistenceUnitInfoJPASansXML
+				.getProperties()
+					.getProperty("cache.use_query_cache");
+	} // Fin de getCacheUseSecondLevelCache()._____________________________
+
+
+	
+	/**
+	 * <b>retourne le RESOURCE_CACHE 
+	 * stocké dans l'objet <b>properties</b> du conteneur 
+	 * <code>this.persistenceUnitInfoJPASansXML</code></b> 
+	 * après lecture du properties 
+	 * de configuration indiqué dans l'annotation 
+	 * PropertySource au dessus de la présente classe.<br/>
+	 * <ul>
+	 * <li>clé : 
+	 * <code>net.sf.ehcache.configurationResourcename</code> 
+	 * dans le fichier properties SPRING</li>
+	 * <li>clé : property nommée 
+	 * <code>net.sf.ehcache.configurationResourcename</code> 
+	 * dans un persistence.xml préconisé par JPA</li>
+	 * <li>clé : <code>net.sf.ehcache.configurationResourcename</code> 
+	 * dans un EntityManagerFactory créé par le 
+	 * PersistenceProvider HIBERNATE</li>
+	 * </ul>
+	 *
+	 * @return String : 
+	 * resourceCache dans le Properties du CONTENEUR.<br/>
+	 */
+	public final String getResourceCache() {
+		return this.persistenceUnitInfoJPASansXML
+				.getProperties()
+					.getProperty(
+							"net.sf.ehcache.configurationResourcename");
+	} // Fin de getResourceCache().________________________________________
+	
+
+	
+	/**
+	 * <b>retourne le poolMinSize 
+	 * stocké dans l'objet <b>properties</b> du conteneur 
+	 * <code>this.persistenceUnitInfoJPASansXML</code></b> 
+	 * après lecture du properties 
+	 * de configuration indiqué dans l'annotation 
+	 * PropertySource au dessus de la présente classe.<br/>
+	 * <ul>
+	 * <li>clé : 
+	 * <code>spring.jpa.properties.hibernate.c3p0.min_size</code> 
+	 * dans le fichier properties SPRING</li>
+	 * <li>clé : property nommée <code>hibernate.c3p0.min_size</code> 
+	 * dans un persistence.xml préconisé par JPA</li>
+	 * <li>clé : <code>hibernate.c3p0.min_size</code> 
+	 * dans un EntityManagerFactory créé par le 
+	 * PersistenceProvider HIBERNATE</li>
+	 * </ul>
+	 *
+	 * @return : String : 
+	 * poolMinSize dans le Properties du CONTENEUR.<br/>
+	 */
+	public final String getPoolMinSize() {
+		return this.persistenceUnitInfoJPASansXML
+				.getProperties()
+					.getProperty("hibernate.c3p0.min_size");
+	} // Fin de getPoolMinSize().__________________________________________
+	
+
+	
+	/**
+	 * <b>retourne le poolMaxSize 
+	 * stocké dans l'objet <b>properties</b> du conteneur 
+	 * <code>this.persistenceUnitInfoJPASansXML</code></b> 
+	 * après lecture du properties 
+	 * de configuration indiqué dans l'annotation 
+	 * PropertySource au dessus de la présente classe.<br/>
+	 * <ul>
+	 * <li>clé : 
+	 * <code>spring.jpa.properties.hibernate.c3p0.max_size</code> 
+	 * dans le fichier properties SPRING</li>
+	 * <li>clé : property nommée <code>hibernate.c3p0.max_size</code> 
+	 * dans un persistence.xml préconisé par JPA</li>
+	 * <li>clé : <code>hibernate.c3p0.max_size</code> 
+	 * dans un EntityManagerFactory créé par le 
+	 * PersistenceProvider HIBERNATE</li>
+	 * </ul>
+	 *
+	 * @return : String : 
+	 * poolMaxSize dans le Properties du CONTENEUR.<br/>
+	 */
+	public final String getPoolMaxSize() {
+		return this.persistenceUnitInfoJPASansXML
+				.getProperties()
+					.getProperty("hibernate.c3p0.max_size");
+	} // Fin de getPoolMaxSize().__________________________________________
+	
+
+	
+	/**
+	 * <b>retourne le poolTimeOut 
+	 * stocké dans l'objet <b>properties</b> du conteneur 
+	 * <code>this.persistenceUnitInfoJPASansXML</code></b> 
+	 * après lecture du properties 
+	 * de configuration indiqué dans l'annotation 
+	 * PropertySource au dessus de la présente classe.<br/>
+	 * <ul>
+	 * <li>clé : 
+	 * <code>spring.jpa.properties.hibernate.c3p0.timeout</code> 
+	 * dans le fichier properties SPRING</li>
+	 * <li>clé : property nommée <code>hibernate.c3p0.timeout</code> 
+	 * dans un persistence.xml préconisé par JPA</li>
+	 * <li>clé : <code>hibernate.c3p0.timeout</code> 
+	 * dans un EntityManagerFactory créé par le 
+	 * PersistenceProvider HIBERNATE</li>
+	 * </ul>
+	 *
+	 * @return : String : 
+	 * poolTimeOut dans le Properties du CONTENEUR.<br/>
+	 */
+	public final String getPoolTimeOut() {
+		return this.persistenceUnitInfoJPASansXML
+				.getProperties()
+					.getProperty("hibernate.c3p0.timeout");
+	} // Fin de getPoolTimeOut().__________________________________________
+	
+
+	
+	/**
+	 * <b>retourne le poolMaxStatements 
+	 * stocké dans l'objet <b>properties</b> du conteneur 
+	 * <code>this.persistenceUnitInfoJPASansXML</code></b> 
+	 * après lecture du properties 
+	 * de configuration indiqué dans l'annotation 
+	 * PropertySource au dessus de la présente classe.<br/>
+	 * <ul>
+	 * <li>clé : 
+	 * <code>spring.jpa.properties.hibernate.c3p0.max_statements</code> 
+	 * dans le fichier properties SPRING</li>
+	 * <li>clé : property nommée <code>hibernate.c3p0.max_statements</code> 
+	 * dans un persistence.xml préconisé par JPA</li>
+	 * <li>clé : <code>hibernate.c3p0.max_statements</code> 
+	 * dans un EntityManagerFactory créé par le 
+	 * PersistenceProvider HIBERNATE</li>
+	 * </ul>
+	 *
+	 * @return : String : 
+	 * poolMaxStatements dans le Properties du CONTENEUR.<br/>
+	 */
+	public final String getPoolMaxStatements() {
+		return this.persistenceUnitInfoJPASansXML
+				.getProperties()
+					.getProperty("hibernate.c3p0.max_statements");
+	} // Fin de getPoolMaxStatements().____________________________________
+	
+
+	
+	/**
+	 * <b>retourne le poolIdleTestPeriod 
+	 * stocké dans l'objet <b>properties</b> du conteneur 
+	 * <code>this.persistenceUnitInfoJPASansXML</code></b> 
+	 * après lecture du properties 
+	 * de configuration indiqué dans l'annotation 
+	 * PropertySource au dessus de la présente classe.<br/>
+	 * <ul>
+	 * <li>clé : 
+	 * <code>spring.jpa.properties.hibernate.c3p0.idle_test_period</code> 
+	 * dans le fichier properties SPRING</li>
+	 * <li>clé : property nommée <code>hibernate.c3p0.idle_test_period</code> 
+	 * dans un persistence.xml préconisé par JPA</li>
+	 * <li>clé : <code>hibernate.c3p0.idle_test_period</code> 
+	 * dans un EntityManagerFactory créé par le 
+	 * PersistenceProvider HIBERNATE</li>
+	 * </ul>
+	 *
+	 * @return : String : 
+	 * poolIdleTestPeriod dans le Properties du CONTENEUR.<br/>
+	 */
+	public final String getPoolIdleTestPeriod() {
+		return this.persistenceUnitInfoJPASansXML
+				.getProperties()
+					.getProperty("hibernate.c3p0.idle_test_period");
+	} // Fin de getPoolIdleTestPeriod().___________________________________
+	
+
+	
+	/**
+	 * <b>retourne le generateDdl 
+	 * stocké dans l'objet <b>properties</b> du conteneur 
+	 * <code>this.persistenceUnitInfoJPASansXML</code></b> 
+	 * après lecture du properties 
+	 * de configuration indiqué dans l'annotation 
+	 * PropertySource au dessus de la présente classe.<br/>
+	 * <ul>
+	 * <li>clé : 
+	 * <code>spring.jpa.generate-ddl</code> 
+	 * dans le fichier properties SPRING</li>
+	 * <li>clé : <code>spring.jpa.generate-ddl</code> 
+	 * dans un EntityManagerFactory créé par le 
+	 * PersistenceProvider HIBERNATE</li>
+	 * </ul>
+	 *
+	 * @return : String : 
+	 * generateDdl dans le Properties du CONTENEUR.<br/>
+	 */
+	public final String getGenerateDdl() {
+		return this.persistenceUnitInfoJPASansXML
+				.getProperties()
+					.getProperty("spring.jpa.generate-ddl");
+	} // Fin de getGenerateDdl().__________________________________________
+	
+
+	
+	/**
+	 * <b>retourne le ddl-auto 
+	 * stocké dans l'objet <b>properties</b> du conteneur 
+	 * <code>this.persistenceUnitInfoJPASansXML</code></b> 
+	 * après lecture du properties 
+	 * de configuration indiqué dans l'annotation 
+	 * PropertySource au dessus de la présente classe.<br/>
+	 * <ul>
+	 * <li>clé : 
+	 * <code>spring.jpa.properties.hibernate.ddl-auto</code> 
+	 * dans le fichier properties SPRING</li>
+	 * <li>clé : property nommée <code>hibernate.hbm2ddl.auto</code> 
+	 * dans un persistence.xml préconisé par JPA</li>
+	 * <li>clé : <code>hibernate.hbm2ddl.auto</code> 
+	 * dans un EntityManagerFactory créé par le 
+	 * PersistenceProvider HIBERNATE</li>
+	 * </ul>
+	 *
+	 * @return : String : 
+	 * ddlAuto dans le Properties du CONTENEUR.<br/>
+	 */
+	public final String getDdlAuto() {
+		return this.persistenceUnitInfoJPASansXML
+				.getProperties()
+					.getProperty("hibernate.hbm2ddl.auto");
+	} // Fin de getDdlAuto().______________________________________________
+	
+
+	
+	/**
+	 * <b>retourne le springH2ConsoleEnabled 
+	 * stocké dans l'objet <b>properties</b> du conteneur 
+	 * <code>this.persistenceUnitInfoJPASansXML</code></b> 
+	 * après lecture du properties 
+	 * de configuration indiqué dans l'annotation 
+	 * PropertySource au dessus de la présente classe.<br/>
+	 *  <ul>
+	 * <li>clé : 
+	 * <code>spring.h2.console.enabled</code> 
+	 * dans le fichier properties SPRING</li>
+	 * </ul>
+
+	 *
+	 * @return : String : 
+	 * springH2ConsoleEnabled dans le Properties du CONTENEUR.<br/>
+	 */
+	public final String getSpringH2ConsoleEnabled() {
+		return this.persistenceUnitInfoJPASansXML
+				.getProperties()
+					.getProperty("spring.h2.console.enabled");
+	} // Fin de getSpringH2ConsoleEnabled()._______________________________
+	
+
+	
+	/**
+	 * <b>retourne le springH2ConsolePath 
+	 * stocké dans l'objet <b>properties</b> du conteneur 
+	 * <code>this.persistenceUnitInfoJPASansXML</code></b> 
+	 * après lecture du properties 
+	 * de configuration indiqué dans l'annotation 
+	 * PropertySource au dessus de la présente classe.<br/>
+	 *  <ul>
+	 * <li>clé : 
+	 * <code>spring.h2.console.path</code> 
+	 * dans le fichier properties SPRING</li>
+	 * </ul>
+
+	 *
+	 * @return : String : 
+	 * springH2ConsolePath dans le Properties du CONTENEUR.<br/>
+	 */
+	public final String getSpringH2ConsolePath() {
+		return this.persistenceUnitInfoJPASansXML
+				.getProperties()
+					.getProperty("spring.h2.console.path");
+	} // Fin de getSpringH2ConsolePath().__________________________________
 	
 	
-}
+	
+} // FIN DE LA CLASSE LecteurPropertiesSpring.-------------------------------

@@ -106,13 +106,17 @@ public class PersistenceUnitInfoJPASansXML implements PersistenceUnitInfo {
 	private DataSource nonJtaDataSource;
 
 	/**
-	 * liste des <b>noms qualifiés</b> des 
-	 * classes Entities JPA mappées pour management 
+	 * liste des <b>noms qualifiés des 
+	 * fichiers de Mapping (orm.xml)</b> des Entities JPA 
+	 * mappées pour management 
 	 * par JPA dans un persistence.xml.<br/>
 	 * <ul>
+	 * <li>optionnel si on utilise les annotations 
+	 * sur les classes Entities.</li>
 	 * <li>Correspond au <code>mapping-file</code> element 
 	 * dans un persistence.xml.</li>
-	 * <li>Sans Objet lorsque l'on utilise des Entities JPA 
+	 * <li>un orm.xml prévaut toujours sur les annotations 
+	 * lorsque l'on utilise des Entities JPA 
 	 * <b>annotées</b>.</li>
 	 * </ul>
 	 */
@@ -138,8 +142,11 @@ public class PersistenceUnitInfoJPASansXML implements PersistenceUnitInfo {
 	 * <ul>
 	 * <li>Correspond au <code>class</code> element 
 	 * dans un persistence.xml.</li>
+	 * <li>par exemple : <br/>
+	 * <i>"levy.daniel.application.model.persistence.metier
+	 * .contactsimple.entities.jpa.ContactSimpleEntityJPA"</i></li>
 	 * <li>Sans Objet lorsque l'on utilise des Entities JPA 
-	 * <b>annotées</b>.</li>
+	 * <b>annotées</b> découvertes par JPA.</li>
 	 * </ul>
 	 */
 	private List<String> managedClassNames;
@@ -810,15 +817,19 @@ public class PersistenceUnitInfoJPASansXML implements PersistenceUnitInfo {
 	
 		
 	/**
-	* setter de la liste des <b>noms qualifiés</b> des 
-	 * classes Entities JPA mappées pour management 
-	 * par JPA dans un persistence.xml.<br/>
-	 * <ul>
-	 * <li>Correspond au <code>mapping-file</code> element 
-	 * dans un persistence.xml.</li>
-	 * <li>Sans Objet lorsque l'on utilise des Entities JPA 
-	 * <b>annotées</b>.</li>
-	 * </ul>
+	* setter de la liste des <b>noms qualifiés des 
+	* fichiers de Mapping (orm.xml)</b> des Entities JPA 
+	* mappées pour management 
+	* par JPA dans un persistence.xml.<br/>
+	* <ul>
+	* <li>optionnel si on utilise les annotations 
+	* sur les classes Entities.</li>
+	* <li>Correspond au <code>mapping-file</code> element 
+	* dans un persistence.xml.</li>
+	* <li>un orm.xml prévaut toujours sur les annotations 
+	* lorsque l'on utilise des Entities JPA 
+	* <b>annotées</b>.</li>
+	* </ul>
 	*
 	* @param pMappingFileNames : List&lt;String&gt; : 
 	* valeur à passer à this.mappingFileNames.<br/>
@@ -905,8 +916,11 @@ public class PersistenceUnitInfoJPASansXML implements PersistenceUnitInfo {
 	* <ul>
 	* <li>Correspond au <code>class</code> element 
 	* dans un persistence.xml.</li>
+	* <li>par exemple : <br/>
+	* <i>"levy.daniel.application.model.persistence.metier
+	* .contactsimple.entities.jpa.ContactSimpleEntityJPA"</i></li>
 	* <li>Sans Objet lorsque l'on utilise des Entities JPA 
-	* <b>annotées</b>.</li>
+	* <b>annotées</b> découvertes par JPA.</li>
 	* </ul>
 	*
 	* @param pManagedClassNames : List&lt;String&gt; : 

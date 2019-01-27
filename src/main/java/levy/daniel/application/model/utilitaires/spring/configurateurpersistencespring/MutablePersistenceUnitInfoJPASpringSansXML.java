@@ -4,7 +4,9 @@ import java.net.URL;
 import java.util.Collections;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Locale;
 import java.util.Properties;
+import java.util.Set;
 
 import javax.persistence.SharedCacheMode;
 import javax.persistence.ValidationMode;
@@ -30,6 +32,9 @@ import org.springframework.util.ClassUtils;
  *<br/>
  * 
  * - Mots-clé :<br/>
+ * afficher java.util.Properties, afficher Properties,<br/> 
+ * afficherProperties, <br/>
+ * afficher DataSource, afficherDataSource(), <br/>
  * <br/>
  *
  * - Dépendances :<br/>
@@ -60,7 +65,31 @@ public class MutablePersistenceUnitInfoJPASpringSansXML
 	 * "null".<br/>
 	 */
 	public static final String NULL = "null";
-
+	
+	/**
+	 * saut de ligne de la plateforme.<br/>
+	 * System.getProperty("line.separator")
+	 */
+	public static final String SAUT_LIGNE_PLATEFORME 
+		= System.getProperty("line.separator");
+	
+	/**
+	 * "%1$-40s : %2$-45s".
+	 */
+	public static final String FORMAT_TOSTRING 
+		= "%1$70s : %2$-72s";
+	
+	/**
+	 * "%1$-5d  clé : %2$-35s - valeur : %3$s".
+	 */
+	public static final String FORMAT_PROPERTIES 
+		= "%1$-5d  clé : %2$-35s - valeur : %3$s";
+	
+	/**
+	 * Locale.getDefault().
+	 */
+	public static final Locale LOCALE_PLATEFORME 
+		= Locale.getDefault();
 	
 	/**
 	 * nom de l'unité de persistance.
@@ -102,6 +131,15 @@ public class MutablePersistenceUnitInfoJPASpringSansXML
 	 */
 	@Nullable
 	private PersistenceUnitTransactionType transactionType;
+	
+	/**
+	 * SimpleDriverDataSource utilisé dans la présente classe.
+	 * <ul>
+	 * <li>déduite de transactionType 
+	 * (jtaDataSource existe si transactionType = JTA).</li>
+	 * </ul>
+	 */
+	private SimpleDriverDataSource dataSource;
 	
 	/**
 	 * DataSource fournie par le conteneur de Servlet (TOMCAT) 
@@ -332,6 +370,7 @@ public class MutablePersistenceUnitInfoJPASpringSansXML
 	 /**
 	 * CONSTRUCTEUR COMPLET.<br/>
 	 * <ul>
+	 * <li>alimente this.dataSource.</li>
 	 * <li>this.jarFileUrls == liste vide si pJarFileUrls == null.<br/></li>
 	 * <li>this.sharedCacheMode = UNSPECIFIED 
 	* si pSharedCacheMode == null.</li>
@@ -421,12 +460,21 @@ public class MutablePersistenceUnitInfoJPASpringSansXML
 		
 		this.transactionType = pTransactionType;
 		super.setTransactionType(this.transactionType);
-		
+				
 		this.jtaDataSource = pJtaDataSource;
 		super.setJtaDataSource(this.jtaDataSource);
 		
 		this.nonJtaDataSource = pNonJtaDataSource;
 		super.setNonJtaDataSource(this.nonJtaDataSource);
+		
+		/* alimente this.dataSource. */
+		if (this.nonJtaDataSource != null) {
+			this.dataSource = (SimpleDriverDataSource) this.nonJtaDataSource;
+		} else if (this.jtaDataSource != null) {
+			this.dataSource = (SimpleDriverDataSource) this.jtaDataSource;
+		} else {
+			this.dataSource = null;
+		}
 		
 		if (pMappingFileNames == null) {
 			this.mappingFileNames = new LinkedList<>();
@@ -680,6 +728,112 @@ public class MutablePersistenceUnitInfoJPASpringSansXML
 
 
 	
+
+	
+	/**
+	 * <b>fournit une String pour l'affichage 
+	 * du contenu du present LecteurPropertiesSpring</b>.<br/>
+	 *
+	 * @return : String : affichage.<br/>
+	 */
+	public final String toStringAmeliore() {
+		
+		final StringBuilder stb = new StringBuilder();
+		
+		stb.append("VALEURS dans LE CONTENEUR persistenceUnitInfoJPASansXML : ");
+		stb.append(SAUT_LIGNE_PLATEFORME);
+		
+		stb.append(String.format(LOCALE_PLATEFORME, FORMAT_TOSTRING
+				, "NOM DE L'UNITE DE PERSISTENCE (hibernate.ejb.persistenceUnitName)", this.getPersistenceUnitName()));
+		stb.append(SAUT_LIGNE_PLATEFORME);
+		
+		stb.append(String.format(LOCALE_PLATEFORME, FORMAT_TOSTRING
+				, "TYPE DE TRANSACTION (hibernate.transaction.coordinator_class)", this.getTransactionType()));
+		stb.append(SAUT_LIGNE_PLATEFORME);
+		
+		stb.append(String.format(LOCALE_PLATEFORME, FORMAT_TOSTRING
+				, "PROVIDER DE PERSISTENCE", this.getPersistenceProviderClassName()));
+		stb.append(SAUT_LIGNE_PLATEFORME);
+		
+		/* DataSource. */
+		stb.append(SAUT_LIGNE_PLATEFORME);
+		stb.append("********* DATASOURCE *************");
+		stb.append(SAUT_LIGNE_PLATEFORME);
+		if (this.dataSource != null) {
+			
+			stb.append(String.format(LOCALE_PLATEFORME, FORMAT_TOSTRING
+					, " *** URL", this.dataSource.getUrl()));
+			stb.append(SAUT_LIGNE_PLATEFORME);
+			
+			stb.append(String.format(LOCALE_PLATEFORME,FORMAT_TOSTRING
+					, "DRIVER", this.dataSource.getDriver()));
+			stb.append(SAUT_LIGNE_PLATEFORME);
+			
+			stb.append(String.format(LOCALE_PLATEFORME, FORMAT_TOSTRING
+					, "LOGIN", this.dataSource.getUsername()));
+			stb.append(SAUT_LIGNE_PLATEFORME);
+
+			stb.append(String.format(LOCALE_PLATEFORME, FORMAT_TOSTRING
+					, "PASSWORD", this.dataSource.getPassword()));
+			stb.append(SAUT_LIGNE_PLATEFORME);
+		}
+		
+		stb.append(SAUT_LIGNE_PLATEFORME);
+		stb.append(String.format(LOCALE_PLATEFORME, FORMAT_TOSTRING
+				, "mappingFileNames", this.getMappingFileNames()));
+		stb.append(SAUT_LIGNE_PLATEFORME);
+
+		stb.append(String.format(LOCALE_PLATEFORME, FORMAT_TOSTRING
+				, "jarFileUrls", this.getJarFileUrls()));
+		stb.append(SAUT_LIGNE_PLATEFORME);
+
+		stb.append(String.format(LOCALE_PLATEFORME, FORMAT_TOSTRING
+				, "persistenceUnitRootUrl", this.getPersistenceUnitRootUrl()));
+		stb.append(SAUT_LIGNE_PLATEFORME);
+
+		stb.append(String.format(LOCALE_PLATEFORME,FORMAT_TOSTRING
+				, "managedClassNames", this.getManagedClassNames()));
+		stb.append(SAUT_LIGNE_PLATEFORME);
+
+		stb.append(String.format(LOCALE_PLATEFORME, FORMAT_TOSTRING
+				, "managedPackages", this.getManagedPackages()));
+		stb.append(SAUT_LIGNE_PLATEFORME);
+
+		stb.append(String.format(LOCALE_PLATEFORME, FORMAT_TOSTRING
+				, "excludeUnlistedClasses", this.isExcludeUnlistedClasses()));
+		stb.append(SAUT_LIGNE_PLATEFORME);
+
+		stb.append(String.format(LOCALE_PLATEFORME, FORMAT_TOSTRING
+				, "sharedCacheMode (javax.persistence.sharedCache.mode)", this.getSharedCacheMode()));
+		stb.append(SAUT_LIGNE_PLATEFORME);
+
+		stb.append(String.format(LOCALE_PLATEFORME, FORMAT_TOSTRING
+				, "validationMode (javax.persistence.validation.mode)", this.getValidationMode()));
+		stb.append(SAUT_LIGNE_PLATEFORME);
+
+		stb.append(String.format(LOCALE_PLATEFORME, FORMAT_TOSTRING
+				, "persistenceXMLSchemaVersion", this.getPersistenceXMLSchemaVersion()));
+		stb.append(SAUT_LIGNE_PLATEFORME);
+
+		stb.append(String.format(LOCALE_PLATEFORME, FORMAT_TOSTRING
+				, "persistenceProviderPackageName", this.getPersistenceProviderPackageName()));
+		stb.append(SAUT_LIGNE_PLATEFORME);
+
+		/* Properties. */
+		stb.append(SAUT_LIGNE_PLATEFORME);
+
+		stb.append(SAUT_LIGNE_PLATEFORME);
+		stb.append("LISTE DES PROPRIETES DANS LE java.util.Properties : ");
+		stb.append(SAUT_LIGNE_PLATEFORME);
+		stb.append(this.afficherPropertiesConteneur());
+		stb.append(SAUT_LIGNE_PLATEFORME);
+		
+		return stb.toString();
+		
+	} // Fin de toString().________________________________________________
+
+	
+	
 	/**
 	 * affiche les propriétés d'une SimpleDriverDataSource.<br/>
 	 *
@@ -739,8 +893,69 @@ public class MutablePersistenceUnitInfoJPASpringSansXML
 		
 	} // Fin de afficherDataSource(...).___________________________________
 	
+
+	
+	/**
+	 * Fabrique une String à partir du java.util.Properties 
+	 * <code>this.properties</code>.<br/>
+	 * <br/>
+	 * - retourne null si properties est null.<br/>
+	 * <br/>
+	 *
+	 * @return : String : Pour affichage à la console.<br/>
+	 */
+	public final String afficherPropertiesConteneur() {
+		return this.afficherJavaUtilProperties(this.properties);
+	} // Fin de afficherPropertiesConteneur()._____________________________
 	
 	
+	
+	/**
+	 * Fabrique une String à partir d'un java.util.Properties.<br/>
+	 * <br/>
+	 * - retourne null si pProperties est null.<br/>
+	 * <br/>
+	 *
+	 * @param pProperties : java.util.Properties.
+	 * 
+	 * @return : String : Pour affichage à la console.<br/>
+	 */
+	public final String afficherJavaUtilProperties(
+			final Properties pProperties) {
+		
+		/* retourne null si pProperties est null. */
+		if (pProperties == null) {
+			return null;
+		}
+		
+		final StringBuilder stb = new StringBuilder();
+		
+		final Set<String> keys = pProperties.stringPropertyNames();
+		
+		int i = 0;
+		
+		for (final String key : keys) {
+			
+			i++;
+			String valeur = pProperties.getProperty(key);
+			
+			final String ligne 
+				= String.format(
+						LOCALE_PLATEFORME
+							, FORMAT_PROPERTIES
+								, i, key, valeur);
+			
+			stb.append(ligne);
+			stb.append(SAUT_LIGNE_PLATEFORME);
+			
+		}
+		
+		return stb.toString();
+		
+	} // Fin de afficherJavaUtilProperties(...).___________________________
+
+	
+		
 	/**
 	 * {@inheritDoc}
 	 * <ul>
@@ -851,6 +1066,21 @@ public class MutablePersistenceUnitInfoJPASpringSansXML
 		super.setTransactionType(pTransactionType);
 		this.transactionType = pTransactionType;
 	} // Fin de setTransactionType(...).___________________________________
+	
+
+	
+	/**
+	 * Getter du SimpleDriverDataSource utilisé dans la présente classe.
+	 * <ul>
+	 * <li>déduite de transactionType 
+	 * (jtaDataSource existe si transactionType = JTA).</li>
+	 * </ul>
+	 *
+	 * @return this.dataSource : SimpleDriverDataSource.<br/>
+	 */
+	public final SimpleDriverDataSource getDataSource() {
+		return this.dataSource;
+	} // Fin de getDataSource().___________________________________________
 
 
 
@@ -868,6 +1098,9 @@ public class MutablePersistenceUnitInfoJPASpringSansXML
 	/**
 	* setter de la DataSource fournie par le conteneur de Servlet (TOMCAT) 
 	 * via JNDI en cas de transactions JTA.
+	 * <ul>
+	 * <li>passe this.jtaDataSource à this.dataSource.</li>
+	 * </ul>
 	*
 	* @param pJtaDataSource : DataSource : 
 	* valeur à passer à this.jtaDataSource.<br/>
@@ -875,8 +1108,14 @@ public class MutablePersistenceUnitInfoJPASpringSansXML
 	@Override
 	public void setJtaDataSource(
 			@Nullable final DataSource pJtaDataSource) {
+		
 		this.jtaDataSource = pJtaDataSource;
 		super.setJtaDataSource(this.jtaDataSource);
+		
+		if (this.jtaDataSource != null) {
+			this.dataSource = (SimpleDriverDataSource) this.jtaDataSource;
+		}
+		
 	} // Fin de setJtaDataSource(...)._____________________________________
 
 
@@ -894,7 +1133,10 @@ public class MutablePersistenceUnitInfoJPASpringSansXML
 	
 	/**
 	* Setter de la DataSource de l'application Standalone 
-	 * en cas de transactions RESOURCE_LOCAL (pas de TOMCAT).
+	* en cas de transactions RESOURCE_LOCAL (pas de TOMCAT).
+	* <ul>
+	* <li>passe this.nonJtaDataSource à this.dataSource.</li>
+	* </ul>
 	*
 	* @param pNonJtaDataSource : DataSource : 
 	* valeur à passer à this.nonJtaDataSource.<br/>
@@ -902,8 +1144,14 @@ public class MutablePersistenceUnitInfoJPASpringSansXML
 	@Override
 	public void setNonJtaDataSource(
 			@Nullable final DataSource pNonJtaDataSource) {
+		
 		this.nonJtaDataSource = pNonJtaDataSource;
 		super.setNonJtaDataSource(this.nonJtaDataSource);
+		
+		if (this.nonJtaDataSource != null) {
+			this.dataSource = (SimpleDriverDataSource) this.nonJtaDataSource;
+		}
+		
 	} // Fin de setNonJtaDataSource(...).__________________________________
 	
 

@@ -4,7 +4,9 @@ import java.net.URL;
 import java.sql.Driver;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Locale;
 import java.util.Properties;
+import java.util.Set;
 
 import javax.persistence.SharedCacheMode;
 import javax.persistence.ValidationMode;
@@ -30,6 +32,9 @@ import levy.daniel.application.model.utilitaires.normalizerurlbase.UrlEncapsulat
  *<br/>
  * 
  * - Mots-clé :<br/>
+ * afficher java.util.Properties, afficher Properties,<br/> 
+ * afficherProperties, <br/>
+ * afficher Liste String, afficherListeString, <br/>
  * <br/>
  *
  * - Dépendances :<br/>
@@ -183,6 +188,24 @@ public class LecteurPropertiesSpring {
 		= System.getProperty("line.separator");
 	
 	/**
+	 * Locale.getDefault().
+	 */
+	public static final Locale LOCALE_PLATEFORME 
+		= Locale.getDefault();
+	
+	/**
+	 * "%1$-40s : %2$-45s".
+	 */
+	public static final String FORMAT_TOSTRING 
+		= "%1$70s : %2$-72s";
+	
+	/**
+	 * "%1$-5d  clé : %2$-35s - valeur : %3$s".
+	 */
+	public static final String FORMAT_PROPERTIES 
+		= "%1$-5d  clé : %2$-35s - valeur : %3$s";
+	
+	/**
 	 * <b>lecteur SPRING du fichier properties</b> proposé 
 	 * dans l'annotation sur la présente classe 'PropertySource'.
 	 * <ul>
@@ -287,6 +310,16 @@ public class LecteurPropertiesSpring {
 	 * </ul>
 	 */
 	private String password;
+	
+	/**
+	 * SimpleDriverDataSource utilisé dans la présente classe.
+	 * <ul>
+	 * <li>valeur non lue dans le properties de configuration SPRING</li>
+	 * <li>déduite de transactionType 
+	 * (jtaDataSource existe si transactionType = JTA).</li>
+	 * </ul>
+	 */
+	private SimpleDriverDataSource dataSource;
 	
 	/**
 	 * DataSource fournie par le conteneur de Servlet (TOMCAT) 
@@ -826,6 +859,13 @@ public class LecteurPropertiesSpring {
 	private String springH2ConsolePath;
 	
 	/**
+	 * java.util.Properties contenu dans le CONTENEUR 
+	 * <code>this.persistenceUnitInfoJPASansXML</code> 
+	 * de la présente classe.
+	 */
+	private Properties propertiesConteneur;
+	
+	/**
 	 * "javax.persistence.jdbc.persistence-unit.name".
 	 */
 	public static final String PERSISTENCE_UNIT_NAME_KEY 
@@ -1065,6 +1105,9 @@ public class LecteurPropertiesSpring {
 	 * <li>lit le DDL-AUTO (ddlAuto).</li>
 	 * <li>lit le springH2ConsoleEnabled.</li>
 	 * <li>lit le springH2ConsolePath.</li>
+	 * <li>alimente <code>this.propertiesConteneur</code> 
+	 * avec le java.util.Properties contenu dans le 
+	 * CONTENEUR <code>this.persistenceUnitInfoJPASansXML</code>.</li>
 	 * </ul>
 	 * </ul>
 	 */
@@ -1192,6 +1235,12 @@ public class LecteurPropertiesSpring {
 		
 		/* springH2ConsolePath. */
 		this.lireSpringH2ConsolePath();
+		
+		/* alimente this.propertiesConteneur 
+		 * avec le java.util.Properties contenu 
+		 * dans this.persistenceUnitInfoJPASansXML. */
+		this.propertiesConteneur 
+			= this.persistenceUnitInfoJPASansXML.getProperties();
 		
 	} // Fin de lireProperties().__________________________________________
 	
@@ -1509,6 +1558,8 @@ public class LecteurPropertiesSpring {
 	 * (jtaDataSource ou nonJtaDataSource) 
 	 * en fonction du type de transaction transactionType.</b>.<br/>
 	 * <ul>
+	 * <li>alimente <code>this.dataSource</code> en fonction 
+	 * de la détermination.</li>
 	 * <li>alimente <code>this.jtaDataSource</code> 
 	 * et <code>this.nonJtaDataSource</code>.</li>
 	 * <li>injecte les jtaDataSource et nonJtaDataSource 
@@ -1539,6 +1590,10 @@ public class LecteurPropertiesSpring {
 						, this.url
 						, this.userName, this.password);
 			
+			/* alimente this.dataSource en fonction 
+			 * de la détermination. */
+			this.dataSource = this.nonJtaDataSource;
+			
 			/* injecte les jtaDataSource et nonJtaDataSource 
 			 * dans le conteneur this.persistenceUnitInfoJPASansXML. */
 			this.persistenceUnitInfoJPASansXML
@@ -1557,6 +1612,10 @@ public class LecteurPropertiesSpring {
 					this.driver
 					, this.url
 					, this.userName, this.password);
+			
+			/* alimente this.dataSource en fonction 
+			 * de la détermination. */
+			this.dataSource = this.jtaDataSource;
 			
 			this.nonJtaDataSource = null;
 			
@@ -1581,6 +1640,10 @@ public class LecteurPropertiesSpring {
 						, this.url
 						, this.userName, this.password);
 			
+			/* alimente this.dataSource en fonction 
+			 * de la détermination. */
+			this.dataSource = this.nonJtaDataSource;
+			
 			/* injecte les jtaDataSource et nonJtaDataSource 
 			 * dans le conteneur this.persistenceUnitInfoJPASansXML. */
 			this.persistenceUnitInfoJPASansXML
@@ -1594,6 +1657,10 @@ public class LecteurPropertiesSpring {
 		
 		this.jtaDataSource = null;
 		this.nonJtaDataSource = null;
+		
+		/* alimente this.dataSource en fonction 
+		 * de la détermination. */
+		this.dataSource = null;
 		
 		/* injecte les jtaDataSource et nonJtaDataSource 
 		 * dans le conteneur this.persistenceUnitInfoJPASansXML. */
@@ -2574,6 +2641,220 @@ public class LecteurPropertiesSpring {
 		
 	} // Fin de lireSpringH2ConsolePath()._________________________________
 	
+
+	
+	/**
+	 * <b>fournit une String pour l'affichage 
+	 * du contenu du CONTENEUR <code>this.persistenceUnitInfoJPASansXML</code> 
+	 * encapsulé dans le present LecteurPropertiesSpring</b>.<br/>
+	 *
+	 * @return : String : affichage.<br/>
+	 */
+	@Override
+	public final String toString() {
+		
+		final StringBuilder stb = new StringBuilder();
+		
+		stb.append("VALEURS provenant du fichier properties SPRING dans LE CONTENEUR persistenceUnitInfoJPASansXML du LecteurPropertiesSpring : ");
+		stb.append(SAUT_LIGNE_PLATEFORME);
+		
+		stb.append(String.format(FORMAT_TOSTRING
+				, "NOM DE L'UNITE DE PERSISTENCE (hibernate.ejb.persistenceUnitName)", this.getPersistenceUnitName()));
+		stb.append(SAUT_LIGNE_PLATEFORME);
+		
+		stb.append(String.format(FORMAT_TOSTRING
+				, "TYPE DE TRANSACTION (hibernate.transaction.coordinator_class)", this.getTransactionType()));
+		stb.append(SAUT_LIGNE_PLATEFORME);
+		
+		stb.append(String.format(FORMAT_TOSTRING
+				, "PROVIDER DE PERSISTENCE", this.getPersistenceProviderClassName()));
+		stb.append(SAUT_LIGNE_PLATEFORME);
+		
+		/* DataSource. */
+		stb.append(String.format(FORMAT_TOSTRING
+				, " *** URL", this.getUrl()));
+		stb.append(SAUT_LIGNE_PLATEFORME);
+
+		stb.append(String.format(FORMAT_TOSTRING
+				, "DRIVER", this.getDriver()));
+		stb.append(SAUT_LIGNE_PLATEFORME);
+
+		stb.append(String.format(FORMAT_TOSTRING
+				, "LOGIN", this.getUserName()));
+		stb.append(SAUT_LIGNE_PLATEFORME);
+
+		stb.append(String.format(FORMAT_TOSTRING
+				, "PASSWORD", this.getPassword()));
+		stb.append(SAUT_LIGNE_PLATEFORME);
+
+		stb.append(SAUT_LIGNE_PLATEFORME);
+		stb.append(String.format(FORMAT_TOSTRING
+				, "*** JTADATASOURCE (hibernate.connection.datasource)", this.getJtaDataSource()));
+		stb.append(SAUT_LIGNE_PLATEFORME);
+
+		stb.append("CONTENU DE LA JTADATASOURCE : ");
+		stb.append(this.afficherDataSource(this.jtaDataSource));
+		stb.append(SAUT_LIGNE_PLATEFORME);
+		stb.append(SAUT_LIGNE_PLATEFORME);
+		
+		stb.append(String.format(FORMAT_TOSTRING
+				, "*** NON-JTADATASOURCE (hibernate.connection.datasource)", this.getNonJtaDataSource()));
+		stb.append(SAUT_LIGNE_PLATEFORME);
+
+		stb.append("CONTENU DE LA NON-JTADATASOURCE : ");
+		stb.append(this.afficherDataSource(this.nonJtaDataSource));
+		stb.append(SAUT_LIGNE_PLATEFORME);
+		stb.append(SAUT_LIGNE_PLATEFORME);
+		
+		stb.append(String.format(FORMAT_TOSTRING
+				, "mappingFileNames", this.getMappingFileNames()));
+		stb.append(SAUT_LIGNE_PLATEFORME);
+
+		stb.append(String.format(FORMAT_TOSTRING
+				, "jarFileUrls", this.getJarFileUrls()));
+		stb.append(SAUT_LIGNE_PLATEFORME);
+
+		stb.append(String.format(FORMAT_TOSTRING
+				, "persistenceUnitRootUrl", this.getPersistenceUnitRootUrl()));
+		stb.append(SAUT_LIGNE_PLATEFORME);
+
+		stb.append(String.format(FORMAT_TOSTRING
+				, "managedClassNames", this.getManagedClassNames()));
+		stb.append(SAUT_LIGNE_PLATEFORME);
+
+		stb.append(String.format(FORMAT_TOSTRING
+				, "managedPackages", this.getManagedPackages()));
+		stb.append(SAUT_LIGNE_PLATEFORME);
+
+		stb.append(String.format(FORMAT_TOSTRING
+				, "excludeUnlistedClasses", this.isExcludeUnlistedClasses()));
+		stb.append(SAUT_LIGNE_PLATEFORME);
+
+		stb.append(String.format(FORMAT_TOSTRING
+				, "sharedCacheMode (javax.persistence.sharedCache.mode)", this.getSharedCacheMode()));
+		stb.append(SAUT_LIGNE_PLATEFORME);
+
+		stb.append(String.format(FORMAT_TOSTRING
+				, "validationMode (javax.persistence.validation.mode)", this.getValidationMode()));
+		stb.append(SAUT_LIGNE_PLATEFORME);
+
+		stb.append(String.format(FORMAT_TOSTRING
+				, "persistenceXMLSchemaVersion", this.getPersistenceXMLSchemaVersion()));
+		stb.append(SAUT_LIGNE_PLATEFORME);
+
+		stb.append(String.format(FORMAT_TOSTRING
+				, "persistenceProviderPackageName", this.getPersistenceProviderPackageName()));
+		stb.append(SAUT_LIGNE_PLATEFORME);
+
+		/* Properties. */
+		stb.append(SAUT_LIGNE_PLATEFORME);
+
+		stb.append(String.format(FORMAT_TOSTRING
+				, "DIALECTE (hibernate.dialect)", this.getDialect()));
+		stb.append(SAUT_LIGNE_PLATEFORME);
+		
+		stb.append(String.format(FORMAT_TOSTRING
+				, "SHOW_SQL (hibernate.show_sql)", this.getShowSql()));
+		stb.append(SAUT_LIGNE_PLATEFORME);
+
+		stb.append(String.format(FORMAT_TOSTRING
+				, "FORMAT_SQL (hibernate.format_sql)", this.getFormatSql()));
+		stb.append(SAUT_LIGNE_PLATEFORME);
+
+		stb.append(String.format(FORMAT_TOSTRING
+				, "USE_SQL_COMMENTS (hibernate.use_sql_comments)", this.getUseSqlComments()));
+		stb.append(SAUT_LIGNE_PLATEFORME);
+
+		stb.append(String.format(FORMAT_TOSTRING
+				, "GENERATE_STATISTICS (hibernate.generate_statistics)", this.getGenerateSatistics()));
+		stb.append(SAUT_LIGNE_PLATEFORME);
+
+		stb.append(SAUT_LIGNE_PLATEFORME);
+		stb.append(String.format(FORMAT_TOSTRING
+				, "NO_CACHE_PROVIDER_CLASS (cache.provider_class)", this.getNoCacheProviderClass()));
+		stb.append(SAUT_LIGNE_PLATEFORME);
+
+		stb.append(SAUT_LIGNE_PLATEFORME);
+		stb.append(String.format(FORMAT_TOSTRING
+				, "CACHE_PROVIDER_CLASS (cache.provider_class)", this.getCacheProviderClass()));
+		stb.append(SAUT_LIGNE_PLATEFORME);
+
+		stb.append(String.format(FORMAT_TOSTRING
+				, "CACHE-USE_SECOND_LEVEL_CACHE (cache.use_second_level_cache)", this.getCacheUseSecondLevelCache()));
+		stb.append(SAUT_LIGNE_PLATEFORME);
+
+		stb.append(String.format(FORMAT_TOSTRING
+				, "CACHE-USE_QUERY_CACHE (cache.use_query_cache)", this.getCacheUseQueryCache()));
+		stb.append(SAUT_LIGNE_PLATEFORME);
+
+		stb.append(String.format(FORMAT_TOSTRING
+				, "RESOURCE_CACHE (net.sf.ehcache.configurationResourcename)", this.getResourceCache()));
+		stb.append(SAUT_LIGNE_PLATEFORME);
+
+		stb.append(SAUT_LIGNE_PLATEFORME);
+		stb.append(String.format(FORMAT_TOSTRING
+				, "poolMinSize (hibernate.c3p0.min_size)", this.getPoolMinSize()));
+		stb.append(SAUT_LIGNE_PLATEFORME);
+
+		stb.append(String.format(FORMAT_TOSTRING
+				, "poolMaxSize (hibernate.c3p0.max_size)", this.getPoolMaxSize()));
+		stb.append(SAUT_LIGNE_PLATEFORME);
+
+		stb.append(String.format(FORMAT_TOSTRING
+				, "poolTimeOut (hibernate.c3p0.timeout)", this.getPoolTimeOut()));
+		stb.append(SAUT_LIGNE_PLATEFORME);
+
+		stb.append(String.format(FORMAT_TOSTRING
+				, "poolMaxStatements (hibernate.c3p0.max_statements)", this.getPoolMaxStatements()));
+		stb.append(SAUT_LIGNE_PLATEFORME);
+
+		stb.append(String.format(FORMAT_TOSTRING
+				, "poolIdleTestPeriod (hibernate.c3p0.idle_test_period)", this.getPoolIdleTestPeriod()));
+		stb.append(SAUT_LIGNE_PLATEFORME);
+
+		stb.append(SAUT_LIGNE_PLATEFORME);
+		stb.append(String.format(FORMAT_TOSTRING
+				, "generateDdl (spring.jpa.generate-ddl)", this.getGenerateDdl()));
+		stb.append(SAUT_LIGNE_PLATEFORME);
+
+		stb.append(String.format(FORMAT_TOSTRING
+				, "DDL-AUTO (hibernate.hbm2ddl.auto)", this.getDdlAuto()));
+		stb.append(SAUT_LIGNE_PLATEFORME);
+
+		stb.append(String.format(FORMAT_TOSTRING
+				, "springH2ConsoleEnabled (spring.h2.console.enabled)", this.getSpringH2ConsoleEnabled()));
+		stb.append(SAUT_LIGNE_PLATEFORME);
+
+		stb.append(String.format(FORMAT_TOSTRING
+				, "springH2ConsolePath (spring.h2.console.path)", this.getSpringH2ConsolePath()));
+		stb.append(SAUT_LIGNE_PLATEFORME);
+
+		stb.append(SAUT_LIGNE_PLATEFORME);
+		stb.append("LISTE DES PROPRIETES DANS LE Properties du CONTENEUR : ");
+		stb.append(SAUT_LIGNE_PLATEFORME);
+		stb.append(this.afficherPropertiesConteneur());
+		stb.append(SAUT_LIGNE_PLATEFORME);
+		
+		return stb.toString();
+		
+	} // Fin de toString().________________________________________________
+	
+
+	
+	/**
+	 * <b>fournit une String pour l'affichage 
+	 * du contenu du SimpleDriverDataSource 
+	 * <code>this.dataSource</code></b>.<br/>
+	 * <br/>
+	 * - retourne null si <code>this.dataSource</code> == null.
+	 * <br/>
+	 *
+	 * @return : String : affichage.<br/>
+	 */
+	public final String afficherDataSource() {
+		return this.afficherDataSource(this.dataSource);
+	} // Fin de afficherDataSource().______________________________________
+	
 	
 	
 	/**
@@ -2626,6 +2907,69 @@ public class LecteurPropertiesSpring {
 	} // Fin de afficherDataSource(...).___________________________________
 	
 
+	
+	/**
+	 * Fabrique une String à partir du java.util.Properties 
+	 * <code>this.propertiesConteneur</code> contenu 
+	 * dans le CONTENEUR 
+	 * <code>this.persistenceUnitInfoJPASansXML</code>.<br/>
+	 * <br/>
+	 * - retourne null si this.propertiesConteneur est null.<br/>
+	 * <br/>
+	 *
+	 * @return : String : Pour affichage à la console.<br/>
+	 */
+	public final String afficherPropertiesConteneur() {
+		return this.afficherJavaUtilProperties(this.propertiesConteneur);
+	} // Fin de afficherPropertiesConteneur()._____________________________
+	
+	
+	
+	/**
+	 * Fabrique une String à partir d'un java.util.Properties.<br/>
+	 * <br/>
+	 * - retourne null si pProperties est null.<br/>
+	 * <br/>
+	 *
+	 * @param pProperties : java.util.Properties.
+	 * 
+	 * @return : String : Pour affichage à la console.<br/>
+	 */
+	public final String afficherJavaUtilProperties(
+			final Properties pProperties) {
+		
+		/* retourne null si pProperties est null. */
+		if (pProperties == null) {
+			return null;
+		}
+		
+		final StringBuilder stb = new StringBuilder();
+		
+		final Set<String> keys = pProperties.stringPropertyNames();
+		
+		int i = 0;
+		
+		for (final String key : keys) {
+			
+			i++;
+			String valeur = pProperties.getProperty(key);
+			
+			final String ligne 
+				= String.format(
+						LOCALE_PLATEFORME
+							, FORMAT_PROPERTIES
+								, i, key, valeur);
+			
+			stb.append(ligne);
+			stb.append(SAUT_LIGNE_PLATEFORME);
+			
+		}
+		
+		return stb.toString();
+		
+	} // Fin de afficherJavaUtilProperties(...).___________________________
+	
+	
 	
 	/**
 	 * Fabrique une String à partir d'une List&lt;String&gt;.<br/>
@@ -3038,7 +3382,23 @@ public class LecteurPropertiesSpring {
 	} // Fin de getPassword()._____________________________________________
 	
 
-	
+		
+	/**
+	 * Getter du SimpleDriverDataSource utilisé dans la présente classe.
+	 * <ul>
+	 * <li>valeur non lue dans le properties de configuration SPRING</li>
+	 * <li>déduite de transactionType 
+	 * (jtaDataSource existe si transactionType = JTA).</li>
+	 * </ul>
+	 *
+	 * @return this.dataSource : SimpleDriverDataSource.<br/>
+	 */
+	public final SimpleDriverDataSource getDataSource() {
+		return this.dataSource;
+	} // Fin de getDataSource().___________________________________________
+
+
+
 	/**
 	 * <b>retourne l'objet DataSource jtaDataSource du conteneur 
 	 * <code>this.persistenceUnitInfoJPASansXML</code></b> 
@@ -4098,6 +4458,19 @@ public class LecteurPropertiesSpring {
 				.getProperties()
 					.getProperty("spring.h2.console.path");
 	} // Fin de getSpringH2ConsolePath().__________________________________
+
+
+	
+	/**
+	 * Getter du java.util.Properties contenu dans le CONTENEUR 
+	 * <code>this.persistenceUnitInfoJPASansXML</code> 
+	 * de la présente classe.
+	 *
+	 * @return this.propertiesConteneur : java.util.Properties.<br/>
+	 */
+	public final Properties getPropertiesConteneur() {
+		return this.propertiesConteneur;
+	} // Fin de getPropertiesConteneur().__________________________________
 	
 	
 	

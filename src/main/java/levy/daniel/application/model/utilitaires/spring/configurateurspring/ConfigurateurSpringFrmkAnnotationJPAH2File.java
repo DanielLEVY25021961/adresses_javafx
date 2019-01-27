@@ -63,7 +63,7 @@ import levy.daniel.application.model.persistence.metier.contactsimple.dao.jpaspr
  *
  */
 @Configuration(value="ConfigurateurSpringFrmkAnnotationJPAH2File")
-@Import(value={levy.daniel.application.model.utilitaires.spring.configurateurpersistencespring.ConfigurateurJPAH2File.class})
+@Import(value={levy.daniel.application.model.utilitaires.spring.configurateurpersistencespring.ConfigurateurSpringJPAH2File.class})
 @EnableAspectJAutoProxy
 @EnableTransactionManagement
 @ComponentScans({@ComponentScan("levy.daniel.application")})
@@ -87,6 +87,7 @@ public class ConfigurateurSpringFrmkAnnotationJPAH2File {
 	 */
 	public ConfigurateurSpringFrmkAnnotationJPAH2File() {
 		super();
+		System.out.println("********* DANS LE CONSTRUCTEUR ConfigurateurSpringFrmkAnnotationJPAH2File *********");
 	} // Fin de CONSTRUCTEUR D'ARITE NULLE.________________________________
 
 	

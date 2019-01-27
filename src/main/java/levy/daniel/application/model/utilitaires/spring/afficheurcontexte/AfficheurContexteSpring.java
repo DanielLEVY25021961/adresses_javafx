@@ -394,16 +394,20 @@ public final class AfficheurContexteSpring {
 	public static String afficherProperties(
 			final EntityManagerFactory pEntityManagerFactory) {
 		
-		/* retourne null si pEntityManagerFactory == null. */
-		if (pEntityManagerFactory == null) {
-			return null;
-		}
-		
-		final Map<String, Object> properties 
-			= pEntityManagerFactory.getProperties();
-		
-		return afficherMapStringObject(properties);
-		
+		synchronized(AfficheurContexteSpring.class) {
+			
+			/* retourne null si pEntityManagerFactory == null. */
+			if (pEntityManagerFactory == null) {
+				return null;
+			}
+			
+			final Map<String, Object> properties 
+				= pEntityManagerFactory.getProperties();
+			
+			return afficherMapStringObject(properties);
+			
+		} // Fin du bloc synchronized._____________________
+				
 	} // Fin de afficherProperties().______________________________________
 	
 	

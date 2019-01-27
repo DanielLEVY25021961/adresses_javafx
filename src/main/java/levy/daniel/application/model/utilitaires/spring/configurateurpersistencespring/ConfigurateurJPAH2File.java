@@ -22,11 +22,6 @@ import org.hibernate.jpa.boot.spi.Bootstrap;
 import org.hibernate.jpa.boot.spi.EntityManagerFactoryBuilder;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
-import org.springframework.context.annotation.ComponentScan;
-import org.springframework.context.annotation.ComponentScans;
-import org.springframework.context.annotation.Configuration;
-import org.springframework.context.annotation.PropertySource;
-import org.springframework.context.annotation.PropertySources;
 import org.springframework.core.env.Environment;
 import org.springframework.dao.annotation.PersistenceExceptionTranslationPostProcessor;
 import org.springframework.jdbc.datasource.SimpleDriverDataSource;
@@ -37,7 +32,6 @@ import org.springframework.orm.jpa.persistenceunit.DefaultPersistenceUnitManager
 import org.springframework.orm.jpa.vendor.Database;
 import org.springframework.orm.jpa.vendor.HibernateJpaVendorAdapter;
 import org.springframework.transaction.PlatformTransactionManager;
-import org.springframework.transaction.annotation.EnableTransactionManagement;
 
 
 
@@ -75,10 +69,10 @@ import org.springframework.transaction.annotation.EnableTransactionManagement;
  * @since 12 janv. 2019
  *
  */
-@Configuration(value="ConfigurateurJPAH2File")
-@PropertySources({@PropertySource("classpath:configurations_bases_jpa/configuration_H2_file.properties")})
-@EnableTransactionManagement
-@ComponentScans({@ComponentScan("levy.daniel.application.model.persistence")})
+//@Configuration(value="ConfigurateurJPAH2File")
+//@PropertySources({@PropertySource("classpath:configurations_bases_jpa/configuration_H2_file.properties")})
+//@EnableTransactionManagement
+//@ComponentScans({@ComponentScan("levy.daniel.application.model.persistence")})
 public class ConfigurateurJPAH2File {
 
 	// ************************ATTRIBUTS************************************/
@@ -105,7 +99,9 @@ public class ConfigurateurJPAH2File {
 		= new PersistenceUnitInfoJPASansXML();
 
 	/**
-	 * .
+	 * Lecteur de fichier properties SPRING chargé de fournir 
+	 * une PersistenceUnitInfo (MutablePersistenceUnitInfoJPASpringSansXML) 
+	 * pour instancier une EntityManagerFactory sans lire de persistence.xml.
 	 */
 	private LecteurPropertiesSpring lecteurPropertiesSpring;
 
@@ -254,7 +250,7 @@ public class ConfigurateurJPAH2File {
 	 * @return : JpaVendorAdapter : 
 	 * org.springframework.orm.jpa.vendor.HibernateJpaVendorAdapter.<br/>
 	 */
-	@Bean
+//	@Bean
 	public JpaVendorAdapter vendorAdapterHibernate() {
 		
 //		final JpaVendorAdapter vendorAdapter 
@@ -307,7 +303,7 @@ public class ConfigurateurJPAH2File {
 		if (url != null) {
 			
 			final String urlNormalisee = this.normaliserURLFile(url);
-			System.out.println("URL NORMALISEE DANS SATASOURCE : " + urlNormalisee);
+			System.out.println("URL NORMALISEE DANS DATASOURCE dataSource() : " + urlNormalisee);
 			dataSource.setUrl(urlNormalisee);
 		}
 
@@ -676,12 +672,33 @@ public class ConfigurateurJPAH2File {
 
 	
 	/**
-	 * .<br/>
-	 * <br/>
+	 * <b>fournit un bean <i>org.springframework.orm.
+	 * jpa.LocalContainerEntityManagerFactoryBean</i> 
+	 * équivalent à <i>javax.persistence.EntityManagerFactory</i> 
+	 * au CONTEXTE SPRING pour l'injection</b>.<br/>
+	 * <ul>
+	 * <li><b>fabrique l'EntityManagerFactory</b> en lisant 
+	 * les valeurs de configuration de la base directement 
+	 * dans la présente classe 
+	 * <i>(pas dans un META-INF/persistence.xml)</i>.</li>
+	 * <li><b>fixe le nom de l'unité de persistence</b> avec 
+	 * la valeur lue dans le fichier properties.</li>
+	 * <li>stipule que l'ORM est <b>HIBERNATE</b>.</li>
+	 * <li><b>passe la DataSource</b> à l'EntityManagerFactory.</li>
+	 * <li>scanne le package de persistence pour 
+	 * trouver les classes annotées.</li>
+	 * <li> ajoute des propriétés additionnelles à l'EntityManagerFactory 
+	 * (Dialecte Hibernate, stratégie de création de tables, ...).</li>
+	 * <li>le nom de la méthode (ici entityManagerFactory()) 
+	 * est le nom du Bean injecté dans le contexte SPRING. 
+	 * Donc si la méthode s'appelait "toto()", 
+	 * le bean s'appellerait "toto" dans le contexte.</li>
+	 * </ul>
 	 *
-	 * @return EntityManagerFactory
+	 * @return : LocalContainerEntityManagerFactoryBean : 
+	 * Proxy du EntityManagerFactory.<br/>
 	 * 
-	 * @throws Exception
+	 * @throws Exception 
 	 */
 	@Bean
 	public EntityManagerFactory entityManagerFactory() 
@@ -1108,19 +1125,22 @@ public class ConfigurateurJPAH2File {
 	
 	
 	/**
-	 * Getter .
+	 * Getter du Lecteur de fichier properties SPRING chargé de fournir 
+	 * une PersistenceUnitInfo (MutablePersistenceUnitInfoJPASpringSansXML) 
+	 * pour instancier une EntityManagerFactory sans lire de persistence.xml.
 	 *
 	 * @return this.lecteurPropertiesSpring : LecteurPropertiesSpring.<br/>
 	 */
 	public LecteurPropertiesSpring getLecteurPropertiesSpring() {
 		return this.lecteurPropertiesSpring;
-	}
+	} // Fin de getLecteurPropertiesSpring().______________________________
 
 
 
-	
 	/**
-	* .
+	* Setter du Lecteur de fichier properties SPRING chargé de fournir 
+	* une PersistenceUnitInfo (MutablePersistenceUnitInfoJPASpringSansXML) 
+	* pour instancier une EntityManagerFactory sans lire de persistence.xml.
 	*
 	* @param pLecteurPropertiesSpring : LecteurPropertiesSpring : 
 	* valeur à passer à this.lecteurPropertiesSpring.<br/>
@@ -1129,7 +1149,8 @@ public class ConfigurateurJPAH2File {
 			final LecteurPropertiesSpring pLecteurPropertiesSpring) {
 		System.out.println("LECTEURPROPERTIESSPRING injecté dans ConfigurateurJPAH2File");
 		this.lecteurPropertiesSpring = pLecteurPropertiesSpring;
-	}
+	} // Fin de setLecteurPropertiesSpring(...).___________________________
+	
 
 	
 //	public EntityManager createEntityManager() {

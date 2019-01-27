@@ -14,9 +14,6 @@ import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
-import org.springframework.context.annotation.Configuration;
-import org.springframework.context.annotation.PropertySource;
-import org.springframework.context.annotation.PropertySources;
 import org.springframework.core.env.Environment;
 import org.springframework.jdbc.datasource.SimpleDriverDataSource;
 import org.springframework.orm.jpa.vendor.HibernateJpaVendorAdapter;
@@ -44,8 +41,8 @@ import levy.daniel.application.model.utilitaires.normalizerurlbase.UrlEncapsulat
  * @since 20 janv. 2019
  *
  */
-@Configuration(value="LecteurPropertiesSpring")
-@PropertySources({@PropertySource("classpath:configurations_bases_jpa/configuration_H2_file.properties")})
+//@Configuration(value="LecteurPropertiesSpring")
+//@PropertySources({@PropertySource("classpath:configurations_bases_jpa/configuration_H2_file.properties")})
 public class LecteurPropertiesSpring {
 
 	// ************************ATTRIBUTS************************************/
@@ -944,6 +941,32 @@ public class LecteurPropertiesSpring {
 
 	
 	
+	 /**
+	 * CONSTRUCTEUR D'ARITE 1.<br/>
+	 * <ul>
+	 * <li>passe le paramètre pEnvironmentSpring 
+	 * à this.environmentSpring</li>
+	 * <li>alimente tous les attributs de la classe 
+	 * via this.lireProperties()</li>
+	 * </ul>
+	 * 
+	 * @param pEnvironmentSpring : 
+	 * org.springframework.core.env.Environment
+	 */
+	public LecteurPropertiesSpring(
+			final Environment pEnvironmentSpring) {
+		
+		super();
+				
+		this.environmentSpring = pEnvironmentSpring;
+		
+		/* alimente tous les attributs de la classe. */
+		this.lireProperties();
+		
+	} // Fin de CONSTRUCTEUR D'ARITE 1.____________________________________
+	
+	
+	
 	/**
 	 * <b>Crée un bean nommé "lecteurPropertiesSpring" 
 	 * qui retourne la présente instance et la place 
@@ -963,8 +986,10 @@ public class LecteurPropertiesSpring {
 	@Bean(value = "lecteurPropertiesSpring")
 	public LecteurPropertiesSpring lecteurPropertiesSpring() {
 		
+		/* alimente tous les attributs de la classe. */
 		this.lireProperties();
 		
+		System.out.println("DANS LE BEAN LecteurPropertiesSpring");
 		return this;
 	}
 

@@ -84,11 +84,17 @@ public class ConfigurateurJPAH2File {
 	// ************************ATTRIBUTS************************************/
 
 	/**
-	 * lecteur du fichier properties proposé 
-	 * dans l'annotation sur la classe 'PropertySource'.
+	 * <b>lecteur SPRING du fichier properties</b> proposé 
+	 * dans l'annotation sur la présente classe 'PropertySource'.
+	 * <ul>
+	 * <li>injecté par SPRING via le Setter 
+	 * <code>setEnvironmentSpring(Environment pEnvironmentSpring)</code>
+	 * .</li>
+	 * <li>org.springframework.core.env.Environment</li>
+	 * </ul>
 	 */
-	@Autowired
-	private transient Environment environmentSpring;
+	private Environment environmentSpring;
+
 	
 	/**
 	 * conteneur pour les valeurs lues dans le properties 
@@ -97,7 +103,12 @@ public class ConfigurateurJPAH2File {
 	 */
 	public PersistenceUnitInfoJPASansXML persistenceUnitInfoJPASansXML 
 		= new PersistenceUnitInfoJPASansXML();
-	
+
+	/**
+	 * .
+	 */
+	private LecteurPropertiesSpring lecteurPropertiesSpring;
+
 	/**
 	 * LOG : Log : 
 	 * Logger pour Log4j (utilisant commons-logging).
@@ -296,7 +307,7 @@ public class ConfigurateurJPAH2File {
 		if (url != null) {
 			
 			final String urlNormalisee = this.normaliserURLFile(url);
-			
+			System.out.println("URL NORMALISEE DANS SATASOURCE : " + urlNormalisee);
 			dataSource.setUrl(urlNormalisee);
 		}
 
@@ -742,13 +753,13 @@ public class ConfigurateurJPAH2File {
 		
 		
 		// PROPRIETES ADDITIONNELLES
-		final Properties propsAdditionnelles 
-			= this.additionalProperties();
-		
-		final ArrayList<String > managedClassNames 
-			= new ArrayList<String>();
-		
-		managedClassNames.add("levy.daniel.application.model.persistence.metier.contactsimple.entities.jpa.ContactSimpleEntityJPA");
+//		final Properties propsAdditionnelles 
+//			= this.additionalProperties();
+//		
+//		final ArrayList<String > managedClassNames 
+//			= new ArrayList<String>();
+//		
+//		managedClassNames.add("levy.daniel.application.model.persistence.metier.contactsimple.entities.jpa.ContactSimpleEntityJPA");
 		
 		// INSTANCIATION D'UN PersistenceUnitInfo
 //		final PersistenceUnitInfo persistenceUnitInfo 
@@ -771,15 +782,16 @@ public class ConfigurateurJPAH2File {
 //				, managedClassNames
 //				, propsAdditionnelles);
 		
-		MutablePersistenceUnitInfoJPASpringSansXML mutablePersistenceUnitInfo 
-		= new MutablePersistenceUnitInfoJPASpringSansXML(
-			persistenceUnitName
-			, persistenceProviderClassName
-			, transactionType
-			, jtaDataSource
-			, nonJtaDataSource
-			, managedClassNames
-			, propsAdditionnelles);
+		
+//		MutablePersistenceUnitInfoJPASpringSansXML mutablePersistenceUnitInfo 
+//		= new MutablePersistenceUnitInfoJPASpringSansXML(
+//			persistenceUnitName
+//			, persistenceProviderClassName
+//			, transactionType
+//			, jtaDataSource
+//			, nonJtaDataSource
+//			, managedClassNames
+//			, propsAdditionnelles);
 		
 //		mutablePersistenceUnitInfo.addMappingFileName("model.persistence.metier.contactsimple.entities.jpa.ContactSimpleEntityJPA");
 		
@@ -792,37 +804,27 @@ public class ConfigurateurJPAH2File {
 //		mutablePersistenceUnitInfo.setProperties(propsAdditionnelles);
 
 		
-			
+		
+		
+		final MutablePersistenceUnitInfoJPASpringSansXML mutablePersistenceUnitInfo 
+			= this.lecteurPropertiesSpring.getPersistenceUnitInfoJPASansXML();
+
+		mutablePersistenceUnitInfo.addManagedClassName("levy.daniel.application.model.persistence.metier.contactsimple.entities.jpa.ContactSimpleEntityJPA");
+		
 		System.out.println("PERSISTENCEUNITINFO DANS ConfigurateurJPASansXML : " + mutablePersistenceUnitInfo.toString());
 		
 		final Map<String, Object> configuration	
 			= new HashMap<String, Object>();
 		
-		configuration.put("javax.persistence.jdbc.url", "jdbc:h2:file:./data/base-adresses_javafx-h2/base-adresses_javafx");
+		/* surchargerait les valeurs déjà dans le persistenceUnitInfo. */
+		configuration.put("javax.persistence.jdbc.url", "jdbc:h2:file:D:/Donnees/eclipse/eclipseworkspace/adresses_javafx/data/base-adresses_javafx-h2/base-adresses_javafx");
 		configuration.put("javax.persistence.jdbc.driver", "org.h2.Driver");
 		configuration.put("javax.persistence.jdbc.user", "sa");
 		configuration.put("javax.persistence.jdbc.password", "sa");
 		
-//		configuration.put("javax.persistence.jdbc.persistence-unit.name", "toto");
-//		configuration.put("javax.persistence.provider", "org.hibernate.ejb.HibernatePersistence");
-//		configuration.put("javax.persistence.transactionType", "RESOURCE_LOCAL");
-//		configuration.put("hibernate.connection.username", "sa");
-//		configuration.put("hibernate.connection.password", "sa");
-//		configuration.put("hibernate.connection.driver_class", "org.h2.Driver");			
-//		configuration.put("hibernate.connection.url", "jdbc:h2:file:./data/base-adresses_javafx-h2/base-adresses_javafx");
-//		configuration.put("hibernate.dialect", "org.hibernate.dialect.H2Dialect");
-//		configuration.put("hibernate.hbm2ddl.auto", "create");
-//		configuration.put("hibernate.show_sql", "true");
-//		configuration.put("hibernate.format_sql", "true");	
-		
-//		final PersistenceUnitInfoDescriptor persistenceUnitInfoDescriptor 
-//			= new PersistenceUnitInfoDescriptor(mutablePersistenceUnitInfo);
-//				
-//		final EntityManagerFactoryBuilderImpl entityManagerFactoryBuilderImpl 
-//			= new EntityManagerFactoryBuilderImpl(
-//					persistenceUnitInfoDescriptor, configuration);
-//		
-//		entityManagerFactory = entityManagerFactoryBuilderImpl.build();
+//		entityManagerFactory 
+//		= new HibernatePersistenceProvider().createContainerEntityManagerFactory(
+//				mutablePersistenceUnitInfo, configuration);
 		
 		final EntityManagerFactoryBuilder entityManagerFactoryBuilder 
 			= Bootstrap.getEntityManagerFactoryBuilder(
@@ -1061,8 +1063,73 @@ public class ConfigurateurJPAH2File {
 		return entityManagerFactory;
 		
 	}
+	
+	
+	
+	/**
+	 * Getter du <b>lecteur SPRING du fichier properties</b> proposé 
+	 * dans l'annotation sur la présente classe 'PropertySource'.
+	 * <ul>
+	 * <li>injecté par SPRING via le Setter 
+	 * <code>setEnvironmentSpring(Environment pEnvironmentSpring)</code>
+	 * .</li>
+	 * </ul>
+	 *
+	 * @return this.environmentSpring : 
+	 * org.springframework.core.env.Environment.<br/>
+	 */
+	public final Environment getEnvironmentSpring() {
+		return this.environmentSpring;
+	} // Fin de getEnvironmentSpring().____________________________________
+
 
 	
+	/**
+	* Setter du <b>lecteur SPRING du fichier properties</b> proposé 
+	* dans l'annotation sur la présente classe 'PropertySource'.
+	* <ul>
+	* <li>injecté par SPRING via le Setter 
+	* <code>setEnvironmentSpring(Environment pEnvironmentSpring)</code>
+	* .</li>
+	* </ul>
+	*
+	* @param pEnvironmentSpring : 
+	* org.springframework.core.env.Environment. : 
+	* valeur à passer à this.environmentSpring.<br/>
+	*/
+	@Autowired(required=true)
+	public final void setEnvironmentSpring(
+			final Environment pEnvironmentSpring) {
+		this.environmentSpring = pEnvironmentSpring;
+		System.out.println("DANS LE SETTEUR setEnvironmentSpring de ConfigurateurJPAH2File");
+		this.setLecteurPropertiesSpring(new LecteurPropertiesSpring(this.environmentSpring));
+	} // Fin de setEnvironmentSpring(...)._________________________________
+
+	
+	
+	/**
+	 * Getter .
+	 *
+	 * @return this.lecteurPropertiesSpring : LecteurPropertiesSpring.<br/>
+	 */
+	public LecteurPropertiesSpring getLecteurPropertiesSpring() {
+		return this.lecteurPropertiesSpring;
+	}
+
+
+
+	
+	/**
+	* .
+	*
+	* @param pLecteurPropertiesSpring : LecteurPropertiesSpring : 
+	* valeur à passer à this.lecteurPropertiesSpring.<br/>
+	*/
+	public void setLecteurPropertiesSpring(
+			final LecteurPropertiesSpring pLecteurPropertiesSpring) {
+		System.out.println("LECTEURPROPERTIESSPRING injecté dans ConfigurateurJPAH2File");
+		this.lecteurPropertiesSpring = pLecteurPropertiesSpring;
+	}
 
 	
 //	public EntityManager createEntityManager() {

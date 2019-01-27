@@ -142,7 +142,7 @@ public final class AfficheurEntityManagerFactory {
 			stb.append(SAUT_LIGNE_PLATEFORME);
 			
 			/* dataSource. */
-			stb.append("DATASOURCE DE ENTITYMANAGERFACTORY : ");
+			stb.append("DATASOURCE DE ENTITYMANAGERFACTORY (hibernate.connection.datasource) : ");
 			stb.append(SAUT_LIGNE_PLATEFORME);
 			stb.append(afficherDataSource(pEntityManagerFactory));
 			

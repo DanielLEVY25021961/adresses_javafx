@@ -23,6 +23,8 @@ import org.springframework.orm.jpa.persistenceunit.MutablePersistenceUnitInfo;
 import org.springframework.orm.jpa.persistenceunit.SmartPersistenceUnitInfo;
 import org.springframework.util.ClassUtils;
 
+import com.mchange.v2.c3p0.ComboPooledDataSource;
+
 /**
  * CLASSE MutablePersistenceUnitInfoJPASpringSansXML :<br/>
  * .<br/>
@@ -575,6 +577,8 @@ public class MutablePersistenceUnitInfoJPASpringSansXML
 	 */
 	@Override
 	public String toString() {
+		
+		ComboPooledDataSource ComboPooledDataSource = null;
 		
 		final StringBuilder builder = new StringBuilder();
 		

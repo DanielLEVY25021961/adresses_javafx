@@ -1,5 +1,7 @@
 package levy.daniel.application.model.utilitaires.spring.configurateurpersistencespring;
 
+import static org.junit.Assert.assertTrue;
+
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.junit.Test;
@@ -65,6 +67,11 @@ public class LecteurPropertiesSpringTest {
 	 */
 	public static final String TIRET_ESPACE = " - ";
 	
+	/**
+	 * "BIDON : ".<br/>
+	 */
+	public static final String BIDON 
+		= "BIDON : ";
 	
 	/**
 	 * .
@@ -118,7 +125,8 @@ public class LecteurPropertiesSpringTest {
 			
 		}
 			
-
+		assertTrue(BIDON, 1 == 1);
+		
 	} // Fin de testLireProperties().________________________________________
 
 	

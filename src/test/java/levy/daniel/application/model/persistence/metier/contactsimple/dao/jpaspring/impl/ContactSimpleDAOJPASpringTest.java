@@ -1270,7 +1270,7 @@ public class ContactSimpleDAOJPASpringTest {
 		} // Fin de this.dao NON INJECTE._____________________
 
 		
-		afficherContexte();
+//		afficherContexte();
 		
 		/* vide et remplit le stockage. */
 		this.remplirStockage(false);

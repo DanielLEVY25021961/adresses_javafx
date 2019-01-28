@@ -139,7 +139,7 @@ public class MutablePersistenceUnitInfoJPASpringSansXML
 	 * (jtaDataSource existe si transactionType = JTA).</li>
 	 * </ul>
 	 */
-	private SimpleDriverDataSource dataSource;
+	private transient SimpleDriverDataSource dataSource;
 	
 	/**
 	 * DataSource fournie par le conteneur de Servlet (TOMCAT) 
@@ -217,7 +217,7 @@ public class MutablePersistenceUnitInfoJPASpringSansXML
 	 * <li>toujours false si on utilise les classes annotées. </li>
 	 * </ul>
 	 */
-	private boolean excludeUnlistedClasses;
+	private boolean excludeUnlistedClasses; // NOPMD by daniel.levy on 28/01/19 10:32
 		
 	/**
 	 * mode d'utilisation du cache de 2nd niveau par l'ORM.
@@ -481,7 +481,7 @@ public class MutablePersistenceUnitInfoJPASpringSansXML
 		} else {
 			this.mappingFileNames = pMappingFileNames;
 			for (final String mappingFileName : this.mappingFileNames) {
-				super.addMappingFileName(mappingFileName);
+				super.addMappingFileName(mappingFileName); // NOPMD by daniel.levy on 28/01/19 10:48
 			}
 		}
 		
@@ -491,7 +491,7 @@ public class MutablePersistenceUnitInfoJPASpringSansXML
 		} else {
 			this.jarFileUrls = pJarFileUrls;
 			for (final URL jarFileUrl : this.jarFileUrls) {
-				super.addJarFileUrl(jarFileUrl);
+				super.addJarFileUrl(jarFileUrl); // NOPMD by daniel.levy on 28/01/19 10:49
 			}
 		}
 				
@@ -503,7 +503,7 @@ public class MutablePersistenceUnitInfoJPASpringSansXML
 		} else {
 			this.managedClassNames = pManagedClassNames;
 			for (final String managedClassName : this.managedClassNames) {
-				super.addManagedClassName(managedClassName);
+				super.addManagedClassName(managedClassName); // NOPMD by daniel.levy on 28/01/19 10:49
 			}
 		}
 		
@@ -512,7 +512,7 @@ public class MutablePersistenceUnitInfoJPASpringSansXML
 		} else {
 			this.managedPackages = pManagedPackages;
 			for (final String managedPackage : this.managedPackages) {
-				super.addManagedPackage(managedPackage);
+				super.addManagedPackage(managedPackage); // NOPMD by daniel.levy on 28/01/19 10:49
 			}
 		}
 		
@@ -727,9 +727,7 @@ public class MutablePersistenceUnitInfoJPASpringSansXML
 	} // Fin de toString().________________________________________________
 
 
-	
-
-	
+		
 	/**
 	 * <b>fournit une String pour l'affichage 
 	 * du contenu du present LecteurPropertiesSpring</b>.<br/>
@@ -765,7 +763,7 @@ public class MutablePersistenceUnitInfoJPASpringSansXML
 					, " *** URL", this.dataSource.getUrl()));
 			stb.append(SAUT_LIGNE_PLATEFORME);
 			
-			stb.append(String.format(LOCALE_PLATEFORME,FORMAT_TOSTRING
+			stb.append(String.format(LOCALE_PLATEFORME, FORMAT_TOSTRING
 					, "DRIVER", this.dataSource.getDriver()));
 			stb.append(SAUT_LIGNE_PLATEFORME);
 			
@@ -791,7 +789,7 @@ public class MutablePersistenceUnitInfoJPASpringSansXML
 				, "persistenceUnitRootUrl", this.getPersistenceUnitRootUrl()));
 		stb.append(SAUT_LIGNE_PLATEFORME);
 
-		stb.append(String.format(LOCALE_PLATEFORME,FORMAT_TOSTRING
+		stb.append(String.format(LOCALE_PLATEFORME, FORMAT_TOSTRING
 				, "managedClassNames", this.getManagedClassNames()));
 		stb.append(SAUT_LIGNE_PLATEFORME);
 
@@ -937,7 +935,7 @@ public class MutablePersistenceUnitInfoJPASpringSansXML
 		for (final String key : keys) {
 			
 			i++;
-			String valeur = pProperties.getProperty(key);
+			final String valeur = pProperties.getProperty(key);
 			
 			final String ligne 
 				= String.format(
@@ -1214,7 +1212,7 @@ public class MutablePersistenceUnitInfoJPASpringSansXML
 			final URL pJarFileUrl) {
 		this.jarFileUrls.add(pJarFileUrl);
 		super.addJarFileUrl(pJarFileUrl);
-	} // Fin de  addJarFileUrl(...)._______________________________________
+	} // Fin de addJarFileUrl(...).________________________________________
 	
 
 

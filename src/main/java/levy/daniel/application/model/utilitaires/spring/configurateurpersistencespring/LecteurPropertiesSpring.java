@@ -246,7 +246,7 @@ public class LecteurPropertiesSpring {
 	 * PersistenceProvider HIBERNATE</li>
 	 * </ul>
 	 */
-	private String url;
+	private transient String url;
 	
 	/**
 	 * DRIVER de la BASE.
@@ -267,7 +267,7 @@ public class LecteurPropertiesSpring {
 	 * PersistenceProvider HIBERNATE</li>
 	 * </ul>
 	 */
-	private Driver driver;
+	private transient Driver driver;
 	
 	/**
 	 * LOGIN de la BASE.
@@ -288,7 +288,7 @@ public class LecteurPropertiesSpring {
 	 * PersistenceProvider HIBERNATE</li>
 	 * </ul>
 	 */
-	private String userName;
+	private transient String userName;
 	
 	/**
 	 * MOT DE PASSE de la BASE.
@@ -309,7 +309,7 @@ public class LecteurPropertiesSpring {
 	 * PersistenceProvider HIBERNATE</li>
 	 * </ul>
 	 */
-	private String password;
+	private transient String password;
 	
 	/**
 	 * SimpleDriverDataSource utilisé dans la présente classe.
@@ -319,7 +319,7 @@ public class LecteurPropertiesSpring {
 	 * (jtaDataSource existe si transactionType = JTA).</li>
 	 * </ul>
 	 */
-	private SimpleDriverDataSource dataSource;
+	private transient SimpleDriverDataSource dataSource;
 	
 	/**
 	 * DataSource fournie par le conteneur de Servlet (TOMCAT) 
@@ -335,7 +335,7 @@ public class LecteurPropertiesSpring {
 	 * PersistenceProvider HIBERNATE</li>
 	 * </ul>
 	 */
-	private SimpleDriverDataSource jtaDataSource;
+	private transient SimpleDriverDataSource jtaDataSource;
 	
 	/**
 	 * DataSource de l'application Standalone 
@@ -352,7 +352,7 @@ public class LecteurPropertiesSpring {
 	 * PersistenceProvider HIBERNATE</li>
 	 * </ul>
 	 */
-	private SimpleDriverDataSource nonJtaDataSource;
+	private transient SimpleDriverDataSource nonJtaDataSource;
 
 	/**
 	 * liste des <b>noms qualifiés des 
@@ -498,7 +498,7 @@ public class LecteurPropertiesSpring {
 	 * PersistenceProvider HIBERNATE</li>
 	 * </ul>
 	 */
-	private String dialect;
+	private transient String dialect;
 
 	/**
 	 * boolean (sous forme String) qui stipule si le PROVIDER 
@@ -519,7 +519,7 @@ public class LecteurPropertiesSpring {
 	 * PersistenceProvider HIBERNATE</li>
 	 * </ul>
 	 */
-	private String showSql;
+	private transient String showSql;
 
 	/**
 	 * boolean (sous forme String) qui stipule si le PROVIDER 
@@ -540,7 +540,7 @@ public class LecteurPropertiesSpring {
 	 * PersistenceProvider HIBERNATE</li>
 	 * </ul>
 	 */
-	private String formatSql;
+	private transient String formatSql;
 	
 	/**
 	 * boolean (sous forme String) qui stipule si le PROVIDER 
@@ -561,7 +561,7 @@ public class LecteurPropertiesSpring {
 	 * PersistenceProvider HIBERNATE</li>
 	 * </ul>
 	 */
-	private String useSqlComments;
+	private transient String useSqlComments;
 
 	/**
 	 * boolean (sous forme String) qui stipule si le PROVIDER 
@@ -582,7 +582,7 @@ public class LecteurPropertiesSpring {
 	 * PersistenceProvider HIBERNATE</li>
 	 * </ul>
 	 */
-	private String generateSatistics;
+	private transient String generateSatistics;
 	
 	/**
 	 * <b>nom qualifié de la classe de non-cache de 2nd niveau.</b>.
@@ -602,7 +602,7 @@ public class LecteurPropertiesSpring {
 	 * PersistenceProvider HIBERNATE</li>
 	 * </ul>
 	 */
-	private String noCacheProviderClass;
+	private transient String noCacheProviderClass;
 	
 	/**
 	 * <b>nom qualifié de la classe de cache de 2nd niveau.</b>.
@@ -622,7 +622,7 @@ public class LecteurPropertiesSpring {
 	 * PersistenceProvider HIBERNATE</li>
 	 * </ul>
 	 */
-	private String cacheProviderClass;
+	private transient String cacheProviderClass;
 	
 	/**
 	 * boolean (sous forme String) qui stipule si le PROVIDER 
@@ -643,7 +643,7 @@ public class LecteurPropertiesSpring {
 	 * PersistenceProvider HIBERNATE</li>
 	 * </ul>
 	 */
-	private String cacheUseSecondLevelCache;
+	private transient String cacheUseSecondLevelCache;
 	
 	/**
 	 * boolean (sous forme String) qui stipule si le PROVIDER 
@@ -664,7 +664,7 @@ public class LecteurPropertiesSpring {
 	 * PersistenceProvider HIBERNATE</li>
 	 * </ul>
 	 */
-	private String cacheUseQueryCache;
+	private transient String cacheUseQueryCache;
 	
 	/**
 	 * chemin qualifié du fichier déclaratif du cache de 2nd niveau (ehcache.xml).
@@ -684,7 +684,7 @@ public class LecteurPropertiesSpring {
 	 * PersistenceProvider HIBERNATE</li>
 	 * </ul>
 	 */
-	private String resourceCache;
+	private transient String resourceCache;
 
 	/**
 	 * Taille minimale du pool de connexion.
@@ -704,7 +704,7 @@ public class LecteurPropertiesSpring {
 	 * PersistenceProvider HIBERNATE</li>
 	 * </ul>
 	 */
-	private String poolMinSize;
+	private transient String poolMinSize;
 	
 	/**
 	 * Taille maximale du pool de connexion.
@@ -724,7 +724,7 @@ public class LecteurPropertiesSpring {
 	 * PersistenceProvider HIBERNATE</li>
 	 * </ul>
 	 */
-	private String poolMaxSize;
+	private transient String poolMaxSize;
 	
 	/**
 	 * Timeout du pool de connexion.
@@ -744,7 +744,7 @@ public class LecteurPropertiesSpring {
 	 * PersistenceProvider HIBERNATE</li>
 	 * </ul>
 	 */
-	private String poolTimeOut;
+	private transient String poolTimeOut;
 	
 	/**
 	 * ??? du pool de connexion.
@@ -764,7 +764,7 @@ public class LecteurPropertiesSpring {
 	 * PersistenceProvider HIBERNATE</li>
 	 * </ul>
 	 */
-	private String poolMaxStatements;
+	private transient String poolMaxStatements;
 	
 	/**
 	 * ??? du pool de connexion.
@@ -784,7 +784,7 @@ public class LecteurPropertiesSpring {
 	 * PersistenceProvider HIBERNATE</li>
 	 * </ul>
 	 */
-	private String poolIdleTestPeriod;
+	private transient String poolIdleTestPeriod;
 	
 	/**
 	 * boolean (sous forme String) qui stipule si SPRING 
@@ -801,7 +801,7 @@ public class LecteurPropertiesSpring {
 	 * dans le fichier properties SPRING</li>
 	 * </ul>
 	 */
-	private String generateDdl;
+	private transient String generateDdl;
 	
 	/**
 	 * valeur qui stipule si le PROVIDER 
@@ -822,7 +822,7 @@ public class LecteurPropertiesSpring {
 	 * PersistenceProvider HIBERNATE</li>
 	 * </ul>
 	 */
-	private String ddlAuto;
+	private transient String ddlAuto;
 	
 	/**
 	 * boolean (sous forme String) qui stipule si SPRING 
@@ -839,7 +839,7 @@ public class LecteurPropertiesSpring {
 	 * dans le fichier properties SPRING</li>
 	 * </ul>
 	 */
-	private String springH2ConsoleEnabled;
+	private transient String springH2ConsoleEnabled;
 	
 	/**
 	 * valeur qui stipule pour SPRING 
@@ -856,14 +856,14 @@ public class LecteurPropertiesSpring {
 	 * dans le fichier properties SPRING</li>
 	 * </ul>
 	 */
-	private String springH2ConsolePath;
+	private transient String springH2ConsolePath;
 	
 	/**
 	 * java.util.Properties contenu dans le CONTENEUR 
 	 * <code>this.persistenceUnitInfoJPASansXML</code> 
 	 * de la présente classe.
 	 */
-	private Properties propertiesConteneur;
+	private transient Properties propertiesConteneur;
 	
 	/**
 	 * "javax.persistence.jdbc.persistence-unit.name".
@@ -960,6 +960,12 @@ public class LecteurPropertiesSpring {
 	 */
 	public static final String RESOURCECACHE_KEY 
 		= "net.sf.ehcache.configurationResourcename";
+	
+	/**
+	 * "cache.provider_class".<br/>
+	 */
+	public static final String CACHE_PROVIDER_CLASS 
+		= "cache.provider_class";
 	
 	/**
 	 * LOG : Log : 
@@ -1936,7 +1942,7 @@ public class LecteurPropertiesSpring {
 			if (this.noCacheProviderClass != null) {
 				
 				this.persistenceUnitInfoJPASansXML
-				.addProperty("cache.provider_class"
+				.addProperty(CACHE_PROVIDER_CLASS
 							, this.noCacheProviderClass);
 				
 			}
@@ -1989,7 +1995,7 @@ public class LecteurPropertiesSpring {
 			if (this.cacheProviderClass != null) {
 				
 				this.persistenceUnitInfoJPASansXML
-					.addProperty("cache.provider_class"
+					.addProperty(CACHE_PROVIDER_CLASS
 							, this.cacheProviderClass);
 				
 			}
@@ -2952,7 +2958,8 @@ public class LecteurPropertiesSpring {
 		for (final String key : keys) {
 			
 			i++;
-			String valeur = pProperties.getProperty(key);
+			
+			final String valeur = pProperties.getProperty(key);
 			
 			final String ligne 
 				= String.format(
@@ -3502,7 +3509,7 @@ public class LecteurPropertiesSpring {
 	* valeur à passer à this.mappingFileNames.<br/>
 	*/
 	public final void setMappingFileNames(
-			List<String> pMappingFileNames) {
+			final List<String> pMappingFileNames) {
 		
 		this.mappingFileNames = pMappingFileNames;
 		
@@ -4077,7 +4084,7 @@ public class LecteurPropertiesSpring {
 		if (this.noCacheProviderClass != null) {
 			return this.persistenceUnitInfoJPASansXML
 					.getProperties()
-						.getProperty("cache.provider_class");
+						.getProperty(CACHE_PROVIDER_CLASS);
 		}
 		
 		return null;
@@ -4112,7 +4119,7 @@ public class LecteurPropertiesSpring {
 		if (this.cacheProviderClass != null) {
 			return this.persistenceUnitInfoJPASansXML
 					.getProperties()
-						.getProperty("cache.provider_class");
+						.getProperty(CACHE_PROVIDER_CLASS);
 		}
 		
 		return null;

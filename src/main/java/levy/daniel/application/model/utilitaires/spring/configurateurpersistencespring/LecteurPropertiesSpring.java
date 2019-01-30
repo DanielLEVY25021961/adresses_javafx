@@ -1670,7 +1670,7 @@ public class LecteurPropertiesSpring {
 						this.driver
 						, this.url
 						, this.userName, this.password);
-			
+						
 			/* alimente this.dataSource en fonction 
 			 * de la détermination. */
 			this.dataSource = this.nonJtaDataSource;

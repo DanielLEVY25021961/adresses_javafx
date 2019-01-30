@@ -22,8 +22,6 @@ import org.springframework.orm.jpa.JpaTransactionManager;
 import org.springframework.transaction.PlatformTransactionManager;
 import org.springframework.transaction.annotation.EnableTransactionManagement;
 
-import levy.daniel.application.model.utilitaires.jpa.afficheurentitymanagerfactory.AfficheurEntityManagerFactory;
-
 /**
  * CLASSE ConfigurateurSpringJPAH2File :<br/>
  * Configuration d'une SGBDR H2 en MODE FILE.<br/>
@@ -151,29 +149,10 @@ public class ConfigurateurSpringJPAH2File {
 		mutablePersistenceUnitInfo
 			.addManagedClassName(
 					"levy.daniel.application.model.persistence.metier.contactsimple.entities.jpa.ContactSimpleEntityJPA");
-		
-		mutablePersistenceUnitInfo.addProperty("javax.persistence.jdbc.url", "jdbc:h2:file:D:/Donnees/eclipse/eclipseworkspace/adresses_javafx/data/base-adresses_javafx-h2/base-adresses_javafx");
-		mutablePersistenceUnitInfo.addProperty("javax.persistence.jdbc.driver", "org.h2.Driver");
-		mutablePersistenceUnitInfo.addProperty("javax.persistence.jdbc.user", "sa");
-		mutablePersistenceUnitInfo.addProperty("javax.persistence.jdbc.password", "sa");
-//		mutablePersistenceUnitInfo.addProperty("hibernate.connection.provider_class", "org.hibernate.connection.C3P0ConnectionProvider");
-		mutablePersistenceUnitInfo.addProperty("hibernate.c3p0.acquire_increment", "5");
-				
+						
 		final Map<String, Object> configuration	
 			= new HashMap<String, Object>();
 		
-		/* surchargerait les valeurs déjà dans le persistenceUnitInfo. */
-//		configuration.put("javax.persistence.jdbc.url", "jdbc:h2:file:D:/Donnees/eclipse/eclipseworkspace/adresses_javafx/data/base-adresses_javafx-h2/base-adresses_javafx");
-//		configuration.put("javax.persistence.jdbc.driver", "org.h2.Driver");
-//		configuration.put("javax.persistence.jdbc.user", "sa");
-//		configuration.put("javax.persistence.jdbc.password", "sa");
-//		configuration.put("hibernate.connection.provider_class", "org.hibernate.connection.C3P0ConnectionProvider");
-
-		System.out.println();
-		System.out.println("**** PERSISTENCEUNITINFO DANS entityManagerFactory() de ConfigurateurSpringJPAH2File : *********\n" 
-		+ mutablePersistenceUnitInfo.toStringAmeliore());
-		System.out.println();
-
 //		entityManagerFactory 
 //		= new HibernatePersistenceProvider().createContainerEntityManagerFactory(
 //				mutablePersistenceUnitInfo, configuration);
@@ -184,13 +163,6 @@ public class ConfigurateurSpringJPAH2File {
 		
 		entityManagerFactory 
 			= entityManagerFactoryBuilder.build();
-		
-		System.out.println();
-		System.out.println("ENTITYMANAGERFACTORY CREE DANS entityManagerFactory() de LA CLASSE ConfigurateurSpringJPAH2File");
-		System.out.println();
-		System.out.println("CONTENU DE L'ENTITYMANAGERFACTORY DANS entityManagerFactory() de LA CLASSE ConfigurateurSpringJPAH2File");
-		System.out.println(AfficheurEntityManagerFactory.afficherEntityManagerFactory(entityManagerFactory));
-		System.out.println();
 		
 		return entityManagerFactory;
 					

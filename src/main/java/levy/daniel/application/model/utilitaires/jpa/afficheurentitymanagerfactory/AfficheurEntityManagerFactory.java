@@ -5,6 +5,8 @@ import java.util.Locale;
 import java.util.Map;
 import java.util.Map.Entry;
 import java.util.Set;
+import java.util.SortedSet;
+import java.util.TreeSet;
 
 import javax.persistence.EntityManagerFactory;
 
@@ -21,6 +23,10 @@ import org.springframework.jdbc.datasource.SimpleDriverDataSource;
  *<br/>
  * 
  * - Mots-clé :<br/>
+ * Tri Set d'Entry, trier Set, trier Entry String Object,<br/>
+ * afficher java.util.Properties, afficher Properties,<br/> 
+ * afficherProperties, <br/>
+ * trier Properties, trier properties,<br/>
  * <br/>
  *
  * - Dépendances :<br/>
@@ -213,7 +219,16 @@ public final class AfficheurEntityManagerFactory {
 			
 			final Set<Entry<String, Object>> entrySet = pMap.entrySet();
 			
-			final Iterator<Entry<String, Object>> ite = entrySet.iterator();
+			/* Tri du Set d'Entry. */
+			final SortedSet<Entry<String, Object>> entrySetTrie 
+				= new TreeSet<Entry<String, Object>>(
+						new ComparatorProperties());
+			
+			for (final Entry<String, Object> entry : entrySet) {
+				entrySetTrie.add(entry);
+			}
+			
+			final Iterator<Entry<String, Object>> ite = entrySetTrie.iterator();
 			
 			int i = 0;
 			
@@ -308,7 +323,8 @@ public final class AfficheurEntityManagerFactory {
 			final String driverLocal = pDataSource.getDriver().toString();
 			final String urlLocal = pDataSource.getUrl();
 			final String userNameLocal = pDataSource.getUsername();
-			final String passwordLocal = pDataSource.getPassword();
+			final String passwordLocal = pDataSource.getPassword();		
+			final String dataSourceClass = pDataSource.getClass().getName();
 			
 			stb.append("- DRIVER : ");
 			stb.append(driverLocal);
@@ -327,7 +343,11 @@ public final class AfficheurEntityManagerFactory {
 			
 			stb.append("- PASSWORD : ");
 			stb.append(passwordLocal);
-					
+			stb.append(SAUT_LIGNE_PLATEFORME);
+			
+			stb.append("- CLASSE DE LA DATASOURCE : ");
+			stb.append(dataSourceClass);
+			
 			return stb.toString();
 
 		} // Fin du bloc synchronized._____________________

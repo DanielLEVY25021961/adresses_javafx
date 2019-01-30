@@ -14,6 +14,7 @@ import javax.persistence.EntityManagerFactory;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
+import org.springframework.context.support.GenericApplicationContext;
 
 /**
  * CLASSE AfficheurContexteSpring :<br/>
@@ -194,6 +195,43 @@ public final class AfficheurContexteSpring {
 	private AfficheurContexteSpring() {
 		super();
 	} // Fin de CONSTRUCTEUR D'ARITE NULLE.________________________________
+	
+	
+	/**
+	 * .<br/>
+	 * <br/>
+	 * - retourne null si pContextSpring == null.<br/>
+	 * - retourne null si le tableau de BEANS 
+	 * dans le contexte SPRING est null.<br/>
+	 * <br/>
+	 *
+	 * @param pContextSpring : 
+	 * org.springframework.context.support.GenericApplicationContext.<br/>
+	 * 
+	 * @return : String : affichage.<br/>
+	 */
+	public static String afficherContenuContexteSpring(
+			final GenericApplicationContext pContextSpring) {
+		
+		/* retourne null si pContextSpring == null. */
+		if (pContextSpring == null) {
+			return null;
+		}
+		
+		/* récupération du tableau des noms des BEANS 
+		 * contenus dans le CONTEXTE SPRING. */
+		final String[] beansTableau 
+			= pContextSpring.getBeanDefinitionNames();
+		
+		/* retourne null si le tableau de BEANS 
+		 * dans le contexte SPRING est null. */
+		if (beansTableau == null) {
+			return null;
+		}
+		
+		return null;
+		
+	} // Fin de afficherContenuContexteSpring(...).________________________
 	
 	
 	

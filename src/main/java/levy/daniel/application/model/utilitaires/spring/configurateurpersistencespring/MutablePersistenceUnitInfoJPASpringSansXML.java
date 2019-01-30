@@ -7,6 +7,8 @@ import java.util.List;
 import java.util.Locale;
 import java.util.Properties;
 import java.util.Set;
+import java.util.SortedSet;
+import java.util.TreeSet;
 
 import javax.persistence.SharedCacheMode;
 import javax.persistence.ValidationMode;
@@ -23,8 +25,6 @@ import org.springframework.orm.jpa.persistenceunit.MutablePersistenceUnitInfo;
 import org.springframework.orm.jpa.persistenceunit.SmartPersistenceUnitInfo;
 import org.springframework.util.ClassUtils;
 
-import com.mchange.v2.c3p0.ComboPooledDataSource;
-
 /**
  * CLASSE MutablePersistenceUnitInfoJPASpringSansXML :<br/>
  * .<br/>
@@ -37,6 +37,7 @@ import com.mchange.v2.c3p0.ComboPooledDataSource;
  * afficher java.util.Properties, afficher Properties,<br/> 
  * afficherProperties, <br/>
  * afficher DataSource, afficherDataSource(), <br/>
+ * tri Set de String, trier Set String, <br/>
  * <br/>
  *
  * - Dépendances :<br/>
@@ -578,8 +579,6 @@ public class MutablePersistenceUnitInfoJPASpringSansXML
 	@Override
 	public String toString() {
 		
-		ComboPooledDataSource ComboPooledDataSource = null;
-		
 		final StringBuilder builder = new StringBuilder();
 		
 		builder.append("PersistenceUnitInfoJPASansXML [");
@@ -934,9 +933,12 @@ public class MutablePersistenceUnitInfoJPASpringSansXML
 		
 		final Set<String> keys = pProperties.stringPropertyNames();
 		
+		/* tri du Set de String. */
+		final SortedSet<String> keysTrie = new TreeSet<String>(keys);
+		
 		int i = 0;
 		
-		for (final String key : keys) {
+		for (final String key : keysTrie) {
 			
 			i++;
 			final String valeur = pProperties.getProperty(key);

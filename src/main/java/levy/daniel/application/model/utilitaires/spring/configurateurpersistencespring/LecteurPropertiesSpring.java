@@ -7,6 +7,8 @@ import java.util.List;
 import java.util.Locale;
 import java.util.Properties;
 import java.util.Set;
+import java.util.SortedSet;
+import java.util.TreeSet;
 
 import javax.persistence.SharedCacheMode;
 import javax.persistence.ValidationMode;
@@ -35,6 +37,7 @@ import levy.daniel.application.model.utilitaires.normalizerurlbase.UrlEncapsulat
  * afficher java.util.Properties, afficher Properties,<br/> 
  * afficherProperties, <br/>
  * afficher Liste String, afficherListeString, <br/>
+ * tri Set de String, trier Set String, <br/>
  * <br/>
  *
  * - Dépendances :<br/>
@@ -747,7 +750,7 @@ public class LecteurPropertiesSpring {
 	private transient String poolTimeOut;
 	
 	/**
-	 * ??? du pool de connexion.
+	 * taille du cache de PreparedStatements du pool de connexion.
 	 * <ul>
 	 * <li>stocké dans l'objet <b>properties</b> du conteneur 
 	 * <code>this.persistenceUnitInfoJPASansXML</code></b> 
@@ -767,7 +770,7 @@ public class LecteurPropertiesSpring {
 	private transient String poolMaxStatements;
 	
 	/**
-	 * ??? du pool de connexion.
+	 * période de recherche des connexions inactives du pool de connexion.
 	 * <ul>
 	 * <li>stocké dans l'objet <b>properties</b> du conteneur 
 	 * <code>this.persistenceUnitInfoJPASansXML</code></b> 
@@ -785,6 +788,27 @@ public class LecteurPropertiesSpring {
 	 * </ul>
 	 */
 	private transient String poolIdleTestPeriod;
+
+	/**
+	 * nombre de connexions acquises en une seule fois 
+	 * lorsque le pool de connexion est épuisé.
+	 * <ul>
+	 * <li>stocké dans l'objet <b>properties</b> du conteneur 
+	 * <code>this.persistenceUnitInfoJPASansXML</code></b> 
+	 * après lecture du properties 
+	 * de configuration indiqué dans l'annotation 
+	 * PropertySource au dessus de la présente classe.</li>
+	 * <li>clé : 
+	 * <code>spring.jpa.properties.hibernate.c3p0.acquire_increment</code> 
+	 * dans le fichier properties SPRING</li>
+	 * <li>clé : property nommée <code>hibernate.c3p0.acquire_increment</code> 
+	 * dans un persistence.xml préconisé par JPA</li>
+	 * <li>clé : <code>hibernate.c3p0.acquire_increment</code> 
+	 * dans un EntityManagerFactory créé par le 
+	 * PersistenceProvider HIBERNATE</li>
+	 * </ul>
+	 */
+	private transient String poolAcquireIncrement;
 	
 	/**
 	 * boolean (sous forme String) qui stipule si SPRING 
@@ -1229,6 +1253,7 @@ public class LecteurPropertiesSpring {
 		this.lirePoolTimeOut();
 		this.lirePoolMaxStatements();
 		this.lirePoolIdleTestPeriod();
+		this.lirePoolAcquireIncrement();
 		
 		/* generateDdl. */
 		this.lireGenerateDdl();
@@ -2441,6 +2466,58 @@ public class LecteurPropertiesSpring {
 		
 	} // Fin de lirePoolIdleTestPeriod().__________________________________
 	
+
+	
+	/**
+	 * <b>lit la valeur du poolAcquireIncrement dans le properties</b>.<br/>
+	 * injecte la valeur lue dans <code>this.poolAcquireIncrement</code>.<br/>
+	 * <ul>
+	 * <li>ajoute la valeur lue dans la propriété correspondante 
+	 * du Property du CONTENEUR 
+	 * <code>persistenceUnitInfoJPASansXML</code>.</li>
+	 * <li>correspond à l'élément property nommé
+	 * <code>hibernate.c3p0.acquire_increment</code> 
+	 * (pour un provider HIBERNATE) 
+	 * dans un persistence.xml préconisé par JPA.</li>
+	 * </ul>
+	 *
+	 * @return : String : this.poolAcquireIncrement.<br/>
+	 */
+	private String lirePoolAcquireIncrement() {
+		
+		if (this.environmentSpring != null) {
+			
+			this.poolAcquireIncrement 
+				= this.environmentSpring.getProperty(
+						"spring.jpa.properties.hibernate.c3p0.acquire_increment");
+			
+			/* ajout de la valeur dans le Property. */
+			if (this.poolAcquireIncrement != null) {
+				
+				this.persistenceUnitInfoJPASansXML
+					.addProperty("hibernate.c3p0.acquire_increment"
+							, this.poolAcquireIncrement);
+				
+			}
+			
+		} else {
+			
+			final String message 
+				= CLASSE_LECTEUR_PROPERTIES_SPRING 
+				+ TIRET_ESPACE
+				+ "Méthode lirePoolAcquireIncrement()"
+				+ TIRET_ESPACE
+				+ ENVT_SPRING_NON_INJECTE;
+			
+			if (LOG.isFatalEnabled()) {
+				LOG.fatal(message);
+			}
+		}
+		
+		return this.poolAcquireIncrement;
+		
+	} // Fin de lirePoolAcquireIncrement().________________________________
+	
 	
 	
 	/**
@@ -2953,9 +3030,12 @@ public class LecteurPropertiesSpring {
 		
 		final Set<String> keys = pProperties.stringPropertyNames();
 		
+		/* Tri du Set de String. */
+		final SortedSet<String> keysTrie = new TreeSet<String>(keys);
+		
 		int i = 0;
 		
-		for (final String key : keys) {
+		for (final String key : keysTrie) {
 			
 			i++;
 			
@@ -4359,6 +4439,35 @@ public class LecteurPropertiesSpring {
 				.getProperties()
 					.getProperty("hibernate.c3p0.idle_test_period");
 	} // Fin de getPoolIdleTestPeriod().___________________________________
+	
+
+	
+	/**
+	 * <b>retourne le poolAcquireIncrement 
+	 * stocké dans l'objet <b>properties</b> du conteneur 
+	 * <code>this.persistenceUnitInfoJPASansXML</code></b> 
+	 * après lecture du properties 
+	 * de configuration indiqué dans l'annotation 
+	 * PropertySource au dessus de la présente classe.<br/>
+	 * <ul>
+	 * <li>clé : 
+	 * <code>spring.jpa.properties.hibernate.c3p0.acquire_increment</code> 
+	 * dans le fichier properties SPRING</li>
+	 * <li>clé : property nommée <code>hibernate.c3p0.acquire_increment</code> 
+	 * dans un persistence.xml préconisé par JPA</li>
+	 * <li>clé : <code>hibernate.c3p0.acquire_increment</code> 
+	 * dans un EntityManagerFactory créé par le 
+	 * PersistenceProvider HIBERNATE</li>
+	 * </ul>
+	 *
+	 * @return : String : 
+	 * poolAcquireIncrement dans le Properties du CONTENEUR.<br/>
+	 */
+	public final String getPoolAcquireIncrement() {
+		return this.persistenceUnitInfoJPASansXML
+				.getProperties()
+					.getProperty("hibernate.c3p0.acquire_increment");
+	} // Fin de getPoolAcquireIncrement()._________________________________
 	
 
 	

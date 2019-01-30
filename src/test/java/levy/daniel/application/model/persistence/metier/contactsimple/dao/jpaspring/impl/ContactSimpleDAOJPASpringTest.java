@@ -28,6 +28,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.context.support.GenericApplicationContext;
 import org.springframework.jdbc.datasource.DriverManagerDataSource;
+import org.springframework.test.annotation.Rollback;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.transaction.annotation.Transactional;
@@ -137,6 +138,17 @@ public class ContactSimpleDAOJPASpringTest {
 	 * Boolean qui commande l'affichage pour tous les tests.<br/>
 	 */
 	public static final Boolean AFFICHAGE_GENERAL = true;
+	
+	/**
+	 * boolean qui stipule si les transactions 
+	 * doivent être RollBackées lors des tests.<br/>
+	 * Par défaut, Spring met cette valeur à true 
+	 * et on ne peut donc pas voir les données dans une table 
+	 * en mode FILE après un test.<br/>
+	 * Passer cette valeur à false si on souhaite 
+	 * consulter la table après un test.
+	 */
+	public static final boolean VALEUR_ROLLBACK = true;
 	
 	/**
 	 * "unused".<br/>
@@ -1243,6 +1255,7 @@ public class ContactSimpleDAOJPASpringTest {
 	 */
 	@SuppressWarnings(UNUSED)
 	@Test
+	@Rollback(value = VALEUR_ROLLBACK)
 	public void testCreate() throws Exception {
 				
 		// **********************************
@@ -1270,7 +1283,7 @@ public class ContactSimpleDAOJPASpringTest {
 		} // Fin de this.dao NON INJECTE._____________________
 
 		
-//		afficherContexte();
+		afficherContexte();
 		
 		/* vide et remplit le stockage. */
 		this.remplirStockage(false);
@@ -4978,7 +4991,7 @@ public class ContactSimpleDAOJPASpringTest {
 		} // Fin de this.dao NON INJECTE._____________________
 
 		/* vide et remplit le stockage. */
-		this.remplirStockage(false);
+		this.remplirStockage(affichage);
 
 		Long nombreObjetsInitial = 0L;
 		Long nombreObjetsFinal = 0L;
@@ -8131,7 +8144,6 @@ public class ContactSimpleDAOJPASpringTest {
 		/* annule l'entityManagerFactory pour forcer 
 		 * la re-création des tables à chaque appel. */
 //		JPAUtils.annulerEntityManagerFactory();
-//		instancierContexteSpringParAnnotations();
 		
 		
 		Long nombreObjetsinitial = 0L;
@@ -8256,7 +8268,7 @@ public class ContactSimpleDAOJPASpringTest {
 		this.contextInjectable = pContextInjectable;
 		
 		/* instancie le contexteSpring STATIC la première fois. */
-		if (contexteSpring == null) {
+		if (contexteSpring == null || !contexteSpring.isActive()) {
 			contexteSpring = this.contextInjectable;
 		}
 		
@@ -8650,11 +8662,14 @@ public class ContactSimpleDAOJPASpringTest {
 			
 			System.out.println();
 			System.out.println("*********** DANS CLASSE DE TEST - afficherContexte() *****************************");
-			System.out.println("CONTENU DU CONTEXTE (contexteSpring.getBeanDefinitionNames()) : ");
+			System.out.println("BEANS CONTENUS DANS le CONTEXTE SPRING (contexteSpring.getBeanDefinitionNames()) : ");
 			
 			for (int i = 0; i < beansTableau.length; i++) {
 				System.out.println(beansTableau[i]);
 			}
+			
+			System.out.println();
+			
 		}
 		
 	} // Fin de afficherContexte().________________________________________

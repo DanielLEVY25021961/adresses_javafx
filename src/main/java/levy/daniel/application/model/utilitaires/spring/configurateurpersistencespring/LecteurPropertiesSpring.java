@@ -1346,8 +1346,6 @@ public class LecteurPropertiesSpring {
 					.equalsIgnoreCase(transactionTypeString)) {
 				transactionType 
 					= PersistenceUnitTransactionType.RESOURCE_LOCAL;
-			} else {
-				transactionType = null;
 			}
 			
 		} else {

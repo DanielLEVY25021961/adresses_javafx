@@ -729,14 +729,10 @@ public class ConfigurateurJPAH2File {
 				
 		PersistenceUnitTransactionType transactionType = null;
 		
-		if (transactionTypeString == null) {
-			transactionType = null;
-		} else if ("RESOURCE_LOCAL".equalsIgnoreCase(transactionTypeString)) {
+		if ("RESOURCE_LOCAL".equalsIgnoreCase(transactionTypeString)) {
 			transactionType = PersistenceUnitTransactionType.RESOURCE_LOCAL;
 		} else if ("JTA".equalsIgnoreCase(transactionTypeString)) {
 			transactionType = PersistenceUnitTransactionType.JTA;
-		} else {
-			transactionType = null;
 		}
 		
 		
@@ -746,28 +742,19 @@ public class ConfigurateurJPAH2File {
 		
 		if (transactionType == null) {
 			
-			jtaDataSource = null;
 			nonJtaDataSource = this.dataSource();
 			
 		} else if (transactionType
 				.equals(PersistenceUnitTransactionType.RESOURCE_LOCAL)) {
 			
-			jtaDataSource = null;
 			nonJtaDataSource = this.dataSource();
 			
 		} else if (transactionType
 				.equals(PersistenceUnitTransactionType.JTA)) {
 			
 			jtaDataSource = this.dataSource();
-			nonJtaDataSource = null;
-			
-		} else {
-			
-			jtaDataSource = null;
-			nonJtaDataSource = null;
 			
 		}
-		
 		
 		// PROPRIETES ADDITIONNELLES
 //		final Properties propsAdditionnelles 
@@ -891,16 +878,11 @@ public class ConfigurateurJPAH2File {
 				
 		PersistenceUnitTransactionType transactionType = null;
 		
-		if (transactionTypeString == null) {
-			transactionType = null;
-		} else if ("RESOURCE_LOCAL".equalsIgnoreCase(transactionTypeString)) {
+		if ("RESOURCE_LOCAL".equalsIgnoreCase(transactionTypeString)) {
 			transactionType = PersistenceUnitTransactionType.RESOURCE_LOCAL;
 		} else if ("JTA".equalsIgnoreCase(transactionTypeString)) {
 			transactionType = PersistenceUnitTransactionType.JTA;
-		} else {
-			transactionType = null;
 		}
-		
 		
 		// DATASOURCE
 		DataSource jtaDataSource = null;
@@ -908,25 +890,17 @@ public class ConfigurateurJPAH2File {
 		
 		if (transactionType == null) {
 			
-			jtaDataSource = null;
 			nonJtaDataSource = this.dataSource();
 			
 		} else if (transactionType
 				.equals(PersistenceUnitTransactionType.RESOURCE_LOCAL)) {
 			
-			jtaDataSource = null;
 			nonJtaDataSource = this.dataSource();
 			
 		} else if (transactionType
 				.equals(PersistenceUnitTransactionType.JTA)) {
 			
 			jtaDataSource = this.dataSource();
-			nonJtaDataSource = null;
-			
-		} else {
-			
-			jtaDataSource = null;
-			nonJtaDataSource = null;
 			
 		}
 		
@@ -1004,16 +978,11 @@ public class ConfigurateurJPAH2File {
 				
 		PersistenceUnitTransactionType transactionType = null;
 		
-		if (transactionTypeString == null) {
-			transactionType = null;
-		} else if ("RESOURCE_LOCAL".equalsIgnoreCase(transactionTypeString)) {
+		if ("RESOURCE_LOCAL".equalsIgnoreCase(transactionTypeString)) {
 			transactionType = PersistenceUnitTransactionType.RESOURCE_LOCAL;
 		} else if ("JTA".equalsIgnoreCase(transactionTypeString)) {
 			transactionType = PersistenceUnitTransactionType.JTA;
-		} else {
-			transactionType = null;
 		}
-		
 		
 		// DATASOURCE
 		DataSource jtaDataSource = null;
@@ -1021,29 +990,20 @@ public class ConfigurateurJPAH2File {
 		
 		if (transactionType == null) {
 			
-			jtaDataSource = null;
 			nonJtaDataSource = this.dataSource();
 			
 		} else if (transactionType
 				.equals(PersistenceUnitTransactionType.RESOURCE_LOCAL)) {
 			
-			jtaDataSource = null;
 			nonJtaDataSource = this.dataSource();
 			
 		} else if (transactionType
 				.equals(PersistenceUnitTransactionType.JTA)) {
 			
 			jtaDataSource = this.dataSource();
-			nonJtaDataSource = null;
-			
-		} else {
-			
-			jtaDataSource = null;
-			nonJtaDataSource = null;
 			
 		}
-		
-		
+				
 		// PROPRIETES ADDITIONNELLES
 		final Properties propsAdditionnelles 
 			= this.additionalProperties();

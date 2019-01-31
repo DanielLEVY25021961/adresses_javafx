@@ -425,9 +425,7 @@ public class ContactSimpleDaoJPA implements IContactSimpleDAO {
 		catch (Exception e) {
 			
 			/* TRANSACTIONNEL. *****/
-			if (transaction != null) {
-				transaction.rollback();
-			}
+			transaction.rollback();
 									
 			/* LOG. */
 			if (LOG.isFatalEnabled()) {
@@ -538,10 +536,8 @@ public class ContactSimpleDaoJPA implements IContactSimpleDAO {
 		catch (Exception e) {
 			
 			/* TRANSACTIONNEL. *****/
-			if (transaction != null) {
-				transaction.rollback();
-			}
-		
+			transaction.rollback();
+					
 			/* LOG. */
 			if (LOG.isFatalEnabled()) {
 				LOG.fatal(e.getMessage(), e);
@@ -651,10 +647,8 @@ public class ContactSimpleDaoJPA implements IContactSimpleDAO {
 		}
 		catch (Exception e) {
 			
-			/* TRANSACTIONNEL. *****/
-			if (transaction != null) {
-				transaction.rollback();
-			}
+			/* TRANSACTIONNEL. *****/			
+			transaction.rollback();			
 									
 			/* LOG. */
 			if (LOG.isFatalEnabled()) {
@@ -1393,9 +1387,7 @@ public class ContactSimpleDaoJPA implements IContactSimpleDAO {
 		catch (Exception e) {
 			
 			/* TRANSACTIONNEL. *****/
-			if (transaction != null) {
-				transaction.rollback();
-			}
+			transaction.rollback();
 		
 			/* LOG. */
 			if (LOG.isFatalEnabled()) {
@@ -1539,9 +1531,7 @@ public class ContactSimpleDaoJPA implements IContactSimpleDAO {
 		catch (Exception e) {
 			
 			/* TRANSACTIONNEL. *****/
-			if (transaction != null) {
-				transaction.rollback();
-			}
+			transaction.rollback();
 		
 			/* LOG. */
 			if (LOG.isFatalEnabled()) {
@@ -1651,10 +1641,8 @@ public class ContactSimpleDaoJPA implements IContactSimpleDAO {
 		} catch (Exception e) {
 			
 			/* TRANSACTIONNEL. *****/
-			if (transaction != null) {
-				transaction.rollback();
-			}
-		
+			transaction.rollback();
+					
 			/* LOG. */
 			if (LOG.isFatalEnabled()) {
 				LOG.fatal(e.getMessage(), e);
@@ -1752,9 +1740,7 @@ public class ContactSimpleDaoJPA implements IContactSimpleDAO {
 		catch (Exception e) {
 			
 			/* TRANSACTIONNEL. *****/
-			if (transaction != null) {
-				transaction.rollback();
-			}
+			transaction.rollback();
 		
 			/* LOG. */
 			if (LOG.isFatalEnabled()) {
@@ -1851,9 +1837,7 @@ public class ContactSimpleDaoJPA implements IContactSimpleDAO {
 		catch (Exception e) {
 			
 			/* TRANSACTIONNEL. *****/
-			if (transaction != null) {
-				transaction.rollback();
-			}
+			transaction.rollback();
 		
 			/* LOG. */
 			if (LOG.isFatalEnabled()) {
@@ -1939,9 +1923,7 @@ public class ContactSimpleDaoJPA implements IContactSimpleDAO {
 		catch (Exception e) {
 			
 			/* TRANSACTIONNEL. *****/
-			if (transaction != null) {
-				transaction.rollback();
-			}
+			transaction.rollback();
 		
 			/* LOG. */
 			if (LOG.isFatalEnabled()) {
@@ -2031,9 +2013,7 @@ public class ContactSimpleDaoJPA implements IContactSimpleDAO {
 		catch (Exception e) {
 			
 			/* TRANSACTIONNEL. *****/
-			if (transaction != null) {
-				transaction.rollback();
-			}
+			transaction.rollback();
 					
 			/* LOG. */
 			if (LOG.isFatalEnabled()) {

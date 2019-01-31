@@ -28,6 +28,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.context.support.GenericApplicationContext;
 import org.springframework.jdbc.datasource.DriverManagerDataSource;
+import org.springframework.test.annotation.DirtiesContext;
 import org.springframework.test.annotation.Rollback;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
@@ -70,6 +71,7 @@ import levy.daniel.application.model.utilitaires.spring.configurateurspring.Conf
  * @since 8 janv. 2019
  *
  */
+@DirtiesContext(classMode = DirtiesContext.ClassMode.AFTER_EACH_TEST_METHOD)
 @RunWith(SpringJUnit4ClassRunner.class)
 @Transactional
 @ContextConfiguration(classes= {ConfigurateurSpringFrmkAnnotationJPAH2File.class})
@@ -148,7 +150,7 @@ public class ContactSimpleDAOJPASpringTest {
 	 * Passer cette valeur à false si on souhaite 
 	 * consulter la table après un test.
 	 */
-	public static final boolean VALEUR_ROLLBACK = true;
+	public static final boolean VALEUR_ROLLBACK = false;
 	
 	/**
 	 * "unused".<br/>

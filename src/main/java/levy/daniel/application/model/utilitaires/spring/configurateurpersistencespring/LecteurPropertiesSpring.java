@@ -1719,7 +1719,7 @@ public class LecteurPropertiesSpring {
 	 * dans un persistence.xml préconisé par JPA.</li>
 	 * </ul>
 	 *
-	 * @return : String : this.userName.<br/>
+	 * @return : String : this.dialect.<br/>
 	 */
 	private String lireDialect() {
 		

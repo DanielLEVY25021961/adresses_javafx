@@ -8242,18 +8242,32 @@ public class ContactSimpleDAOJPASpringTest {
 
 	
 	/**
-	 * Getter .<br/>
+	 * Getter du Contexte SPRING injecté par SPRING dès que 
+	 * la configuration est terminée.<br/>
+	 * <ul>
+	 * <li><b>injecté via son SETTER</b>.</li>
+	 * <li>injecté <i>après</i> avantTests() (BeforeClass) 
+	 * et après le Constructeur du Test.</li>
+	 * <li>injecté <i>avant</i> avantChaqueTest() (Before).</li>
+	 * </ul>
 	 *
 	 * @return this.contextInjectable : GenericApplicationContext.<br/>
 	 */
 	public GenericApplicationContext getContextInjectable() {
 		return this.contextInjectable;
-	}
+	} // Fin de getContextInjectable().____________________________________
 
 
 
 	/**
-	* .<br/>
+	* Setter du Contexte SPRING injecté par SPRING dès que 
+	* la configuration est terminée.<br/>
+	* <ul>
+	* <li><b>injecté via son SETTER</b>.</li>
+	* <li>injecté <i>après</i> avantTests() (BeforeClass) 
+	* et après le Constructeur du Test.</li>
+	* <li>injecté <i>avant</i> avantChaqueTest() (Before).</li>
+	* </ul>
 	*
 	* @param pContextInjectable : GenericApplicationContext : 
 	* valeur à passer à this.contextInjectable.<br/>
@@ -8274,8 +8288,7 @@ public class ContactSimpleDAOJPASpringTest {
 			contexteSpring = this.contextInjectable;
 		}
 		
-
-	}
+	} // Fin de setContextInjectable(...)._________________________________
 
 
 

@@ -11,7 +11,7 @@ import org.apache.commons.logging.LogFactory;
 import org.springframework.core.env.Environment;
 
 /**
- * CLASSE LecteurConfigurationBaseSpring :<br/>
+ * CLASSE LecteurPropertiesProviderHibernate :<br/>
  * .<br/>
  * <br/>
  *
@@ -27,18 +27,18 @@ import org.springframework.core.env.Environment;
  *
  * @author dan Lévy
  * @version 1.0
- * @since 30 janv. 2019
+ * @since 31 janv. 2019
  *
  */
-public class LecteurConfigurationBaseSpring {
+public class LecteurPropertiesProviderHibernate {
 
 	// ************************ATTRIBUTS************************************/
 
 	/**
-	 * "Classe LecteurConfigurationBaseSpring".
+	 * "Classe LecteurPropertiesProviderHibernate".
 	 */
-	public static final String CLASSE_LECTEUR_CONFIGURATION_BASE_SPRING 
-		= "Classe LecteurConfigurationBaseSpring";
+	public static final String CLASSE_LECTEUR_PROPERTIES_PROVIDER_HIBERNATE 
+		= "Classe LecteurPropertiesProviderHibernate";
 	
 	
 	/**
@@ -87,16 +87,70 @@ public class LecteurConfigurationBaseSpring {
 		= "%1$-5d  clé : %2$-35s - valeur : %3$s";
 	
 	/**
-	 * "Méthode lirePersistenceUnitName()".
+	 * "Méthode lireDialect()".
 	 */
-	public static final String METHODE_LIRE_PERSISTENCE_UNIT_NAME 
-		= "Méthode lirePersistenceUnitName()";
+	public static final String METHODE_LIRE_DIALECT 
+		= "Méthode lireDialect()";
+
+	/**
+	 * "Méthode lireShowSql()".
+	 */
+	public static final String METHODE_LIRE_SHOWSQL 
+		= "Méthode lireShowSql()";
 	
 	/**
-	 * "Méthode lireTransactionType()".
+	 * "Méthode lireFormatSql()".
 	 */
-	public static final String METHODE_LIRE_TRANSACTION_TYPE 
-		= "Méthode lireTransactionType()";
+	public static final String METHODE_LIRE_FORMATSQL 
+		= "Méthode lireFormatSql()";
+	
+	/**
+	 * "Méthode lireUseSqlComments".
+	 */
+	public static final String METHODE_LIRE_USESQLCOMMENTS 
+		= "Méthode lireUseSqlComments";
+	
+	/**
+	 * "Méthode lireGenerateStatistics()".
+	 */
+	public static final String METHODE_LIRE_GENERATESTATISTICS 
+		= "Méthode lireGenerateStatistics()";
+	
+	/**
+	 * "Méthode lireNoCacheProviderClass()".
+	 */
+	public static final String METHODE_LIRE_NOCACHEPROVIDERCLASS 
+		= "Méthode lireNoCacheProviderClass()";
+	
+	/**
+	 * "Méthode lireCacheProviderClass()".
+	 */
+	public static final String METHODE_LIRE_CACHEPROVIDERCLASS 
+		= "Méthode lireCacheProviderClass()";
+	
+	/**
+	 * "Méthode lireCacheUseSecondLevelCache()".
+	 */
+	public static final String METHODE_LIRE_CACHEUSESECONDLEVELCACHE 
+		= "Méthode lireCacheUseSecondLevelCache()";
+	
+	/**
+	 * "Méthode lireCacheUseQueryCache()".
+	 */
+	public static final String METHODE_LIRE_CACHEUSEQUERYCACHE 
+		= "Méthode lireCacheUseQueryCache()";
+	
+	/**
+	 * "Méthode lireResourceCache()".
+	 */
+	public static final String METHODE_LIRE_RESOURCECACHE 
+		= "Méthode lireResourceCache()";
+	
+	/**
+	 * "Méthode lireDdlAuto()".
+	 */
+	public static final String METHODE_LIRE_DDL_AUTO 
+		= "Méthode lireDdlAuto()";
 	
 	/**
 	 * "environmentSpring NON INJECTE !!!".
@@ -105,17 +159,77 @@ public class LecteurConfigurationBaseSpring {
 		= "environmentSpring NON INJECTE !!!";
 	
 	/**
-	 * "javax.persistence.jdbc.persistence-unit.name".
+	 * "spring.jpa.properties.hibernate.dialect".
 	 */
-	public static final String PERSISTENCE_UNIT_NAME_KEY 
-		= "javax.persistence.jdbc.persistence-unit.name";
+	public static final String DIALECT_KEY 
+		= "spring.jpa.properties.hibernate.dialect";
+
+	/**
+	 * "spring.jpa.properties.hibernate.show_sql".
+	 */
+	public static final String SHOWSQL_KEY 
+		= "spring.jpa.properties.hibernate.show_sql";
 	
 	/**
-	 * javax.persistence.jdbc.persistence-unit.transaction-type.
+	 * "spring.jpa.properties.hibernate.format_sql".
 	 */
-	public static final String TRANSACTION_TYPE_KEY 
-		= "javax.persistence.jdbc.persistence-unit.transaction-type";
-		
+	public static final String FORMATSQL_KEY 
+		= "spring.jpa.properties.hibernate.format_sql";
+
+	/**
+	 * "spring.jpa.properties.hibernate.use_sql_comments".
+	 */
+	public static final String USESQLCOMMENTS_KEY 
+		= "spring.jpa.properties.hibernate.use_sql_comments";
+	
+	/**
+	 * "spring.jpa.properties.hibernate.generate_statistics".
+	 */
+	public static final String GENERATESTATISTICS_KEY 
+		= "spring.jpa.properties.hibernate.generate_statistics";
+	
+	/**
+	 * "spring.jpa.properties.cache.NoCacheProvider".
+	 */
+	public static final String NOCACHEPROVIDERCLASS_KEY 
+		= "spring.jpa.properties.cache.NoCacheProvider";
+	
+	/**
+	 * "spring.jpa.properties.cache.provider_class".
+	 */
+	public static final String CACHEPROVIDERCLASS_KEY 
+		= "spring.jpa.properties.cache.provider_class";
+	
+	/**
+	 * "spring.jpa.properties.cache.use_second_level_cache".
+	 */
+	public static final String CACHEUSESECONDLEVELCACHE_KEY 
+		= "spring.jpa.properties.cache.use_second_level_cache";
+	
+	/**
+	 * "spring.jpa.properties.cache.use_query_cache".
+	 */
+	public static final String CACHEUSEQUERYCACHE_KEY 
+		= "spring.jpa.properties.cache.use_query_cache";
+	
+	/**
+	 * "net.sf.ehcache.configurationResourcename".
+	 */
+	public static final String RESOURCECACHE_KEY 
+		= "net.sf.ehcache.configurationResourcename";
+	
+	/**
+	 * "cache.provider_class".<br/>
+	 */
+	public static final String CACHE_PROVIDER_CLASS_KEY 
+		= "cache.provider_class";
+	
+	/**
+	 * "spring.jpa.properties.hibernate.ddl-auto".
+	 */
+	public static final String DDLAUTO_KEY 
+		= "spring.jpa.properties.hibernate.ddl-auto";
+	
 	/**
 	 * <b>lecteur SPRING du fichier properties 
 	 * de configuration de la base</b>.
@@ -126,113 +240,10 @@ public class LecteurConfigurationBaseSpring {
 	private Environment environmentSpring;
 	
 	/**
-	 * <b>nom de l'unité de persistence</b>.
-	 * <ul>
-	 * <li>clé : 
-	 * <code>javax.persistence.jdbc.persistence-unit.name</code> 
-	 * dans le fichier properties SPRING</li>
-	 * <li>clé : 
-	 * <code>persistence-unit.name</code> dans un persistence.xml 
-	 * préconisé par JPA.</li>
-	 * <li>clé : 
-	 * <code>hibernate.ejb.persistenceUnitName</code> 
-	 * dans un EntityManagerFactory créé par le 
-	 * PersistenceProvider HIBERNATE</li>
-	 * </ul>
-	 */
-	private transient String persistenceUnitName;
-	
-	/**
-	 * <b>type de transaction (sous forme de String)</b> 
-	 * <ul>
-	 * <li>clé : 
-	 * <code>javax.persistence.jdbc.persistence-unit.transaction-type</code> 
-	 * dans le fichier properties SPRING</li>
-	 * <li>clé : <code>persistence-unit.transaction-type</code> 
-	 * dans un persistence.xml préconisé par JPA</li>
-	 * <li>clé : <code>hibernate.transaction.coordinator</code> 
-	 * dans un EntityManagerFactory créé par le PersistenceProvider HIBERNATE</li>
-	 * </ul>
-	 */
-	private transient String typeTransaction;
-
-	/**
-	 * <b>Lecteur SPRING spécialisé dans la lecture des valeurs JPA 
-	 * d'une DataSource [URL, Driver, Login, Password]</b>.<br/>
-	 */
-	private transient LecteurJPADataSourceSpring lecteurJPADataSourceSpring;
-	
-	/**
-	 * URL de la BASE.
-	 * <ul>
-	 * <li>clé : 
-	 * <code>javax.persistence.jdbc.connexion.url</code> 
-	 * dans le fichier properties SPRING</li>
-	 * <li>clé : property nommée <code>javax.persistence.jdbc.url</code> 
-	 * dans un persistence.xml préconisé par JPA</li>
-	 * <li>clé : <code>javax.persistence.jdbc.url</code> 
-	 * dans un EntityManagerFactory créé par le 
-	 * PersistenceProvider HIBERNATE</li>
-	 * </ul>
-	 */
-	private transient String url;
-	
-	/**
-	 * DRIVER JDBC de la BASE (sous forme de String).
-	 * <ul>
-	 * <li>clé : 
-	 * <code>javax.persistence.jdbc.driver</code> 
-	 * dans le fichier properties SPRING</li>
-	 * <li>clé : property nommée <code>javax.persistence.jdbc.driver</code> 
-	 * dans un persistence.xml préconisé par JPA</li>
-	 * <li>clé : <code>javax.persistence.jdbc.driver</code> 
-	 * dans un EntityManagerFactory créé par le 
-	 * PersistenceProvider HIBERNATE</li>
-	 * </ul>
-	 */
-	private transient String driver;
-	
-	/**
-	 * LOGIN de la BASE.
-	 * <ul>
-	 * <li>clé : 
-	 * <code>javax.persistence.jdbc.connection.username</code> 
-	 * dans le fichier properties SPRING</li>
-	 * <li>clé : property nommée <code>javax.persistence.jdbc.user</code> 
-	 * dans un persistence.xml préconisé par JPA</li>
-	 * <li>clé : <code>javax.persistence.jdbc.user</code> 
-	 * dans un EntityManagerFactory créé par le 
-	 * PersistenceProvider HIBERNATE</li>
-	 * </ul>
-	 */
-	private transient String userName;
-	
-	/**
-	 * MOT DE PASSE de la BASE.
-	 * <ul>
-	 * <li>clé : 
-	 * <code>javax.persistence.jdbc.connection.password</code> 
-	 * dans le fichier properties SPRING</li>
-	 * <li>clé : property nommée <code>javax.persistence.jdbc.password</code> 
-	 * dans un persistence.xml préconisé par JPA</li>
-	 * <li>clé : <code>javax.persistence.jdbc.password</code> 
-	 * dans un EntityManagerFactory créé par le 
-	 * PersistenceProvider HIBERNATE</li>
-	 * </ul>
-	 */
-	private transient String password;
-	
-	/**
 	 * java.util.Properties contenant toutes les propriétés 
-	 * utiles pour un EntityManagerFactory.
+	 * dépendant du PROVIDER.<br/>.
 	 */
-	private transient Properties propertiesConfiguration = new Properties();
-	
-	/**
-	 * <b>Lecteur SPRING spécialisé dans la lecture des valeurs  
-	 * spécifiques à un PROVIDER [ddl-auto, Dialect, cache, ...]</b>.<br/>
-	 */
-	private transient LecteurPropertiesProviderHibernate lecteurPropertiesProviderHibernate;
+	private transient Properties propertiesProvider = new Properties();
 	
 	/**
 	 * DIALECTE utilisé par le PROVIDER pour la BASE.<br/>
@@ -408,7 +419,6 @@ public class LecteurConfigurationBaseSpring {
 	 * </ul>
 	 */
 	private transient String ddlAuto;
-	
 
 	/**
 	 * LOG : Log : 
@@ -416,7 +426,7 @@ public class LecteurConfigurationBaseSpring {
 	 */
 	@SuppressWarnings("unused")
 	private static final Log LOG 
-		= LogFactory.getLog(LecteurConfigurationBaseSpring.class);
+		= LogFactory.getLog(LecteurPropertiesProviderHibernate.class);
 
 	// *************************METHODES************************************/
 	
@@ -424,171 +434,9 @@ public class LecteurConfigurationBaseSpring {
 	 /**
 	 * CONSTRUCTEUR D'ARITE NULLE.<br/>
 	 */
-	public LecteurConfigurationBaseSpring() {		
+	public LecteurPropertiesProviderHibernate() {		
 		this(null);
 	} // Fin de CONSTRUCTEUR D'ARITE NULLE.________________________________
-
-	
-	
-	 /**
-	 * CONSTRUCTEUR D'ARITE 1.<br/>
-	 * <ul>
-	 * <li>passe le paramètre pEnvironmentSpring 
-	 * à this.environmentSpring</li>
-	 * <li>alimente tous les attributs de la classe 
-	 * via this.lireProperties()</li>
-	 * </ul>
-	 * 
-	 * @param pEnvironmentSpring : 
-	 * org.springframework.core.env.Environment
-	 */
-	public LecteurConfigurationBaseSpring(
-			final Environment pEnvironmentSpring) {
-		
-		super();
-				
-		this.environmentSpring = pEnvironmentSpring;
-		
-		/* alimente tous les attributs de la classe. */
-		this.lireProperties();
-		
-	} // Fin de CONSTRUCTEUR D'ARITE 1.____________________________________
-	
-
-	
-	/**
-	 * <b>fournit une String pour l'affichage 
-	 * du contenu du CONTENEUR <code>this.persistenceUnitInfoJPASansXML</code> 
-	 * encapsulé dans le present LecteurPropertiesSpring</b>.<br/>
-	 *
-	 * @return : String : affichage.<br/>
-	 */
-	@Override
-	public final String toString() {
-		
-		final StringBuilder stb = new StringBuilder();
-		
-		stb.append("VALEURS provenant du fichier properties SPRING : ");
-		stb.append(SAUT_LIGNE_PLATEFORME);
-		
-		stb.append(String.format(FORMAT_TOSTRING
-				, "NOM DE L'UNITE DE PERSISTENCE (hibernate.ejb.persistenceUnitName)", this.getPersistenceUnitName()));
-		stb.append(SAUT_LIGNE_PLATEFORME);
-		
-		stb.append(String.format(FORMAT_TOSTRING
-				, "TYPE DE TRANSACTION (hibernate.transaction.coordinator_class)", this.getTypeTransaction()));
-		stb.append(SAUT_LIGNE_PLATEFORME);
-		
-		/* DataSource. */
-		stb.append(String.format(FORMAT_TOSTRING
-				, " *** URL", this.getUrl()));
-		stb.append(SAUT_LIGNE_PLATEFORME);
-
-		stb.append(String.format(FORMAT_TOSTRING
-				, "DRIVER", this.getDriver()));
-		stb.append(SAUT_LIGNE_PLATEFORME);
-
-		stb.append(String.format(FORMAT_TOSTRING
-				, "LOGIN", this.getUserName()));
-		stb.append(SAUT_LIGNE_PLATEFORME);
-
-		stb.append(String.format(FORMAT_TOSTRING
-				, "PASSWORD", this.getPassword()));
-		stb.append(SAUT_LIGNE_PLATEFORME);
-
-		
-		/* Properties. */
-//		stb.append(SAUT_LIGNE_PLATEFORME);
-//
-//		stb.append(String.format(FORMAT_TOSTRING
-//				, "DIALECTE (hibernate.dialect)", this.getDialect()));
-//		stb.append(SAUT_LIGNE_PLATEFORME);
-//		
-//		stb.append(String.format(FORMAT_TOSTRING
-//				, "SHOW_SQL (hibernate.show_sql)", this.getShowSql()));
-//		stb.append(SAUT_LIGNE_PLATEFORME);
-//
-//		stb.append(String.format(FORMAT_TOSTRING
-//				, "FORMAT_SQL (hibernate.format_sql)", this.getFormatSql()));
-//		stb.append(SAUT_LIGNE_PLATEFORME);
-//
-//		stb.append(String.format(FORMAT_TOSTRING
-//				, "USE_SQL_COMMENTS (hibernate.use_sql_comments)", this.getUseSqlComments()));
-//		stb.append(SAUT_LIGNE_PLATEFORME);
-//
-//		stb.append(String.format(FORMAT_TOSTRING
-//				, "GENERATE_STATISTICS (hibernate.generate_statistics)", this.getGenerateSatistics()));
-//		stb.append(SAUT_LIGNE_PLATEFORME);
-//
-//		stb.append(SAUT_LIGNE_PLATEFORME);
-//		stb.append(String.format(FORMAT_TOSTRING
-//				, "NO_CACHE_PROVIDER_CLASS (cache.provider_class)", this.getNoCacheProviderClass()));
-//		stb.append(SAUT_LIGNE_PLATEFORME);
-//
-//		stb.append(SAUT_LIGNE_PLATEFORME);
-//		stb.append(String.format(FORMAT_TOSTRING
-//				, "CACHE_PROVIDER_CLASS (cache.provider_class)", this.getCacheProviderClass()));
-//		stb.append(SAUT_LIGNE_PLATEFORME);
-//
-//		stb.append(String.format(FORMAT_TOSTRING
-//				, "CACHE-USE_SECOND_LEVEL_CACHE (cache.use_second_level_cache)", this.getCacheUseSecondLevelCache()));
-//		stb.append(SAUT_LIGNE_PLATEFORME);
-//
-//		stb.append(String.format(FORMAT_TOSTRING
-//				, "CACHE-USE_QUERY_CACHE (cache.use_query_cache)", this.getCacheUseQueryCache()));
-//		stb.append(SAUT_LIGNE_PLATEFORME);
-//
-//		stb.append(String.format(FORMAT_TOSTRING
-//				, "RESOURCE_CACHE (net.sf.ehcache.configurationResourcename)", this.getResourceCache()));
-//		stb.append(SAUT_LIGNE_PLATEFORME);
-//
-//		stb.append(SAUT_LIGNE_PLATEFORME);
-//		stb.append(String.format(FORMAT_TOSTRING
-//				, "poolMinSize (hibernate.c3p0.min_size)", this.getPoolMinSize()));
-//		stb.append(SAUT_LIGNE_PLATEFORME);
-//
-//		stb.append(String.format(FORMAT_TOSTRING
-//				, "poolMaxSize (hibernate.c3p0.max_size)", this.getPoolMaxSize()));
-//		stb.append(SAUT_LIGNE_PLATEFORME);
-//
-//		stb.append(String.format(FORMAT_TOSTRING
-//				, "poolTimeOut (hibernate.c3p0.timeout)", this.getPoolTimeOut()));
-//		stb.append(SAUT_LIGNE_PLATEFORME);
-//
-//		stb.append(String.format(FORMAT_TOSTRING
-//				, "poolMaxStatements (hibernate.c3p0.max_statements)", this.getPoolMaxStatements()));
-//		stb.append(SAUT_LIGNE_PLATEFORME);
-//
-//		stb.append(String.format(FORMAT_TOSTRING
-//				, "poolIdleTestPeriod (hibernate.c3p0.idle_test_period)", this.getPoolIdleTestPeriod()));
-//		stb.append(SAUT_LIGNE_PLATEFORME);
-//
-//		stb.append(SAUT_LIGNE_PLATEFORME);
-//		stb.append(String.format(FORMAT_TOSTRING
-//				, "generateDdl (spring.jpa.generate-ddl)", this.getGenerateDdl()));
-//		stb.append(SAUT_LIGNE_PLATEFORME);
-//
-//		stb.append(String.format(FORMAT_TOSTRING
-//				, "DDL-AUTO (hibernate.hbm2ddl.auto)", this.getDdlAuto()));
-//		stb.append(SAUT_LIGNE_PLATEFORME);
-//
-//		stb.append(String.format(FORMAT_TOSTRING
-//				, "springH2ConsoleEnabled (spring.h2.console.enabled)", this.getSpringH2ConsoleEnabled()));
-//		stb.append(SAUT_LIGNE_PLATEFORME);
-//
-//		stb.append(String.format(FORMAT_TOSTRING
-//				, "springH2ConsolePath (spring.h2.console.path)", this.getSpringH2ConsolePath()));
-//		stb.append(SAUT_LIGNE_PLATEFORME);
-//
-//		stb.append(SAUT_LIGNE_PLATEFORME);
-//		stb.append("LISTE DES PROPRIETES DANS LE Properties du CONTENEUR : ");
-//		stb.append(SAUT_LIGNE_PLATEFORME);
-//		stb.append(this.afficherPropertiesConteneur());
-//		stb.append(SAUT_LIGNE_PLATEFORME);
-		
-		return stb.toString();
-		
-	} // Fin de toString().________________________________________________
 	
 	
 	
@@ -640,30 +488,39 @@ public class LecteurConfigurationBaseSpring {
 		
 	} // Fin de afficherJavaUtilProperties(...).___________________________
 
+	
+	
+	 /**
+	 * CONSTRUCTEUR D'ARITE 1.<br/>
+	 * <ul>
+	 * <li>passe le paramètre pEnvironmentSpring 
+	 * à this.environmentSpring</li>
+	 * <li>alimente tous les attributs de la classe 
+	 * via this.lireProperties()</li>
+	 * </ul>
+	 * 
+	 * @param pEnvironmentSpring : 
+	 * org.springframework.core.env.Environment
+	 */
+	public LecteurPropertiesProviderHibernate(
+			final Environment pEnvironmentSpring) {
+		
+		super();
+				
+		this.environmentSpring = pEnvironmentSpring;
+		
+		/* alimente tous les attributs de la classe. */
+		this.lireProperties();
+		
+	} // Fin de CONSTRUCTEUR D'ARITE 1.____________________________________
+
 
 	
 	/**
 	 * <b>Lit le fichier properties SPRING de configuration de la base 
 	 * encapsulé dans <code>this.environmentSpring</code></b>.
 	 * <ul>
-	 * <li>automatiquement appelé par le constructeur d'arité 1</li>
-	 * <ul>
-	 * <li>lit le nom de l'unité de persistence (persistenceUnitName).</li>
-	 * <li>lit le type de transaction (typeTransaction).</li>
-	 * 
-	 * <li>délègue à un LecteurJPADataSourceSpring 
-	 * la lecture des valeurs de la DataSource.</li>
-	 * <ul>
-	 * <li>lit l'URL de la base (url).</li>
-	 * <li>lit le DRIVER de la Base (driver).</li>
-	 * <li>lit le LOGIN de la Base (userName).</li>
-	 * <li>lit le PASSWORD de la Base (password).</li>
-	 * </ul>
-	 * 
-	 * <li>délègue à un LecteurPropertiesProviderHibernate 
-	 * la lecture des valeurs spécifiques au PROVIDER.</li>
-	 * <li><b>alimente <code>this.propertiesConfiguration</code> 
-	 * avec les propriétés spécifique au PROVIDER</b>.</li>
+	 * <li>automatiquement appelé par le constructeur d'arité 1</li><br/>
 	 * <ul>
 	 * <li>lit le DIALECTE de la base (dialect).</li>
 	 * <li>lit le SHOW_SQL (showSql).</li>
@@ -676,154 +533,153 @@ public class LecteurConfigurationBaseSpring {
 	 * <li>lit le CACHE-USE_QUERY_CACHE (cacheUseQueryCache).</li>
 	 * <li>lit le RESOURCE_CACHE (resourceCache).</li>
 	 * <li>lit le DDL-AUTO (ddlAuto).</li>
-	 * </ul>
-	 * 
-	 * <li>lit les valeurs du Pool de connexion.</li>
-	 * <li>lit l'interrupteur generateDdl.</li>
-	 * 
-	 * <li>lit le springH2ConsoleEnabled.</li>
-	 * <li>lit le springH2ConsolePath.</li>
-	 * <li>alimente <code>this.propertiesConteneur</code> 
-	 * avec le java.util.Properties contenu dans le 
-	 * CONTENEUR <code>this.persistenceUnitInfoJPASansXML</code>.</li>
+	 * <li><b>alimente <code>this.propertiesProvider</code> 
+	 * avec toutes les propriétés</b>.</li>
 	 * </ul>
 	 * </ul>
 	 */
 	private void lireProperties() {
 		
-		/* persistenceUnitName. */
-		this.lirePersistenceUnitName();
-		
-		/* typeTransaction. */
-		this.lireTypeTransaction();
-		
-		// DATASOURCE
-		this.lecteurJPADataSourceSpring 
-			= new LecteurJPADataSourceSpring(this.environmentSpring);
-		/* URL. */
-		this.url = this.lecteurJPADataSourceSpring.getUrl();
-		
-		/* DRIVER. */
-		this.driver = this.lecteurJPADataSourceSpring.getDriver();
-		
-		/* userName. */
-		this.userName = this.lecteurJPADataSourceSpring.getUserName();
-		
-		/* password. */
-		this.password = this.lecteurJPADataSourceSpring.getPassword();
-		
-		// PROPERTIES spécifiques au Provider.
-		this.lecteurPropertiesProviderHibernate 
-			= new LecteurPropertiesProviderHibernate(this.environmentSpring);
-		
 		/* dialect. */
-		this.dialect = this.lecteurPropertiesProviderHibernate.getDialect();
+		this.lireDialect();
 		
 		/* showSql. */
-		this.showSql = this.lecteurPropertiesProviderHibernate.getShowSql();
+		this.lireShowSql();
 		
 		/* formatSql. */
-		this.formatSql = this.lecteurPropertiesProviderHibernate.getFormatSql();
+		this.lireFormatSql();
 		
 		/* useSqlComments. */
-		this.useSqlComments = this.lecteurPropertiesProviderHibernate.getUseSqlComments();
+		this.lireUseSqlComments();
 		
 		/* generateStatistics. */
-		this.generateSatistics = this.lecteurPropertiesProviderHibernate.getGenerateSatistics();
+		this.lireGenerateStatistics();
 		
 		/* noCacheProviderClass. */
-		this.noCacheProviderClass = this.lecteurPropertiesProviderHibernate.getNoCacheProviderClass();
+		this.lireNoCacheProviderClass();
 		
 		/* cacheProviderClass. */
-		this.cacheProviderClass = this.lecteurPropertiesProviderHibernate.getCacheProviderClass();
+		this.lireCacheProviderClass();
 		
 		/* cacheUseSecondLevelCache. */
-		this.cacheUseSecondLevelCache = this.lecteurPropertiesProviderHibernate.getCacheUseSecondLevelCache();
+		this.lireCacheUseSecondLevelCache();
 		
 		/* cacheUseQueryCache. */
-		this.cacheUseQueryCache = this.lecteurPropertiesProviderHibernate.getCacheUseQueryCache();
+		this.lireCacheUseQueryCache();
 		
 		/* resourceCache. */
-		this.resourceCache = this.lecteurPropertiesProviderHibernate.getResourceCache();
+		this.lireResourceCache();
 		
 		/* ddlAuto. */
-		this.ddlAuto = this.lecteurPropertiesProviderHibernate.getDdlAuto();
+		this.lireDdlAuto();
 		
-		/* alimente this.propertiesConfiguration. */
+		/* alimentation de propertiesProvider. */
 		this.alimenterPropertiesProvider();
-		
-//		/* pool. */
-//		this.lirePoolMinSize();
-//		this.lirePoolMaxSize();
-//		this.lirePoolTimeOut();
-//		this.lirePoolMaxStatements();
-//		this.lirePoolIdleTestPeriod();
-//		this.lirePoolAcquireIncrement();
-//		
-//		/* generateDdl. */
-//		this.lireGenerateDdl();
-//		
-//		/* springH2ConsoleEnabled. */
-//		this.lireSpringH2ConsoleEnabled();
-//		
-//		/* springH2ConsolePath. */
-//		this.lireSpringH2ConsolePath();
-//		
-//		/* alimente this.propertiesConteneur 
-//		 * avec le java.util.Properties contenu 
-//		 * dans this.persistenceUnitInfoJPASansXML. */
-//		this.propertiesConteneur 
-//			= this.persistenceUnitInfoJPASansXML.getProperties();
-		
+				
 	} // Fin de lireProperties().__________________________________________
 	
 
 	
 	/**
-	 * <b>alimente <code>this.propertiesConfiguration</code> 
-	 * avec les propriétés spécifique au PROVIDER</b>.
+	 * <b>alimente <code>this.propertiesProvider</code> 
+	 * avec toutes les propriétés</b>.
 	 */
 	private void alimenterPropertiesProvider() {
-		this.propertiesConfiguration.putAll(
-				this.lecteurPropertiesProviderHibernate
-					.getPropertiesProvider());
+		
+		if (this.dialect != null) {
+			this.propertiesProvider
+				.put("hibernate.dialect", this.dialect);
+		}
+		
+		if (this.showSql != null) {
+			this.propertiesProvider
+				.put("hibernate.show_sql", this.showSql);
+		}
+		
+		if (this.formatSql != null) {
+			this.propertiesProvider
+				.put("hibernate.format_sql", this.formatSql);
+		}
+		
+		if (this.useSqlComments != null) {
+			this.propertiesProvider
+				.put("hibernate.use_sql_comments", this.useSqlComments);
+		}
+		
+		if (this.generateSatistics != null) {
+			this.propertiesProvider
+				.put("hibernate.generate_statistics", this.generateSatistics);
+		}
+		
+		if (this.noCacheProviderClass != null) {
+			this.propertiesProvider
+				.put(CACHE_PROVIDER_CLASS_KEY, this.noCacheProviderClass);
+		}
+		
+		if (this.cacheProviderClass != null) {
+			this.propertiesProvider
+				.put(CACHE_PROVIDER_CLASS_KEY, this.cacheProviderClass);
+		}
+		
+		if (this.cacheUseSecondLevelCache != null) {
+			this.propertiesProvider
+				.put("cache.use_second_level_cache"
+						, this.cacheUseSecondLevelCache);
+		}
+		
+		if (this.cacheUseQueryCache != null) {
+			this.propertiesProvider
+				.put("cache.use_query_cache"
+						, this.cacheUseQueryCache);
+		}
+		
+		if (this.resourceCache != null) {
+			this.propertiesProvider
+				.put("net.sf.ehcache.configurationResourcename"
+						, this.resourceCache);
+		}
+		
+		if (this.ddlAuto != null) {
+			this.propertiesProvider
+				.put("hibernate.hbm2ddl.auto"
+						, this.ddlAuto);
+		}
+		
 	} // Fin de alimenterPropertiesProvider()._____________________________
-	
-	
+
+
 	
 	/**
-	 * <b>lit la valeur de persistenceUnitName 
-	 * dans le properties SPRING fourni par l'Environment.</b>
+	 * <b>lit le DIALECTE utilisé par le PROVIDER pour la BASE</b>.<br/>
+	 * par exemple : "org.hibernate.dialect.H2Dialect" 
+	 * pour un PROVIDER HIBERNATE et une base H2.
 	 * <ul>
 	 * <li>clé : 
-	 * <code>javax.persistence.jdbc.persistence-unit.name</code> 
+	 * <code>spring.jpa.properties.hibernate.dialect</code> 
 	 * dans le fichier properties SPRING</li>
-	 * <li>clé : 
-	 * <code>persistence-unit.name</code> dans un persistence.xml 
-	 * préconisé par JPA.</li>
-	 * <li>clé : 
-	 * <code>hibernate.ejb.persistenceUnitName</code> 
+	 * <li>clé : property nommée <code>hibernate.dialect</code> 
+	 * dans un persistence.xml préconisé par JPA</li>
+	 * <li>clé : <code>hibernate.dialect</code> 
 	 * dans un EntityManagerFactory créé par le 
 	 * PersistenceProvider HIBERNATE</li>
 	 * </ul>
 	 *
-	 * @return this.persistenceUnitName : String : 
-	 * nom de l'unité de persistance.<br/>
+	 * @return : String : this.dialect.<br/>
 	 */
-	private String lirePersistenceUnitName() {
+	private String lireDialect() {
 		
 		if (this.environmentSpring != null) {
 			
-			this.persistenceUnitName 
+			this.dialect 
 				= this.environmentSpring.getProperty(
-					PERSISTENCE_UNIT_NAME_KEY);
+						DIALECT_KEY);
 			
 		} else {
 			
 			final String message 
-				= CLASSE_LECTEUR_CONFIGURATION_BASE_SPRING
+				= CLASSE_LECTEUR_PROPERTIES_PROVIDER_HIBERNATE
 				+ TIRET_ESPACE
-				+ METHODE_LIRE_PERSISTENCE_UNIT_NAME
+				+ METHODE_LIRE_DIALECT
 				+ TIRET_ESPACE
 				+ ENVT_SPRING_NON_INJECTE;
 			
@@ -832,33 +688,42 @@ public class LecteurConfigurationBaseSpring {
 			}
 		}
 		
-		return this.persistenceUnitName;
+		return this.dialect;
 		
-	} // Fin de lirePersistenceUnitName()._________________________________
+	} // Fin de lireDialect().____________________________________________
 	
-
+	
 	
 	/**
-	 * <b>lit la valeur de typeTransaction 
-	 * dans le properties SPRING fourni par l'Environment.</b>
+	 * <b>lit boolean (sous forme String) qui stipule si le PROVIDER 
+	 * doit afficher les requêtes SQL</b>.<br/>
+	 * <ul>
+	 * <li>clé : 
+	 * <code>spring.jpa.properties.hibernate.show_sql</code> 
+	 * dans le fichier properties SPRING</li>
+	 * <li>clé : property nommée <code>hibernate.show_sql</code> 
+	 * dans un persistence.xml préconisé par JPA</li>
+	 * <li>clé : <code>hibernate.show_sql</code> 
+	 * dans un EntityManagerFactory créé par le 
+	 * PersistenceProvider HIBERNATE</li>
+	 * </ul>
 	 *
-	 * @return this.typeTransaction : String : 
-	 * type de transaction.<br/>
+	 * @return : String : this.showSql.<br/>
 	 */
-	private String lireTypeTransaction() {
+	private String lireShowSql() {
 		
 		if (this.environmentSpring != null) {
 			
-			this.typeTransaction 
+			this.showSql 
 				= this.environmentSpring.getProperty(
-						TRANSACTION_TYPE_KEY);
-						
+						SHOWSQL_KEY);
+			
 		} else {
 			
 			final String message 
-				= CLASSE_LECTEUR_CONFIGURATION_BASE_SPRING
+				= CLASSE_LECTEUR_PROPERTIES_PROVIDER_HIBERNATE 
 				+ TIRET_ESPACE
-				+ METHODE_LIRE_TRANSACTION_TYPE
+				+ METHODE_LIRE_SHOWSQL
 				+ TIRET_ESPACE
 				+ ENVT_SPRING_NON_INJECTE;
 			
@@ -867,166 +732,404 @@ public class LecteurConfigurationBaseSpring {
 			}
 		}
 		
-		return this.typeTransaction;
+		return this.showSql;
 		
-	} // Fin de lireTypeTransaction()._____________________________________
-
-
-	
-	/**
-	 * Getter du <b>nom de l'unité de persistence</b>.
-	 * <ul>
-	 * <li>clé : 
-	 * <code>javax.persistence.jdbc.persistence-unit.name</code> 
-	 * dans le fichier properties SPRING</li>
-	 * <li>clé : 
-	 * <code>persistence-unit.name</code> dans un persistence.xml 
-	 * préconisé par JPA.</li>
-	 * <li>clé : 
-	 * <code>hibernate.ejb.persistenceUnitName</code> 
-	 * dans un EntityManagerFactory créé par le 
-	 * PersistenceProvider HIBERNATE</li>
-	 * </ul>
-	 *
-	 * @return this.persistenceUnitName : String.<br/>
-	 */
-	public final String getPersistenceUnitName() {
-		return this.persistenceUnitName;
-	} // Fin de getPersistenceUnitName().__________________________________
+	} // Fin de lireShowSql()._____________________________________________
 	
 	
 	
 	/**
-	 * Getter du <b>type de transaction (sous forme de String)</b> 
+	 * <b>lit le boolean (sous forme String) qui stipule si le PROVIDER 
+	 * doit formater les requêtes SQL</b>.<br/>
 	 * <ul>
 	 * <li>clé : 
-	 * <code>javax.persistence.jdbc.persistence-unit.transaction-type</code> 
+	 * <code>spring.jpa.properties.hibernate.format_sql</code> 
 	 * dans le fichier properties SPRING</li>
-	 * <li>clé : <code>persistence-unit.transaction-type</code> 
+	 * <li>clé : property nommée <code>hibernate.format_sql</code> 
 	 * dans un persistence.xml préconisé par JPA</li>
-	 * <li>clé : <code>hibernate.transaction.coordinator</code> 
+	 * <li>clé : <code>hibernate.format_sql</code> 
 	 * dans un EntityManagerFactory créé par le 
 	 * PersistenceProvider HIBERNATE</li>
 	 * </ul>
 	 *
-	 * @return this.typeTransaction : String.<br/>
+	 * @return : String : this.showSql.<br/>
 	 */
-	public final String getTypeTransaction() {
-		return this.typeTransaction;
-	} // Fin de getTypeTransaction().______________________________________
-
-	
+	private String lireFormatSql() {
 		
-	/**
-	 * Getter du <b>Lecteur SPRING spécialisé dans la lecture 
-	 * des valeurs JPA 
-	 * d'une DataSource [URL, Driver, Login, Password]</b>.<br/>.
-	 *
-	 * @return this.lecteurJPADataSourceSpring : 
-	 * LecteurJPADataSourceSpring.<br/>
-	 */
-	public final LecteurJPADataSourceSpring getLecteurJPADataSourceSpring() {
-		return this.lecteurJPADataSourceSpring;
-	} // Fin de getLecteurJPADataSourceSpring().___________________________
-
-
-
-	/**
-	 * Getter de l'URL de la BASE.
-	 * <ul>
-	 * <li>clé : 
-	 * <code>javax.persistence.jdbc.connexion.url</code> 
-	 * dans le fichier properties SPRING</li>
-	 * <li>clé : property nommée <code>javax.persistence.jdbc.url</code> 
-	 * dans un persistence.xml préconisé par JPA</li>
-	 * <li>clé : <code>javax.persistence.jdbc.url</code> 
-	 * dans un EntityManagerFactory créé par le 
-	 * PersistenceProvider HIBERNATE</li>
-	 * </ul>
-	 *
-	 * @return this.url : String.<br/>
-	 */
-	public final String getUrl() {
-		return this.url;
-	} // Fin de getUrl().__________________________________________________
-
-
-	
-	/**
-	 * Getter du DRIVER JDBC de la BASE (sous forme de String).
-	 * <ul>
-	 * <li>clé : 
-	 * <code>javax.persistence.jdbc.driver</code> 
-	 * dans le fichier properties SPRING</li>
-	 * <li>clé : property nommée <code>javax.persistence.jdbc.driver</code> 
-	 * dans un persistence.xml préconisé par JPA</li>
-	 * <li>clé : <code>javax.persistence.jdbc.driver</code> 
-	 * dans un EntityManagerFactory créé par le 
-	 * PersistenceProvider HIBERNATE</li>
-	 * </ul>
-	 *
-	 * @return this.driver : String.<br/>
-	 */
-	public final String getDriver() {
-		return this.driver;
-	} // Fin de getDriver()._______________________________________________
-
-
-	
-	/**
-	 * Getter du LOGIN de la BASE.
-	 * <ul>
-	 * <li>clé : 
-	 * <code>javax.persistence.jdbc.connection.username</code> 
-	 * dans le fichier properties SPRING</li>
-	 * <li>clé : property nommée <code>javax.persistence.jdbc.user</code> 
-	 * dans un persistence.xml préconisé par JPA</li>
-	 * <li>clé : <code>javax.persistence.jdbc.user</code> 
-	 * dans un EntityManagerFactory créé par le 
-	 * PersistenceProvider HIBERNATE</li>
-	 * </ul>
-	 *
-	 * @return this.userName : String.<br/>
-	 */
-	public final String getUserName() {
-		return this.userName;
-	} // Fin de getUserName()._____________________________________________
-
-
-	
-	/**
-	 * Getter du MOT DE PASSE de la BASE.
-	 * <ul>
-	 * <li>clé : 
-	 * <code>javax.persistence.jdbc.connection.password</code> 
-	 * dans le fichier properties SPRING</li>
-	 * <li>clé : property nommée <code>javax.persistence.jdbc.password</code> 
-	 * dans un persistence.xml préconisé par JPA</li>
-	 * <li>clé : <code>javax.persistence.jdbc.password</code> 
-	 * dans un EntityManagerFactory créé par le 
-	 * PersistenceProvider HIBERNATE</li>
-	 * </ul>
-	 *
-	 * @return this.password : String.<br/>
-	 */
-	public final String getPassword() {
-		return this.password;
-	} // Fin de getPassword()._____________________________________________
-
-
+		if (this.environmentSpring != null) {
+			
+			this.formatSql 
+				= this.environmentSpring.getProperty(
+						FORMATSQL_KEY);
+			
+		} else {
+			
+			final String message 
+				= CLASSE_LECTEUR_PROPERTIES_PROVIDER_HIBERNATE 
+				+ TIRET_ESPACE
+				+ METHODE_LIRE_FORMATSQL
+				+ TIRET_ESPACE
+				+ ENVT_SPRING_NON_INJECTE;
+			
+			if (LOG.isFatalEnabled()) {
+				LOG.fatal(message);
+			}
+		}
 		
+		return this.formatSql;
+		
+	} // Fin de lireFormatSql().___________________________________________
+	
+
+	
 	/**
-	 * Getter du java.util.Properties contenant toutes les propriétés 
-	 * utiles pour un EntityManagerFactory.
+	 * <b>lit le boolean (sous forme String) qui stipule si le PROVIDER 
+	 * doit commenter les requêtes SQL</b>.<br/>
+	 * <ul>
+	 * <li>clé : 
+	 * <code>spring.jpa.properties.hibernate.use_sql_comments</code> 
+	 * dans le fichier properties SPRING</li>
+	 * <li>clé : property nommée <code>hibernate.use_sql_comments</code> 
+	 * dans un persistence.xml préconisé par JPA</li>
+	 * <li>clé : <code>hibernate.use_sql_comments</code> 
+	 * dans un EntityManagerFactory créé par le 
+	 * PersistenceProvider HIBERNATE</li>
+	 * </ul>
 	 *
-	 * @return this.propertiesConfiguration : Properties.<br/>
+	 * @return : String : this.useSqlComments.<br/>
 	 */
-	public final Properties getPropertiesConfiguration() {
-		return this.propertiesConfiguration;
-	} // Fin de getPropertiesConfiguration().______________________________
+	private String lireUseSqlComments() {
+		
+		if (this.environmentSpring != null) {
+			
+			this.useSqlComments 
+				= this.environmentSpring.getProperty(
+						USESQLCOMMENTS_KEY);
+			
+		} else {
+			
+			final String message 
+				= CLASSE_LECTEUR_PROPERTIES_PROVIDER_HIBERNATE 
+				+ TIRET_ESPACE
+				+ METHODE_LIRE_USESQLCOMMENTS
+				+ TIRET_ESPACE
+				+ ENVT_SPRING_NON_INJECTE;
+			
+			if (LOG.isFatalEnabled()) {
+				LOG.fatal(message);
+			}
+		}
+		
+		return this.useSqlComments;
+
+	} // Fin de lireUseSqlComments().______________________________________
+	
+
+	
+	/**
+	 * <b>lit le boolean (sous forme String) qui stipule si le PROVIDER 
+	 * doit générer des statistiques</b>.<br/>
+	 * <ul>
+	 * <li>clé : 
+	 * <code>spring.jpa.properties.hibernate.generate_statistics</code> 
+	 * dans le fichier properties SPRING</li>
+	 * <li>clé : property nommée <code>hibernate.generate_statistics</code> 
+	 * dans un persistence.xml préconisé par JPA</li>
+	 * <li>clé : <code>hibernate.generate_statistics</code> 
+	 * dans un EntityManagerFactory créé par le 
+	 * PersistenceProvider HIBERNATE</li>
+	 * </ul>
+	 *
+	 * @return : String : this.generateSatistics.<br/>
+	 */
+	private String lireGenerateStatistics() {
+		
+		if (this.environmentSpring != null) {
+			
+			this.generateSatistics 
+				= this.environmentSpring.getProperty(
+						GENERATESTATISTICS_KEY);
+			
+		} else {
+			
+			final String message 
+				= CLASSE_LECTEUR_PROPERTIES_PROVIDER_HIBERNATE 
+				+ TIRET_ESPACE
+				+ METHODE_LIRE_GENERATESTATISTICS
+				+ TIRET_ESPACE
+				+ ENVT_SPRING_NON_INJECTE;
+			
+			if (LOG.isFatalEnabled()) {
+				LOG.fatal(message);
+			}
+		}
+		
+		return this.generateSatistics;
+
+	} // Fin de lireGenerateStatistics().__________________________________
+	
+
+	
+	/**
+	 * <b>lit le nom qualifié de la classe de non-cache de 2nd niveau.</b>.
+	 * <ul>
+	 * <li>clé : 
+	 * <code>spring.jpa.properties.cache.NoCacheProvider</code> 
+	 * dans le fichier properties SPRING</li>
+	 * <li>clé : property nommée <code>cache.provider_class</code> 
+	 * dans un persistence.xml préconisé par JPA</li>
+	 * <li>clé : <code>cache.provider_class</code> 
+	 * dans un EntityManagerFactory créé par le 
+	 * PersistenceProvider HIBERNATE</li>
+	 * </ul>
+	 *
+	 * @return : String : this.noCacheProviderClass.<br/>
+	 */
+	private String lireNoCacheProviderClass() {
+		
+		if (this.environmentSpring != null) {
+			
+			this.noCacheProviderClass 
+				= this.environmentSpring.getProperty(
+						NOCACHEPROVIDERCLASS_KEY);
+			
+		} else {
+			
+			final String message 
+				= CLASSE_LECTEUR_PROPERTIES_PROVIDER_HIBERNATE 
+				+ TIRET_ESPACE
+				+ METHODE_LIRE_NOCACHEPROVIDERCLASS
+				+ TIRET_ESPACE
+				+ ENVT_SPRING_NON_INJECTE;
+			
+			if (LOG.isFatalEnabled()) {
+				LOG.fatal(message);
+			}
+		}
+		
+		return this.noCacheProviderClass;
+
+	} // Fin de lireNoCacheProviderClass().________________________________
+	
+
+	
+	/**
+	 * <b>lit le nom qualifié de la classe de non-cache de 2nd niveau.</b>.
+	 * <ul>
+	 * <li>clé : 
+	 * <code>spring.jpa.properties.cache.NoCacheProvider</code> 
+	 * dans le fichier properties SPRING</li>
+	 * <li>clé : property nommée <code>cache.provider_class</code> 
+	 * dans un persistence.xml préconisé par JPA</li>
+	 * <li>clé : <code>cache.provider_class</code> 
+	 * dans un EntityManagerFactory créé par le 
+	 * PersistenceProvider HIBERNATE</li>
+	 * </ul>
+	 *
+	 * @return : String : this.cacheProviderClass.<br/>
+	 */
+	private String lireCacheProviderClass() {
+		
+		if (this.environmentSpring != null) {
+			
+			this.cacheProviderClass 
+				= this.environmentSpring.getProperty(
+						CACHEPROVIDERCLASS_KEY);
+			
+		} else {
+			
+			final String message 
+				= CLASSE_LECTEUR_PROPERTIES_PROVIDER_HIBERNATE 
+				+ TIRET_ESPACE
+				+ METHODE_LIRE_CACHEPROVIDERCLASS
+				+ TIRET_ESPACE
+				+ ENVT_SPRING_NON_INJECTE;
+			
+			if (LOG.isFatalEnabled()) {
+				LOG.fatal(message);
+			}
+		}
+		
+		return this.cacheProviderClass;
+
+	} // Fin de lireCacheProviderClass().__________________________________
+
+	
+	
+	/**
+	 * <b>lit le boolean (sous forme String) qui stipule si le PROVIDER 
+	 * doit utiliser le cache de second niveau</b>.<br/>
+	 * <ul>
+	 * <li>clé : 
+	 * <code>spring.jpa.properties.cache.use_second_level_cache</code> 
+	 * dans le fichier properties SPRING</li>
+	 * <li>clé : property nommée <code>cache.use_second_level_cache</code> 
+	 * dans un persistence.xml préconisé par JPA</li>
+	 * <li>clé : <code>cache.use_second_level_cache</code> 
+	 * dans un EntityManagerFactory créé par le 
+	 * PersistenceProvider HIBERNATE</li>
+	 * </ul>
+	 *
+	 * @return : String : this.cacheUseSecondLevelCache.<br/>
+	 */
+	private String lireCacheUseSecondLevelCache() {
+		
+		if (this.environmentSpring != null) {
+			
+			this.cacheUseSecondLevelCache
+				= this.environmentSpring.getProperty(
+						CACHEUSESECONDLEVELCACHE_KEY);
+			
+		} else {
+			
+			final String message 
+				= CLASSE_LECTEUR_PROPERTIES_PROVIDER_HIBERNATE 
+				+ TIRET_ESPACE
+				+ METHODE_LIRE_CACHEUSESECONDLEVELCACHE
+				+ TIRET_ESPACE
+				+ ENVT_SPRING_NON_INJECTE;
+			
+			if (LOG.isFatalEnabled()) {
+				LOG.fatal(message);
+			}
+		}
+		
+		return this.cacheUseSecondLevelCache;
+
+	} // Fin de lireCacheUseSecondLevelCache().____________________________
+
+	
+	
+	/**
+	 * <b>lit le boolean (sous forme String) qui stipule si le PROVIDER 
+	 * doit utiliser le cache de requête de second niveau</b>.<br/>
+	 * <ul>
+	 * <li>clé : 
+	 * <code>spring.jpa.properties.cache.use_query_cache</code> 
+	 * dans le fichier properties SPRING</li>
+	 * <li>clé : property nommée <code>cache.use_query_cache</code> 
+	 * dans un persistence.xml préconisé par JPA</li>
+	 * <li>clé : <code>cache.use_query_cache</code> 
+	 * dans un EntityManagerFactory créé par le 
+	 * PersistenceProvider HIBERNATE</li>
+	 * </ul>
+	 *
+	 * @return : String : this.cacheUseQueryCache.<br/>
+	 */
+	private String lireCacheUseQueryCache() {
+		
+		if (this.environmentSpring != null) {
+			
+			this.cacheUseQueryCache
+				= this.environmentSpring.getProperty(
+						CACHEUSEQUERYCACHE_KEY);
+			
+		} else {
+			
+			final String message 
+				= CLASSE_LECTEUR_PROPERTIES_PROVIDER_HIBERNATE 
+				+ TIRET_ESPACE
+				+ METHODE_LIRE_CACHEUSEQUERYCACHE
+				+ TIRET_ESPACE
+				+ ENVT_SPRING_NON_INJECTE;
+			
+			if (LOG.isFatalEnabled()) {
+				LOG.fatal(message);
+			}
+		}
+		
+		return this.cacheUseQueryCache;
+
+	} // Fin de lireCacheUseQueryCache().__________________________________
+
+	
+	
+	/**
+	 * <b>lit le chemin qualifié du fichier déclaratif du cache 
+	 * de 2nd niveau (ehcache.xml)</b>.<br/>
+	 * <ul>
+	 * <li>clé : 
+	 * <code>net.sf.ehcache.configurationResourcename</code> 
+	 * dans le fichier properties SPRING</li>
+	 * <li>clé : property nommée <code>net.sf.ehcache.configurationResourcename</code> 
+	 * dans un persistence.xml préconisé par JPA</li>
+	 * <li>clé : <code>net.sf.ehcache.configurationResourcename</code> 
+	 * dans un EntityManagerFactory créé par le 
+	 * PersistenceProvider HIBERNATE</li>
+	 * </ul>
+	 *
+	 * @return : String : this.resourceCache.<br/>
+	 */
+	private String lireResourceCache() {
+		
+		if (this.environmentSpring != null) {
+			
+			this.resourceCache
+				= this.environmentSpring.getProperty(
+						RESOURCECACHE_KEY);
+									
+		} else {
+			
+			final String message 
+				= CLASSE_LECTEUR_PROPERTIES_PROVIDER_HIBERNATE 
+				+ TIRET_ESPACE
+				+ METHODE_LIRE_RESOURCECACHE
+				+ TIRET_ESPACE
+				+ ENVT_SPRING_NON_INJECTE;
+			
+			if (LOG.isFatalEnabled()) {
+				LOG.fatal(message);
+			}
+		}
+		
+		return this.resourceCache;
+
+	} // Fin de lireResourceCache()._______________________________________
+	
+	
+	
+	/**
+	 * <b>lit la valeur ddl-auto dans le properties</b>.<br/>
+	 * injecte la valeur lue dans <code>this.ddlAuto</code>.<br/>
+	 * <ul>
+	 * <li>ajoute la valeur lue dans la propriété correspondante 
+	 * du Property du CONTENEUR 
+	 * <code>persistenceUnitInfoJPASansXML</code>.</li>
+	 * <li>correspond à l'élément property nommé
+	 * <code>hibernate.hbm2ddl.auto</code> (pour un provider HIBERNATE) 
+	 * dans un persistence.xml préconisé par JPA.</li>
+	 * </ul>
+	 *
+	 * @return : String : this.ddlAuto.<br/>
+	 */
+	private String lireDdlAuto() {
+		
+		if (this.environmentSpring != null) {
+			
+			this.ddlAuto 
+				= this.environmentSpring.getProperty(
+						DDLAUTO_KEY);
+			
+		} else {
+			
+			final String message 
+				= CLASSE_LECTEUR_PROPERTIES_PROVIDER_HIBERNATE 
+				+ TIRET_ESPACE
+				+ METHODE_LIRE_DDL_AUTO
+				+ TIRET_ESPACE
+				+ ENVT_SPRING_NON_INJECTE;
+			
+			if (LOG.isFatalEnabled()) {
+				LOG.fatal(message);
+			}
+		}
+		
+		return this.ddlAuto;
+		
+	} // Fin de lireDdlAuto()._____________________________________________
 
 
-
+	
 	/**
 	 * Getter du DIALECTE utilisé par le PROVIDER pour la BASE.<br/>
 	 * par exemple : "org.hibernate.dialect.H2Dialect" 
@@ -1274,6 +1377,18 @@ public class LecteurConfigurationBaseSpring {
 	} // Fin de getDdlAuto().______________________________________________
 
 
+	
+	/**
+	 * Getter du java.util.Properties contenant toutes les propriétés 
+	 * dépendant du PROVIDER.<br/>.
+	 *
+	 * @return this.propertiesProvider : Properties.<br/>
+	 */
+	public final Properties getPropertiesProvider() {
+		return this.propertiesProvider;
+	} // Fin de getPropertiesProvider().____________________________________
+
+
 
 	/**
 	 * Getter du <b>lecteur SPRING du fichier properties 
@@ -1306,7 +1421,6 @@ public class LecteurConfigurationBaseSpring {
 			final Environment pEnvironmentSpring) {
 		this.environmentSpring = pEnvironmentSpring;
 	} // Fin de setEnvironmentSpring(...)._________________________________
+	
 
-	
-	
-} // FIN DE LA CLASSE LecteurConfigurationBaseSpring.------------------------
+}

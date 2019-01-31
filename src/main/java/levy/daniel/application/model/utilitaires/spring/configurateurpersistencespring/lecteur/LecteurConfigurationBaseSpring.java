@@ -226,11 +226,11 @@ public class LecteurConfigurationBaseSpring {
 	 * java.util.Properties contenant toutes les propriétés 
 	 * utiles pour un EntityManagerFactory.
 	 */
-	private transient Properties propertiesConfiguration = new Properties();
+	private final transient Properties propertiesConfiguration = new Properties();
 	
 	/**
 	 * <b>Lecteur SPRING spécialisé dans la lecture des valeurs  
-	 * spécifiques à un PROVIDER [ddl-auto, Dialect, cache, ...]</b>.<br/>
+	 * spécifiques à un PROVIDER [ddl-auto, Dialect, cache, ...]</b>.
 	 */
 	private transient LecteurPropertiesProviderHibernate lecteurPropertiesProviderHibernate;
 	
@@ -408,6 +408,106 @@ public class LecteurConfigurationBaseSpring {
 	 * </ul>
 	 */
 	private transient String ddlAuto;
+
+	/**
+	 * <b>Lecteur SPRING spécialisé dans la lecture des valeurs  
+	 * spécifiques à un POOL DE CONNEXION d'un PROVIDER 
+	 * [poolMinSize, poolMaxSize, poolTimeOut, ...]</b>.
+	 */
+	private transient LecteurPropertiesPoolC3P0Hibernate lecteurPropertiesPoolC3P0Hibernate;
+	
+	/**
+	 * Taille minimale du pool de connexion C3P0 pour Hibernate.
+	 * <ul>
+	 * <li>clé : 
+	 * <code>spring.jpa.properties.hibernate.c3p0.min_size</code> 
+	 * dans le fichier properties SPRING</li>
+	 * <li>clé : property nommée <code>hibernate.c3p0.min_size</code> 
+	 * dans un persistence.xml préconisé par JPA</li>
+	 * <li>clé : <code>hibernate.c3p0.min_size</code> 
+	 * dans un EntityManagerFactory créé par le 
+	 * PersistenceProvider HIBERNATE</li>
+	 * </ul>
+	 */
+	private transient String poolMinSize;
+	
+	/**
+	 * Taille maximale du pool de connexion C3P0 pour Hibernate.
+	 * <ul>
+	 * <li>clé : 
+	 * <code>spring.jpa.properties.hibernate.c3p0.max_size</code> 
+	 * dans le fichier properties SPRING</li>
+	 * <li>clé : property nommée <code>hibernate.c3p0.max_size</code> 
+	 * dans un persistence.xml préconisé par JPA</li>
+	 * <li>clé : <code>hibernate.c3p0.max_size</code> 
+	 * dans un EntityManagerFactory créé par le 
+	 * PersistenceProvider HIBERNATE</li>
+	 * </ul>
+	 */
+	private transient String poolMaxSize;
+	
+	/**
+	 * Timeout du pool de connexion C3P0 pour Hibernate.
+	 * <ul>
+	 * <li>clé : 
+	 * <code>spring.jpa.properties.hibernate.c3p0.timeout</code> 
+	 * dans le fichier properties SPRING</li>
+	 * <li>clé : property nommée <code>hibernate.c3p0.timeout</code> 
+	 * dans un persistence.xml préconisé par JPA</li>
+	 * <li>clé : <code>hibernate.c3p0.timeout</code> 
+	 * dans un EntityManagerFactory créé par le 
+	 * PersistenceProvider HIBERNATE</li>
+	 * </ul>
+	 */
+	private transient String poolTimeOut;
+	
+	/**
+	 * taille du cache de PreparedStatements du pool de connexion 
+	 * C3P0 pour Hibernate.
+	 * <ul>
+	 * <li>clé : 
+	 * <code>spring.jpa.properties.hibernate.c3p0.max_statements</code> 
+	 * dans le fichier properties SPRING</li>
+	 * <li>clé : property nommée <code>hibernate.c3p0.max_statements</code> 
+	 * dans un persistence.xml préconisé par JPA</li>
+	 * <li>clé : <code>hibernate.c3p0.max_statements</code> 
+	 * dans un EntityManagerFactory créé par le 
+	 * PersistenceProvider HIBERNATE</li>
+	 * </ul>
+	 */
+	private transient String poolMaxStatements;
+	
+	/**
+	 * période de recherche des connexions inactives 
+	 * du pool de connexion C3P0 pour Hibernate.
+	 * <ul>
+	 * <li>clé : 
+	 * <code>spring.jpa.properties.hibernate.c3p0.idle_test_period</code> 
+	 * dans le fichier properties SPRING</li>
+	 * <li>clé : property nommée <code>hibernate.c3p0.idle_test_period</code> 
+	 * dans un persistence.xml préconisé par JPA</li>
+	 * <li>clé : <code>hibernate.c3p0.idle_test_period</code> 
+	 * dans un EntityManagerFactory créé par le 
+	 * PersistenceProvider HIBERNATE</li>
+	 * </ul>
+	 */
+	private transient String poolIdleTestPeriod;
+
+	/**
+	 * nombre de connexions acquises en une seule fois 
+	 * lorsque le pool de connexion C3P0 pour Hibernate est épuisé.
+	 * <ul>
+	 * <li>clé : 
+	 * <code>spring.jpa.properties.hibernate.c3p0.acquire_increment</code> 
+	 * dans le fichier properties SPRING</li>
+	 * <li>clé : property nommée <code>hibernate.c3p0.acquire_increment</code> 
+	 * dans un persistence.xml préconisé par JPA</li>
+	 * <li>clé : <code>hibernate.c3p0.acquire_increment</code> 
+	 * dans un EntityManagerFactory créé par le 
+	 * PersistenceProvider HIBERNATE</li>
+	 * </ul>
+	 */
+	private transient String poolAcquireIncrement;
 	
 
 	/**
@@ -498,78 +598,86 @@ public class LecteurConfigurationBaseSpring {
 
 		
 		/* Properties. */
-//		stb.append(SAUT_LIGNE_PLATEFORME);
-//
-//		stb.append(String.format(FORMAT_TOSTRING
-//				, "DIALECTE (hibernate.dialect)", this.getDialect()));
-//		stb.append(SAUT_LIGNE_PLATEFORME);
-//		
-//		stb.append(String.format(FORMAT_TOSTRING
-//				, "SHOW_SQL (hibernate.show_sql)", this.getShowSql()));
-//		stb.append(SAUT_LIGNE_PLATEFORME);
-//
-//		stb.append(String.format(FORMAT_TOSTRING
-//				, "FORMAT_SQL (hibernate.format_sql)", this.getFormatSql()));
-//		stb.append(SAUT_LIGNE_PLATEFORME);
-//
-//		stb.append(String.format(FORMAT_TOSTRING
-//				, "USE_SQL_COMMENTS (hibernate.use_sql_comments)", this.getUseSqlComments()));
-//		stb.append(SAUT_LIGNE_PLATEFORME);
-//
-//		stb.append(String.format(FORMAT_TOSTRING
-//				, "GENERATE_STATISTICS (hibernate.generate_statistics)", this.getGenerateSatistics()));
-//		stb.append(SAUT_LIGNE_PLATEFORME);
-//
-//		stb.append(SAUT_LIGNE_PLATEFORME);
-//		stb.append(String.format(FORMAT_TOSTRING
-//				, "NO_CACHE_PROVIDER_CLASS (cache.provider_class)", this.getNoCacheProviderClass()));
-//		stb.append(SAUT_LIGNE_PLATEFORME);
-//
-//		stb.append(SAUT_LIGNE_PLATEFORME);
-//		stb.append(String.format(FORMAT_TOSTRING
-//				, "CACHE_PROVIDER_CLASS (cache.provider_class)", this.getCacheProviderClass()));
-//		stb.append(SAUT_LIGNE_PLATEFORME);
-//
-//		stb.append(String.format(FORMAT_TOSTRING
-//				, "CACHE-USE_SECOND_LEVEL_CACHE (cache.use_second_level_cache)", this.getCacheUseSecondLevelCache()));
-//		stb.append(SAUT_LIGNE_PLATEFORME);
-//
-//		stb.append(String.format(FORMAT_TOSTRING
-//				, "CACHE-USE_QUERY_CACHE (cache.use_query_cache)", this.getCacheUseQueryCache()));
-//		stb.append(SAUT_LIGNE_PLATEFORME);
-//
-//		stb.append(String.format(FORMAT_TOSTRING
-//				, "RESOURCE_CACHE (net.sf.ehcache.configurationResourcename)", this.getResourceCache()));
-//		stb.append(SAUT_LIGNE_PLATEFORME);
-//
-//		stb.append(SAUT_LIGNE_PLATEFORME);
-//		stb.append(String.format(FORMAT_TOSTRING
-//				, "poolMinSize (hibernate.c3p0.min_size)", this.getPoolMinSize()));
-//		stb.append(SAUT_LIGNE_PLATEFORME);
-//
-//		stb.append(String.format(FORMAT_TOSTRING
-//				, "poolMaxSize (hibernate.c3p0.max_size)", this.getPoolMaxSize()));
-//		stb.append(SAUT_LIGNE_PLATEFORME);
-//
-//		stb.append(String.format(FORMAT_TOSTRING
-//				, "poolTimeOut (hibernate.c3p0.timeout)", this.getPoolTimeOut()));
-//		stb.append(SAUT_LIGNE_PLATEFORME);
-//
-//		stb.append(String.format(FORMAT_TOSTRING
-//				, "poolMaxStatements (hibernate.c3p0.max_statements)", this.getPoolMaxStatements()));
-//		stb.append(SAUT_LIGNE_PLATEFORME);
-//
-//		stb.append(String.format(FORMAT_TOSTRING
-//				, "poolIdleTestPeriod (hibernate.c3p0.idle_test_period)", this.getPoolIdleTestPeriod()));
-//		stb.append(SAUT_LIGNE_PLATEFORME);
-//
+		stb.append(SAUT_LIGNE_PLATEFORME);
+
+		stb.append(String.format(FORMAT_TOSTRING
+				, "DIALECTE (hibernate.dialect)", this.getDialect()));
+		stb.append(SAUT_LIGNE_PLATEFORME);
+		
+		stb.append(String.format(FORMAT_TOSTRING
+				, "SHOW_SQL (hibernate.show_sql)", this.getShowSql()));
+		stb.append(SAUT_LIGNE_PLATEFORME);
+
+		stb.append(String.format(FORMAT_TOSTRING
+				, "FORMAT_SQL (hibernate.format_sql)", this.getFormatSql()));
+		stb.append(SAUT_LIGNE_PLATEFORME);
+
+		stb.append(String.format(FORMAT_TOSTRING
+				, "USE_SQL_COMMENTS (hibernate.use_sql_comments)", this.getUseSqlComments()));
+		stb.append(SAUT_LIGNE_PLATEFORME);
+
+		stb.append(String.format(FORMAT_TOSTRING
+				, "GENERATE_STATISTICS (hibernate.generate_statistics)", this.getGenerateSatistics()));
+		stb.append(SAUT_LIGNE_PLATEFORME);
+
+		stb.append(SAUT_LIGNE_PLATEFORME);
+		stb.append(String.format(FORMAT_TOSTRING
+				, "NO_CACHE_PROVIDER_CLASS (cache.provider_class)", this.getNoCacheProviderClass()));
+		stb.append(SAUT_LIGNE_PLATEFORME);
+
+		stb.append(SAUT_LIGNE_PLATEFORME);
+		stb.append(String.format(FORMAT_TOSTRING
+				, "CACHE_PROVIDER_CLASS (cache.provider_class)", this.getCacheProviderClass()));
+		stb.append(SAUT_LIGNE_PLATEFORME);
+
+		stb.append(String.format(FORMAT_TOSTRING
+				, "CACHE-USE_SECOND_LEVEL_CACHE (cache.use_second_level_cache)", this.getCacheUseSecondLevelCache()));
+		stb.append(SAUT_LIGNE_PLATEFORME);
+
+		stb.append(String.format(FORMAT_TOSTRING
+				, "CACHE-USE_QUERY_CACHE (cache.use_query_cache)", this.getCacheUseQueryCache()));
+		stb.append(SAUT_LIGNE_PLATEFORME);
+
+		stb.append(String.format(FORMAT_TOSTRING
+				, "RESOURCE_CACHE (net.sf.ehcache.configurationResourcename)", this.getResourceCache()));
+		stb.append(SAUT_LIGNE_PLATEFORME);
+		
+		stb.append(String.format(FORMAT_TOSTRING
+				, "DDL-AUTO (hibernate.hbm2ddl.auto)", this.getDdlAuto()));
+		stb.append(SAUT_LIGNE_PLATEFORME);
+		
+		
+		stb.append(SAUT_LIGNE_PLATEFORME);
+		stb.append(String.format(FORMAT_TOSTRING
+				, "poolMinSize (hibernate.c3p0.min_size)", this.getPoolMinSize()));
+		stb.append(SAUT_LIGNE_PLATEFORME);
+
+		stb.append(String.format(FORMAT_TOSTRING
+				, "poolMaxSize (hibernate.c3p0.max_size)", this.getPoolMaxSize()));
+		stb.append(SAUT_LIGNE_PLATEFORME);
+
+		stb.append(String.format(FORMAT_TOSTRING
+				, "poolTimeOut (hibernate.c3p0.timeout)", this.getPoolTimeOut()));
+		stb.append(SAUT_LIGNE_PLATEFORME);
+
+		stb.append(String.format(FORMAT_TOSTRING
+				, "poolMaxStatements (hibernate.c3p0.max_statements)", this.getPoolMaxStatements()));
+		stb.append(SAUT_LIGNE_PLATEFORME);
+
+		stb.append(String.format(FORMAT_TOSTRING
+				, "poolIdleTestPeriod (hibernate.c3p0.idle_test_period)", this.getPoolIdleTestPeriod()));
+		stb.append(SAUT_LIGNE_PLATEFORME);
+
+		
+		stb.append(SAUT_LIGNE_PLATEFORME);
+		stb.append("PROPRIETES DANS this.propertiesConfiguration : ");
+		stb.append(SAUT_LIGNE_PLATEFORME);
+		stb.append(this.afficherPropertiesConfiguration());
+
+		
 //		stb.append(SAUT_LIGNE_PLATEFORME);
 //		stb.append(String.format(FORMAT_TOSTRING
 //				, "generateDdl (spring.jpa.generate-ddl)", this.getGenerateDdl()));
-//		stb.append(SAUT_LIGNE_PLATEFORME);
-//
-//		stb.append(String.format(FORMAT_TOSTRING
-//				, "DDL-AUTO (hibernate.hbm2ddl.auto)", this.getDdlAuto()));
 //		stb.append(SAUT_LIGNE_PLATEFORME);
 //
 //		stb.append(String.format(FORMAT_TOSTRING
@@ -589,6 +697,18 @@ public class LecteurConfigurationBaseSpring {
 		return stb.toString();
 		
 	} // Fin de toString().________________________________________________
+	
+
+	
+	/**
+	 * affiche le contenu de <code>this.propertiesConfiguration</code>.<br/>
+	 *
+	 * @return : String : affichage.<br/>
+	 */
+	public final String afficherPropertiesConfiguration() {
+		return this.afficherJavaUtilProperties(
+				this.propertiesConfiguration);
+	} // Fin de afficherPropertiesConfiguration()._________________________
 	
 	
 	
@@ -678,14 +798,19 @@ public class LecteurConfigurationBaseSpring {
 	 * <li>lit le DDL-AUTO (ddlAuto).</li>
 	 * </ul>
 	 * 
+	 * <li>délègue à un LecteurPropertiesPoolC3P0Hibernate 
+	 * la lecture des valeurs spécifiques au 
+	 * POOL DE CONNEXION et au PROVIDER.</li>
+	 * <li><b>alimente <code>this.propertiesConfiguration</code> 
+	 * avec les propriétés spécifique au POOL et au PROVIDER</b>.</li>
+	 * <ul>
 	 * <li>lit les valeurs du Pool de connexion.</li>
-	 * <li>lit l'interrupteur generateDdl.</li>
+	 * </ul>
 	 * 
+	 * 
+	 * <li>lit l'interrupteur generateDdl.</li>	 * 
 	 * <li>lit le springH2ConsoleEnabled.</li>
 	 * <li>lit le springH2ConsolePath.</li>
-	 * <li>alimente <code>this.propertiesConteneur</code> 
-	 * avec le java.util.Properties contenu dans le 
-	 * CONTENEUR <code>this.persistenceUnitInfoJPASansXML</code>.</li>
 	 * </ul>
 	 * </ul>
 	 */
@@ -752,14 +877,27 @@ public class LecteurConfigurationBaseSpring {
 		/* alimente this.propertiesConfiguration. */
 		this.alimenterPropertiesProvider();
 		
-//		/* pool. */
-//		this.lirePoolMinSize();
-//		this.lirePoolMaxSize();
-//		this.lirePoolTimeOut();
-//		this.lirePoolMaxStatements();
-//		this.lirePoolIdleTestPeriod();
-//		this.lirePoolAcquireIncrement();
-//		
+		// PROPERTIES spécifiques au POOL DE CONNEXION et au Provider.
+		this.lecteurPropertiesPoolC3P0Hibernate 
+			= new LecteurPropertiesPoolC3P0Hibernate(this.environmentSpring);
+		/* pool. */
+		this.poolMinSize 
+			= this.lecteurPropertiesPoolC3P0Hibernate.getPoolMinSize();
+		this.poolMaxSize 
+			= this.lecteurPropertiesPoolC3P0Hibernate.getPoolMaxSize();
+		this.poolTimeOut 
+			= this.lecteurPropertiesPoolC3P0Hibernate.getPoolTimeOut();
+		this.poolMaxStatements 
+			= this.lecteurPropertiesPoolC3P0Hibernate.getPoolMaxStatements();
+		this.poolIdleTestPeriod 
+			= this.lecteurPropertiesPoolC3P0Hibernate.getPoolIdleTestPeriod();
+		this.poolAcquireIncrement 
+			= this.lecteurPropertiesPoolC3P0Hibernate.getPoolAcquireIncrement();
+		
+		/* alimente this.propertiesConfiguration. */
+		this.alimenterPropertiesPool();
+		
+		
 //		/* generateDdl. */
 //		this.lireGenerateDdl();
 //		
@@ -788,7 +926,19 @@ public class LecteurConfigurationBaseSpring {
 				this.lecteurPropertiesProviderHibernate
 					.getPropertiesProvider());
 	} // Fin de alimenterPropertiesProvider()._____________________________
+
 	
+	
+	/**
+	 * <b>alimente <code>this.propertiesConfiguration</code> 
+	 * avec les propriétés spécifique au POOL et au PROVIDER</b>.
+	 */
+	private void alimenterPropertiesPool() {
+		this.propertiesConfiguration.putAll(
+				this.lecteurPropertiesPoolC3P0Hibernate
+					.getPropertiesPool());
+	} // Fin de alimenterPropertiesPool()._________________________________
+
 	
 	
 	/**
@@ -1272,6 +1422,166 @@ public class LecteurConfigurationBaseSpring {
 	public final String getDdlAuto() {
 		return this.ddlAuto;
 	} // Fin de getDdlAuto().______________________________________________
+	
+
+	
+	/**
+	 * Getter du <b>Lecteur SPRING spécialisé dans la lecture des valeurs  
+	 * spécifiques à un PROVIDER [ddl-auto, Dialect, cache, ...]</b>.
+	 *
+	 * @return this.lecteurPropertiesProviderHibernate : 
+	 * LecteurPropertiesProviderHibernate.<br/>
+	 */
+	public LecteurPropertiesProviderHibernate 
+					getLecteurPropertiesProviderHibernate() {
+		return this.lecteurPropertiesProviderHibernate;
+	} // Fin de getLecteurPropertiesProviderHibernate().___________________
+
+
+
+	/**
+	 * <b>Getter de la Taille minimale du pool de connexion 
+	 * C3P0 pour Hibernate</b>.
+	 * <ul>
+	 * <li>clé : 
+	 * <code>spring.jpa.properties.hibernate.c3p0.min_size</code> 
+	 * dans le fichier properties SPRING</li>
+	 * <li>clé : property nommée <code>hibernate.c3p0.min_size</code> 
+	 * dans un persistence.xml préconisé par JPA</li>
+	 * <li>clé : <code>hibernate.c3p0.min_size</code> 
+	 * dans un EntityManagerFactory créé par le 
+	 * PersistenceProvider HIBERNATE</li>
+	 * </ul>
+	 *
+	 * @return this.poolMinSize : String.<br/>
+	 */
+	public final String getPoolMinSize() {
+		return this.poolMinSize;
+	} // Fin de getPoolMinSize().__________________________________________
+	
+
+	
+	/**
+	 * <b>getter de la Taille maximale du pool de connexion 
+	 * C3P0 pour Hibernate</b>.
+	 * <ul>
+	 * <li>clé : 
+	 * <code>spring.jpa.properties.hibernate.c3p0.max_size</code> 
+	 * dans le fichier properties SPRING</li>
+	 * <li>clé : property nommée <code>hibernate.c3p0.max_size</code> 
+	 * dans un persistence.xml préconisé par JPA</li>
+	 * <li>clé : <code>hibernate.c3p0.max_size</code> 
+	 * dans un EntityManagerFactory créé par le 
+	 * PersistenceProvider HIBERNATE</li>
+	 * </ul>
+	 *
+	 * @return this.poolMaxSize : String.<br/>
+	 */
+	public final String getPoolMaxSize() {
+		return this.poolMaxSize;
+	} // Fin de getPoolMaxSize().__________________________________________
+	
+
+	
+	/**
+	 * <b>getter du Timeout du pool de connexion C3P0 pour Hibernate</b>.
+	 * <ul>
+	 * <li>clé : 
+	 * <code>spring.jpa.properties.hibernate.c3p0.timeout</code> 
+	 * dans le fichier properties SPRING</li>
+	 * <li>clé : property nommée <code>hibernate.c3p0.timeout</code> 
+	 * dans un persistence.xml préconisé par JPA</li>
+	 * <li>clé : <code>hibernate.c3p0.timeout</code> 
+	 * dans un EntityManagerFactory créé par le 
+	 * PersistenceProvider HIBERNATE</li>
+	 * </ul>
+	 *
+	 * @return this.poolTimeOut : String.<br/>
+	 */
+	public final String getPoolTimeOut() {
+		return this.poolTimeOut;
+	} // Fin de getPoolTimeOut().__________________________________________
+	
+
+	
+	/**
+	 * <b>getter de la taille du cache de PreparedStatements 
+	 * du pool de connexion 
+	 * C3P0 pour Hibernate</b>.
+	 * <ul>
+	 * <li>clé : 
+	 * <code>spring.jpa.properties.hibernate.c3p0.max_statements</code> 
+	 * dans le fichier properties SPRING</li>
+	 * <li>clé : property nommée <code>hibernate.c3p0.max_statements</code> 
+	 * dans un persistence.xml préconisé par JPA</li>
+	 * <li>clé : <code>hibernate.c3p0.max_statements</code> 
+	 * dans un EntityManagerFactory créé par le 
+	 * PersistenceProvider HIBERNATE</li>
+	 * </ul>
+	 *
+	 * @return this.poolMaxStatements : String.<br/>
+	 */
+	public final String getPoolMaxStatements() {
+		return this.poolMaxStatements;
+	} // Fin de getPoolMaxStatements().____________________________________
+	
+
+	
+	/**
+	 * <b>getter de la période de recherche des connexions inactives 
+	 * du pool de connexion C3P0 pour Hibernate</b>.
+	 * <ul>
+	 * <li>clé : 
+	 * <code>spring.jpa.properties.hibernate.c3p0.idle_test_period</code> 
+	 * dans le fichier properties SPRING</li>
+	 * <li>clé : property nommée <code>hibernate.c3p0.idle_test_period</code> 
+	 * dans un persistence.xml préconisé par JPA</li>
+	 * <li>clé : <code>hibernate.c3p0.idle_test_period</code> 
+	 * dans un EntityManagerFactory créé par le 
+	 * PersistenceProvider HIBERNATE</li>
+	 * </ul>
+	 *
+	 * @return this.poolIdleTestPeriod : String.<br/>
+	 */
+	public final String getPoolIdleTestPeriod() {
+		return this.poolIdleTestPeriod;
+	} // Fin de getPoolIdleTestPeriod().___________________________________
+	
+
+	
+	/**
+	 * <b>getter du nombre de connexions acquises en une seule fois 
+	 * lorsque le pool de connexion C3P0 pour Hibernate est épuisé</b>.
+	 * <ul>
+	 * <li>clé : 
+	 * <code>spring.jpa.properties.hibernate.c3p0.acquire_increment</code> 
+	 * dans le fichier properties SPRING</li>
+	 * <li>clé : property nommée <code>hibernate.c3p0.acquire_increment</code> 
+	 * dans un persistence.xml préconisé par JPA</li>
+	 * <li>clé : <code>hibernate.c3p0.acquire_increment</code> 
+	 * dans un EntityManagerFactory créé par le 
+	 * PersistenceProvider HIBERNATE</li>
+	 * </ul>
+	 *
+	 * @return this.poolAcquireIncrement : String.<br/>
+	 */
+	public final String getPoolAcquireIncrement() {
+		return this.poolAcquireIncrement;
+	} // Fin de getPoolAcquireIncrement()._________________________________
+
+
+
+	/**
+	 * Getter du <b>Lecteur SPRING spécialisé dans la lecture des valeurs  
+	 * spécifiques à un POOL DE CONNEXION d'un PROVIDER 
+	 * [poolMinSize, poolMaxSize, poolTimeOut, ...]</b>.
+	 *
+	 * @return this.lecteurPropertiesPoolC3P0Hibernate : 
+	 * LecteurPropertiesPoolC3P0Hibernate.<br/>
+	 */
+	public LecteurPropertiesPoolC3P0Hibernate getLecteurPropertiesPoolC3P0Hibernate() {
+		return this.lecteurPropertiesPoolC3P0Hibernate;
+	} // Fin de getLecteurPropertiesPoolC3P0Hibernate().___________________
 
 
 

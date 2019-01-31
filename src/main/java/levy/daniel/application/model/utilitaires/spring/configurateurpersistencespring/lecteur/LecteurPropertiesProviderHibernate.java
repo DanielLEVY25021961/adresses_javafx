@@ -243,7 +243,7 @@ public class LecteurPropertiesProviderHibernate {
 	 * java.util.Properties contenant toutes les propriétés 
 	 * dépendant du PROVIDER.<br/>.
 	 */
-	private transient Properties propertiesProvider = new Properties();
+	private final transient Properties propertiesProvider = new Properties();
 	
 	/**
 	 * DIALECTE utilisé par le PROVIDER pour la BASE.<br/>
@@ -437,6 +437,45 @@ public class LecteurPropertiesProviderHibernate {
 	public LecteurPropertiesProviderHibernate() {		
 		this(null);
 	} // Fin de CONSTRUCTEUR D'ARITE NULLE.________________________________
+
+	
+	
+	 /**
+	 * CONSTRUCTEUR D'ARITE 1.<br/>
+	 * <ul>
+	 * <li>passe le paramètre pEnvironmentSpring 
+	 * à this.environmentSpring</li>
+	 * <li>alimente tous les attributs de la classe 
+	 * via this.lireProperties()</li>
+	 * <li>alimente le java.util.Properties</li>
+	 * </ul>
+	 * 
+	 * @param pEnvironmentSpring : 
+	 * org.springframework.core.env.Environment
+	 */
+	public LecteurPropertiesProviderHibernate(
+			final Environment pEnvironmentSpring) {
+		
+		super();
+				
+		this.environmentSpring = pEnvironmentSpring;
+		
+		/* alimente tous les attributs de la classe. */
+		this.lireProperties();
+		
+	} // Fin de CONSTRUCTEUR D'ARITE 1.____________________________________
+	
+
+	
+	/**
+	 * affiche le contenu de <code>this.propertiesProvider</code>.<br/>
+	 *
+	 * @return : String : affichage.<br/>
+	 */
+	public final String afficherPropertiesProvider() {
+		return this.afficherJavaUtilProperties(
+				this.propertiesProvider);
+	} // Fin de afficherPropertiesProvider().______________________________
 	
 	
 	
@@ -487,32 +526,6 @@ public class LecteurPropertiesProviderHibernate {
 		return stb.toString();
 		
 	} // Fin de afficherJavaUtilProperties(...).___________________________
-
-	
-	
-	 /**
-	 * CONSTRUCTEUR D'ARITE 1.<br/>
-	 * <ul>
-	 * <li>passe le paramètre pEnvironmentSpring 
-	 * à this.environmentSpring</li>
-	 * <li>alimente tous les attributs de la classe 
-	 * via this.lireProperties()</li>
-	 * </ul>
-	 * 
-	 * @param pEnvironmentSpring : 
-	 * org.springframework.core.env.Environment
-	 */
-	public LecteurPropertiesProviderHibernate(
-			final Environment pEnvironmentSpring) {
-		
-		super();
-				
-		this.environmentSpring = pEnvironmentSpring;
-		
-		/* alimente tous les attributs de la classe. */
-		this.lireProperties();
-		
-	} // Fin de CONSTRUCTEUR D'ARITE 1.____________________________________
 
 
 	
@@ -1380,7 +1393,7 @@ public class LecteurPropertiesProviderHibernate {
 	
 	/**
 	 * Getter du java.util.Properties contenant toutes les propriétés 
-	 * dépendant du PROVIDER.<br/>.
+	 * dépendant du PROVIDER.<br/>
 	 *
 	 * @return this.propertiesProvider : Properties.<br/>
 	 */
@@ -1421,6 +1434,7 @@ public class LecteurPropertiesProviderHibernate {
 			final Environment pEnvironmentSpring) {
 		this.environmentSpring = pEnvironmentSpring;
 	} // Fin de setEnvironmentSpring(...)._________________________________
+
 	
 
-}
+} // FIN DE LA CLASSE LecteurPropertiesProviderHibernate.--------------------

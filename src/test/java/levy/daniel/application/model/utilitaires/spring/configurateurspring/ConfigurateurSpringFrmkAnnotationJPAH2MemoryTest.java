@@ -196,11 +196,12 @@ public class ConfigurateurSpringFrmkAnnotationJPAH2MemoryTest {
 			EntityManagerFactory entityManagerFactory = null;
 			
 			try {
+				
 				entityManagerFactory 
-					= (EntityManagerFactory) 
-							contexteSpring.getBean(
-									"entityManagerFactory"
-									, EntityManagerFactory.class);
+					= contexteSpring.getBean(
+							"entityManagerFactory"
+							, EntityManagerFactory.class);
+				
 			} catch (BeansException e) {
 				e.printStackTrace();
 			}
@@ -208,7 +209,6 @@ public class ConfigurateurSpringFrmkAnnotationJPAH2MemoryTest {
 			if (entityManagerFactory != null) {
 				
 				System.out.println("Proprietes du Bean EntityManagerFactory : " + entityManagerFactory.getClass());
-				System.out.println("Bean EntityManagerFactory instance de javax.persistence.EntityManagerFactory : " + (entityManagerFactory instanceof EntityManagerFactory));
 				
 				/* affiche les propriétés lues par le EMFactory. */
 				afficherEMFactory(entityManagerFactory);

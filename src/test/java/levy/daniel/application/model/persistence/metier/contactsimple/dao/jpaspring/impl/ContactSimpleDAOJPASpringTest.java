@@ -8636,11 +8636,12 @@ public class ContactSimpleDAOJPASpringTest {
 			EntityManagerFactory entityManagerFactory = null;
 			
 			try {
+				
 				entityManagerFactory 
-					= (EntityManagerFactory) 
-							contexteSpring.getBean(
-									"entityManagerFactory"
-									, EntityManagerFactory.class);
+					= contexteSpring.getBean(
+							"entityManagerFactory"
+							, EntityManagerFactory.class);
+				
 			} catch (BeansException e) {
 				e.printStackTrace();
 			}
@@ -8650,7 +8651,6 @@ public class ContactSimpleDAOJPASpringTest {
 				System.out.println();
 				System.out.println("*********** DANS CLASSE DE TEST - afficherContexte() *****************************");
 				System.out.println("Proprietes du Bean EntityManagerFactory : " + entityManagerFactory.getClass());
-				System.out.println("Bean EntityManagerFactory instance de javax.persistence.EntityManagerFactory : " + (entityManagerFactory instanceof EntityManagerFactory));
 				System.out.println();
 				System.out.println("DANS CLASSE DE TEST - afficherContexte() - PROPRIETES DANS LE BEAN EntityManagerFactory : ");
 				System.out.println();

@@ -208,11 +208,12 @@ public class ConfigurateurSringFrmkAnnotationJPAH2FileTest {
 			EntityManagerFactory entityManagerFactory = null;
 			
 			try {
+				
 				entityManagerFactory 
-					= (EntityManagerFactory) 
-							contexteSpring.getBean(
-									"entityManagerFactory"
-									, EntityManagerFactory.class);
+					= contexteSpring.getBean(
+							"entityManagerFactory"
+							, EntityManagerFactory.class);
+				
 			} catch (BeansException e) {
 				e.printStackTrace();
 			}
@@ -220,7 +221,6 @@ public class ConfigurateurSringFrmkAnnotationJPAH2FileTest {
 			if (entityManagerFactory != null) {
 				
 				System.out.println("Proprietes du Bean EntityManagerFactory : " + entityManagerFactory.getClass());
-				System.out.println("Bean EntityManagerFactory instance de javax.persistence.EntityManagerFactory : " + (entityManagerFactory instanceof EntityManagerFactory));
 				System.out.println();
 				
 				/* affiche les propriétés lues par le EMFactory. */

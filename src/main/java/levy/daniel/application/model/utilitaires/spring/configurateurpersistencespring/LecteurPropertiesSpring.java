@@ -1006,7 +1006,7 @@ public class LecteurPropertiesSpring {
 	 * CONSTRUCTEUR D'ARITE NULLE.<br/>
 	 */
 	public LecteurPropertiesSpring() {		
-		super();
+		this(null);
 	} // Fin de CONSTRUCTEUR D'ARITE NULLE.________________________________
 
 	

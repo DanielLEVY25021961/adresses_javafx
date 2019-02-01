@@ -1424,6 +1424,8 @@ public class LecteurPropertiesProviderHibernate {
 	 * de configuration de la base</b>.
 	 * <ul>
 	 * <li>org.springframework.core.env.Environment</li>
+	 * <li>alimente tous les attributs de la classe 
+	 * via this.lireProperties()</li>
 	 * </ul>
 	*
 	* @param pEnvironmentSpring : 
@@ -1432,7 +1434,12 @@ public class LecteurPropertiesProviderHibernate {
 	*/
 	public final void setEnvironmentSpring(
 			final Environment pEnvironmentSpring) {
+		
 		this.environmentSpring = pEnvironmentSpring;
+		
+		/* alimente les attributs de la classe. */
+		this.lireProperties();
+
 	} // Fin de setEnvironmentSpring(...)._________________________________
 
 	

@@ -65,7 +65,7 @@
  * - Exemple d'utilisation :<br/>
  * <code>
  *  // INSTANCIATION DU LecteurConfigurationBaseSpring DEPUIS LE SETTER AUTOWIRED setEnvironmentSpring(...) DE LA CLASSE DE CONFIGURATION SPRING<br/>
- *  this.setLecteurConfigurationBaseSpring(new LecteurConfigurationBaseSpring(this.environmentSpring));<br/>
+ * <b>this.setLecteurConfigurationBaseSpring(new LecteurConfigurationBaseSpring(this.environmentSpring));</b><br/>
  * </code>
  *<br/>
  * 

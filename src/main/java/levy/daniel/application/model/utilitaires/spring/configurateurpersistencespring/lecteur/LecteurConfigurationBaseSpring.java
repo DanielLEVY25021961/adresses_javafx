@@ -509,6 +509,47 @@ public class LecteurConfigurationBaseSpring {
 	 */
 	private transient String poolAcquireIncrement;
 	
+	/**
+	 * <b>Lecteur SPRING spécialisé dans la lecture des valeurs  
+	 * spécifiques à SPRING [generateDdl, springH2ConsolePath, ...]</b>.
+	 */
+	private transient LecteurPropertiesSpecSpring lecteurPropertiesSpecSpring;
+	
+	/**
+	 * boolean (sous forme String) qui stipule si SPRING 
+	 * doit générer le schéma de création de tables.<br/>
+	 * Interrupteur général exclusif à SPRING.<br/>
+	 * <ul>
+	 * <li>clé : 
+	 * <code>spring.jpa.generate-ddl</code> 
+	 * dans le fichier properties SPRING</li>
+	 * </ul>
+	 */
+	private transient String generateDdl;
+	
+	/**
+	 * boolean (sous forme String) qui stipule si SPRING 
+	 * doit autoriser la console pour une base H2.<br/>
+	 * Interrupteur général exclusif à SPRING.<br/>
+	 * <ul>
+	 * <li>clé : 
+	 * <code>spring.h2.console.enabled</code> 
+	 * dans le fichier properties SPRING</li>
+	 * </ul>
+	 */
+	private transient String springH2ConsoleEnabled;
+	
+	/**
+	 * valeur qui stipule pour SPRING 
+	 * le chemin de la console pour une base H2.<br/>
+	 * exclusif à SPRING.<br/>
+	 * <ul>
+	 * <li>clé : 
+	 * <code>spring.h2.console.path</code> 
+	 * dans le fichier properties SPRING</li>
+	 * </ul>
+	 */
+	private transient String springH2ConsolePath;
 
 	/**
 	 * LOG : Log : 
@@ -570,7 +611,10 @@ public class LecteurConfigurationBaseSpring {
 		
 		stb.append("VALEURS provenant du fichier properties SPRING : ");
 		stb.append(SAUT_LIGNE_PLATEFORME);
+
 		
+		// PERSISTENCE UNIT
+		stb.append(SAUT_LIGNE_PLATEFORME);
 		stb.append(String.format(FORMAT_TOSTRING
 				, "NOM DE L'UNITE DE PERSISTENCE (hibernate.ejb.persistenceUnitName)", this.getPersistenceUnitName()));
 		stb.append(SAUT_LIGNE_PLATEFORME);
@@ -578,8 +622,10 @@ public class LecteurConfigurationBaseSpring {
 		stb.append(String.format(FORMAT_TOSTRING
 				, "TYPE DE TRANSACTION (hibernate.transaction.coordinator_class)", this.getTypeTransaction()));
 		stb.append(SAUT_LIGNE_PLATEFORME);
+
 		
-		/* DataSource. */
+		// DATASOURCE
+		stb.append(SAUT_LIGNE_PLATEFORME);
 		stb.append(String.format(FORMAT_TOSTRING
 				, " *** URL", this.getUrl()));
 		stb.append(SAUT_LIGNE_PLATEFORME);
@@ -597,13 +643,17 @@ public class LecteurConfigurationBaseSpring {
 		stb.append(SAUT_LIGNE_PLATEFORME);
 
 		
-		/* Properties. */
+		// PROPERTIES PROVIDER
 		stb.append(SAUT_LIGNE_PLATEFORME);
 
 		stb.append(String.format(FORMAT_TOSTRING
 				, "DIALECTE (hibernate.dialect)", this.getDialect()));
 		stb.append(SAUT_LIGNE_PLATEFORME);
 		
+		stb.append(String.format(FORMAT_TOSTRING
+				, "DDL-AUTO (hibernate.hbm2ddl.auto)", this.getDdlAuto()));
+		stb.append(SAUT_LIGNE_PLATEFORME);
+
 		stb.append(String.format(FORMAT_TOSTRING
 				, "SHOW_SQL (hibernate.show_sql)", this.getShowSql()));
 		stb.append(SAUT_LIGNE_PLATEFORME);
@@ -620,6 +670,8 @@ public class LecteurConfigurationBaseSpring {
 				, "GENERATE_STATISTICS (hibernate.generate_statistics)", this.getGenerateSatistics()));
 		stb.append(SAUT_LIGNE_PLATEFORME);
 
+		
+		// PROPERTIES CACHE
 		stb.append(SAUT_LIGNE_PLATEFORME);
 		stb.append(String.format(FORMAT_TOSTRING
 				, "NO_CACHE_PROVIDER_CLASS (cache.provider_class)", this.getNoCacheProviderClass()));
@@ -642,11 +694,8 @@ public class LecteurConfigurationBaseSpring {
 				, "RESOURCE_CACHE (net.sf.ehcache.configurationResourcename)", this.getResourceCache()));
 		stb.append(SAUT_LIGNE_PLATEFORME);
 		
-		stb.append(String.format(FORMAT_TOSTRING
-				, "DDL-AUTO (hibernate.hbm2ddl.auto)", this.getDdlAuto()));
-		stb.append(SAUT_LIGNE_PLATEFORME);
 		
-		
+		// PROPERTIES POOL
 		stb.append(SAUT_LIGNE_PLATEFORME);
 		stb.append(String.format(FORMAT_TOSTRING
 				, "poolMinSize (hibernate.c3p0.min_size)", this.getPoolMinSize()));
@@ -669,31 +718,28 @@ public class LecteurConfigurationBaseSpring {
 		stb.append(SAUT_LIGNE_PLATEFORME);
 
 		
+		// PROPERTIES SPRING
+		stb.append(SAUT_LIGNE_PLATEFORME);
+		stb.append(String.format(FORMAT_TOSTRING
+				, "generateDdl (spring.jpa.generate-ddl)", this.getGenerateDdl()));
+		stb.append(SAUT_LIGNE_PLATEFORME);
+
+		stb.append(String.format(FORMAT_TOSTRING
+				, "springH2ConsoleEnabled (spring.h2.console.enabled)", this.getSpringH2ConsoleEnabled()));
+		stb.append(SAUT_LIGNE_PLATEFORME);
+
+		stb.append(String.format(FORMAT_TOSTRING
+				, "springH2ConsolePath (spring.h2.console.path)", this.getSpringH2ConsolePath()));
+		stb.append(SAUT_LIGNE_PLATEFORME);
+	
+		
+		// AFFICHAGE DU PROPERTIES CONFIGURATION (SOMME DES PROPERTIES)
 		stb.append(SAUT_LIGNE_PLATEFORME);
 		stb.append("PROPRIETES DANS this.propertiesConfiguration : ");
 		stb.append(SAUT_LIGNE_PLATEFORME);
 		stb.append(this.afficherPropertiesConfiguration());
 
-		
-//		stb.append(SAUT_LIGNE_PLATEFORME);
-//		stb.append(String.format(FORMAT_TOSTRING
-//				, "generateDdl (spring.jpa.generate-ddl)", this.getGenerateDdl()));
-//		stb.append(SAUT_LIGNE_PLATEFORME);
-//
-//		stb.append(String.format(FORMAT_TOSTRING
-//				, "springH2ConsoleEnabled (spring.h2.console.enabled)", this.getSpringH2ConsoleEnabled()));
-//		stb.append(SAUT_LIGNE_PLATEFORME);
-//
-//		stb.append(String.format(FORMAT_TOSTRING
-//				, "springH2ConsolePath (spring.h2.console.path)", this.getSpringH2ConsolePath()));
-//		stb.append(SAUT_LIGNE_PLATEFORME);
-//
-//		stb.append(SAUT_LIGNE_PLATEFORME);
-//		stb.append("LISTE DES PROPRIETES DANS LE Properties du CONTENEUR : ");
-//		stb.append(SAUT_LIGNE_PLATEFORME);
-//		stb.append(this.afficherPropertiesConteneur());
-//		stb.append(SAUT_LIGNE_PLATEFORME);
-		
+
 		return stb.toString();
 		
 	} // Fin de toString().________________________________________________
@@ -771,7 +817,7 @@ public class LecteurConfigurationBaseSpring {
 	 * <li>lit le nom de l'unité de persistence (persistenceUnitName).</li>
 	 * <li>lit le type de transaction (typeTransaction).</li>
 	 * 
-	 * <li>délègue à un LecteurJPADataSourceSpring 
+	 * <li>délègue à un <b><code>LecteurJPADataSourceSpring</code></b> 
 	 * la lecture des valeurs de la DataSource.</li>
 	 * <ul>
 	 * <li>lit l'URL de la base (url).</li>
@@ -780,7 +826,7 @@ public class LecteurConfigurationBaseSpring {
 	 * <li>lit le PASSWORD de la Base (password).</li>
 	 * </ul>
 	 * 
-	 * <li>délègue à un LecteurPropertiesProviderHibernate 
+	 * <li>délègue à un <b><code>LecteurPropertiesProviderHibernate</code></b> 
 	 * la lecture des valeurs spécifiques au PROVIDER.</li>
 	 * <li><b>alimente <code>this.propertiesConfiguration</code> 
 	 * avec les propriétés spécifique au PROVIDER</b>.</li>
@@ -798,7 +844,7 @@ public class LecteurConfigurationBaseSpring {
 	 * <li>lit le DDL-AUTO (ddlAuto).</li>
 	 * </ul>
 	 * 
-	 * <li>délègue à un LecteurPropertiesPoolC3P0Hibernate 
+	 * <li>délègue à un <b><code>LecteurPropertiesPoolC3P0Hibernate</code></b> 
 	 * la lecture des valeurs spécifiques au 
 	 * POOL DE CONNEXION et au PROVIDER.</li>
 	 * <li><b>alimente <code>this.propertiesConfiguration</code> 
@@ -807,8 +853,12 @@ public class LecteurConfigurationBaseSpring {
 	 * <li>lit les valeurs du Pool de connexion.</li>
 	 * </ul>
 	 * 
-	 * 
-	 * <li>lit l'interrupteur generateDdl.</li>	 * 
+	 * <li>délègue à un <b><code>LecteurPropertiesSpecSpring</code></b>  
+	 * la lecture des valeurs spécifiques à SPRING.</li>
+	 * <li><b>alimente <code>this.propertiesConfiguration</code> 
+	 * avec les propriétés spécifique à SPRING</b>.</li>
+	 * <ul>
+	 * <li>lit l'interrupteur generateDdl.</li>	  
 	 * <li>lit le springH2ConsoleEnabled.</li>
 	 * <li>lit le springH2ConsolePath.</li>
 	 * </ul>
@@ -897,21 +947,22 @@ public class LecteurConfigurationBaseSpring {
 		/* alimente this.propertiesConfiguration. */
 		this.alimenterPropertiesPool();
 		
+		// PROPERTIES spécifiques à Spring.
+		this.lecteurPropertiesSpecSpring 
+			= new LecteurPropertiesSpecSpring(this.environmentSpring);
+		/* generateDdl. */
+		this.generateDdl = this.lecteurPropertiesSpecSpring.getGenerateDdl();
 		
-//		/* generateDdl. */
-//		this.lireGenerateDdl();
-//		
-//		/* springH2ConsoleEnabled. */
-//		this.lireSpringH2ConsoleEnabled();
-//		
-//		/* springH2ConsolePath. */
-//		this.lireSpringH2ConsolePath();
-//		
-//		/* alimente this.propertiesConteneur 
-//		 * avec le java.util.Properties contenu 
-//		 * dans this.persistenceUnitInfoJPASansXML. */
-//		this.propertiesConteneur 
-//			= this.persistenceUnitInfoJPASansXML.getProperties();
+		/* springH2ConsoleEnabled. */
+		this.springH2ConsoleEnabled 
+			= this.lecteurPropertiesSpecSpring.getSpringH2ConsoleEnabled();
+		
+		/* springH2ConsolePath. */
+		this.springH2ConsolePath 
+			= this.lecteurPropertiesSpecSpring.getSpringH2ConsolePath();
+		
+		/* alimente this.propertiesConfiguration. */
+		this.alimenterPropertiesSpecSpring();
 		
 	} // Fin de lireProperties().__________________________________________
 	
@@ -938,6 +989,18 @@ public class LecteurConfigurationBaseSpring {
 				this.lecteurPropertiesPoolC3P0Hibernate
 					.getPropertiesPool());
 	} // Fin de alimenterPropertiesPool()._________________________________
+
+	
+	
+	/**
+	 * <b>alimente <code>this.propertiesConfiguration</code> 
+	 * avec les propriétés spécifique à SPRING</b>.
+	 */
+	private void alimenterPropertiesSpecSpring() {
+		this.propertiesConfiguration.putAll(
+				this.lecteurPropertiesSpecSpring
+					.getPropertiesSpecSpring());
+	} // Fin de alimenterPropertiesSpecSpring().___________________________
 
 	
 	
@@ -1582,6 +1645,72 @@ public class LecteurConfigurationBaseSpring {
 	public LecteurPropertiesPoolC3P0Hibernate getLecteurPropertiesPoolC3P0Hibernate() {
 		return this.lecteurPropertiesPoolC3P0Hibernate;
 	} // Fin de getLecteurPropertiesPoolC3P0Hibernate().___________________
+
+
+		
+	/**
+	 * Getter du boolean (sous forme String) qui stipule si SPRING 
+	 * doit générer le schéma de création de tables.<br/>
+	 * Interrupteur général exclusif à SPRING.<br/>
+	 * <ul>
+	 * <li>clé : 
+	 * <code>spring.jpa.generate-ddl</code> 
+	 * dans le fichier properties SPRING</li>
+	 * </ul>
+	 *
+	 * @return this.generateDdl : String.<br/>
+	 */
+	public final String getGenerateDdl() {
+		return this.generateDdl;
+	} // Fin de getGenerateDdl().__________________________________________
+
+
+	
+	/**
+	 * Getter du boolean (sous forme String) qui stipule si SPRING 
+	 * doit autoriser la console pour une base H2.<br/>
+	 * Interrupteur général exclusif à SPRING.<br/>
+	 * <ul>
+	 * <li>clé : 
+	 * <code>spring.h2.console.enabled</code> 
+	 * dans le fichier properties SPRING</li>
+	 * </ul>
+	 *
+	 * @return this.springH2ConsoleEnabled : String.<br/>
+	 */
+	public final String getSpringH2ConsoleEnabled() {
+		return this.springH2ConsoleEnabled;
+	} // Fin de getSpringH2ConsoleEnabled()._______________________________
+
+
+
+	/**
+	 * getter du valeur qui stipule pour SPRING 
+	 * le chemin de la console pour une base H2.<br/>
+	 * exclusif à SPRING.<br/>
+	 * <ul>
+	 * <li>clé : 
+	 * <code>spring.h2.console.path</code> 
+	 * dans le fichier properties SPRING</li>
+	 * </ul>
+	 *
+	 * @return this.springH2ConsolePath : String.<br/>
+	 */
+	public final String getSpringH2ConsolePath() {
+		return this.springH2ConsolePath;
+	} // Fin de getSpringH2ConsolePath().__________________________________
+
+
+	
+	/**
+	 * Getter du <b>Lecteur SPRING spécialisé dans la lecture des valeurs  
+	 * spécifiques à SPRING [generateDdl, springH2ConsolePath, ...]</b>.
+	 *
+	 * @return this.lecteurPropertiesSpecSpring : LecteurPropertiesSpecSpring.<br/>
+	 */
+	public final LecteurPropertiesSpecSpring getLecteurPropertiesSpecSpring() {
+		return this.lecteurPropertiesSpecSpring;
+	} // Fin de getLecteurPropertiesSpecSpring().__________________________
 
 
 

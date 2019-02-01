@@ -103,7 +103,7 @@ public class LecteurPropertiesPoolC3P0Hibernate {
 	
 	/**
 	 * java.util.Properties contenant toutes les propriétés 
-	 * dépendant du POOL DE CONNEXION et du PROVIDER.<br/>.
+	 * dépendant du POOL DE CONNEXION et du PROVIDER.<br/>
 	 */
 	private final transient Properties propertiesPool = new Properties();
 

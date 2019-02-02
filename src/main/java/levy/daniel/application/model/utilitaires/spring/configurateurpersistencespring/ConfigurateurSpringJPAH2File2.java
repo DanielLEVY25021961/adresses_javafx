@@ -1,8 +1,6 @@
 package levy.daniel.application.model.utilitaires.spring.configurateurpersistencespring;
 
 import java.util.HashMap;
-import java.util.LinkedList;
-import java.util.List;
 import java.util.Map;
 
 import javax.persistence.EntityManagerFactory;
@@ -21,14 +19,8 @@ import org.springframework.context.annotation.PropertySources;
 import org.springframework.core.env.Environment;
 import org.springframework.dao.annotation.PersistenceExceptionTranslationPostProcessor;
 import org.springframework.orm.jpa.JpaTransactionManager;
-import org.springframework.orm.jpa.vendor.HibernateJpaVendorAdapter;
 import org.springframework.transaction.PlatformTransactionManager;
 import org.springframework.transaction.annotation.EnableTransactionManagement;
-
-import levy.daniel.application.model.utilitaires.jpa.afficheurentitymanagerfactory.AfficheurEntityManagerFactory;
-import levy.daniel.application.model.utilitaires.jpa.datasource.impl.MyDataSourceC3P0;
-import levy.daniel.application.model.utilitaires.spring.configurateurpersistencespring.lecteur.LecteurConfigurationBaseSpring;
-import levy.daniel.application.model.utilitaires.spring.configurateurpersistencespring.mutablepersistenceunitinfo.MyMutablePersistenceUnitInfo;
 
 /**
  * CLASSE ConfigurateurSpringJPAH2File :<br/>
@@ -64,11 +56,11 @@ import levy.daniel.application.model.utilitaires.spring.configurateurpersistence
  * @since 27 janv. 2019
  *
  */
-@Configuration(value="ConfigurateurSpringJPAH2File")
+@Configuration(value="ConfigurateurSpringJPAH2File2")
 @PropertySources({@PropertySource("classpath:configurations_bases_jpa/configuration_H2_file.properties")})
 @EnableTransactionManagement
 @ComponentScans({@ComponentScan("levy.daniel.application.model.persistence")})
-public class ConfigurateurSpringJPAH2File {
+public class ConfigurateurSpringJPAH2File2 {
 
 	// ************************ATTRIBUTS************************************/
 
@@ -84,27 +76,28 @@ public class ConfigurateurSpringJPAH2File {
 	 */
 	private Environment environmentSpring;
 
-
 	/**
-	 * utilitaire chargé de lire le fichier properties SPRING 
-	 * et de préparer un MyMutablePersistenceUnitInfo.
+	 * Lecteur de fichier properties SPRING chargé de fournir 
+	 * une PersistenceUnitInfo (MutablePersistenceUnitInfoJPASpringSansXML) 
+	 * pour instancier une EntityManagerFactory sans lire de persistence.xml.
 	 */
-	private LecteurConfigurationBaseSpring lecteurConfigurationBaseSpring;
-	
+	private LecteurPropertiesSpring lecteurPropertiesSpring;
+
+
 	/**
 	 * LOG : Log : 
 	 * Logger pour Log4j (utilisant commons-logging).
 	 */
 	@SuppressWarnings("unused")
 	private static final Log LOG 
-		= LogFactory.getLog(ConfigurateurSpringJPAH2File.class);
+		= LogFactory.getLog(ConfigurateurSpringJPAH2File2.class);
 
 	// *************************METHODES************************************/
 			
 	 /**
 	 * CONSTRUCTEUR D'ARITE NULLE.
 	 */
-	public ConfigurateurSpringJPAH2File() {
+	public ConfigurateurSpringJPAH2File2() {
 		super();
 		System.out.println();
 		System.out.println("********* DANS LE CONSTRUCTEUR ConfigurateurSpringJPAH2File***************");
@@ -142,37 +135,21 @@ public class ConfigurateurSpringJPAH2File {
 	 * 
 	 * @throws Exception 
 	 */
-	@Bean
+//	@Bean
 	public EntityManagerFactory entityManagerFactory() 
 			throws Exception {
 		
 		EntityManagerFactory entityManagerFactory = null;
 		
-		final List<String> managedClassNames = new LinkedList<String>();
-		
-		managedClassNames.add(
-				"levy.daniel.application.model.persistence.metier.contactsimple.entities.jpa.ContactSimpleEntityJPA");
-		
-		final MyMutablePersistenceUnitInfo 
+		final MutablePersistenceUnitInfoJPASpringSansXML 
 			mutablePersistenceUnitInfo 
-				= new MyMutablePersistenceUnitInfo(
-						this.lecteurConfigurationBaseSpring
-						, HibernateJpaVendorAdapter.class.getName()
-						, null
-						, new MyDataSourceC3P0(this.lecteurConfigurationBaseSpring).getDataSource()
-						, null
-						, null
-						, null
-						, managedClassNames
-						, null
-						, false
-						, null
-						, null
-						, null
-						, null
-						, null
-						, null);
+				= this.lecteurPropertiesSpring
+					.getPersistenceUnitInfoJPASansXML();
 
+		mutablePersistenceUnitInfo
+			.addManagedClassName(
+					"levy.daniel.application.model.persistence.metier.contactsimple.entities.jpa.ContactSimpleEntityJPA");
+						
 		final Map<String, Object> configuration	
 			= new HashMap<String, Object>();
 		
@@ -186,9 +163,6 @@ public class ConfigurateurSpringJPAH2File {
 		
 		entityManagerFactory 
 			= entityManagerFactoryBuilder.build();
-		
-		System.out.println("=======DANS entityManagerFactory de ConfigurateurSpring======");
-		System.out.println(AfficheurEntityManagerFactory.afficherEntityManagerFactory(entityManagerFactory));
 		
 		return entityManagerFactory;
 					
@@ -279,43 +253,47 @@ public class ConfigurateurSpringJPAH2File {
 		System.out.println();
 		
 		/* instancie en lui passant this.environmentSpring 
-		 * un LecteurConfigurationBaseSpring chargé de lire le fichier 
-		 * properties SPRING et de préparer un 
-		 * MyMutablePersistenceUnitInfo. */
-		this.setLecteurConfigurationBaseSpring(
-				new LecteurConfigurationBaseSpring(
-						this.environmentSpring));
+		 * un LecteurPropertiesSpring chargé de lire le fichier 
+		 * properties SPRING et de retourner un 
+		 * MutablePersistenceUnitInfoJPASpringSansXML. */
+		this.setLecteurPropertiesSpring(
+				new LecteurPropertiesSpring(this.environmentSpring));
 		
 	} // Fin de setEnvironmentSpring(...)._________________________________
 
-
+	
 	
 	/**
-	 * Getter de l'utilitaire chargé de lire le fichier properties SPRING 
-	 * et de préparer un MyMutablePersistenceUnitInfo.
+	 * Getter du Lecteur de fichier properties SPRING chargé de fournir 
+	 * une PersistenceUnitInfo (MutablePersistenceUnitInfoJPASpringSansXML) 
+	 * pour instancier une EntityManagerFactory sans lire de persistence.xml.
 	 *
-	 * @return this.lecteurConfigurationBaseSpring : 
-	 * LecteurConfigurationBaseSpring.<br/>
+	 * @return this.lecteurPropertiesSpring : LecteurPropertiesSpring.<br/>
 	 */
-	public final LecteurConfigurationBaseSpring 
-								getLecteurConfigurationBaseSpring() {
-		return this.lecteurConfigurationBaseSpring;
-	} // Fin de getLecteurConfigurationBaseSpring()._______________________
+	public LecteurPropertiesSpring getLecteurPropertiesSpring() {
+		return this.lecteurPropertiesSpring;
+	} // Fin de getLecteurPropertiesSpring().______________________________
 
 
-	
+
 	/**
-	* Setter de l'utilitaire chargé de lire le fichier properties SPRING 
-	* et de préparer un MyMutablePersistenceUnitInfo.
+	* Setter du Lecteur de fichier properties SPRING chargé de fournir 
+	* une PersistenceUnitInfo (MutablePersistenceUnitInfoJPASpringSansXML) 
+	* pour instancier une EntityManagerFactory sans lire de persistence.xml.
 	*
-	* @param pLecteurConfigurationBaseSpring : LecteurConfigurationBaseSpring : 
-	* valeur à passer à this.lecteurConfigurationBaseSpring.<br/>
+	* @param pLecteurPropertiesSpring : LecteurPropertiesSpring : 
+	* valeur à passer à this.lecteurPropertiesSpring.<br/>
 	*/
-	public final void setLecteurConfigurationBaseSpring(
-			final LecteurConfigurationBaseSpring 
-						pLecteurConfigurationBaseSpring) {
-		this.lecteurConfigurationBaseSpring = pLecteurConfigurationBaseSpring;
-	} // Fin de setLecteurConfigurationBaseSpring(...).____________________
+	public void setLecteurPropertiesSpring(
+			final LecteurPropertiesSpring pLecteurPropertiesSpring) {
+		
+		System.out.println();
+		System.out.println("******* LECTEURPROPERTIESSPRING injecté dans setLecteurPropertiesSpring(...) de ConfigurateurSpringJPAH2File *********");
+		System.out.println();
+		
+		this.lecteurPropertiesSpring = pLecteurPropertiesSpring;
+		
+	} // Fin de setLecteurPropertiesSpring(...).___________________________
 
 	
 	

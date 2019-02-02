@@ -9,10 +9,16 @@ import java.util.SortedSet;
 import java.util.TreeSet;
 
 import javax.persistence.EntityManagerFactory;
+import javax.sql.DataSource;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.springframework.jdbc.datasource.SimpleDriverDataSource;
+
+import com.mchange.v2.c3p0.ComboPooledDataSource;
+
+import levy.daniel.application.model.utilitaires.jpa.datasource.IMyDataSource;
+import levy.daniel.application.model.utilitaires.jpa.datasource.impl.MyDataSourceC3P0;
 
 /**
  * CLASSE AfficheurEntityManagerFactory :<br/>
@@ -150,7 +156,16 @@ public final class AfficheurEntityManagerFactory {
 			/* dataSource. */
 			stb.append("DATASOURCE DE ENTITYMANAGERFACTORY (hibernate.connection.datasource) : ");
 			stb.append(SAUT_LIGNE_PLATEFORME);
-			stb.append(afficherDataSource(pEntityManagerFactory));
+//			stb.append(afficherDataSource(pEntityManagerFactory));
+			final DataSource dataSource 
+			= (DataSource) pEntityManagerFactory.getProperties()
+					.get(PROPERTY_DATASOURCE_KEY);
+			
+			final ComboPooledDataSource dataSourceC3P0 = (ComboPooledDataSource) dataSource;
+			
+			final IMyDataSource myDataSource = new MyDataSourceC3P0(dataSourceC3P0);
+			
+			stb.append(myDataSource.afficherDataSource());
 			
 			return stb.toString();
 			

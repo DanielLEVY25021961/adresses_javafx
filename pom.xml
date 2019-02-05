@@ -87,7 +87,7 @@
 		<aspectjrt.version>1.9.2</aspectjrt.version>
 
 		<!--                Version d'HIBERNATE                         -->
-		<hibernate.version>5.3.7.Final</hibernate.version>
+		<hibernate.version>5.4.1.Final</hibernate.version>
 		<!--           Version hibernate-jpa-2.1-api                    -->
 		<hibernate-jpa-2.1-api.version>1.0.2.Final</hibernate-jpa-2.1-api.version>
 		<!--            Version validation-api                          -->
@@ -99,7 +99,9 @@
 		<c3p0.version>0.9.5.2</c3p0.version>
 		<!--            Version du POOL DE CONNEXION dbcp2              -->
 		<commons-dbcp2.version>2.5.0</commons-dbcp2.version>
-		
+		<!--            Version du POOL DE CONNEXION hikariCP           -->
+		<HikariCP.version>3.3.0</HikariCP.version>
+				
 		<!--                    Version de JSTL                         -->
 		<jstl.version>1.2</jstl.version>
 		<!--                Version des Taglibs JSTL                    -->
@@ -605,6 +607,14 @@
 		    <scope>compile</scope>
 		</dependency>
 
+		<!-- Intégration du POOL DE CONNEXION HikariCP pour Hibernate 			 -->
+		<!-- https://mvnrepository.com/artifact/org.hibernate/hibernate-hikaricp -->
+		<dependency>
+		    <groupId>org.hibernate</groupId>
+		    <artifactId>hibernate-hikaricp</artifactId>
+		    <version>${hibernate.version}</version>
+		    <scope>compile</scope>
+		</dependency>
 
 		<!-- ====================================================== -->
 		<!--        DEPENDANCES POUR Pool de connexion  			-->
@@ -618,11 +628,21 @@
 		    <scope>compile</scope>
 		</dependency>
 		
+		<!-- dbcp2 -->
 		<!-- https://mvnrepository.com/artifact/org.apache.commons/commons-dbcp2 -->
 		<dependency>
 		    <groupId>org.apache.commons</groupId>
 		    <artifactId>commons-dbcp2</artifactId>
 		    <version>${commons-dbcp2.version}</version>
+		    <scope>compile</scope>
+		</dependency>
+
+		<!-- HikariCP -->
+		<!-- https://mvnrepository.com/artifact/com.zaxxer/HikariCP -->
+		<dependency>
+		    <groupId>com.zaxxer</groupId>
+		    <artifactId>HikariCP</artifactId>
+		    <version>${HikariCP.version}</version>
 		    <scope>compile</scope>
 		</dependency>
 

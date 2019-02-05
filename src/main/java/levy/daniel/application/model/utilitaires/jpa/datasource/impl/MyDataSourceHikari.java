@@ -1,44 +1,42 @@
 package levy.daniel.application.model.utilitaires.jpa.datasource.impl;
 
-import java.beans.PropertyVetoException;
-
 import javax.sql.DataSource;
 
 import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
-import com.mchange.v2.c3p0.ComboPooledDataSource;
+import com.zaxxer.hikari.HikariDataSource;
 
 import levy.daniel.application.model.utilitaires.jpa.datasource.IMyDataSource;
 import levy.daniel.application.model.utilitaires.spring.configurateurpersistencespring.lecteur.LecteurConfigurationBaseSpring;
 
 /**
- * CLASSE MyDataSourceC3P0 :
+ * CLASSE MyDataSourceHikariCP :
  * <p>
  * <b>WRAPPER de javax.sql.DataSource</b> permettant de : <br/>
  * <ul>
  * <li><b>instancier une Datasource avec POOL DE CONNEXION</b> 
- * (par exemple <code>com.mchange.v2.c3p0.ComboPooledDataSource</code> 
- * pour le POOL C3P0)
+ * (par exemple <code>com.zaxxer.hikari.HikariDataSource</code> 
+ * pour le POOL HikariCP)
  * héritant de javax.sql.DataSource en lui passant un  
  * <b>fichier de configuration de base SPRING</b> 
  * encapsulé dans un {@link LecteurConfigurationBaseSpring}.</li>
  * <li><b>instancier une Datasource avec POOL DE CONNEXION</b> 
- * (par exemple <code>com.mchange.v2.c3p0.ComboPooledDataSource</code> 
- * pour le POOL C3P0) en lui <b>passant tous ses attributs</b>.</li>
+ * (par exemple <code>com.zaxxer.hikari.HikariDataSource</code> 
+ * pour le POOL HikariCP) en lui <b>passant tous ses attributs</b>.</li>
  * <li><b>WRAPPER une <code>javax.sql.DataSource</code></b> 
  * dans <code>this.dataSource</code> de la présente classe 
  * en la <b>typant Datasource avec POOL DE CONNEXION</b> 
- * (par exemple <code>com.mchange.v2.c3p0.ComboPooledDataSource</code> 
- * pour le POOL C3P0)</li>
+ * (par exemple <code>com.zaxxer.hikari.HikariDataSource</code> 
+ * pour le POOL HikariCP)</li>
  * <li><b>afficher tous les attributs de la Datasource typée</b> 
  * avec POOL DE CONNEXION. Ces attributs diffèrent en effet 
- * en fonction du POOL DE CONNEXION utilisé (C3P0, DBCP2, BoneCP
+ * en fonction du POOL DE CONNEXION utilisé (HikariCP, DBCP2, BoneCP
  * , Tomcat JDBC, HikariCP, ...).</li>
  * <li><b>retourner la Datasource typée avec POOL DE CONNEXION</b> 
- * (par exemple <code>com.mchange.v2.c3p0.ComboPooledDataSource</code> 
- * pour le POOL C3P0) encapsulée dans la présente classe</li>
+ * (par exemple <code>com.zaxxer.hikari.HikariDataSource</code> 
+ * pour le POOL HikariCP) encapsulée dans la présente classe</li>
  * </ul>
  * </p>
  * <br/>
@@ -58,7 +56,7 @@ import levy.daniel.application.model.utilitaires.spring.configurateurpersistence
  * @since 1 févr. 2019
  *
  */
-public class MyDataSourceC3P0 implements IMyDataSource {
+public class MyDataSourceHikari implements IMyDataSource {
 
 	// ************************ATTRIBUTS************************************/
 
@@ -121,14 +119,9 @@ public class MyDataSourceC3P0 implements IMyDataSource {
 	 * </ul>
 	 */
 	private transient String password;
-
-	/**
-	 * Taille initiale du pool de connexion C3P0 pour Hibernate.
-	 */
-	private transient String poolInitialSize;
 	
 	/**
-	 * Taille minimale du pool de connexion C3P0 pour Hibernate.
+	 * Taille minimale du pool de connexion HikariCP pour Hibernate.
 	 * <ul>
 	 * <li>clé : 
 	 * <code>spring.jpa.properties.hibernate.c3p0.min_size</code> 
@@ -140,10 +133,10 @@ public class MyDataSourceC3P0 implements IMyDataSource {
 	 * PersistenceProvider HIBERNATE</li>
 	 * </ul>
 	 */
-	private transient String poolMinSize;
+	private transient String poolMinimumIdle;
 	
 	/**
-	 * Taille maximale du pool de connexion C3P0 pour Hibernate.
+	 * Taille maximale du pool de connexion HikariCP pour Hibernate.
 	 * <ul>
 	 * <li>clé : 
 	 * <code>spring.jpa.properties.hibernate.c3p0.max_size</code> 
@@ -158,7 +151,7 @@ public class MyDataSourceC3P0 implements IMyDataSource {
 	private transient String poolMaxSize;
 	
 	/**
-	 * Timeout du pool de connexion C3P0 pour Hibernate.
+	 * Timeout du pool de connexion HikariCP pour Hibernate.
 	 * <ul>
 	 * <li>clé : 
 	 * <code>spring.jpa.properties.hibernate.c3p0.timeout</code> 
@@ -171,64 +164,16 @@ public class MyDataSourceC3P0 implements IMyDataSource {
 	 * </ul>
 	 */
 	private transient String poolTimeOut;
-	
-	/**
-	 * taille du cache de PreparedStatements du pool de connexion 
-	 * C3P0 pour Hibernate.
-	 * <ul>
-	 * <li>clé : 
-	 * <code>spring.jpa.properties.hibernate.c3p0.max_statements</code> 
-	 * dans le fichier properties SPRING</li>
-	 * <li>clé : property nommée <code>hibernate.c3p0.max_statements</code> 
-	 * dans un persistence.xml préconisé par JPA</li>
-	 * <li>clé : <code>hibernate.c3p0.max_statements</code> 
-	 * dans un EntityManagerFactory créé par le 
-	 * PersistenceProvider HIBERNATE</li>
-	 * </ul>
-	 */
-	private transient String poolMaxStatements;
-	
-	/**
-	 * période de recherche des connexions inactives 
-	 * du pool de connexion C3P0 pour Hibernate.
-	 * <ul>
-	 * <li>clé : 
-	 * <code>spring.jpa.properties.hibernate.c3p0.idle_test_period</code> 
-	 * dans le fichier properties SPRING</li>
-	 * <li>clé : property nommée <code>hibernate.c3p0.idle_test_period</code> 
-	 * dans un persistence.xml préconisé par JPA</li>
-	 * <li>clé : <code>hibernate.c3p0.idle_test_period</code> 
-	 * dans un EntityManagerFactory créé par le 
-	 * PersistenceProvider HIBERNATE</li>
-	 * </ul>
-	 */
-	private transient String poolIdleTestPeriod;
 
 	/**
-	 * nombre de connexions acquises en une seule fois 
-	 * lorsque le pool de connexion C3P0 pour Hibernate est épuisé.
-	 * <ul>
-	 * <li>clé : 
-	 * <code>spring.jpa.properties.hibernate.c3p0.acquire_increment</code> 
-	 * dans le fichier properties SPRING</li>
-	 * <li>clé : property nommée <code>hibernate.c3p0.acquire_increment</code> 
-	 * dans un persistence.xml préconisé par JPA</li>
-	 * <li>clé : <code>hibernate.c3p0.acquire_increment</code> 
-	 * dans un EntityManagerFactory créé par le 
-	 * PersistenceProvider HIBERNATE</li>
-	 * </ul>
-	 */
-	private transient String poolAcquireIncrement;
-
-	/**
-	 * DataSource avec POOL DE CONNEXIONS C3P0 pour HIBERNATE.<br/>
-	 * <code>com.mchange.v2.c3p0.ComboPooledDataSource</code>.<br/>
+	 * DataSource avec POOL DE CONNEXIONS HikariCP pour HIBERNATE.<br/>
+	 * <code>com.zaxxer.hikari.HikariDataSource</code>.<br/>
 	 * <ul>
 	 * <li>clé : <code>hibernate.connection.datasource</code> 
 	 * dans un EntityManagerFactory créé par le PROVIDER HIBERNATE</li>
 	 * </ul>
 	 */
-	private ComboPooledDataSource dataSource;
+	private HikariDataSource dataSource;
 	
 	/**
 	 * LOG : Log : 
@@ -236,7 +181,7 @@ public class MyDataSourceC3P0 implements IMyDataSource {
 	 */
 	@SuppressWarnings("unused")
 	private static final Log LOG 
-		= LogFactory.getLog(MyDataSourceC3P0.class);
+		= LogFactory.getLog(MyDataSourceHikari.class);
 
 	// *************************METHODES************************************/
 	
@@ -244,7 +189,7 @@ public class MyDataSourceC3P0 implements IMyDataSource {
 	 /**
 	 * CONSTRUCTEUR D'ARITE NULLE.<br/>
 	 */
-	public MyDataSourceC3P0() {
+	public MyDataSourceHikari() {
 		
 		this(null
 				, null
@@ -266,7 +211,7 @@ public class MyDataSourceC3P0 implements IMyDataSource {
 	 * @param pLecteurConfigurationBaseSpring : 
 	 * LecteurConfigurationBaseSpring.<br/>
 	 */
-	public MyDataSourceC3P0(
+	public MyDataSourceHikari(
 			final LecteurConfigurationBaseSpring 
 					pLecteurConfigurationBaseSpring) {
 		
@@ -302,24 +247,24 @@ public class MyDataSourceC3P0 implements IMyDataSource {
 	 * @param pPassword : String : 
 	 * MOT DE PASSE de la BASE.
 	 * @param pPoolInitialSize : String : 
-	 * Taille initiale du pool de connexion C3P0 pour Hibernate. 
+	 * Taille initiale du pool de connexion HikariCP pour Hibernate. 
 	 * @param pPoolMinSize : String : 
-	 * Taille minimale du pool de connexion C3P0 pour Hibernate.
+	 * Taille minimale du pool de connexion HikariCP pour Hibernate.
 	 * @param pPoolMaxSize : String : 
-	 * Taille maximale du pool de connexion C3P0 pour Hibernate.
+	 * Taille maximale du pool de connexion HikariCP pour Hibernate.
 	 * @param pPoolTimeOut : String : 
-	 * Timeout du pool de connexion C3P0 pour Hibernate.
+	 * Timeout du pool de connexion HikariCP pour Hibernate.
 	 * @param pPoolMaxStatements : String : 
 	 * taille du cache de PreparedStatements du pool de connexion 
-	 * C3P0 pour Hibernate.
+	 * HikariCP pour Hibernate.
 	 * @param pPoolIdleTestPeriod : String : 
 	 * période de recherche des connexions inactives 
-	 * du pool de connexion C3P0 pour Hibernate.
+	 * du pool de connexion HikariCP pour Hibernate.
 	 * @param pPoolAcquireIncrement : String : 
 	 * nombre de connexions acquises en une seule fois 
-	 * lorsque le pool de connexion C3P0 pour Hibernate est épuisé.
+	 * lorsque le pool de connexion HikariCP pour Hibernate est épuisé.
 	 */
-	public MyDataSourceC3P0(
+	public MyDataSourceHikari(
 			final String pUrl
 				, final String pDriver
 				, final String pUserName, final String pPassword
@@ -336,22 +281,14 @@ public class MyDataSourceC3P0 implements IMyDataSource {
 		this.driver = pDriver;
 		this.userName = pUserName;
 		this.password = pPassword;
-		
-		if (pPoolInitialSize == null) {
-			this.poolInitialSize = pPoolMinSize;
-		} else {
-			this.poolInitialSize = pPoolInitialSize;
-		}
-		
-		this.poolMinSize = pPoolMinSize;
+				
+		this.poolMinimumIdle = pPoolMinSize;
 		this.poolMaxSize = pPoolMaxSize;
 		this.poolTimeOut = pPoolTimeOut;
-		this.poolMaxStatements = pPoolMaxStatements;
-		this.poolIdleTestPeriod = pPoolIdleTestPeriod;
-		this.poolAcquireIncrement = pPoolAcquireIncrement;
+		this.poolMaxSize = pPoolMaxStatements;
 		
 		/* instancie this.dataSource. */
-		this.dataSource = new ComboPooledDataSource(); 
+		this.dataSource = new HikariDataSource(); 
 		
 		/* alimente this.dataSource. */
 		this.alimenterDataSource();
@@ -364,18 +301,18 @@ public class MyDataSourceC3P0 implements IMyDataSource {
 	 * CONSTRUCTEUR WRAPPER.<br/>
 	 * <ul>
 	 * <li>cast la javax.sql.DataSource en type de DataSource 
-	 * réellement utilisé par la classe (ComboPooledDataSource, ...).</li>
+	 * réellement utilisé par la classe (HikariConfig, ...).</li>
 	 * <li>alimente tous les attributs de la classe 
 	 * à partir de pDataSource.</li>
 	 * </ul>
 	 * 
 	 * @param pDataSource : javax.sql.DataSource
 	 */
-	public MyDataSourceC3P0(final DataSource pDataSource) {
+	public MyDataSourceHikari(final DataSource pDataSource) {
 		
 		super();
 		
-		this.dataSource = (ComboPooledDataSource) pDataSource;
+		this.dataSource = (HikariDataSource) pDataSource;
 		
 		this.alimenterAttributs();
 		
@@ -384,7 +321,7 @@ public class MyDataSourceC3P0 implements IMyDataSource {
 	
 	
 	/**
-	 * alimente la ComboPooledDataSource this.dataSource.<br/>
+	 * alimente la HikariDataSource this.dataSource.<br/>
 	 * <br/>
 	 * - ne fait rien si this.dataSource est null.br/>
 	 * <br/>
@@ -397,58 +334,31 @@ public class MyDataSourceC3P0 implements IMyDataSource {
 			/* url. */
 			this.dataSource.setJdbcUrl(this.url);
 			
-			/* driver. */
-			try {
-				this.dataSource.setDriverClass(this.driver);
-			} catch (PropertyVetoException e) {
-				if (LOG.isFatalEnabled()) {
-					final String message = "Impossible de charger le DRIVER : " 
-							+ this.driver;
-					LOG.fatal(message, e);
-				}
-			}
+			/* driver. */			
+			this.dataSource.setDriverClassName(this.driver);
 			
 			/* userName. */
-			this.dataSource.setUser(this.userName);
+			this.dataSource.setUsername(this.userName);
 			
 			/* password. */
 			this.dataSource.setPassword(this.password);
 			
-			/* initialPoolSize. */
-			this.dataSource.setInitialPoolSize(
-					this.fournirIntPoolMinSize(
-							this.poolMinSize));
-			
 			/* poolMinSize. */
-			this.dataSource.setMinPoolSize(
+			this.dataSource.setMinimumIdle(
 					this.fournirIntPoolMinSize(
-							this.poolMinSize));
+							this.poolMinimumIdle));
 			
+				
 			/* poolMaxSize. */
-			this.dataSource.setMaxPoolSize(
+			this.dataSource.setMaximumPoolSize(
 					this.fournirIntPoolMaxSize(
 							this.poolMaxSize));
 			
 			/* poolTimeOut. */
-			this.dataSource.setUnreturnedConnectionTimeout(
+			this.dataSource.setIdleTimeout(
 					this.fournirIntPoolTimeOut(
 							this.poolTimeOut));
 			
-			/* poolMaxStatements. */
-			this.dataSource.setMaxStatements(
-					this.fournirIntPoolMaxStatements(
-							this.poolMaxStatements));
-			
-			/* poolIdleTestPeriod. */
-			this.dataSource.setIdleConnectionTestPeriod(
-					this.fournirIntPoolIdleTestPeriod(
-							this.poolIdleTestPeriod));
-			
-			/* poolAcquireIncrement. */
-			this.dataSource.setAcquireIncrement(
-					this.fournirIntPoolAcquireIncrement(
-							this.poolAcquireIncrement));
-
 		}
 		
 	} // Fin de alimenterDataSource()._____________________________________
@@ -467,31 +377,19 @@ public class MyDataSourceC3P0 implements IMyDataSource {
 		if (this.dataSource != null) {
 			
 			this.url = this.dataSource.getJdbcUrl();
-			this.driver = this.dataSource.getDriverClass();
-			this.userName = this.dataSource.getUser();
+			this.driver = this.dataSource.getDriverClassName();
+			this.userName = this.dataSource.getUsername();
 			this.password = this.dataSource.getPassword();
-			
-			this.poolInitialSize 
-				= String.valueOf(this.dataSource.getInitialPoolSize());
-			
-			this.poolMinSize 
-				= String.valueOf(this.dataSource.getMinPoolSize());
+						
+			this.poolMinimumIdle
+				= String.valueOf(this.dataSource.getMinimumIdle());
 			
 			this.poolMaxSize 
-				= String.valueOf(this.dataSource.getMaxPoolSize());
+				= String.valueOf(this.dataSource.getMaximumPoolSize());
 			
 			this.poolTimeOut 
-			= String.valueOf(this.dataSource.getUnreturnedConnectionTimeout());
-			
-			this.poolMaxStatements 
-				= String.valueOf(this.dataSource.getMaxStatements());
-			
-			this.poolIdleTestPeriod 
-			= String.valueOf(this.dataSource.getIdleConnectionTestPeriod());
-			
-			this.poolAcquireIncrement 
-				= String.valueOf(this.dataSource.getAcquireIncrement());
-
+			= String.valueOf(this.dataSource.getIdleTimeout());
+						
 		}
 		
 	} // Fin de alimenterAttributs().______________________________________
@@ -516,8 +414,8 @@ public class MyDataSourceC3P0 implements IMyDataSource {
 			final DataSource pDataSource) {
 		
 		/* cast la javax.sql.DataSource en type de DataSource 
-		 * réellement utilisé par la classe (ComboPooledDataSource, ...).*/
-		this.dataSource = (ComboPooledDataSource) pDataSource;
+		 * réellement utilisé par la classe (HikariConfig, ...).*/
+		this.dataSource = (HikariDataSource) pDataSource;
 		
 		/* alimente les attributs de la classe. */
 		this.alimenterAttributs();
@@ -536,7 +434,7 @@ public class MyDataSourceC3P0 implements IMyDataSource {
 		final StringBuilder stb = new StringBuilder();
 		
 		stb.append(SAUT_LIGNE_PLATEFORME);
-		stb.append("CONTENU DE LA DATASOURCE DANS MyDataSourceC3P0 : ");
+		stb.append("CONTENU DE LA DATASOURCE DANS MyDataSourceHikariCP : ");
 		stb.append(SAUT_LIGNE_PLATEFORME);
 		
 		/* DRIVER. */
@@ -581,22 +479,13 @@ public class MyDataSourceC3P0 implements IMyDataSource {
 		stb.append(SAUT_LIGNE_PLATEFORME);
 		stb.append(SAUT_LIGNE_PLATEFORME);
 		
-		/* poolInitialSize. */
-		stb.append(
-				String.format(
-						LOCALE_PLATEFORME
-							, FORMAT_TOSTRING
-								, "Taille initiale du Pool"
-								, this.poolInitialSize));
-		stb.append(SAUT_LIGNE_PLATEFORME);
-		
 		/* poolMinSize. */
 		stb.append(
 				String.format(
 						LOCALE_PLATEFORME
 							, FORMAT_TOSTRING
 								, "Taille minimale du Pool"
-								, this.poolMinSize));
+								, this.poolMinimumIdle));
 		stb.append(SAUT_LIGNE_PLATEFORME);
 		
 		/* poolMaxSize. */
@@ -616,34 +505,7 @@ public class MyDataSourceC3P0 implements IMyDataSource {
 								, "TimeOut en secondes"
 								, this.poolTimeOut));
 		stb.append(SAUT_LIGNE_PLATEFORME);
-		
-		/* poolMaxStatements. */
-		stb.append(
-				String.format(
-						LOCALE_PLATEFORME
-							, FORMAT_TOSTRING
-								, "MaxStatements"
-								, this.poolMaxStatements));
-		stb.append(SAUT_LIGNE_PLATEFORME);
-		
-		/* poolIdleTestPeriod. */
-		stb.append(
-				String.format(
-						LOCALE_PLATEFORME
-							, FORMAT_TOSTRING
-								, "Période en secondes de vérif. conn. inactives (poolIdleTestPeriod)"
-								, this.poolIdleTestPeriod));
-		stb.append(SAUT_LIGNE_PLATEFORME);
-		
-		/* poolAcquireIncrement. */
-		stb.append(
-				String.format(
-						LOCALE_PLATEFORME
-							, FORMAT_TOSTRING
-								, "poolAcquireIncrement"
-								, this.poolAcquireIncrement));
-		stb.append(SAUT_LIGNE_PLATEFORME);
-		
+				
 		return stb.toString();
 
 	} // Fin de afficherDataSource().______________________________________
@@ -863,4 +725,4 @@ public class MyDataSourceC3P0 implements IMyDataSource {
 
 	
 	
-} // FIN DE LA CLASSE MyDataSourceC3P0.--------------------------------------
+} // FIN DE LA CLASSE MyDataSourceHikariCP.--------------------------------------

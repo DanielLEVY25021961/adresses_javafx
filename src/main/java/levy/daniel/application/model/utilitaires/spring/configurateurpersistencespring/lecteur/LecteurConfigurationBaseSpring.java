@@ -599,8 +599,8 @@ public class LecteurConfigurationBaseSpring {
 	
 	/**
 	 * <b>fournit une String pour l'affichage 
-	 * du contenu du CONTENEUR <code>this.persistenceUnitInfoJPASansXML</code> 
-	 * encapsulé dans le present LecteurPropertiesSpring</b>.<br/>
+	 * du contenu (attributs et properties) encapsulé dans le present 
+	 * LecteurConfigurationBaseSpring</b>.<br/>
 	 *
 	 * @return : String : affichage.<br/>
 	 */

@@ -25,8 +25,6 @@ import org.springframework.orm.jpa.persistenceunit.MutablePersistenceUnitInfo;
 import org.springframework.orm.jpa.persistenceunit.SmartPersistenceUnitInfo;
 import org.springframework.util.ClassUtils;
 
-import com.mchange.v2.c3p0.ComboPooledDataSource;
-
 import levy.daniel.application.model.utilitaires.jpa.datasource.IMyDataSource;
 import levy.daniel.application.model.utilitaires.jpa.datasource.impl.MyDataSourceC3P0;
 import levy.daniel.application.model.utilitaires.spring.configurateurpersistencespring.lecteur.LecteurConfigurationBaseSpring;
@@ -575,9 +573,9 @@ public class MyMutablePersistenceUnitInfo
 		
 		/* alimente this.dataSource. */
 		if (this.nonJtaDataSource != null) {
-			this.dataSource = new MyDataSourceC3P0((ComboPooledDataSource) this.nonJtaDataSource);
+			this.dataSource = new MyDataSourceC3P0(this.nonJtaDataSource);
 		} else if (this.jtaDataSource != null) {			
-			this.dataSource = new MyDataSourceC3P0((ComboPooledDataSource) this.jtaDataSource);
+			this.dataSource = new MyDataSourceC3P0(this.jtaDataSource);
 		} else {
 			this.dataSource = null;
 		}
@@ -1205,7 +1203,7 @@ public class MyMutablePersistenceUnitInfo
 		super.setJtaDataSource(this.jtaDataSource);
 		
 		if (this.jtaDataSource != null) {
-			this.dataSource = new MyDataSourceC3P0((ComboPooledDataSource) this.jtaDataSource);
+			this.dataSource = new MyDataSourceC3P0(this.jtaDataSource);
 		}
 		
 	} // Fin de setJtaDataSource(...)._____________________________________
@@ -1241,7 +1239,7 @@ public class MyMutablePersistenceUnitInfo
 		super.setNonJtaDataSource(this.nonJtaDataSource);
 		
 		if (this.nonJtaDataSource != null) {
-			this.dataSource = new MyDataSourceC3P0((ComboPooledDataSource) this.nonJtaDataSource);
+			this.dataSource = new MyDataSourceC3P0(this.nonJtaDataSource);
 		}
 		
 	} // Fin de setNonJtaDataSource(...).__________________________________

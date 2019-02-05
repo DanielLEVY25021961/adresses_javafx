@@ -6,6 +6,7 @@ import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
+import com.zaxxer.hikari.HikariConfig;
 import com.zaxxer.hikari.HikariDataSource;
 
 import levy.daniel.application.model.utilitaires.jpa.datasource.IMyDataSource;
@@ -193,8 +194,8 @@ public class MyDataSourceHikari implements IMyDataSource {
 		
 		this(null
 				, null
-				, null, null
-				, null, null, null, null, null, null, null);
+				, null
+				, null, null, null, null, null);
 		
 	} // Fin de CONSTRUCTEUR D'ARITE NULLE.________________________________
 	
@@ -220,12 +221,9 @@ public class MyDataSourceHikari implements IMyDataSource {
 				, pLecteurConfigurationBaseSpring.getUserName()
 				, pLecteurConfigurationBaseSpring.getPassword()
 				, null
-				, pLecteurConfigurationBaseSpring.getPoolMinSize()
 				, pLecteurConfigurationBaseSpring.getPoolMaxSize()
 				, pLecteurConfigurationBaseSpring.getPoolTimeOut()
-				, pLecteurConfigurationBaseSpring.getPoolMaxStatements()
-				, pLecteurConfigurationBaseSpring.getPoolIdleTestPeriod()
-				, pLecteurConfigurationBaseSpring.getPoolAcquireIncrement());
+				, pLecteurConfigurationBaseSpring.getPoolMaxStatements());
 		
 	} // Fin de CONSTRUCTEUR MALIN.________________________________________
 	
@@ -246,8 +244,6 @@ public class MyDataSourceHikari implements IMyDataSource {
 	 * LOGIN de la BASE.
 	 * @param pPassword : String : 
 	 * MOT DE PASSE de la BASE.
-	 * @param pPoolInitialSize : String : 
-	 * Taille initiale du pool de connexion HikariCP pour Hibernate. 
 	 * @param pPoolMinSize : String : 
 	 * Taille minimale du pool de connexion HikariCP pour Hibernate.
 	 * @param pPoolMaxSize : String : 
@@ -257,23 +253,14 @@ public class MyDataSourceHikari implements IMyDataSource {
 	 * @param pPoolMaxStatements : String : 
 	 * taille du cache de PreparedStatements du pool de connexion 
 	 * HikariCP pour Hibernate.
-	 * @param pPoolIdleTestPeriod : String : 
-	 * période de recherche des connexions inactives 
-	 * du pool de connexion HikariCP pour Hibernate.
-	 * @param pPoolAcquireIncrement : String : 
-	 * nombre de connexions acquises en une seule fois 
-	 * lorsque le pool de connexion HikariCP pour Hibernate est épuisé.
 	 */
 	public MyDataSourceHikari(
 			final String pUrl
 				, final String pDriver
 				, final String pUserName, final String pPassword
-				, final String pPoolInitialSize
 				, final String pPoolMinSize, final String pPoolMaxSize
 				, final String pPoolTimeOut
-				, final String pPoolMaxStatements
-				, final String pPoolIdleTestPeriod
-				, final String pPoolAcquireIncrement) {
+				, final String pPoolMaxStatements) {
 		
 		super();
 		
@@ -287,8 +274,16 @@ public class MyDataSourceHikari implements IMyDataSource {
 		this.poolTimeOut = pPoolTimeOut;
 		this.poolMaxSize = pPoolMaxStatements;
 		
+		final HikariConfig config = new HikariConfig();
+        
+        config.setMaximumPoolSize(10);
+        config.setAutoCommit(false);
+        config.addDataSourceProperty("cachePrepStmts", "true");
+        config.addDataSourceProperty("prepStmtCacheSize", "250");
+        config.addDataSourceProperty("prepStmtCacheSqlLimit", "2048");
+         
 		/* instancie this.dataSource. */
-		this.dataSource = new HikariDataSource(); 
+		this.dataSource = new HikariDataSource(config); 
 		
 		/* alimente this.dataSource. */
 		this.alimenterDataSource();

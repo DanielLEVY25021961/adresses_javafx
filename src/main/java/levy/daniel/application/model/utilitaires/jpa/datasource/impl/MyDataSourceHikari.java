@@ -276,7 +276,11 @@ public class MyDataSourceHikari implements IMyDataSource {
 		
 		final HikariConfig config = new HikariConfig();
         
-        config.setMaximumPoolSize(10);
+		config.setJdbcUrl(this.url);
+		config.setDriverClassName(this.driver);
+		config.setUsername(this.userName);
+		config.setPassword(this.password);
+		
         config.setAutoCommit(false);
         config.addDataSourceProperty("cachePrepStmts", "true");
         config.addDataSourceProperty("prepStmtCacheSize", "250");
@@ -326,17 +330,19 @@ public class MyDataSourceHikari implements IMyDataSource {
 		/* ne fait rien si this.dataSource est null. */
 		if (this.dataSource != null) {
 			
+//			this.dataSource.setDataSourceClassName("com.zaxxer.hikari.HikariDataSource");
+			
 			/* url. */
-			this.dataSource.setJdbcUrl(this.url);
+//			this.dataSource.setJdbcUrl(this.url);
 			
 			/* driver. */			
-			this.dataSource.setDriverClassName(this.driver);
+//			this.dataSource.setDriverClassName(this.driver);
 			
 			/* userName. */
-			this.dataSource.setUsername(this.userName);
+//			this.dataSource.setUsername(this.userName);
 			
 			/* password. */
-			this.dataSource.setPassword(this.password);
+//			this.dataSource.setPassword(this.password);
 			
 			/* poolMinSize. */
 			this.dataSource.setMinimumIdle(

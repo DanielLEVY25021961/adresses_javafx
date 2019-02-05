@@ -29,6 +29,7 @@ import org.springframework.transaction.annotation.EnableTransactionManagement;
 import levy.daniel.application.model.utilitaires.jpa.afficheurentitymanagerfactory.AfficheurEntityManagerFactory;
 import levy.daniel.application.model.utilitaires.jpa.datasource.IMyDataSource;
 import levy.daniel.application.model.utilitaires.jpa.datasource.impl.MyDataSourceC3P0;
+import levy.daniel.application.model.utilitaires.jpa.datasource.impl.MyDataSourceHikari;
 import levy.daniel.application.model.utilitaires.spring.configurateurpersistencespring.lecteur.LecteurConfigurationBaseSpring;
 import levy.daniel.application.model.utilitaires.spring.configurateurpersistencespring.mutablepersistenceunitinfo.MyMutablePersistenceUnitInfo;
 
@@ -198,6 +199,42 @@ public class ConfigurateurSpringJPAH2File {
 	} // Fin de entityManagerFactory().____________________________________
 	
 
+	
+	/**
+	 * <b>Instancie un IMyDataSource, l'alimente
+	 * avec [URL, DRIVER, LOGIN, MDP, valeurs de POOL]</b> 
+	 * contenu dans <code>this.lecteurConfigurationBaseSpring</code> 
+	 * et <b>retourne un javax.sql.DataSource pour l'injecter 
+	 * dans le CONTEXTE SPRING</b>.<br/>
+	 * <ul>
+	 * <li>lit l'URL de la BASE dans le properties 
+	 * et l'injecte dans la DataSource.</li>
+	 * <li>lit le DRIVER de la BASE dans le properties 
+	 * et l'injecte dans la DataSource.</li>
+	 * <li>lit le [Login + Mdp] à la base dans le properties 
+	 * et l'injecte dans le DataSource.</li>
+	 * <li>lit les valeurs du POOL DE CONNEXION à la base dans le properties 
+	 * et l'injecte dans le DataSource.</li>
+	 * </ul>
+	 *
+	 * @return : DataSource : javax.sql.DataSource.<br/>
+	 */
+//	@Bean
+//	public DataSource dataSource() {
+//		
+//		final IMyDataSource myDataSource 
+//			= new MyDataSourceC3P0(this.lecteurConfigurationBaseSpring);
+//		
+//		System.out.println();
+//		System.out.println("=======DANS dataSource() de ConfigurateurSpringJPAH2File() ======");
+//		System.out.println(myDataSource.afficherDataSource());
+//		
+//		return myDataSource.getDataSource();
+//		
+//	} // Fin de dataSource().______________________________________________
+	
+	
+	
 	/**
 	 * <b>Instancie un IMyDataSource, l'alimente
 	 * avec [URL, DRIVER, LOGIN, MDP, valeurs de POOL]</b> 
@@ -221,7 +258,7 @@ public class ConfigurateurSpringJPAH2File {
 	public DataSource dataSource() {
 		
 		final IMyDataSource myDataSource 
-			= new MyDataSourceC3P0(this.lecteurConfigurationBaseSpring);
+			= new MyDataSourceHikari(this.lecteurConfigurationBaseSpring);
 		
 		System.out.println();
 		System.out.println("=======DANS dataSource() de ConfigurateurSpringJPAH2File() ======");

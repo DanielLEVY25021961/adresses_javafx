@@ -379,15 +379,11 @@ public class MyMutablePersistenceUnitInfo
 	 * 
 	 * @param pLecteurConfigurationBaseSpring
 	 * @param pPersistenceProviderClassName
-	 * @param pJtaDataSource
-	 * @param pNonJtaDataSource
 	 * @param pManagedClassNames
 	 */
 	public MyMutablePersistenceUnitInfo(
 			final LecteurConfigurationBaseSpring pLecteurConfigurationBaseSpring
 			, final String pPersistenceProviderClassName
-			, final DataSource pJtaDataSource
-			, final DataSource pNonJtaDataSource
 			, final List<String> pManagedClassNames) {
 		
 		this(pLecteurConfigurationBaseSpring
@@ -584,9 +580,9 @@ public class MyMutablePersistenceUnitInfo
 			this.mappingFileNames = new LinkedList<>();
 		} else {
 			this.mappingFileNames = pMappingFileNames;
-			for (final String mappingFileName : this.mappingFileNames) {
+//			for (final String mappingFileName : this.mappingFileNames) {
 //				super.addMappingFileName(mappingFileName); // NOPMD by daniel.levy on 28/01/19 10:48
-			}
+//			}
 		}
 		
 				
@@ -594,9 +590,9 @@ public class MyMutablePersistenceUnitInfo
 			this.jarFileUrls = Collections.emptyList(); 
 		} else {
 			this.jarFileUrls = pJarFileUrls;
-			for (final URL jarFileUrl : this.jarFileUrls) {
+//			for (final URL jarFileUrl : this.jarFileUrls) {
 //				super.addJarFileUrl(jarFileUrl); // NOPMD by daniel.levy on 28/01/19 10:49
-			}
+//			}
 		}
 				
 		this.persistenceUnitRootUrl = pPersistenceUnitRootUrl;
@@ -606,18 +602,18 @@ public class MyMutablePersistenceUnitInfo
 			this.managedClassNames = new LinkedList<String>();
 		} else {
 			this.managedClassNames = pManagedClassNames;
-			for (final String managedClassName : this.managedClassNames) {
+//			for (final String managedClassName : this.managedClassNames) {
 //				super.addManagedClassName(managedClassName); // NOPMD by daniel.levy on 28/01/19 10:49
-			}
+//			}
 		}
 		
 		if (pManagedPackages == null) {
 			this.managedPackages = new LinkedList<String>();
 		} else {
 			this.managedPackages = pManagedPackages;
-			for (final String managedPackage : this.managedPackages) {
+//			for (final String managedPackage : this.managedPackages) {
 //				super.addManagedPackage(managedPackage); // NOPMD by daniel.levy on 28/01/19 10:49
-			}
+//			}
 		}
 		
 		this.excludeUnlistedClasses = pExcludeUnlistedClasses;

@@ -22,13 +22,13 @@ import org.springframework.context.annotation.PropertySources;
 import org.springframework.core.env.Environment;
 import org.springframework.dao.annotation.PersistenceExceptionTranslationPostProcessor;
 import org.springframework.orm.jpa.JpaTransactionManager;
+import org.springframework.orm.jpa.JpaVendorAdapter;
 import org.springframework.orm.jpa.vendor.HibernateJpaVendorAdapter;
 import org.springframework.transaction.PlatformTransactionManager;
 import org.springframework.transaction.annotation.EnableTransactionManagement;
 
 import levy.daniel.application.model.utilitaires.jpa.afficheurentitymanagerfactory.AfficheurEntityManagerFactory;
 import levy.daniel.application.model.utilitaires.jpa.datasource.IMyDataSource;
-import levy.daniel.application.model.utilitaires.jpa.datasource.impl.MyDataSourceC3P0;
 import levy.daniel.application.model.utilitaires.jpa.datasource.impl.MyDataSourceHikari;
 import levy.daniel.application.model.utilitaires.spring.configurateurpersistencespring.lecteur.LecteurConfigurationBaseSpring;
 import levy.daniel.application.model.utilitaires.spring.configurateurpersistencespring.mutablepersistenceunitinfo.MyMutablePersistenceUnitInfo;
@@ -160,7 +160,7 @@ public class ConfigurateurSpringJPAH2File {
 			mutablePersistenceUnitInfo 
 				= new MyMutablePersistenceUnitInfo(
 						this.lecteurConfigurationBaseSpring
-						, HibernateJpaVendorAdapter.class.getName()
+						, this.vendorAdapterHibernate().getClass().getName()
 						, null
 						, this.dataSource()
 						, null
@@ -268,6 +268,24 @@ public class ConfigurateurSpringJPAH2File {
 		
 	} // Fin de dataSource().______________________________________________
 	
+
+	
+	/**
+	 * <b>fournit un Bean précisant que l'ORM est HIBERNATE</b>.<br/>
+	 *
+	 * @return : JpaVendorAdapter : 
+	 * org.springframework.orm.jpa.vendor.HibernateJpaVendorAdapter.<br/>
+	 */
+//	@Bean
+	public JpaVendorAdapter vendorAdapterHibernate() {
+		
+		final JpaVendorAdapter vendorAdapter 
+      		= new HibernateJpaVendorAdapter();
+		
+		return vendorAdapter;
+		
+	} // Fin de vendorAdapterHibernate().__________________________________
+
 	
 	
 	/**

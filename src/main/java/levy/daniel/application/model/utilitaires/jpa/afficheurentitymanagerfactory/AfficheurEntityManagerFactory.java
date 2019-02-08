@@ -1,5 +1,6 @@
 package levy.daniel.application.model.utilitaires.jpa.afficheurentitymanagerfactory;
 
+import java.lang.reflect.InvocationTargetException;
 import java.util.Iterator;
 import java.util.Locale;
 import java.util.Map;
@@ -15,10 +16,8 @@ import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.springframework.jdbc.datasource.SimpleDriverDataSource;
 
-import com.mchange.v2.c3p0.ComboPooledDataSource;
-
 import levy.daniel.application.model.utilitaires.jpa.datasource.IMyDataSource;
-import levy.daniel.application.model.utilitaires.jpa.datasource.impl.MyDataSourceC3P0;
+import levy.daniel.application.model.utilitaires.jpa.datasource.MyDataSourceFactory;
 
 /**
  * CLASSE AfficheurEntityManagerFactory :<br/>
@@ -160,13 +159,21 @@ public final class AfficheurEntityManagerFactory {
 			final DataSource dataSource 
 			= (DataSource) pEntityManagerFactory.getProperties()
 					.get(PROPERTY_DATASOURCE_KEY);
+						
+			IMyDataSource myDataSource = null;
 			
-			final ComboPooledDataSource dataSourceC3P0 = (ComboPooledDataSource) dataSource;
+			try {
+				myDataSource = MyDataSourceFactory.getMyDataSource(dataSource);
+			} catch (NoSuchMethodException | SecurityException | InstantiationException | IllegalAccessException
+					| IllegalArgumentException | InvocationTargetException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
 			
-			final IMyDataSource myDataSource = new MyDataSourceC3P0(dataSourceC3P0);
-			
-			stb.append(myDataSource.afficherDataSource());
-			
+			if (myDataSource != null) {
+				stb.append(myDataSource.afficherDataSource());
+			}
+					
 			return stb.toString();
 			
 		} // Fin du bloc synchronized._____________________

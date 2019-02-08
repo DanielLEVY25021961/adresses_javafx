@@ -524,8 +524,88 @@ public class MyDataSourceC3P0 implements IMyDataSource {
 		
 	} // Fin de CONSTRUCTEUR MALIN.________________________________________
 	
-	
 
+	
+	/**
+	 * {@inheritDoc}
+	 */
+	@Override
+	public final String toString() {
+		return this.toStringDataSource(this.dataSource);
+	} // Fin de toString().________________________________________________
+	
+	
+	
+	/**
+	 * affiche sur une ligne unique 
+	 * les propriétés d'une ComboPooledDataSource.<br/>
+	 * <br/>
+	 * - retourne null si pDataSource == null.<br/>
+	 * <br/>
+	 *
+	 * @param pDataSource : 
+	 * com.mchange.v2.c3p0.ComboPooledDataSource.<br/>
+	 * 
+	 * @return : String : affichage.<br/>
+	 */
+	private String toStringDataSource(
+			final ComboPooledDataSource pDataSource) {
+		
+		/* retourne null si pDataSource == null. */
+		if (pDataSource == null) {
+			return null;
+		}
+		
+		final StringBuilder builder = new StringBuilder();
+
+		final String urlLocal = pDataSource.getJdbcUrl();
+		final String driverLocal = pDataSource.getDriverClass();
+		final String loginLocal = pDataSource.getUser();
+		final String passwordLocal = pDataSource.getPassword();
+
+		builder.append(" - DataSource [");
+		
+		builder.append("URL = ");
+		if (urlLocal != null) {
+			builder.append(urlLocal);
+		} else {
+			builder.append(NULL);
+		}
+		
+		builder.append(VIRGULE_ESPACE);
+		
+		builder.append("DRIVER = ");
+		if (driverLocal != null) {
+			builder.append(driverLocal);
+		} else {
+			builder.append(NULL);
+		}
+		
+		builder.append(VIRGULE_ESPACE);
+		
+		builder.append("LOGIN = ");
+		if (loginLocal != null) {
+			builder.append(loginLocal);
+		} else {
+			builder.append(NULL);
+		}
+		
+		builder.append(VIRGULE_ESPACE);
+		
+		builder.append("MDP = ");
+		if (passwordLocal != null) {
+			builder.append(passwordLocal);
+		} else {
+			builder.append(NULL);
+		}
+		
+		builder.append(']');
+		
+		return builder.toString();
+		
+	} // Fin de afficherDataSource(...).___________________________________
+	
+	
 	
 	/**
 	 * {@inheritDoc}

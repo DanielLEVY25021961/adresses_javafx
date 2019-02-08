@@ -11,27 +11,42 @@ import levy.daniel.application.model.utilitaires.spring.configurateurpersistence
  * <p>
  * <b>WRAPPER de javax.sql.DataSource</b> permettant de : <br/>
  * <ul>
- * <li><b>instancier une Datasource avec POOL DE CONNEXION</b> 
+ * 
+ * <li><b>instancier une Datasource sans POOL DE CONNEXION</b> 
+ * (par exemple 
+ * <code>org.springframework.jdbc.datasource.SimpleDriverDataSource</code>)
+ * ou <b>avec POOL DE CONNEXION</b> 
  * (par exemple <code>com.mchange.v2.c3p0.ComboPooledDataSource</code> 
  * pour le POOL C3P0)
- * héritant de javax.sql.DataSource en lui passant un  
+ * <b>héritant de javax.sql.DataSource</b> en lui passant un  
  * <b>fichier de configuration de base SPRING</b> 
  * encapsulé dans un {@link LecteurConfigurationBaseSpring}.</li>
- * <li><b>instancier une Datasource avec POOL DE CONNEXION</b> 
+ * 
+ * <li><b>instancier une Datasource sans POOL DE CONNEXION</b> 
+ * (par exemple 
+ * <code>org.springframework.jdbc.datasource.SimpleDriverDataSource</code>)
+ * ou <b>avec POOL DE CONNEXION</b> 
  * (par exemple <code>com.mchange.v2.c3p0.ComboPooledDataSource</code> 
  * pour le POOL C3P0) en lui <b>passant tous ses attributs</b>.</li>
+ * 
  * <li><b>WRAPPER une <code>javax.sql.DataSource</code></b> 
  * dans <code>this.dataSource</code> de la présente classe 
- * en la <b>typant Datasource avec POOL DE CONNEXION</b> 
+ * en la <b>typant Datasource sans POOL DE CONNEXION</b> 
+ * (par exemple 
+ * <code>org.springframework.jdbc.datasource.SimpleDriverDataSource</code>)
+ * ou <b>avec POOL DE CONNEXION</b> 
  * (par exemple <code>com.mchange.v2.c3p0.ComboPooledDataSource</code> 
  * pour le POOL C3P0)</li>
  * <li><b>afficher tous les attributs de la Datasource typée</b> 
  * avec POOL DE CONNEXION. Ces attributs diffèrent en effet 
  * en fonction du POOL DE CONNEXION utilisé (C3P0, DBCP2, BoneCP
  * , Tomcat JDBC, HikariCP, ...).</li>
- * <li><b>retourner la Datasource typée avec POOL DE CONNEXION</b> 
+ * <li><b>retourner la Datasource typée sans POOL DE CONNEXION</b> 
+ * (par exemple 
+ * <code>org.springframework.jdbc.datasource.SimpleDriverDataSource</code>)
+ * ou <b>avec POOL DE CONNEXION</b> 
  * (par exemple <code>com.mchange.v2.c3p0.ComboPooledDataSource</code> 
- * pour le POOL C3P0) encapsulée dans la présente classe</li>
+ * pour le POOL C3P0) <b>encapsulée dans la présente classe</b>.</li>
  * </ul>
  * </p>
  * <br/>
@@ -125,6 +140,14 @@ public interface IMyDataSource {
 	 */
 	void setDataSource(
 			DataSource pDataSource);
+	
+
+	
+	/**
+	 * {@inheritDoc}
+	 */
+	@Override
+	String toString();
 	
 	
 	

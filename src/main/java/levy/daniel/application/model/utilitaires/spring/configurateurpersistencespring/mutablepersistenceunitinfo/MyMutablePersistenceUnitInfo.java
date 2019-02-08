@@ -101,21 +101,30 @@ public class MyMutablePersistenceUnitInfo
 		= Locale.getDefault();
 	
 	/**
-	 * nom de l'unité de persistance.
+	 * <b>nom de l'unité de persistence</b>.
 	 * <ul>
-	 * <li>correspond à l'élément 
+	 * <li>clé : 
+	 * <code>javax.persistence.jdbc.persistence-unit.name</code> 
+	 * dans le fichier properties SPRING</li>
+	 * <li>clé : 
 	 * <code>persistence-unit.name</code> dans un persistence.xml 
 	 * préconisé par JPA.</li>
+	 * <li>clé : 
+	 * <code>hibernate.ejb.persistenceUnitName</code> 
+	 * dans un EntityManagerFactory créé par le 
+	 * PersistenceProvider HIBERNATE</li>
 	 * </ul>
 	 */
 	@Nullable
 	private String persistenceUnitName;
 	
 	/**
-	 * nom qualifié de l'ORM (HIBERNATE).<br/>
-	 * Par exemple : 
-	 * org.springframework.orm.jpa.vendor.HibernateJpaVendorAdapter
-	 * .class.getName().
+	 * nom qualifié de la classe de l'ORM (HIBERNATE).<br/>
+	 * Par exemple : <br/>
+	 * <code>org.springframework.orm.jpa.vendor.HibernateJpaVendorAdapter
+	 * .class.getName()</code> ou <br/>
+	 * <code>org.hibernate.jpa.HibernatePersistenceProvider
+	 * .class.getName()</code>.
 	 * <ul>
 	 * <li>correspond à l'élément <code>provider</code> 
 	 * dans un persistence.xml préconisé par JPA.</li>
@@ -125,7 +134,7 @@ public class MyMutablePersistenceUnitInfo
 	private String persistenceProviderClassName;
 
 	/**
-	 * Type de transaction.
+	 * <b>Type de transaction</b>.
 	 * <ul>
 	 * <li>RESOURCE_LOCAL pour une application STANDALONE 
 	 * qui gère les transactions.</li>
@@ -133,9 +142,13 @@ public class MyMutablePersistenceUnitInfo
 	 * le conteneur de Servlet (TOMCAT) gère les transactions.</li>
 	 * <li>Ne pas utiliser ce tag pour une application gérée par SPRING 
 	 * (qui gère lui même les transactions)</li>
-	 * <li>correspond à l'élément 
-	 * <code>persistence-unit.transaction-type</code> 
-	 * dans un persistence.xml préconisé par JPA.</li>
+	 * <li>clé : 
+	 * <code>javax.persistence.jdbc.persistence-unit.transaction-type</code> 
+	 * dans le fichier properties SPRING</li>
+	 * <li>clé : <code>persistence-unit.transaction-type</code> 
+	 * dans un persistence.xml préconisé par JPA</li>
+	 * <li>clé : <code>hibernate.transaction.coordinator</code> 
+	 * dans un EntityManagerFactory créé par le PersistenceProvider HIBERNATE</li>
 	 * </ul>
 	 */
 	@Nullable
@@ -179,14 +192,14 @@ public class MyMutablePersistenceUnitInfo
 	 * <b>annotées</b>.</li>
 	 * </ul>
 	 */
-	private List<String> mappingFileNames;
+	private List<String> mappingFileNames = new LinkedList<String>();
 	
 	/**
 	 * liste des URL des jar que l'ORM doit inspecter.<br/>
 	 * chaque URL Correspond au <code>jar-file</code> element 
 	 * dans un persistence.xml.
 	 */
-	private List<URL> jarFileUrls;
+	private List<URL> jarFileUrls = new LinkedList<URL>();
 	
 	/**
 	 * URL référençant un jar ou un répertoire <b>racine</b> 
@@ -1051,11 +1064,20 @@ public class MyMutablePersistenceUnitInfo
 	
 		
 	/**
-	 * {@inheritDoc}
+	 * {@inheritDoc}.<br/>
+	 * <br/>
+	 * Getter du <b>nom de l'unité de persistence</b>.
 	 * <ul>
-	 * <li>correspond à l'élément 
+	 * <li>clé : 
+	 * <code>javax.persistence.jdbc.persistence-unit.name</code> 
+	 * dans le fichier properties SPRING</li>
+	 * <li>clé : 
 	 * <code>persistence-unit.name</code> dans un persistence.xml 
 	 * préconisé par JPA.</li>
+	 * <li>clé : 
+	 * <code>hibernate.ejb.persistenceUnitName</code> 
+	 * dans un EntityManagerFactory créé par le 
+	 * PersistenceProvider HIBERNATE</li>
 	 * </ul>
 	 */
 	@Nullable
@@ -1069,10 +1091,17 @@ public class MyMutablePersistenceUnitInfo
 	/**
 	* Setter du nom de l'unité de persistance.
 	* <ul>
-	* <li>correspond à l'élément 
-	* <code>persistence-unit.name</code> dans un persistence.xml 
-	* préconisé par JPA.</li>
-	* </ul>
+	 * <li>clé : 
+	 * <code>javax.persistence.jdbc.persistence-unit.name</code> 
+	 * dans le fichier properties SPRING</li>
+	 * <li>clé : 
+	 * <code>persistence-unit.name</code> dans un persistence.xml 
+	 * préconisé par JPA.</li>
+	 * <li>clé : 
+	 * <code>hibernate.ejb.persistenceUnitName</code> 
+	 * dans un EntityManagerFactory créé par le 
+	 * PersistenceProvider HIBERNATE</li>
+	 * </ul>
 	*
 	* @param pPersistenceUnitName : String : 
 	* valeur à passer à this.persistenceUnitName.<br/>
@@ -1080,18 +1109,20 @@ public class MyMutablePersistenceUnitInfo
 	@Override
 	public void setPersistenceUnitName(
 			@Nullable final String pPersistenceUnitName) {
-		super.setPersistenceUnitName(pPersistenceUnitName);
+//		super.setPersistenceUnitName(pPersistenceUnitName);
 		this.persistenceUnitName = pPersistenceUnitName;
 	} // Fin de setPersistenceUnitName(...)._______________________________
 
 
 	/**
-	 * {@inheritDoc}
+	 * {@inheritDoc}<br/>
 	 * <br/>
-	 * - nom qualifié de l'ORM (HIBERNATE).<br/>
-	 * Par exemple : 
-	 * org.springframework.orm.jpa.vendor.HibernateJpaVendorAdapter
-	 * .class.getName().
+	 * getter du <b>nom qualifié de la classe de l'ORM (HIBERNATE)</b>.<br/>
+	 * Par exemple : <br/>
+	 * <code>org.springframework.orm.jpa.vendor.HibernateJpaVendorAdapter
+	 * .class.getName()</code> ou <br/>
+	 * <code>org.hibernate.jpa.HibernatePersistenceProvider
+	 * .class.getName()</code>.
 	 * <ul>
 	 * <li>correspond à l'élément <code>provider</code> 
 	 * dans un persistence.xml préconisé par JPA.</li>
@@ -1106,14 +1137,16 @@ public class MyMutablePersistenceUnitInfo
 	
 		
 	/**
-	* setter du nom qualifié de l'ORM (HIBERNATE).<br/>
-	 * Par exemple : 
-	 * org.springframework.orm.jpa.vendor.HibernateJpaVendorAdapter
-	 * .class.getName().
-	 * <ul>
-	 * <li>correspond à l'élément <code>provider</code> 
-	 * dans un persistence.xml préconisé par JPA.</li>
-	 * </ul>
+	* setter du <b>nom qualifié de la classe de l'ORM (HIBERNATE)</b>.<br/>
+	* Par exemple : <br/>
+	* <code>org.springframework.orm.jpa.vendor.HibernateJpaVendorAdapter
+	* .class.getName()</code> ou <br/>
+	* <code>org.hibernate.jpa.HibernatePersistenceProvider
+	* .class.getName()</code>.
+	* <ul>
+	* <li>correspond à l'élément <code>provider</code> 
+	* dans un persistence.xml préconisé par JPA.</li>
+	* </ul>
 	*
 	* @param pPersistenceProviderClassName : String : 
 	* valeur à passer à this.persistenceProviderClassName.<br/>
@@ -1121,14 +1154,31 @@ public class MyMutablePersistenceUnitInfo
 	@Override
 	public void setPersistenceProviderClassName(
 			@Nullable final String pPersistenceProviderClassName) {
-		super.setPersistenceProviderClassName(pPersistenceProviderClassName);
+//		super.setPersistenceProviderClassName(pPersistenceProviderClassName);
 		this.persistenceProviderClassName = pPersistenceProviderClassName;
 	} // Fin de setPersistenceProviderClassName(...).______________________
 
 
 
 	/**
-	 * {@inheritDoc}
+	 * {@inheritDoc}<br/>
+	 * <br/>
+	 * getter du <b>Type de transaction</b>.
+	 * <ul>
+	 * <li>RESOURCE_LOCAL pour une application STANDALONE 
+	 * qui gère les transactions.</li>
+	 * <li>JTA pour une application WEB dans laquelle 
+	 * le conteneur de Servlet (TOMCAT) gère les transactions.</li>
+	 * <li>Ne pas utiliser ce tag pour une application gérée par SPRING 
+	 * (qui gère lui même les transactions)</li>
+	 * <li>clé : 
+	 * <code>javax.persistence.jdbc.persistence-unit.transaction-type</code> 
+	 * dans le fichier properties SPRING</li>
+	 * <li>clé : <code>persistence-unit.transaction-type</code> 
+	 * dans un persistence.xml préconisé par JPA</li>
+	 * <li>clé : <code>hibernate.transaction.coordinator</code> 
+	 * dans un EntityManagerFactory créé par le PersistenceProvider HIBERNATE</li>
+	 * </ul>
 	 */
 	@Override
 	public PersistenceUnitTransactionType getTransactionType() {
@@ -1138,7 +1188,7 @@ public class MyMutablePersistenceUnitInfo
 	
 		
 	/**
-	* Setter du Type de transaction.
+	* setter du <b>Type de transaction</b>.
 	* <ul>
 	* <li>RESOURCE_LOCAL pour une application STANDALONE 
 	* qui gère les transactions.</li>
@@ -1146,9 +1196,13 @@ public class MyMutablePersistenceUnitInfo
 	* le conteneur de Servlet (TOMCAT) gère les transactions.</li>
 	* <li>Ne pas utiliser ce tag pour une application gérée par SPRING 
 	* (qui gère lui même les transactions)</li>
-	* <li>correspond à l'élément 
-	* <code>persistence-unit.transaction-type</code> 
-	* dans un persistence.xml préconisé par JPA.</li>
+	* <li>clé : 
+	* <code>javax.persistence.jdbc.persistence-unit.transaction-type</code> 
+	* dans le fichier properties SPRING</li>
+	* <li>clé : <code>persistence-unit.transaction-type</code> 
+	* dans un persistence.xml préconisé par JPA</li>
+	* <li>clé : <code>hibernate.transaction.coordinator</code> 
+	* dans un EntityManagerFactory créé par le PersistenceProvider HIBERNATE</li>
 	* </ul>
 	*
 	* @param pTransactionType : PersistenceUnitTransactionType : 
@@ -1157,7 +1211,7 @@ public class MyMutablePersistenceUnitInfo
 	@Override
 	public void setTransactionType(
 			final PersistenceUnitTransactionType pTransactionType) {
-		super.setTransactionType(pTransactionType);
+//		super.setTransactionType(pTransactionType);
 		this.transactionType = pTransactionType;
 	} // Fin de setTransactionType(...).___________________________________
 	

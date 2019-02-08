@@ -1,5 +1,10 @@
 package levy.daniel.application.model.utilitaires.jpa.datasource.impl;
 
+import java.util.Properties;
+import java.util.Set;
+import java.util.SortedSet;
+import java.util.TreeSet;
+
 import javax.sql.DataSource;
 
 import org.apache.commons.lang3.StringUtils;
@@ -423,8 +428,88 @@ public class MyDataSourceHikari implements IMyDataSource {
 		
 	} // Fin de CONSTRUCTEUR MALIN.________________________________________
 	
-	
 
+	
+	/**
+	 * {@inheritDoc}
+	 */
+	@Override
+	public final String toString() {
+		return this.toStringDataSource(this.dataSource);
+	} // Fin de toString().________________________________________________
+	
+	
+	
+	/**
+	 * affiche sur une ligne unique 
+	 * les propriétés d'une HikariDataSource.<br/>
+	 * <br/>
+	 * - retourne null si pDataSource == null.<br/>
+	 * <br/>
+	 *
+	 * @param pDataSource : 
+	 * com.zaxxer.hikari.HikariDataSource.<br/>
+	 * 
+	 * @return : String : affichage.<br/>
+	 */
+	private String toStringDataSource(
+			final HikariDataSource pDataSource) {
+		
+		/* retourne null si pDataSource == null. */
+		if (pDataSource == null) {
+			return null;
+		}
+		
+		final StringBuilder builder = new StringBuilder();
+
+		final String urlLocal = pDataSource.getJdbcUrl();
+		final String driverLocal = pDataSource.getDriverClassName();
+		final String loginLocal = pDataSource.getUsername();
+		final String passwordLocal = pDataSource.getPassword();
+
+		builder.append(" - DataSource [");
+		
+		builder.append("URL = ");
+		if (urlLocal != null) {
+			builder.append(urlLocal);
+		} else {
+			builder.append(NULL);
+		}
+		
+		builder.append(VIRGULE_ESPACE);
+		
+		builder.append("DRIVER = ");
+		if (driverLocal != null) {
+			builder.append(driverLocal);
+		} else {
+			builder.append(NULL);
+		}
+		
+		builder.append(VIRGULE_ESPACE);
+		
+		builder.append("LOGIN = ");
+		if (loginLocal != null) {
+			builder.append(loginLocal);
+		} else {
+			builder.append(NULL);
+		}
+		
+		builder.append(VIRGULE_ESPACE);
+		
+		builder.append("MDP = ");
+		if (passwordLocal != null) {
+			builder.append(passwordLocal);
+		} else {
+			builder.append(NULL);
+		}
+		
+		builder.append(']');
+		
+		return builder.toString();
+		
+	} // Fin de afficherDataSource(...).___________________________________
+	
+	
 	
 	/**
 	 * {@inheritDoc}
@@ -506,10 +591,67 @@ public class MyDataSourceHikari implements IMyDataSource {
 								, "TimeOut en secondes"
 								, this.poolTimeOut));
 		stb.append(SAUT_LIGNE_PLATEFORME);
+		
+		stb.append(SAUT_LIGNE_PLATEFORME);
+		stb.append("PROPERTIES DE LA DATASOURCE : ");
+		stb.append(SAUT_LIGNE_PLATEFORME);
+		final Properties properties 
+			= this.dataSource.getDataSourceProperties();
+		stb.append(this.afficherJavaUtilProperties(properties));
 				
 		return stb.toString();
 
 	} // Fin de afficherDataSource().______________________________________
+
+	
+	
+	/**
+	 * Fabrique une String à partir d'un java.util.Properties.<br/>
+	 * <br/>
+	 * - retourne null si pProperties est null.<br/>
+	 * <br/>
+	 *
+	 * @param pProperties : java.util.Properties.
+	 * 
+	 * @return : String : Pour affichage à la console.<br/>
+	 */
+	public final String afficherJavaUtilProperties(
+			final Properties pProperties) {
+		
+		/* retourne null si pProperties est null. */
+		if (pProperties == null) {
+			return null;
+		}
+		
+		final StringBuilder stb = new StringBuilder();
+		
+		final Set<String> keys = pProperties.stringPropertyNames();
+		
+		/* Tri du Set de String. */
+		final SortedSet<String> keysTrie = new TreeSet<String>(keys);
+		
+		int i = 0;
+		
+		for (final String key : keysTrie) {
+			
+			i++;
+			
+			final String valeur = pProperties.getProperty(key);
+			
+			final String ligne 
+				= String.format(
+						LOCALE_PLATEFORME
+							, FORMAT_PROPERTIES
+								, i, key, valeur);
+			
+			stb.append(ligne);
+			stb.append(SAUT_LIGNE_PLATEFORME);
+			
+		}
+		
+		return stb.toString();
+		
+	} // Fin de afficherJavaUtilProperties(...).___________________________
 
 	
 	

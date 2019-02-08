@@ -16,23 +16,28 @@ import levy.daniel.application.model.utilitaires.spring.configurateurpersistence
  * <p>
  * <b>WRAPPER de javax.sql.DataSource</b> permettant de : <br/>
  * <ul>
+ * 
  * <li><b>instancier une Datasource <b>SANS</b> POOL DE CONNEXION</b> 
- * héritant de javax.sql.DataSource en lui passant un  
+ * <code>org.springframework.jdbc.datasource.SimpleDriverDataSource</code> 
+ * <b>héritant de javax.sql.DataSource</b> en lui passant un  
  * <b>fichier de configuration de base SPRING</b> 
  * encapsulé dans un {@link LecteurConfigurationBaseSpring}.</li>
+ * 
  * <li><b>instancier une Datasource <b>SANS</b> POOL DE CONNEXION</b> 
+ * <code>org.springframework.jdbc.datasource.SimpleDriverDataSource</code> 
  * en lui <b>passant tous ses attributs</b>.</li>
  * <li><b>WRAPPER une <code>javax.sql.DataSource</code></b> 
  * dans <code>this.dataSource</code> de la présente classe 
  * en la <b>typant Datasource <b>sans</b> POOL DE CONNEXION</b> 
- * .</li>
+ * <code>org.springframework.jdbc.datasource.SimpleDriverDataSource</code>.</li>
  * <li><b>afficher tous les attributs de la Datasource typée</b> 
  * sans POOL DE CONNEXION. 
  * Ces attributs diffèrent en effet 
- * en fonction de la Datasource utilisée (SimpleDriverManager, ...).</li>
- * <li><b>retourner la Datasource typée avec POOL DE CONNEXION</b> 
- * (par exemple <code>com.mchange.v2.c3p0.ComboPooledDataSource</code> 
- * pour le POOL C3P0) encapsulée dans la présente classe</li>
+ * en fonction de la Datasource utilisée (SimpleDriverDataSource, ...).</li>
+ * <li><b>retourner la Datasource sans POOL DE CONNEXION 
+ * typée 
+ * <code>org.springframework.jdbc.datasource.SimpleDriverDataSource</code> 
+ * encapsulée dans la présente classe.</li>
  * </ul>
  * </p>
  * <br/>
@@ -329,6 +334,15 @@ public class MyDataSourceSimpleDriver implements IMyDataSource {
 	
 
 	
+	/**
+	 * {@inheritDoc}
+	 */
+	@Override
+	public final String toString() {
+		return this.toStringDataSource(this.dataSource);
+	} // Fin de toString().________________________________________________
+	
+	
 	
 	/**
 	 * affiche sur une ligne unique 
@@ -337,11 +351,12 @@ public class MyDataSourceSimpleDriver implements IMyDataSource {
 	 * - retourne null si pDataSource == null.<br/>
 	 * <br/>
 	 *
-	 * @param pDataSource : SimpleDriverDataSource.<br/>
+	 * @param pDataSource : 
+	 * org.springframework.jdbc.datasource.SimpleDriverDataSource.<br/>
 	 * 
 	 * @return : String : affichage.<br/>
 	 */
-	public String toStringDataSource(
+	private String toStringDataSource(
 			final SimpleDriverDataSource pDataSource) {
 		
 		/* retourne null si pDataSource == null. */

@@ -1,5 +1,6 @@
 package levy.daniel.application.model.utilitaires.spring.configurateurpersistencespring.mutablepersistenceunitinfo;
 
+import java.lang.reflect.InvocationTargetException;
 import java.net.URL;
 import java.util.Collections;
 import java.util.LinkedList;
@@ -26,6 +27,7 @@ import org.springframework.orm.jpa.persistenceunit.SmartPersistenceUnitInfo;
 import org.springframework.util.ClassUtils;
 
 import levy.daniel.application.model.utilitaires.jpa.datasource.IMyDataSource;
+import levy.daniel.application.model.utilitaires.jpa.datasource.MyDataSourceFactory;
 import levy.daniel.application.model.utilitaires.jpa.datasource.impl.MyDataSourceC3P0;
 import levy.daniel.application.model.utilitaires.spring.configurateurpersistencespring.lecteur.LecteurConfigurationBaseSpring;
 
@@ -569,7 +571,13 @@ public class MyMutablePersistenceUnitInfo
 		
 		/* alimente this.dataSource. */
 		if (this.nonJtaDataSource != null) {
-			this.dataSource = new MyDataSourceC3P0(this.nonJtaDataSource);
+			try {
+				this.dataSource = MyDataSourceFactory.getMyDataSource(this.nonJtaDataSource);
+			} catch (NoSuchMethodException | SecurityException | InstantiationException | IllegalAccessException
+					| IllegalArgumentException | InvocationTargetException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
 		} else if (this.jtaDataSource != null) {			
 			this.dataSource = new MyDataSourceC3P0(this.jtaDataSource);
 		} else {
@@ -719,7 +727,7 @@ public class MyMutablePersistenceUnitInfo
 		builder.append("nonJtaDataSource=");
 		if (this.nonJtaDataSource != null) {			
 			builder.append(this.nonJtaDataSource);
-			builder.append(this.afficherDataSource((SimpleDriverDataSource) this.nonJtaDataSource));
+			builder.append(this.dataSource.afficherDataSource());
 		} else {
 			builder.append(NULL);
 		}

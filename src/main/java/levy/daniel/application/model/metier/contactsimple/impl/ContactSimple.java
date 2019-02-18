@@ -864,7 +864,7 @@ public class ContactSimple implements IContactSimple {
 
 		return entete;
 
-	} // Fin de getEnTeteColonne(...)._____________________________________
+	} // Fin de fournirEnTeteColonne(...)._________________________________
 
 
 
@@ -938,7 +938,7 @@ public class ContactSimple implements IContactSimple {
 
 		return valeur;
 
-	} // Fin de getValeurColonne(...)._____________________________________
+	} // Fin de fournirValeurColonne(...)._________________________________
 
 
 	

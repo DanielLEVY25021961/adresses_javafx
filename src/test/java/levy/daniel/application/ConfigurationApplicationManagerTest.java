@@ -35,14 +35,17 @@ public class ConfigurationApplicationManagerTest {
 	// ************************ATTRIBUTS************************************/
 	
 	/**
-	 * AFFICHAGE_GENERAL : Boolean :<br/>
 	 * Boolean qui commande l'affichage pour tous les tests.<br/>
 	 */
 	public static final Boolean AFFICHAGE_GENERAL = true;
 
-
 	/**
-	 * LOG : Log : 
+	 * "unused".
+	 */
+	public static final String UNUSED 
+		= "unused";
+	
+	/**
 	 * Logger pour Log4j (utilisant commons-logging).
 	 */
 	private static final Log LOG 
@@ -54,7 +57,6 @@ public class ConfigurationApplicationManagerTest {
 	
 	 /**
 	 * CONSTRUCTEUR D'ARITE NULLE.<br/>
-	 * <br/>
 	 */
 	public ConfigurationApplicationManagerTest() {
 		super();
@@ -70,7 +72,7 @@ public class ConfigurationApplicationManagerTest {
 	 * 
 	 * @throws Exception 
 	 */
-	@SuppressWarnings("unused")
+	@SuppressWarnings(UNUSED)
 	@Test
 	public void testGetPathRessourcesExternes() throws Exception {
 		

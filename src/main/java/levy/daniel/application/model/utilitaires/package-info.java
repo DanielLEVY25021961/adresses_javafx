@@ -1,6 +1,9 @@
 /**
  * class package-info :<br/>
- * .<br/>
+ * Ce package contient 
+ * toutes les classes <b>utilitaires</b> susceptibles 
+ * d'être utilisées partout dans l'application 
+ * et ne dépendant pas explicitement de la logique métier.<br/>
  * <br/>
  *
  * - Exemple d'utilisation :<br/>

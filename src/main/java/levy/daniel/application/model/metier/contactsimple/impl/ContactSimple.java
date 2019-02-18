@@ -797,7 +797,7 @@ public class ContactSimple implements IContactSimple {
 		
 		return stb.toString();
 		
-	} // Fin de toStringCsv()._____________________________________________
+	} // Fin de fournirStringCsv().________________________________________
 
 
 

@@ -753,7 +753,7 @@ public class ContactSimple implements IContactSimple {
 	@Override
 	public final String fournirEnTeteCsv() {
 		return "id;nom;prenom;rue;rue2;codePostal;ville;pays;téléphone;mail;dateNaissance;";
-	} // Fin de getEnTeteCsv().____________________________________________
+	} // Fin de fournirEnTeteCsv().________________________________________
 
 
 

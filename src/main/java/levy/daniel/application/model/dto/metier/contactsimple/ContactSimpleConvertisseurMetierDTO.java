@@ -64,7 +64,8 @@ public final class ContactSimpleConvertisseurMetierDTO {
 	 * <li>retourne null si pDTO == null.</li>
 	 * <li>récupère les valeurs String dans le DTO.</li>
 	 * <li>convertit les String du DTO en types de l'Objet métier.</li>
-	 * <li>injecte les valeurs typées dans un OBJET METIER.</li>
+	 * <li>injecte les valeurs typées dans un OBJET METIER 
+	 * et le retourne.</li>
 	 * <li>accepte les formats [dd MMMM yyyy][dd/MM/yyyy][yyyy-MM-dd]
 	 * [yyyy-MMM-dd] pour le parse des dates</li>
 	 * </ul>
@@ -147,12 +148,14 @@ public final class ContactSimpleConvertisseurMetierDTO {
 	 * <li>retourne null si pObject == null.</li>
 	 * <li>récupère les valeurs typées dans l'objet métier.</li>
 	 * <li>convertit les types de l'Objet métier en String du DTO.</li>
-	 * <li>injecte les valeurs String dans un DTO.</li>
+	 * <li>injecte les valeurs String dans un DTO 
+	 * et le retourne.</li>
 	 * <li>formate les LocalDate au format "dd MMMM yyyy" 
 	 * (12 février 1962).</li>
 	 * </ul>
 	 *
-	 * @param pObject : Objet métier.<br/>
+	 * @param pObject : IContactSimple : 
+	 * Objet métier.<br/>
 	 * 
 	 * @return : IContactSimpleDTO : DTO.<br/>
 	 */

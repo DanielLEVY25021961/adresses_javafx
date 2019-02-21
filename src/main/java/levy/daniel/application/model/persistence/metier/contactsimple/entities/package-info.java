@@ -1,6 +1,6 @@
 /**
  * CLASSE package-info :<br/>
- * Ce package contient toutes les Entities relatives 
+ * Ce package contient toutes les <b>Entities</b> relatives 
  * au concept de ConceptSimple.<br/>
  * <br/>
  *

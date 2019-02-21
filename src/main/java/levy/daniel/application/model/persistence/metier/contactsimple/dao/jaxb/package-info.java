@@ -1,6 +1,6 @@
 /**
  * CLASSE package-info :<br/>
- * ce package contient les DAO JAXB 
+ * ce package contient les <b>DAO JAXB</b> 
  * pour serializer les objets en XML.<br/>
  * <br/>
  *

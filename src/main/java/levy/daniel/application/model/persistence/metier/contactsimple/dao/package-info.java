@@ -1,6 +1,6 @@
 /**
  * CLASSE package-info :<br/>
- * Ce package contient tous les DAO relatifs 
+ * Ce package contient tous les <b>DAO</b> relatifs 
  * au concept de ConceptSimple.<br/>
  * <br/>
  *

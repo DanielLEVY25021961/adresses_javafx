@@ -1,6 +1,6 @@
 /**
  * CLASSE package-info :<br/>
- * Ce package contient les Entities JPA 
+ * Ce package contient les <b>Entities JPA</b> 
  * en vue de la serialization des objets dans un SGBDR 
  * via <b>JPA</b> et <i>avec</i> ou <i>sans</i> SPRING.<br/>
  * <br/>

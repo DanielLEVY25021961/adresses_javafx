@@ -66,7 +66,7 @@ public final class ContactSimpleConvertisseurMetierEntity {
 	 * <b>Crée un OBJET METIER à partir d'une EntityJPA</b>.<br/>
 	 * <ul>
 	 * <li>retourne un OBJET METIER avec toutes les valeurs 
-	 * à null si pObject == null.</li>
+	 * à null si pEntityJPA == null.</li>
 	 * </ul>
 	 *
 	 * @param pEntityJPA : ContactSimpleEntityJPA.<br/>

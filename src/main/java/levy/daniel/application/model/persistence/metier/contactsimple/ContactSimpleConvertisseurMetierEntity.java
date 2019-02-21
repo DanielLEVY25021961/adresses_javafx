@@ -163,6 +163,7 @@ public final class ContactSimpleConvertisseurMetierEntity {
 			final List<ContactSimpleEntityJPA> pList) {
 		
 		synchronized (ContactSimpleConvertisseurMetierEntity.class) {
+			
 			/* retourne null si pList == null. */
 			if (pList == null) {
 				return null;

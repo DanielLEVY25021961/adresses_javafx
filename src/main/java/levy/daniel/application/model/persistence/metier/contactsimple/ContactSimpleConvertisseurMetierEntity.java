@@ -153,6 +153,7 @@ public final class ContactSimpleConvertisseurMetierEntity {
 	 * en liste d'OBJETS METIER.<br/>
 	 * <br/>
 	 * - retourne null si pList == null.<br/>
+	 * - n'insère dans la liste résultat que les Entities non null.<br/>
 	 * <br/>
 	 *
 	 * @param pList : List&lt;ContactSimpleEntityJPA&gt;.<br/>
@@ -174,6 +175,8 @@ public final class ContactSimpleConvertisseurMetierEntity {
 			
 			for (final ContactSimpleEntityJPA entity : pList) {
 				
+				/* n'insère dans la liste résultat 
+				 * que les Entities non null. */
 				if (entity != null) {
 					
 					final IContactSimple objet 													

@@ -30,6 +30,7 @@ import levy.daniel.application.model.metier.contactsimple.IContactSimple;
  */
 public interface IContactSimpleDAO {
 
+
 	
 	/* CREATE ************/
 

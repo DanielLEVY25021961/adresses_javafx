@@ -1023,7 +1023,7 @@ public class ContactSimpleDAOJPASpring implements IContactSimpleDAO {
 		}
 		
 		/* retourne null si les attributs obligatoires 
-		 * de pObject ne sont pas remplis.*/
+		 * de pObjectModifie ne sont pas remplis.*/
 		if (pObjectModifie.getPrenom() == null 
 				|| pObjectModifie.getNom() == null 
 					|| pObjectModifie.getDateNaissance() == null) {

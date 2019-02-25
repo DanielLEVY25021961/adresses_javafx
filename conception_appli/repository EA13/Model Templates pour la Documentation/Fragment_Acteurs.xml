@@ -1,4 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE RefData>
 <RefData version="1.0" exporter="EA.25">
 	<DataSet name="RTF Document Templates" table="t_document where DocType='SSDOCSTYLE'" filter="DocID='#DocID#'">
 		<DataRow>

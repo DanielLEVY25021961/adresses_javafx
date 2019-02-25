@@ -210,4 +210,12 @@ public interface IConstantesApplicatives {
 
 
 	
+	/**
+	 * nom de la BD.<br/>
+	 * "base-adresses_javafx"
+	 */
+	String NOM_BASE = "base-adresses_javafx";
+	
+	
+	
 } // FIN DE L'INTERFACE IConstantesApplicatives.-----------------------------

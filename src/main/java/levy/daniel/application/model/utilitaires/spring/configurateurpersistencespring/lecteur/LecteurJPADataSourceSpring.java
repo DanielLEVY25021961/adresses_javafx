@@ -6,6 +6,7 @@ import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.springframework.core.env.Environment;
 
+import levy.daniel.application.IConstantesApplicatives;
 import levy.daniel.application.model.utilitaires.normalizerurlbase.NormalizerUrlBase;
 import levy.daniel.application.model.utilitaires.normalizerurlbase.UrlEncapsulation;
 
@@ -345,7 +346,7 @@ public class LecteurJPADataSourceSpring {
 			
 			if (urlFournie != null) {
 				
-				final String bd = "base-adresses_javafx";
+				final String bd = IConstantesApplicatives.NOM_BASE;
 				
 				String urlNormalisee = null;
 				

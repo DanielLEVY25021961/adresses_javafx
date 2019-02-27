@@ -654,7 +654,7 @@ public class ContactSimpleModelObs implements IContactSimpleModelObs {
 	@Override
 	public final StringProperty getIdProperty() {	
 		return this.id;
-	} // Fini de getIdProperty().__________________________________________
+	} // Fin de getIdProperty().___________________________________________
 
 
 		

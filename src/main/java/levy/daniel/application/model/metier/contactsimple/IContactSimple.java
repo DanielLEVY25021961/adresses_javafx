@@ -119,7 +119,7 @@ import levy.daniel.application.model.metier.IExportateurJTable;
  * <ul>
  * <li>
  * Les <b>Règles de Gestion (RG)</b> applicables aux attributs 
- * d'un ICountry sont les suivantes :
+ * d'un IContactSimple sont les suivantes :
  * </li>
  * <br/>
  * <table border="1">

@@ -1,6 +1,9 @@
 /**
  * CLASSE package-info :<br/>
- * .<br/>
+ * Ce package contient toutes les classes <b>OBSERVABLES</b> CONCRETES
+ * destinées à la gestion des <b>objets metier relatifs 
+ * aux CONTACTS SIMPLES</b> 
+ * d'une application <b>DESKTOP</b> respectant le modèle MVC.<br/>
  * <br/>
  *
  * - Exemple d'utilisation :<br/>

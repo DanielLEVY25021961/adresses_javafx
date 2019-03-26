@@ -1276,8 +1276,7 @@ public abstract class AbstractCreateurGestionnaireRG {
 	} // Fin de afficherListString(...).___________________________________
 	
 
-	
-	
+		
 	/**
 	 * method afficherMapStringList(
 	 * Map&lt;String, List&lt;String&gt;&gt; pMap) :<br/>

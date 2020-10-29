@@ -172,7 +172,7 @@ public class ConfigurateurJPAH2File {
 		 */
 		final String persistenceUnitName 
 			= this.environmentSpring.getProperty(
-				"javax.persistence.jdbc.persistence-unit.name");
+				"javax.persistence.jdbc.persistence-unit.name"); // NOPMD by dan on 29/10/2020 21:13
 		
 		if (persistenceUnitName != null) {
 			

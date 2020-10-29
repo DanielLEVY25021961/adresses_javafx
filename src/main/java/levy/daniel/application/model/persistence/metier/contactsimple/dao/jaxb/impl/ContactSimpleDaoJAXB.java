@@ -1415,7 +1415,7 @@ public class ContactSimpleDaoJAXB implements IContactSimpleDAO {
 		
 		Long id = 0L;
 		
-		for (final IContactSimple objet : stockageList) { // NOPMD by daniel.levy on 04/01/19 10:11
+		for (final IContactSimple objet : stockageList) { 
 			listIds.add(id);
 			id++;
 		}

@@ -237,7 +237,7 @@ public interface IContactSimple extends Comparable<IContactSimple>
 	 * 
 	 * @throws CloneNotSupportedException
 	 */
-	IContactSimple clone() throws CloneNotSupportedException;
+	IContactSimple clone() throws CloneNotSupportedException; 
 
 
 
